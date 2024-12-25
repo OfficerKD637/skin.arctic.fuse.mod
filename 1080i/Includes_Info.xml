@@ -1355,6 +1355,52 @@
                     <param name="visible_03">!String.IsEmpty(Container(99950).ListItem.Year)</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
+				
+				 <!-- Episode Number -->
+                <include content="Info_Line_Items">
+                    <include content="Info_Line_Visible_01">
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Container(99950).Property(ListItem.base_channelnumberlabel))]</param>
+                        <param name="container">$PARAM[container]</param>
+                        <param name="dbtype_01">episode</param>
+                    </include>
+                    <param name="items_06">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.Season]$INFO[$PARAM[container]ListItem.Episode,x,]</param>
+                    <param name="label_02">$INFO[Container(99950).ListItem.Property(base_season)]$INFO[Container(99950).ListItem.Property(base_episode),x,]</param>
+                    <param name="label_03">$INFO[Container(99950).ListItem.Season]$INFO[Container(99950).ListItem.Episode,x,]</param>
+
+                    <param name="label_04">$INFO[$PARAM[container]ListItem.Season]$INFO[$PARAM[container]ListItem.Episode,x0,]</param>
+                    <param name="label_05">$INFO[Container(99950).ListItem.Property(base_season)]$INFO[Container(99950).ListItem.Property(base_episode),x0,]</param>
+                    <param name="label_06">$INFO[Container(99950).ListItem.Season]$INFO[Container(99950).ListItem.Episode,x0,]</param>
+
+                    <param name="visible_01">Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty($PARAM[container]ListItem.Season) + !String.IsEmpty($PARAM[container]ListItem.Episode) + !Integer.IsLess($PARAM[container]ListItem.Episode,10)</param>
+                    <param name="visible_02">Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty(Container(99950).ListItem.Property(base_season)) + !String.IsEmpty(Container(99950).ListItem.Property(base_episode)) + !Integer.IsLess(Container(99950).ListItem.Property(base_episode),10)</param>
+                    <param name="visible_03">Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty(Container(99950).ListItem.Season) + !String.IsEmpty(Container(99950).ListItem.Episode) + !Integer.IsLess(Container(99950).ListItem.Episode,10)</param>
+
+                    <param name="visible_04">Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty($PARAM[container]ListItem.Season) + !String.IsEmpty($PARAM[container]ListItem.Episode)</param>
+                    <param name="visible_05">Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty(Container(99950).ListItem.Property(base_season)) + !String.IsEmpty(Container(99950).ListItem.Property(base_episode))</param>
+                    <param name="visible_06">Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty(Container(99950).ListItem.Season) + !String.IsEmpty(Container(99950).ListItem.Episode)</param>
+
+                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                </include>
+				
+				<!-- Episode Number S1E1 style -->
+                <include content="Info_Line_Items">
+                    <include content="Info_Line_Visible_01">
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Container(99950).Property(ListItem.base_channelnumberlabel))]</param>
+                        <param name="container">$PARAM[container]</param>
+                        <param name="dbtype_01">episode</param>
+                    </include>
+                    <param name="items_03">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.Season,S,]$INFO[$PARAM[container]ListItem.Episode,E,]</param>
+                    <param name="label_02">$INFO[Container(99950).ListItem.Property(base_season),S,]$INFO[Container(99950).ListItem.Property(base_episode),E,]</param>
+                    <param name="label_03">$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode,E,]</param>                    
+
+                    <param name="visible_01">Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty($PARAM[container]ListItem.Season) + !String.IsEmpty($PARAM[container]ListItem.Episode)</param>
+                    <param name="visible_02">Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty(Container(99950).ListItem.Property(base_season)) + !String.IsEmpty(Container(99950).ListItem.Property(base_episode))</param>
+                    <param name="visible_03">Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.IsEmpty(Container(99950).ListItem.Season) + !String.IsEmpty(Container(99950).ListItem.Episode)</param>                    
+
+                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                </include>
 
                 <!-- MPAA -->
                 <include content="Info_Line_Items">
@@ -1399,18 +1445,7 @@
                     <param name="label">$INFO[Container(99950).ListItem.Property(Set.NumItems),, $LOCALIZE[342]]</param>
                     <param name="visible">!String.IsEmpty(Container(99950).ListItem.Property(Set.NumItems))</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
-                </include>
-
-                <!-- Version Name -->
-                <!-- <include content="Info_Line_Item">
-                    <include content="Info_Line_Visible_01">
-                        <param name="container">$PARAM[container]</param>
-                        <param name="dbtype_01">movie</param>
-                    </include>
-                    <param name="label">$INFO[$PARAM[container]ListItem.VideoVersionName]</param>
-                    <param name="visible">$PARAM[container]ListItem.HasVideoVersions + !String.IsEmpty($PARAM[container]ListItem.VideoVersionName)</param>
-                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
-                </include> -->
+                </include>                
 
                 <!-- Duration Info -->
                 <include content="Info_Line_Items">
@@ -3212,7 +3247,7 @@
 
                 <include content="Info_KodiLogo">
                     <param name="container">$PARAM[container]</param>
-                    <param name="visible">!$PARAM[info_musiccodecs] + !$PARAM[info_codecs] + !$PARAM[info_providers] + !$PARAM[info_watchedepisodes] + !$PARAM[info_playcount] + !$PARAM[info_musicduration]</param>
+                    <param name="visible">!$PARAM[info_musiccodecs] + !$PARAM[info_codecs] + !$PARAM[info_providers] + !$PARAM[info_watchedepisodes] + !$PARAM[info_playcount] + !$PARAM[info_musicduration] + !Skin.HasSetting(RSS.LeftFooter) + ![Window.IsVisible(Settings) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(systeminfo) | Window.IsVisible(eventlog) | Window.IsVisible(skinsettings) | Window.IsVisible(InterfaceSettings) | Window.IsVisible(mediasettings) | Window.IsVisible(playersettings) | Window.IsVisible(SystemSettings) | Window.IsVisible(servicesettings) | Window.IsVisible(pvrsettings) | Window.IsVisible(Profiles)]</param>
                 </include>
             </control>
         </definition>

@@ -224,7 +224,7 @@
                     </include>
                 </control>
             </itemlayout>
-            <focusedlayout height="100" width="100">
+            <focusedlayout height="100" width="100" condition="![Skin.HasSetting(Topbar.EnableFocusedText) + $EXP[Exp_HomeMenu_IsTopBar] + !Window.IsVisible(1115)]">
                 <include condition="$PARAM[hidden_button_enabled]">$PARAM[hidden_button]</include>
                 <control type="group">
                     <left>view_menu</left>
@@ -249,6 +249,50 @@
                         </include>
                     </control>
                 </control>
+            </focusedlayout>
+			<focusedlayout height="100" width="180" condition="[Skin.HasSetting(Topbar.EnableFocusedText) + $EXP[Exp_HomeMenu_IsTopBar] + !Window.IsVisible(1115)]">
+                <include condition="$PARAM[hidden_button_enabled]">$PARAM[hidden_button]</include>
+                <control type="group">
+					<control type="image">
+						<include content="Texture_Menu_Highlight_H">
+							<param name="border">30</param>
+						</include>
+						<top>40</top>
+						<height>75</height>
+						<left>40</left>
+						<right>-60</right>								
+						<visible>[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
+					</control>
+					<control type="image">
+						<animation effect="fade" start="100" end="10">Visible</animation>
+						<texture border="30">common/menu.png</texture>
+						<top>40</top>
+						<height>75</height>
+						<left>40</left>
+						<right>-60</right>												
+						<visible>![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
+					</control>
+					<control type="label">
+						<label>$INFO[Container(303).ListItem.Label]</label>
+						<font>font_mini_bold</font>
+						<textcolor>main_fg_90</textcolor>
+						<top>55</top>
+						<right>-45</right>
+						<centerleft>140</centerleft>
+						<align>center</align>
+						<visible>[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>		
+					</control>
+					<control type="label">
+						<label>$INFO[Container(303).ListItem.Label]</label>
+						<font>font_mini_bold</font>
+						<textcolor>main_fg_30</textcolor>
+						<top>55</top>
+						<right>-45</right>
+						<centerleft>140</centerleft>
+						<align>center</align>	
+						<visible>![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>						
+					</control>
+				</control>			
             </focusedlayout>
         </definition>
     </include>

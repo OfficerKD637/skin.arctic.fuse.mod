@@ -24,8 +24,8 @@
 
     <timer>
         <name>play_spotlight_trailer</name>
-        <start reset="true">!Player.HasVideo + [[Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),Skin.String(Start_Trailer)) + System.IdleTime(3)] | [Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),1) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Window.IsVisible(DialogVideoInfo.xml) + !Skin.HasSetting(Background.DisableVideo)]]</start>
-        <stop>![!Player.HasVideo + [[Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),Skin.String(Start_Trailer)) + System.IdleTime(3)] | [Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),1) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Window.IsVisible(DialogVideoInfo.xml) + !Skin.HasSetting(Background.DisableVideo)]]]</stop>
+        <start reset="true">!Player.HasVideo + [[Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),Skin.String(Start_Trailer)) + !Window.IsVisible(DialogVideoInfo.xml) + System.IdleTime(3)] | [Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),1) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Window.IsVisible(DialogVideoInfo.xml) + !Skin.HasSetting(Background.DisableVideo)]]</start>
+        <stop>![!Player.HasVideo + [[Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),Skin.String(Start_Trailer)) + !Window.IsVisible(DialogVideoInfo.xml) + System.IdleTime(3)] | [Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),1) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Window.IsVisible(DialogVideoInfo.xml) + !Skin.HasSetting(Background.DisableVideo)]]]</stop>
         <onstart condition="!String.IsEmpty(Container(99950).ListItem.Trailer) + !String.IsEqual(Window(Home).Property(PlayTrailer),Container(99950).ListItem.Trailer) + !Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)">SetProperty(PlayTrailerTrigger,$VAR[Action_PlayTrailer_Trigger],Home)</onstart>
         <onstart condition="!String.IsEmpty(Container(99950).ListItem.Trailer) + !String.IsEqual(Window(Home).Property(PlayTrailer),Container(99950).ListItem.Trailer) + !Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)">SetProperty(PlayTrailerTitle,$ESCINFO[Container(99950).ListItem.Title],Home)</onstart>
         <onstart condition="!String.IsEmpty(Container(99950).ListItem.Trailer) + !String.IsEqual(Window(Home).Property(PlayTrailer),Container(99950).ListItem.Trailer) + !Window.IsVisible(1120) + !Window.IsVisible(1121) + !Window.IsVisible(1122)">SetProperty(PlayTrailer,$ESCINFO[Container(99950).ListItem.Trailer],Home)</onstart>
@@ -35,13 +35,20 @@
 	<!-- CUSTOM TIMERS -->
 		 	
 	<timer>
-		<name>play_fullscreen_trailer</name>
-		<start reset="false">[[Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml)] + System.IdleTime(20)]</start>
-		<stop>![[Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml)] + System.IdleTime(20)]</stop>
+		<name>play_fullscreen_trailer_info</name>
+		<start reset="false">[[Skin.HasSetting(Fullscreen_Trailer) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml)] + Integer.IsGreaterOrEqual(Player.Time(ss),20) + System.IdleTime(20)]</start>
+		<stop>![[Skin.HasSetting(Fullscreen_Trailer) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml)] + Integer.IsGreaterOrEqual(Player.Time(ss),20) + System.IdleTime(20)]</stop>
 		<onstart>SetProperty(TrailerFullscreen,True,1123)</onstart>
 		<onstart>SetProperty(ReplaceWindow,1123,DialogVideoInfo.xml)</onstart>
 		<onstart condition="!Window.IsActive(1123)">ActivateWindow(1123)</onstart>
 		<onstart condition="Window.IsActive(1123)">ReplaceWindow(1197)</onstart>
+	</timer>
+	
+	<timer>
+		<name>play_fullscreen_trailer_others</name>
+		<start reset="false">[[[Skin.HasSetting(Fullscreen_Trailer) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + Integer.IsGreaterOrEqual(Player.Time(ss),20) + System.IdleTime(20)]</start>
+		<stop>![[[Skin.HasSetting(Fullscreen_Trailer) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + Integer.IsGreaterOrEqual(Player.Time(ss),20) + System.IdleTime(20)]</stop>
+		<onstart condition="!VideoPlayer.IsFullscreen">Fullscreen</onstart>						
 	</timer>
 	
 	<timer>

@@ -171,6 +171,18 @@
                             <onclick condition="!Skin.String(Home.SideMenuCollapse,Library) + !Skin.String(Home.SideMenuCollapse,Always) + !Skin.String(Home.SideMenuCollapse,Hubs) + !Skin.String(Home.SideMenuCollapse,Never)">Skin.SetString(Home.SideMenuCollapse,Never)</onclick>
                             <visible>Container(3).HasFocus(1)</visible>
                         </include>
+						
+						<include content="Settings_Button" description="Topbar style">
+                            <param name="dialog">true</param>
+                            <param name="id">1011</param>                            
+                            <param name="control">button</param>
+                            <label>$LOCALIZE[31352] $LOCALIZE[29902]</label>
+							<label2>$VAR[Label_Topbar_Style]</label2>
+                            <onclick>Skin.ToggleSetting(Topbar.EnableFocusedText)</onclick>
+                            <selected>Skin.HasSetting(Topbar.EnableFocusedText)</selected>
+                            <visible>Container(3).HasFocus(1)</visible>
+                            <visible>String.IsEqual(Skin.String(Home.SideMenuCollapse),Topbar)</visible>						
+                        </include>
 
                         <include content="Settings_Button" description="Search And Options">
                             <param name="dialog">true</param>
@@ -632,6 +644,15 @@
                             <visible>Container(3).HasFocus(5)</visible>
                             <onclick>Skin.ToggleSetting(Furniture.DisablePlayCounts)</onclick>
                         </include>
+						<include content="Settings_Button" description="RSS News Feed">
+                            <param name="dialog">true</param>
+                            <param name="id">5024</param>
+                            <param name="control">radiobutton</param>
+                            <label> - RSS</label>
+                            <selected>Skin.HasSetting(RSS.LeftFooter)</selected>
+                            <visible>Container(3).HasFocus(5)</visible>
+                            <onclick>Skin.ToggleSetting(RSS.LeftFooter)</onclick>
+                        </include>
                         <include content="Settings_Button" description="Footer: Right: Studio / Clock / None">
                             <param name="dialog">true</param>
                             <param name="id">5002</param>
@@ -861,6 +882,16 @@
                             <onclick>Skin.SetNumeric(Start_Trailer)</onclick>
 							<visible>Skin.HasSetting(Trailers.EnableAutoPlayback)</visible>
                         </include>
+						<include content="Settings_Button" description="Switch to fullscreen trailer when system is idle">
+                            <param name="dialog">true</param>
+                            <param name="id">6020</param>
+                            <param name="control">radiobutton</param>
+                            <label>$VAR[Label_Fullscreen_Trailers]</label>
+							<visible>Container(3).HasFocus(6)</visible>                            
+                            <onclick>Skin.ToggleSetting(Fullscreen_Trailer)</onclick>
+							<selected>Skin.HasSetting(Fullscreen_Trailer)</selected>
+							<visible>Skin.HasSetting(Trailers.EnableAutoPlayback)</visible>
+                        </include>
 						<include content="Settings_Button" description="Play trailer auto">
                             <param name="dialog">true</param>
                             <param name="id">6014</param>
@@ -960,9 +991,19 @@
                             <visible>!Skin.HasSetting(Info.DisableDetailsLine)</visible>
                             <onclick>Skin.ToggleSetting(InfoLine.EndTime)</onclick>
                         </include>
-						<include content="Settings_Button" description="Display audio codec in info line">
+						<include content="Settings_Button" description="Display episode number in info line">
                             <param name="dialog">true</param>
                             <param name="id">7027</param>
+                            <param name="control">radiobutton</param>
+                            <label>$LOCALIZE[131] [LOWERCASE]$LOCALIZE[20359] $LOCALIZE[549] $LOCALIZE[1405] $LOCALIZE[31178][/LOWERCASE]</label>
+							<onclick>Skin.ToggleSetting(Infoline.SETags)</onclick>
+							<selected>Skin.HasSetting(Infoline.SETags)</selected>
+                            <visible>Container(3).HasFocus(7)</visible>
+							<visible>!Skin.HasSetting(Info.DisableDetailsLine)</visible>
+                        </include>
+						<include content="Settings_Button" description="Display audio codec in info line">
+                            <param name="dialog">true</param>
+                            <param name="id">7028</param>
                             <param name="control">radiobutton</param>
                             <label>$LOCALIZE[131] [LOWERCASE]$LOCALIZE[21446] $LOCALIZE[1405] $LOCALIZE[31178][/LOWERCASE]</label>
 							<onclick>Skin.ToggleSetting(Infoline.Codec)</onclick>
@@ -998,7 +1039,7 @@
                             <param name="dialog">true</param>
                             <param name="id">7026</param>
                             <param name="control">button</param>
-                            <label>$LOCALIZE[126] $LOCALIZE[552] $LOCALIZE[736]</label>
+                            <label>$LOCALIZE[126] [LOWERCASE]$LOCALIZE[552] $LOCALIZE[736][/LOWERCASE]</label>
                             <label2>$VAR[Label_Status_DateStyle]</label2>
                             <visible>Container(3).HasFocus(7)</visible>
                             <visible>Skin.HasSetting(CustomRating.EnablePremiereStatusDates)</visible>
