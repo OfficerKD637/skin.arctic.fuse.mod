@@ -572,8 +572,22 @@
 
     <variable name="Label_Setting_OptionalInfoLine">
         <value condition="Skin.HasSetting(InfoLine.EndTime)">$LOCALIZE[31192]</value>
-        <value>$LOCALIZE[515] / $LOCALIZE[31285]</value>
+        <value>$LOCALIZE[515]</value>
     </variable>
+	
+    <variable name="Label_Setting_AdditionalTags">
+        <value condition="Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Info.EnablePillboxStyle)">$LOCALIZE[16018]</value>
+        <value condition="Skin.HasSetting(InfoLine.DisableAdditionalTags)">$LOCALIZE[21870]</value>
+        <value condition="Skin.HasSetting(InfoLine.DisableCollection)">$LOCALIZE[21870] + HDR + $LOCALIZE[21444]</value>
+        <value condition="Skin.HasSetting(Infoline.Codec)">$LOCALIZE[21870] + HDR + $LOCALIZE[21444][LOWERCASE] & $LOCALIZE[31207][/LOWERCASE] + $LOCALIZE[31108]</value>
+        <value>$LOCALIZE[21870] + HDR + $LOCALIZE[21444] + $LOCALIZE[31108]</value>
+    </variable>
+	
+	<variable name="Label_Setting_EpisodeNumber">
+		<value condition="Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.DisableDetailsLine)">$LOCALIZE[31178] ($LOCALIZE[13106])</value>
+		<value condition="Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.DisableDetailsLine)">$LOCALIZE[31178]</value>
+		<value>$LOCALIZE[207]</value>
+	</variable>
 
     <variable name="Label_Trailer_PlayPause">
         <value condition="Player.Paused">$LOCALIZE[208]</value>
@@ -1229,6 +1243,13 @@
         <value condition="!Skin.HasSetting(Infoline.SETags)">$INFO[VideoPlayer.Season]$INFO[VideoPlayer.Episode,x0,]</value>
     </variable>
 	
+	<variable name="Label_OSD_Infoline_Plot_Episode_Number">
+        <value condition="String.IsEmpty(VideoPlayer.Season) | String.IsEmpty(VideoPlayer.Episode)" />
+        <value condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">$INFO[VideoPlayer.Season,S,]$INFO[VideoPlayer.Episode,E,]</value>
+        <value condition="!Integer.IsLess(VideoPlayer.Episode,10)">$INFO[VideoPlayer.Season]$INFO[VideoPlayer.Episode,x,]</value>
+        <value>$INFO[VideoPlayer.Season]$INFO[VideoPlayer.Episode,x0,]</value>
+    </variable>
+	
 	<variable name="Label_OSD_UpNext_Plot_Episode_Number">
         <value condition="String.IsEmpty(Window.Property(season)) | String.IsEmpty(Window.Property(episode))" />
         <value condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">$INFO[Window.Property(season),S,]$INFO[Window.Property(episode),E,]</value>
@@ -1837,14 +1858,10 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- More auto trailer bug tweaks/fixes.
-- Option to switch to fullscreen trailer when system is idle (20 seconds).	
-- New 'Text' style option for Topbar.
-- Toggle to display episode numbers in infoline	(will hide it from the title in plot and vice versa).
-- New 'PVR' tag with plot details (title,season/episode) for TV Show items.
-- Add option for RSS feed in footer.	
+		<value>- Option to toggle additional infoline tags.	
 - Other small bug fixes and enhancements.
-- Merry Christmas/Happy Holidays and a Happy New Year to everyone!
+
+Merry Christmas/Happy Holidays and a Happy New Year to everyone!
 		</value>		
 	</variable>
 
