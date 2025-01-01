@@ -142,15 +142,27 @@
 		<value>$LOCALIZE[536]</value>
 	</variable>
 	
-	<variable name="Trailers_Delay">
-		<value condition="!String.IsEmpty(Skin.String(Start_Trailer))">$INFO[Skin.String(Start_Trailer)]</value>
-		<value condition="String.IsEmpty(Skin.String(Start_Trailer))">5</value>
+	<variable name="Label_Trailers_Delay">
+		<value condition="!Skin.HasSetting(Trailers.EnableAutoPlayback)">$LOCALIZE[13106]</value>
+		<value condition="!String.IsEmpty(Skin.String(Start_Trailer))">$INFO[Skin.String(Start_Trailer),,s]</value>
+		<value condition="Skin.HasSetting(Trailers.EnableAutoPlayback) + String.IsEmpty(Skin.String(Start_Trailer))">5s</value>
+	</variable>
+	
+	<variable name="Label_Fullscreen_Trailers_Delay">
+		<value condition="!Skin.HasSetting(Trailers.EnableAutoFullscreen)">$LOCALIZE[13106]</value>
+		<value condition="!String.IsEmpty(Skin.String(Fullscreen_Trailer_Delay))">$INFO[Skin.String(Fullscreen_Trailer_Delay),,s]</value>
+		<value condition="Skin.HasSetting(Trailers.EnableAutoFullscreen) + String.IsEmpty(Skin.String(Fullscreen_Trailer_Delay))">20s</value>
 	</variable>
 
 	<variable name="Label_Fullscreen_Trailers">
-		<value condition="!Skin.HasSetting(Background.DisableVideo)">$LOCALIZE[19171] [LOWERCASE]$LOCALIZE[20410] $LOCALIZE[21408] $LOCALIZE[381] $LOCALIZE[31130][/LOWERCASE]</value>
-		<value>$LOCALIZE[19171] [LOWERCASE]$LOCALIZE[20410] $LOCALIZE[21408] $LOCALIZE[381] $LOCALIZE[31130][/LOWERCASE] ($LOCALIZE[14116])</value>
+		<value condition="!Skin.HasSetting(Background.DisableVideo) + Skin.HasSetting(Trailers.EnableAutoPlayback)">$LOCALIZE[19171] [LOWERCASE]$LOCALIZE[31482] $LOCALIZE[21408][/LOWERCASE] X [LOWERCASE]$LOCALIZE[31130][/LOWERCASE]</value>
+		<value>$LOCALIZE[19171] [LOWERCASE]$LOCALIZE[31482] $LOCALIZE[21408][/LOWERCASE] X [LOWERCASE]$LOCALIZE[31130][/LOWERCASE] ($LOCALIZE[14116])</value>
 	</variable>	
+
+	<variable name="Label_Mute_Trailers">
+		<value condition="!Skin.HasSetting(Background.DisableVideo) + Skin.HasSetting(Trailers.EnableAutoPlayback)">$LOCALIZE[208] [LOWERCASE]$LOCALIZE[31482] on mute[/LOWERCASE]</value>
+		<value>$LOCALIZE[208] [LOWERCASE]$LOCALIZE[31482] on mute[/LOWERCASE] ($LOCALIZE[14116])</value>
+	</variable>		
 
     <variable name="Label_Settings_NavigationOnBack">
         <value condition="$EXP[Exp_Navigation_OnMenu]">$LOCALIZE[33061]</value>
@@ -1306,26 +1318,27 @@
         
 		<!-- PVR S1E1-->
 		<value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode,E,. ]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
-        <value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode,E,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
+        <value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode,E,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>        
         
-        <value condition="String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>       
-        <value condition="String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
 		
-		<value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
-		
+		<value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>		
 		<value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode,E,. ]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>
-        <value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode,E,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>
-        <value condition="String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>       
+        <value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode,E,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>            
         <value condition="!Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,S,]$INFO[Container(99950).ListItem.Episode][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>
 		
 		<!-- PVR -->
-		<value condition="!Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
-        <value condition="!Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>              
-        <value condition="!Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
+		<value condition="!Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
+        <value condition="!Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>              
+        <value condition="!Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
 		
-		<value condition="!Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>
-        <value condition="!Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>               
-        <value condition="!Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>
+		<value condition="!Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>
+        <value condition="!Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode,,. ]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>               
+        <value condition="!Skin.HasSetting(Infoline.SETags) + !Skin.HasSetting(Info.UseS1E1StyleNumbers) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.Season,,x]$INFO[Container(99950).ListItem.Episode][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>
+		
+		<!-- PVR extras-->
+		<value condition="Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>       
+        <value condition="Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.Episode) + !String.IsEmpty(Container(99950).ListItem.Title) + !String.IsEmpty(Container(99950).ListItem.Property(base_plot))">[B]$INFO[Container(99950).ListItem.Title][/B]$INFO[Container(99950).ListItem.Property(base_plot), ~ ,]</value>
+		<value condition="Skin.HasSetting(Infoline.SETags) + String.IsEmpty(Container(99950).ListItem.Property(base_dbtype)) + !String.IsEmpty(Container(99950).ListItem.EpisodeName) + !String.IsEmpty(Container(99950).ListItem.Plot)">[B]$INFO[Container(99950).ListItem.EpisodeName][/B]$INFO[Container(99950).ListItem.Plot, ~ ,]</value>   
 		
 		<value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_plot))">$INFO[Container(99950).ListItem.Property(base_plot)]</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Plot)">$INFO[Container(99950).ListItem.Plot]</value>
@@ -1858,10 +1871,12 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- Option to toggle additional infoline tags.	
+		<value>- Add custom user delay for auto full screen trailers.
+- Option to start auto trailers on mute (will automatically unmute when fullscreen).		
+- New fonts with better support for more languages.	
 - Other small bug fixes and enhancements.
 
-Merry Christmas/Happy Holidays and a Happy New Year to everyone!
+Happy New Year!
 		</value>		
 	</variable>
 
