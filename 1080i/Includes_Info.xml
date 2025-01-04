@@ -1214,7 +1214,7 @@
         <param name="is_web">false</param>
         <param name="visible">true</param>
         <definition>
-            <include content="Info_Line_VideoQuality_Resolution" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags) | !Skin.HasSetting(Info.EnablePillboxStyle)">
+            <include content="Info_Line_VideoQuality_Resolution" condition="[!Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Infoline.Source)] | !Skin.HasSetting(Info.EnablePillboxStyle)">
                 <param name="visible">$PARAM[visible]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="is_collection">[$PARAM[is_collection]]</param>
@@ -1230,7 +1230,7 @@
 				<param name="is_tv">[$PARAM[is_tv]]</param>
 				<param name="is_pvr">[$PARAM[is_pvr]]</param>
             </include>
-            <include content="Info_Line_VideoQuality_HDRType" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags)">
+            <include content="Info_Line_VideoQuality_HDRType" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Infoline.HDR)">
                 <param name="visible">$PARAM[visible]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="is_dolbyvision">[String.IsEqual($PARAM[listitem_hdrtype],dolbyvision)]</param>
@@ -1238,7 +1238,7 @@
                 <param name="is_hdr">[String.IsEqual($PARAM[listitem_hdrtype],hdr10)]</param>
                 <param name="is_hlg">[String.IsEqual($PARAM[listitem_hdrtype],hlg)]</param>
             </include>
-            <include content="Info_Line_AudioChannels" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags)">
+            <include content="Info_Line_AudioChannels" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Infoline.AudioChannels)">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="listitem_audiochannels">$PARAM[listitem_audiochannels]</param>
 				<param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
@@ -1602,7 +1602,7 @@
 
                 <visible>Integer.IsEqual(Container($PARAM[grouplistid]).NumItems,0)</visible>
 				
-				<include content="Info_Line_VideoQuality_Icon" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags) | !Skin.HasSetting(Info.EnablePillboxStyle)">
+				<include content="Info_Line_VideoQuality_Icon" condition="[!Skin.HasSetting(InfoLine.DisableAdditionalTags) + [Skin.HasSetting(Infoline.Source) | Skin.HasSetting(Infoline.HDR) | Skin.HasSetting(Infoline.AudioChannels) | Skin.HasSetting(Infoline.Codec) | !Skin.HasSetting(Infoline.DisableCollection)]] | !Skin.HasSetting(Info.EnablePillboxStyle)">
 					<param name="colordiffuse">main_fg_90</param>
 					<param name="icon">flags/info-inverted.png</param>
 					<param name="width">40</param>

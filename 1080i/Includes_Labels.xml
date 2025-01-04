@@ -585,15 +585,43 @@
     <variable name="Label_Setting_OptionalInfoLine">
         <value condition="Skin.HasSetting(InfoLine.EndTime)">$LOCALIZE[31192]</value>
         <value>$LOCALIZE[515]</value>
-    </variable>
+    </variable>    
 	
-    <variable name="Label_Setting_AdditionalTags">
-        <value condition="Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Info.EnablePillboxStyle)">$LOCALIZE[16018]</value>
-        <value condition="Skin.HasSetting(InfoLine.DisableAdditionalTags)">$LOCALIZE[21870]</value>
-        <value condition="Skin.HasSetting(InfoLine.DisableCollection)">$LOCALIZE[21870] + HDR + $LOCALIZE[21444]</value>
-        <value condition="Skin.HasSetting(Infoline.Codec)">$LOCALIZE[21870] + HDR + $LOCALIZE[21444][LOWERCASE] & $LOCALIZE[31207][/LOWERCASE] + $LOCALIZE[31108]</value>
-        <value>$LOCALIZE[21870] + HDR + $LOCALIZE[21444] + $LOCALIZE[31108]</value>
-    </variable>
+	<variable name="Label_Setting_AdditionalTags">
+        <value condition="Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Info.EnablePillboxStyle)">$LOCALIZE[16018]</value>  <!--  NONE -->
+		<value condition="Skin.HasSetting(Info.EnablePillboxStyle) + !Skin.HasSetting(Infoline.Source) + !Skin.HasSetting(Infoline.HDR) + !Skin.HasSetting(Infoline.AudioChannels) + !Skin.HasSetting(Infoline.Codec) + Skin.HasSetting(Infoline.DisableCollection)">$LOCALIZE[16018]</value> <!--  NONE -->
+		<value condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags)">$VAR[Label_Setting_AdditionalTags_Source]$VAR[Label_Setting_AdditionalTags_HDR]$VAR[Label_Setting_AdditionalTags_AudioChannels]$VAR[Label_Setting_AdditionalTags_AudioCodecs]$VAR[Label_Setting_AdditionalTags_Collection]</value>			
+		<value>$LOCALIZE[21870]</value>			
+	</variable>	
+	
+	<variable name="Label_Setting_AdditionalTags_Source">		
+		<value condition="[Skin.HasSetting(InfoLine.Source) | !Skin.HasSetting(Info.EnablePillboxStyle)] + [Skin.HasSetting(InfoLine.HDR) | Skin.HasSetting(InfoLine.AudioChannels) | Skin.HasSetting(InfoLine.Codec) | !Skin.HasSetting(InfoLine.DisableCollection)]">$LOCALIZE[21870] + </value>
+		<value condition="Skin.HasSetting(InfoLine.Source) | !Skin.HasSetting(Info.EnablePillboxStyle)">$LOCALIZE[21870]</value>
+	</variable>
+	
+	<variable name="Label_Setting_AdditionalTags_HDR">		
+		<value condition="Skin.HasSetting(InfoLine.HDR) + [Skin.HasSetting(InfoLine.AudioChannels) | Skin.HasSetting(InfoLine.Codec) | !Skin.HasSetting(InfoLine.DisableCollection)]">HDR + </value>
+		<value condition="Skin.HasSetting(InfoLine.HDR)">HDR</value>
+	</variable>
+	
+	<variable name="Label_Setting_AdditionalTags_AudioChannels">
+		<value condition="Skin.HasSetting(InfoLine.AudioChannels) + !Skin.HasSetting(InfoLine.Codec) + !Skin.HasSetting(InfoLine.DisableCollection)">$LOCALIZE[21444] + </value> 
+		<value condition="Skin.HasSetting(InfoLine.AudioChannels) + !Skin.HasSetting(InfoLine.Codec)">$LOCALIZE[21444]</value> 
+	</variable>
+	
+	<variable name="Label_Setting_AdditionalTags_AudioCodecs">
+		<value condition="Skin.HasSetting(InfoLine.Codec) + !Skin.HasSetting(InfoLine.DisableCollection)">$LOCALIZE[21444][LOWERCASE] & $LOCALIZE[31207][/LOWERCASE] + </value>
+		<value condition="Skin.HasSetting(InfoLine.Codec)">$LOCALIZE[21444][LOWERCASE] & $LOCALIZE[31207][/LOWERCASE]</value>
+	</variable>
+	
+	<variable name="Label_Setting_AdditionalTags_Collection">
+		<value condition="!Skin.HasSetting(InfoLine.DisableCollection)">$LOCALIZE[31108]</value>
+	</variable>
+
+	<variable name="Label_Setting_AdditionalTags_None">
+		<value condition="!Skin.HasSetting(Info.EnablePillboxStyle)">$LOCALIZE[16018] ($LOCALIZE[21870])</value>
+		<value>$LOCALIZE[16018]</value>
+	</variable>	
 	
 	<variable name="Label_Setting_EpisodeNumber">
 		<value condition="Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Info.DisableDetailsLine)">$LOCALIZE[31178] ($LOCALIZE[13106])</value>
@@ -1871,9 +1899,7 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- Add custom user delay for auto full screen trailers.
-- Option to start auto trailers on mute (will automatically unmute when fullscreen).		
-- New fonts with better support for more languages.	
+		<value>- Ability to individually toggle each infoline tag.			
 - Other small bug fixes and enhancements.
 
 Happy New Year!
