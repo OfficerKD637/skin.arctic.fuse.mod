@@ -1214,7 +1214,7 @@
         <param name="is_web">false</param>
         <param name="visible">true</param>
         <definition>
-            <include content="Info_Line_VideoQuality_Resolution" condition="[!Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Infoline.Source)] | !Skin.HasSetting(Info.EnablePillboxStyle)">
+            <include content="Info_Line_VideoQuality_Resolution" condition="!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Info.EnablePillboxStyle)">
                 <param name="visible">$PARAM[visible]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="is_collection">[$PARAM[is_collection]]</param>
@@ -1230,7 +1230,7 @@
 				<param name="is_tv">[$PARAM[is_tv]]</param>
 				<param name="is_pvr">[$PARAM[is_pvr]]</param>
             </include>
-            <include content="Info_Line_VideoQuality_HDRType" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Infoline.HDR)">
+            <include content="Info_Line_VideoQuality_HDRType" condition="!Skin.HasSetting(Infoline.DisableHDR)">
                 <param name="visible">$PARAM[visible]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="is_dolbyvision">[String.IsEqual($PARAM[listitem_hdrtype],dolbyvision)]</param>
@@ -1238,17 +1238,22 @@
                 <param name="is_hdr">[String.IsEqual($PARAM[listitem_hdrtype],hdr10)]</param>
                 <param name="is_hlg">[String.IsEqual($PARAM[listitem_hdrtype],hlg)]</param>
             </include>
-            <include content="Info_Line_AudioChannels" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags) + Skin.HasSetting(Infoline.AudioChannels)">
+            <include content="Info_Line_AudioChannels" condition="!Skin.HasSetting(Infoline.DisableAudioChannels)">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="listitem_audiochannels">$PARAM[listitem_audiochannels]</param>
 				<param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
                 <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[listitem_audiochannels])</param>
             </include>
-            <include content="Info_Line_VideoQuality_Icon" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags)">
+            <include content="Info_Line_VideoQuality_Icon" condition="!Skin.HasSetting(InfoLine.DisableVersion)">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="icon">flags/sets-inverted.png</param>
-                <param name="visible">$PARAM[visible] + $PARAM[is_collection]</param>
+                <param name="visible">$PARAM[visible] + $PARAM[is_version]</param>
             </include>
+			<include content="Info_Line_VideoQuality_Icon" condition="!Skin.HasSetting(InfoLine.DisableCollection)">
+				<param name="colordiffuse">$PARAM[colordiffuse]</param>
+				<param name="icon">flags/collection-inverted.png</param>
+				<param name="visible">$PARAM[visible] + $PARAM[is_collection]</param>
+			</include>
 			
         </definition>
     </include>
@@ -1270,7 +1275,8 @@
 				
 				<include content="Info_Line_VideoQuality">
                     <param name="colordiffuse">$PARAM[colordiffuse]_90</param>
-                    <param name="is_collection">[$PARAM[container]ListItem.IsCollection | $PARAM[container]ListItem.HasVideoVersions]</param>
+                    <param name="is_version">[$PARAM[container]ListItem.HasVideoVersions]</param>
+                    <param name="is_collection">[$PARAM[container]ListItem.IsCollection | !String.IsEmpty($PARAM[container]ListItem.Set) | !String.IsEmpty(Container(99950).ListItem.Set)]</param>
                     <param name="is_movie">[String.IsEqual($PARAM[container]ListItem.DBType,movie) + !String.IsEqual($PARAM[container]ListItem.Property(item.type),person)]</param>
 					<param name="is_episode">[String.IsEqual($PARAM[container]ListItem.DBType,episode) + !String.IsEqual($PARAM[container]ListItem.Property(item.type),person)]</param>
                     <param name="is_video">[String.IsEqual($PARAM[container]ListItem.DBType,video) + !String.IsEqual($PARAM[container]ListItem.Property(item.type),person)]</param>
@@ -1286,7 +1292,8 @@
                 </include>
                 <include content="Info_Line_VideoQuality">
                     <param name="colordiffuse">$PARAM[colordiffuse]_90</param>
-                    <param name="is_collection">[$PARAM[container]ListItem.IsCollection | $PARAM[container]ListItem.HasVideoVersions]</param>
+                    <param name="is_version">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_hasvideoversions))]</param>
+                    <param name="is_collection">[!String.IsEmpty(Container(99950).ListItem.Property(base_iscollection)) | !String.IsEmpty(Container(99950).ListItem.Property(base_set)) | !String.IsEmpty(Container(99950).ListItem.Set)]</param>
                     <param name="is_movie">[String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie) + !String.IsEqual($PARAM[container]ListItem.Property(item.type),person)]</param>
 					<param name="is_episode">[String.IsEqual(Container(99950).ListItem.Property(base_dbtype),episode) + !String.IsEqual($PARAM[container]ListItem.Property(item.type),person)]</param>
 					<param name="is_video">[String.IsEqual(Container(99950).ListItem.Property(base_dbtype),video) + !String.IsEqual($PARAM[container]ListItem.Property(item.type),person)]</param>
@@ -1300,14 +1307,7 @@
 					<param name="listitem_audiocodec">Container(99950).ListItem.Property(base_audiocodec)</param>
 				   <param name="visible">!Integer.IsEqual(Container($PARAM[grouplistid]).NumItems,0) + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),System.CurrentControlID)</param>
                 </include>
-				
-				<!-- Belongs to a set -->                    
-					<include content="Info_Line_VideoQuality_Icon" condition="!Skin.HasSetting(InfoLine.DisableAdditionalTags) + !Skin.HasSetting(InfoLine.DisableCollection)">
-						<param name="colordiffuse">$PARAM[colordiffuse]_90</param>
-						<param name="icon">flags/collection-inverted.png</param>
-						<param name="visible">[String.IsEqual(Container(99950).ListItem.DBType,movie) + !String.IsEmpty(Container(99950).ListItem.Set)]</param>
-					</include>
-
+								
                 <!-- Star Rating -->
                 <include content="Info_Line_StarRating" condition="$PARAM[starrating]">
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
@@ -1602,7 +1602,7 @@
 
                 <visible>Integer.IsEqual(Container($PARAM[grouplistid]).NumItems,0)</visible>
 				
-				<include content="Info_Line_VideoQuality_Icon" condition="[!Skin.HasSetting(InfoLine.DisableAdditionalTags) + [Skin.HasSetting(Infoline.Source) | Skin.HasSetting(Infoline.HDR) | Skin.HasSetting(Infoline.AudioChannels) | Skin.HasSetting(Infoline.Codec) | !Skin.HasSetting(Infoline.DisableCollection)]] | !Skin.HasSetting(Info.EnablePillboxStyle)">
+				<include content="Info_Line_VideoQuality_Icon" condition="[!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Infoline.DisableHDR) | !Skin.HasSetting(Infoline.DisableAudioChannels) | !Skin.HasSetting(Infoline.DisableCodec) | !Skin.HasSetting(Infoline.DisableVersion) | !Skin.HasSetting(Infoline.DisableCollection) | !Skin.HasSetting(Info.EnablePillboxStyle)]">
 					<param name="colordiffuse">main_fg_90</param>
 					<param name="icon">flags/info-inverted.png</param>
 					<param name="width">40</param>
