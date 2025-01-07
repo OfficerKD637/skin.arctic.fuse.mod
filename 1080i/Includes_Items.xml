@@ -40,77 +40,116 @@
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_MPAACountries)">Items_Settings_MPAACountries</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoOSDWidgets)">Items_Settings_VideoOSDWidgets</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags)">Items_Settings_InfolineAdditionalTags</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)">Items_Settings_AutoTrailers</include>
     </include>
 	
-	<include name="Items_Settings_InfolineAdditionalTags">
-        <include content="Settings_Button" description="Source" condition="Skin.HasSetting(Info.EnablePillboxStyle)">
+	<include name="Items_Settings_AutoTrailers">
+        <include content="Settings_Button" description="Spotlight">
             <param name="id">8001</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
-            <onclick>Skin.SetBool(Infoline.DisableAdditionalTags, false)</onclick>
-            <onclick>Skin.ToggleSetting(Infoline.Source)</onclick>
-            <selected>!Skin.HasSetting(Infoline.DisableAdditionalTags) + Skin.HasSetting(Infoline.Source)</selected>			
-            <label>$LOCALIZE[21870]</label>
-        </include>
-        <include content="Settings_Button" description="HDR" condition="!Skin.HasSetting(Info.EnablePillboxStyle)">
-            <param name="id">8001</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.SetBool(Infoline.DisableAdditionalTags, false)</onclick>
-            <onclick>Skin.ToggleSetting(Infoline.HDR)</onclick>
-            <selected>!Skin.HasSetting(Infoline.DisableAdditionalTags) + Skin.HasSetting(Infoline.HDR)</selected>
-            <label>HDR</label>
-        </include>
-		<include content="Settings_Button" description="HDR" condition="Skin.HasSetting(Info.EnablePillboxStyle)">
+            <onclick>Skin.ToggleSetting(Trailers.EnableAutoPlayback.Spotlight)</onclick>
+			<onclick condition="String.IsEmpty(Skin.String(Start_Trailer))">Skin.SetString(Start_Trailer,5)</onclick>
+            <selected>Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight)</selected>	
+			<visible>Skin.HasSetting(Trailers.EnableAutoPlayback)</visible>			
+            <label>$LOCALIZE[31105]</label>
+        </include>        
+		<include content="Settings_Button" description="Widgets">
             <param name="id">8002</param>
             <param name="control">radiobutton</param>
+            <param name="dialog">true</param>            
+            <onclick>Skin.ToggleSetting(Trailers.EnableAutoPlayback.Widgets)</onclick>
+			<onclick condition="String.IsEmpty(Skin.String(Start_Trailer))">Skin.SetString(Start_Trailer,5)</onclick>
+            <selected>Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets)</selected>
+			<visible>Skin.HasSetting(Trailers.EnableAutoPlayback)</visible>			
+            <label>$LOCALIZE[31103]</label>
+        </include>
+        <include content="Settings_Button" description="Library">
+            <param name="id">8003</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>            
+            <onclick>Skin.ToggleSetting(Trailers.EnableAutoPlayback.Library)</onclick>
+			<onclick condition="String.IsEmpty(Skin.String(Start_Trailer))">Skin.SetString(Start_Trailer,5)</onclick>
+            <selected>Skin.HasSetting(Trailers.EnableAutoPlayback.Library)</selected> 
+			<visible>Skin.HasSetting(Trailers.EnableAutoPlayback)</visible>	
+            <label>$LOCALIZE[14022]</label>
+        </include>
+        <include content="Settings_Button" description="Search & Discover">
+            <param name="id">8004</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>            
+            <onclick>Skin.ToggleSetting(Trailers.EnableAutoPlayback.Hubs)</onclick>
+			<onclick condition="String.IsEmpty(Skin.String(Start_Trailer))">Skin.SetString(Start_Trailer,5)</onclick>
+            <selected>Skin.HasSetting(Trailers.EnableAutoPlayback.Hubs)</selected> 
+			<visible>Skin.HasSetting(Trailers.EnableAutoPlayback) + !Skin.HasSetting(Background.DisableVideo)</visible>	
+            <label>$LOCALIZE[137] & $LOCALIZE[31066]</label>
+        </include>
+	</include>	
+	
+	<include name="Items_Settings_InfolineAdditionalTags">
+        <include content="Settings_Button" description="Source">
+            <param name="id">8001</param>
+            <param name="control">radiobutton</param>
             <param name="dialog">true</param>
-            <onclick>Skin.SetBool(Infoline.DisableAdditionalTags, false)</onclick>
-            <onclick>Skin.ToggleSetting(Infoline.HDR)</onclick>
-            <selected>!Skin.HasSetting(Infoline.DisableAdditionalTags) + Skin.HasSetting(Infoline.HDR)</selected>
+            <onclick>Skin.ToggleSetting(Infoline.DisableSource)</onclick>
+            <selected>!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Info.EnablePillboxStyle)</selected>			
+            <label>$LOCALIZE[21870]</label>
+        </include>        
+		<include content="Settings_Button" description="HDR">
+            <param name="id">8002</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>            
+            <onclick>Skin.ToggleSetting(Infoline.DisableHDR)</onclick>
+            <selected>!Skin.HasSetting(Infoline.DisableHDR)</selected>
             <label>HDR</label>
         </include>
         <include content="Settings_Button" description="Audio Channels">
             <param name="id">8003</param>
             <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.SetBool(Infoline.DisableAdditionalTags, false)</onclick>
-            <onclick>Skin.ToggleSetting(Infoline.AudioChannels)</onclick>
-            <selected>!Skin.HasSetting(Infoline.DisableAdditionalTags) + Skin.HasSetting(Infoline.AudioChannels)</selected>
+            <param name="dialog">true</param>            
+            <onclick condition="Skin.HasSetting(Infoline.DisableAudioChannels)">Skin.Reset(Infoline.DisableAudioChannels)</onclick>
+            <onclick condition="!Skin.HasSetting(Infoline.DisableAudioChannels)">Skin.SetBool(Infoline.DisableAudioChannels)</onclick>
+            <onclick condition="!Skin.HasSetting(Infoline.DisableAudioChannels) + !Skin.HasSetting(Infoline.DisableCodec)">Skin.SetBool(Infoline.DisableCodec)</onclick>
+            <selected>!Skin.HasSetting(Infoline.DisableAudioChannels)</selected>
             <label>$LOCALIZE[21444]</label>
         </include>
         <include content="Settings_Button" description="Audio Channels & Codecs">
             <param name="id">8004</param>
             <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.SetBool(Infoline.DisableAdditionalTags, false)</onclick>
-            <onclick condition="!Skin.HasSetting(Infoline.Codec)">Skin.SetBool(Infoline.AudioChannels) </onclick>
-            <onclick condition="!Skin.HasSetting(Infoline.Codec)">Skin.SetBool(Infoline.Codec)</onclick>
-            <onclick condition="Skin.HasSetting(Infoline.Codec)">Skin.SetBool(Infoline.Codec, false)</onclick>
-            <selected>!Skin.HasSetting(Infoline.DisableAdditionalTags) + Skin.HasSetting(Infoline.AudioChannels) + Skin.HasSetting(Infoline.Codec)</selected>
+            <param name="dialog">true</param>            
+            <onclick condition="Skin.HasSetting(Infoline.DisableCodec) + Skin.HasSetting(Infoline.DisableAudioChannels)">Skin.Reset(Infoline.DisableAudioChannels) </onclick>
+            <onclick condition="Skin.HasSetting(Infoline.DisableCodec)">Skin.Reset(Infoline.DisableCodec)</onclick>
+			<onclick condition="!Skin.HasSetting(Infoline.DisableCodec)">Skin.SetBool(Infoline.DisableCodec)</onclick>            
+            <selected>!Skin.HasSetting(Infoline.DisableAudioChannels) + !Skin.HasSetting(Infoline.DisableCodec)</selected>
             <label>$LOCALIZE[292] [LOWERCASE]$LOCALIZE[31207][/LOWERCASE]</label>
         </include>
-        <include content="Settings_Button" description="Collection">
+		<include content="Settings_Button" description="Versions">
             <param name="id">8005</param>
             <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.SetBool(Infoline.DisableAdditionalTags, false)</onclick>
+            <param name="dialog">true</param>            
+            <onclick>Skin.ToggleSetting(Infoline.DisableVersion)</onclick>
+            <selected>!Skin.HasSetting(Infoline.DisableVersion)</selected>
+            <label>$LOCALIZE[40013]</label>
+        </include>
+        <include content="Settings_Button" description="Collection">
+            <param name="id">8006</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>            
             <onclick>Skin.ToggleSetting(Infoline.DisableCollection)</onclick>
-            <selected>!Skin.HasSetting(Infoline.DisableAdditionalTags) + !Skin.HasSetting(Infoline.DisableCollection)</selected>
+            <selected>!Skin.HasSetting(Infoline.DisableCollection)</selected>
             <label>$LOCALIZE[31108]</label>
         </include>
 		<include content="Settings_Button" description="None">
-            <param name="id">8006</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.SetBool(Infoline.DisableAdditionalTags)</onclick>
-            <onclick>Skin.Reset(Infoline.Source)</onclick>
-            <onclick>Skin.Reset(Infoline.HDR)</onclick>
-            <onclick>Skin.Reset(Infoline.AudioChannels)</onclick>
-            <onclick>Skin.Reset(Infoline.Codec)</onclick>
+            <param name="id">8007</param>
+            <param name="control">button</param>
+            <param name="dialog">true</param>            
+            <onclick>Skin.SetBool(Infoline.DisableSource)</onclick>
+            <onclick>Skin.SetBool(Infoline.DisableHDR)</onclick>
+            <onclick>Skin.SetBool(Infoline.DisableAudioChannels)</onclick>
+            <onclick>Skin.SetBool(Infoline.DisableCodec)</onclick>
+            <onclick>Skin.SetBool(Infoline.DisableVersion)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableCollection)</onclick>
-            <selected>[Skin.HasSetting(Infoline.DisableAdditionalTags) | [!Skin.HasSetting(Infoline.Source) + !Skin.HasSetting(Infoline.HDR) + !Skin.HasSetting(Infoline.AudioChannels) + !Skin.HasSetting(Infoline.Codec) + Skin.HasSetting(Infoline.DisableCollection)]]</selected>
-            <label>$VAR[Label_Setting_AdditionalTags_None]</label>			
+            <label>$LOCALIZE[192]</label>			
         </include>
     </include>
 
@@ -2139,22 +2178,33 @@
             <onclick>Skin.ToggleSetting(Indicator.DisableCollection)</onclick>
             <selected>!Skin.HasSetting(Indicator.DisableCollection)</selected>
             <label>$LOCALIZE[31236]</label>
-        </include>
+        </include>        
         <include content="Settings_Button">
             <param name="id">8005</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(Indicator.DisableEpisodes)</onclick>
-            <selected>!Skin.HasSetting(Indicator.DisableEpisodes)</selected>
-            <label>$LOCALIZE[20360]</label>
-        </include>
-        <include content="Settings_Button">
-            <param name="id">8006</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(Indicator.DisableProgress)</onclick>
             <selected>!Skin.HasSetting(Indicator.DisableProgress)</selected>
             <label>$LOCALIZE[31237]</label>
+        </include>
+		
+		 <include content="Settings_Button">
+            <param name="id">8006</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>
+            <onclick>Skin.ToggleSetting(Indicator.DisableEpisodes)</onclick>
+            <selected>!Skin.HasSetting(Indicator.DisableEpisodes)</selected>
+            <label>$LOCALIZE[20360] ($LOCALIZE[31090])</label>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="id">8007</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>
+            <onclick>Skin.ToggleSetting(Indicator.EnableUnwatchedCount)</onclick>
+            <selected>Skin.HasSetting(Indicator.EnableUnwatchedCount)</selected>
+            <visible>!Skin.HasSetting(Indicator.DisableEpisodes)</visible>
+            <label>$LOCALIZE[20360] ($LOCALIZE[16101])</label>
         </include>
 
         <include content="Settings_Button">
@@ -2165,18 +2215,24 @@
             <selected>!Skin.HasSetting(Indicator.DisablePVRGuideCatchUp)</selected>
             <label>$LOCALIZE[31252] ($LOCALIZE[31000])</label>
         </include>
-
-        <include content="Settings_Button">
-            <param name="id">8007</param>
-            <param name="control">radiobutton</param>
+		
+		<include content="Settings_Label">
+            <param name="id">8091</param>
             <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(Indicator.RatingsCircle)</onclick>
-            <selected>Skin.HasSetting(Indicator.RatingsCircle)</selected>
-            <label>$LOCALIZE[563] ($LOCALIZE[31357])</label>
+            <label>$LOCALIZE[31357]</label>
         </include>
 
         <include content="Settings_Button">
             <param name="id">8009</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>
+            <onclick>Skin.ToggleSetting(Indicator.RatingsCircle)</onclick>
+            <selected>Skin.HasSetting(Indicator.RatingsCircle)</selected>
+            <label>$LOCALIZE[563]</label>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="id">8010</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(Indicator.ProgressPercent)</onclick>
@@ -2185,7 +2241,7 @@
         </include>
 
         <include content="Settings_Button">
-            <param name="id">8010</param>
+            <param name="id">8011</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(Indicator.EpisodeTypeBanner)</onclick>
@@ -2194,7 +2250,7 @@
         </include>
 		
 		<include content="Settings_Button">
-            <param name="id">8011</param>
+            <param name="id">8012</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(Indicator.MovieVersionBanner)</onclick>
