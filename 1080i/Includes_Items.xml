@@ -41,6 +41,402 @@
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoOSDWidgets)">Items_Settings_VideoOSDWidgets</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags)">Items_Settings_InfolineAdditionalTags</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)">Items_Settings_AutoTrailers</include>
+		<include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RatingsMovies)">Items_Settings_RatingsMovies</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RatingsTVShows)">Items_Settings_RatingsTVShows</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_LeftFooter)">Items_Settings_LeftFooter</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RightFooter)">Items_Settings_RightFooter</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineStatus)">Items_Settings_InfolineStatus</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_SeekbarBehavior)">Items_Settings_SeekbarBehavior</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_SideMenuBehavior)">Items_Settings_SideMenuBehavior</include>
+    </include>
+	
+	<include name="Items_Settings_SideMenuBehavior">
+		<include content="Settings_Button" description="Menu Style">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[13014]</label>
+            <label2>$VAR[Label_Settings_SideMenuCollapse]</label2>
+            <onclick condition="Skin.String(Home.SideMenuCollapse,Never)">Skin.SetString(Home.SideMenuCollapse,Hubs)</onclick>
+            <onclick condition="Skin.String(Home.SideMenuCollapse,Hubs)">Skin.SetString(Home.SideMenuCollapse,Library)</onclick>
+            <onclick condition="Skin.String(Home.SideMenuCollapse,Library)">Skin.SetString(Home.SideMenuCollapse,Always)</onclick>
+            <onclick condition="Skin.String(Home.SideMenuCollapse,Always)">Skin.SetString(Home.SideMenuCollapse,Topbar)</onclick>
+            <onclick condition="!Skin.String(Home.SideMenuCollapse,Library) + !Skin.String(Home.SideMenuCollapse,Always) + !Skin.String(Home.SideMenuCollapse,Hubs) + !Skin.String(Home.SideMenuCollapse,Never)">Skin.SetString(Home.SideMenuCollapse,Never)</onclick>
+        </include>
+		<include content="Settings_Button" description="Topbar style">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="control">button</param>
+			<label>$LOCALIZE[31352] $LOCALIZE[29902]</label>
+			<label2>$VAR[Label_Topbar_Style]</label2>
+            <onclick>Skin.ToggleSetting(Topbar.EnableFocusedText)</onclick> 
+			<selected>Skin.HasSetting(Topbar.EnableFocusedText)</selected>	
+            <visible>String.IsEqual(Skin.String(Home.SideMenuCollapse),Topbar)</visible>
+        </include>
+		<include content="Settings_Button" description="Search And Options">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <param name="control">radiobutton</param>
+			<label>$LOCALIZE[31151]</label>			
+            <onclick>Skin.ToggleSetting(SideMenu.EnableSearchAndOptions)</onclick>                      
+            <selected>Skin.HasSetting(SideMenu.EnableSearchAndOptions)</selected>
+        </include>
+		<include content="Settings_Button" description="Replace search with discover">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+            <param name="control">radiobutton</param>
+			<label>$LOCALIZE[31445]</label>			
+            <onclick>Skin.ToggleSetting(SideMenu.SwapSearchForDiscover)</onclick>
+            <selected>Skin.HasSetting(SideMenu.SwapSearchForDiscover)</selected>
+            <visible>Skin.HasSetting(SideMenu.EnableSearchAndOptions)</visible>
+        </include>
+		<include content="Settings_Button" description="Home group indicator">
+            <param name="dialog">true</param>
+            <param name="id">8005</param>
+            <param name="control">radiobutton</param>
+			<label>$LOCALIZE[31347]</label>
+            <onclick>Skin.ToggleSetting(Home.SideMenu.DisableIndicator)</onclick>
+            <selected>!Skin.HasSetting(Home.SideMenu.DisableIndicator)</selected>
+        </include>
+		<include content="Settings_Button" description="Expanded menu">
+            <param name="dialog">true</param>
+            <param name="id">8006</param>
+            <param name="control">radiobutton</param>
+			<label>$LOCALIZE[31444]</label>
+            <onclick>Skin.ToggleSetting(Navigation.OnBack.ExpandMenu)</onclick>
+            <selected>Skin.HasSetting(Navigation.OnBack.ExpandMenu)</selected>                            
+            <visible>!$EXP[Exp_HomeMenu_IsTopBar]</visible>
+            <visible>!Skin.String(Home.SideMenuCollapse,Never)</visible>
+        </include>
+		<include content="Settings_Button" description="Info dialog position">
+            <param name="dialog">true</param>
+            <param name="id">8007</param>
+            <param name="control">button</param>
+			<label>$LOCALIZE[14116]</label>
+            <label2>$VAR[Label_Setting_SideMenuInfoPosition]</label2>
+            <onclick>Skin.ToggleSetting(Sidemenu.SwapInfoPosition)</onclick>
+            <selected>!Skin.HasSetting(Sidemenu.SwapInfoPosition)</selected>
+        </include>
+		<include content="Settings_Button" description="Menu OnLeft">
+            <param name="dialog">true</param>
+            <param name="id">8008</param>
+            <param name="control">button</param>
+			<label>$LOCALIZE[16041] $LOCALIZE[39162]</label>
+			<label2>$VAR[Label_Settings_NavigationMenuLeft]</label2>            
+            <visible>[Skin.String(Home.SideMenuCollapse,Library) | $EXP[Exp_HomeMenu_IsTopBar] | Skin.String(Home.SideMenuCollapse,Hubs) | Skin.String(Home.SideMenuCollapse,Never)]</visible>
+            <onclick>Skin.ToggleSetting(Navigation.DisableOptionsOnLeft)</onclick>
+        </include>
+	</include>
+	
+	
+	<include name="Items_Settings_SeekbarBehavior">
+		<include content="Settings_Button" description="Always show title">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[31201]</label>            
+            <onclick>Skin.ToggleSetting(OSD.DisplayTitleDetailsOnSeek)</onclick>
+            <selected>Skin.HasSetting(OSD.DisplayTitleDetailsOnSeek)</selected>
+        </include>
+        <include content="Settings_Button" description="Always show plot">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[31280]</label>            
+            <onclick>Skin.ToggleSetting(OSD.DisplayPlotWithTitle)</onclick>
+            <selected>Skin.HasSetting(OSD.DisplayPlotWithTitle)</selected>
+        </include>
+        <include content="Settings_Button" description="Autohide seekbar after pausing">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31165]</label>
+            <label2>$VAR[Label_Setting_SeekbarPauseBehaviour]</label2>            
+            <onclick condition="Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.SetBool(OSD.AutoHideOnPause)</onclick>
+            <onclick condition="Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.Reset(OSD.AutoInfoOnPause)</onclick>
+
+            <onclick condition="Skin.HasSetting(OSD.AutoHideOnPause)">Skin.Reset(OSD.AutoHideOnPause)</onclick>
+            <onclick condition="Skin.HasSetting(OSD.AutoHideOnPause)">Skin.Reset(OSD.AutoInfoOnPause)</onclick>
+
+            <onclick condition="!Skin.HasSetting(OSD.AutoHideOnPause) + !Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.SetBool(OSD.AutoInfoOnPause)</onclick>
+        </include>
+        <include content="Settings_Button" description="Seekbar times">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31355]</label>
+            <label2>$VAR[Label_Setting_SeekbarTimeDisplay]</label2>            
+            <onclick condition="String.IsEmpty(Skin.String(Seekbar.TimeDisplay))">Skin.SetString(Seekbar.TimeDisplay,Remaining)</onclick>
+            <onclick condition="Skin.String(Seekbar.TimeDisplay,Remaining)">Skin.SetString(Seekbar.TimeDisplay,Combined)</onclick>
+            <onclick condition="Skin.String(Seekbar.TimeDisplay,Combined)">Skin.Reset(Seekbar.TimeDisplay)</onclick>
+        </include>
+	</include>
+	
+	<include name="Items_Settings_InfolineStatus">
+		<include content="Settings_Button" description="Visibility">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31565]</label>  
+			<label2>$VAR[Label_Setting_PremiereStatus]</label2>	
+            <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Setting_PremiereStatus_Preselect],heading=$LOCALIZE[126],separator=||,list=$LOCALIZE[13106]||$LOCALIZE[20343]: $LOCALIZE[10036]||$LOCALIZE[20343]: $LOCALIZE[31137]||$LOCALIZE[20342]: $LOCALIZE[10036]||$LOCALIZE[20342]: $LOCALIZE[31137]||$LOCALIZE[21475]: $LOCALIZE[10036]||$LOCALIZE[21475]: $LOCALIZE[31137],"executebuiltin_0=Skin.SetBool(CustomRating.TVShows.DisablePremiereStatus)||Skin.Reset(CustomRating.Movies.EnablePremiereStatus)||Skin.Reset(CustomRating.EnablePremiereStatusDates)","executebuiltin_1=Skin.Reset(CustomRating.TVShows.DisablePremiereStatus)||Skin.Reset(CustomRating.Movies.EnablePremiereStatus)||Skin.Reset(CustomRating.EnablePremiereStatusDates)","executebuiltin_2=Skin.Reset(CustomRating.TVShows.DisablePremiereStatus)||Skin.Reset(CustomRating.Movies.EnablePremiereStatus)||Skin.SetBool(CustomRating.EnablePremiereStatusDates)","executebuiltin_3=Skin.SetBool(CustomRating.TVShows.DisablePremiereStatus)||Skin.SetBool(CustomRating.Movies.EnablePremiereStatus)||Skin.Reset(CustomRating.EnablePremiereStatusDates)","executebuiltin_4=Skin.SetBool(CustomRating.TVShows.DisablePremiereStatus)||Skin.SetBool(CustomRating.Movies.EnablePremiereStatus)||Skin.SetBool(CustomRating.EnablePremiereStatusDates)","executebuiltin_5=Skin.Reset(CustomRating.TVShows.DisablePremiereStatus)||Skin.SetBool(CustomRating.Movies.EnablePremiereStatus)||Skin.Reset(CustomRating.EnablePremiereStatusDates)","executebuiltin_6=Skin.Reset(CustomRating.TVShows.DisablePremiereStatus)||Skin.SetBool(CustomRating.Movies.EnablePremiereStatus)||Skin.SetBool(CustomRating.EnablePremiereStatusDates)")</onclick>
+        </include>
+		<include content="Settings_Button" description="Status Date Style">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[552] [LOWERCASE]$LOCALIZE[736][/LOWERCASE]</label>
+            <label2>$VAR[Label_Status_DateStyle]</label2>            
+            <visible>Skin.HasSetting(CustomRating.EnablePremiereStatusDates)</visible>
+			<visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
+            <onclick condition="!Skin.String(CustomStatus.DateStyle,Long)">Skin.SetString(CustomStatus.DateStyle,Long)</onclick> 
+			<onclick condition="Skin.String(CustomStatus.DateStyle,Long)">Skin.SetString(CustomStatus.DateStyle,Short)</onclick>
+        </include>
+	</include>
+	
+	<include name="Items_Settings_RightFooter">
+		<include content="Settings_Button" description="Visibility">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31565]</label>  
+			<label2>$VAR[Label_Setting_RightFooter]</label2>	
+            <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Setting_RightFooter_Preselect],heading=$LOCALIZE[31107],separator=||,list=$LOCALIZE[31042]||$LOCALIZE[31279]||$LOCALIZE[231],"executebuiltin_0=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock.TopLeft)||Skin.SetBool(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,4)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_1=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,4)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_2=Skin.SetBool(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,4)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)")</onclick>
+        </include>
+        <include content="Settings_Button" description="Footer: Right: MPAA Classification Country">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="control">radiobutton</param>
+            <label> - $LOCALIZE[31285]</label>
+            <label2>$INFO[Skin.String(MPAA_Country),       ,       ]</label2>            
+            <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_MPAACountries,Home)</onclick>
+            <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31285],Home)</onclick>
+            <onclick>ActivateWindow(1118)</onclick>
+            <selected>!String.IsEmpty(Skin.String(MPAA_Country))</selected>
+            <visible>!Skin.HasSetting(Furniture.EnableClock)</visible>
+            <visible>!Skin.HasSetting(Furniture.BottomRight.Disable)</visible>
+        </include>
+        <include content="Settings_Button" description="Footer: Right: Now Playing">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <param name="control">radiobutton</param>
+            <label> - $LOCALIZE[31244]</label>            
+            <onclick>Skin.ToggleSetting(Furniture.DisableNowPlaying)</onclick>
+            <selected>!Skin.HasSetting(Furniture.DisableNowPlaying)</selected>
+            <visible>!Skin.HasSetting(Furniture.BottomRight.Disable)</visible>
+        </include>	
+	</include>
+	
+	<include name="Items_Settings_LeftFooter">
+		<include content="Settings_Button" description="Visibility">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31565]</label>
+            <label2>$VAR[Label_Settings_LeftFooterVisibility]</label2>            
+			<onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Settings_LeftFooterVisibility_Preselect],heading=$LOCALIZE[31127],separator=||,list=$LOCALIZE[14116]||$LOCALIZE[14116] + $LOCALIZE[14022]||$LOCALIZE[14116] + $LOCALIZE[14022] + $LOCALIZE[31103],"executebuiltin_0=Skin.Reset(Furniture.BottomLeft.Enable)","executebuiltin_1=Skin.SetString(Furniture.BottomLeft.Enable,Library)","executebuiltin_2=Skin.SetString(Furniture.BottomLeft.Enable,Always)")</onclick>
+        </include>	
+		<include content="Settings_Button" description="Codecs and Providers">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="control">radiobutton</param>
+            <label> - $LOCALIZE[31205]</label>
+            <selected>Skin.HasSetting(Furniture.ProvidersCodecs)</selected>            
+            <onclick>Skin.ToggleSetting(Furniture.ProvidersCodecs)</onclick>
+        </include>
+		<include content="Settings_Button" description="Audio & Subtitle flags">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <param name="control">radiobutton</param>
+            <label> - $LOCALIZE[292] $LOCALIZE[1397] [LOWERCASE]$LOCALIZE[287] $LOCALIZE[248][/LOWERCASE]</label>
+            <selected>Skin.HasSetting(Furniture.LanguageFlags)</selected>            
+            <visible>Skin.HasSetting(Furniture.ProvidersCodecs) + [Skin.String(Furniture.CodecStyle,Colour) | Skin.String(Furniture.CodecStyle,Monochrome)] + !Skin.String(Furniture.CodecStyle,Basic)</visible>							
+            <onclick>Skin.ToggleSetting(Furniture.LanguageFlags)</onclick>
+        </include>
+        <include content="Settings_Button" description="Play counts and dates">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+           <param name="control">radiobutton</param>
+            <label> - $LOCALIZE[31291]</label>
+            <selected>!Skin.HasSetting(Furniture.DisablePlayCounts)</selected>            
+            <onclick>Skin.ToggleSetting(Furniture.DisablePlayCounts)</onclick>
+        </include>
+		<include content="Settings_Button" description="RSS News Feed">
+            <param name="dialog">true</param>
+            <param name="id">8005</param>
+            <param name="control">radiobutton</param>
+            <label> - RSS</label>
+            <selected>Skin.HasSetting(RSS.LeftFooter)</selected>            
+            <onclick>Skin.ToggleSetting(RSS.LeftFooter)</onclick>
+        </include>
+	</include>
+	
+	<include name="Items_Settings_RatingsMovies">
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <label>$LOCALIZE[563] 01</label>
+            <label2>$INFO[Skin.String(CustomRating.Movies.Item01)]</label2>
+            <onclick>SetProperty(ConfigureRatingItem,Item01,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,Movies,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <label>$LOCALIZE[563] 02</label>
+            <label2>$INFO[Skin.String(CustomRating.Movies.Item02)]</label2>
+            <onclick>SetProperty(ConfigureRatingItem,Item02,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,Movies,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <label>$LOCALIZE[563] 03</label>
+            <label2>$INFO[Skin.String(CustomRating.Movies.Item03)]</label2>
+            <onclick>SetProperty(ConfigureRatingItem,Item03,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,Movies,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+            <label>$LOCALIZE[563] 04</label>
+            <label2>$INFO[Skin.String(CustomRating.Movies.Item04)]</label2>
+            <visible>!Skin.HasSetting(CustomRating.EnablePremiereStatusDates) | !Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)</visible>
+            <onclick>SetProperty(ConfigureRatingItem,Item04,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,Movies,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8005</param>
+            <label>$LOCALIZE[563] 05</label>
+            <label2>$INFO[Skin.String(CustomRating.Movies.Item05)]</label2>
+            <visible>!Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)</visible>
+            <onclick>SetProperty(ConfigureRatingItem,Item05,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,Movies,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8006</param>
+            <label>$LOCALIZE[563] 06</label>
+            <label2>$INFO[Skin.String(CustomRating.Movies.Item06)]</label2>
+            <visible>!Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)</visible>
+            <onclick>SetProperty(ConfigureRatingItem,Item06,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,Movies,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="Status">
+            <param name="dialog">true</param>
+            <param name="id">8007</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[126]</label>
+            <selected>Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)</selected>
+            <onclick>Skin.ToggleSetting(CustomRating.Movies.EnablePremiereStatus)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="Detailed Status">
+            <param name="dialog">true</param>
+            <param name="id">8008</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[21480] [LOWERCASE]$LOCALIZE[31137] $LOCALIZE[126][/LOWERCASE]</label>
+            <selected>Skin.HasSetting(CustomRating.EnablePremiereStatusDates)</selected>
+            <onclick>Skin.ToggleSetting(CustomRating.EnablePremiereStatusDates)</onclick>
+            <visible>Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)</visible>
+        </include>
+    </include>
+
+    <include name="Items_Settings_RatingsTVShows">
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <label>$LOCALIZE[563] 01</label>
+            <label2>$INFO[Skin.String(CustomRating.TVShows.Item01)]</label2>
+            <onclick>SetProperty(ConfigureRatingItem,Item01,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,TVShows,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <label>$LOCALIZE[563] 02</label>
+            <label2>$INFO[Skin.String(CustomRating.TVShows.Item02)]</label2>
+            <onclick>SetProperty(ConfigureRatingItem,Item02,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,TVShows,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <label>$LOCALIZE[563] 03</label>
+            <label2>$INFO[Skin.String(CustomRating.TVShows.Item03)]</label2>
+            <onclick>SetProperty(ConfigureRatingItem,Item03,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,TVShows,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+            <label>$LOCALIZE[563] 04</label>
+            <label2>$INFO[Skin.String(CustomRating.TVShows.Item04)]</label2>
+            <visible>!Skin.HasSetting(CustomRating.EnablePremiereStatusDates) | Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)</visible>
+            <onclick>SetProperty(ConfigureRatingItem,Item04,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,TVShows,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8005</param>
+            <label>$LOCALIZE[563] 05</label>
+            <label2>$INFO[Skin.String(CustomRating.TVShows.Item05)]</label2>
+            <visible>Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)</visible>
+            <onclick>SetProperty(ConfigureRatingItem,Item05,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,TVShows,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="CustomDialog Ratings">
+            <param name="dialog">true</param>
+            <param name="id">8006</param>
+            <label>$LOCALIZE[563] 06</label>
+            <label2>$INFO[Skin.String(CustomRating.TVShows.Item06)]</label2>
+            <visible>Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)</visible>
+            <onclick>SetProperty(ConfigureRatingItem,Item06,Home)</onclick>
+            <onclick>SetProperty(ConfigureRatingContent,TVShows,Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="TV Show Status">
+            <param name="dialog">true</param>
+            <param name="id">8007</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[126]</label>
+            <selected>!Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)</selected>
+            <onclick>Skin.ToggleSetting(CustomRating.TVShows.DisablePremiereStatus)</onclick>
+        </include>
+
+        <include content="Settings_Button" description="Detailed Status">
+            <param name="dialog">true</param>
+            <param name="id">8008</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[21480] [LOWERCASE]$LOCALIZE[31137] $LOCALIZE[126][/LOWERCASE]</label>
+            <selected>Skin.HasSetting(CustomRating.EnablePremiereStatusDates)</selected>
+            <onclick>Skin.ToggleSetting(CustomRating.EnablePremiereStatusDates)</onclick>
+            <visible>!Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)</visible>
+        </include>
     </include>
 	
 	<include name="Items_Settings_AutoTrailers">
@@ -94,9 +490,17 @@
             <onclick>Skin.ToggleSetting(Infoline.DisableSource)</onclick>
             <selected>!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Info.EnablePillboxStyle)</selected>			
             <label>$LOCALIZE[21870]</label>
-        </include>        
-		<include content="Settings_Button" description="HDR">
+        </include> 
+		<include content="Settings_Button" description="Episode number">            
             <param name="id">8002</param>
+            <param name="control">radiobutton</param>
+			<param name="dialog">true</param>
+            <label>$LOCALIZE[20359][LOWERCASE] $LOCALIZE[549][/LOWERCASE]</label>			
+			<onclick>Skin.ToggleSetting(Infoline.SETags)</onclick>
+			<selected>Skin.HasSetting(Infoline.SETags)</selected>            						
+        </include>			
+		<include content="Settings_Button" description="HDR">
+            <param name="id">8003</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick>Skin.ToggleSetting(Infoline.DisableHDR)</onclick>
@@ -104,7 +508,7 @@
             <label>HDR</label>
         </include>
         <include content="Settings_Button" description="Audio Channels">
-            <param name="id">8003</param>
+            <param name="id">8004</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick condition="Skin.HasSetting(Infoline.DisableAudioChannels)">Skin.Reset(Infoline.DisableAudioChannels)</onclick>
@@ -114,7 +518,7 @@
             <label>$LOCALIZE[21444]</label>
         </include>
         <include content="Settings_Button" description="Audio Channels & Codecs">
-            <param name="id">8004</param>
+            <param name="id">8005</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick condition="Skin.HasSetting(Infoline.DisableCodec) + Skin.HasSetting(Infoline.DisableAudioChannels)">Skin.Reset(Infoline.DisableAudioChannels) </onclick>
@@ -124,7 +528,7 @@
             <label>$LOCALIZE[292] [LOWERCASE]$LOCALIZE[31207][/LOWERCASE]</label>
         </include>
 		<include content="Settings_Button" description="Versions">
-            <param name="id">8005</param>
+            <param name="id">8006</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick>Skin.ToggleSetting(Infoline.DisableVersion)</onclick>
@@ -132,7 +536,7 @@
             <label>$LOCALIZE[40013]</label>
         </include>
         <include content="Settings_Button" description="Collection">
-            <param name="id">8006</param>
+            <param name="id">8007</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick>Skin.ToggleSetting(Infoline.DisableCollection)</onclick>
@@ -140,7 +544,7 @@
             <label>$LOCALIZE[31108]</label>
         </include>
 		<include content="Settings_Button" description="None">
-            <param name="id">8007</param>
+            <param name="id">8008</param>
             <param name="control">button</param>
             <param name="dialog">true</param>            
             <onclick>Skin.SetBool(Infoline.DisableSource)</onclick>
@@ -149,6 +553,7 @@
             <onclick>Skin.SetBool(Infoline.DisableCodec)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableVersion)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableCollection)</onclick>
+            <onclick>Skin.SetBool(Infoline.Infoline.SETags, false)</onclick>
             <label>$LOCALIZE[192]</label>			
         </include>
     </include>
@@ -1042,6 +1447,8 @@
                 <include content="Action_PlayTrailer_OnClick">
                     <param name="trailer">ListItem.Trailer</param>
                     <param name="trailer_fallback">Container(99950).ListItem.Trailer</param>
+					<param name="title">$VAR[Label_Title]</param>
+					<param name="items">$VAR[Path_VideoInfo_Trailers]</param>
                 </include>
                 <onfocus>SetProperty(DetailsView,Trailer)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>

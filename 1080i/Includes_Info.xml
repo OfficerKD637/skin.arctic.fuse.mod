@@ -1321,6 +1321,7 @@
                 <!-- Year / Premiered -->
                 <include content="Info_Line_Items">
                     <include content="Info_Line_Visible_05">
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Container(99950).Property(ListItem.base_channelnumberlabel))]</param>					
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">episode</param>
                         <param name="dbtype_02">video</param>
@@ -1418,11 +1419,13 @@
                         <param name="dbtype_02">tvshow</param>
                         <param name="dbtype_03">season</param>
                     </include>
-                    <param name="items_02">true</param>
+                    <param name="items_03">true</param>
                     <param name="label_01">$INFO[$PARAM[container]ListItem.MPAA]</param>
-                    <param name="label_02">$INFO[Container(99950).ListItem.MPAA]</param>
+                    <param name="label_02">$INFO[Container(99950).ListItem.Property(base_mpaa)]</param>
+                    <param name="label_03">$INFO[Container(99950).ListItem.MPAA]</param>
                     <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.MPAA)</param>
-                    <param name="visible_02">!String.IsEmpty(Container(99950).ListItem.MPAA)</param>
+                    <param name="visible_02">!String.IsEmpty(Container(99950).ListItem.Property(base_mpaa))</param>
+                    <param name="visible_03">!String.IsEmpty(Container(99950).ListItem.MPAA)</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
 
@@ -1458,7 +1461,7 @@
                 <!-- Duration Info -->
                 <include content="Info_Line_Items">
                     <include content="Info_Line_Visible_05">
-                        <param name="altvisible">!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel)</param>
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Container(99950).ListItem.Property(base_channelnumberlabel))]</param>
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">movie</param>
                         <param name="dbtype_02">tvshow</param>
@@ -1470,16 +1473,36 @@
                     <param name="label_01">$INFO[$PARAM[container]ListItem.Duration(h),, $LOCALIZE[31074] ]$INFO[$PARAM[container]ListItem.Duration(m),, $LOCALIZE[31073]]</param>
                     <param name="label_02">$INFO[$PARAM[container]ListItem.Duration(m),, $LOCALIZE[31073]]</param>
                     <param name="label_03">$INFO[$PARAM[container]ListItem.Duration(h),, $LOCALIZE[31074]]</param>
-                    <param name="label_04">$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074] ]$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]</param>
-                    <param name="label_05">$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]</param>
-                    <param name="label_06">$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074]]</param>
+                    <param name="label_04">$INFO[Container(99950).ListItem.Property(base_duration_h),, $LOCALIZE[31074] ]$INFO[Container(99950).ListItem.Property(base_duration_m),, $LOCALIZE[31073]]</param>
+                    <param name="label_05">$INFO[Container(99950).ListItem.Property(base_duration_m),, $LOCALIZE[31073]]</param>
+                    <param name="label_06">$INFO[Container(99950).ListItem.Property(base_duration_h),, $LOCALIZE[31074]]</param>
 
                     <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Duration) + !Integer.IsEqual($PARAM[container]ListItem.Duration(h),0) + !Integer.IsEqual($PARAM[container]ListItem.Duration(m),0)</param>
                     <param name="visible_02">!String.IsEmpty($PARAM[container]ListItem.Duration) + !Integer.IsEqual($PARAM[container]ListItem.Duration(m),0)</param>
                     <param name="visible_03">!String.IsEmpty($PARAM[container]ListItem.Duration) + !Integer.IsEqual($PARAM[container]ListItem.Duration(h),0)</param>
-                    <param name="visible_04">!String.IsEmpty(Container(99950).ListItem.Duration) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0)</param>
-                    <param name="visible_05">!String.IsEmpty(Container(99950).ListItem.Duration) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0)</param>
-                    <param name="visible_06">!String.IsEmpty(Container(99950).ListItem.Duration) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0)</param>
+                    <param name="visible_04">!String.IsEmpty(Container(99950).ListItem.Property(base_duration)) + !String.IsEqual(Container(99950).ListItem.Property(base_duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(base_duration_h),0) + !Integer.IsEqual(Container(99950).ListItem.Property(base_duration_m),0)</param>
+                    <param name="visible_05">!String.IsEmpty(Container(99950).ListItem.Property(base_duration)) + !String.IsEqual(Container(99950).ListItem.Property(base_duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(base_duration_m),0)</param>
+                    <param name="visible_06">!String.IsEmpty(Container(99950).ListItem.Property(base_duration)) + !String.IsEqual(Container(99950).ListItem.Property(base_duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(base_duration_h),0)</param>
+                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                </include>
+				<include content="Info_Line_Items">
+                    <include content="Info_Line_Visible_05">
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Container(99950).ListItem.Property(base_channelnumberlabel))]</param>
+                        <param name="container">$PARAM[container]</param>
+                        <param name="dbtype_01">movie</param>
+                        <param name="dbtype_02">tvshow</param>
+                        <param name="dbtype_03">video</param>
+                        <param name="dbtype_04">episode</param>
+                        <param name="dbtype_05">season</param>
+                    </include>
+                    <param name="items_03">true</param>                    
+                    <param name="label_01">$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074] ]$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]</param>
+                    <param name="label_02">$INFO[Container(99950).ListItem.Property(Duration_M),, $LOCALIZE[31073]]</param>
+                    <param name="label_03">$INFO[Container(99950).ListItem.Property(Duration_H),, $LOCALIZE[31074]]</param>
+                    
+                    <param name="visible_01">String.IsEmpty($PARAM[container]ListItem.Duration) + String.IsEmpty(Container(99950).ListItem.Property(base_duration)) + !String.IsEmpty(Container(99950).ListItem.Duration) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0)</param>
+                    <param name="visible_02">String.IsEmpty($PARAM[container]ListItem.Duration) + String.IsEmpty(Container(99950).ListItem.Property(base_duration)) + !String.IsEmpty(Container(99950).ListItem.Duration) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_M),0)</param>
+                    <param name="visible_03">String.IsEmpty($PARAM[container]ListItem.Duration) + String.IsEmpty(Container(99950).ListItem.Property(base_duration)) + !String.IsEmpty(Container(99950).ListItem.Duration) + !String.IsEqual(Container(99950).ListItem.Property(Duration),0) + !Integer.IsEqual(Container(99950).ListItem.Property(Duration_H),0)</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
 
@@ -1690,6 +1713,55 @@
             </control>
         </definition>
     </include>
+	
+	<include name="Info_Language_MonoIcon">
+        <param name="colordiffuse">main_fg_90</param>
+        <param name="visible">true</param>
+        <definition>			
+            <control type="group">
+                <height>40</height>
+                <centertop>50%</centertop>
+                <left>$PARAM[left]</left>
+                <width>70</width>
+                <visible>$PARAM[visible]</visible>					
+                <control type="image">
+                    <centerleft>50%</centerleft>
+                    <centertop>50%</centertop>
+                    <width>$PARAM[iconwidth]</width>
+                    <height>$PARAM[iconheight]</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$PARAM[colordiffuse]">flags/color/language/$PARAM[icon]</texture>
+                </control>
+				<control type="image">					
+					<centerbottom>10%</centerbottom>
+					<centerright>20%</centerright>
+					<width>40</width>
+					<height>40</height>
+					<texture colordiffuse="main_fg_100">special://skin/extras/icons/$PARAM[icon_langflag]</texture>
+				</control>
+				<nested />					
+            </control>
+        </definition>
+    </include>
+	
+	<include name="Info_Language_MonoIcon_Labels">
+		<param name="visible">false</param>
+		<param name="width">50</param>
+		<param name="font">font_tiny</param>
+		<param name="left">63</param>
+		<param name="bottom">8</param>
+		<param name="label" />
+		<definition>
+		<control type="label">	
+			<width>$PARAM[width]</width>
+			<font>$PARAM[font]</font>
+			<left>$PARAM[left]</left>
+			<bottom>$PARAM[bottom]</bottom>
+			<label>$PARAM[label]</label>
+			<visible>$PARAM[visible]</visible>	
+		</control>
+		</definition>
+	</include>
 
     <include name="Info_Codec_AudioChannels_Labels">
         <param name="info">AudioChannels</param>
@@ -2550,6 +2622,195 @@
             <param name="container">$PARAM[container]</param>
         </include>
     </include>
+	
+	<include name="Info_Language">
+		<param name="visible">false</param>
+        <definition>
+		
+		<!-- AUDIO LANGUAGE -->	
+		<include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(AudioLanguage.1)].png</param>
+                <param name="icon_langflag">volume.png</param>                
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.1))</param>				
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x5</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.2)) + String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5))</param>
+				</include>					
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x4</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.2)) + String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + [[String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4))]]</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x3</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.2)) + [[String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3))]]</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">[[String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.1),$PARAM[container]ListItem.Property(AudioLanguage.4))]]</param>
+				</include>				
+		 </include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(AudioLanguage.2)].png</param>
+                <param name="icon_langflag">volume.png</param>                
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.1))</param>				
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x4</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.3)) + String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.4)) + String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.5))</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x3</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.3)) + [[String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.5)] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.5) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.4))]])</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">[[String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.2),$PARAM[container]ListItem.Property(AudioLanguage.4))]]</param>
+				</include>
+		 </include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(AudioLanguage.3)].png</param>
+                <param name="icon_langflag">volume.png</param>
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.3)) + [!String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.2)) | !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.1))]</param>				
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x3</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.4)) + String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.5))</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">[[String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.5)] | [String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.5) + !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.3),$PARAM[container]ListItem.Property(AudioLanguage.4))]]</param>
+				</include>
+		 </include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(AudioLanguage.4)].png</param>
+                <param name="icon_langflag">volume.png</param>
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.4)) + [!String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.4),$PARAM[container]ListItem.Property(AudioLanguage.3)) | !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.4),$PARAM[container]ListItem.Property(AudioLanguage.2)) | !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.4),$PARAM[container]ListItem.Property(AudioLanguage.1))]</param>				
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.4),$PARAM[container]ListItem.Property(AudioLanguage.5))</param>
+				</include>
+		</include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(AudioLanguage.5)].png</param>
+                <param name="icon_langflag">volume.png</param>
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.5)) + [!String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.5),$PARAM[container]ListItem.Property(AudioLanguage.4)) | !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.5),$PARAM[container]ListItem.Property(AudioLanguage.3)) | !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.5),$PARAM[container]ListItem.Property(AudioLanguage.2)) | !String.IsEqual($PARAM[container]ListItem.Property(AudioLanguage.5),$PARAM[container]ListItem.Property(AudioLanguage.1))]</param>
+         </include>
+		
+		<!-- SUBTITLE LANGUAGE -->
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(SubtitleLanguage.1)].png</param>
+                <param name="icon_langflag">quote.png</param>                
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + [!String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.1)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.2)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.3)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.4)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.5))]</param>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x5</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) + String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5))</param>
+				</include>					
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x4</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) + String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + [[String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4))]]</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x3</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) + [[String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3))]]</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">[[String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.1),$PARAM[container]ListItem.Property(SubtitleLanguage.4))]]</param>
+				</include>	
+		 </include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(SubtitleLanguage.2)].png</param>
+                <param name="icon_langflag">quote.png</param>                
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.2)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.1))</param>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x4</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.5))</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x3</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + [[String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.5)] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.5) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.4))]])</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">[[String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.5))] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.5)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.2),$PARAM[container]ListItem.Property(SubtitleLanguage.4))]]</param>
+				</include>
+		 </include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(SubtitleLanguage.3)].png</param>
+                <param name="icon_langflag">quote.png</param>
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.3)) + [!String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) | !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.1))]</param>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x3</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.5))</param>
+				</include>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">[[String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.5)] | [String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.5) + !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.3),$PARAM[container]ListItem.Property(SubtitleLanguage.4))]]</param>
+				</include>
+		 </include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(SubtitleLanguage.4)].png</param>
+                <param name="icon_langflag">quote.png</param>
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.4)) + [!String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.4),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) | !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.4),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) | !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.4),$PARAM[container]ListItem.Property(SubtitleLanguage.1))]</param>
+				<include content="Info_Language_MonoIcon_Labels">
+					<param name="label">x2</param>
+					<param name="visible">String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.4),$PARAM[container]ListItem.Property(SubtitleLanguage.5))</param>
+				</include>
+		 </include>
+		 
+		 <include content="Info_Language_MonoIcon">
+                <param name="icon">$INFO[$PARAM[container]ListItem.Property(SubtitleLanguage.5)].png</param>
+                <param name="icon_langflag">quote.png</param>
+                <param name="width"></param>
+                <param name="iconwidth">94</param>
+                <param name="iconheight">48</param>
+                <param name="left">-10</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.5)) + [!String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.5),$PARAM[container]ListItem.Property(SubtitleLanguage.4)) | !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.5),$PARAM[container]ListItem.Property(SubtitleLanguage.3)) | !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.5),$PARAM[container]ListItem.Property(SubtitleLanguage.2)) | !String.IsEqual($PARAM[container]ListItem.Property(SubtitleLanguage.5),$PARAM[container]ListItem.Property(SubtitleLanguage.1))]</param>
+         </include>	
+		
+		</definition>
+	</include>
 
     <variable name="Info_KodiLogo_Color">
         <value condition="!Skin.String(Furniture.CodecStyle,Monochrome)">$VAR[ColorHighlight]</value>
@@ -3208,6 +3469,7 @@
         <param name="info_musicduration">false</param>
         <param name="info_musiccodecs">false</param>
         <param name="info_codecs">false</param>
+		<param name="info_language">false</param>
         <param name="info_providers">false</param>
         <definition>
 
@@ -3233,6 +3495,11 @@
                 <include content="Info_Codecs">
                     <param name="container">$PARAM[container]</param>
                     <param name="visible">!$PARAM[info_musiccodecs] + $PARAM[info_codecs]</param>
+                </include>
+				
+				<include content="Info_Language">
+                    <param name="container">$PARAM[container]</param>
+                    <param name="visible">!$PARAM[info_musiccodecs] + $PARAM[info_codecs] + $PARAM[info_language] + [Skin.String(Furniture.CodecStyle,Colour) | Skin.String(Furniture.CodecStyle,Monochrome)] + !Skin.String(Furniture.CodecStyle,Basic)</param>
                 </include>
 
                 <include content="Info_Providers">
@@ -3269,6 +3536,7 @@
                 <param name="container">$PARAM[container]</param>
                 <param name="info_providers">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode)] + !String.IsEmpty(Container(99950).ListItem.Property(Provider.1.Icon)) + Skin.HasSetting(Furniture.ProvidersCodecs) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
                 <param name="info_codecs">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.VideoCodec) | !String.IsEmpty($PARAM[container]ListItem.AudioCodec)] + Skin.HasSetting(Furniture.ProvidersCodecs) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
+                <param name="info_language">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.1)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.1))] + Skin.HasSetting(Furniture.ProvidersCodecs) + Skin.HasSetting(Furniture.LanguageFlags) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
                 <param name="info_musiccodecs">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [!String.IsEmpty($PARAM[container]ListItem.MusicChannels) | !String.IsEmpty($PARAM[container]ListItem.SampleRate)] + Skin.HasSetting(Furniture.ProvidersCodecs) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
                 <param name="info_watchedepisodes">[[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season)] + !Skin.HasSetting(Furniture.DisablePlayCounts) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
                 <param name="info_playcount">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>

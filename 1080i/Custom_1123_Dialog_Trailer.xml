@@ -2,11 +2,15 @@
 <window type="dialog" id="1123">
     <defaultcontrol always="true">9000</defaultcontrol>
     <onload condition="String.IsEmpty(Window(Home).Property(PlayTrailer))">Close</onload>
+	<onload condition="String.IsEmpty(Window(Home).Property(PlayTrailerTitle))">SetProperty(PlayTrailerTitle,$LOCALIZE[20410],Home)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + Player.HasVideo + !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)">Action(Stop)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
     <onunload>ClearProperty(TrailerFullscreen,1123)</onunload>
     <onunload condition="Player.HasVideo + [Skin.HasSetting(Background.DisableVideo) | !Skin.HasSetting(Trailers.EnableAutoPlayback.Info) | !Window.IsVisible(DialogVideoInfo.xml)]">Action(Stop)</onunload>
-    <controls>
+    <onload>SetProperty(TMDbHelper.ContextMenu,True)</onload>
+	<controls>
+	
+		<include>Dialog_Dim_Overlay</include>
 
         <control type="group">
             <include>Dimension_DialogFullMenu</include>
@@ -75,7 +79,7 @@
 
                 <!-- Header -->
                 <include content="Dialog_Head">
-                    <param name="label">$LOCALIZE[20410]</param>
+                    <param name="label">$INFO[Window(Home).Property(PlayTrailerTitle)]</param>
                 </include>
                 <include>Dialog_Head_CloseButton</include>
 
