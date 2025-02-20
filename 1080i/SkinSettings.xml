@@ -439,17 +439,54 @@
                             <visible>Container(3).HasFocus(3)</visible>
                         </include>
 
-                        <include content="Settings_Label" description="Content">
+                        <include content="Settings_Label" description="Home">
                             <param name="id">4021</param>
+                            <label>$LOCALIZE[10000]</label>
+                            <visible>Container(3).HasFocus(4)</visible>
+                        </include>
+						
+						<include content="Settings_Button" description="Home OnUp">
+                            <param name="dialog">true</param>
+                            <param name="id">4025</param>
+                            <param name="control">button</param>
+                            <label>$LOCALIZE[15217] ($LOCALIZE[31007])</label>
+                            <label2>$VAR[Label_Home_OnUp]</label2>
+                            <visible>Container(3).HasFocus(4)</visible>
+							<visible>Skin.HasSetting(SideMenu.EnableSearchAndOptions) + !Skin.String(Home.SideMenuCollapse,Topbar)</visible>
+                            <onclick>Skin.ToggleSetting(Home.OnUp.Hub)</onclick>
+                        </include>
+                        <include content="Settings_Button" description="Home OnBack">
+                            <param name="dialog">true</param>
+                            <param name="id">4029</param>
+                            <param name="control">button</param>
+                            <label>$LOCALIZE[15217] ($LOCALIZE[31166])</label>
+                            <label2>$VAR[Label_Settings_NavigationHomeBack]</label2>
+                            <visible>Container(3).HasFocus(4)</visible>
+                            <onclick>Skin.ToggleSetting(Navigation.DisableOptionsOnBack)</onclick>
+                        </include>                       
+                        <include content="Settings_Button" description="Home Scroll Between">
+                            <param name="dialog">true</param>
+                            <param name="id">4030</param>
+                            <param name="control">radiobutton</param>
+                            <label>$LOCALIZE[31253]</label>
+                            <visible>Container(3).HasFocus(4)</visible>
+                            <visible>Skin.HasSetting(Hub.Home.DisableSubmenu)</visible>
+                            <visible>!Skin.HasSetting(Hub.Home.WidgetSelector)</visible>
+                            <onclick>Skin.ToggleSetting(Hub.Home.DisableMoveBetweenGroups)</onclick>
+                            <selected>!Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)</selected>
+                        </include>
+						
+						<include content="Settings_Label" description="Content">
+                            <param name="id">4022</param>
                             <label>$LOCALIZE[31324]</label>
                             <visible>Container(3).HasFocus(4)</visible>
                         </include>
 
-                        <include content="Settings_Button" description="OnBack">
+                        <include content="Settings_Button" description="Content OnBack">
                             <param name="dialog">true</param>
-                            <param name="id">4025</param>
+                            <param name="id">4031</param>
                             <param name="control">button</param>
-                            <label>$LOCALIZE[31324] > $LOCALIZE[31166]</label>
+                            <label>$LOCALIZE[15217] ($LOCALIZE[31166])</label>
                             <label2>$VAR[Label_Settings_NavigationOnBack]</label2>
                             <visible>Container(3).HasFocus(4)</visible>
                             <onclick condition="$EXP[Exp_Navigation_OnMenu]">Skin.SetString(Navigation.OnBack,Previous)</onclick>
@@ -458,49 +495,19 @@
                             <onclick condition="$EXP[Exp_Navigation_OnParent] + $EXP[Exp_HomeMenu_IsTopBar]">Skin.SetString(Navigation.OnBack,Previous)</onclick>
                         </include>
 
-                        <include content="Settings_Button" description="OnDown">
+                        <include content="Settings_Button" description="Content OnDown">
                             <param name="dialog">true</param>
-                            <param name="id">4030</param>
+                            <param name="id">4032</param>
                             <param name="control">button</param>
-                            <label>$LOCALIZE[31324] > $LOCALIZE[31008]</label>
+                            <label>$LOCALIZE[15217] ($LOCALIZE[31008])</label>
                             <label2>$INFO[Skin.String(Navigation.Global.OnDown)]</label2>
                             <visible>Container(3).HasFocus(4)</visible>
                             <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Path_PreSelect_Nav_OnDown],heading=$LOCALIZE[31324] > $LOCALIZE[31008],separator=||,list=$LOCALIZE[33063]||$LOCALIZE[31148]||$LOCALIZE[587]||$LOCALIZE[31446],"executebuiltin_0=Skin.SetString(Navigation.Global.OnDown,Options)","executebuiltin_1=Skin.SetString(Navigation.Global.OnDown,Explore)","executebuiltin_2=Skin.SetString(Navigation.Global.OnDown,Filter)","executebuiltin_3=Skin.SetString(Navigation.Global.OnDown,Bump)")</onclick>
-                        </include>	
-                        
-						<include content="Settings_Button" description="Home OnUp">
-                            <param name="dialog">true</param>
-                            <param name="id">4034</param>
-                            <param name="control">button</param>
-                            <label>$LOCALIZE[10000] > $LOCALIZE[31007]</label>
-                            <label2>$VAR[Label_Home_OnUp]</label2>
-                            <visible>Container(3).HasFocus(4)</visible>
-							<visible>Skin.HasSetting(SideMenu.EnableSearchAndOptions) + !Skin.String(Home.SideMenuCollapse,Topbar)</visible>
-                            <onclick>Skin.ToggleSetting(Home.OnUp.Hub)</onclick>
-                        </include>
-                        <include content="Settings_Button" description="Home OnBack">
-                            <param name="dialog">true</param>
-                            <param name="id">4035</param>
-                            <param name="control">button</param>
-                            <label>$LOCALIZE[10000] > $LOCALIZE[31166]</label>
-                            <label2>$VAR[Label_Settings_NavigationHomeBack]</label2>
-                            <visible>Container(3).HasFocus(4)</visible>
-                            <onclick>Skin.ToggleSetting(Navigation.DisableOptionsOnBack)</onclick>
-                        </include>                       
-                        <include content="Settings_Button" description="Home Scroll Between">
-                            <param name="dialog">true</param>
-                            <param name="id">4029</param>
-                            <param name="control">radiobutton</param>
-                            <label>$LOCALIZE[10000] > $LOCALIZE[31253]</label>
-                            <visible>Container(3).HasFocus(4)</visible>
-                            <visible>Skin.HasSetting(Hub.Home.DisableSubmenu)</visible>
-                            <visible>!Skin.HasSetting(Hub.Home.WidgetSelector)</visible>
-                            <onclick>Skin.ToggleSetting(Hub.Home.DisableMoveBetweenGroups)</onclick>
-                            <selected>!Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)</selected>
-                        </include>
+                        </include>	                      
+						
 						<include content="Settings_Button" description="Library Filter Wall">
                             <param name="dialog">true</param>
-                            <param name="id">4032</param>
+                            <param name="id">4033</param>
                             <param name="control">radiobutton</param>
                             <label>$LOCALIZE[587] > $LOCALIZE[31167]</label>
                             <visible>Container(3).HasFocus(4)</visible>
@@ -510,7 +517,7 @@
                         </include>
                         <include content="Settings_Button" description="Touch Mode / Disable Peek">
                             <param name="dialog">true</param>
-                            <param name="id">4033</param>
+                            <param name="id">4034</param>
                             <param name="control">radiobutton</param>
                             <label>$LOCALIZE[31289] ([LOWERCASE]$LOCALIZE[31292][/LOWERCASE])</label>
                             <visible>Container(3).HasFocus(4)</visible>
@@ -726,7 +733,17 @@
                             <param name="id">6013</param>
                             <label>$LOCALIZE[31482]</label>
                             <visible>Container(3).HasFocus(6)</visible>
-                        </include>														
+                        </include>
+						<include content="Settings_Button" description="Select trailer source">
+                            <param name="dialog">true</param>
+                            <param name="id">6022</param>
+                            <param name="control">button</param>
+                            <label>$LOCALIZE[424] [LOWERCASE]$LOCALIZE[20410] $LOCALIZE[21870][/LOWERCASE]</label>
+							<label2>$VAR[Label_Trailer_Soruce]</label2>
+                            <visible>Container(3).HasFocus(6)</visible>
+                            <onclick condition="!System.HasAddon(plugin.video.imdb.trailers)">InstallAddon(plugin.video.imdb.trailers)</onclick>                                                        
+                            <onclick condition="System.HasAddon(plugin.video.imdb.trailers)">Skin.ToggleSetting(Trailers.Source.IMDb)</onclick>                                                        
+                        </include>	
 						<include content="Settings_Button" description="Play trailer auto">
                             <param name="dialog">true</param>
                             <param name="id">6014</param>

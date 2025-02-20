@@ -4,7 +4,8 @@
     <onload condition="String.IsEmpty(Window(Home).Property(PlayTrailer))">Close</onload>
 	<onload condition="String.IsEmpty(Window(Home).Property(PlayTrailerTitle))">SetProperty(PlayTrailerTitle,$LOCALIZE[20410],Home)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + Player.HasVideo + !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)">Action(Stop)</onload>
-    <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + !Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($INFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
     <onunload>ClearProperty(TrailerFullscreen,1123)</onunload>
     <onunload condition="Player.HasVideo + [Skin.HasSetting(Background.DisableVideo) | !Skin.HasSetting(Trailers.EnableAutoPlayback.Info) | !Window.IsVisible(DialogVideoInfo.xml)]">Action(Stop)</onunload>
     <onload>SetProperty(TMDbHelper.ContextMenu,True)</onload>
