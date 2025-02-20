@@ -158,6 +158,16 @@
 		<value condition="!Skin.HasSetting(Background.DisableVideo) + Skin.HasSetting(Trailers.EnableAutoPlayback)">$LOCALIZE[19171] [LOWERCASE]$LOCALIZE[31482] $LOCALIZE[21408][/LOWERCASE] X [LOWERCASE]$LOCALIZE[31130][/LOWERCASE]</value>
 		<value>$LOCALIZE[19171] [LOWERCASE]$LOCALIZE[31482] $LOCALIZE[21408][/LOWERCASE] X [LOWERCASE]$LOCALIZE[31130][/LOWERCASE] ($LOCALIZE[14116])</value>
 	</variable>
+	
+	<variable name="Label_Trailer_Soruce">
+		<value condition="Skin.HasSetting(Trailers.Source.IMDb)">IMDb ($LOCALIZE[31068])</value>
+		<value>YouTube ($LOCALIZE[571])</value>
+	</variable>
+	
+	<variable name="Trailer_IMDbID_Switch">
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),episode) | !String.IsEmpty(Container(99950).ListItem.Episode)">$INFO[Container(99950).ListItem.Property(tvshow.imdb_id)]</value>
+		<value>$INFO[Container(99950).ListItem.Property(imdb_id)]</value>		
+	</variable>	
 
 	<variable name="Label_Footer_LanguageCount">
 		<value condition="[!String.IsEmpty(Container(99950).ListItem.Property(AudioLanguage.1)) + !String.IsEmpty(Container(99950).ListItem.Property(AudioLanguage.2)) + !String.IsEmpty(Container(99950).ListItem.Property(AudioLanguage.3)) + !String.IsEmpty(Container(99950).ListItem.Property(AudioLanguage.4)) + !String.IsEmpty(Container(99950).ListItem.Property(AudioLanguage.5))] + String.IsEqual(Container(99950).ListItem.Property(AudioLanguage.1),Container(99950).ListItem.Property(AudioLanguage.2)) + String.IsEqual(Container(99950).ListItem.Property(AudioLanguage.1),Container(99950).ListItem.Property(AudioLanguage.3)) + String.IsEqual(Container(99950).ListItem.Property(AudioLanguage.1),Container(99950).ListItem.Property(AudioLanguage.4)) + String.IsEqual(Container(99950).ListItem.Property(AudioLanguage.1),Container(99950).ListItem.Property(AudioLanguage.5))">x5</value>
@@ -1267,14 +1277,14 @@
 		<value condition="String.Contains(ListItem.FileNameAndPath,atmos) + String.IsEqual(ListItem.AudioCodec,truehd)">TRUEHD ATMOS</value>
 		<value condition="String.Contains(ListItem.FileNameAndPath,atmos) + String.IsEqual(ListItem.AudioCodec,eac3)">DOLBY ATMOS</value>
 		<value condition="String.IsEqual(ListItem.AudioCodec,truehd)">TRUEHD</value>
-		<value condition="String.Contains(Container(99950).ListItem.Property(base_filenameandpath),atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),truehd)">TRUEHD ATMOS</value>
-		<value condition="String.Contains(Container(99950).ListItem.Property(base_filenameandpath),atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),eac3)">DOLBY ATMOS</value>
+		<value condition="String.Contains(Container(99950).ListItem.FileNameAndPath,atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),truehd)">TRUEHD ATMOS</value>
+		<value condition="String.Contains(Container(99950).ListItem.FileNameAndPath,atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),eac3)">DOLBY ATMOS</value>
 		<value condition="String.Contains(Container(99950).ListItem.Property(base_audiocodec),truehd)">TRUEHD</value>
 			
 		<!-- DTS -->
 		<value condition="[String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts-x)] + String.IsEqual(ListItem.AudioCodec,dtshd_ma)">DTS-X</value>
 		<value condition="String.Contains(ListItem.AudioCodec,dtshd)">DTS-HD</value>
-		<value condition="[String.Contains(Container(99950).ListItem.Property(base_filenameandpath),dtsx) | String.Contains(Container(99950).ListItem.Property(base_filenameandpath),dts-x)] + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),dtshd_ma)">DTS-X</value>
+		<value condition="[String.Contains(Container(99950).ListItem.FileNameAndPath,dtsx) | String.Contains(Container(99950).ListItem.FileNameAndPath,dts-x)] + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),dtshd_ma)">DTS-X</value>
 		<value condition="String.Contains(Container(99950).ListItem.Property(base_audiocodec),dtshd)">DTS-HD</value>
 		
 		<!-- OTHERS -->
@@ -1960,6 +1970,15 @@
         <value condition="!String.IsEmpty(Container(99950).ListItem.Property(rottentomatoes_consensus)) | !String.IsEmpty(Container(99950).ListItem.Property(Awards))">[B][COLOR=main_fg_90]$LOCALIZE[31024][/COLOR][/B][CR]$INFO[Container(99950).ListItem.Property(rottentomatoes_consensus),, ]$INFO[Container(99950).ListItem.Property(rottentomatoes_reviewsfresh),$LOCALIZE[31054] , ]$INFO[Container(99950).ListItem.Property(rottentomatoes_reviewstotal),$LOCALIZE[31055] , $LOCALIZE[31056] ]$INFO[Container(99950).ListItem.Property(Awards_Won),[CR][CR],]</value>
         <value condition="!String.IsEmpty(ListItem.AddonNews)">[B][COLOR=main_fg_90]$LOCALIZE[24036][/COLOR][/B][CR]$INFO[ListItem.AddonNews]</value>
     </variable>
+	
+	<variable name="Label_Overlay_FileDetails">
+        <value condition="!String.IsEmpty(Container.ListItem.PlayCount)">$INFO[Container.ListItem.PlayCount,[CR]$LOCALIZE[16102] , $LOCALIZE[31183]. ]$INFO[Container.ListItem.LastPlayed,$LOCALIZE[568] ,]$INFO[Container.ListItem.DateAdded,[CR]$LOCALIZE[31200] ,]$INFO[Container.ListItem.FileNameAndPath,[CR],]</value>
+        <value>$INFO[Container.ListItem.LastPlayed,[CR]$LOCALIZE[568] ,]$INFO[Container.ListItem.DateAdded,[CR]$LOCALIZE[31200] ,]$INFO[Container.ListItem.FileNameAndPath,[CR],]</value>
+    </variable>
+
+    <variable name="Label_Overlay_Providers">
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Provider.1.Name))">$INFO[Container(99950).ListItem.Property(Provider.1.Name)]$INFO[Container(99950).ListItem.Property(Provider.2.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.3.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.4.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.5.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.6.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.7.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.8.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.9.Name), • ,]$INFO[Container(99950).ListItem.Property(Provider.10.Name), • ,]</value>
+    </variable>
 
     <variable name="Label_Overlay_Directing">
         <value condition="!String.IsEmpty(Container(99950).ListItem.Property(Director.1.Name))">$INFO[Container(99950).ListItem.Property(Director.1.Name)]$INFO[Container(99950).ListItem.Property(Director.1.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.2.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.2.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.3.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.3.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.4.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.4.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.5.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.5.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.6.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.6.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.7.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.7.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.8.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.8.Role), (,)]$INFO[Container(99950).ListItem.Property(Director.9.Name),[CR],]$INFO[Container(99950).ListItem.Property(Director.9.Role), (,)]</value>
@@ -1999,7 +2018,7 @@
 
     <variable name="Label_Overlay_PlotBox">
         <value condition="!String.IsEmpty(Window.Property(ReviewsActive))">$INFO[Container(5004).ListItem.Label,[B][COLOR=dialog_fg_90],[/COLOR][/B][CR]]$INFO[Container(5004).ListItem.Plot]$INFO[Container(5004).ListItem.Property(plotlabel)]</value>
-        <value>$INFO[ListItem.Tagline,[B][COLOR=dialog_fg_90]$LOCALIZE[202][/COLOR][/B][CR],[CR][CR]]$VAR[Label_Plot,[B][COLOR=dialog_fg_90]$LOCALIZE[31028][/COLOR][/B][CR],]$VAR[Label_Overlay_Premiered,[CR][CR],]$VAR[Label_Overlay_Critics,[CR][CR],]$VAR[Label_Overlay_Directing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31038][/COLOR][/B][CR],]$VAR[Label_Overlay_Writing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31039][/COLOR][/B][CR],]$VAR[Label_Overlay_TopCast,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31076][/COLOR][/B][CR],]$VAR[Label_Overlay_Production,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31383][/COLOR][/B][CR],]$VAR[Label_Overlay_Sound,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31052][/COLOR][/B][CR],]$VAR[Label_Overlay_ArtDepartment,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31072][/COLOR][/B][CR],]$VAR[Label_Overlay_Cinematography,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31067][/COLOR][/B][CR],]$VAR[Label_Overlay_Editing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31075][/COLOR][/B][CR],]$INFO[Container(99950).ListItem.Property(Awards),[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31064][/COLOR][/B][CR],]$VAR[Label_Overlay_AwardsWon]$VAR[Label_Overlay_AwardsNominated]</value>
+        <value>$INFO[ListItem.Tagline,[B][COLOR=dialog_fg_90]$LOCALIZE[202][/COLOR][/B][CR],[CR][CR]]$VAR[Label_Plot,[B][COLOR=dialog_fg_90]$LOCALIZE[31028][/COLOR][/B][CR],]$VAR[Label_Overlay_Premiered,[CR][CR],]$VAR[Label_Overlay_Critics,[CR][CR],]$VAR[Label_Overlay_Directing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31038][/COLOR][/B][CR],]$VAR[Label_Overlay_Writing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31039][/COLOR][/B][CR],]$VAR[Label_Overlay_TopCast,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31076][/COLOR][/B][CR],]$VAR[Label_Overlay_Production,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31383][/COLOR][/B][CR],]$VAR[Label_Overlay_Sound,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31052][/COLOR][/B][CR],]$VAR[Label_Overlay_ArtDepartment,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31072][/COLOR][/B][CR],]$VAR[Label_Overlay_Cinematography,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31067][/COLOR][/B][CR],]$VAR[Label_Overlay_Editing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31075][/COLOR][/B][CR],]$INFO[Container(99950).ListItem.Property(Awards),[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31064][/COLOR][/B][CR],]$VAR[Label_Overlay_AwardsWon]$VAR[Label_Overlay_AwardsNominated]$VAR[Label_Overlay_Providers,[CR][CR][B][COLOR=dialog_fg_90]JustWatch[/COLOR][/B][CR],]$VAR[Label_Overlay_FileDetails,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[561] $LOCALIZE[33029][/COLOR][/B],]</value>
     </variable>
 
     <variable name="Label_Overlay_Critics">
@@ -2104,8 +2123,8 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- Option for audio and subtitle flags in left footer.
-- Cleanup some settings.		
+		<value>- Added IMDb as an alternative trailer source (will need to install the [B]IMDb Trailers[/B] add-on from the official Kodi repo).
+- Fixed PVR widget targets. 		
 - Other small bug fixes and enhancements.
 		</value>		
 	</variable>

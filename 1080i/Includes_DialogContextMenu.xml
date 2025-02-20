@@ -53,7 +53,11 @@
                         <param name="icon">special://skin/extras/icons/video.png</param>
                         <param name="visible">[!String.IsEmpty(Container(99950).ListItem.Trailer)]</param>
                         <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-playtrailer.json,use_rules)</onclick>
+                        <onclick condition="!Skin.HasSetting(Trailers.Source.IMDb)">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-playtrailer.json,use_rules)</onclick>
+                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTitle,$VAR[Label_Title],Home)</onclick>
+                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerItems,$VAR[Path_VideoInfo_Trailers],Home)</onclick>
+                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,plugin://plugin.video.imdb.trailers/?action=play_id&imdb=$VAR[Trailer_IMDbID_Switch],Home)</onclick>
+                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">ActivateWindow(1123)</onclick>
                     </include>
                     <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs] + Window.IsMedia">
                         <param name="id">07</param>
