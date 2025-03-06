@@ -27,6 +27,227 @@
             <include>View_MediaList_Landscape</include>
         </include>
     </include>
+	
+	<!-- Combo List -->
+    <include name="View_524_ComboList">
+        <include content="View_ComboList_Include">
+            <param name="id">524</param>
+            <param name="comboid">526</param>
+            <param name="viewtype_label">Combined List</param>
+            <param name="visible">$EXP[Exp_View_524]</param>
+        </include>
+    </include>
+	
+	<variable name="View_524_Content">
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(524).ListItem.FolderPath) + Container(524).ListItem.IsFolder">$INFO[Container(524).ListItem.FolderPath]</value>
+        <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
+    </variable>
+	
+	<include name="View_ComboList_Loading_Item">
+        <control type="group">
+            <top>40</top>
+            <left>40</left>
+            <height>233.33</height>
+            <control type="group">
+                <width>414.81</width>
+                <include content="Object_ItemBack">
+                    <param name="shadow_colordiffuse">shadow_soft</param>
+                    <param name="colordiffuse">main_fg_12</param>
+                </include>
+            </control>
+
+            <control type="group">
+                <left>414.81</left>
+                <top>-5</top>
+                <height>80</height>
+                <control type="group">
+					<visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                    <left>40</left>
+                    <top>20</top>
+                    <height>24</height>
+                    <width>40%</width>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <include content="Dimension_Padding">
+                            <param name="pad">-20</param>
+                        </include>
+                        <bordersize>20</bordersize>
+                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
+                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
+                    </include>
+                </control>
+				
+				<control type="group">
+					<visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                    <left>40</left>
+                    <top>20</top>
+                    <height>24</height>
+                    <width>24%</width>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <include content="Dimension_Padding">
+                            <param name="pad">-20</param>
+                        </include>
+                        <bordersize>20</bordersize>
+                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
+                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
+                    </include>
+                </control>
+				
+                <control type="group">
+					<visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                    <left>40</left>
+                    <top>70</top>
+                    <height>135</height>
+                    <width>80%</width>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <include content="Dimension_Padding">
+                            <param name="pad">-20</param>
+                        </include>
+                        <bordersize>20</bordersize>
+                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
+                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
+                    </include>
+                </control>
+				
+				<control type="group">
+					<visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                    <left>40</left>
+                    <top>70</top>
+                    <height>135</height>
+                    <width>64%</width>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <include content="Dimension_Padding">
+                            <param name="pad">-20</param>
+                        </include>
+                        <bordersize>20</bordersize>
+                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
+                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
+                    </include>
+                </control>
+            </control>
+        </control>
+    </include>
+
+    <include name="View_ComboList_Include">
+        <param name="width">620</param>
+        <definition>
+
+            <control type="group">
+                <visible>Control.IsVisible($PARAM[id])</visible>
+                <include>Dimension_Info</include>
+
+                <nested />
+
+                <control type="group">				
+                    <width>$PARAM[width]</width>
+                    <top>225</top>					
+					<include content="Object_Bottom" condition="![$EXP[Exp_View_524_Include] + Skin.HasSetting(Disable.ComboListDetailedView)]">
+						<param name="bottom">200</param>
+					</include>					
+					
+					<animation effect="slide" start="0" end="0,177" time="400" tween="cubic" easing="out" condition="![$EXP[Exp_View_524] + Skin.HasSetting(Disable.ComboListDetailedView)]" reversible="false">Conditional</animation>
+
+                    <include content="List_DialogSelect">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="textcolor">main_fg</param>
+                        <param name="control">list</param>
+                        <param name="itemlayout_include">Layout_MediaList</param>
+                        <param name="variation">true</param>
+
+                        <left>-20</left>
+                        <right>-80</right>
+
+                        <onleft>SetProperty(List.ViewContainer,50)</onleft>
+                        <onleft>SetFocus(303,1,absolute)</onleft>
+                        
+                        <onright>$PARAM[comboid]</onright>
+
+                        <include content="Action_View_Movement_OnBack">
+                            <param name="id">$PARAM[id]</param>
+                            <param name="onback">True</param>
+                        </include>
+
+                        <visible>$PARAM[visible]</visible>
+                        <viewtype label="$PARAM[viewtype_label]">list</viewtype>
+						<top>15</top>
+                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                        <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                    </include>
+                </control>
+
+                <control type="group">
+                    <left>$PARAM[width]</left>
+                    <control type="group">
+					
+                        <top>-60</top>
+                        <bottom>-60</bottom>
+                        <left>40</left>
+                        <right>-100</right>
+
+                        <include content="List_DialogSelect">
+                            <param name="id">$PARAM[comboid]</param>
+                            <param name="textcolor">main_fg</param>
+                            <param name="control">fixedlist</param>
+                            <param name="itemlayout_include">Layout_MediaList_Detailed</param>
+                            <param name="variation">7</param>
+
+                            <param name="item_height">293.33</param>
+                            <param name="misc">414.81</param>                           
+
+                            <include content="Action_View_Movement_OnBack">
+                                <param name="id">$PARAM[comboid]</param>
+                                <param name="onback">[Integer.IsEqual(Container($PARAM[comboid]).CurrentItem,1)]</param>
+                                <param name="backid">63</param>
+                                <param name="always">true</param>
+                            </include>
+
+                            <animation type="Conditional" reversible="false" condition="Container($PARAM[comboid]).IsUpdating">
+                                <effect type="fade" start="100" end="0" time="200" delay="600" />
+                            </animation>
+
+                            <content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$VAR[View_$PARAM[id]_Content]</content>
+
+                            <onleft>$PARAM[id]</onleft>
+                            <onright condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onright>
+							<onright condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</onright>
+							<onright condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onright>
+							<onright condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onright>
+
+                            <focusposition>1</focusposition>
+                            <movement>1</movement>
+                            <pagecontrol>60</pagecontrol>
+							
+                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                            <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                        </include>
+
+
+                        <control type="grouplist">
+                            <top>-10</top>
+                            <left>20</left>
+                            <orientation>vertical</orientation>
+
+                            <animation type="Conditional" reversible="false" condition="Container($PARAM[comboid]).IsUpdating">
+                                <effect type="fade" start="0" end="100" time="200" delay="600" />
+                            </animation>
+                            <animation type="Conditional" reversible="false" condition="!Container($PARAM[comboid]).IsUpdating">
+                                <effect type="fade" start="100" end="0" time="0" delay="0" />
+                            </animation>
+
+                            <itemgap>20</itemgap>
+
+                            <include>View_ComboList_Loading_Item</include>
+                            <include>View_ComboList_Loading_Item</include>
+                            <include>View_ComboList_Loading_Item</include>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
 
     <include name="View_MediaList_Square">
         <control type="group">

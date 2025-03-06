@@ -57,11 +57,14 @@
         <include>Search_Filter_Discover</include>
         <include>Search_Filter_ListType</include>
     </include>
+	
+	<include name="Search_Filter_1185">
+        <include>Search_Filter_Selector</include>        
+        <include>Search_Filter_ListType</include>
+    </include>
 
     <include name="Search_Filter_MouseButton_OnClick">
-        <onclick condition="Window.IsVisible(1185)">ActivateWindow(1105)</onclick>
-        <onclick condition="Window.IsVisible(1185)">SetFocus(64)</onclick>
-        <onclick condition="Window.IsVisible(1105)">SetFocus(8000)</onclick>
+        <onclick>SetFocus(8000)</onclick>                
         <onclick condition="Window.IsMedia">SetFocus(64)</onclick>
     </include>
 
@@ -103,20 +106,29 @@
                         <orientation>vertical</orientation>
                         <onleft>8000</onleft>
                         <onback>8000</onback>
-                        <onclick>SetFocus(5099,$INFO[Container(5098).ListItem.CurrentItem],absolute)</onclick>
+						<onclick>SetProperty(TMDbHelper.WidgetContainer,$INFO[ListItem.Property(widget_id)])</onclick>
+                        <onclick condition="Window.IsVisible(1105)">SetFocus(5099,$INFO[Container(5098).ListItem.CurrentItem],absolute)</onclick>                        
+                        <onclick condition="Window.IsVisible(1185)">SetFocus(5097,$INFO[Container(5098).ListItem.CurrentItem],absolute)</onclick>                        
                         <onclick condition="!Integer.IsEqual(Container(5098).NumItems,Container(5098).ListItem.CurrentItem)">Action(Left)</onclick>
                         <onclick>SetFocus(8000)</onclick>
-                        <content>
-                            <include>Search_Filter_Selector_ContentItems</include>
+                        <content> 
+							<item>
+								<label>$LOCALIZE[593]</label>
+								<property name="guid"></property>
+								<property name="main_guid">$INFO[Container(5097).ListItem.Property(guid)]</property>								
+								<visible>Window.IsVisible(1185)</visible>
+							</item>
+                            <include content="Search_Filter_Selector_ContentItems" condition="Window.IsVisible(1105)" />
+							<include content="skinvariables-searchmenu-selector" condition="Window.IsVisible(1185)" />
                         </content>
                     </include>
                 </control>
             </include>
 
         </control>
-    </include>
+    </include>		
 
-    <include name="Search_Filter_Selector_ContentItems">
+    <include name="Search_Filter_Selector_ContentItems">		
         <item>
             <label>$LOCALIZE[342] &amp; $LOCALIZE[20343]</label>
             <property name="target">videos</property>
@@ -124,7 +136,7 @@
             <property name="listid">$NUMBER[52]</property>
             <property name="main_guid">$INFO[Container(5099).ListItem.Property(guid)]</property>
             <property name="discover">true</property>
-        </item>
+        </item>		
         <item>
             <label>$LOCALIZE[342]</label>
             <property name="target">videos</property>
@@ -165,7 +177,7 @@
             <property name="listid">$NUMBER[52]</property>
             <property name="main_guid">$INFO[Container(5099).ListItem.Property(guid)]</property>
             <visible>Library.HasContent(TVShows)</visible>
-        </item>
+        </item>		
     </include>
 
     <include name="Search_Filter_Selector">
@@ -221,6 +233,12 @@
                         <onback>68</onback>
                         <include>Dimension_Dialog_Body_Group</include>
                         <content>
+							<item>
+								<label>$LOCALIZE[31026]</label>
+								<label2>$VAR[Label_Filter_Hub_SearchDiscover_Switch]</label2>
+								<onclick condition="Window.IsVisible(1185)">ActivateWindow(1105)</onclick>
+								<onclick condition="Window.IsVisible(1105)">ActivateWindow(1185)</onclick>
+							</item>
                             <item>
                                 <label>$LOCALIZE[192]</label>
                                 <onclick>SetFocus(9099)</onclick>
@@ -250,11 +268,12 @@
                                 <onclick>ClearProperty(SearchDiscover.SortOrder)</onclick>
                                 <onclick>Skin.Reset(SearchDiscover.VoteLow)</onclick>
                                 <onclick>Skin.Reset(SearchDiscover.ItemLimit)</onclick>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
 
                             <item>
-                                <label>$LOCALIZE[456]</label>
-                                <label2>$INFO[Container(5099).ListItem.Label]</label2>
+                                <label>$VAR[Label_Filter_ModeLabel1_Switch]</label>
+                                <label2>$VAR[Label_Filter_ModeLabel2_Switch]</label2>
                                 <onclick>SetFocus(5098)</onclick>
                             </item>
                             <item>
@@ -263,6 +282,7 @@
                                 <onclick>SetFocus(9099)</onclick>
                                 <onclick>Action(Select)</onclick>
                                 <onclick>SetFocus(8000)</onclick>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[515]</label>
@@ -270,6 +290,7 @@
                                 <onclick>SetProperty(SearchDiscover.FilterLabel,Genre)</onclick>
                                 <onclick>SetFocus(8900)</onclick>
                                 <visible>String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[572]</label>
@@ -277,6 +298,7 @@
                                 <onclick>SetProperty(SearchDiscover.FilterLabel,Studio)</onclick>
                                 <onclick>SetFocus(8900)</onclick>
                                 <visible>String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[20339]</label>
@@ -284,6 +306,7 @@
                                 <onclick>SetProperty(SearchDiscover.FilterLabel,Director)</onclick>
                                 <onclick>SetFocus(8900)</onclick>
                                 <visible>String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[345]</label>
@@ -293,6 +316,7 @@
                                 <onclick>ClearProperty(SearchDiscover.YearHigh)</onclick>
                                 <onclick>ActivateWindow(1155)</onclick>
                                 <visible>String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[563]</label>
@@ -300,6 +324,7 @@
                                 <onclick>ClearProperty(SearchDiscover.RatingLow,1105)</onclick>
                                 <onclick>ActivateWindow(1156)</onclick>
                                 <visible>String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
 
                             <!-- TMDb Discover -->
@@ -308,12 +333,14 @@
                                 <label2>$INFO[Window.Property(SearchDiscover.GenreLabel)]</label2>
                                 <onclick>ActivateWindow(1151)</onclick>
                                 <visible>!String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[15225]</label>
                                 <label2>$INFO[Window.Property(SearchDiscover.ProviderLabel)]</label2>
                                 <onclick>ActivateWindow(1152)</onclick>
                                 <visible>!String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[31051]</label>
@@ -321,12 +348,14 @@
                                 <onclick>SetProperty(SearchDiscover.PersonSearch,People)</onclick>
                                 <onclick>ActivateWindow(1153)</onclick>
                                 <visible>!String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[31179]</label>
                                 <label2>$INFO[Window.Property(SearchDiscover.KeywordLabel)]</label2>
                                 <onclick>ActivateWindow(1157)</onclick>
                                 <visible>!String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[345]</label>
@@ -336,6 +365,7 @@
                                 <onclick>ClearProperty(SearchDiscover.YearHigh)</onclick>
                                 <onclick>ActivateWindow(1155)</onclick>
                                 <visible>!String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[563]</label>
@@ -343,6 +373,7 @@
                                 <onclick>ClearProperty(SearchDiscover.RatingLow,1105)</onclick>
                                 <onclick>ActivateWindow(1156)</onclick>
                                 <visible>!String.IsEmpty(Container(5099).ListItem.Property(discover))</visible>
+								<visible>Window.IsVisible(1105)</visible>
                             </item>
                         </content>
                     </include>
