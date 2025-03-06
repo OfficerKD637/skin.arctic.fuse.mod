@@ -126,10 +126,10 @@
 
     <variable name="Label_Settings_SideMenuCollapse">
         <value condition="$EXP[Exp_HomeMenu_IsTopBar]">$LOCALIZE[31352]</value>
-        <value condition="Skin.String(Home.SideMenuCollapse,Always)">$LOCALIZE[34123]</value>
+        <value condition="Skin.String(Home.SideMenuCollapse,Always)">$LOCALIZE[34122]</value>
         <value condition="Skin.String(Home.SideMenuCollapse,Library)">$LOCALIZE[14211]</value>
         <value condition="Skin.String(Home.SideMenuCollapse,Hubs)">$LOCALIZE[14022]</value>
-        <value condition="Skin.String(Home.SideMenuCollapse,Never)">$LOCALIZE[34122]</value>
+        <value condition="Skin.String(Home.SideMenuCollapse,Never)">$LOCALIZE[34123]</value>
     </variable>
 	
 	<variable name="Label_Discover_Style">
@@ -697,6 +697,11 @@
         <value condition="!Skin.HasSetting(Views.UseHalfPVRGuide)">$LOCALIZE[10036]</value>
         <value>$LOCALIZE[31137]</value>
     </variable>
+	
+	<variable name="Label_Setting_ComboListDetailedView">
+        <value condition="Skin.HasSetting(Disable.ComboListDetailedView)">$LOCALIZE[10036]</value>
+        <value>$LOCALIZE[31137]</value>
+    </variable>
 
     <variable name="Label_Player_Plot">
         <value condition="VideoPlayer.Content(episodes) + !String.IsEmpty(VideoPlayer.Plot) + !String.IsEmpty(VideoPlayer.Title)">$INFO[VideoPlayer.Title,, ~ ]$INFO[VideoPlayer.Plot]</value>
@@ -715,6 +720,26 @@
 		<value condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions) + !Skin.HasSetting(SideMenu.SwapSearchForDiscover)">$LOCALIZE[137]</value>
 	</variable>
 	
+	<variable name="Label_Filter_Hub_SearchDiscover_Switch">
+		<value condition="Window.IsVisible(1105)">$LOCALIZE[31066]</value>
+		<value condition="Window.IsVisible(1185)">$LOCALIZE[137]</value>		
+	</variable>
+	
+	<variable name="Label_Image_SearchDiscover_Switch">
+		<value condition="Window.IsVisible(1105)">&#xf0b0;</value>
+		<value condition="Window.IsVisible(1185)">&#xf002;</value>		
+	</variable>
+		
+	<variable name="Label_Filter_ModeLabel1_Switch">
+		<value condition="Window.IsVisible(1105)">$LOCALIZE[456]</value>
+		<value condition="Window.IsVisible(1185)">$LOCALIZE[31324]</value>
+	</variable>
+	
+	<variable name="Label_Filter_ModeLabel2_Switch">
+		<value condition="Window.IsVisible(1105)">$INFO[Container(5099).ListItem.Label]</value>
+		<value condition="Window.IsVisible(1185)">$INFO[Container(5097).ListItem.Label]</value>
+	</variable>
+		
 	<variable name="Label_Home_OnUp">
 		<value condition="!Skin.HasSetting(Home.OnUp.Hub)">$LOCALIZE[31446]</value>
 		<value condition="Skin.HasSetting(Home.OnUp.Hub)">$VAR[Label_SearchDiscover_Switch]</value>
@@ -1610,6 +1635,18 @@
     <variable name="Label_OSD_PVR_Recording">
         <value condition="PVR.IsRecordingPlayingChannel">$LOCALIZE[31160]</value>
     </variable>
+	
+	<variable name="Label_MediaList_Details_LeftLabel">
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">$INFO[ListItem.Episode,, $LOCALIZE[20453]]</value>
+        <value>$INFO[ListItem.Premiered]</value>
+    </variable>
+
+    <variable name="Label_MediaList_Details_RightLabel">
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)">$INFO[ListItem.Year]</value>
+        <value condition="!Integer.IsEqual(ListItem.Duration(h),0)">$INFO[ListItem.Duration(h),,h ]$INFO[ListItem.Duration(m),,m]</value>
+        <value condition="!String.IsEmpty(ListItem.Duration)">$INFO[ListItem.Duration(m),,m]</value>
+        <value>— ——</value>
+    </variable>
 
     <variable name="Label_MediaList_Title">
         <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
@@ -1880,6 +1917,7 @@
         <value condition="Window.IsMedia + Control.IsVisible(502)">$INFO[Container.Content,[CAPITALIZE],[/CAPITALIZE] [COLOR=main_fg_30]&gt;[/COLOR] ]$INFO[Container(502).ListItem.Label]</value>
         <value condition="Window.IsMedia + Control.IsVisible(512)">$INFO[Container.Content,[CAPITALIZE],[/CAPITALIZE] [COLOR=main_fg_30]&gt;[/COLOR] ]$INFO[Container(512).ListItem.Label]</value>
         <value condition="Window.IsMedia + Control.IsVisible(522)">$INFO[Container.Content,[CAPITALIZE],[/CAPITALIZE] [COLOR=main_fg_30]&gt;[/COLOR] ]$INFO[Container(522).ListItem.Label]</value>
+        <value condition="Window.IsMedia + Control.IsVisible(524)">$INFO[Container.Content,[CAPITALIZE],[/CAPITALIZE] [COLOR=main_fg_30]&gt;[/COLOR] ]$INFO[Container(524).ListItem.Label]</value>
 
         <!-- Playlist label -->
         <value condition="Window.IsVisible(videoplaylist)">$LOCALIZE[10025]</value>
@@ -1972,8 +2010,8 @@
     </variable>
 	
 	<variable name="Label_Overlay_FileDetails">
-        <value condition="!String.IsEmpty(Container.ListItem.PlayCount)">$INFO[Container.ListItem.PlayCount,[CR]$LOCALIZE[16102] , $LOCALIZE[31183]. ]$INFO[Container.ListItem.LastPlayed,$LOCALIZE[568] ,]$INFO[Container.ListItem.DateAdded,[CR]$LOCALIZE[31200] ,]$INFO[Container.ListItem.FileNameAndPath,[CR],]</value>
-        <value>$INFO[Container.ListItem.LastPlayed,[CR]$LOCALIZE[568] ,]$INFO[Container.ListItem.DateAdded,[CR]$LOCALIZE[31200] ,]$INFO[Container.ListItem.FileNameAndPath,[CR],]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_playcount))">$INFO[Container(99950).ListItem.Property(base_playcount),[CR]$LOCALIZE[16102] , $LOCALIZE[31183]. ]$INFO[Container(99950).ListItem.Property(base_lastplayed),$LOCALIZE[568] ,]$INFO[Container(99950).ListItem.Property(base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Container(99950).ListItem.FileNameAndPath,[CR],]</value>
+        <value>$INFO[Container(99950).ListItem.Property(base_lastplayed),[CR]$LOCALIZE[568] ,]$INFO[Container(99950).ListItem.Property(base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Container(99950).ListItem.FileNameAndPath,[CR],]</value>
     </variable>
 
     <variable name="Label_Overlay_Providers">
@@ -2123,8 +2161,9 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- Added IMDb as an alternative trailer source (will need to install the [B]IMDb Trailers[/B] add-on from the official Kodi repo).
-- Fixed PVR widget targets. 		
+		<value>- Added Combined List View (with 'Basic' and 'Detailed' options).
+- New content filter in Search hub.
+- Keep history of items when going back to original info dialog using TMDb Helper replacement.
 - Other small bug fixes and enhancements.
 		</value>		
 	</variable>

@@ -44,6 +44,7 @@
         <value condition="$EXP[Exp_View_502]">502</value>
         <value condition="$EXP[Exp_View_512]">512</value>
         <value condition="$EXP[Exp_View_522]">522</value>
+        <value condition="$EXP[Exp_View_524]">524</value>
         <value>50</value>
     </variable>
 
@@ -85,10 +86,12 @@
 
     <include name="Action_Media_Onload">
         <onload>RunScript(script.skinvariables,action=buildviews)</onload>
-        <onload>ClearProperty(MediaFilterBase)</onload>
+        <onload condition="!Control.IsVisible(524)">ClearProperty(Background.ShowOverlay,Home)</onload>
+		<onload>ClearProperty(MediaFilterBase)</onload>
         <onload>ClearProperty(MediaFilterWall)</onload>
         <onunload>ClearProperty(MediaFilterBase)</onunload>
         <onunload>ClearProperty(MediaFilterWall)</onunload>
+		<onunload>ClearProperty(Background.ShowOverlay,Home)</onunload>
         <onload>AlarmClock(refocus_window,SetFocus(50),00:00,silent)</onload>
     </include>
 
@@ -166,6 +169,7 @@
         <definition>
 		
 			<onload>RunScript(script.skinvariables,action=buildviews,no_reload)</onload>
+			<onload>ClearProperty(Background.ShowOverlay,Home)</onload>
 		
             <menucontrol>303</menucontrol>
 
@@ -323,11 +327,11 @@
 
     <include name="Action_Recommendations_OnClick">
         <oninfo>Action(Select)</oninfo>
-		<onclick>ClearProperty(TMDbHelper.Image.Override,Home)</onclick>
-        <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,return)</onclick>
+		<onclick>ClearProperty(TMDbHelper.Image.Override,Home)</onclick>		
+        <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],return)</onclick>
         <onclick>Dialog.Close(1120,true)</onclick>
         <onclick>Dialog.Close(1121,true)</onclick>
-        <onclick>Dialog.Close(1122,true)</onclick>
+        <onclick>Dialog.Close(1122,true)</onclick>		       
     </include>
 
     <variable name="Action_Recommendations_SetFocusID">
@@ -452,6 +456,9 @@
     </include>
 
     <include name="Action_VideoInfo_Main_OnRight">
+	
+		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1120)</onright>
+		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType],1120)</onright>
 	
         <onright condition="$PARAM[condition]">SetProperty(Director_Label,$VAR[Label_FromDirector],1120)</onright>
         <onright condition="$PARAM[condition]">SetProperty(Director_Image,$VAR[Image_DirectorIcon],1120)</onright>
