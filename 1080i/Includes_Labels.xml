@@ -117,13 +117,6 @@
         <value>$LOCALIZE[31314]</value>
     </variable>
 
-    <variable name="Label_Settings_InfoText_Top">
-        <value condition="System.HasVisibleModalDialog | ControlGroup(30030).HasFocus() | ControlGroup(30000).HasFocus() | ControlGroup(30040).HasFocus() | ControlGroup(30700).HasFocus() | Control.HasFocus(60)">$LOCALIZE[14116]</value>
-        <value condition="Window.IsVisible(SettingsCategory.xml) + [ControlGroup(3).HasFocus() | ControlGroup(5).HasFocus()]">$INFO[System.CurrentControl]</value>
-        <value condition="Window.IsVisible(addonbrowser) + Control.HasFocus(50)">$INFO[Container(50).ListItem.AddonName]</value>
-        <value>$LOCALIZE[14116]</value>
-    </variable>
-
     <variable name="Label_Settings_SideMenuCollapse">
         <value condition="$EXP[Exp_HomeMenu_IsTopBar]">$LOCALIZE[31352]</value>
         <value condition="Skin.String(Home.SideMenuCollapse,Always)">$LOCALIZE[34122]</value>
@@ -205,12 +198,21 @@
         <value condition="Skin.String(Furniture.BottomLeft.Enable,Always)">2</value>
         <value condition="Skin.String(Furniture.BottomLeft.Enable,Library)">1</value>
         <value>0</value>
+    </variable>	
+	
+    <variable name="Label_Settings_InfoText_Top">
+        <value condition="System.HasVisibleModalDialog | ControlGroup(30030).HasFocus() | ControlGroup(30000).HasFocus() | ControlGroup(30040).HasFocus() | ControlGroup(30700).HasFocus() | Control.HasFocus(60)">$LOCALIZE[14116]</value>
+        <value condition="Window.IsVisible(SettingsCategory.xml) + [ControlGroup(3).HasFocus() | ControlGroup(5).HasFocus()]">$INFO[System.CurrentControl]</value>
+        <value condition="Window.IsVisible(SkinSettings.xml) + [ControlGroup(3).HasFocus() | String.IsEmpty(Window.Property(InfoText.Header))]">$INFO[Container(3).ListItem.Label]</value>
+		<value condition="Window.IsVisible(addonbrowser) + Control.HasFocus(50)">$INFO[Container(50).ListItem.AddonName]</value>
+        <value>$LOCALIZE[14116]</value>
     </variable>
 
     <variable name="Label_Settings_InfoText_Sub">
         <value condition="System.HasVisibleModalDialog | ControlGroup(30030).HasFocus() | ControlGroup(30000).HasFocus() | ControlGroup(30040).HasFocus() | ControlGroup(30700).HasFocus() | Control.HasFocus(60)">$INFO[System.BuildVersion,Kodi ,]$INFO[System.AddonVersion(skin.arctic.fuse.mod), • AFMod v,]</value>
         <value condition="Window.IsVisible(SettingsCategory.xml) + [ControlGroup(3).HasFocus() | ControlGroup(5).HasFocus()]">$INFO[Control.GetLabel(6)]</value>
-        <value condition="Window.IsVisible(addonbrowser) + Control.HasFocus(50)">$INFO[Container(50).ListItem.AddonVersion,v,]$INFO[Container(50).ListItem.AddonOrigin, • ,]$INFO[Container(50).ListItem.AddonCreator, • ,]$INFO[Container(50).ListItem.AddonDescription,[CR],]</value>
+        <value condition="Window.IsVisible(SkinSettings.xml) + [ControlGroup(3).HasFocus() | String.IsEmpty(Window.Property(InfoText.Header))]">$INFO[Container(3).ListItem.Label2]</value>
+		<value condition="Window.IsVisible(addonbrowser) + Control.HasFocus(50)">$INFO[Container(50).ListItem.AddonVersion,v,]$INFO[Container(50).ListItem.AddonOrigin, • ,]$INFO[Container(50).ListItem.AddonCreator, • ,]$INFO[Container(50).ListItem.AddonDescription,[CR],]</value>
         <value>$INFO[System.BuildVersion,Kodi ,]$INFO[System.AddonVersion(skin.arctic.fuse.mod), • AFMod v,]</value>
     </variable>
 
@@ -1647,6 +1649,12 @@
         <value condition="!String.IsEmpty(ListItem.Duration)">$INFO[ListItem.Duration(m),,m]</value>
         <value>— ——</value>
     </variable>
+	
+	<variable name="Label_MediaList_Episode_Number_Title">
+		<value condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers) + !String.StartsWith(ListItem.Label,ListItem.Season) + !String.Contains(ListItem.Label,ListItem.Episode)">$VAR[Label_Plot_Episode_Number_C526,,. ]$INFO[ListItem.Label]</value>
+		<value condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">$VAR[Label_Plot_Episode_Number_C526,,. ]$INFO[ListItem.Title]</value>
+		<value>$INFO[ListItem.Label]</value>
+	</variable>
 
     <variable name="Label_MediaList_Title">
         <value condition="!String.IsEmpty(ListItem.Title)">$INFO[ListItem.Title]</value>
@@ -2161,9 +2169,9 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- Added Combined List View (with 'Basic' and 'Detailed' options).
-- New content filter in Search hub.
-- Keep history of items when going back to original info dialog using TMDb Helper replacement.
+		<value>- First donation on Ko-Fi! Big thank you to Blurayx!
+- Cleanup skin settings.
+- Autoscroll textboxes in combined list view.		
 - Other small bug fixes and enhancements.
 		</value>		
 	</variable>

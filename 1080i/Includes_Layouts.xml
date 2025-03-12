@@ -1004,8 +1004,10 @@
 						<include content="Object_SelectBox" condition="$PARAM[selected]">
 							<param name="affix">$PARAM[affix]</param>
 							<param name="indicator">true</param>
-							<param name="focusbounce">true</param>
-							<param name="listitem">$PARAM[listitem]</param>
+							<param name="focusbounce">Skin.HasSetting(Textboxes.DisableAutoscroll)</param>
+							<param name="listitem">$PARAM[listitem]</param>							
+							<animation effect="zoom" start="96.5" end="100" time="150" tween="sine" easing="inout" center="auto" reversible="false" condition="!System.IdleTime(1)">Conditional</animation>
+							<animation efffect="fade" start="20" end="100" time="150" tween="back" easing="out" reversible="false" condition="!System.IdleTime(1)">Conditional</animation>							
 						</include>
                     </control>
 
@@ -1024,7 +1026,7 @@
 
                                 <control type="label">
 									<visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
-                                    <label>$INFO[ListItem.Label]</label>
+                                    <label>$VAR[Label_MediaList_Episode_Number_Title]</label>
                                     <font>font_main_bold</font>
                                     <include condition="$PARAM[selected]">Color_SelectedText</include>
                                     <textcolor>main_fg_90</textcolor>
@@ -1033,7 +1035,7 @@
 								
 								<control type="label">
 									<visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
-                                    <label>$INFO[ListItem.Label]</label>
+                                    <label>$VAR[Label_MediaList_Episode_Number_Title]</label>
                                     <font>font_main_bold</font>
                                     <include condition="$PARAM[selected]">Color_SelectedText</include>
                                     <textcolor>main_fg_90</textcolor>
@@ -1079,29 +1081,29 @@
                                 </control>																
                             </control>
 
-                            <control type="textbox">
+                            <control type="textbox">								
 								<visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
                                 <include condition="$PARAM[selected]">Color_SelectedText</include>
-                                <label fallback="19055">$VAR[Label_Landscape_Plot]</label>
+                                <label fallback="19055">$VAR[Label_Landscape_Plot]$INFO[Window(Home).Property(ResetScroll)]</label>
                                 <font>font_mini_plot</font>
                                 <textcolor>main_fg_70</textcolor>
                                 <top>80</top>
                                 <bottom>0</bottom>
                                 <right>40</right>
                                 <left>60</left>
-                                <autoscroll>true</autoscroll>
+                                <autoscroll delay="1000" time="3000" repeat="10000">$PARAM[selected] + !Skin.HasSetting(Textboxes.DisableAutoscroll) + !String.IsEmpty(Window(Home).Property(StartScroll)) + System.IdleTime(1)</autoscroll>
                             </control>							
-							<control type="textbox">
+							<control type="textbox">								
 								<visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
                                 <include condition="$PARAM[selected]">Color_SelectedText</include>
-                                <label fallback="19055">$VAR[Label_Landscape_Plot]</label>
+                                <label fallback="19055">$VAR[Label_Landscape_Plot]$INFO[Window(Home).Property(ResetScroll)]</label>
                                 <font>font_mini_plot</font>
                                 <textcolor>main_fg_70</textcolor>
                                 <top>80</top>
                                 <bottom>0</bottom>
                                 <right>160</right>
                                 <left>60</left>
-                                <autoscroll>true</autoscroll>
+                                <autoscroll delay="1000" time="3000" repeat="10000">$PARAM[selected] + !Skin.HasSetting(Textboxes.DisableAutoscroll) + !String.IsEmpty(Window(Home).Property(StartScroll)) + System.IdleTime(1)</autoscroll>
                             </control>
                         </control>
                     </control>

@@ -144,11 +144,14 @@
                 <control type="group">				
                     <width>$PARAM[width]</width>
                     <top>225</top>					
-					<include content="Object_Bottom" condition="![$EXP[Exp_View_524_Include] + Skin.HasSetting(Disable.ComboListDetailedView)]">
+					<include content="Object_Bottom" condition="!Skin.HasSetting(Disable.ComboListDetailedView)">
 						<param name="bottom">200</param>
-					</include>					
+					</include>
+					<include content="Object_Bottom" condition="Skin.HasSetting(Disable.ComboListDetailedView)">
+						<param name="bottom">30</param>
+					</include>	
 					
-					<animation effect="slide" start="0" end="0,177" time="400" tween="cubic" easing="out" condition="![$EXP[Exp_View_524] + Skin.HasSetting(Disable.ComboListDetailedView)]" reversible="false">Conditional</animation>
+					<animation effect="slide" start="0" end="0,177" time="400" tween="cubic" easing="out" condition="!Skin.HasSetting(Disable.ComboListDetailedView)" reversible="false">Conditional</animation>
 
                     <include content="List_DialogSelect">
                         <param name="id">$PARAM[id]</param>
@@ -186,6 +189,13 @@
                         <bottom>-60</bottom>
                         <left>40</left>
                         <right>-100</right>
+						
+						<include content="Object_Hidden_Button" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+							<param name="id">528</param>
+							<onfocus>SetFocus(526)</onfocus>
+							<onfocus>ClearProperty(StartScroll,Home)</onfocus>
+							<onunfocus>SetProperty(StartScroll,True,Home)</onunfocus>
+						</include>
 
                         <include content="List_DialogSelect">
                             <param name="id">$PARAM[comboid]</param>
@@ -202,15 +212,24 @@
                                 <param name="onback">[Integer.IsEqual(Container($PARAM[comboid]).CurrentItem,1)]</param>
                                 <param name="backid">63</param>
                                 <param name="always">true</param>
-                            </include>
+                            </include>							
 
                             <animation type="Conditional" reversible="false" condition="Container($PARAM[comboid]).IsUpdating">
                                 <effect type="fade" start="100" end="0" time="200" delay="600" />
                             </animation>
 
-                            <content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$VAR[View_$PARAM[id]_Content]</content>
-
-                            <onleft>$PARAM[id]</onleft>
+                            <content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$VAR[View_$PARAM[id]_Content]</content>													
+							
+							
+							<onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(ResetScroll," ",Home)</onfocus>
+							<onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(ResetScroll,Home)</onfocus>														
+                            <onunfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(ResetScroll," ",Home)</onunfocus>
+							<onunfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(ResetScroll,Home)</onunfocus>	
+							
+							<onfocus condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(StartScroll,True,Home)</onfocus>
+							<onunfocus condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(StartScroll,Home)</onunfocus>
+							
+							<onleft>$PARAM[id]</onleft>
                             <onright condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onright>
 							<onright condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</onright>
 							<onright condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onright>
