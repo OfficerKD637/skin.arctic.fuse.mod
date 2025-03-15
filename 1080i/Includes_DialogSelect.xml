@@ -1,15 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+	<include name="DialogSelect_Viewtypes">
+        <include>Dialog_Dim_Overlay</include>
+        <control type="group">
+            <include>Dimension_DialogSideMenu</include>
+            <include>Animation_Right_Delay</include>
+
+            <include content="Dialog_Foreground_Side">
+                <param name="dialog_size">Dimension_DialogSideMenu</param>
+                <param name="lines_right">0</param>
+                <param name="topline">true</param>
+                <param name="subline">true</param>
+            </include>
+
+            <!-- Header -->
+            <include content="Dialog_Head">
+                <param name="id">1</param>
+            </include>
+            <include>Dialog_Head_CloseButton</include>
+
+            <!-- Content -->
+            <control type="group">
+                <include>Dimension_Dialog_Body</include>
+                <control type="group">
+                    <include>Dimension_Dialog_Body_Group</include>
+                    <include content="List_DialogSelect">
+                        <param name="id">3</param>
+                        <param name="textcolor">dialog_fg</param>
+                        <pagecontrol>61</pagecontrol>
+                        <onright>61</onright>
+                    </include>
+                    <control type="group">
+                        <height>40</height>
+                        <right>20</right>
+                        <bottom>-60</bottom>
+                        <include content="Dialog_ItemPage">
+                            <param name="id">3</param>
+                        </include>
+                    </control>
+                </control>
+
+                <include content="Dialog_Scrollbar">
+                    <param name="id">61</param>
+                    <onleft>3</onleft>
+                </include>
+
+            </control>
+
+        </control>
+
+        <control type="group">
+            <include>Animation_Right_Delay</include>
+            <control type="group">
+                <include content="Dialog_Preview_Def" condition="![String.IsEqual(Skin.AspectRatio,4:3) | String.IsEqual(Skin.AspectRatio,3:2) | String.IsEqual(Skin.AspectRatio,16:10)]">
+                    <param name="icon">$INFO[Container(3).ListItem.Icon]</param>
+                    <param name="height">620</param>
+                    <param name="width">1040</param>
+                    <param name="right">640</param>
+                    <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
+                </include>
+
+                <include content="Dialog_Preview_Def" condition="[String.IsEqual(Skin.AspectRatio,4:3) | String.IsEqual(Skin.AspectRatio,3:2) | String.IsEqual(Skin.AspectRatio,16:10)]">
+                    <param name="icon">$INFO[Container(3).ListItem.Icon]</param>
+                    <param name="height">485</param>
+                    <param name="width">800</param>
+                    <param name="right">640</param>
+                    <param name="diffuse">diffuse/landscape_w720_h405.png</param>
+                </include>
+
+            </control>
+        </control>
+    </include>
+
+    <variable name="DialogSelect_Widgets_Preview">
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[20021])">special://skin/extras/widgets/poster.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31045])">special://skin/extras/widgets/landscape.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31320])">special://skin/extras/widgets/square.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31431])">special://skin/extras/widgets/circle.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31423])">special://skin/extras/widgets/card.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31424])">special://skin/extras/widgets/board.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31424] (T))">special://skin/extras/widgets/board_t.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31419])">special://skin/extras/widgets/overview.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[20020])">special://skin/extras/widgets/banner.jpg</value>
+
+
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31045] (S))">special://skin/extras/widgets/landscape_s.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31320] (S))">special://skin/extras/widgets/square_s.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31431] (S))">special://skin/extras/widgets/circle_s.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31419] (S))">special://skin/extras/widgets/overview_s.jpg</value>
+        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31424] (S))">special://skin/extras/widgets/board_s.jpg</value>
+    </variable>
+	
     <include name="DialogSelect_Standard">
         <include>Dialog_Dim_Overlay</include>
 		
 		<control type="group">
-            <include>Dimension_DialogWideMenu</include>
+            <visible>!Skin.HasSetting(Dialog.DisableArtworkPreview)</visible>
             <include>Animation_Right_Delay</include>
-            <include content="Dialog_Dim_Side">
-                <param name="slide_condition">True</param>
-            </include>
+            <control type="group">
+                <include content="Dialog_Preview_Def">
+                    <param name="icon">$INFO[Container(6).ListItem.Icon]</param>
+                </include>
+                <visible>Control.IsVisible(6)</visible>
+                <visible>String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437])</visible>
+                <animation effect="slide" end="0,200" condition="Container(6).Position(4) | Container(6).Position(5) | Container(6).Position(6) | Container(6).Position(7)">Conditional</animation>
+            </control>
+            <control type="group">
+                <include content="Dialog_Preview_Def">
+                    <param name="icon">$VAR[DialogSelect_Widgets_Preview]</param>
+                </include>
+                <visible>Control.IsVisible(3)</visible>
+                <visible>String.IsEqual(Control.GetLabel(1),$LOCALIZE[736])</visible>
+                <animation effect="slide" end="0,200" condition="Container(3).Position(4) | Container(3).Position(5) | Container(3).Position(6) | Container(3).Position(7)">Conditional</animation>
+            </control>
+        </control>
+		
+		<control type="group">
+            <include>Dimension_DialogWideMenu</include>
+            <include>Animation_Right_Delay</include>            
 
             <!-- Bottom Layer -->
             <include content="Dialog_Background_Side">
@@ -76,22 +185,12 @@
                             <height>40</height>
                             <right>20</right>
                             <bottom>-60</bottom>
-                            <control type="label">
-                                <aligny>center</aligny>
-                                <align>right</align>
-                                <font>font_hint_black</font>
-                                <textcolor>main_fg_30</textcolor>
-                                <label>$INFO[Container(3).NumItems,, $LOCALIZE[31022]]</label>
-                                <visible>Control.IsVisible(3)</visible>
-                            </control>
-                            <control type="label">
-                                <aligny>center</aligny>
-                                <align>right</align>
-                                <font>font_hint_black</font>
-                                <textcolor>main_fg_30</textcolor>
-                                <label>$INFO[Container(6).NumItems,, $LOCALIZE[31022]]</label>
-                                <visible>Control.IsVisible(6)</visible>
-                            </control>
+                            <include content="Dialog_ItemPage">
+                                 <param name="id">3</param>
+                             </include>
+                             <include content="Dialog_ItemPage">
+                                 <param name="id">6</param>
+                             </include>
                         </control>
                     </control>
 
@@ -114,26 +213,8 @@
                     </include>
                 </control>
             </include>
-
         </control>
-
-        <control type="group">
-            <left>120</left>
-            <right>-120</right>
-            <visible>!Skin.HasSetting(Dialog.DisableArtworkPreview)</visible>
-            <include>Animation_Right_Delay</include>
-            <include content="Animation_SlideIn_Dialog_Side">
-                <param name="slide_condition">True</param>
-            </include>
-            <control type="group">
-                <include content="Dialog_Preview_Def">
-                    <param name="icon">$INFO[Container(6).ListItem.Icon]</param>
-                </include>
-                <visible>Control.IsVisible(6)</visible>
-                <visible>String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437])</visible>
-                <animation effect="slide" end="0,200" condition="Container(6).Position(4) | Container(6).Position(5) | Container(6).Position(6) | Container(6).Position(7)">Conditional</animation>
-            </control>
-        </control>
+        
     </include>
 
     <include name="DialogSelect_SideButtons_Games">
@@ -187,7 +268,7 @@
             <param name="id">04</param>
             <param name="label">$LOCALIZE[184]</param>
             <param name="icon">special://skin/extras/icons/update.png</param>
-            <param name="visible">[String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[13521])]</param>
+            <param name="visible">[Window.IsActive(DialogVideoInfo.xml) | Window.IsActive(DialogMusicInfo.xml)] + [String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[13521])]</param>
             <onclick>Close</onclick>
             <onclick>SendClick(12003,6)</onclick>
         </include>
@@ -195,7 +276,7 @@
             <param name="id">05</param>
             <param name="label">$LOCALIZE[563]</param>
             <param name="icon">special://skin/extras/icons/star.png</param>
-            <param name="visible">[String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[13521])]</param>
+            <param name="visible">[Window.IsActive(DialogVideoInfo.xml) | Window.IsActive(DialogMusicInfo.xml)] + [String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[13521])]</param>
             <onclick>Close</onclick>
             <onclick>SendClick(12003,7)</onclick>
         </include>
@@ -203,7 +284,7 @@
             <param name="id">06</param>
             <param name="label">$LOCALIZE[1000]</param>
             <param name="icon">special://skin/extras/icons/image.png</param>
-            <param name="visible">[String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[13521])]</param>
+            <param name="visible">[String.IsEqual(Control.GetLabel(1),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[20437]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[13521]) | String.IsEqual(Control.GetLabel(1),$LOCALIZE[736])]</param>
             <param name="control">radiobutton</param>
             <param name="radiocross">true</param>
             <selected>!Skin.HasSetting(Dialog.DisableArtworkPreview)</selected>
@@ -291,13 +372,9 @@
                                             <label>$INFO[Container($PARAM[id]).ListItem.FileName]</label>
                                             <haspath>true</haspath>
                                         </control>
-                                        <control type="label">
-                                            <aligny>center</aligny>
-                                            <align>right</align>
-                                            <font>font_hint_black</font>
-                                            <textcolor>main_fg_30</textcolor>
-                                            <label>$INFO[Container($PARAM[id]).NumItems,, $LOCALIZE[31022]]</label>
-                                        </control>
+                                        <include content="Dialog_ItemPage">
+                                             <param name="id">$PARAM[id]</param>
+                                         </include>
                                     </control>
                                 </control>
                             </control>
