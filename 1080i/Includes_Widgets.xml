@@ -34,7 +34,18 @@
                     <param name="label_fallback">31282</param>
                     <top>20</top>
                     <left>0</left>
-                    <visible>!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]</visible>
+                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(widget)) + [!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]]</visible>
+                </include>
+				
+				<include content="Info_Viewline" condition="$PARAM[labelvisible] + [$PARAM[usewidgetlabel]]">
+                    <param name="label">[CAPITALIZE]$PARAM[label][/CAPITALIZE]</param>
+                    <param name="item_condition">true</param>
+                    <param name="item_count">$INFO[Container($PARAM[id]).NumItems]</param>
+                    <param name="item_updating">[Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]]</param>
+                    <param name="label_fallback">31282</param>
+                    <top>20</top>
+                    <left>0</left>
+                    <visible>String.IsEmpty(Container($PARAM[id]).ListItem.Property(widget)) + [!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]]</visible>
                 </include>
 
                 <include content="Widget_Busy">
@@ -267,20 +278,21 @@
 	
 	<include name="Widget_Busy_BlankItem_Button">
 		<definition>
-			<control type="group">			
+			<control type="group">
+				<top>2</top>
 				<width>view_landscape_itemlayout_w</width>
 				<height>80</height>
 				<control type="image">
 					<top>45</top>
 					<left>40</left>				
-					<width>60</width>				
-					<height>60</height>				
+					<width>51</width>				
+					<height>51</height>				
 					<texture colordiffuse="main_fg_12">diffuse/circle_50.png</texture>
 				</control>
 				<control type="group">
-                    <top>47</top>
+                    <top>45</top>
                     <left>110</left>	
-					<height>25</height>
+					<height>23</height>
                     <width>75%</width>
                     <include content="Object_Control">
                         <param name="control">image</param>
@@ -288,13 +300,13 @@
                             <param name="pad">-20</param>
                         </include>
                         <bordersize>20</bordersize>                        
-                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
+                        <texture colordiffuse="main_fg_12" border="9">common/widget_text.png</texture>
                     </include>
                 </control>
 				<control type="group">
-                    <top>80</top>
+                    <top>71.5</top>
                     <left>110</left>	
-					<height>21</height>
+					<height>22</height>
                     <width>50%</width>
                     <include content="Object_Control">
                         <param name="control">image</param>
@@ -646,7 +658,10 @@
         <include>Widget_Busy_BlankItem_Reviews</include>
     </include>
 
-    <include name="Widget_Busy_Spinner_Height__List_Banner_Row">
+    <include name="Widget_Busy_Spinner_Height__List_Button_Row">
+        <height>view_poster_item_h</height>
+    </include>
+	<include name="Widget_Busy_Spinner_Height__List_Banner_Row">
         <height>view_poster_item_h</height>
     </include>
     <include name="Widget_Busy_Spinner_Height__List_Poster_Row">

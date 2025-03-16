@@ -50,6 +50,7 @@
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_SideMenuBehavior)">Items_Settings_SideMenuBehavior</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseHubs">Items_Settings_CustomiseHubs</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseWidgets">Items_Settings_CustomiseWidgets</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseViewtypes">Items_Settings_CustomiseViewtypes</include>
     </include>
 	
 	<include name="Items_Settings_SideMenuBehavior">
@@ -57,7 +58,7 @@
             <param name="dialog">true</param>
             <param name="id">8001</param>
             <param name="control">button</param>
-            <label>$LOCALIZE[13014]</label>
+            <label>$VAR[Label_Settings_SideMenuCollapse_Selector]</label>
             <label2>$VAR[Label_Settings_SideMenuCollapse]</label2>
             <onclick condition="Skin.String(Home.SideMenuCollapse,Never)">Skin.SetString(Home.SideMenuCollapse,Hubs)</onclick>
             <onclick condition="Skin.String(Home.SideMenuCollapse,Hubs)">Skin.SetString(Home.SideMenuCollapse,Library)</onclick>
@@ -126,6 +127,7 @@
 			<label>$LOCALIZE[15217] ($LOCALIZE[39162])</label>
 			<label2>$VAR[Label_Settings_NavigationMenuLeft]</label2>            
             <onclick>Skin.ToggleSetting(Navigation.DisableOptionsOnLeft)</onclick>
+			<visible>!Skin.String(Home.SideMenuCollapse,Topbar)</visible>
         </include>
 		<include content="Settings_Button" description="Home OnBack">
              <param name="dialog">true</param>
@@ -134,21 +136,7 @@
              <label>$LOCALIZE[15217] ($LOCALIZE[31166])</label>
              <label2>$VAR[Label_Settings_NavigationHomeBack]</label2>
              <onclick>Skin.ToggleSetting(Navigation.DisableOptionsOnBack)</onclick>
-         </include>
-		 <include content="Settings_Label" description="Label: Dialogs">
-            <param name="id">8010</param>
-            <param name="dialog">false</param>
-            <label>$LOCALIZE[31486]</label>
-         </include>
-		 <include content="Settings_Button" description="Info dialog position">
-            <param name="dialog">true</param>
-            <param name="id">8011</param>
-            <param name="control">button</param>
-			<label>$LOCALIZE[14116]</label>
-            <label2>$VAR[Label_Setting_SideMenuInfoPosition]</label2>
-            <onclick>Skin.ToggleSetting(Sidemenu.SwapInfoPosition)</onclick>
-            <selected>!Skin.HasSetting(Sidemenu.SwapInfoPosition)</selected>
-        </include>
+         </include>		 
 	</include>
 	
 	<include name="Items_Settings_CustomiseHubs">		
@@ -175,7 +163,7 @@
 
             <onclick condition="!Skin.HasSetting(Views.UseAltCombined) + !Skin.HasSetting(Views.UseAltCombined.Detailed)">Skin.SetBool(Views.UseAltCombined)</onclick>
             <onclick condition="!Skin.HasSetting(Views.UseAltCombined) + !Skin.HasSetting(Views.UseAltCombined.Detailed)">Skin.Reset(Views.UseAltCombined.Detailed)</onclick>
-        </include>
+        </include>		
         <include content="Settings_Button" description="TV Channels">
             <param name="dialog">true</param>
             <param name="id">8003</param>
@@ -211,18 +199,7 @@
             <visible>!Skin.HasSetting(Views.DisableItemPeek)</visible>
             <onclick>Skin.ToggleSetting(Navigation.MediaFilterWall)</onclick>
             <selected>Skin.HasSetting(Navigation.MediaFilterWall)</selected>
-        </include>
-        <include content="Settings_Button" description="Touch Mode / Disable Peek">
-            <param name="dialog">true</param>
-            <param name="id">8007</param>
-            <param name="control">radiobutton</param>
-            <label>$LOCALIZE[31289] ([LOWERCASE]$LOCALIZE[31292][/LOWERCASE])</label>
-            <onclick>Skin.ToggleSetting(Views.DisableItemPeek)</onclick>
-            <onclick>ReloadSkin()</onclick>
-            <onclick>AlarmClock(refocus1,SetFocus(3,3),00:00,silent)</onclick>
-            <onclick>AlarmClock(refocus2,SetFocus(4033),00:00,silent)</onclick>
-            <selected>Skin.HasSetting(Views.DisableItemPeek)</selected>
-        </include>	
+        </include>        
 	</include>
 	
 	<include name="Items_Settings_CustomiseWidgets">
@@ -252,14 +229,34 @@
              <visible>!Skin.HasSetting(Hub.Home.WidgetSelector)</visible>
              <onclick>Skin.ToggleSetting(Hub.Home.DisableMoveBetweenGroups)</onclick>
              <selected>!Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)</selected>
-         </include>
-		 <include content="Settings_Button" description="Discover widget style">
+         </include>			
+	</include>
+	
+	<include name="Items_Settings_CustomiseViewtypes">
+		<include content="Settings_Button" description="Info dialog position">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="control">button</param>
+			<label>$LOCALIZE[14116] [LOWERCASE]$LOCALIZE[21843][/LOWERCASE]</label>
+            <label2>$VAR[Label_Setting_SideMenuInfoPosition]</label2>
+            <onclick>Skin.ToggleSetting(Sidemenu.SwapInfoPosition)</onclick>
+            <selected>!Skin.HasSetting(Sidemenu.SwapInfoPosition)</selected>
+        </include>
+		<include content="Settings_Button" description="Discover widget style">
              <param name="dialog">true</param>
-             <param name="id">8004</param>                            
+             <param name="id">8002</param>                            
              <param name="control">button</param>
-             <label>$LOCALIZE[31066] &amp; $LOCALIZE[31148] [LOWERCASE]$LOCALIZE[31282] $LOCALIZE[736][/LOWERCASE]</label>
+             <label>$LOCALIZE[31066] / $LOCALIZE[31148]</label>
 		     <label2>$VAR[Label_Discover_Style]</label2>
              <onclick>Skin.ToggleSetting(Discover.Landscape)</onclick>                            
+        </include>
+		<include content="Settings_Button" description="Combined List View">
+             <param name="dialog">true</param>
+             <param name="id">8003</param>
+             <param name="control">button</param>
+             <label>$LOCALIZE[31083] $LOCALIZE[535]</label>
+			 <label2>$VAR[Label_Setting_ComboListDetailedView]</label2>
+             <onclick>Skin.ToggleSetting(Disable.ComboListDetailedView)</onclick>
         </include>	
 	</include>
 	
@@ -330,13 +327,13 @@
 	</include>
 	
 	<include name="Items_Settings_RightFooter">
-		<include content="Settings_Button" description="Visibility">
+		<include content="Settings_Button" description="Information">
             <param name="dialog">true</param>
             <param name="id">8001</param>
             <param name="control">button</param>
-            <label>$LOCALIZE[31565]</label>  
+            <label>$LOCALIZE[14116]</label>  
 			<label2>$VAR[Label_Setting_RightFooter]</label2>	
-            <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Setting_RightFooter_Preselect],heading=$LOCALIZE[31107],separator=||,list=$LOCALIZE[31042]||$LOCALIZE[31279]||$LOCALIZE[231],"executebuiltin_0=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock.TopLeft)||Skin.SetBool(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,4)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_1=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,4)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_2=Skin.SetBool(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,4)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)")</onclick>
+            <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Setting_RightFooter_Preselect],heading=$LOCALIZE[31107],separator=||,list=$LOCALIZE[31042]||$LOCALIZE[31279]||$LOCALIZE[231],"executebuiltin_0=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock.TopLeft)||Skin.SetBool(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,3)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_1=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,3)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_2=Skin.SetBool(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(3,3)||sleep=0.4||SetFocus(5002)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)")</onclick>
         </include>
         <include content="Settings_Button" description="Footer: Right: MPAA Classification Country">
             <param name="dialog">true</param>
@@ -895,7 +892,7 @@
             <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
             <onclick>Close</onclick>
             <onclick>ActivateWindow(1116)</onclick>
-            <label>$LOCALIZE[31363]</label>
+            <label>$LOCALIZE[31516]</label>
         </include>
 
         <include content="Settings_Divider_Label">
@@ -912,7 +909,7 @@
             <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
             <onclick>Close</onclick>
             <onclick>ActivateWindow(1116)</onclick>
-            <label>$LOCALIZE[31372]</label>
+            <label>$LOCALIZE[31516]</label>
         </include>
 
     </include>

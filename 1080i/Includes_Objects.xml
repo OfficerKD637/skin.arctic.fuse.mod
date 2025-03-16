@@ -2154,6 +2154,7 @@
         <param name="color">main_fg_90</param>
         <param name="item_h">160</param>
         <param name="icon">$INFO[ListItem.Icon]</param>
+        <param name="icon_check">[String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/)]</param>
         <definition>
             <control type="group">
                 <left>0</left>
@@ -2165,7 +2166,13 @@
                     <right>40</right>
                     <control type="image">
                         <aspectratio align="left">keep</aspectratio>
-                        <texture background="true" fallback="$PARAM[fallback]" colordiffuse="panel_fg_90" diffuse="diffuse/square_w120_h120.png">$PARAM[icon]</texture>
+                        <texture background="true" fallback="$PARAM[fallback]" colordiffuse="white" diffuse="diffuse/square_w120_h120.png">$PARAM[icon]</texture>
+                        <visible>![$PARAM[icon_check]]</visible>
+                    </control>
+                    <control type="image">
+                        <aspectratio align="left">keep</aspectratio>
+                        <texture background="true" fallback="$PARAM[fallback]" colordiffuse="$PARAM[color]" diffuse="diffuse/square_w120_h120.png">$PARAM[icon]</texture>
+                        <visible>$PARAM[icon_check]</visible>
                     </control>
                 </control>
             </control>
@@ -2175,7 +2182,7 @@
                     <textcolor>$PARAM[color]</textcolor>
                     <selectedcolor>$PARAM[color]</selectedcolor>
                     <right>80</right>
-                    <font>font_main</font>
+                    <font>font_main_plot</font>
                     <aligny>center</aligny>
                     <height>80</height>
                     <centertop>50%</centertop>
