@@ -73,6 +73,13 @@
 			<label>$LOCALIZE[31352] $LOCALIZE[29902]</label>
 			<label2>$VAR[Label_Topbar_Style]</label2>
             <onclick>Skin.ToggleSetting(Topbar.EnableFocusedText)</onclick> 
+            <onclick>ReloadSkin()</onclick>
+			<onclick>AlarmClock(refocus1,SetFocus(3,5),00:00,silent)</onclick>
+			<onclick>AlarmClock(refocus2,SetFocus(1004),00:01,silent)</onclick>
+			<onclick>AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31568]: $LOCALIZE[10000],Home),00:01,silent)</onclick>
+			<onclick>AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_SideMenuBehavior,Home),00:01,silent)</onclick>
+			<onclick>AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>	
+			<onclick>AlarmClock(refocus6,SetFocus(8002),00:02,silent)</onclick>	
 			<selected>Skin.HasSetting(Topbar.EnableFocusedText)</selected>	
             <visible>String.IsEqual(Skin.String(Home.SideMenuCollapse),Topbar)</visible>
         </include>
@@ -229,7 +236,15 @@
              <visible>!Skin.HasSetting(Hub.Home.WidgetSelector)</visible>
              <onclick>Skin.ToggleSetting(Hub.Home.DisableMoveBetweenGroups)</onclick>
              <selected>!Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)</selected>
-         </include>			
+         </include>
+		<include content="Settings_Button" description="Blur background">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31575]</label>
+            <label2>$VAR[Label_Settings_WidgetBlurBackground]</label2>
+            <onclick>Skin.ToggleSetting(Widgets.DontHideArtworkOnClassic)</onclick>
+        </include>		 
 	</include>
 	
 	<include name="Items_Settings_CustomiseViewtypes">
@@ -242,9 +257,18 @@
             <onclick>Skin.ToggleSetting(Sidemenu.SwapInfoPosition)</onclick>
             <selected>!Skin.HasSetting(Sidemenu.SwapInfoPosition)</selected>
         </include>
+		<include content="Settings_Button" description="Switch Wall Orientation">
+            <param name="id">8002</param>
+            <param name="control">button</param>
+            <param name="dialog">true</param>
+            <label>$LOCALIZE[31167] [LOWERCASE]$LOCALIZE[21843][/LOWERCASE]</label>
+            <label2>$VAR[Label_Settings_WallOrientation]</label2>
+            <visible>String.IsEqual(Skin.AspectRatio,16:9)</visible>
+            <onclick>Skin.ToggleSetting(View.SwitchWallOrientation)</onclick>
+        </include>
 		<include content="Settings_Button" description="Discover widget style">
              <param name="dialog">true</param>
-             <param name="id">8002</param>                            
+             <param name="id">8003</param>                            
              <param name="control">button</param>
              <label>$LOCALIZE[31066] / $LOCALIZE[31148]</label>
 		     <label2>$VAR[Label_Discover_Style]</label2>
@@ -252,12 +276,12 @@
         </include>
 		<include content="Settings_Button" description="Combined List View">
              <param name="dialog">true</param>
-             <param name="id">8003</param>
+             <param name="id">8004</param>
              <param name="control">button</param>
              <label>$LOCALIZE[31083] $LOCALIZE[535]</label>
 			 <label2>$VAR[Label_Setting_ComboListDetailedView]</label2>
              <onclick>Skin.ToggleSetting(Disable.ComboListDetailedView)</onclick>
-        </include>	
+        </include>			
 	</include>
 	
 	
@@ -343,7 +367,8 @@
             <label2>$INFO[Skin.String(MPAA_Country),       ,       ]</label2>            
             <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_MPAACountries,Home)</onclick>
             <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31285],Home)</onclick>
-            <onclick>ActivateWindow(1118)</onclick>
+            <onclick>Dialog.Close(1118)</onclick>
+            <onclick>AlarmClock(refocus,ActivateWindow(1118),00:01,silent)</onclick>
             <selected>!String.IsEmpty(Skin.String(MPAA_Country))</selected>
             <visible>!Skin.HasSetting(Furniture.EnableClock)</visible>
             <visible>!Skin.HasSetting(Furniture.BottomRight.Disable)</visible>

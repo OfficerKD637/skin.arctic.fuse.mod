@@ -65,7 +65,7 @@
     <expression name="Exp_IsWindow_TVShows">[Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | String.StartsWith(Container.FolderPath,videodb://tvshows/) | String.StartsWith(Container.FolderPath,library://video/tvshows/) | Window.IsVisible(1130) | Window.IsVisible(1131)]</expression>
     <expression name="Exp_IsWindow_Music">[Window.IsVisible(MyMusicNav.xml) | Container.Content(musicvideos)]</expression>
 
-    <expression name="Exp_HomeMenu_HasFocus">[[Control.HasFocus(303) | Control.HasFocus(307) | Control.HasFocus(308) | Control.HasFocus(309) | Control.HasFocus(331) | Window.IsVisible(1172)] + !Window.IsVisible(1170)]</expression>
+    <expression name="Exp_HomeMenu_HasFocus">[[Control.HasFocus(303) | Control.HasFocus(306) | Control.HasFocus(307) | Control.HasFocus(308) | Control.HasFocus(309) | Control.HasFocus(331) | Window.IsVisible(1172)] + !Window.IsVisible(1170)]</expression>
 
 
 
@@ -80,8 +80,8 @@
     <expression name="Exp_Navigation_OnParent">[Skin.String(Navigation.OnBack,Parent) | [$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Navigation.OnBack,Menu)]]</expression>
     <expression name="Exp_Navigation_OnPrevious">[Skin.String(Navigation.OnBack,Previous) | String.IsEmpty(Skin.String(Navigation.OnBack))]</expression>
 
-    <expression name="Exp_HomeMenu_IsExpanded">[[Skin.String(Home.SideMenuCollapse,Library) + [Window.IsVisible(Home) | [Window.Previous(Home) + [Window.IsVisible(1181) | Window.IsVisible(1182) | Window.IsVisible(1185) | Window.IsVisible(1105)]]]] | [Skin.String(Home.SideMenuCollapse,Hubs) + [$EXP[Exp_Window_IsHub] | [$EXP[Exp_Window_IsHub_Prev] + [Window.IsVisible(1181) | Window.IsVisible(1182) | Window.IsVisible(1185) | Window.IsVisible(1105)]]]] | [Skin.String(Home.SideMenuCollapse,Never)]]</expression>
-
+    <expression name="Exp_HomeMenu_IsExpanded">[[Skin.String(Home.SideMenuCollapse,Library) + [Window.IsVisible(Home) | [Window.Previous(Home) + [Window.IsVisible(1181) | Window.IsVisible(1182) | Window.IsVisible(1185) | Window.IsVisible(1105)]]]] | [Skin.String(Home.SideMenuCollapse,Hubs) + [$EXP[Exp_Window_IsHub] | [$EXP[Exp_Window_IsHub_Prev] + [Window.IsVisible(1181) | Window.IsVisible(1182) | Window.IsVisible(1185) | Window.IsVisible(1105)]]]] | [Skin.String(Home.SideMenuCollapse,Never)]]</expression>	
+	
     <!-- <expression name="Exp_HomeMenu_IsStatic">[[$EXP[Exp_HomeMenu_IsExpanded] + [!$EXP[Exp_InfoDialogs] | Skin.String(Info.SideMenuCollapse,Match)]] | [$EXP[Exp_InfoDialogs] + Skin.String(Info.SideMenuCollapse,Always)]]</expression> -->
     <expression name="Exp_HomeMenu_IsStatic">[[$EXP[Exp_HomeMenu_IsExpanded] + !$EXP[Exp_InfoDialogs]] | [$EXP[Exp_InfoDialogs] + !$EXP[Exp_HomeMenu_IsTopBar]]]</expression>
 
@@ -126,7 +126,9 @@
     <expression name="Exp_IsAlphabetStrip">[String.IsEqual(Container.SortMethod,$LOCALIZE[20376]) | String.IsEqual(Container.SortMethod,$LOCALIZE[556]) | String.IsEqual(Container.SortMethod,$LOCALIZE[551]) | String.IsEqual(Container.SortMethod,$LOCALIZE[21899]) | String.IsEqual(Container.SortMethod,$LOCALIZE[557]) | String.IsEqual(Container.SortMethod,$LOCALIZE[558]) | String.IsEqual(Container.SortMethod,$LOCALIZE[578])]</expression>
 	<expression name="Exp_PVRGuide_NoFocus">[Control.HasFocus(28) | Control.HasFocus(11) | $EXP[Exp_HomeMenu_HasFocus] | $EXP[Exp_ViewDialog_HasFocus]]</expression>
 	<expression name="Exp_AspectRatio_Reduced">[String.IsEqual(Skin.AspectRatio,4:3) | String.IsEqual(Skin.AspectRatio,3:2)]</expression>
-
+	
+	<expression name="Exp_View_WallMode">[Control.IsVisible(540) | Control.IsVisible(545) | Control.IsVisible(585) | Control.IsVisible(555) | Control.IsVisible(560) | Control.IsVisible(565) | Control.IsVisible(570) | Control.IsVisible(575) | Control.IsVisible(580)]</expression>
+    <expression name="Exp_View_WallVert">[String.IsEqual(Skin.AspectRatio,16:9) + Skin.HasSetting(View.SwitchWallOrientation)]</expression>
 
     <!-- Discover -->
     <expression name="Exp_View_55">[Container.Content(files) + [String.IsEqual(Container.ListItem.Property(param.info),user_discover) | String.IsEqual(Container.Property(param.info),user_discover)]]</expression>
@@ -151,9 +153,11 @@
 
     <expression name="Exp_FilterWall_IsViewtype">[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | [[Control.IsVisible(502) | Control.IsVisible(512) | Control.IsVisible(522)]]]</expression>
 
-    <expression name="Exp_BackgroundArtwork_IsHidden">[$EXP[Exp_FilterWall_IsActive] | Window.IsVisible(favouritesbrowser)]</expression>
+    <expression name="Exp_BackgroundArtwork_IsHidden">[$EXP[Exp_FilterWall_IsActive] | Window.IsVisible(favouritesbrowser) | !String.IsEmpty(Window.Property(Background.HideArtwork)) | !String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))]</expression>
 
-    <expression name="Exp_MediaFilter_IsActive">[!String.IsEmpty(Window.Property(MediaFilterBase))]</expression>
+    <expression name="Exp_BackgroundArtwork_IsOverlay">[$EXP[Exp_BackgroundArtwork_IsHidden] | [!$EXP[Exp_InfoDialogs] + !String.IsEmpty(Window(Home).Property(Background.ShowOverlay))] | [$EXP[Exp_InfoDialogs] + String.IsEqual(ListItem.Property(tmdb_type),person)]]</expression>
+	
+	<expression name="Exp_MediaFilter_IsActive">[!String.IsEmpty(Window.Property(MediaFilterBase))]</expression>
 	
 	<expression name="Exp_ViewDialog_HasFocus">[ControlGroup(9000).HasFocus() | ControlGroup(6000).HasFocus() | Control.HasFocus(6000) | Control.HasFocus(6099)]</expression>
 

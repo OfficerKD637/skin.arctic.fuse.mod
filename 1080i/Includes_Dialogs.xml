@@ -31,11 +31,17 @@
         <value condition="!Skin.HasSetting(TMDbHelper.EnableBlur)">$INFO[Skin.String(Background.Image)]</value>
         <value>$VAR[Image_Background]</value>
     </variable>
+	
+	<variable name="Dialog_Background_Blur_Adaptive_Artwork">
+        <value condition="!Skin.HasSetting(TMDbHelper.EnableBlur)">special://skin/extras/backgrounds/dialogs/classic_blur.png</value>
+        <value>$VAR[Image_Background]</value>
+    </variable>
 
     <include name="Dialog_Background_Blur_Adaptive">
         <param name="flipy">false</param>
         <param name="shadow">true</param>
         <param name="diffuse">diffuse/dialog_w1000_h1000.png</param>
+        <param name="adaptive_texture">$VAR[Dialog_Background_Blur_Adaptive_Texture]</param>
         <definition>
             <control type="image">
                 <texture colordiffuse="dialog_bg_100" border="20">common/dialog.png</texture>
@@ -44,7 +50,7 @@
             <control type="image">
                 <fadetime>background_fadetime</fadetime>
                 <aspectratio scalediffuse="false" align="left">scale</aspectratio>
-                <texture flipy="$PARAM[flipy]" diffuse="$PARAM[diffuse]" colordiffuse="$VAR[Dialog_Background_Blur_Adaptive_ColorDiffuse]">$VAR[Dialog_Background_Blur_Adaptive_Texture]</texture>
+                <texture flipy="$PARAM[flipy]" diffuse="$PARAM[diffuse]" colordiffuse="$VAR[Dialog_Background_Blur_Adaptive_ColorDiffuse]">$PARAM[adaptive_texture]</texture>
             </control>
             <include content="Object_Control" condition="Skin.HasSetting(Glass.EnableBorders)">
                 <param name="control">image</param>
@@ -54,7 +60,7 @@
         </definition>
     </include>
 
-    <include name="Dialog_Background_Blur">
+    <include name="Dialog_Background_Blur">		
         <include content="Dialog_Background_Blur_Standard" condition="!$EXP[Exp_DialogTheme_IsAdaptive]">
             <param name="shadow">$PARAM[shadow]</param>
             <param name="flipy">$PARAM[flipy]</param>
@@ -68,36 +74,42 @@
             <param name="flipx">$PARAM[flipx]</param>
             <param name="diffuse">$PARAM[diffuse]</param>
             <param name="border">$PARAM[border]</param>
-        </include>
+			<param name="adaptive_texture">$PARAM[adaptive_texture]</param>			
+        </include>		
     </include>
 
     <include name="Dialog_Background_BlurDimension_DialogSideMenu">
         <include content="Dialog_Background_Blur">
             <param name="diffuse">diffuse/dialog_w680_h1000.png</param>
+			<param name="adaptive_texture">$PARAM[adaptive_texture]</param>				
         </include>
     </include>
 
     <include name="Dialog_Background_BlurDimension_DialogMainMenu">
         <include content="Dialog_Background_Blur">
             <param name="diffuse">diffuse/dialog_w1480_h1000.png</param>
+			<param name="adaptive_texture">$PARAM[adaptive_texture]</param>	
         </include>
     </include>
 
     <include name="Dialog_Background_BlurDimension_DialogWideMenu">
         <include content="Dialog_Background_Blur">
             <param name="diffuse">diffuse/dialog_w920_h1000.png</param>
+			<param name="adaptive_texture">$PARAM[adaptive_texture]</param>	
         </include>
     </include>
 
     <include name="Dialog_Background_BlurDimension_DialogHugeMenu">
         <include content="Dialog_Background_Blur">
             <param name="diffuse">diffuse/dialog_w1480_h1000.png</param>
+			<param name="adaptive_texture">$PARAM[adaptive_texture]</param>	
         </include>
     </include>
 
     <include name="Dialog_Background_BlurDimension_DialogFullMenu">
         <include content="Dialog_Background_Blur">
             <param name="diffuse">diffuse/dialog_w1480_h1000.png</param>
+			<param name="adaptive_texture">$PARAM[adaptive_texture]</param>	
         </include>
     </include>
 
@@ -162,7 +174,9 @@
                     <param name="pad">40</param>
                 </include>
                 <control type="group">
-                    <include condition="$EXP[Exp_DialogTheme_IsAdaptive]">Dialog_Background_Blur$PARAM[dialog_size]</include>
+                    <include content="Dialog_Background_Blur$PARAM[dialog_size]" condition="$EXP[Exp_DialogTheme_IsAdaptive]">
+						<param name="adaptive_texture">$PARAM[adaptive_texture]</param>	
+					</include>
                     <include condition="!$EXP[Exp_DialogTheme_IsAdaptive]">Dialog_Background_Blur_Standard</include>
                 </control>
                 <include condition="$PARAM[include_glass]">Dialog_Background_Glass</include>
@@ -405,28 +419,57 @@
                         <textcolor>$PARAM[textcolor]</textcolor>
                         <label>$PARAM[sublabel]</label>
                     </control>
-                    <include content="Object_Control" condition="!$PARAM[icon_withtext]">
-                        <param name="control">image</param>
-                        <bordersize>$PARAM[icon_bordersize]</bordersize>
-                        <texture colordiffuse="$PARAM[icon_colordiffuse]" diffuse="diffuse/circle_120.png">$PARAM[icon]</texture>
+
+                    <control type="group">
                         <width>80</width>
                         <height>80</height>
-                        <right>20</right>
-                        <centertop>50%</centertop>
-                    </include>
-                    <include content="Object_Control" condition="$PARAM[icon_withtext]">
-                        <param name="control">image</param>
-                        <bordersize>$PARAM[icon_bordersize]</bordersize>
-                        <texture colordiffuse="$PARAM[icon_colordiffuse]" diffuse="diffuse/circle_120.png">$PARAM[icon]</texture>
-                        <width>80</width>
-                        <height>80</height>
-                        <centertop>20</centertop>
-                        <centerleft>60</centerleft>
-                    </include>
+
+                        <include content="Object_Right" condition="!$PARAM[icon_withtext]">
+                            <param name="right">20</param>
+                        </include>
+                        <include content="Object_CenterTop" condition="!$PARAM[icon_withtext]">
+                            <param name="centertop">50%</param>
+                        </include>
+
+                        <include content="Object_CenterLeft" condition="$PARAM[icon_withtext]">
+                            <param name="centerleft">60</param>
+                        </include>
+                        <include content="Object_CenterTop" condition="$PARAM[icon_withtext]">
+                            <param name="centertop">20</param>
+                        </include>
+
+                        <include content="Object_Control" condition="!$PARAM[icon_buttonstyle]">
+                            <param name="control">image</param>
+                            <bordersize>$PARAM[icon_bordersize]</bordersize>
+                            <texture colordiffuse="$PARAM[icon_colordiffuse]" diffuse="diffuse/circle_120.png">$PARAM[icon]</texture>
+                        </include>
+
+                        <include content="Object_Control" condition="$PARAM[icon_buttonstyle]">
+                            <param name="control">group</param>
+                            <centerleft>50%</centerleft>
+                            <centertop>50%</centertop>
+                            <height>50</height>
+                            <width>50</width>
+                            <control type="image">
+                                <include content="Dimension_Padding">
+                                    <param name="pad">-40</param>
+                                </include>
+                                <bordersize>38</bordersize>
+                                <colordiffuse>$PARAM[textcolor]</colordiffuse>
+                                <texture>diffuse/circle_50.png</texture>
+                            </control>
+                            <include content="Object_InfoCircle_Image">
+                                <param name="bordersize">0</param>
+                                <param name="aspectratio">scale</param>
+                                <param name="colordiffuse">white</param>
+                                <param name="icon">$PARAM[icon]</param>
+                            </include>
+                        </include>
+                    </control>
                 </control>
                 <include content="Object_Control" condition="Skin.HasSetting(Glass.EnableBorders)">
                     <param name="control">image</param>
-                    <texture colordiffuse="panel_fg_12" border="40">common/menu-outline.png</texture>
+                    <texture colordiffuse="dialog_fg_12" border="40">common/menu-outline.png</texture>
                 </include>
             </control>
         </definition>
@@ -436,6 +479,8 @@
         <param name="icon_withtext">false</param>
         <param name="textcolor">dialog_fg_70</param>
         <param name="icon_colordiffuse">dialog_fg_70</param>
+        <param name="icon_colordiffuse_fo">$VAR[ColorSelected]</param>
+        <param name="icon_buttonstyle">false</param>
         <definition>
             <control type="group">
 
@@ -450,6 +495,7 @@
                     <param name="icon_colordiffuse">$PARAM[icon_colordiffuse]</param>
                     <param name="icon_bordersize">$PARAM[icon_bordersize]</param>
                     <param name="icon_withtext">$PARAM[icon_withtext]</param>
+                    <param name="icon_buttonstyle">$PARAM[icon_buttonstyle]</param>
                     <param name="visible">!Control.HasFocus($PARAM[id])</param>
                 </include>
 
@@ -458,9 +504,10 @@
                     <param name="sublabel">$PARAM[sublabel]</param>
                     <param name="textcolor">$VAR[ColorSelected]</param>
                     <param name="icon">$PARAM[icon]</param>
-                    <param name="icon_colordiffuse">$VAR[ColorSelected]</param>
+                    <param name="icon_colordiffuse">$PARAM[icon_colordiffuse_fo]</param>
                     <param name="icon_bordersize">$PARAM[icon_bordersize]</param>
                     <param name="icon_withtext">$PARAM[icon_withtext]</param>
+                    <param name="icon_buttonstyle">$PARAM[icon_buttonstyle]</param>
                     <param name="visible">Control.HasFocus($PARAM[id])</param>
                 </include>
 

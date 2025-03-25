@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <!-- Square Wall -->
+    <include name="View_540_Square_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">540</param>
+            <param name="include">List_Square_Row</param>
+			<param name="right_padding">180</param>
+            <param name="viewtype_label">Square Wall</param>
+            <param name="visible">$EXP[Exp_View_540]</param>
+        </include>
+    </include>
+
+
+    <!-- Landscape Wall -->
+    <include name="View_545_Landscape_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">545</param>
+            <param name="include">List_Landscape_Row</param>
+			<param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="viewtype_label">Landscape Wall</param>
+            <param name="visible">$EXP[Exp_View_545]</param>
+        </include>
+    </include>
+
+    <!-- Poster Wall -->
+    <include name="View_585_Poster_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">585</param>
+            <param name="include">List_Poster_Row</param>
+            <param name="viewtype_label">Poster Wall</param>
+			<param name="top">200</param>
+			<param name="right_padding">180</param>
+            <param name="visible">$EXP[Exp_View_585]</param>
+        </include>
+    </include>
+
+    <!-- Circle Wall -->
+    <include name="View_555_Circle_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">555</param>
+            <param name="include">List_Circle_Row</param>
+			<param name="right_padding">180</param>
+            <param name="viewtype_label">Circle Wall</param>			
+            <param name="visible">[$EXP[Exp_View_555]]</param>
+        </include>
+    </include>
+
+    <!-- Ring Wall -->
+    <include name="View_560_Ring_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">560</param>
+            <param name="include">List_Ring_Row</param>
+            <param name="viewtype_label">Circle (S) Wall</param>
+			<param name="right_padding">180</param>
+            <param name="visible">[$EXP[Exp_View_560]]</param>
+        </include>
+    </include>
+
+    <!-- Overview Wall -->
+    <include name="View_565_Overview_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">565</param>
+            <param name="include">List_Overview_Row</param>
+            <param name="viewtype_label">Overview Wall</param>
+            <param name="visible">$EXP[Exp_View_565]</param>
+        </include>
+    </include>
+
+    <!-- Board Wall -->
+    <include name="View_570_Board_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">570</param>
+            <param name="include">List_Board_Row</param>
+            <param name="viewtype_label">Board Wall</param>
+            <param name="visible">$EXP[Exp_View_570]</param>
+        </include>
+	</include>
+	
+	<!-- Placard Wall -->
+	<include name="View_575_Placard_Wall">	
+        <include content="View_Wall_Include">
+            <param name="id">575</param>
+            <param name="include">List_Placard_Row</param>
+            <param name="viewtype_label">Board (T) Wall</param>
+            <param name="visible">$EXP[Exp_View_575]</param>
+        </include>
+    </include>
+
+    <!-- Banner Wall -->
+    <include name="View_580_Banner_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">580</param>
+            <param name="include">List_MiniBanner_Row</param>
+			<param name="bottom_padding">125</param>
+            <param name="viewtype_label">Banner Wall</param>
+            <param name="visible">$EXP[Exp_View_580]</param>
+        </include>
+    </include>
+
+    <!-- Row Template View -->
+    <include name="View_Wall_Include">
+	<param name="right_padding" />
+	<param name="bottom_padding">140</param>
+	<param name="top">240</param>
+        <definition>
+            <control type="group">
+                <visible>Control.IsVisible($PARAM[id])</visible>
+                <control type="group">
+
+                    <include content="$PARAM[include]" condition="$EXP[Exp_View_WallVert]">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="control">panel</param>
+                        <param name="orientation">vertical</param>
+                        <param name="offset_y">40</param>
+						<param name="itemlayout_h">$PARAM[itemlayout_h]</param>						
+                        <preloaditems>0</preloaditems>
+                        <top>$PARAM[top]</top>
+                        <bottom>$PARAM[bottom_padding]</bottom>
+						<right>$PARAM[right_padding]</right>	
+                        <onleft>SetProperty(List.ViewContainer,50)</onleft>
+                        <onleft>SetFocus(303,1,absolute)</onleft>						
+						<onright>611</onright>
+                        
+
+                        <include content="Action_View_Movement_OnBack">
+                            <param name="id">$PARAM[id]</param>
+                            <param name="onback">True</param>
+                        </include>
+
+                        <pagecontrol>66</pagecontrol>
+                        <visible>$PARAM[visible]</visible>
+                        <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
+                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                        <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                    </include>
+
+                    <include content="$PARAM[include]" condition="!$EXP[Exp_View_WallVert]">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="control">panel</param>
+						<param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                        <top>200</top>
+                        <bottom>140</bottom>
+                        <include content="Action_View_Movement_OnUp">
+                            <param name="id">$PARAM[id]</param>
+                        </include>
+                        <include content="Action_View_Movement_OnLeftRight">
+                            <param name="id">$PARAM[id]</param>
+                            <param name="onback">[Integer.IsEqual(Container($PARAM[id]).CurrentItem,1)]</param>
+                        </include>
+                        <include content="Action_View_Movement_OnDown_Wall">
+                            <param name="id">$PARAM[id]</param>
+                        </include>
+                        <pagecontrol>69</pagecontrol>
+                        <visible>$PARAM[visible]</visible>
+                        <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
+                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                        <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+</includes>

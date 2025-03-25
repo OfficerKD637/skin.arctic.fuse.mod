@@ -73,6 +73,8 @@
         <param name="shortstack_visible">true</param>
         <param name="conditional_fade">false</param>
         <param name="widgetfade_include">false</param>
+		<param name="widget_hideartwork">false</param>
+        <param name="widget_showoverlay">false</param>		
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -126,7 +128,13 @@
                 <visible>$PARAM[visible] + [Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]]</visible>
                 <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
                 <include>Action_View_SlideOver_OnFocus</include>
-
+				
+				<onfocus condition="!$EXP[Exp_InfoDialogs] + $PARAM[widget_hideartwork]">SetProperty(Background.HideArtwork,True)</onfocus>
+				<onfocus condition="!$EXP[Exp_InfoDialogs] + ![$PARAM[widget_hideartwork]]">ClearProperty(Background.HideArtwork)</onfocus>
+				
+				<onfocus condition="!$EXP[Exp_InfoDialogs] + ![$PARAM[widget_showoverlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + $PARAM[widget_showoverlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+				
                 <include content="Animation_Widget_FadeOut" condition="$PARAM[widgetfade_include]">
                     <param name="condition">!Control.HasFocus($PARAM[id]) + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])</param>
                 </include>
@@ -143,7 +151,25 @@
                 <visible>$PARAM[shortstack_visible]</visible>
                 <visible>Control.IsVisible($PARAM[id])</visible>
             </include>
-
+        </definition>
+    </include>
+	
+	<include name="Widget_End_Bumper">
+        <param name="id">5097</param>
+        <param name="widgets_only">true</param>
+        <param name="visible">true</param>
+        <definition>
+            <!-- Positioning end bumper for Basic widget grouplists -->
+            <include content="Object_Control" condition="$PARAM[widgets_only]">
+                <param name="id">$PARAM[id]</param>
+                <param name="control">group</param>
+                <include content="Object_Top" condition="Skin.HasSetting(Views.DisableItemPeek)">
+                    <param name="top">-440</param>
+                </include>
+                <top>-440</top>
+                <height>440</height>
+                <visible>$PARAM[visible]</visible>
+            </include>
         </definition>
     </include>
 
@@ -491,8 +517,8 @@
 
     <include name="Widget_Busy_BlankItems__List_Gallery_Row">
         <control type="group">
-            <width>1800</width>
-            <height>760</height>
+            <width>1180</width>
+            <height>720</height>
             <control type="group">
                 <left>40</left>
                 <top>40</top>
@@ -965,6 +991,8 @@
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="conditional_fade">$PARAM[conditional_fade]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
+				<param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>				
                 <nested />
             </include>
         </definition>
@@ -990,6 +1018,8 @@
                 <param name="shortstack_visible">$PARAM[shortstack_visible]</param>
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
+				<param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>				
 
                 <include content="Action_Widget_OnBack">
                     <param name="id">$PARAM[id]</param>
@@ -1032,6 +1062,8 @@
                 <param name="shortstack_visible">$PARAM[shortstack_visible]</param>
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
+				<param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>				
 
                 <include content="Action_View_Movement_OnLeftRight" condition="$PARAM[include_movement]">
                     <param name="id">$PARAM[baseid]$PARAM[id]</param>

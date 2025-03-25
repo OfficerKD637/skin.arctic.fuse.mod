@@ -230,14 +230,11 @@
 							<onunfocus condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(StartScroll,Home)</onunfocus>
 							
 							<onleft>$PARAM[id]</onleft>
-                            <onright condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onright>
-							<onright condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</onright>
-							<onright condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onright>
-							<onright condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onright>
+							<onright>66</onright>                            
 
                             <focusposition>1</focusposition>
                             <movement>1</movement>
-                            <pagecontrol>60</pagecontrol>
+                            <pagecontrol>66</pagecontrol>
 							
                             <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                             <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
@@ -418,6 +415,7 @@
     </include>
 
     <include name="View_MediaList_Include">
+		<param name="overlay">false</param>
         <definition>
 
             <control type="group">
@@ -475,6 +473,8 @@
                         <visible>$PARAM[visible]</visible>
                         <viewtype label="$PARAM[viewtype_label]">list</viewtype>
                         <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+						<onfocus condition="![$PARAM[overlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
+                        <onfocus condition="$PARAM[overlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
                         <include>Action_View_SlideOver_OnFocus</include>
                     </include>				
                 </control>

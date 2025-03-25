@@ -88,12 +88,10 @@
 		<include content="Generator_BuildViewTypes_Onload">
              <param name="params" />
          </include>
-        <onload condition="!Control.IsVisible(524)">ClearProperty(Background.ShowOverlay,Home)</onload>
 		<onload>ClearProperty(MediaFilterBase)</onload>
         <onload>ClearProperty(MediaFilterWall)</onload>
         <onunload>ClearProperty(MediaFilterBase)</onunload>
         <onunload>ClearProperty(MediaFilterWall)</onunload>
-		<onunload>ClearProperty(Background.ShowOverlay,Home)</onunload>
         <onload>AlarmClock(refocus_window,SetFocus(50),00:00,silent)</onload>
     </include>
 
@@ -149,6 +147,7 @@
 
     <include name="Action_BlurImage_SimpleBackground_Onload">
         <onload>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground],prefix=SimpleBackground)</onload>
+		<onload>ClearProperty(Background.ShowOverlay,Home)</onload>
     </include>
 
     <include name="Action_SettingsCategories_Onload">
@@ -163,6 +162,7 @@
         <onload condition="String.IsEmpty(Window(Home).Property(SettingsChanger.Switch))">SetFocus($PARAM[defaultcontrol])</onload>
         <onload condition="!String.IsEmpty(Window(Home).Property(SettingsChanger.Switch))">SetFocus($INFO[Window(Home).Property(SettingsChanger.Switch)])</onload>
         <onload>ClearProperty(SettingsChanger.Switch,Home)</onload>
+		<onload>ClearProperty(Background.ShowOverlay,Home)</onload>
         <include>Action_BlurImage_SimpleBackground_Onload</include>
         <menucontrol>30000</menucontrol>
     </include>
@@ -173,7 +173,6 @@
 			<include content="Generator_BuildViewTypes_Onload">
                  <param name="params">,no_reload</param>
              </include>
-			<onload>ClearProperty(Background.ShowOverlay,Home)</onload>
 		
             <menucontrol>303</menucontrol>
 
@@ -673,6 +672,13 @@
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump)">SetProperty(List.ViewContainer,$INFO[System.CurrentControlId])</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
 
+        </definition>
+    </include>
+	
+	<include name="Action_View_Movement_OnDown_Wall">
+        <param name="condition">true</param>
+        <definition>
+            <ondown condition="$PARAM[condition]">610</ondown>
         </definition>
     </include>
 

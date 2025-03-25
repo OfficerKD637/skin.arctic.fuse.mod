@@ -10,10 +10,24 @@
 	<param name="transition_include">true</param>
     <param name="transition_hidden">Control.HasFocus({widget_id})</param>
     <param name="widgetfade_include">true</param>
+	<param name="widget_hideartwork">[!Skin.HasSetting(Widgets.DontHideArtworkOnClassic) + String.IsEmpty(Container(5099).ListItem.Property(guid))]</param>
+    <param name="widget_showoverlay">[!Skin.HasSetting(Widgets.DontHideArtworkOnClassic) + String.IsEmpty(Container(5099).ListItem.Property(guid))]</param>	
 
-    <include content="Action_View_Movement_OnLeftRight">
+    <include content="Action_View_Movement_OnLeft">
+        <param name="id">{widget_id}</param>
+        <param name="menuid">9090</param>
+        <param name="onwrap">[False]</param>
+    </include>
+    <include content="Action_View_Movement_OnRight">
+        <param name="id">{widget_id}</param>
+        <param name="menuid">9090</param>
+        <param name="onwrap">[False]</param>
+        <param name="onbump">[True]</param>
+    </include>
+    <include content="Action_View_Movement_OnBack">
         <param name="id">{widget_id}</param>
         <param name="backid">5000</param>
+        <param name="menuid">9090</param>
         <param name="onback">[Integer.IsEqual(Container({widget_id}).CurrentItem,1)]</param>
     </include>
 
