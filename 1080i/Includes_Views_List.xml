@@ -18,13 +18,13 @@
             <include>View_MediaList_SquareLandscape</include>
         </include>
     </include>
-    <include name="View_516_Landscape_MediaList">
+    <include name="View_516_Details_MediaList">
         <include content="View_MediaList_Include">
             <param name="id">516</param>
             <param name="viewtype_label">$LOCALIZE[31480]</param>
             <param name="visible">$EXP[Exp_View_516]</param>
             <param name="right">view_board_itemlayout_w</param>
-            <include>View_MediaList_Landscape</include>
+            <include>View_MediaList_Poster</include>
         </include>
     </include>
 	
@@ -141,125 +141,139 @@
 
                 <nested />
 
-                <control type="group">				
-                    <width>$PARAM[width]</width>
-                    <top>225</top>					
-					<include content="Object_Bottom" condition="!Skin.HasSetting(Disable.ComboListDetailedView)">
-						<param name="bottom">200</param>
-					</include>
-					<include content="Object_Bottom" condition="Skin.HasSetting(Disable.ComboListDetailedView)">
-						<param name="bottom">30</param>
-					</include>	
-					
-					<animation effect="slide" start="0" end="0,177" time="400" tween="cubic" easing="out" condition="!Skin.HasSetting(Disable.ComboListDetailedView)" reversible="false">Conditional</animation>
-
-                    <include content="List_DialogSelect">
-                        <param name="id">$PARAM[id]</param>
-                        <param name="textcolor">main_fg</param>
-                        <param name="control">list</param>
-                        <param name="itemlayout_include">Layout_MediaList</param>
-                        <param name="variation">true</param>
-
-                        <left>-20</left>
-                        <right>-80</right>
-
-                        <onleft>SetProperty(List.ViewContainer,50)</onleft>
-                        <onleft>SetFocus(303,1,absolute)</onleft>
-                        
-                        <onright>$PARAM[comboid]</onright>
-
-                        <include content="Action_View_Movement_OnBack">
-                            <param name="id">$PARAM[id]</param>
-                            <param name="onback">True</param>
-                        </include>
-
-                        <visible>$PARAM[visible]</visible>
-                        <viewtype label="$PARAM[viewtype_label]">list</viewtype>
-						<top>15</top>
-                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                        <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
-                    </include>
-                </control>
-
                 <control type="group">
-                    <left>$PARAM[width]</left>
-                    <control type="group">
+				
+					<visible>!$EXP[Exp_InfoDialogs]</visible>
+
+                    <include content="Animation_Zoom_In">
+						<param name="type">Visible</param>
+						<param name="delay">200</param>
+					</include>
+					<include content="Animation_Zoom_Out">
+						<param name="type">Hidden</param>
+						<param name="delay">200</param>
+					</include>
 					
-                        <top>-60</top>
-                        <bottom>-60</bottom>
-                        <left>40</left>
-                        <right>-100</right>
-						
-						<include content="Object_Hidden_Button" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
-							<param name="id">528</param>
-							<onfocus>SetFocus(526)</onfocus>
-							<onfocus>ClearProperty(StartScroll,Home)</onfocus>
-							<onunfocus>SetProperty(StartScroll,True,Home)</onunfocus>
+					<control type="group">				
+						<width>$PARAM[width]</width>
+						<top>225</top>					
+						<include content="Object_Bottom" condition="!Skin.HasSetting(Disable.ComboListDetailedView)">
+							<param name="bottom">200</param>
 						</include>
+						<include content="Object_Bottom" condition="Skin.HasSetting(Disable.ComboListDetailedView)">
+							<param name="bottom">30</param>
+						</include>	
+						
+						<animation effect="slide" start="0" end="0,177" time="400" tween="cubic" easing="out" condition="!Skin.HasSetting(Disable.ComboListDetailedView)" reversible="false">Conditional</animation>
 
-                        <include content="List_DialogSelect">
-                            <param name="id">$PARAM[comboid]</param>
-                            <param name="textcolor">main_fg</param>
-                            <param name="control">fixedlist</param>
-                            <param name="itemlayout_include">Layout_MediaList_Detailed</param>
-                            <param name="variation">7</param>
+						<include content="List_DialogSelect">
+							<param name="id">$PARAM[id]</param>
+							<param name="textcolor">main_fg</param>
+							<param name="control">list</param>
+							<param name="itemlayout_include">Layout_MediaList</param>
+							<param name="variation">true</param>
 
-                            <param name="item_height">293.33</param>
-                            <param name="misc">414.81</param>                           
+							<left>-20</left>
+							<right>-80</right>
 
-                            <include content="Action_View_Movement_OnBack">
-                                <param name="id">$PARAM[comboid]</param>
-                                <param name="onback">[Integer.IsEqual(Container($PARAM[comboid]).CurrentItem,1)]</param>
-                                <param name="backid">63</param>
-                                <param name="always">true</param>
-                            </include>							
-
-                            <animation type="Conditional" reversible="false" condition="Container($PARAM[comboid]).IsUpdating">
-                                <effect type="fade" start="100" end="0" time="200" delay="600" />
-                            </animation>
-
-                            <content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$VAR[View_$PARAM[id]_Content]</content>													
+							<onleft>SetProperty(List.ViewContainer,50)</onleft>
+							<onleft>SetFocus(303,1,absolute)</onleft>
 							
+							<onright>$PARAM[comboid]</onright>
+
+							<include content="Action_View_Movement_OnBack">
+								<param name="id">$PARAM[id]</param>
+								<param name="onback">True</param>
+							</include>
+
+							<visible>$PARAM[visible]</visible>
+							<viewtype label="$PARAM[viewtype_label]">list</viewtype>
+							<top>15</top>
+							<onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+							<onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+						</include>
+					</control>
+
+					<control type="group">
+						<left>$PARAM[width]</left>
+						<control type="group">
+						
+							<top>-90</top>
+							<bottom>-30</bottom>
+							<left>40</left>
+							<right>-100</right>
 							
-							<onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(ResetScroll," ",Home)</onfocus>
-							<onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(ResetScroll,Home)</onfocus>														
-                            <onunfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(ResetScroll," ",Home)</onunfocus>
-							<onunfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(ResetScroll,Home)</onunfocus>	
-							
-							<onfocus condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(StartScroll,True,Home)</onfocus>
-							<onunfocus condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(StartScroll,Home)</onunfocus>
-							
-							<onleft>$PARAM[id]</onleft>
-							<onright>66</onright>                            
+							<include content="Object_Hidden_Button" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+								<param name="id">528</param>
+								<onfocus>SetFocus(526)</onfocus>
+								<onfocus>ClearProperty(StartScroll,Home)</onfocus>
+								<onunfocus>SetProperty(StartScroll,True,Home)</onunfocus>
+							</include>
 
-                            <focusposition>1</focusposition>
-                            <movement>1</movement>
-                            <pagecontrol>66</pagecontrol>
-							
-                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                            <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
-                        </include>
+							<include content="List_DialogSelect">
+								<param name="id">$PARAM[comboid]</param>
+								<param name="textcolor">main_fg</param>
+								<param name="control">fixedlist</param>
+								<param name="itemlayout_include">Layout_MediaList_Detailed</param>
+								<param name="variation">7</param>
+
+								<param name="item_height">293.33</param>
+								<param name="misc">414.81</param>                           
+
+								<include content="Action_View_Movement_OnBack">
+									<param name="id">$PARAM[comboid]</param>
+									<param name="onback">[Integer.IsEqual(Container($PARAM[comboid]).CurrentItem,1)]</param>
+									<param name="backid">63</param>
+									<param name="always">true</param>
+								</include>							
+
+								<animation type="Conditional" reversible="false" condition="Container($PARAM[comboid]).IsUpdating">
+									<effect type="fade" start="100" end="0" time="200" delay="600" />
+								</animation>
+
+								<content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$VAR[View_$PARAM[id]_Content]</content>													
+								
+								
+								<onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(ResetScroll," ",Home)</onfocus>
+								<onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(ResetScroll,Home)</onfocus>														
+								<onunfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(ResetScroll," ",Home)</onunfocus>
+								<onunfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll)) + !Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(ResetScroll,Home)</onunfocus>	
+								
+								<onfocus condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">SetProperty(StartScroll,True,Home)</onfocus>
+								<onunfocus condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">ClearProperty(StartScroll,Home)</onunfocus>
+								
+								<onleft>$PARAM[id]</onleft>
+								<onright>66</onright>                            
+
+								<focusposition>1</focusposition>
+								<movement>1</movement>
+								<pagecontrol>66</pagecontrol>
+								
+								<onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+								<onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+							</include>
 
 
-                        <control type="grouplist">
-                            <top>-10</top>
-                            <left>20</left>
-                            <orientation>vertical</orientation>
+							<control type="grouplist">
+								<top>-10</top>
+								<left>20</left>
+								<orientation>vertical</orientation>
 
-                            <animation type="Conditional" reversible="false" condition="Container($PARAM[comboid]).IsUpdating">
-                                <effect type="fade" start="0" end="100" time="200" delay="600" />
-                            </animation>
-                            <animation type="Conditional" reversible="false" condition="!Container($PARAM[comboid]).IsUpdating">
-                                <effect type="fade" start="100" end="0" time="0" delay="0" />
-                            </animation>
+								<animation type="Conditional" reversible="false" condition="Container($PARAM[comboid]).IsUpdating">
+									<effect type="fade" start="0" end="100" time="200" delay="600" />
+								</animation>
+								<animation type="Conditional" reversible="false" condition="!Container($PARAM[comboid]).IsUpdating">
+									<effect type="fade" start="100" end="0" time="0" delay="0" />
+								</animation>
 
-                            <itemgap>20</itemgap>
+								<itemgap>20</itemgap>
 
-                            <include>View_ComboList_Loading_Item</include>
-                            <include>View_ComboList_Loading_Item</include>
-                            <include>View_ComboList_Loading_Item</include>
-                        </control>
-                    </control>
+								<include>View_ComboList_Loading_Item</include>
+								<include>View_ComboList_Loading_Item</include>
+								<include>View_ComboList_Loading_Item</include>
+							</control>
+						</control>
+					</control>
                 </control>
             </control>
         </definition>
@@ -290,7 +304,7 @@
         </control>
     </include>
 
-    <include name="View_MediaList_Landscape">
+    <include name="View_MediaList_Poster">
         <control type="group">
             <right>-40</right>
 			
@@ -298,10 +312,10 @@
 			<animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
 			
             <bottom>0</bottom>
-            <height>view_poster_itemlayout_h</height>
+            <height>764.4</height>
             <control type="group">
                 <right>0</right>
-                <height>view_poster_itemlayout_h</height>
+                <height>764.4</height>
                 <width>view_board_itemlayout_w</width>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include content="Transitions_Standard_Animation">
@@ -310,11 +324,11 @@
                     <param name="slide_x">320</param>
                 </include>
                 <include content="Layout_Poster">
-                    <param name="icon">$VAR[Image_Landscape]</param>
-                    <param name="diffuse">diffuse/landscape_w520_h294.png</param>
+                    <param name="icon">$VAR[Image_Poster]</param>
+                    <param name="diffuse">diffuse/poster_w460_h680.png</param>
                     <param name="indicator">true</param>
                     <param name="item_w">view_board_item_w</param>
-                    <param name="item_h">view_poster_item_h</param>
+                    <param name="item_h">764.4</param>
                 </include>
             </control>
         </control>

@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+	<variable name="Dialog_ContextMenu_SideButtons_WikiTitle">
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_tvshowtitle))">$ESCINFO[Container(99950).ListItem.Property(base_tvshowtitle)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_title))">$ESCINFO[Container(99950).ListItem.Property(base_title)]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_label)">$ESCINFO[Container(99950).ListItem.Property(base_label)]</value>
+    </variable>
+
+    <variable name="Dialog_ContextMenu_SideButtons_WikiType">
+        <value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),tvshow) | String.IsEqual(Container(99950).ListItem.Property(base_dbtype),season) | String.IsEqual(Container(99950).ListItem.Property(base_dbtype),episode)"> tv series</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie)"> film</value>
+    </variable>
+
     <include name="Dialog_ContextMenu_SideButtons">
         <include content="Dialog_Background_Side">
-            <param name="slide_condition">!Integer.IsEqual(Container(9000).NumItems,0)</param>
+            <param name="slide_condition">True</param>
             <param name="dialog_size">$PARAM[dialog_size]</param>
 
             <!-- Side Buttons -->
@@ -23,10 +34,10 @@
                     <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs]">
                         <param name="id">03</param>
                         <param name="label">$LOCALIZE[31066]</param>
-                        <param name="icon">special://skin/extras/icons/search.png</param>
+                        <param name="icon">special://skin/extras/icons/binoculars.png</param>
                         <param name="visible">[!String.IsEmpty(Container(99950).ListItem.Property(base_title))]</param>
                         <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>SetProperty(CustomSearchTerm,$ESCINFO[Container(99950).ListItem.Property(base_title)],Home)</onclick>
+                        <onclick>SetProperty(CustomSearchTerm,$VAR[Dialog_ContextMenu_SideButtons_WikiTitle],Home)</onclick>
                         <onclick>SetProperty(ReplaceWindow,1105,Home)</onclick>
                         <onclick condition="!Window.IsActive(1105)">ActivateWindow(1105)</onclick>
                         <onclick condition="Window.IsActive(1105)">ReplaceWindow(1197)</onclick>
@@ -37,7 +48,7 @@
                         <param name="icon">special://skin/extras/icons/globe.png</param>
                         <param name="visible">[!String.IsEmpty(Container(99950).ListItem.Property(base_title))]</param>
                         <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>runscript(script.wikipedia,wikipedia=$INFO[Container(99950).ListItem.Property(base_title)])</onclick>
+                        <onclick>runscript(script.wikipedia,wikipedia=$VAR[Dialog_ContextMenu_SideButtons_WikiTitle]$VAR[Dialog_ContextMenu_SideButtons_WikiType])</onclick>
                     </include>
                     <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs]">
                         <param name="id">05</param>
@@ -145,13 +156,8 @@
                 <include>$PARAM[dialog_size]</include>
                 <include>Animation_Right_Delay</include>
 
-                <include content="Dialog_Dim_Side">
-                    <param name="slide_condition">!Integer.IsEqual(Container(9000).NumItems,0)</param>
-                    <param name="slide_animation">$PARAM[include_fullmenu]</param>
-                </include>
-
                 <!-- Background Layer -->
-                <include condition="$PARAM[include_fullmenu]" content="Dialog_ContextMenu_SideButtons">
+                <include content="Dialog_ContextMenu_SideButtons" condition="![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | Window.IsVisible(DialogAddonInfo.xml) | Window.IsVisible(DialogAddonSettings.xml) | !String.IsEmpty(ListItem.Property(Addon.ID))]">
                     <param name="dialog_size">$PARAM[dialog_size]</param>
                 </include>
 
