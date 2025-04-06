@@ -845,7 +845,7 @@
                         <include content="Object_InfoCircle" condition="!$PARAM[selected]">
                             <param name="icon">$VAR[Image_Layout_CombinedIcon]</param>
                             <param name="role">$VAR[Label_MediaList_Title]</param>
-                            <param name="name">$VAR[Label_VideoInfo_DetailsItem]</param>
+                            <param name="name">$VAR[Label_VideoInfo_DetailsItem_Prefix,, ]$VAR[Label_VideoInfo_DetailsItem]</param>
 							<param name="colorbacking">main_fg_12</param>
                             <param name="colordiffuse">main_fg_90</param>
                             <include content="Object_Right" condition="$PARAM[variation]">
@@ -879,7 +879,7 @@
                             <param name="textcolor_top">$VAR[ColorSelected]</param>
                             <param name="textcolor_sub">$VAR[ColorSelected]</param>
                             <param name="role">$VAR[Label_MediaList_Title]</param>
-                            <param name="name">$VAR[Label_VideoInfo_DetailsItem]</param>
+                            <param name="name">$VAR[Label_VideoInfo_DetailsItem_Prefix_Selected,, ]$VAR[Label_VideoInfo_DetailsItem]</param>
                             <include content="Object_Right" condition="$PARAM[variation]">
                                 <param name="right">60</param>
                             </include>
@@ -2015,7 +2015,7 @@
                                 <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                                 <font>font_main_bold</font>
                                 <align>left</align>
-                                <visible>![!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]]</visible>
+                                <visible>![!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.IsEmpty(ListItem.Title)]]</visible>
                             </control>
                             <control type="label">
                                 <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
@@ -2027,7 +2027,7 @@
                                 <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
                                 <font>font_main_bold</font>
                                 <align>left</align>
-                                <visible>!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]</visible>
+                                <visible>!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.IsEmpty(ListItem.Title)]</visible>
                             </control>
                             <include content="Object_Indicator" condition="!Window.IsVisible(MyPVRGuide.xml)">
                                 <param name="shadow">false</param>
@@ -2055,7 +2055,7 @@
                                 <font>font_tiny</font>
                                 <align>left</align>
                                 <autoscroll>false</autoscroll>
-                                <visible>!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.ISEmpty(ListItem.Title)]</visible>
+                                <visible>!String.IsEmpty(ListItem.EpisodeName) | !String.IsEmpty(ListItem.Genre) | ListItem.IsFolder | [[Window.IsVisible(MyPVRChannels.xml) | Window.IsVisible(fullscreenvideo)] + !String.IsEmpty(ListItem.Title)]</visible>
                             </control>
                         </control>
                     </control>
@@ -2235,8 +2235,8 @@
                         </include>
                         <include content="Object_InfoCircle" condition="$PARAM[selected]">
                             <param name="icon">-</param>
-                            <param name="name">$INFO[$PARAM[listitem].Property(role),[COLOR=main_fg_30]$LOCALIZE[20347][/COLOR] ,]</param>
-                            <param name="role">$INFO[$PARAM[listitem].Year,[LIGHT], [COLOR=main_fg_30]—[/COLOR][/LIGHT] ]$INFO[$PARAM[listitem].Label]</param>
+                            <param name="name">$VAR[Label_Focused_Prefix_As_Role,, ]$INFO[$PARAM[listitem].Property(role)]</param>
+                            <param name="role">$INFO[$PARAM[listitem].Year,[LIGHT], [/LIGHT] ]$VAR[Label_Focused_Prefix_Hyphen_Year,[LIGHT], [/LIGHT] ]$INFO[$PARAM[listitem].Label]</param>
                             <param name="textcolor_top">$VAR[ColorSelected]</param>
                             <param name="textcolor_sub">$VAR[ColorSelected]</param>
                             <include content="Object_InfoCircle_Image">
@@ -2249,6 +2249,38 @@
             </control>
         </definition>
     </include>
+	
+	<variable name="Label_Focused_Prefix_As_Role">
+		<value condition="!String.IsEmpty(ListItem.Property(role)) + Skin.HasSetting(InvertSelectedText)">[COLOR=4d333333]$LOCALIZE[20347][/COLOR]</value>
+        <value condition="!String.IsEmpty(ListItem.Property(role))">[COLOR=main_fg_30]$LOCALIZE[20347][/COLOR]</value>
+    </variable>
+	
+	<variable name="Label_Focused_Prefix_Hyphen_Year">
+		<value condition="!String.IsEmpty(ListItem.Year) + Skin.HasSetting(InvertSelectedText)">[COLOR=4d333333]-[/COLOR]</value>
+        <value condition="!String.IsEmpty(ListItem.Year)">[COLOR=main_fg_30]—[/COLOR]</value>
+    </variable>
+	
+	
+	<variable name="Label_Focused_Prefix_By">
+		<value condition="Skin.HasSetting(InvertSelectedText)">[COLOR=4d333333]$LOCALIZE[31478][/COLOR]</value>
+        <value>[COLOR=main_fg_30]$LOCALIZE[31478][/COLOR]</value>
+    </variable>
+	
+	<variable name="Label_VideoInfo_DetailsItem_Prefix_Selected">
+		<value condition="[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(ListItem.Director)">$VAR[Label_Focused_Prefix_By]</value>
+		<value condition="!String.IsEmpty(ListItem.Artist) + !String.IsEqual(ListItem.DBType,artist)">$VAR[Label_Focused_Prefix_By]</value>
+		<value condition="!String.IsEmpty(ListItem.AlbumArtist) + !String.IsEqual(ListItem.DBType,artist)">$VAR[Label_Focused_Prefix_By]</value>
+		<value condition="!String.IsEmpty(ListItem.Property(role))">$VAR[Label_Focused_Prefix_By]</value>
+		<value />
+    </variable>	
+	
+	<variable name="Label_VideoInfo_DetailsItem_Prefix">
+		<value condition="[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(ListItem.Director)">[COLOR=main_fg_30]$LOCALIZE[31478][/COLOR]</value>
+		<value condition="!String.IsEmpty(ListItem.Artist) + !String.IsEqual(ListItem.DBType,artist)">[COLOR=main_fg_30]$LOCALIZE[31478][/COLOR]</value>
+		<value condition="!String.IsEmpty(ListItem.AlbumArtist) + !String.IsEqual(ListItem.DBType,artist)">[COLOR=main_fg_30]$LOCALIZE[31478][/COLOR]</value>
+		<value condition="!String.IsEmpty(ListItem.Property(role))">[COLOR=main_fg_30]$LOCALIZE[31478][/COLOR]</value>
+		<value />
+    </variable>	
 
     <include name="Layout_InfoDialog_Details">
         <param name="selected">false</param>
@@ -2272,7 +2304,7 @@
                         <visible>![$EXP[Exp_IsGenre] | $EXP[Exp_IsStudio] | $EXP[Exp_IsCountry]]</visible>
                         <include content="Object_InfoCircle" condition="!$PARAM[selected]">
                             <param name="icon">$VAR[Image_Layout_CombinedIcon]</param>
-                            <param name="name">$VAR[Label_VideoInfo_DetailsItem]</param>
+                            <param name="name">$VAR[Label_VideoInfo_DetailsItem_Prefix,, ]$VAR[Label_VideoInfo_DetailsItem]</param>
                             <param name="role">$VAR[Label_VideoInfo_DetailsMain]</param>
                             <include content="Object_InfoCircle_Image">
                                 <param name="colordiffuse">white</param>
@@ -2281,8 +2313,8 @@
                         </include>
                         <include content="Object_InfoCircle" condition="$PARAM[selected]">
                             <param name="icon">$VAR[Image_Layout_CombinedIcon]</param>
-                            <param name="name">$VAR[Label_VideoInfo_DetailsItem]</param>
-                            <param name="role">$VAR[Label_VideoInfo_DetailsMain]</param>
+                            <param name="name">$VAR[Label_VideoInfo_DetailsItem_Prefix_Selected,, ]$VAR[Label_VideoInfo_DetailsItem]</param>
+                            <param name="role">$VAR[Label_VideoInfo_DetailsMain_Selected]</param>
                             <param name="textcolor_top">$VAR[ColorSelected]</param>
                             <param name="textcolor_sub">$VAR[ColorSelected]</param>
                             <include content="Object_InfoCircle_Image">
@@ -2573,7 +2605,7 @@
                         <visible>![$EXP[Exp_IsGenre] | $EXP[Exp_IsStudio] | $EXP[Exp_IsCountry]]</visible>
                         <include content="Object_InfoCircle" condition="!$PARAM[selected]">
                             <param name="icon">$VAR[Image_Layout_CombinedIcon]</param>
-                            <param name="name">$PARAM[misc]</param>
+                            <param name="name">$VAR[Label_VideoInfo_DetailsItem_Prefix,, ]$PARAM[misc]</param>
                             <param name="role">$INFO[ListItem.Label]</param>
                             <param name="include_labels">$PARAM[detailed]</param>
                             <include content="Object_InfoCircle_Image">
@@ -2583,7 +2615,7 @@
                         </include>
                         <include content="Object_InfoCircle" condition="$PARAM[selected]">
                             <param name="icon">$VAR[Image_Layout_CombinedIcon]</param>
-                            <param name="name">$PARAM[misc]</param>
+                            <param name="name">$VAR[Label_VideoInfo_DetailsItem_Prefix_Selected,, ]$PARAM[misc]</param>
                             <param name="role">$INFO[ListItem.Label]</param>
                             <param name="include_labels">$PARAM[detailed]</param>
                             <param name="textcolor_top">$VAR[ColorSelected]</param>

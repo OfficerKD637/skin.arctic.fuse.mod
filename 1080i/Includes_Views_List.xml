@@ -18,13 +18,22 @@
             <include>View_MediaList_SquareLandscape</include>
         </include>
     </include>
-    <include name="View_516_Details_MediaList">
+    <include name="View_516_Landscape_MediaList">
         <include content="View_MediaList_Include">
             <param name="id">516</param>
             <param name="viewtype_label">$LOCALIZE[31480]</param>
             <param name="visible">$EXP[Exp_View_516]</param>
             <param name="right">view_board_itemlayout_w</param>
-            <include>View_MediaList_Poster</include>
+            <include>View_MediaList_Landscape</include>
+        </include>
+    </include>
+	<include name="View_517_BigPoster_MediaList">
+        <include content="View_MediaList_Include">
+            <param name="id">517</param>
+            <param name="viewtype_label">List BigPoster</param>
+            <param name="visible">$EXP[Exp_View_517]</param>
+            <param name="right">view_board_itemlayout_w</param>
+            <include>View_MediaList_BigPoster</include>
         </include>
     </include>
 	
@@ -303,8 +312,8 @@
             </control>
         </control>
     </include>
-
-    <include name="View_MediaList_Poster">
+	
+	<include name="View_MediaList_Landscape">
         <control type="group">
             <right>-40</right>
 			
@@ -312,6 +321,36 @@
 			<animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
 			
             <bottom>0</bottom>
+             <height>view_poster_itemlayout_h</height>
+            <control type="group">
+                <right>0</right>
+                <height>view_poster_itemlayout_h</height>
+                <width>view_board_itemlayout_w</width>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <include content="Transitions_Standard_Animation">
+                    <param name="visible_delay">120</param>
+                    <param name="hidden_delay">240</param>
+                    <param name="slide_x">320</param>
+                </include>
+                <include content="Layout_Poster">
+                    <param name="icon">$VAR[Image_Landscape]</param>
+                    <param name="diffuse">diffuse/landscape_w520_h294.png</param>
+                    <param name="indicator">true</param>
+                    <param name="item_w">view_board_item_w</param>
+                    <param name="item_h">view_poster_item_h</param>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <include name="View_MediaList_BigPoster">
+        <control type="group">
+            <right>-40</right>
+			
+			<animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+			<animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+			
+            <bottom>40</bottom>
             <height>764.4</height>
             <control type="group">
                 <right>0</right>

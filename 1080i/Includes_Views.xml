@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_MediaWindows_ID">
-        <views>50,51,52,502,512,522,524,55,500,56,516,530,531,532,533,534,535,536,537,538,539,540,545,585,555,560,565,570,575,580</views>
+        <views>50,51,52,502,512,522,524,55,500,56,516,517,530,531,532,533,534,535,536,537,538,539,540,545,585,555,560,565,570,575,580</views>
     </include>
 
     <include name="View_Row_Header">
@@ -227,7 +227,8 @@
         <include condition="$EXP[Exp_View_52_Include]">View_052_Poster_Row</include>
         <include condition="$EXP[Exp_View_500_Include]">View_500_Circle_Row</include>
         <include condition="$EXP[Exp_View_56_Include]">View_056_MediaList</include>
-        <include condition="$EXP[Exp_View_516_Include]">View_516_Details_MediaList</include> 
+        <include condition="$EXP[Exp_View_516_Include]">View_516_Landscape_MediaList</include> 
+        <include condition="$EXP[Exp_View_517_Include]">View_517_BigPoster_MediaList</include> 
 		<include condition="$EXP[Exp_View_524_Include]">View_524_ComboList</include>	
 		<include condition="$EXP[Exp_View_530_Include]">View_530_Banner_Row</include>	
 		<include condition="$EXP[Exp_View_531_Include]">View_531_Board_Row</include>	
@@ -567,12 +568,15 @@
                 <include>Texture_Scrollbar_V</include>
                 <include>Texture_Scrollbar_SliderBar_V</include>
                 <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
-                <onleft>50</onleft>
+                <onleft condition="!Control.IsVisible(524)">50</onleft>
+                <onleft condition="Control.IsVisible(524)">526</onleft>
                 <onright condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onright>
                 <onright condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</onright>
                 <onright condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onright>
                 <onright condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onright>
-                <onback>50</onback>
+                <onback condition="!Control.IsVisible(524)">50</onback>
+				<onback condition="Control.IsVisible(524) + !String.IsEqual(Skin.String(Navigation.OnBack,Previous))">50</onback>
+                <onback condition="Control.IsVisible(524) + String.IsEqual(Skin.String(Navigation.OnBack,Previous))">526</onback>                
             </control>
         </control>
     </include>
