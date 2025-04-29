@@ -198,49 +198,79 @@
     </include>
 
     <include name="Action_Hubs_Onload">
+	    <param name="is_homemenu">false</param>
         <definition>
 		
 			<include content="Generator_BuildViewTypes_Onload">
                  <param name="params">,no_reload</param>
              </include>
 		
-            <menucontrol>303</menucontrol>
-
-            <include content="Object_DefaultControl" condition="Window.IsVisible(Home)">
-                <param name="defaultcontrol">303</param>
-                <param name="always">false</param>
+            <include content="Object_MenuControl">
+                <param name="menucontrol">303</param>
             </include>
+			
+			<onload condition="$EXP[Exp_Window_IsHub_Prev]">ClearProperty(TMDbHelper.WidgetContainer.UpdateLock,1198)</onload>
+			
+			<include>Generator_BuildTextures_Onload</include>
 
-            <include content="Object_DefaultControl" condition="!Window.IsVisible(Home) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+            <!-- Default Controls Home -->            
+            <include content="Object_DefaultControl" condition="[$PARAM[is_homemenu]] + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
                 <param name="defaultcontrol">400</param>
                 <param name="always">false</param>
             </include>
-            <include content="Object_DefaultControl" condition="!Window.IsVisible(Home) + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+            <include content="Object_DefaultControl" condition="[$PARAM[is_homemenu]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
                 <param name="defaultcontrol">300</param>
                 <param name="always">false</param>
             </include>
+			
+			<!-- Default Controls Hubs -->
+            <include content="Object_DefaultControl" condition="![$PARAM[is_homemenu]] + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+                <param name="defaultcontrol">400</param>
+                <param name="always">false</param>
+            </include>
+            <include content="Object_DefaultControl" condition="![$PARAM[is_homemenu]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)">
+                <param name="defaultcontrol">300</param>
+                <param name="always">false</param>
+            </include>
+            <include content="Object_DefaultControl" condition="![$PARAM[is_homemenu]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)">
+                <param name="defaultcontrol">301</param>
+                <param name="always">false</param>
+            </include>
 
-            <onload condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + String.IsEmpty(Window($PARAM[window_id]).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,301,$PARAM[window_id])</onload>
-            <onload condition="Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + String.IsEmpty(Window($PARAM[window_id]).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,100601,$PARAM[window_id])</onload>
+            <!-- Set Default IDs (TODO: Check this is correct!) -->
+            <onload condition="![[$PARAM[is_homemenu]] | Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)] + String.IsEmpty(Window($PARAM[property_window_id]).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,301,$PARAM[property_window_id])</onload>
+            <onload condition="[[$PARAM[is_homemenu]] | Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)] + String.IsEmpty(Window($PARAM[property_window_id]).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,100601,$PARAM[property_window_id])</onload>
 
-            <onload condition="Skin.HasSetting(Hub.Home.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,Home)</onload>
-            <onload condition="Skin.HasSetting(Hub.1101.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1101)</onload>
-            <onload condition="Skin.HasSetting(Hub.1102.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1102)</onload>
-            <onload condition="Skin.HasSetting(Hub.1103.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1103)</onload>
-            <onload condition="Skin.HasSetting(Hub.1104.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1104)</onload>
-            <onload condition="Skin.HasSetting(Hub.1106.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1106)</onload>
-            <onload condition="Skin.HasSetting(Hub.1107.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1107)</onload>
-            <onload condition="Skin.HasSetting(Hub.1108.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1108)</onload>
-            <onload condition="Skin.HasSetting(Hub.1109.DisableSubmenu)">SetProperty(Slide.WidgetContainer,True,1109)</onload>
+            <!-- Set Default Positions -->
+            <onload>SetProperty(Slide.WidgetContainer,True,Home)</onload>
+            <onload condition="Skin.HasSetting(Hub.1101.DisableSubmenu) | Skin.HasSetting(Hub.1101.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1101)</onload>
+            <onload condition="Skin.HasSetting(Hub.1102.DisableSubmenu) | Skin.HasSetting(Hub.1102.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1102)</onload>
+            <onload condition="Skin.HasSetting(Hub.1103.DisableSubmenu) | Skin.HasSetting(Hub.1103.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1103)</onload>
+            <onload condition="Skin.HasSetting(Hub.1104.DisableSubmenu) | Skin.HasSetting(Hub.1104.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1104)</onload>
+            <onload condition="Skin.HasSetting(Hub.1106.DisableSubmenu) | Skin.HasSetting(Hub.1106.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1106)</onload>
+            <onload condition="Skin.HasSetting(Hub.1107.DisableSubmenu) | Skin.HasSetting(Hub.1107.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1107)</onload>
+            <onload condition="Skin.HasSetting(Hub.1108.DisableSubmenu) | Skin.HasSetting(Hub.1108.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1108)</onload>
+            <onload condition="Skin.HasSetting(Hub.1109.DisableSubmenu) | Skin.HasSetting(Hub.1109.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1109)</onload>
+            <onload condition="Skin.HasSetting(Hub.1110.DisableSubmenu) | Skin.HasSetting(Hub.1110.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1110)</onload>
+            <onload condition="Skin.HasSetting(Hub.1112.DisableSubmenu) | Skin.HasSetting(Hub.1112.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1112)</onload>
+            <onload condition="Skin.HasSetting(Hub.1114.DisableSubmenu) | Skin.HasSetting(Hub.1114.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1114)</onload>
+            <onload condition="Skin.HasSetting(Hub.1125.DisableSubmenu) | Skin.HasSetting(Hub.1125.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1125)</onload>
+            <onload condition="Skin.HasSetting(Hub.1126.DisableSubmenu) | Skin.HasSetting(Hub.1126.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1126)</onload>
+            <onload condition="Skin.HasSetting(Hub.1127.DisableSubmenu) | Skin.HasSetting(Hub.1127.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1127)</onload>
 
+            <!-- Reset Splash Timeout -->
+            <onload>AlarmClock(SplashTimeOut,noop,00:59,silent)</onload>
+
+            <!-- Build Shortcuts -->
             <include>Action_BuildShortcuts_OnLoad</include>
 
-            <onload condition="!Window.IsVisible(Home) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[window_id]).Property(Hub.ResetDefaultControl))">SetFocus(400)</onload>
-            <onload condition="!Window.IsVisible(Home) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[window_id]).Property(Hub.ResetDefaultControl))">SetFocus(300)</onload>
-            <onload>ClearProperty(Hub.ResetDefaultControl,$PARAM[window_id])</onload>
+            <!-- Hubs Refocus -->
+            <onload condition="![$PARAM[is_homemenu]] + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[property_window_id]).Property(Hub.ResetDefaultControl))">SetFocus(400)</onload>
+            <onload condition="![$PARAM[is_homemenu]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[property_window_id]).Property(Hub.ResetDefaultControl))">SetFocus(300)</onload>
+            <onload>ClearProperty(Hub.ResetDefaultControl,$PARAM[property_window_id])</onload>
 
-            <onload condition="Window.IsVisible(Home) + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">AlarmClock(refocuslaunch,SetFocus($VAR[Action_Hubs_MenuID],0,absolute),00:00,silent)</onload>
-            <onload condition="Window.IsVisible(Home) + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">SetProperty(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp,True,1198)</onload>
+            <onload condition="[$PARAM[is_homemenu]] + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">AlarmClock(refocuslaunch,SetFocus($VAR[Action_Hubs_MenuID],0,absolute),00:00,silent)</onload>
+            <onload condition="[$PARAM[is_homemenu]] + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">SetProperty(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp,True,1198)</onload>
         </definition>
     </include>
 
@@ -616,6 +646,12 @@
             <ondown condition="$PARAM[condition] + Window.IsVisible(1107)">SetProperty(Hubs.ExtendedWidgetBase,1107menu,Home)</ondown>
             <ondown condition="$PARAM[condition] + Window.IsVisible(1108)">SetProperty(Hubs.ExtendedWidgetBase,1108menu,Home)</ondown>
             <ondown condition="$PARAM[condition] + Window.IsVisible(1109)">SetProperty(Hubs.ExtendedWidgetBase,1109menu,Home)</ondown>
+            <ondown condition="$PARAM[condition] + Window.IsVisible(1110)">SetProperty(Hubs.ExtendedWidgetBase,1110menu,Home)</ondown>
+            <ondown condition="$PARAM[condition] + Window.IsVisible(1112)">SetProperty(Hubs.ExtendedWidgetBase,1112menu,Home)</ondown>
+            <ondown condition="$PARAM[condition] + Window.IsVisible(1114)">SetProperty(Hubs.ExtendedWidgetBase,1114menu,Home)</ondown>
+            <ondown condition="$PARAM[condition] + Window.IsVisible(1125)">SetProperty(Hubs.ExtendedWidgetBase,1125menu,Home)</ondown>
+            <ondown condition="$PARAM[condition] + Window.IsVisible(1126)">SetProperty(Hubs.ExtendedWidgetBase,1126menu,Home)</ondown>
+            <ondown condition="$PARAM[condition] + Window.IsVisible(1127)">SetProperty(Hubs.ExtendedWidgetBase,1127menu,Home)</ondown>
             <ondown condition="$PARAM[condition]">ActivateWindow($PARAM[window_id])</ondown>
         </definition>
     </include>
@@ -965,7 +1001,8 @@
     <include name="Action_OSD_Button_OnFocus">
         <onfocus condition="!String.IsEmpty(Skin.String(OSD_Timeout)) + Window.IsVisible(videoosd)">AlarmClock(osd_timeout,Dialog.Close(videoosd),$INFO[Skin.String(OSD_Timeout),00:,],silent)</onfocus>
         <onfocus condition="!String.IsEmpty(Skin.String(OSD_Timeout)) + Window.IsVisible(musicosd)">AlarmClock(osd_timeout,Dialog.Close(musicosd),$INFO[Skin.String(OSD_Timeout),00:,],silent)</onfocus>
-        <onunfocus>CancelAlarm(osd_timeout,true)</onunfocus>
+        <onfocus condition="!String.IsEmpty(Window(Home).Property(OSD.Prev.Window))">ClearProperty(OSD.Prev.Window)</onfocus>
+		<onunfocus>CancelAlarm(osd_timeout,true)</onunfocus>
     </include>
 
     <include name="_Action_Blur_Onload">
@@ -1029,6 +1066,12 @@
         <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1107)]">1107</value>
         <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1108)]">1108</value>
         <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1109)]">1109</value>
+        <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1110)]">1110</value>
+        <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1112)]">1112</value>
+        <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1114)]">1114</value>
+        <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1125)]">1125</value>
+        <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1126)]">1126</value>
+        <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + Window.IsVisible(1127)]">1127</value>
         <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Library) + Window.IsVisible(MyVideoNav.xml)]">Library</value>
         <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Hubs) + Window.IsVisible(1105)]">Discover</value>
         <value condition="[Skin.HasSetting(Trailers.EnableAutoPlayback.Hubs) + Window.IsVisible(1185)]">Search</value>		
@@ -1104,8 +1147,7 @@
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
     </include>
 
-    <variable name="Action_Shortcut_SetWidgetStyle_LargeSize">
-        <value condition="String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=searchmenu)" />
+    <variable name="Action_Shortcut_SetWidgetStyle_LargeSize">        
         <value>&amp;$LOCALIZE[20020]=Banner&amp;$LOCALIZE[31423]=Card&amp;$LOCALIZE[31419]=Overview&amp;$LOCALIZE[31424]=Board&amp;$LOCALIZE[31431]=Circle&amp;$LOCALIZE[31424] (T)=Placard</value>
     </variable>
 
