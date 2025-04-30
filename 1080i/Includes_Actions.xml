@@ -209,7 +209,13 @@
                 <param name="menucontrol">303</param>
             </include>
 			
-			<onload condition="$EXP[Exp_Window_IsHub_Prev]">ClearProperty(TMDbHelper.WidgetContainer.UpdateLock,1198)</onload>
+			<onload condition="$EXP[Exp_Window_IsHub_Prev]">ClearProperty(TMDbHelper.WidgetContainer.UpdateLock,1198)</onload>		
+			
+			<include>Action_Blur_Onload</include>
+			
+			<onload>Skin.SetString(TMDbHelper.MonitorContainer,99950)</onload>
+
+            <onload>ClearProperty(EndRow.HasFocus)</onload>			
 			
 			<include>Generator_BuildTextures_Onload</include>
 
@@ -242,7 +248,7 @@
             <onload condition="[[$PARAM[is_homemenu]] | Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)] + String.IsEmpty(Window($PARAM[property_window_id]).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,100601,$PARAM[property_window_id])</onload>
 
             <!-- Set Default Positions -->
-            <onload>SetProperty(Slide.WidgetContainer,True,Home)</onload>
+            <onload condition="Skin.HasSetting(Hub.Home.DisableSubmenu) | Skin.HasSetting(Hub.Home.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,Home)</onload>
             <onload condition="Skin.HasSetting(Hub.1101.DisableSubmenu) | Skin.HasSetting(Hub.1101.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1101)</onload>
             <onload condition="Skin.HasSetting(Hub.1102.DisableSubmenu) | Skin.HasSetting(Hub.1102.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1102)</onload>
             <onload condition="Skin.HasSetting(Hub.1103.DisableSubmenu) | Skin.HasSetting(Hub.1103.DisableSpotlight)">SetProperty(Slide.WidgetContainer,True,1103)</onload>
@@ -266,11 +272,15 @@
 
             <!-- Hubs Refocus -->
             <onload condition="![$PARAM[is_homemenu]] + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[property_window_id]).Property(Hub.ResetDefaultControl))">SetFocus(400)</onload>
-            <onload condition="![$PARAM[is_homemenu]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[property_window_id]).Property(Hub.ResetDefaultControl))">SetFocus(300)</onload>
+            <onload condition="![$PARAM[is_homemenu]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[property_window_id]).Property(Hub.ResetDefaultControl))">SetFocus(300)</onload>           
             <onload>ClearProperty(Hub.ResetDefaultControl,$PARAM[property_window_id])</onload>
+			
+			<onload condition="[$PARAM[is_homemenu]] + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[window_id]).Property(Hub.ResetDefaultControl))">SetFocus(400)</onload>
+            <onload condition="[$PARAM[is_homemenu]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !String.IsEmpty(Window($PARAM[window_id]).Property(Hub.ResetDefaultControl))">SetFocus(300)</onload>           
+            <onload>ClearProperty(Hub.ResetDefaultControl,$PARAM[window_id])</onload>
 
-            <onload condition="[$PARAM[is_homemenu]] + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">AlarmClock(refocuslaunch,SetFocus($VAR[Action_Hubs_MenuID],0,absolute),00:00,silent)</onload>
-            <onload condition="[$PARAM[is_homemenu]] + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">SetProperty(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp,True,1198)</onload>
+            <onload condition="Window.IsVisible(Home) + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">AlarmClock(refocuslaunch,SetFocus($VAR[Action_Hubs_MenuID],0,absolute),00:00,silent)</onload>
+            <onload condition="Window.IsVisible(Home) + String.IsEmpty(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp))">SetProperty(TMDbHelper.WidgetContainer.UpdateLock.OnStartUp,True,1198)</onload>
         </definition>
     </include>
 
@@ -284,13 +294,12 @@
     </variable>
 
     <variable name="Action_Hubs_Menu_SetFocus">
-        <value condition="Window.IsVisible(Home) + !String.IsEmpty(Window.Property(SideMenu.CurrentItem))">SetFocus($VAR[Action_Hubs_MenuID],$INFO[Window.Property(SideMenu.CurrentItem)],absolute)</value>
+        <value condition="$EXP[Exp_HomeHub_IsVisible] + !String.IsEmpty(Window.Property(SideMenu.CurrentItem))">SetFocus($VAR[Action_Hubs_MenuID],$INFO[Window.Property(SideMenu.CurrentItem)],absolute)</value>
         <value>SetFocus($VAR[Action_Hubs_MenuID])</value>
     </variable>
 
     <variable name="Action_Hubs_Complex_SetFocus">
         <value condition="Control.IsVisible(300) + !Integer.IsEqual(Container(300).NumItems,0)">SetFocus(300)</value>
-        <!-- <value>SetFocus(311)</value> -->
         <value>$VAR[Action_Hubs_Menu_SetFocus]</value>
     </variable>
 
@@ -351,7 +360,7 @@
 	<variable name="OnUp_Window_Switch">
 		<value condition="Skin.HasSetting(Home.OnUp.Hub) + Skin.HasSetting(SideMenu.EnableSearchAndOptions) + Skin.HasSetting(SideMenu.SwapSearchForDiscover)">ActivateWindow(1105)</value>
 		<value condition="Skin.HasSetting(Home.OnUp.Hub) + Skin.HasSetting(SideMenu.EnableSearchAndOptions) + !Skin.HasSetting(SideMenu.SwapSearchForDiscover)">ActivateWindow(1185)</value>
-		<value condition="!Skin.HasSetting(Home.OnUp.Hub)"></value>
+		<value condition="!Skin.HasSetting(Home.OnUp.Hub)">333</value>
 	</variable>
 
     <include name="Action_Widget_End">
