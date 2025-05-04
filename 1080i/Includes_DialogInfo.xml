@@ -484,7 +484,6 @@
                     <preloaditems>0</preloaditems>
                     <focusposition>1</focusposition>
                     <movement>1</movement>
-                    <!-- <onclick>runscript(script.wikipedia,wikipedia=$INFO[Container(5003).ListItem.Label],tmdb_type=person)</onclick> -->
                     <onclick>SetProperty(Item_Title,$INFO[Container(5003).ListItem.Label],1122)</onclick>
                     <onclick>SetProperty(Item_Query,$INFO[Container(5003).ListItem.Property(TMDb_ID),&amp;tmdb_id=,],1122)</onclick>
                     <onclick>SetProperty(Item_Icon,$INFO[Container(5003).ListItem.Icon],1122)</onclick>
@@ -494,11 +493,7 @@
 
                     <ondown condition="$EXP[Exp_HomeMenu_IsTopBar]">4000</ondown>
                     <onup condition="$EXP[Exp_HomeMenu_IsTopBar]">4000</onup>
-
-
-                    <!-- <onclick>SetProperty(CustomDialogSettingsTitle,$INFO[Container(5003).ListItem.Label],Home)</onclick>
-                    <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_DialogInfo_ActorChoice,Home)</onclick>
-                    <onclick>ActivateWindow(1118)</onclick> -->
+                  
                     <onclick>ActivateWindow(1122)</onclick>
                     <include content="DialogInfo_List_Movement">
                         <param name="id">5003</param>
@@ -507,7 +502,7 @@
                         <param name="ondown_condition">false</param>
                     </include>
                     <onright condition="![Integer.IsEqual(Container(5103).NumItems,0) | Container(5103).IsUpdating]">SetFocus(5303)</onright>
-                    <content target="videos">$VAR[Path_VideoInfo_Generic,,&amp;info=cast&amp;aggregate=true]</content>
+                    <content target="videos">$VAR[Path_VideoInfo_Generic,,&amp;info=cast&amp;aggregate=true]$VAR[Path_Param_Widget]</content>
                     <include content="Animation_ConditionalFade">
                         <param name="condition">!Control.HasFocus(5003) + !Control.HasFocus(5303)</param>
                     </include>
@@ -747,7 +742,7 @@
                 </item>
             </content>
 
-            <content>$VAR[Path_VideoInfo_Generic,,&amp;info=trakt_comments]</content>
+            <content>$VAR[Path_VideoInfo_Generic,,&amp;info=trakt_comments]$VAR[Path_Param_Widget]</content>
             <visible>String.IsEqual(Window.Property(DetailsView),Reviews)</visible>
             <animation effect="fade" start="100" end="0" condition="Container(5004).IsUpdating">Conditional</animation>
             <onfocus>SetProperty(ReviewsActive,1)</onfocus>
@@ -965,7 +960,6 @@
         <onright condition="[String.IsEqual(Window.Property(DetailsView),Albums) + !Integer.IsEqual(Container(5008).NumItems,0)]">SetFocus(5008,0,absolute)</onright>
 
         <onup condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">SetFocus(61)</onup>
-        <!-- <ondown condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">SetFocus(61)</ondown> -->
         <ondown condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">SendClick(10)</ondown>
     </include>
 
@@ -1793,7 +1787,7 @@
     </include>
 
     <include name="DialogInfo_VideoFanartContent">
-        <content target="images" limit="20" browse="never">$VAR[Path_VideoInfo_Generic,,&amp;info=fanart]</content>
+        <content target="images" limit="20" browse="never">$VAR[Path_VideoInfo_Generic,,&amp;info=fanart]$VAR[Path_Param_Widget]</content>
     </include>
 
     <include name="DialogInfo_Recommendations_BackgroundLoader">
