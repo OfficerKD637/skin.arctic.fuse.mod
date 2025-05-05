@@ -57,7 +57,7 @@
         <left>0</left>
         <top>260</top>
         <bottom>260</bottom>
-        <width>view_side</width>
+        <width>view_menu_main</width>
     </include>
 
     <include name="Home_Menu_List_Horz">
@@ -92,6 +92,7 @@
                     <param name="arrow_prev_visible">Container($PARAM[id]).HasPrevious</param>
                     <param name="arrow_next_visible">Container($PARAM[id]).HasNext</param>
                     <param name="colordiffuse">main_fg_30</param>
+                    <param name="arrow_centerleft">20.8%</param>
                 </include>
 
                 <control type="list" id="$PARAM[id]">
@@ -205,8 +206,20 @@
         <param name="layoutnf">[!Skin.HasSetting(Home.SideMenu.DisableIndicator) + Window.IsVisible(Home) + [Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups) + String.IsEqual(ListItem.Property(guid),Window.Property(SideMenu.CurrentGUID))]]</param>
         <param name="layoutfo">[!Skin.HasSetting(Home.SideMenu.DisableIndicator) + Window.IsVisible(Home) + [[Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups) + String.IsEqual(ListItem.Property(guid),Window.Property(SideMenu.CurrentGUID))] | !Skin.HasSetting(Hub.Home.DisableSubmenu) | Skin.HasSetting(Hub.Home.WidgetSelector) | Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)]]</param>
         <param name="altfocus">false</param>
+        <param name="expanded">Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)</param>
         <definition>
             <itemlayout height="100" width="100">
+                <control type="group">
+                    <width>40</width>
+                    <height>40</height>
+                    <centerleft>100</centerleft>
+                    <centertop>80%</centertop>
+                    <visible>$PARAM[expanded] + !Window.IsVisible(1115)</visible>
+                    <include content="Layout_Home_Menu_Label">
+                        <param name="selected">False</param>
+                        <param name="label">$INFO[ListItem.Label]</param>
+                    </include>
+                </control>
                 <control type="group">
                     <left>view_menu</left>
                     <top>40</top>
@@ -222,6 +235,18 @@
             <focusedlayout height="100" width="100" condition="![Skin.HasSetting(Topbar.EnableFocusedText) + $EXP[Exp_HomeMenu_IsTopBar] + !Window.IsVisible(1115)]">
                 <include condition="$PARAM[hidden_button_enabled]">$PARAM[hidden_button]</include>
                 <control type="group">
+                    <width>40</width>
+                    <height>40</height>
+                    <centerleft>100</centerleft>
+                    <centertop>80%</centertop>
+                    <visible>$PARAM[expanded] + !Window.IsVisible(1115)</visible>
+                    <include content="Layout_Home_Menu_Label">
+                        <param name="selected">True</param>
+                        <param name="label">$INFO[ListItem.Label]</param>
+                        <param name="scroll">true</param>
+                    </include>
+                </control>
+				<control type="group">
                     <left>view_menu</left>
                     <top>40</top>
                     <bottom>-40</bottom>
@@ -319,11 +344,10 @@
         </definition>
     </include>
 
-    <include name="Home_Menu_Fade_Labels">
-	<param name="detailed">false</param>
+    <include name="Home_Menu_Background_Fade">
 	<definition>
         <control type="group">
-            <width>480</width>
+            <width>view_menu_main</width>
             <visible>$EXP[Exp_HomeMenu_HasFocus]</visible>
             <include content="Animation_Slide_In">
                 <param name="type">Visible</param>
@@ -340,53 +364,6 @@
             <control type="image">
                 <right>-540</right>
                 <texture colordiffuse="$VAR[ColorBackgroundFade]">common/dim-thick-side-full.png</texture>
-            </control>
-        </control>
-        <control type="grouplist">
-            <top>320</top>
-            <left>80</left>
-            <orientation>vertical</orientation>
-            <animation effect="slide" end="0,-100" time="400" tween="quadratic" reversible="false" condition="Container(303).OnScrollNext">Conditional</animation>
-            <animation effect="slide" end="0,100" time="400" tween="quadratic" reversible="false" condition="Container(303).OnScrollPrevious">Conditional</animation>
-            <control type="group">
-                <height>100</height>
-                <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(0).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
-                    <param name="label">$INFO[Container(303).ListItemPosition(0).Label]</param>
-                </include>
-            </control>
-            <control type="group">
-                <height>100</height>
-                <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(1).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
-                    <param name="label">$INFO[Container(303).ListItemPosition(1).Label]</param>
-                </include>
-            </control>
-            <control type="group">
-                <height>100</height>
-                <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(2).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
-                    <param name="label">$INFO[Container(303).ListItemPosition(2).Label]</param>
-                </include>
-            </control>
-            <control type="group">
-                <height>100</height>
-                <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(3).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
-                    <param name="label">$INFO[Container(303).ListItemPosition(3).Label]</param>
-                </include>
-            </control>
-            <control type="group">
-                <height>100</height>
-                <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(4).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
-                    <param name="label">$INFO[Container(303).ListItemPosition(4).Label]</param>
-                </include>
             </control>
         </control>
 		</definition>
@@ -555,7 +532,7 @@
     <include name="Home_Menu_Vert">
         <control type="group">
             <include>Animation_Home_SlideOver</include>
-			<include condition="Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)">Home_Menu_Fade_Labels</include>
+			<include condition="Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)">Home_Menu_Background_Fade</include>
             <include condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">Home_Menu_SearchAndOptions_Vert</include>			
             <include content="Home_Menu_List">
                 <param name="onlist">$PARAM[onlist]</param>
