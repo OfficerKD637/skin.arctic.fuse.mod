@@ -202,8 +202,8 @@
     </include>
 
     <include name="Home_Menu_List_ItemLayout">
-        <param name="layoutnf">[!Skin.HasSetting(Home.SideMenu.DisableIndicator) + !Window.IsVisible(1172) + Window.IsVisible(Home) + [Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups) + String.IsEqual(ListItem.Property(guid),Window.Property(SideMenu.CurrentGUID))]]</param>
-        <param name="layoutfo">[!Skin.HasSetting(Home.SideMenu.DisableIndicator) + !Window.IsVisible(1172) + Window.IsVisible(Home) + [[Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups) + String.IsEqual(ListItem.Property(guid),Window.Property(SideMenu.CurrentGUID))] | !Skin.HasSetting(Hub.Home.DisableSubmenu) | Skin.HasSetting(Hub.Home.WidgetSelector) | Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)]]</param>
+        <param name="layoutnf">[!Skin.HasSetting(Home.SideMenu.DisableIndicator) + Window.IsVisible(Home) + [Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups) + String.IsEqual(ListItem.Property(guid),Window.Property(SideMenu.CurrentGUID))]]</param>
+        <param name="layoutfo">[!Skin.HasSetting(Home.SideMenu.DisableIndicator) + Window.IsVisible(Home) + [[Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups) + String.IsEqual(ListItem.Property(guid),Window.Property(SideMenu.CurrentGUID))] | !Skin.HasSetting(Hub.Home.DisableSubmenu) | Skin.HasSetting(Hub.Home.WidgetSelector) | Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)]]</param>
         <param name="altfocus">false</param>
         <definition>
             <itemlayout height="100" width="100">
@@ -320,6 +320,8 @@
     </include>
 
     <include name="Home_Menu_Fade_Labels">
+	<param name="detailed">false</param>
+	<definition>
         <control type="group">
             <width>480</width>
             <visible>$EXP[Exp_HomeMenu_HasFocus]</visible>
@@ -329,14 +331,6 @@
             </include>
             <include content="Animation_Slide_Out">
                 <param name="type">Hidden</param>
-                <param name="posx">-80</param>
-            </include>
-            <include content="Animation_Slide_In" condition="Window.IsActive(1172)">
-                <param name="type">WindowOpen</param>
-                <param name="posx">-80</param>
-            </include>
-            <include content="Animation_Slide_Out" condition="Window.IsActive(1172)">
-                <param name="type">WindowClose</param>
                 <param name="posx">-80</param>
             </include>
             <control type="image">
@@ -357,7 +351,7 @@
             <control type="group">
                 <height>100</height>
                 <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">true</param>
+                    <param name="detailed">$PARAM[detailed]</param>
                     <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(0).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
                     <param name="label">$INFO[Container(303).ListItemPosition(0).Label]</param>
                 </include>
@@ -365,7 +359,7 @@
             <control type="group">
                 <height>100</height>
                 <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">true</param>
+                    <param name="detailed">$PARAM[detailed]</param>
                     <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(1).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
                     <param name="label">$INFO[Container(303).ListItemPosition(1).Label]</param>
                 </include>
@@ -373,7 +367,7 @@
             <control type="group">
                 <height>100</height>
                 <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">true</param>
+                    <param name="detailed">$PARAM[detailed]</param>
                     <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(2).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
                     <param name="label">$INFO[Container(303).ListItemPosition(2).Label]</param>
                 </include>
@@ -381,7 +375,7 @@
             <control type="group">
                 <height>100</height>
                 <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">true</param>
+                    <param name="detailed">$PARAM[detailed]</param>
                     <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(3).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
                     <param name="label">$INFO[Container(303).ListItemPosition(3).Label]</param>
                 </include>
@@ -389,12 +383,13 @@
             <control type="group">
                 <height>100</height>
                 <include content="Layout_Home_Menu_Label">
-                    <param name="detailed">true</param>
+                    <param name="detailed">$PARAM[detailed]</param>
                     <param name="selected">[Control.HasFocus(303) + String.IsEqual(Container(303).ListItemPosition(4).CurrentItem,Container(303).ListItem.CurrentItem)]</param>
                     <param name="label">$INFO[Container(303).ListItemPosition(4).Label]</param>
                 </include>
             </control>
         </control>
+		</definition>
     </include>
 
     <include name="Home_Menu_SearchAndOptions_SearchButton">
@@ -418,7 +413,7 @@
 
                 <onleft condition="$PARAM[vertical] + !Skin.HasSetting(Navigation.DisableOptionsOnLeft)">ActivateWindow(1170)</onleft>
                 <onup condition="$PARAM[vertical]">308</onup>
-				<onup condition="![$PARAM[vertical] + Skin.HasSetting(Navigation.DisableOptionsOnLeft)]">ActivateWindow(1170)</onup>
+				<onup condition="Skin.String(Home.SideMenuCollapse,Topbar) + Skin.HasSetting(Navigation.DisableOptionsOnLeft)]">ActivateWindow(1170)</onup>
                 <ondown condition="$PARAM[vertical]">SetFocus(303,0,absolute)</ondown>
                 <ondown condition="![$PARAM[vertical]]">SetFocus($INFO[Window.Property(TMDbHelper.WidgetContainer)])</ondown>
                 <onright condition="$PARAM[vertical]">Action(Select)</onright>
@@ -464,14 +459,14 @@
                 <include>Home_Menu_List_SlideOver_OnFocus</include>
 
                 <onleft condition="$PARAM[vertical] + !Skin.HasSetting(Navigation.DisableOptionsOnLeft)">ActivateWindow(1170)</onleft>
-				<onup condition="![$PARAM[vertical] + Skin.HasSetting(Navigation.DisableOptionsOnLeft)]">ActivateWindow(1170)</onup>
+				<onup condition="Skin.String(Home.SideMenuCollapse,Topbar) + Skin.HasSetting(Navigation.DisableOptionsOnLeft)]">ActivateWindow(1170)</onup>
                 <ondown condition="$PARAM[vertical]">309</ondown>
 				<ondown condition="![$PARAM[vertical]]">SetFocus($INFO[Window.Property(TMDbHelper.WidgetContainer)])</ondown>
                 <onup condition="$PARAM[vertical]">SetFocus(303,9999,absolute)</onup>
                 <onright condition="$PARAM[vertical]">Action(Select)</onright>
 
                 <onright condition="![$PARAM[vertical]]">309</onright>
-                <onleft condition="![$PARAM[vertical]]">SetFocus(303,0,absolute)</onleft>
+                <onleft condition="![$PARAM[vertical]]">SetFocus(303,9999,absolute)</onleft>
 
                 <include content="Object_HitRect" condition="![$PARAM[vertical]] + !$EXP[Exp_Window_IsHub]">
                     <param name="x">0</param>
@@ -502,6 +497,10 @@
             <include content="Home_Menu_SearchAndOptions_SearchButton">
                 <param name="vertical">true</param>
             </include>
+			<include content="Layout_Home_Menu_Label" condition="Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)">
+                <param name="selected">Control.HasFocus(309)</param>
+                <param name="label">$LOCALIZE[137]</param>
+            </include>
         </control>
 
         <control type="group">
@@ -511,6 +510,10 @@
             <centerbottom>100</centerbottom>
             <include content="Home_Menu_SearchAndOptions_OptionButton">
                 <param name="vertical">true</param>
+            </include>
+			<include content="Layout_Home_Menu_Label" condition="Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)">
+                <param name="selected">Control.HasFocus(308)</param>
+                <param name="label">$LOCALIZE[33063]</param>
             </include>
         </control>
     </include>
@@ -552,7 +555,8 @@
     <include name="Home_Menu_Vert">
         <control type="group">
             <include>Animation_Home_SlideOver</include>
-            <include condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">Home_Menu_SearchAndOptions_Vert</include>
+			<include condition="Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)">Home_Menu_Fade_Labels</include>
+            <include condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">Home_Menu_SearchAndOptions_Vert</include>			
             <include content="Home_Menu_List">
                 <param name="onlist">$PARAM[onlist]</param>
                 <param name="window_id">$PARAM[window_id]</param>
@@ -643,18 +647,10 @@
     </include>
 
     <include name="Home_Menu_Media">
-        <include content="Home_Menu" condition="![!$EXP[Exp_HomeMenu_IsExpanded] + !$EXP[Exp_HomeMenu_IsTopBar] + Skin.HasSetting(Navigation.OnBack.ExpandMenu)]">
+        <include content="Home_Menu">
             <param name="onlist">$PARAM[onlist]</param>
             <param name="window_id">$PARAM[window_id]</param>
 			<param name="property_window_id">$PARAM[property_window_id]</param>
         </include>
-        <include content="Object_Hidden_Button" condition="!$EXP[Exp_HomeMenu_IsExpanded] + !$EXP[Exp_HomeMenu_IsTopBar] + Skin.HasSetting(Navigation.OnBack.ExpandMenu)">
-            <param name="id">303</param>
-			<param name="property_window_id">$PARAM[property_window_id]</param>
-            <onfocus>SetFocus($PARAM[onlist])</onfocus>
-            <onfocus>ActivateWindow(1172)</onfocus>
-        </include>
     </include>
-
-
 </includes>
