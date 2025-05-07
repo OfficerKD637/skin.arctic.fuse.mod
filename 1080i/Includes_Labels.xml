@@ -1846,31 +1846,30 @@
 		<!-- Canceled -->
         <value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Canceled) | String.IsEqual(Container(99950).ListItem.Status,Canceled)">$LOCALIZE[31490]</value>
         <!-- Ended -->
-		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Ended) | String.IsEqual(Container(99950).ListItem.Status,Ended)">$LOCALIZE[31493]</value>
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Ended)">$LOCALIZE[31493]</value>
         <!-- Released -->
 		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Released) | String.IsEqual(Container(99950).ListItem.Status,Released)">$LOCALIZE[31498]</value>
         <!-- Premiering (Movies) -->
-		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),In Production) | String.IsEqual(Container(99950).ListItem.Status,In Production) | String.IsEqual(Container(99950).ListItem.Property(Status),Post Production) | String.IsEqual(Container(99950).ListItem.Status,Post Production)] + Integer.IsEqual(Container(99950).ListItem.Year,System.Date(yyyy))">$LOCALIZE[31545]</value> 		
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie) + [String.IsEqual(Container(99950).ListItem.Status,In Production) | String.IsEqual(Container(99950).ListItem.Status,Post Production)] + Integer.IsEqual(Container(99950).ListItem.Year,System.Date(yyyy))">$LOCALIZE[31545]</value> 		
 		<!-- In-Production -->
 		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),In Production) | String.IsEqual(Container(99950).ListItem.Status,In Production) | String.IsEqual(Container(99950).ListItem.Property(Status),Post Production) | String.IsEqual(Container(99950).ListItem.Status,Post Production)">$LOCALIZE[31499]</value> 
         <!-- Planned -->
 		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Planned) | String.IsEqual(Container(99950).ListItem.Status,Planned)">$LOCALIZE[31504]</value>  
 	    <!-- Premiering -->
-		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Status,Returning Series)] + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Episode),1) + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Season),1)">$LOCALIZE[31545]</value> 
+		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Pilot) | [String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Episode),1) + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Season),1) + String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))]]">$LOCALIZE[31545]</value> 
 		<!-- Premiered -->
-		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Status,Returning Series)] + String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) + Integer.IsEqual(Container(99950).ListItem.Property(Last_Aired.Season),1) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),7) + String.IsEqual(Container(99950).ListItem.Property(Last_Aired),Container(99950).ListItem.Premiered)">$LOCALIZE[20473]</value>
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) + Integer.IsEqual(Container(99950).ListItem.Property(Last_Aired.Season),1) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),7) + String.IsEqual(Container(99950).ListItem.Property(Last_Aired),Container(99950).ListItem.Premiered)">$LOCALIZE[20473]</value>
+		 <!-- Airing -->
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired),7) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),8)">$LOCALIZE[31544]</value>
 		<!-- Returning -->
-		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Status,Returning Series)] + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Episode),1)">$LOCALIZE[31381]</value> 
-        <!-- Airing -->
-		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Status,Returning Series)] + !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired),7) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),8)">$LOCALIZE[31544]</value> 
-		<!-- Returning -->
-        <value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Status,Returning Series)] + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) | !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)]">$LOCALIZE[31381]</value>
-		<!-- Anticipated/Returning TBC -->
-		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Status,Returning Series)] + String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Season),Container(99950).ListItem.Season)">$LOCALIZE[31543]</value>
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + [Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Episode),1) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) | !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)]">$LOCALIZE[31381]</value>        
+		<!-- Anticipated -->
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Season),Container(99950).ListItem.Season)">$LOCALIZE[31543]</value>
+		<!-- Rumored (Movies) -->
+		<value condition="String.IsEqual(Container(99950).ListItem.Status,Rumored)">$LOCALIZE[31577]</value>
 		<!-- Last Aired -->
-		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Status,Returning Series)] + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)">$LOCALIZE[31555]</value> 
-        
-		<value>$LOCALIZE[13205]</value>
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)">$LOCALIZE[31555]</value>         
+		<value>-</value>
     </variable>
 	
 	<variable name="Label_Status_DateStyle">
@@ -1880,32 +1879,29 @@
 
     <variable name="Label_ListItem_StatusDate">
         <value condition="!Skin.HasSetting(CustomRating.EnablePremiereStatusDates)" />
+		<!-- MOVIES -->
+        <value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Container(99950).ListItem.Year)">$INFO[Container(99950).ListItem.Year]</value>
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie) + Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Container(99950).ListItem.Premiered)">$INFO[Container(99950).ListItem.Premiered]</value>
+        <value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie)">$LOCALIZE[31546]</value> <!-- TBC -->
 
-        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie) + !String.IsEmpty(Container(99950).ListItem.Year)">$INFO[Container(99950).ListItem.Year]</value>
-		
-		<value condition="Skin.String(CustomStatus.DateStyle,Long) + String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie) + !String.IsEmpty(Container(99950).ListItem.Premiered)">$INFO[Container(99950).ListItem.Premiered]</value>
-		
-        <value condition="String.IsEqual(Container(99950).ListItem.Property(base_dbtype),movie)">$LOCALIZE[31546]</value>
-
+        <!-- TV SHOWS / SEASONS / EPISODES -->
 		<!-- Next Aired -->
-
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired),0)">$LOCALIZE[33006]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired),1)">$LOCALIZE[33007]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsLess(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired),7)">$INFO[Container(99950).ListItem.Property(Next_Aired.Day)]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Year),System.Date(yyyy))">$INFO[Container(99950).ListItem.Property(Next_Aired.Short)]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))]">$INFO[Container(99950).ListItem.Property(Next_Aired.Short)] $INFO[Container(99950).ListItem.Property(Next_Aired.Year)]</value>	
+		
 		<!-- Anticipated/Returning TBC -->
 		<value condition="[String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Season),Container(99950).ListItem.Season)"></value>
 		
         <!-- Last Aired -->
-
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),0)">$LOCALIZE[33006]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),1)">$LOCALIZE[31547]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))] + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),7)">$INFO[Container(99950).ListItem.Property(Last_Aired.Day)]</value>
         
-		<!-- Only show last aired date in detailed if recent and show is not officially 'Cancelled' else show year to avoid confusion about Cancelled dates meaning -->
-		
-		<value condition="!Skin.String(CustomStatus.DateStyle,Long) + [![String.IsEqual(Container(99950).ListItem.Property(Status),Canceled) | String.IsEqual(Container(99950).ListItem.Status,Canceled)]] + [!String.IsEmpty(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Last_Aired.Year),System.Date(yyyy))">$INFO[Container(99950).ListItem.Property(Last_Aired.Short)]</value> 
+		<!-- Only show last aired date in detailed if recent and show is not officially 'Cancelled' else show year to avoid confusion about Cancelled dates meaning -->		
+		<value condition="!Skin.String(CustomStatus.DateStyle,Long) + !String.IsEqual(Container(99950).ListItem.Property(Status),Canceled) + [!String.IsEmpty(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Last_Aired.Year),System.Date(yyyy))">$INFO[Container(99950).ListItem.Property(Last_Aired.Short)]</value> 
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))]">$INFO[Container(99950).ListItem.Property(Last_Aired.Year)]</value>
 		
 		<!-- Long Date AF2 Style -->
@@ -1913,10 +1909,8 @@
         <value condition="Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))">$INFO[Container(99950).ListItem.Property(Last_Aired)]</value>        
 		
 		<!-- TBC -->
-
-        <value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Property(Status),Released) | String.IsEqual(Container(99950).ListItem.Property(Status),In Production) | String.IsEqual(Container(99950).ListItem.Property(Status),Post Production) | String.IsEqual(Container(99950).ListItem.Property(Status),Planned)]">$LOCALIZE[31546]</value>
-
-        <value>$LOCALIZE[1446]</value>
+        <value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) | String.IsEqual(Container(99950).ListItem.Property(Status),In Production) | String.IsEqual(Container(99950).ListItem.Property(Status),Post Production) | String.IsEqual(Container(99950).ListItem.Property(Status),Planned)] + [String.IsEmpty(Container(99950).ListItem.Property(Last_Aired)) | String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) | String.IsEmpty(Container(99950).ListItem.Year) | String.IsEmpty(Container(99950).ListItem.Premiered)]">$LOCALIZE[31546]</value>
+        <value />
     </variable>
 
     <variable name="Label_ListItem_NextAired_Header">
@@ -2310,9 +2304,10 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- More TMDbH compatibility fixes.
-- Simplify expanded menu option.
-- Cleanup code.		
+		<value>- TMDbH compatibility fixes.
+- Fix expanded menu option.
+- Separate button for renaming hubs to avoid confusion.
+- Some topbar navigation improvements.		
 - Other bug fixes and enhancements.
 		</value>		
 	</variable>
