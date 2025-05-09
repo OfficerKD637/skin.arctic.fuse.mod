@@ -21,7 +21,6 @@
                 <visible>$PARAM[visible]</visible>
                 <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Home_Topbar</include>
                 <include condition="!$EXP[Exp_HomeMenu_IsTopBar]">Animation_Home_SlideOver</include>
-                <include condition="!$EXP[Exp_HomeMenu_IsTopBar] + Skin.HasSetting(SideMenu.EnableSearchAndOptions)">Home_Menu_SearchAndOptions</include>
                 <include content="DialogInfo_ButtonGroup" condition="!$EXP[Exp_HomeMenu_IsTopBar]">
                     <param name="include">Items_DialogVideoInfo_MenuBar</param>
                     <param name="vertical">true</param>
@@ -902,7 +901,6 @@
         <control type="group">
             <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Home_Topbar</include>
             <include condition="!$EXP[Exp_HomeMenu_IsTopBar]">Animation_Home_SlideOver</include>
-            <include condition="!$EXP[Exp_HomeMenu_IsTopBar] + Skin.HasSetting(SideMenu.EnableSearchAndOptions)">Home_Menu_SearchAndOptions</include>
             <include content="DialogInfo_ButtonGroup_Basic" condition="!$EXP[Exp_HomeMenu_IsTopBar]">
                 <param name="include">Items_PersonCredits_MenuBar</param>
                 <param name="vertical">true</param>
@@ -1211,64 +1209,80 @@
                     <top>25</top>
                 </control>
                 <include content="Object_InfoCircle">
-                    <param name="icon">special://skin/extras/icons/video-addons.png</param>
                     <param name="role">$LOCALIZE[20339]</param>
                     <param name="name">$VAR[Label_FromDirector]</param>
+                    <param name="icon_background">true</param>					
+                    <param name="colordiffuse">white</param>
                     <include content="Object_InfoCircle_Image">
                         <param name="colordiffuse">white</param>
                         <param name="icon">$VAR[Image_DirectorIcon]</param>
+						<param name="fallback">special://skin/extras/icons/video-addons.png</param>
                     </include>
                     <visible>!String.IsEmpty(Container(99950).ListItem.Director) | !String.IsEmpty(ListItem.Director)</visible>
                 </include>
 
                 <include content="Object_InfoCircle">
-                    <param name="icon">special://skin/extras/icons/write.png</param>
                     <param name="role">$LOCALIZE[20417]</param>
                     <param name="name">$VAR[Label_FromWriter]</param>
+                    <param name="icon_background">true</param>					
+                    <param name="colordiffuse">white</param>
                     <include content="Object_InfoCircle_Image">
                         <param name="colordiffuse">white</param>
                         <param name="icon">$VAR[Image_WriterIcon]</param>
+						<param name="fallback">special://skin/extras/icons/write.png</param>
                     </include>
                     <visible>!String.IsEmpty(Container(99950).ListItem.Writer) | !String.IsEmpty(ListItem.Writer)</visible>
                 </include>
 
                 <include content="Object_InfoCircle">
-                    <param name="icon">special://skin/extras/icons/person.png</param>
                     <param name="role">$LOCALIZE[31065]</param>
                     <param name="name">$VAR[Label_Creator]</param>
+                    <param name="icon_background">true</param>					
+                    <param name="colordiffuse">white</param>
                     <include content="Object_InfoCircle_Image">
                         <param name="colordiffuse">white</param>
                         <param name="icon">$VAR[Image_CreatorIcon]</param>
+						<param name="fallback">special://skin/extras/icons/person.png</param>
                     </include>
                     <visible>!String.IsEmpty(Container(99950).ListItem.Property(Creator)) | !String.IsEmpty(ListItem.Property(Creator))</visible>
                 </include>
 
                 <include content="Object_InfoCircle">
-                    <param name="icon">special://skin/extras/icons/director.png</param>
                     <param name="role">$LOCALIZE[572]</param>
-                    <param name="name">$VAR[Label_FromStudio]</param>
+                    <param name="name">$VAR[Label_Studio]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
+                    <include content="Object_InfoCircle_Image">						
+                        <param name="colordiffuse">white</param>
+                        <param name="icon">$VAR[Image_CombinedStudio]</param>
+                        <param name="fallback">special://skin/extras/icons/director.png</param>
+                    </include>
                     <visible>!String.IsEmpty(Container(99950).ListItem.Studio) | !String.IsEmpty(ListItem.Studio)</visible>
                 </include>
 
                 <include content="Object_InfoCircle">
-                    <param name="icon">special://skin/extras/icons/cubes.png</param>
                     <param name="role">$LOCALIZE[31236]</param>
                     <param name="name">$INFO[Container(99950).ListItem.Property(Set.Name)]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
                     <include content="Object_InfoCircle_Image">
                         <param name="colordiffuse">white</param>
                         <param name="icon">$INFO[Container(99950).ListItem.Property(Set.Fanart)]</param>
+						<param name="fallback">special://skin/extras/icons/cubes.png</param>
                     </include>
                     <visible>!String.IsEmpty(Container(99950).ListItem.Property(Set.TMDb_ID))</visible>
                 </include>
 
 			
 				<include content="Object_InfoCircle">
-                    <param name="icon">special://skin/extras/icons/cubes.png</param>
                     <param name="role">$LOCALIZE[31159]</param>
                     <param name="name">[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
                     <include content="Object_InfoCircle_Image">
                         <param name="colordiffuse">white</param>
                         <param name="icon">$INFO[ListItem.Art(poster)]</param>
+						<param name="fallback">special://skin/extras/icons/cubes.png</param>
                     </include>
                     <visible>[!String.IsEmpty(ListItem.VideoVersionName) | !String.IsEmpty(ListItem.VideoCodec)]</visible>
                 </include>
@@ -1277,6 +1291,8 @@
                     <param name="icon">special://skin/extras/icons/tv.png</param>
                     <param name="role">$LOCALIZE[20360]</param>
                     <param name="name">$VAR[Label_EpisodeCount]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
                     <visible>String.IsEqual(Container(99950).ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Container(99950).ListItem.DBType,season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Container(99950).ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,episode)</visible>
                 </include>
 
@@ -1302,12 +1318,16 @@
                         <param name="icon">special://skin/extras/icons/genre.png</param>
                         <param name="role">$LOCALIZE[515]</param>
                         <param name="name">$VAR[Label_Genre]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Genre) | !String.IsEmpty(ListItem.Genre)</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/coins.png</param>
                         <param name="role">$LOCALIZE[31264] / $LOCALIZE[31265]</param>
                         <param name="name">$INFO[Container(99950).ListItem.Property(Revenue),, $LOCALIZE[19159] ]$INFO[Container(99950).ListItem.Property(Budget)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Revenue)) | !String.IsEmpty(Container(99950).ListItem.Property(Budget))</visible>
                         <visible>!String.IsEqual(Container(99950).ListItem.Property(Budget),$0)</visible>
                     </include>
@@ -1316,6 +1336,8 @@
                         <param name="icon">$VAR[Image_DialogInfo_Status]</param>
                         <param name="role">$VAR[Label_ListItem_NextAired_Header]</param>
                         <param name="name">$VAR[Label_ListItem_NextAired]$VAR[Label_ListItem_Status, (,)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Status)) | !String.IsEmpty(Container(99950).ListItem.Status)</visible>
                     </include>
 
@@ -1323,18 +1345,24 @@
                         <param name="icon">special://skin/extras/icons/earth-americas.png</param>
                         <param name="role">$LOCALIZE[574]</param>
                         <param name="name">$VAR[Label_Country]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Country) | !String.IsEmpty(ListItem.Country)</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/ticket.png</param>
                         <param name="role">$LOCALIZE[202]</param>
                         <param name="name">$VAR[Label_Tagline]</param>
+                        <param name="icon_background">true</param>
+					    <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Tagline) | !String.IsEmpty(ListItem.Tagline)</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/trophy.png</param>
                         <param name="role">$LOCALIZE[31064]</param>
                         <param name="name">$INFO[Container(99950).ListItem.Property(Awards)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(Container(99950).ListItem.Property(Awards))</visible>
                     </include>
                 </control>
@@ -1365,24 +1393,32 @@
                     <param name="icon">special://skin/extras/icons/genre.png</param>
                     <param name="role">$LOCALIZE[515]</param>
                     <param name="name">$INFO[ListItem.Genre]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
                     <visible>!String.IsEmpty(ListItem.Genre)</visible>
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon">special://skin/extras/icons/headphones-simple.png</param>
                     <param name="role">$LOCALIZE[31308]</param>
                     <param name="name">$VAR[Label_MusicMood]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
                     <visible>!String.IsEmpty(ListItem.Property(Artist_Mood)) | !String.IsEmpty(ListItem.Property(Album_Mood))</visible>
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon">special://skin/extras/icons/drum.png</param>
                     <param name="role">$LOCALIZE[736]</param>
                     <param name="name">$VAR[Label_MusicStyle]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
                     <visible>!String.IsEmpty(ListItem.Property(Artist_Style)) | !String.IsEmpty(ListItem.Property(Album_Style))</visible>
                 </include>
                 <include content="Object_InfoCircle">
                     <param name="icon">special://skin/extras/icons/radio.png</param>
                     <param name="role">$LOCALIZE[467]</param>
                     <param name="name">$VAR[Label_MusicType]</param>
+                    <param name="icon_background">true</param>
+                    <param name="colordiffuse">white</param>
                     <visible>!String.IsEmpty(ListItem.Property(Artist_Type)) | !String.IsEmpty(ListItem.Property(Album_Type))</visible>
                 </include>
 
@@ -1409,36 +1445,48 @@
                         <param name="icon">special://skin/extras/icons/cake-candles.png</param>
                         <param name="role">$LOCALIZE[21893]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Born)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Born))</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/cross.png</param>
                         <param name="role">$LOCALIZE[21897]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Died)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Died))</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/people-group.png</param>
                         <param name="role">$LOCALIZE[21894]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Formed)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Formed))</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/explosion.png</param>
                         <param name="role">$LOCALIZE[21896]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Disbanded)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Disbanded))</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/guitar.png</param>
                         <param name="role">$LOCALIZE[31307]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Instrument)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Instrument))</visible>
                     </include>
                     <include content="Object_InfoCircle">
                         <param name="icon">special://skin/extras/icons/compact-disc.png</param>
                         <param name="role">$LOCALIZE[21899]</param>
                         <param name="name">$INFO[ListItem.Property(Album_Label)]</param>
+                        <param name="icon_background">true</param>
+                        <param name="colordiffuse">white</param>
                         <visible>!String.IsEmpty(ListItem.Property(Album_Label))</visible>
                     </include>
                 </control>
