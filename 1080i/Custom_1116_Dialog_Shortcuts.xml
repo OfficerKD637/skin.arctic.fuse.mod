@@ -829,7 +829,7 @@
                                             <param name="control">button</param>
                                             <label>$LOCALIZE[31016]</label>
                                             <label2>[CAPITALIZE]$INFO[Container(22001).ListItem.Property(widget_sortby)][/CAPITALIZE]</label2>
-                                            <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_edit&amp;&amp;widget_sortby&amp;&amp;default&amp;label&amp;random&amp;dateadded&amp;lastplayed&amp;playcount&amp;year&amp;rating&amp;userrating&amp;votes&amp;genre&amp;country&amp;studio&amp;playlist&amp;episodenumber&amp;season&amp;totalepisodes&amp;watchedepisodes&amp;tvshowstatus&amp;tvshowtitle&amp;file&amp;title&amp;track&amp;time&amp;artist&amp;album&amp;lastupdated&amp;lastused&amp;date&amp;&amp;Sort by&amp;&amp;True])</onclick>
+                                            <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_edit&amp;&amp;widget_sortby&amp;&amp;default&amp;label&amp;userpreference&amp;random&amp;dateadded&amp;lastplayed&amp;playcount&amp;year&amp;rating&amp;userrating&amp;votes&amp;genre&amp;country&amp;studio&amp;playlist&amp;episodenumber&amp;season&amp;totalepisodes&amp;watchedepisodes&amp;tvshowstatus&amp;tvshowtitle&amp;file&amp;title&amp;track&amp;time&amp;artist&amp;album&amp;lastupdated&amp;lastused&amp;date&amp;&amp;Sort by&amp;&amp;True])</onclick>
                                             <visible>$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</visible>
                                             <onback>29999</onback>
                                             <visible>[!String.IsEqual(Container(22001).ListItem.Property(disabled),True) + !String.IsEqual(Container(22001).ListItem.Property(blank),True)]</visible>
@@ -897,6 +897,22 @@
                                             <visible>[!String.IsEqual(Container(22001).ListItem.Property(disabled),True) + !String.IsEqual(Container(22001).ListItem.Property(blank),True)]</visible>
                                             <visible>!$EXP[Shortcuts_Dialog_Exp_WidgetsOnly]</visible>
                                         </include>
+										
+										 <!-- Widgets: Prevent Reload -->
+                                        <include content="Settings_Button">
+                                            <param name="dialog">true</param>
+                                            <param name="id">23070</param>
+                                            <param name="control">radiobutton</param>
+                                            <label>$LOCALIZE[31578]</label>
+                                            <selected>String.IsEqual(Container(22001).ListItem.Property(widget_sortby),userpreference)</selected>
+                                            <onclick condition="!String.IsEqual(Container(22001).ListItem.Property(widget_sortby),userpreference)">RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_edit&amp;&amp;widget_sortby&amp;&amp;userpreference])</onclick>
+                                            <onclick condition="String.IsEqual(Container(22001).ListItem.Property(widget_sortby),userpreference)">RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_edit&amp;&amp;widget_sortby&amp;&amp;default])</onclick>
+                                            <visible>String.IsEqual(Container(22001).ListItem.Property(widget_sortby),userpreference) | String.IsEqual(Container(22001).ListItem.Property(widget_sortby),default) | String.IsEmpty(Container(22001).ListItem.Property(widget_sortby))</visible>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</visible>
+                                            <onback>29999</onback>
+                                            <visible>[!String.IsEqual(Container(22001).ListItem.Property(disabled),True) + !String.IsEqual(Container(22001).ListItem.Property(blank),True)]</visible>
+											<visible>!$EXP[Shortcuts_Dialog_Exp_WidgetsOnly]</visible>
+                                        </include> 
 
                                         <!-- Submenu: Widget Style -->
                                         <include content="Settings_Button">
