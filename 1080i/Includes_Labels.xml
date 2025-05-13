@@ -183,10 +183,15 @@
 		<value>$LOCALIZE[19171] [LOWERCASE]$LOCALIZE[31482] $LOCALIZE[21408][/LOWERCASE] X [LOWERCASE]$LOCALIZE[31130][/LOWERCASE] ($LOCALIZE[14116])</value>
 	</variable>
 	
-	<variable name="Label_Trailer_Soruce">
+	<variable name="Label_Trailer_Source">
 		<value condition="Skin.HasSetting(Trailers.Source.IMDb)">IMDb ($LOCALIZE[31068])</value>
 		<value>YouTube ($LOCALIZE[571])</value>
 	</variable>
+	
+	<variable name="Label_Trailer_Window_Header">
+	    <value condition="String.Contains(Player.Title,Window(Home).Property(PlayTrailerTitle)) | String.Contains(Window(Home).Property(PlayTrailerTitle),Player.Title)">$INFO[Player.Title]</value>
+	    <value>$INFO[Window(Home).Property(PlayTrailerTitle)]$INFO[Player.Title, - ]</value>
+	</variable>	
 	
 	<variable name="Trailer_IMDbID_Switch">
 		<value condition="String.IsEqual(Container(99950).ListItem.DBType,episode) | !String.IsEmpty(Container(99950).ListItem.Episode)">$INFO[Container(99950).ListItem.Property(tvshow.imdb_id)]</value>
@@ -255,6 +260,11 @@
 	<variable name="Label_Settings_WallOrientation">
         <value condition="$EXP[Exp_View_WallVert]">$LOCALIZE[31163]</value>
         <value>$LOCALIZE[31164]</value>
+    </variable>
+	
+	<variable name="Label_Settings_WallStyle">
+        <value condition="Skin.HasSetting(View.SwitchWallStyle)">$LOCALIZE[29915]</value>
+        <value>$LOCALIZE[10037]</value>
     </variable>
 
     <variable name="Label_Scrollbar_Content">
@@ -799,8 +809,8 @@
     </variable>
 	
 	<variable name="Label_Setting_ComboListDetailedView">
-        <value condition="Skin.HasSetting(Disable.ComboListDetailedView)">$LOCALIZE[10036]</value>
-        <value>$LOCALIZE[31137]</value>
+        <value condition="Skin.HasSetting(Disable.ComboListDetailedView)">$LOCALIZE[10037]</value>
+        <value>$LOCALIZE[29915]</value>
     </variable>
 
     <variable name="Label_Player_Plot">
@@ -1675,7 +1685,7 @@
         <value condition="!String.IsEmpty(ListItem.Property(Album_Type))">$INFO[ListItem.Property(Album_Type),[CAPITALIZE],[/CAPITALIZE]]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Type))">$INFO[ListItem.Property(Artist_Type)]</value>
     </variable>
-
+	
     <variable name="Label_WidgetPlot">
         <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_artist_description))">$INFO[Container(99950).ListItem.Property(base_artist_description)]</value>
         <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_album_description))">$INFO[Container(99950).ListItem.Property(base_album_description)]</value>
@@ -1849,7 +1859,7 @@
         <!-- Ended -->
 		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Ended)">$LOCALIZE[31493]</value>
         <!-- Released -->
-		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Released) | String.IsEqual(Container(99950).ListItem.Status,Released)">$LOCALIZE[31498]</value>
+		<value condition="[String.IsEqual(Container(99950).ListItem.Property(Status),Released) | [String.IsEqual(Container(99950).ListItem.DBType,movie) + String.IsEqual(Container(99950).ListItem.Status,Released)]]">$LOCALIZE[31498]</value>
         <!-- Premiering (Movies) -->
 		<value condition="String.IsEqual(Container(99950).ListItem.DBType,movie) + [String.IsEqual(Container(99950).ListItem.Status,In Production) | String.IsEqual(Container(99950).ListItem.Status,Post Production)] + Integer.IsEqual(Container(99950).ListItem.Year,System.Date(yyyy))">$LOCALIZE[31545]</value> 		
 		<!-- In-Production -->
@@ -1863,9 +1873,7 @@
 		 <!-- Airing -->
 		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired),7) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),8)">$LOCALIZE[31544]</value>
 		<!-- Returning -->
-		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + [Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Episode),1) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) | !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)]">$LOCALIZE[31381]</value>        
-		<!-- Anticipated -->
-		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Season),Container(99950).ListItem.Season)">$LOCALIZE[31543]</value>
+		<value condition="String.IsEqual(Container(99950).ListItem.Property(Status),Returning Series) + [Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Episode),1) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired)) | !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)]">$LOCALIZE[31381]</value>        		
 		<!-- Rumored (Movies) -->
 		<value condition="String.IsEqual(Container(99950).ListItem.Status,Rumored)">$LOCALIZE[31577]</value>
 		<!-- Last Aired -->
@@ -1892,9 +1900,6 @@
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsLess(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired),7)">$INFO[Container(99950).ListItem.Property(Next_Aired.Day)]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Next_Aired.Year),System.Date(yyyy))">$INFO[Container(99950).ListItem.Property(Next_Aired.Short)]</value>
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))]">$INFO[Container(99950).ListItem.Property(Next_Aired.Short)] $INFO[Container(99950).ListItem.Property(Next_Aired.Year)]</value>	
-		
-		<!-- Anticipated/Returning TBC -->
-		<value condition="[String.IsEmpty(Container(99950).ListItem.Property(Next_Aired.Days_Until_Aired)) | String.IsEmpty(Container(99950).ListItem.Property(Next_Aired))] + Integer.IsLess(Container(99950).ListItem.Property(Last_Aired.Season),Container(99950).ListItem.Season)"></value>
 		
         <!-- Last Aired -->
         <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired)) | !String.IsEmpty(Container(99950).ListItem.Property(Last_Aired))] + Integer.IsEqual(Container(99950).ListItem.Property(Last_Aired.Days_From_Aired),0)">$LOCALIZE[33006]</value>
@@ -2306,9 +2311,8 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- Add prevent reload widget option.
-- More bug fixes.
-- Cleanup code.		
+		<value>- Added 'Info' style to wall views.
+- Other bug fixes and enhancements.		
 		</value>		
 	</variable>
 

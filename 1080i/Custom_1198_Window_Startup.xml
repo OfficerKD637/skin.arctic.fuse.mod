@@ -2,42 +2,24 @@
 <window type="window" id="1198">
     <onload condition="Skin.HasSetting(SkinUserLogin.StartupLoginScreen) + !Skin.HasSetting(SkinUserLogin.Disabled) + String.IsEmpty(Window(Home).Property(StartupReplaceWindow))">SetProperty(StartupReplaceWindow,1195,Home)</onload>
     <onload>AlarmClock(SplashTimeOut,noop,00:59,silent)</onload>
-     <onload>SetProperty(InitStatus,$LOCALIZE[31023])</onload>
+    <onload>SetProperty(InitStatus,$LOCALIZE[31023])</onload>
 
     <include>Action_ButtonMenu_Onload</include>
 	
 	<include content="Generator_BuildViewTypes_Onload">
-         <param name="condition">String.IsEmpty(Window.Property(ReloadDone))</param>
-         <param name="params">,no_reload</param>
-     </include>    
+        <param name="condition">String.IsEmpty(Window.Property(ReloadDone))</param>
+        <param name="params">,no_reload</param>
+    </include>    
 	
 	<onload>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/skinvariables-startup.json,use_rules=True,var_image_simplebackground=$VAR[Image_SimpleBackground])</onload>
  
     <onunload>ClearProperty(StartupReplaceWindow,Home)</onunload>
     <controls>
         
-        <control type="group">
-            <visible>String.IsEmpty(Skin.String(Startup.VideoPath))</visible>
-            <include>Background_StartUp</include>
-            <include>Object_StartUp_Logo</include>
-            <control type="label">
-                <centertop>610</centertop>
-                <height>40</height>
-                <aligny>center</aligny>
-                <align>center</align>
-                <textcolor>main_logo</textcolor>
-                <label>$INFO[Window.Property(InitStatus)]...</label>
-            </control>
-            <control type="group">
-                <centertop>700</centertop>
-                <height>80</height>
-                <include content="Object_BusySpinner">
-                    <param name="colordiffuse">main_fg</param>
-                    <param name="haslabel">false</param>
-                </include>
-            </control>
-        </control>
-
+        <include content="Hub_Widget_Splash">
+            <param name="condition">String.IsEmpty(Skin.String(Startup.VideoPath))</param>
+            <param name="label">$INFO[Window.Property(InitStatus)]</param>
+        </include>
 
     </controls>
 </window>

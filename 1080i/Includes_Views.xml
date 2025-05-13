@@ -176,6 +176,35 @@
                 <include content="View_Combined_Info"><param name="id">55</param></include>
             </control>
         </control>
+		
+		<control type="group">
+			<visible>$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)</visible>			
+			    <control type="group">
+                    <animation effect="fade" start="100" end="0" delay="600" reversible="false" time="1" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
+                    <include>Dimension_Info</include>
+                    <include content="Info_Panel">
+					    <param name="infoline_visible">true</param>
+                        <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
+                        <param name="grouplistid">99954</param>
+                        <param name="title">true</param>
+                        <width>info_panel_w</width>
+                    </include>
+                </control>
+                <control type="group">
+                    <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="200" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
+                    <animation effect="fade" start="0" end="100" delay="200" reversible="false" time="200" condition="!$EXP[Exp_InfoDialogs]">Conditional</animation>
+                    <left>view_side</left>
+                    <top>520</top>
+                    <width>679</width>
+                    <height>405</height>
+                    <control type="group">
+                        <include content="Object_BigPoster">
+                            <param name="icon">$VAR[Image_Landscape]</param>
+                            <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
+                        </include>
+                    </control>
+                </control>
+		</control>
     </include>
 
     <include name="View_Row_Items_ViewLine">
@@ -188,11 +217,11 @@
                 </animation>
                 <animation type="Conditional" reversible="false" condition="[!$EXP[Exp_FilterWall_IsActive] | !$EXP[Exp_DiscoverWall_IsActive] | !$EXP[Exp_View_WallMode]]">
                     <effect type="slide" start="0,-334" end="0" time="200" delay="0" tween="cubic" easing="out" />
-                </animation>
-				
+                </animation>				
 				<animation type="Conditional" reversible="false" condition="[Control.IsVisible(524) + Skin.HasSetting(Disable.ComboListDetailedView)]">
                     <effect type="slide" end="0,-183" start="0" time="200" delay="0" tween="cubic" easing="out" />
-                </animation>                
+                </animation>
+                <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)">Conditional</animation>                
 				
 				<!-- Trailer fade animation -->
 				<include>Animation_Trailer_Dim</include>
