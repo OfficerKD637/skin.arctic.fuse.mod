@@ -302,7 +302,10 @@
                     <param name="widgets_include">skinvariables-$PARAM[categories]-widgets</param>
                 </include>
                 <include condition="![$PARAM[widgets_only]] + !$EXP[Exp_Hubs_Spotlight_IsDisabled]">Spotlight_Info</include>
-                <include>Widget_Transitions</include>
+                <control type="group">
+				    <include>Animation_Widgets_Topbar_SlideUp</include>
+				    <include>Widget_Transitions</include>
+				</control>
             </control>
 
             <!-- Furniture -->
@@ -318,9 +321,10 @@
                         <include condition="$EXP[Exp_HomeMenu_Info_IsHorizontal]" content="Animation_ConditionalFade">
                             <param name="condition">$EXP[Exp_InfoDialogs]</param>
                         </include>
-                        <include>Furniture_Top</include>
+                        <include condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_Top</include>
                     </control>
                 </control>
+				<include>Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <include>Furniture_Bottom_Right</include>
             </control>
 
@@ -552,6 +556,7 @@
             <height>hub_spotlight_h</height>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
+			<include>Animation_Widgets_Topbar_SlideUp</include>
             <include content="Animation_Fade_In">
                 <param name="condition">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</param>
                 <param name="delay">200</param>
@@ -705,9 +710,7 @@
             <control type="grouplist" id="$PARAM[id]">
                 <top>hub_widgets_grouplist_t</top>
                 <bottom>hub_widgets_grouplist_b</bottom>
-
-
-
+				<include>Animation_Widgets_Topbar_SlideUp</include>
 
                 <include condition="![$PARAM[widgets_only]]" content="Hub_Widgets_Grouplist__Def_Layout_Expanded">
                     <param name="window_id">$PARAM[window_id]</param>
@@ -772,11 +775,22 @@
         <definition>
             <control type="group">
                 <width>info_panel_w</width>
-                <height>342</height>
-                <left>view_side</left>
-                <top>view_top</top>
+				<left>view_side</left>
+                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <param name="height">342</param>
+				</include>
+                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <param name="height">422</param>
+				</include>                
+                <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+				    <param name="top">view_top</param>	
+				</include>
+				<include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+				    <param name="top">view_pad</param>	
+				</include>
                 <visible>$PARAM[visible]</visible>
                 <include>Animation_Transition_InfoPanel_Cond</include>
+                <include>Animation_Widgets_Topbar_SlideUp</include>
                 <animation effect="fade" start="100" end="0" condition="$PARAM[conditional_fade]" reversible="false">Conditional</animation>
                 <animation effect="fade" start="0" end="100" delay="200" time="200" tween="sine" easing="in" condition="![$PARAM[conditional_fade]]" reversible="false">Conditional</animation>
                 <nested />

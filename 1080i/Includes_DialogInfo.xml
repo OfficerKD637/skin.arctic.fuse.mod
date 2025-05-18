@@ -8,6 +8,7 @@
     <include name="DialogInfo_Body_Group">
         <include>Dimension_Info</include>
         <visible>!String.IsEqual(Window.Property(DetailsView),Artwork) | $EXP[Exp_HomeMenu_IsTopBar]</visible>
+		<include>Animation_Info_Topbar_SlideUp</include>
         <include content="Animation_Fade_In" condition="!$EXP[Exp_HomeMenu_IsTopBar]">
             <param name="type">Visible</param>
             <param name="delay">0</param>
@@ -44,13 +45,21 @@
 
     <include name="DialogInfo_InfoPanel_Group">
         <include>Animation_Transition_InfoPanel_Open</include>
+        <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+		    <param name="top">-79</param>	
+		</include>		
         <include content="Info_Panel">
             <param name="titlelabel">$VAR[Label_Title]</param>
             <param name="plotlabel">$VAR[Label_Plot]</param>
         </include>
         <include content="Info_Viewline">
             <param name="label">$VAR[Label_Info_ViewLine_Sub]</param>
-            <top>361</top>
+            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+			    <param name="top">361</param>	
+			</include>
+			<include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+			    <param name="top">440</param>	
+			</include>
             <left>0</left>
         </include>
     </include>
@@ -61,18 +70,20 @@
             <control type="group">
 				<include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_View_Topbar</include>
                 <include>Animation_Transition_InfoPanel_Open</include>
-                <include content="Furniture_Top">
+                <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                     <param name="include_topbar_animation">False</param>
                 </include>
             </control>
             <control type="group">
                 <include condition="$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Open</include>
                 <include condition="!$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Open_Fade</include>
+				<include>Animation_Info_Topbar_SlideUp_Fade</include>
                 <include>Furniture_Bottom_Left</include>
             </control>
         </control>
         <control type="group">
             <visible>!Window.IsVisible(1122)</visible>
+			<include>Animation_Info_Topbar_SlideUp_Fade</include>
             <include>Furniture_Bottom_Right</include>
             <include>Animation_Transition_InfoPanel_Open</include>
         </control>
@@ -1876,19 +1887,27 @@
                     <control type="group">
                         <visible>$PARAM[header_visible]</visible>
 						<include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_View_Topbar</include>
-                        <include content="Furniture_Top">
+                        <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                             <param name="label">$PARAM[header]</param>
                             <param name="include_topbar_animation">false</param>
                         </include>
                     </control>
                     <control type="group">
+					    <include content="Animation_Info_Topbar_SlideUp_Fade">
+		                    <param name="condition">[Control.HasFocus(4001) | Control.HasFocus(4002) | Control.HasFocus(4003) | Control.HasFocus(4004) | Control.HasFocus(4005)]</param>
+		                </include>
                         <include content="Hub_Widgets_Group_Furniture">
                             <param name="visible">true</param>
                             <param name="include_conditionalfade">false</param>
                         </include>
                     </control>
                 </control>
+				<control type="group">
+				<include content="Animation_Info_Topbar_SlideUp_Fade">
+		            <param name="condition">[Control.HasFocus(4001) | Control.HasFocus(4002) | Control.HasFocus(4003) | Control.HasFocus(4004) | Control.HasFocus(4005)]</param>
+		        </include>
                 <include>Furniture_Bottom_Right</include>
+				</control>
             </control>
             <include content="Hub_Widgets_HintArrows" condition="Skin.HasSetting(Views.DisableItemPeek)">
                 <param name="id">$PARAM[onlist]</param>
@@ -2037,6 +2056,7 @@
 
     <include name="DialogInfo_Recommendations_InfoPanel">
 		<param name="dimensions">Dimension_Info</param>
+		<param name="include_slideup">false</param>
         <definition>
 		<control type="group">
             <nested />
@@ -2046,6 +2066,7 @@
                 <param name="container">Container.</param>
                 <param name="plotlabel">$VAR[Label_Plot_Container]</param>
                 <width>info_panel_w</width>
+				<animation effect="slide" start="0" end="0,-79" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + $PARAM[include_slideup]" reversible="false">Conditional</animation>
             </include>
         </control>
 		</definition>

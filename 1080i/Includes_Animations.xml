@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+    
+	<include name="Animation_Widgets_Topbar_SlideUp">
+	<param name="condition">[[!Skin.HasSetting(Sidemenu.SwapInfoPosition) + [Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml)]]]</param>
+	    <definition>
+		    <animation effect="slide" start="0" end="0,80" time="200" delay="0" tween="sine" easing="in" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + $EXP[Exp_HomeMenu_HasFocusBG]" reversible="false">Conditional</animation>
+		    <animation effect="slide" start="0" end="0,80" time="200" delay="200" tween="sine" easing="in" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + $PARAM[condition]" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0,80" end="0" time="200" delay="0" tween="sine" easing="in" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !$EXP[Exp_HomeMenu_HasFocusBG]" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0,80" end="0" time="200" delay="200" tween="sine" easing="in" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !$PARAM[condition]" reversible="false">Conditional</animation>
+		</definition>
+	</include>
+	
+	<include name="Animation_Widgets_Topbar_SlideUp_Fade">
+	<param name="condition">[[!Skin.HasSetting(Sidemenu.SwapInfoPosition) + [Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml)]]]</param>
+	    <definition>
+		    <animation effect="fade" start="100" end="0" time="200" delay="0" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + $EXP[Exp_HomeMenu_HasFocusBG]" reversible="false">Conditional</animation>
+		    <animation effect="fade" start="100" end="0" time="200" delay="200" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + $PARAM[condition]" reversible="false">Conditional</animation>
+            <animation effect="fade" start="0" end="100" time="200" delay="0" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !$EXP[Exp_HomeMenu_HasFocusBG]" reversible="false">Conditional</animation>
+            <animation effect="fade" start="0" end="100" time="200" delay="200" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !$PARAM[condition]" reversible="false">Conditional</animation>
+		</definition>
+	</include>
 
+    <include name="Animation_Info_Topbar_SlideUp">
+	    <param name="condition">ControlGroup(4000).HasFocus()</param>
+	    <definition>
+		    <animation effect="slide" start="0" end="0,80" time="200" tween="sine" easing="in" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !Skin.HasSetting(Sidemenu.SwapInfoPosition) + $PARAM[condition]" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0,80" end="0" time="200" tween="sine" easing="in" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !Skin.HasSetting(Sidemenu.SwapInfoPosition) + !$PARAM[condition]" reversible="false">Conditional</animation>
+		</definition>
+	</include>
+	
+	<include name="Animation_Info_Topbar_SlideUp_Fade">
+	    <param name="condition">ControlGroup(4000).HasFocus()</param>
+	    <definition>
+		    <animation effect="fade" start="100" end="0" time="200" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !Skin.HasSetting(Sidemenu.SwapInfoPosition) + $PARAM[condition]" reversible="false">Conditional</animation>
+            <animation effect="fade" start="0" end="100" time="200" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !Skin.HasSetting(Sidemenu.SwapInfoPosition) + !$PARAM[condition]" reversible="false">Conditional</animation>
+		</definition>
+	</include>	
+	
 	<include name="Animation_Trailer_Dim">
 		<param name="condition">!Window.IsActive(DialogVideoInfo.xml) + Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + Skin.HasSetting(Trailers.EnableAutoPlayback) + !String.IsEmpty(Window(Home).Property(PlayTrailerTrigger)) + [[!Skin.HasSetting(Trailers.Source.IMDb) + !String.IsEqual(Window(Home).Property(PlayTrailer),Container(99950).ListItem.Trailer)] | [Skin.HasSetting(Trailers.Source.IMDb) + !String.EndsWith(Window(Home).Property(PlayTrailer),Container(99950).ListItem.Property(imdb_id))]] + System.IdleTime(1)</param>
 		<param name="end">FF2d2d2d</param>

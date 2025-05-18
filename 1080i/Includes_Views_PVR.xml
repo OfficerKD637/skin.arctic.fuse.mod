@@ -242,6 +242,7 @@
             <include>Animation_View_WindowChange</include>
             <control type="group">
                 <include>Animation_View_SlideOver</include>
+                <include>Animation_Widgets_Topbar_SlideUp</include>
                 <include content="Object_Right" condition="$EXP[Exp_HomeMenu_IsExpanded]">
                     <param name="right">100</param>
                 </include>
@@ -268,8 +269,11 @@
                         </control>
                         <include>$PARAM[include]</include>
                     </control>
+				<control type="group">	
+					<include>Animation_Widgets_Topbar_SlideUp_Fade</include>
                     <include>Furniture_Bottom_Left</include>
                     <include>View_PVR_GroupSwitcher</include>
+                </control>
                 </control>
                 <control type="group">
                     <include>Animation_Group_Bumper</include>
@@ -277,7 +281,12 @@
                     <include content="Info_Panel">
                         <param name="titlelabel">$VAR[Label_Title]</param>
                         <param name="plotlabel">$VAR[Label_Plot]</param>
-                        <top>view_top</top>
+                        <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+							<param name="top">view_top</param>	
+						</include>
+						<include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+							<param name="top">view_pad</param>	
+						</include>
                         <width>info_panel_w</width>
                         <left>view_side</left>
                     </include>
@@ -288,7 +297,10 @@
                     <include>View_Row_Header</include>
                 </control>
             </control>
-            <include>Furniture_Bottom_Right</include>
+			<control type="group">	
+				<include>Animation_Widgets_Topbar_SlideUp_Fade</include>
+                <include>Furniture_Bottom_Right</include>
+			</control>	
         </control>
     </include>
 

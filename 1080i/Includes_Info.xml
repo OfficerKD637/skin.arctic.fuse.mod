@@ -55,7 +55,7 @@
 			<scroll>true</scroll>			
         </control> 
         <control type="textbox">
-			<visible>Skin.HasSetting(Multiline.Title) + !String.IsEqual(Skin.Font,NotoRoboto (Fallback))</visible>
+			<visible>Skin.HasSetting(Multiline.Title) + !String.IsEqual(Skin.Font,NotoUniversal (Fallback))</visible>
 			<height>160</height>
 			<bottom>5</bottom>
 			<aligny>center</aligny>
@@ -65,7 +65,7 @@
 			<autoscroll delay="2000" time="3000" repeat="10000">true</autoscroll>	
         </control>
         <control type="textbox">
-			<visible>Skin.HasSetting(Multiline.Title) + String.IsEqual(Skin.Font,NotoRoboto (Fallback))</visible>
+			<visible>Skin.HasSetting(Multiline.Title) + String.IsEqual(Skin.Font,NotoUniversal (Fallback))</visible>
 			<height>190</height>
 			<bottom>5</bottom>
 			<aligny>center</aligny>
@@ -3740,8 +3740,13 @@
     </include>
 	
 	 <include name="Info_Panel_Dimensions_FullSize">
-        <height>420</height>
-        <top>view_top</top>
+        <height>422</height>
+        <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+		   <param name="top">view_top</param>	
+		</include>
+		<include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+		    <param name="top">view_pad</param>	
+		</include>
     </include>
 
     <include name="Info_Panel_Dimensions_MainSize">
@@ -3805,10 +3810,19 @@
                     </control>
 
                     <!-- Textbox -->
-                    <include content="Info_Panel_Textbox">
+                    <include content="Info_Panel_Textbox" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                         <param name="plotlabel">$PARAM[plotlabel]</param>
                         <param name="plotwidth">$PARAM[plotwidth]</param>
                         <param name="plotheight">$PARAM[plotheight]</param>
+                        <param name="details">$PARAM[details]</param>
+                        <param name="details_include">$PARAM[details_include]</param>
+                        <param name="container">$PARAM[container]</param>
+                    </include>
+					
+					<include content="Info_Panel_Textbox" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                        <param name="plotlabel">$PARAM[plotlabel]</param>
+                        <param name="plotwidth">$PARAM[plotwidth]</param>
+                        <param name="plotheight">203</param>
                         <param name="details">$PARAM[details]</param>
                         <param name="details_include">$PARAM[details_include]</param>
                         <param name="container">$PARAM[container]</param>

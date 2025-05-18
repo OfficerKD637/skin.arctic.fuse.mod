@@ -206,10 +206,14 @@
                     <param name="plotlabel">$VAR[Label_Plot_C513]</param>
                     <param name="visible">Control.HasFocus(513)</param>
                     <width>info_panel_w</width>
+					<animation effect="slide" start="0" end="0,-79" condition="Skin.HasSetting(Furniture.DisableLeftHeader)" reversible="false">Conditional</animation>
                 </include>
 
                 <!-- Details List -->
-                <control type="group">
+                <control type="group">					
+				<animation type="WindowOpen" reversible="false" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar) + !Skin.HasSetting(Sidemenu.SwapInfoPosition)">
+					<effect type="slide" start="0,80" end="0" time="200" tween="sine" easing="in" />
+				</animation>
                     <top>431</top>
                     <include content="List_Button_Row">
                         <param name="id">7000</param>
@@ -320,7 +324,7 @@
             </include>
             <control type="group">
                 <include>Animation_View_SlideOver</include>
-                <include content="Furniture_Top">
+                <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                     <param name="label">$LOCALIZE[19033]</param>
                 </include>
                 <include content="Furniture_Bottom_Left">
