@@ -3715,26 +3715,67 @@
         </control>
     </include>
     
-    <include name="Info_Panel_Textbox">
+    <include name="_Info_Panel_Rating_Visible">
+        <visible>$PARAM[mod][String.IsEqual(Container(99950).ListItem.DBType,movie) | String.IsEqual(Container(99950).ListItem.DBType,tvshow) | String.IsEqual(Container(99950).ListItem.DBType,season) | String.IsEqual(Container(99950).ListItem.DBType,episode)]</visible>
+    </include>
+
+    <include name="_Info_Panel_NoRating_Visible">
+        <visible>$PARAM[mod][False]</visible>
+    </include>
+
+    <include name="Info_Panel_Rating_Visible">
+        <include content="_Info_Panel_Rating_Visible" condition="!Skin.HasSetting(Info.DisableAllRatings)">
+            <param name="mod">$PARAM[mod]</param>
+        </include>
+        <include content="_Info_Panel_NoRating_Visible" condition="Skin.HasSetting(Info.DisableAllRatings)">
+            <param name="mod">$PARAM[mod]</param>
+        </include>
+    </include>
+	
+	
+	<include name="Info_Panel_Textbox">
         <param name="colordiffuse">main_fg</param>
         <param name="details">true</param>
         <param name="details_include">Items_Null</param>
         <param name="check_ratings">true</param>
-        <param name="visible">true</param>
-        <param name="left">0</param>
+        <param name="visible_ratings">false</param>
         <definition>
-            <control type="textbox">
+            <control type="group">
                 <top>17</top>
-                <left>$PARAM[left]</left>
                 <height>$PARAM[plotheight]</height>
-				<aligny>top</aligny>
-                <width>$PARAM[plotwidth]</width>
-                <label>$PARAM[plotlabel]</label>
-                <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                <font>font_main_plot</font>
-                <visible>$PARAM[visible]</visible>
                 <visible>$PARAM[details]</visible>
                 <include>$PARAM[details_include]</include>
+                <control type="textbox">
+                    <width>$PARAM[plotwidth]</width>
+                    <label>$PARAM[plotlabel]</label>
+                    <aligny>top</aligny>
+                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                    <font>font_main_plot</font>
+                    <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                        <param name="top">-40</param>
+                    </include>
+                    <include content="Info_Panel_Rating_Visible" condition="$PARAM[check_ratings]">
+                        <param name="container">$PARAM[container]</param>
+                    </include>
+                    <visible>$PARAM[check_ratings] | $PARAM[visible_ratings]</visible>					
+                </control>
+                <control type="textbox">
+                    <width>$PARAM[plotwidth]</width>
+                    <label>$PARAM[plotlabel]</label>
+                    <aligny>top</aligny>
+                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                    <font>font_main_plot</font>
+                    <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                        <param name="top">-40</param>
+                    </include>
+                    <bottom>-40</bottom>
+                    <include content="Info_Panel_Rating_Visible" condition="$PARAM[check_ratings]">
+                        <param name="mod">!</param>
+                        <param name="container">$PARAM[container]</param>
+                    </include>
+                    <visible>$PARAM[check_ratings] | ![$PARAM[visible_ratings]]</visible>
+                </control>
+                <nested />
             </control>
         </definition>
     </include>
@@ -3833,7 +3874,10 @@
                         <top>0</top>
                         <left>0</left>
                         <visible>$PARAM[details]</visible>
-                        <include>$PARAM[details_include]</include>                        
+                        <include>$PARAM[details_include]</include>
+                        <include content="Info_Panel_Rating_Visible">
+                            <param name="container">$PARAM[container]</param>
+                        </include>
                     </include>
                 </control>
             </control>
