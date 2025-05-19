@@ -10,6 +10,7 @@
         <param name="shadowcolor_sublabel">main_bg_12</param>
         <param name="include_topbar_animation">$EXP[Exp_HomeMenu_IsTopBar]</param>
         <param name="clock">Skin.HasSetting(Furniture.EnableClock.TopLeft)</param>
+		<param name="include_left_datelabel">true</param>
         <definition>
             <include content="_Furniture_Top" condition="$PARAM[enabled]">
                 <param name="id">$PARAM[id]</param>
@@ -18,6 +19,7 @@
                 <param name="textcolor_sublabel">$PARAM[textcolor_sublabel]</param>
                 <param name="shadowcolor_sublabel">$PARAM[shadowcolor_sublabel]</param>
                 <param name="include_topbar_animation">$PARAM[include_topbar_animation]</param>
+                <param name="include_left_datelabel">$PARAM[include_left_datelabel]</param>
                 <param name="clock">$PARAM[clock]</param>
             </include>
         </definition>
@@ -34,7 +36,7 @@
                     <param name="textcolor">$PARAM[textcolor]</param>
                     <param name="label">$PARAM[label]</param>
                 </include>
-                <include content="Furniture_DateLabel">
+                <include content="Furniture_DateLabel" condition="$PARAM[include_left_datelabel]">
                     <param name="textcolor">$PARAM[textcolor_sublabel]</param>
                     <param name="shadowcolor">$PARAM[shadowcolor_sublabel]</param>
                     <param name="visible">!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | $PARAM[clock]]</param>
@@ -296,6 +298,56 @@
                 <height>50</height>
                 <visible>$PARAM[visible]</visible>
             </control>
+        </definition>
+    </include>
+	
+	<include name="Furniture_Right_SlidingFade">
+        <animation effect="slide" start="0" end="-80" tween="back" easing="out" time="400" reversible="false" condition="Window.IsVisible(volumebar) | Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]">Conditional</animation>
+        <animation effect="slide" start="-80" end="0" tween="back" easing="out" time="400" reversible="false" condition="![Window.IsVisible(volumebar) | Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]]">Conditional</animation>
+        <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="Window.IsVisible(DialogNotification.xml)">Conditional</animation>
+        <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="!Window.IsVisible(DialogNotification.xml)">Conditional</animation>
+    </include>
+	
+	<include name="Furniture_DateLabel_TopRight">
+	<param name="font_top">font_main</param>
+	<param name="font_bottom">font_tiny</param>
+	<param name="visible">!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | Skin.HasSetting(Furniture.EnableClock.TopLeft)]</param>
+        <definition>		    
+			<control type="group">
+			    <top>view_pad</top>
+				<right>view_pad</right>
+				<height>view_bar</height>
+				<include condition="$EXP[Exp_HomeMenu_IsTopBar] + !$EXP[Exp_InfoDialogs]">Animation_View_Topbar</include>
+				<include>Furniture_Right_SlidingFade</include>
+				<control type="group">
+					<include>Dimension_Furniture_Gutters</include>
+					<animation effect="slide" start="0" end="0,-15" condition="$PARAM[visible]">Conditional</animation>
+					<control type="label">
+					    <align>right</align>
+						<aligny>center</aligny>
+						<width>auto</width>
+						<font>$PARAM[font_top]</font>
+						<label>$INFO[System.Time]</label>
+						<textcolor>main_fg_90</textcolor>
+						<shadowcolor>main_bg_12</shadowcolor>
+						<bottom>0</bottom>
+						<height>50</height>
+						<visible>$PARAM[visible]</visible>
+					</control>
+					<control type="label">
+						<align>right</align>
+						<aligny>center</aligny>
+						<width>auto</width>
+						<font>$PARAM[font_bottom]</font>
+						<label>$INFO[System.Date]</label>
+						<textcolor>main_fg_90</textcolor>
+						<shadowcolor>main_bg_12</shadowcolor>
+						<bottom>-30</bottom>
+						<height>50</height>
+						<visible>$PARAM[visible]</visible>
+					</control>					
+				</control>
+			</control>			
         </definition>
     </include>
 

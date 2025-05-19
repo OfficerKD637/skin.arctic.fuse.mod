@@ -67,12 +67,13 @@
     <include name="DialogInfo_Furniture">
         <control type="group">
             <include>Animation_View_SlideOver</include>
-            <control type="group">
+            <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
+			<control type="group">
 				<include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_View_Topbar</include>
                 <include>Animation_Transition_InfoPanel_Open</include>
                 <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                     <param name="include_topbar_animation">False</param>
-                </include>
+                </include>				
             </control>
             <control type="group">
                 <include condition="$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Open</include>
@@ -1304,7 +1305,7 @@
                     <param name="name">$VAR[Label_EpisodeCount]</param>
                     <param name="icon_background">true</param>
                     <param name="colordiffuse">white</param>
-                    <visible>String.IsEqual(Container(99950).ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Container(99950).ListItem.DBType,season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Container(99950).ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,episode)</visible>
+                    <visible>String.IsEqual(Container(99950).ListItem.Property(base_dbtype),tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Container(99950).ListItem.Property(base_dbtype),season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Container(99950).ListItem.Property(base_dbtype),episode) | String.IsEqual(ListItem.DBType,episode)</visible>
                 </include>
 
             </control>
@@ -1884,13 +1885,14 @@
                 <control type="group">
                     <include>Animation_View_SlideOver</include>
                     <include condition="![Window.IsVisible(1120) | Window.IsVisible(1121) | Window.IsVisible(1122)]">Animation_View_WindowChange</include>
-                    <control type="group">
+                    <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
+					<control type="group">
                         <visible>$PARAM[header_visible]</visible>
 						<include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_View_Topbar</include>
                         <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                             <param name="label">$PARAM[header]</param>
                             <param name="include_topbar_animation">false</param>
-                        </include>
+                        </include>						
                     </control>
                     <control type="group">
 					    <include content="Animation_Info_Topbar_SlideUp_Fade">
