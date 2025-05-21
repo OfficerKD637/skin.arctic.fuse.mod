@@ -304,13 +304,14 @@
 	<include name="Furniture_Right_SlidingFade">
         <animation effect="slide" start="0" end="-80" tween="back" easing="out" time="400" reversible="false" condition="Window.IsVisible(volumebar) | Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]">Conditional</animation>
         <animation effect="slide" start="-80" end="0" tween="back" easing="out" time="400" reversible="false" condition="![Window.IsVisible(volumebar) | Window.IsVisible(DialogBusy.xml) | [Window.IsVisible(1190) + !$EXP[Exp_InfoDialogs]]]">Conditional</animation>
-        <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="Window.IsVisible(DialogNotification.xml)">Conditional</animation>
-        <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="!Window.IsVisible(DialogNotification.xml)">Conditional</animation>
+        <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="[Window.IsVisible(DialogNotification.xml) | Window.IsActive(DialogExtendedProgressBar.xml)]">Conditional</animation>
+        <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="![Window.IsVisible(DialogNotification.xml) | Window.IsActive(DialogExtendedProgressBar.xml)]">Conditional</animation>
     </include>
 	
 	<include name="Furniture_DateLabel_TopRight">
-	<param name="font_top">font_main</param>
+	<param name="font_top">font_mini_bold</param>
 	<param name="font_bottom">font_tiny</param>
+	<param name="info_hide">false</param>
 	<param name="visible">!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | Skin.HasSetting(Furniture.EnableClock.TopLeft)]</param>
         <definition>		    
 			<control type="group">
@@ -319,6 +320,9 @@
 				<height>view_bar</height>
 				<include condition="$EXP[Exp_HomeMenu_IsTopBar] + !$EXP[Exp_InfoDialogs]">Animation_View_Topbar</include>
 				<include>Furniture_Right_SlidingFade</include>
+				<animation effect="fade" start="0" end="100" delay="600" time="1" reversible="true" condition="$PARAM[info_hide]">WindowOpen</animation>
+				<animation effect="slide" start="0" end="0,-40" tween="sine" easing="in" time="200" delay="200" reversible="false" condition="$EXP[Exp_View_524]">Conditional</animation>
+				<animation effect="slide" start="0,-40" end="0" tween="sine" easing="in" time="200" delay="200" reversible="false" condition="!$EXP[Exp_View_524]">Conditional</animation>
 				<control type="group">
 					<include>Dimension_Furniture_Gutters</include>
 					<animation effect="slide" start="0" end="0,-15" condition="$PARAM[visible]">Conditional</animation>
@@ -340,11 +344,13 @@
 						<width>auto</width>
 						<font>$PARAM[font_bottom]</font>
 						<label>$INFO[System.Date]</label>
-						<textcolor>main_fg_90</textcolor>
+						<textcolor>main_fg_70</textcolor>
 						<shadowcolor>main_bg_12</shadowcolor>
 						<bottom>-30</bottom>
 						<height>50</height>
 						<visible>$PARAM[visible]</visible>
+						<animation effect="fade" start="100" end="0" time="200" delay="200" reversible="false" condition="$EXP[Exp_View_524]">Conditional</animation>
+				        <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="!$EXP[Exp_View_524]">Conditional</animation>
 					</control>					
 				</control>
 			</control>			

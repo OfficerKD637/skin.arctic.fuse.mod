@@ -54,6 +54,9 @@
         </include>
         <include content="Info_Viewline">
             <param name="label">$VAR[Label_Info_ViewLine_Sub]</param>
+            <param name="item_condition">true</param>
+            <param name="top_padding_info">true</param>
+            <param name="item_updating">[[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + Container(5003).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating] | [Control.HasFocus(5003) + Container(5103).IsUpdating]]</param>
             <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
 			    <param name="top">361</param>	
 			</include>
@@ -71,7 +74,9 @@
 				<include content="Animation_View_SlideOver_Invert" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
 					<param name="time">400</param>
 				</include>
-				<include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
+				<include content="Furniture_DateLabel_TopRight" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+				    <param name="info_hide">!Window.Previous(1105) + !Window.Previous(1185)</param>
+				</include>
 			</control>
 			<control type="group">
 				<include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_View_Topbar</include>
@@ -1890,7 +1895,14 @@
                 <control type="group">
                     <include>Animation_View_SlideOver</include>
                     <include condition="![Window.IsVisible(1120) | Window.IsVisible(1121) | Window.IsVisible(1122)]">Animation_View_WindowChange</include>
-                    <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
+                    <control type="group">
+						<include content="Animation_View_SlideOver_Invert" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+							<param name="time">400</param>
+						</include>
+					    <include content="Furniture_DateLabel_TopRight" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+						    <param name="info_hide">!Window.Previous(1105) + !Window.Previous(1185)</param>
+					    </include>
+					</control>	
 					<control type="group">
                         <visible>$PARAM[header_visible]</visible>
 						<include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_View_Topbar</include>

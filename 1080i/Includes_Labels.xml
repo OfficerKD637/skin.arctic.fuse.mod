@@ -189,8 +189,8 @@
 	</variable>
 	
 	<variable name="Label_Trailer_Window_Header">
-	    <value condition="String.Contains(Player.Title,Window(Home).Property(PlayTrailerTitle)) | String.Contains(Window(Home).Property(PlayTrailerTitle),Player.Title)">$INFO[Player.Title]</value>
-	    <value>$INFO[Window(Home).Property(PlayTrailerTitle)]$INFO[Player.Title, - ]</value>
+	    <value condition="String.IsEmpty(Player.Title)">$INFO[Window(Home).Property(PlayTrailerTitle)]</value>
+	    <value>$INFO[Player.Title]</value>
 	</variable>	
 	
 	<variable name="Trailer_IMDbID_Switch">
@@ -1418,14 +1418,14 @@
 		<value condition="String.Contains(ListItem.FileNameAndPath,atmos) + String.IsEqual(ListItem.AudioCodec,truehd)">TRUEHD ATMOS</value>
 		<value condition="String.Contains(ListItem.FileNameAndPath,atmos) + String.IsEqual(ListItem.AudioCodec,eac3)">DOLBY ATMOS</value>
 		<value condition="String.IsEqual(ListItem.AudioCodec,truehd)">TRUEHD</value>
-		<value condition="String.Contains(Container(99950).ListItem.FileNameAndPath,atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),truehd)">TRUEHD ATMOS</value>
-		<value condition="String.Contains(Container(99950).ListItem.FileNameAndPath,atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),eac3)">DOLBY ATMOS</value>
+		<value condition="String.Contains(Container(99950).ListItem.Property(base_filenameandpath),atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),truehd)">TRUEHD ATMOS</value>
+		<value condition="String.Contains(Container(99950).ListItem.Property(base_filenameandpath),atmos) + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),eac3)">DOLBY ATMOS</value>
 		<value condition="String.Contains(Container(99950).ListItem.Property(base_audiocodec),truehd)">TRUEHD</value>
 			
 		<!-- DTS -->
 		<value condition="[String.Contains(ListItem.FileNameAndPath,dtsx) | String.Contains(ListItem.FileNameAndPath,dts-x)] + String.IsEqual(ListItem.AudioCodec,dtshd_ma)">DTS-X</value>
 		<value condition="String.Contains(ListItem.AudioCodec,dtshd)">DTS-HD</value>
-		<value condition="[String.Contains(Container(99950).ListItem.FileNameAndPath,dtsx) | String.Contains(Container(99950).ListItem.FileNameAndPath,dts-x)] + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),dtshd_ma)">DTS-X</value>
+		<value condition="[String.Contains(Container(99950).ListItem.Property(base_filenameandpath),dtsx) | String.Contains(Container(99950).ListItem.Property(base_filenameandpath),dts-x)] + String.IsEqual(Container(99950).ListItem.Property(base_audiocodec),dtshd_ma)">DTS-X</value>
 		<value condition="String.Contains(Container(99950).ListItem.Property(base_audiocodec),dtshd)">DTS-HD</value>
 		
 		<!-- OTHERS -->
@@ -2171,8 +2171,8 @@
     </variable>
 	
 	<variable name="Label_Overlay_FileDetails">
-        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_playcount))">$INFO[Container(99950).ListItem.Property(base_playcount),[CR]$LOCALIZE[16102] , $LOCALIZE[31183]. ]$INFO[Container(99950).ListItem.Property(base_lastplayed),$LOCALIZE[568] ,]$INFO[Container(99950).ListItem.Property(base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Container(99950).ListItem.FileNameAndPath,[CR],]</value>
-        <value>$INFO[Container(99950).ListItem.Property(base_lastplayed),[CR]$LOCALIZE[568] ,]$INFO[Container(99950).ListItem.Property(base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Container(99950).ListItem.FileNameAndPath,[CR],]</value>
+        <value condition="!String.IsEmpty(Container(99950).ListItem.Property(base_playcount))">$INFO[Container(99950).ListItem.Property(base_playcount),[CR]$LOCALIZE[16102] , $LOCALIZE[31183]. ]$INFO[Container(99950).ListItem.Property(base_lastplayed),$LOCALIZE[568] ,]$INFO[Container(99950).ListItem.Property(base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Container(99950).ListItem.Property(base_filenameandpath),[CR],]</value>
+        <value>$INFO[Container(99950).ListItem.Property(base_lastplayed),[CR]$LOCALIZE[568] ,]$INFO[Container(99950).ListItem.Property(base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Container(99950).ListItem.Property(base_filenameandpath),[CR],]</value>
     </variable>
 
     <variable name="Label_Overlay_Providers">
