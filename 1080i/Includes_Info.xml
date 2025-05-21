@@ -781,7 +781,7 @@
                 <texture colordiffuse="$PARAM[colordiffuse]">special://skin/extras/icons/update.png</texture>
                 <animation effect="rotate" start="0" end="-180" time="1200" delay="800" loop="true" center="auto" tween="back" condition="true">Conditional</animation>
                 <visible>$PARAM[visible]</visible>
-                <animation effect="fade" start="0" end="100" delay="1200" time="1" reversible="true">Visible</animation>
+                <animation effect="fade" start="0" end="100" delay="1600" time="1" reversible="true">Visible</animation>
                 <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="true">Hidden</animation>
             </control>
         </definition>
@@ -951,27 +951,33 @@
     </include>
 
     <include name="Info_Viewline_Icon">
-        <control type="group">
-            <nested />
-            <height>38</height>
-            <width>40</width>
-            <control type="image">
-                <centertop>50%</centertop>
-                <height>40</height>
-                <width>40</width>
-                <bordersize>-8</bordersize>
-                <texture colordiffuse="main_fg_90">$PARAM[icon_enabled]</texture>
-                <visible>$PARAM[enabled]</visible>
-            </control>
-            <control type="image">
-                <centertop>50%</centertop>
-                <height>40</height>
-                <width>40</width>
-                <bordersize>-8</bordersize>
-                <texture colordiffuse="main_fg_90">$PARAM[icon_disabled]</texture>
-                <visible>![$PARAM[enabled]]</visible>
-            </control>
-        </control>
+	    <param name="run_spinner">false</param>
+	    <param name="bordersize">-8</param>
+		<definition>
+			<control type="group">
+				<nested />
+				<height>38</height>
+				<width>40</width>
+				<control type="image">
+					<centertop>50%</centertop>
+					<height>40</height>
+					<width>40</width>
+					<bordersize>$PARAM[bordersize]</bordersize>
+					<texture colordiffuse="main_fg_90">$PARAM[icon_enabled]</texture>
+					<visible>$PARAM[enabled]</visible>
+					<animation effect="rotate" start="0" end="-180" time="1200" delay="800" loop="true" center="auto" tween="back" condition="$PARAM[run_spinner]">Conditional</animation>
+				</control>
+				<control type="image">
+					<centertop>50%</centertop>
+					<height>40</height>
+					<width>40</width>
+					<bordersize>$PARAM[bordersize]</bordersize>
+					<texture colordiffuse="main_fg_90">$PARAM[icon_disabled]</texture>
+					<visible>![$PARAM[enabled]]</visible>
+					<animation effect="rotate" start="0" end="-180" time="1200" delay="800" loop="true" center="auto" tween="back" condition="$PARAM[run_spinner]">Conditional</animation>
+				</control>
+			</control>
+		</definition>
     </include>
 
     <include name="Info_Viewline_Label">
@@ -1005,6 +1011,7 @@
 		<param name="top">520</param>
 		<param name="left">view_side</param>
         <param name="right">view_pad</param>
+		<param name="top_padding">false</param>
         <definition>
 
             <control type="group">
@@ -1023,42 +1030,62 @@
 						<param name="textcolor_base">$PARAM[textcolor_base]</param>
                         <visible>$PARAM[primary_visible]</visible>
                     </include>
+					
+					<include content="Info_Viewline_Icon" condition="$PARAM[item_condition]">
+						<param name="icon_enabled">special://skin/extras/icons/rotate.png</param>
+						<param name="icon_disabled">special://skin/extras/icons/rotate.png</param>
+						<param name="run_spinner">true</param>
+						<param name="bordersize">-12</param>
+						<include content="Object_Top" condition="$PARAM[top_padding]">
+						    <param name="top">-3</param>
+						</include>
+						<visible>$PARAM[item_updating]</visible>
+					</include>
 
-                    <include content="Info_Viewline_Icon" condition="$PARAM[item_condition] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
-                        <param name="icon_enabled">special://skin/extras/icons/rotate.png</param>
-                        <param name="icon_disabled">special://skin/extras/icons/rotate.png</param>
-                        <visible>$PARAM[item_updating]</visible>
-                    </include>
+					<include content="Info_Viewline_Icon" condition="$PARAM[item_condition] + ![$PARAM[library_condition]] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
+						<param name="icon_enabled">special://skin/extras/icons/layer-group.png</param>
+						<param name="icon_disabled">special://skin/extras/icons/layer-group.png</param>
+						<include content="Object_Top" condition="$PARAM[top_padding]">
+						    <param name="top">-3</param>
+						</include>
+					</include>
 
-                    <include content="Info_Viewline_Icon" condition="$PARAM[item_condition] + ![$PARAM[library_condition]] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
-                        <param name="icon_enabled">special://skin/extras/icons/layer-group.png</param>
-                        <param name="icon_disabled">special://skin/extras/icons/layer-group.png</param>
-                    </include>
+					<include content="Info_Viewline_Icon" condition="$PARAM[item_condition] + $PARAM[library_condition] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
+						<param name="icon_enabled">$VAR[Info_Viewline_ItemsIcon]</param>
+						<param name="icon_disabled">$VAR[Info_Viewline_ItemsIcon]</param>
+						<include content="Object_Top" condition="$PARAM[top_padding]">
+						    <param name="top">-3</param>
+						</include>
+					</include>
 
-                    <include content="Info_Viewline_Icon" condition="$PARAM[item_condition] + $PARAM[library_condition] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
-                        <param name="icon_enabled">$VAR[Info_Viewline_ItemsIcon]</param>
-                        <param name="icon_disabled">$VAR[Info_Viewline_ItemsIcon]</param>
-                    </include>
-
-                    <include content="Info_Viewline_Label" condition="$PARAM[item_condition] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
-                        <font>font_mini</font>
-                        <height>38</height>
-                        <left>-10</left>
-                        <label>$PARAM[item_count]</label>
+					<include content="Info_Viewline_Label" condition="$PARAM[item_condition] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
+						<font>font_mini</font>
+						<height>38</height>
+						<left>-10</left>
+						<label>$PARAM[item_count]</label>
 						<param name="textcolor_base">$PARAM[textcolor_base]</param>
-                    </include>
+						<include content="Object_Top" condition="$PARAM[top_padding]">
+						    <param name="top">-3</param>
+						</include>
+					</include>
 
-                    <include content="Info_Viewline_Icon" condition="$PARAM[custom_icon_condition]">
-                        <param name="icon_enabled">$PARAM[custom_icon]</param>
-                        <param name="icon_disabled">$PARAM[custom_icon]</param>
-                    </include>
+					<include content="Info_Viewline_Icon" condition="$PARAM[custom_icon_condition]">
+						<param name="icon_enabled">$PARAM[custom_icon]</param>
+						<param name="icon_disabled">$PARAM[custom_icon]</param>
+						<include content="Object_Top" condition="$PARAM[top_padding]">
+						    <param name="top">-3</param>
+						</include>
+					</include>
 
-                    <include content="Info_Viewline_Label" condition="$PARAM[custom_label_condition]">
-                        <label>$PARAM[custom_label]</label>
-                    </include>
+					<include content="Info_Viewline_Label" condition="$PARAM[custom_label_condition]">
+						<label>$PARAM[custom_label]</label>
+						<include content="Object_Top" condition="$PARAM[top_padding]">
+						    <param name="top">-3</param>
+						</include>
+					</include>
 
-                    <orientation>horizontal</orientation>
-                    <itemgap>12</itemgap>
+					<orientation>horizontal</orientation>
+					<itemgap>12</itemgap>
                 </control>
 
                 <include content="Object_Control" condition="!Skin.HasSetting(Furniture.ViewLineMonochrome)">
