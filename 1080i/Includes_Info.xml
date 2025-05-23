@@ -3067,14 +3067,14 @@
                             <label>.</label>
                             <width>auto</width>
                             <left>-6</left>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                         </include>
 
                         <!-- Last Played -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[568]</label>
                             <width>auto</width>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
@@ -3084,13 +3084,21 @@
                             <selectedcolor>main_fg_90</selectedcolor>
                             <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                         </include>
+						<include content="Object_InfoCircle_Text_Sub">
+                            <label>$INFO[Container(99950).ListItem.Property(lastplayed)]</label>
+                            <width>auto</width>
+                            <font>font_tiny_bold</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                        </include>
 
                         <!-- Date Added -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[31200]</label>
                             <width>auto</width>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
@@ -3098,8 +3106,23 @@
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                             <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                        </include>
+						<include content="Object_InfoCircle_Text_Sub">
+                            <label>$INFO[Container(99950).ListItem.Property(collected_date)]</label>
+                            <width>auto</width>
+                            <font>font_tiny_bold</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
+                        </include>
+						<include content="Object_InfoCircle_Text_Sub">
+                            <label>(Trakt $LOCALIZE[31236])</label>
+                            <width>auto</width>
+							<visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                         </include>
                     </control>
                 </control>
@@ -3154,33 +3177,44 @@
                     <label>.</label>
                     <include>Defs_Label_FooterItem</include>
                     <left>-6</left>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                   <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                 </control>
 
                 <!-- Last Played -->
                 <control type="label">
                     <label>$LOCALIZE[568]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
                     <include>Defs_Label_FooterItem</include>
                     <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                 </control>
+				<control type="label">
+                    <label>$INFO[Container(99950).ListItem.Property(lastplayed)]</label>
+                    <include>Defs_Label_FooterItem</include>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                </control>
 
                 <!-- Date Added -->
                 <control type="label">
                     <label>$LOCALIZE[31200]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                     <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                </control>
+				<control type="label">
+                    <label>$INFO[Container(99950).ListItem.Property(collected_date),, (Trakt $LOCALIZE[31236])]</label>
+                    <include>Defs_Label_FooterItem</include>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                 </control>
             </control>
         </definition>
@@ -3257,14 +3291,14 @@
                             <label>.</label>
                             <width>auto</width>
                             <left>-6</left>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                         </include>
 
                         <!-- Last Played -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[568]</label>
                             <width>auto</width>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
@@ -3274,13 +3308,21 @@
                             <selectedcolor>main_fg_90</selectedcolor>
                             <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                         </include>
+						<include content="Object_InfoCircle_Text_Sub">
+                            <label>$INFO[Container(99950).ListItem.Property(lastplayed)]</label>
+                            <width>auto</width>
+                            <font>font_tiny_bold</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                        </include>
 
                         <!-- Date Added -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[31200]</label>
                             <width>auto</width>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
@@ -3288,8 +3330,23 @@
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                             <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                        </include>
+						<include content="Object_InfoCircle_Text_Sub">
+                            <label>$INFO[Container(99950).ListItem.Property(collected_date)]</label>
+                            <width>auto</width>
+                            <font>font_tiny_bold</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
+                        </include>
+						<include content="Object_InfoCircle_Text_Sub">
+                            <label>(Trakt $LOCALIZE[31236])</label>
+                            <width>auto</width>
+							<visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                         </include>
                     </control>
 
@@ -3335,33 +3392,44 @@
                     <label>.</label>
                     <include>Defs_Label_FooterItem</include>
                     <left>-6</left>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                 </control>
 
                 <!-- Last Played -->
                 <control type="label">
                     <label>$LOCALIZE[568]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
                     <include>Defs_Label_FooterItem</include>
                     <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                 </control>
+				<control type="label">
+                    <label>$INFO[Container(99950).ListItem.Property(lastplayed)]</label>
+                    <include>Defs_Label_FooterItem</include>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                </control>
 
                 <!-- Date Added -->
                 <control type="label">
                     <label>$LOCALIZE[31200]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
                     <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                </control>
+				<control type="label">
+                    <label>$INFO[Container(99950).ListItem.Property(collected_date),, (Trakt $LOCALIZE[31236])]</label>
+                    <include>Defs_Label_FooterItem</include>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Container(99950).ListItem.Property(lastplayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Container(99950).ListItem.Property(collected_date))</visible>
                 </control>
             </control>
         </definition>
