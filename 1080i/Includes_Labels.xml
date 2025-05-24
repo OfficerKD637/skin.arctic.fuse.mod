@@ -1859,9 +1859,9 @@
         <!-- Ended -->
 		<value condition="String.IsEqual(Container(99950).ListItem.Status,Ended)">$LOCALIZE[31493]</value>
         <!-- Premiered (Movies) -->
-		<value condition="String.IsEqual(Container(99950).ListItem.Status,Released) + !String.IsEmpty(Container(99950).ListItem.Property(Premiered.Days_From_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Premiered.Days_From_Aired),31)">$LOCALIZE[20473]</value>
-		 <!-- Released -->
-		<value condition="String.IsEqual(Container(99950).ListItem.Status,Released) + !String.IsEmpty(Container(99950).ListItem.Property(Premiered.Days_From_Aired))">$LOCALIZE[31498]</value>
+		<value condition="[String.IsEqual(Container(99950).ListItem.DBType,movie) | [String.IsEmpty(Container(99950).ListItem.DBType) + [String.IsEmpty(Container(99950).ListItem.TVShowTitle) + String.IsEmpty(Container(99950).ListItem.Property(base_tvshowtitle)]]] + String.IsEqual(Container(99950).ListItem.Status,Released) + !String.IsEmpty(Container(99950).ListItem.Property(Premiered.Days_From_Aired)) + Integer.IsLess(Container(99950).ListItem.Property(Premiered.Days_From_Aired),31)">$LOCALIZE[20473]</value>
+		 <!-- Released (Movies) -->
+		<value condition="[String.IsEqual(Container(99950).ListItem.DBType,movie) | [String.IsEmpty(Container(99950).ListItem.DBType) + [String.IsEmpty(Container(99950).ListItem.TVShowTitle) + String.IsEmpty(Container(99950).ListItem.Property(base_tvshowtitle)]]] + String.IsEqual(Container(99950).ListItem.Status,Released) + !String.IsEmpty(Container(99950).ListItem.Property(Premiered.Days_From_Aired))">$LOCALIZE[31498]</value>
         <!-- Premiering (Movies) -->
 		<value condition="[String.IsEqual(Container(99950).ListItem.DBType,movie) | [String.IsEmpty(Container(99950).ListItem.DBType) + [String.IsEmpty(Container(99950).ListItem.TVShowTitle) + String.IsEmpty(Container(99950).ListItem.Property(base_tvshowtitle)]]] + [[String.IsEqual(Container(99950).ListItem.Status,Released) + String.IsEmpty(Container(99950).ListItem.Property(Premiered.Days_From_Aired))] | String.IsEqual(Container(99950).ListItem.Status,In Production) | String.IsEqual(Container(99950).ListItem.Status,Post Production)] + Integer.IsEqual(Container(99950).ListItem.Year,System.Date(yyyy))">$LOCALIZE[31545]</value> 		
 		<!-- In-Production -->
@@ -2335,10 +2335,7 @@
     </variable>
 	
 	<variable name="Label_Changelog">
-		<value>- Add 'Info' style wall views.
-- Add option to disable hub headers to allow more lines for plot.
-- Add artwork overlay option for Trakt Watchlist and Favorites for TMDbH items.
-- Some TMDbH compatibility fixes. 		
+		<value>- Some TMDbH compatibility fixes. 		
 - Other bug fixes and enhancements.		
 		</value>		
 	</variable>
