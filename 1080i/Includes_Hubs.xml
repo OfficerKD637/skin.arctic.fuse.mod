@@ -15,14 +15,14 @@
 
     <!-- SlideUp Categories = Disabled -->
     <include name="Hub_Slide_Group_OnWidgets">
-        <animation effect="slide" time="400" end="0" start="0,hub_group_widgetup_s" tween="quadratic" easing="out" reversible="false" condition="$EXP[Exp_Hubs_Widgets_SlideDown]">Conditional</animation>
-        <animation effect="slide" time="400" end="0,hub_group_widgetup_s" start="0" tween="quadratic" easing="out" reversible="false" condition="!$EXP[Exp_Hubs_Widgets_SlideDown]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,hub_group_widgetup_s" tween="quadratic" easing="out" reversible="false" condition="$EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]">Conditional</animation>
+        <animation effect="slide" time="400" end="0,hub_group_widgetup_s" start="0" tween="quadratic" easing="out" reversible="false" condition="![$EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]]">Conditional</animation>
     </include>
     <include name="Hub_Widgets_Grouplist__Def_Layout_Expanded_OnWidgets">
-        <animation effect="slide" time="400" end="0" start="0,-120" tween="quadratic" easing="out" reversible="false" condition="![Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown]]">Conditional</animation>
-        <animation effect="slide" time="400" end="0,-120" start="0" tween="quadratic" easing="out" reversible="false" condition="Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown]">Conditional</animation>
-        <animation effect="slide" time="400" end="0" start="0,-40" tween="quadratic" easing="out" reversible="false" condition="![[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown]]">Conditional</animation>
-        <animation effect="slide" time="400" end="0,-40" start="0" tween="quadratic" easing="out" reversible="false" condition="[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,-120" tween="quadratic" easing="out" reversible="false" condition="![Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]]">Conditional</animation>
+        <animation effect="slide" time="400" end="0,-120" start="0" tween="quadratic" easing="out" reversible="false" condition="Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,-40" tween="quadratic" easing="out" reversible="false" condition="![[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]]">Conditional</animation>
+        <animation effect="slide" time="400" end="0,-40" start="0" tween="quadratic" easing="out" reversible="false" condition="[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]">Conditional</animation>
     </include>
 
     <!-- Fanart Spotlight = Enabled -->
@@ -486,8 +486,9 @@
         <include content="Action_Widget_Top" condition="!$EXP[Exp_HomeMenu_IsTopBar] + $EXP[Exp_Hubs_Spotlight_IsDisabled]">
             <param name="id">300</param>
         </include>
-        <onup condition="$EXP[Exp_HomeMenu_IsTopBar] + $EXP[Exp_Hubs_Spotlight_IsDisabled]">SetFocus(303)</onup>
-        <onup condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled]">311</onup>
+        <onup condition="$EXP[Exp_HomeMenu_IsTopBar] + [$EXP[Exp_Hubs_Spotlight_IsDisabled] | !$EXP[Exp_HomeHub_Spotlight_IsVisible]]">SetFocus(303)</onup>
+        <onup condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled] + $EXP[Exp_HomeHub_Spotlight_IsVisible]">311</onup>
+        <onup condition="!$EXP[Exp_HomeMenu_IsTopBar] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !$EXP[Exp_HomeHub_Spotlight_IsVisible]">333</onup>
 
         <ondown>3002</ondown>
 
@@ -571,11 +572,11 @@
             <include>Animation_Transition_InfoPanel_Hide</include>
 			<include>Animation_Widgets_Topbar_SlideUp</include>
             <include content="Animation_Fade_In">
-                <param name="condition">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</param>
+                <param name="condition">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_HomeHub_Spotlight_IsVisible]</param>
                 <param name="delay">200</param>
             </include>
             <include content="Animation_ConditionalFade">
-                <param name="condition">!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</param>
+                <param name="condition">!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) | !$EXP[Exp_HomeHub_Spotlight_IsVisible]</param>
             </include>
             <include content="Info_Viewline">
                 <param name="label">$VAR[Label_Spotlight_Name]</param>
@@ -609,10 +610,19 @@
             <include condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled]">Hub_Categories_Spotlight_Viewline</include>
             <control type="group">
                 <include>Transitions_Lower_Visibility</include>
-                <include content="Spotlight_Main" condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled]">
-                    <param name="window_id">$PARAM[window_id]</param>
-					<param name="property_window_id">$PARAM[property_window_id]</param>
-                </include>
+                <control type="group">
+					<include content="Animation_Fade_In">
+						<param name="condition">$EXP[Exp_HomeHub_Spotlight_IsVisible]</param>
+						<param name="delay">200</param>
+					</include>
+					<include content="Animation_ConditionalFade">
+						<param name="condition">!$EXP[Exp_HomeHub_Spotlight_IsVisible]</param>
+					</include>
+					<include content="Spotlight_Main" condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled]">
+						<param name="window_id">$PARAM[window_id]</param>
+						<param name="property_window_id">$PARAM[property_window_id]</param>
+					</include>
+				</control>
                 <control type="group">
                     <include>Hub_Categories_FadeIn</include>
                     <left>160</left>
