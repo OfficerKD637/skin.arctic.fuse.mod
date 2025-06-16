@@ -304,7 +304,8 @@
                 <include condition="![$PARAM[widgets_only]] + !$EXP[Exp_Hubs_Spotlight_IsDisabled]">Spotlight_Info</include>
                 <control type="group">
 				    <include>Animation_Widgets_Topbar_SlideUp</include>
-				    <include>Widget_Transitions</include>
+				    <include content="Widget_Transitions" condition="![Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+					</include>
 				</control>
             </control>
 
@@ -367,8 +368,14 @@
 
     <include name="Hub_Widgets_Only">
         <include>Background_Transition</include>
-        <control type="group" id="340">
-            <include content="Hub_Widgets_Infopanel">
+        <control type="group" id="340">             
+			<include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+			    <param name="top">-440</param>
+			</include>
+			<include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+			    <param name="top">-361</param>
+			</include>
+            <include content="Hub_Widgets_Infopanel" condition="![Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
                 <include content="Info_Panel">
                     <param name="container">Container.</param>
                 </include>

@@ -841,10 +841,20 @@
     <include name="Transitions_List_Visibility">
         <param name="visible">!$EXP[Exp_InfoDialogs]</param>
         <param name="hidden">True</param>
+		<param name="basicwidgets">false</param>
         <definition>
-            <animation effect="fade" start="100" end="0" reversible="false" condition="![$PARAM[visible]] + $PARAM[hidden]">Conditional</animation>
-            <animation effect="fade" start="0" end="100" reversible="false" delay="599" time="1" condition="$PARAM[visible] | ![$PARAM[hidden]]">Conditional</animation>
-        </definition>
+            <animation effect="fade" start="100" end="0" reversible="false" condition="!$PARAM[basicwidgets] + [![$PARAM[visible]] + $PARAM[hidden]]">Conditional</animation>
+            <animation effect="fade" start="0" end="100" reversible="false" delay="599" time="1" condition="!$PARAM[basicwidgets] + [$PARAM[visible] | ![$PARAM[hidden]]]">Conditional</animation>
+        
+		    <include content="Animation_Fade_Out">
+                <param name="condition">$PARAM[basicwidgets] + [![$PARAM[visible]] + $PARAM[hidden]]</param>
+                <param name="delay">200</param>
+            </include>
+            <include content="Animation_Fade_In">
+                <param name="condition">$PARAM[basicwidgets] + [$PARAM[visible] | ![$PARAM[hidden]]]</param>
+                <param name="delay">0</param>
+            </include>
+		</definition>
     </include>
 
 </includes>
