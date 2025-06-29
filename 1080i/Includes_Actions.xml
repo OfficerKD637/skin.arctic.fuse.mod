@@ -105,13 +105,13 @@
 	
 	<variable name="Action_Trakt_Sync">
         <value condition="[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)] + !String.IsEmpty(ListItem.UniqueID(tmdb))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.UniqueID(tmdb)],$VAR[Path_Param_Type],cache_refresh)</value>
-        <value condition="[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)] + !String.IsEmpty(Container(99950).ListItem.UniqueID(tmdb))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Container(99950).ListItem.UniqueID(tmdb)],$VAR[Path_Param_Type],cache_refresh)</value>
+        <value condition="[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.tmdb_id)],$VAR[Path_Param_Type],cache_refresh)</value>
 
         <value condition="[String.IsEqual(ListItem.DBType,season)] + !String.IsEmpty(ListItem.UniqueID(tvshow.tmdb))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.UniqueID(tvshow.tmdb)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],cache_refresh)</value>
-        <value condition="[String.IsEqual(ListItem.DBType,season)] + !String.IsEmpty(Container(99950).ListItem.UniqueID(tvshow.tmdb))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Container(99950).ListItem.UniqueID(tvshow.tmdb)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],cache_refresh)</value>
+        <value condition="[String.IsEqual(ListItem.DBType,season)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tvshow.tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.tvshow.tmdb_id)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],cache_refresh)</value>
 
         <value condition="[String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(ListItem.UniqueID(tvshow.tmdb))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[ListItem.UniqueID(tvshow.tmdb)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],episode=$INFO[ListItem.Episode],cache_refresh)</value>
-        <value condition="[String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(Container(99950).ListItem.UniqueID(tvshow.tmdb))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Container(99950).ListItem.UniqueID(tvshow.tmdb)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],episode=$INFO[ListItem.Episode],cache_refresh)</value>
+        <value condition="[String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tvshow.tmdb_id))">RunScript(plugin.video.themoviedb.helper,sync_trakt,tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.tvshow.tmdb_id)],$VAR[Path_Param_Type],season=$INFO[ListItem.Season],episode=$INFO[ListItem.Episode],cache_refresh)</value>
     </variable>
 
     <include name="Action_Media_Onload">
@@ -213,7 +213,7 @@
 			
 			<include>Action_Blur_Onload</include>
 			
-			<onload>Skin.SetString(TMDbHelper.MonitorContainer,99950)</onload>
+			<onload>Skin.Reset(TMDbHelper.MonitorContainer)</onload>
 
             <onload>ClearProperty(EndRow.HasFocus)</onload>			
 			
@@ -545,9 +545,9 @@
         <onright condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio],1120)</onright>
         <onright condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio],1120)</onright>
 
-        <onright condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Container(99950).ListItem.Property(Set.Name)],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Container(99950).ListItem.Property(Set.Fanart)],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Container(99950).ListItem.Property(Set.TMDb_ID),&amp;tmdb_id=,],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,],1120)</onright>
         
 		<onright condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE],1120)</onright>
         <onright condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)],1120)</onright>
@@ -584,9 +584,9 @@
         <ondown condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio],1120)</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio],1120)</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Container(99950).ListItem.Property(Set.Name)],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Container(99950).ListItem.Property(Set.Fanart)],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Container(99950).ListItem.Property(Set.TMDb_ID),&amp;tmdb_id=,],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,],1120)</ondown>
  
 		<ondown condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE],1120)</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)],1120)</ondown>
@@ -630,8 +630,8 @@
             <onclick condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type],1121)</onclick>
             <onclick condition="$PARAM[condition]">SetProperty(Item_Year,$INFO[ListItem.Year],1121)</onclick>
 
-            <onclick condition="$PARAM[condition]">SetProperty(Genre_Title,$INFO[Container(99950).ListItem.Property(Genre.1.Name)]$INFO[Container(99950).ListItem.Property(Genre.2.Name), / ,]$INFO[Container(99950).ListItem.Property(Genre.3.Name), / ,],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(Genre_Query,$INFO[Container(99950).ListItem.Property(Genre.1.TMDB_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Container(99950).ListItem.Property(Genre.2.TMDB_ID), / ,]$INFO[Container(99950).ListItem.Property(Genre.3.TMDB_ID), / ,],1121)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.Name), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.Name), / ,],1121)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.TMDb_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.TMDb_ID), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.TMDb_ID), / ,],1121)</onclick>
             <onclick condition="$PARAM[condition]">ActivateWindow(1121)</onclick>
         </definition>
     </include>
@@ -669,8 +669,8 @@
             <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Item_Query,$VAR[Path_Param_Query],$PARAM[window_id])</ondown>
             <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Item_Type,$VAR[Path_Param_Type],$PARAM[window_id])</ondown>
             <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Item_Year,$INFO[ListItem.Year],$PARAM[window_id])</ondown>
-            <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Title,$INFO[Container(99950).ListItem.Property(Genre.1.Name)]$INFO[Container(99950).ListItem.Property(Genre.2.Name), / ,],$PARAM[window_id])</ondown>
-            <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Query,$INFO[Container(99950).ListItem.Property(Genre.1.TMDB_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Container(99950).ListItem.Property(Genre.2.TMDB_ID), / ,],$PARAM[window_id])</ondown>
+            <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.Name), / ,],$PARAM[window_id])</ondown>
+            <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.TMDb_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.TMDb_ID), / ,],$PARAM[window_id])</ondown>
 
             <ondown condition="$PARAM[condition] + ![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">ClearProperty(Item_Title,$PARAM[window_id])</ondown>
             <ondown condition="$PARAM[condition] + ![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">ClearProperty(Item_Query,$PARAM[window_id])</ondown>
@@ -692,8 +692,8 @@
             <onfocus condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Item_Query,$VAR[Path_Param_Query],$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Item_Type,$VAR[Path_Param_Type],$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Item_Year,$INFO[ListItem.Year],$PARAM[window_id])</onfocus>
-            <onfocus condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Title,$INFO[Container(99950).ListItem.Property(Genre.1.Name)]$INFO[Container(99950).ListItem.Property(Genre.2.Name), / ,],$PARAM[window_id])</onfocus>
-            <onfocus condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Query,$INFO[Container(99950).ListItem.Property(Genre.1.TMDB_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Container(99950).ListItem.Property(Genre.2.TMDB_ID), / ,],$PARAM[window_id])</onfocus>
+            <onfocus condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.Name), / ,],$PARAM[window_id])</onfocus>
+            <onfocus condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.TMDb_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.TMDb_ID), / ,],$PARAM[window_id])</onfocus>
 
             <onfocus condition="$PARAM[condition] + ![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">ClearProperty(Item_Title,$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + ![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)]">ClearProperty(Item_Query,$PARAM[window_id])</onfocus>
