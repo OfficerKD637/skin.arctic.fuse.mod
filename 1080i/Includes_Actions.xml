@@ -130,20 +130,6 @@
         <onunload>SetProperty(Transition.WidgetStyle,$INFO[Window(Home).Property(Transition.WidgetStyle.Previous)],Home)</onunload>
     </include>
 
-    <include name="Action_PreserveProcessedImagesProp_Onload">
-        <onload>SetProperty(CropImage,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)],Home)</onload>
-        <onload>SetProperty(BlurImage,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.BlurImage)],Home)</onload>
-        <onload>SetProperty(BlurImage.Original,$ESCINFO[Window(Home).Property(TMDBHelper.ListItem.BlurImage.Original)],Home)</onload>
-        <onload>SetProperty(TMDbHelper.Image.Override,True,Home)</onload>
-		<onunload condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Image.Override))">SetProperty(TMDbHelper.ListItem.CropImage,$ESCINFO[Window(Home).Property(CropImage)],Home)</onunload>
-        <onunload condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Image.Override))">SetProperty(TMDbHelper.ListItem.BlurImage,$ESCINFO[Window(Home).Property(BlurImage)],Home)</onunload>
-        <onunload condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Image.Override))">SetProperty(TMDbHelper.ListItem.BlurImage.Original,$ESCINFO[Window(Home).Property(BlurImage.Original)],Home)</onunload>
-        <onunload condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Image.Override))">ClearProperty(CropImage,Home)</onunload>
-        <onunload condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Image.Override))">ClearProperty(BlurImage,Home)</onunload>
-        <onunload condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Image.Override))">ClearProperty(BlurImage.Original,Home)</onunload>
-        <onunload condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Image.Override))">ClearProperty(TMDbHelper.Image.Override,Home)</onunload>
-    </include>
-
     <include name="Action_View_SlideOver_OnFocus">
         <onfocus condition="!$EXP[Exp_HomeMenu_IsStatic]">ClearProperty(SideMenu.HasFocus,Home)</onfocus>
         <onfocus condition="$EXP[Exp_HomeMenu_IsStatic]">SetProperty(SideMenu.HasFocus,True,Home)</onfocus>
@@ -395,9 +381,7 @@
 
     <include name="Action_Recommendations_OnClick">
         <oninfo>Action(Select)</oninfo>
-		<onclick>ClearProperty(TMDbHelper.Image.Override,Home)</onclick>		
         <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],return)</onclick>
-        <onclick>Dialog.Close(1120,true)</onclick>
         <onclick>Dialog.Close(1121,true)</onclick>
         <onclick>Dialog.Close(1122,true)</onclick>		       
     </include>
@@ -512,7 +496,7 @@
         <onunload>SetProperty(ViewTransition,Visible,$PARAM[window])</onunload>
     </include>
 
-    <include name="Action_1120_OnWidget">
+    <include name="Action_513_OnWidget">
         <onup>SetFocus(513,0,absolute)</onup>
         <onup>7000</onup>
         <ondown>SetFocus(513,0,absolute)</ondown>
@@ -521,100 +505,95 @@
         <onleft>7000</onleft>
         <onback>SetFocus(513,0,absolute)</onback>
         <onback>7000</onback>
-        <onfocus>ClearProperty(TMDbHelper.Image.Override,Home)</onfocus>
+		<onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
+		<onback>ClearProperty(TMDbHelper.WidgetContainer)</onback>
+		<onunfocus>ClearProperty(TMDbHelper.WidgetContainer)</onunfocus>
     </include>
 
     <include name="Action_VideoInfo_Main_OnRight">
 	
-		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1120)</onright>
-		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType],1120)</onright>
+		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</onright>
+		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</onright>
 	
-        <onright condition="$PARAM[condition]">SetProperty(Director_Label,$VAR[Label_FromDirector],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Director_Image,$VAR[Image_DirectorIcon],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Director_Query,$VAR[Path_FromDirector],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Director_Label,$VAR[Label_FromDirector])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Director_Image,$VAR[Image_DirectorIcon])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Director_Query,$VAR[Path_FromDirector])</onright>
 
-        <onright condition="$PARAM[condition]">SetProperty(Writer_Label,$VAR[Label_FromWriter],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Writer_Image,$VAR[Image_WriterIcon],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Writer_Query,$VAR[Path_FromWriter],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Writer_Label,$VAR[Label_FromWriter])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Writer_Image,$VAR[Image_WriterIcon])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Writer_Query,$VAR[Path_FromWriter])</onright>
 
-        <onright condition="$PARAM[condition]">SetProperty(Creator_Label,$VAR[Label_FromCreator],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Creator_Image,$VAR[Image_CreatorIcon],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Creator_Query,$VAR[Path_FromCreator],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Creator_Label,$VAR[Label_FromCreator])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Creator_Image,$VAR[Image_CreatorIcon])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Creator_Query,$VAR[Path_FromCreator])</onright>
 
-        <onright condition="$PARAM[condition]">SetProperty(Studio_Label,$VAR[Label_Studio],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Studio_Label,$VAR[Label_FromStudio])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio])</onright>
 
-        <onright condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,])</onright>
         
-		<onright condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Version_Query,$INFO[ListItem.DBID,videodb://movies/videoversions/0?mediaid=,],1120)</onright>
+		<onright condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Version_Query,$INFO[ListItem.DBID,videodb://movies/videoversions/0?mediaid=,])</onright>
 		
-        <onright condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query],1120)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type])</onright>
 
-        <onright condition="$PARAM[condition]">SetProperty(Episodes_Label,$VAR[Label_EpisodeCount],1120)</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Episodes_Label,$VAR[Label_EpisodeCount])</onright>
+        <onright condition="$PARAM[condition]">SetProperty(Seasons_Image,$VAR[Image_FlatseasonsIcon])</onright>
 
 		<!-- Fake blur hack to preserve image -->
         <onright condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</onright>
         <onright condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</onright>
 
-        <onright condition="$PARAM[condition]">SetFocus(7001)</onright>
-        <onright condition="$PARAM[condition]">ActivateWindow(1120)</onright>
+        <onright condition="$PARAM[condition] + [String.IsEqual(Window.Property(origin_tmdb_id),Window(Home).Property(TMDbHelper.ListItem.tmdb_id)) + [!String.IsEmpty(Window.Property(Director_Query)) | !String.IsEmpty(Window.Property(Writer_Query)) | !String.IsEmpty(Window.Property(Creator_Query))]]">SetFocus(7000,0,absolute)</onright>
     </include>
 
     <include name="Action_VideoInfo_Main_OnDown">
-        <ondown condition="$PARAM[condition]">SetProperty(Director_Label,$VAR[Label_FromDirector],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Director_Image,$VAR[Image_DirectorIcon],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Director_Query,$VAR[Path_FromDirector],1120)</ondown>
+	
+	    <ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
+		<ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</ondown>
+	
+        <ondown condition="$PARAM[condition]">SetProperty(Director_Label,$VAR[Label_FromDirector])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Director_Image,$VAR[Image_DirectorIcon])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Director_Query,$VAR[Path_FromDirector])</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Writer_Label,$VAR[Label_FromWriter],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Writer_Image,$VAR[Image_WriterIcon],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Writer_Query,$VAR[Path_FromWriter],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Writer_Label,$VAR[Label_FromWriter])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Writer_Image,$VAR[Image_WriterIcon])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Writer_Query,$VAR[Path_FromWriter])</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Creator_Label,$VAR[Label_FromCreator],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Creator_Image,$VAR[Image_CreatorIcon],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Creator_Query,$VAR[Path_FromCreator],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Creator_Label,$VAR[Label_FromCreator])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Creator_Image,$VAR[Image_CreatorIcon])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Creator_Query,$VAR[Path_FromCreator])</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Studio_Label,$VAR[Label_Studio],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Studio_Label,$VAR[Label_FromStudio])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio])</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,])</ondown>
  
-		<ondown condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Version_Query,$INFO[ListItem.DBID,videodb://movies/videoversions/0?mediaid=,],1120)</ondown>
+		<ondown condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Version_Query,$INFO[ListItem.DBID,videodb://movies/videoversions/0?mediaid=,])</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query],1120)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type])</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Episodes_Label,$VAR[Label_EpisodeCount],1120)</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Episodes_Label,$VAR[Label_EpisodeCount])</ondown>
+		<ondown condition="$PARAM[condition]">SetProperty(Seasons_Image,$VAR[Image_FlatseasonsIcon])</ondown>
 
 		<!-- Fake blur hack to preserve image -->
         <ondown condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</ondown>
 
-        <ondown condition="$PARAM[condition]">SetFocus(7001)</ondown>
-        <ondown condition="$PARAM[condition]">ActivateWindow(1120)</ondown>
-    </include>
-
-    <include name="Action_VideoInfo_Cast_OnRight">
-        <onright condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title],1122)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query],1122)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type],1122)</onright>
-
-        <onright condition="$PARAM[condition]">SetProperty(Episodes_Label,$INFO[ListItem.Property(watchedepisodes)]$INFO[ListItem.Property(totalepisodes), $LOCALIZE[1443] ,] $LOCALIZE[16102],1122)</onright>
-
-        <onright condition="$PARAM[condition]">SetFocus(7001)</onright>
-        <onright condition="$PARAM[condition]">ActivateWindow(1122)</onright>
+        <ondown condition="$PARAM[condition] + [String.IsEqual(Window.Property(origin_tmdb_id),Window(Home).Property(TMDbHelper.ListItem.tmdb_id)) + [!String.IsEmpty(Window.Property(Director_Query)) | !String.IsEmpty(Window.Property(Writer_Query)) | !String.IsEmpty(Window.Property(Creator_Query))]]">SetFocus(7000,0,absolute)</ondown>
     </include>
 
     <include name="Action_Info_Recommendations_OnClick">
