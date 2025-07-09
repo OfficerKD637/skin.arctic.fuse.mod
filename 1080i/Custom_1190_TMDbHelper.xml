@@ -19,27 +19,30 @@
                 <param name="visible">[!Skin.HasSetting(ToastNotifications.Tabbed) | [!Window.IsActive(DialogVolumeBar.xml) | Player.Muted]] + !Window.IsVisible(DialogBusy.xml)</param>
             </include>
 
-            <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="include_topbar_animation">False</param>
-            </include>	
-			<control type="group">
-				<include content="Animation_View_SlideOver_Invert" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-					<param name="time">400</param>
+            <control type="group">
+			    <left>-120</left>
+				<include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+					 <param name="include_topbar_animation">False</param>
 				</include>
+			</control>		
+			<control type="group">
 				<include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
 			</control>
-            <include>Furniture_Bottom</include>
+			<control type="group">
+			    <bottom>-40</bottom>
+				<left>-120</left>
+                <include>Furniture_Bottom_Left</include>
+            </control>
+            <control type="group">
+				<include>Furniture_Bottom_Right</include>
+			</control>
         </control>
 
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
-			<include content="Object_Left" condition="$EXP[Exp_HomeMenu_Info_IsHorizontal]">
-			    <param name="left">-120</param>
-			</include>
-			<include content="Object_Top" condition="$EXP[Exp_HomeMenu_Info_IsHorizontal]">
-				<param name="top">80</param>	
-			</include>
+			<top>80</top>
+			<left>-120</left>
             <include content="Widget_Busy">
                 <param name="label">$LOCALIZE[19033]</param>
                 <param name="visible">True</param>
@@ -49,10 +52,10 @@
             </include>
 			<control type="group">
 				<include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-					<param name="top">-79</param>	
+					<param name="top">-80</param>	
 				</include>				
 				<include content="Info_Panel">
-					<top>view_top</top>
+					<top>view_pad</top>
 					<width>info_panel_w</width>
 					<left>view_side</left>
 				</include>

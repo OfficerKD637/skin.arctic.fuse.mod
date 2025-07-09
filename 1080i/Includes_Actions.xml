@@ -381,7 +381,8 @@
 
     <include name="Action_Recommendations_OnClick">
         <oninfo>Action(Select)</oninfo>
-        <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],return)</onclick>
+        <onclick condition="!String.IsEmpty(ListItem.DBID)">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_dbid=$INFO[Window.Property(origin_dbid)],return)</onclick>
+        <onclick condition="String.IsEmpty(ListItem.DBID)">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],return)</onclick>
         <onclick>Dialog.Close(1121,true)</onclick>
         <onclick>Dialog.Close(1122,true)</onclick>		       
     </include>
@@ -510,52 +511,11 @@
 		<onunfocus>ClearProperty(TMDbHelper.WidgetContainer)</onunfocus>
     </include>
 
-    <include name="Action_VideoInfo_Main_OnRight">
-	
-		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</onright>
-		<onright condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</onright>
-	
-        <onright condition="$PARAM[condition]">SetProperty(Director_Label,$VAR[Label_FromDirector])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Director_Image,$VAR[Image_DirectorIcon])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Director_Query,$VAR[Path_FromDirector])</onright>
-
-        <onright condition="$PARAM[condition]">SetProperty(Writer_Label,$VAR[Label_FromWriter])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Writer_Image,$VAR[Image_WriterIcon])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Writer_Query,$VAR[Path_FromWriter])</onright>
-
-        <onright condition="$PARAM[condition]">SetProperty(Creator_Label,$VAR[Label_FromCreator])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Creator_Image,$VAR[Image_CreatorIcon])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Creator_Query,$VAR[Path_FromCreator])</onright>
-
-        <onright condition="$PARAM[condition]">SetProperty(Studio_Label,$VAR[Label_FromStudio])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio])</onright>
-
-        <onright condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,])</onright>
-        
-		<onright condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Version_Query,$INFO[ListItem.DBID,videodb://movies/videoversions/0?mediaid=,])</onright>
-		
-        <onright condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type])</onright>
-
-        <onright condition="$PARAM[condition]">SetProperty(Episodes_Label,$VAR[Label_EpisodeCount])</onright>
-        <onright condition="$PARAM[condition]">SetProperty(Seasons_Image,$VAR[Image_FlatseasonsIcon])</onright>
-
-		<!-- Fake blur hack to preserve image -->
-        <onright condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</onright>
-        <onright condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</onright>
-
-        <onright condition="$PARAM[condition] + [String.IsEqual(Window.Property(origin_tmdb_id),Window(Home).Property(TMDbHelper.ListItem.tmdb_id)) + [!String.IsEmpty(Window.Property(Director_Query)) | !String.IsEmpty(Window.Property(Writer_Query)) | !String.IsEmpty(Window.Property(Creator_Query))]]">SetFocus(7000,0,absolute)</onright>
-    </include>
-
     <include name="Action_VideoInfo_Main_OnDown">
 	
-	    <ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
+	    <ondown condition="$PARAM[condition] + !String.IsEmpty(ListItem.DBID)">SetProperty(origin_dbid,$INFO[ListItem.DBID])</ondown>
+	    
+		<ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
 		<ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</ondown>
 	
         <ondown condition="$PARAM[condition]">SetProperty(Director_Label,$VAR[Label_FromDirector])</ondown>
@@ -593,12 +553,17 @@
         <ondown condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</ondown>
 
-        <ondown condition="$PARAM[condition] + [String.IsEqual(Window.Property(origin_tmdb_id),Window(Home).Property(TMDbHelper.ListItem.tmdb_id)) + [!String.IsEmpty(Window.Property(Director_Query)) | !String.IsEmpty(Window.Property(Writer_Query)) | !String.IsEmpty(Window.Property(Creator_Query))]]">SetFocus(7000,0,absolute)</ondown>
+        <ondown condition="$PARAM[condition]">SetFocus(7000,0,absolute)</ondown>
     </include>
 
     <include name="Action_Info_Recommendations_OnClick">
         <param name="condition">true</param>
         <definition>
+		    <onclick condition="$PARAM[condition] + !String.IsEmpty(ListItem.DBID)">SetProperty(origin_dbid,$INFO[ListItem.DBID],1121)</onclick>
+		    
+			<onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1121)</onclick>
+			<onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType],1121)</onclick>
+		
             <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Header,"$VAR[Label_Title]",1121)</onclick>
             <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Textbox,"$VAR[Label_Overlay_PlotBox]",1121)</onclick>
             <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Poster,$VAR[Image_DialogInfo_Poster],1121)</onclick>
