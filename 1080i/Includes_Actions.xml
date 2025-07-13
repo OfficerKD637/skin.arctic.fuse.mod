@@ -381,8 +381,7 @@
 
     <include name="Action_Recommendations_OnClick">
         <oninfo>Action(Select)</oninfo>
-        <onclick condition="!String.IsEmpty(ListItem.DBID)">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_dbid=$INFO[Window.Property(origin_dbid)],return)</onclick>
-        <onclick condition="String.IsEmpty(ListItem.DBID)">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],return)</onclick>
+        <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],return)</onclick>
         <onclick>Dialog.Close(1121,true)</onclick>
         <onclick>Dialog.Close(1122,true)</onclick>		       
     </include>
@@ -513,8 +512,6 @@
 
     <include name="Action_VideoInfo_Main_OnDown">
 	
-	    <ondown condition="$PARAM[condition] + !String.IsEmpty(ListItem.DBID)">SetProperty(origin_dbid,$INFO[ListItem.DBID])</ondown>
-	    
 		<ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
 		<ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</ondown>
 	
@@ -558,9 +555,7 @@
 
     <include name="Action_Info_Recommendations_OnClick">
         <param name="condition">true</param>
-        <definition>
-		    <onclick condition="$PARAM[condition] + !String.IsEmpty(ListItem.DBID)">SetProperty(origin_dbid,$INFO[ListItem.DBID],1121)</onclick>
-		    
+        <definition>		    
 			<onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1121)</onclick>
 			<onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType],1121)</onclick>
 		
