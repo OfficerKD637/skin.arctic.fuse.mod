@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <include name="DialogInfo_Main_Group">
-    </include>
-
     <include name="DialogInfo_Body_Group">
         <left>view_pad</left>
         <right>view_pad</right>
@@ -336,7 +333,7 @@
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating]</param>
             <param name="include">List_Landscape_Row</param>
-			<top>-10</top>
+			<top>-5</top>
             <left>200</left>
         </include>
 		<include content="Widget_Busy">
@@ -350,7 +347,7 @@
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Artwork) + Container(5010).IsUpdating]</param>
             <param name="include">List_Landscape_Row</param>
-			<top>-10</top>
+			<top>-5</top>
             <left>200</left>
         </include>
     </include>
@@ -820,7 +817,7 @@
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating]</param>
             <param name="include">List_Landscape_Row</param>
-			<top>-10</top>
+			<top>-5</top>
             <left>200</left>
         </include>
 		<include content="Widget_Busy">
@@ -841,7 +838,7 @@
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Artwork) + Container(5010).IsUpdating]</param>
             <param name="include">List_Landscape_Row</param>
-			<top>-10</top>
+			<top>-5</top>
             <left>200</left>
         </include>		
     </include>
@@ -967,7 +964,7 @@
 
     <include name="DialogInfo_ButtonGroup_OnDown">
         <include content="Action_VideoInfo_Main_OnDown" condition="Window.IsVisible(DialogVideoInfo.xml)">
-            <param name="condition">![String.IsEqual(Window.Property(DetailsView),Cast) | String.IsEqual(Window.Property(DetailsView),Reviews) | String.IsEqual(Window.Property(DetailsView),Trailer) | String.IsEqual(Window.Property(DetailsView),Critics)]</param>
+            <param name="condition">![String.IsEqual(Window.Property(DetailsView),Artwork) | String.IsEqual(Window.Property(DetailsView),Cast) | String.IsEqual(Window.Property(DetailsView),Reviews) | String.IsEqual(Window.Property(DetailsView),Trailer) | String.IsEqual(Window.Property(DetailsView),Critics)]</param>
         </include>
 
         <!-- Cast -->
@@ -1335,12 +1332,12 @@
 					<top>-590</top>
 					<right>0</right>
 					<visible>$PARAM[visible]</visible>
-					<visible>![ControlGroup(4000).HasFocus | String.IsEmpty(System.CurrentControlID) | Control.HasFocus(61) | Window.IsVisible(1113)]</visible>
-					<include>DialogInfo_Main_Group</include>
+					<visible>![ControlGroup(4000).HasFocus | Control.HasFocus(61) | Window.IsVisible(1113)]</visible>
 					<control type="group">
 
 						<!-- Widgets -->
 						<control type="group">
+						    <visible>!String.IsEmpty(System.CurrentControlID)</visible>
 						    <visible>[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [!String.IsEmpty(Window.Property(Version_Query)) + !String.IsEmpty(Window.Property(Version_Label)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31159])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>
 							<animation effect="slide" start="420" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(513)">Conditional</animation>
 							<animation effect="slide" start="0" end="420" tween="quadratic" easing="out" time="400" reversible="false" condition="!Control.HasFocus(513)">Conditional</animation>
@@ -1610,7 +1607,7 @@
 						<itemgap>0</itemgap>
 						<height>350</height>
 						<width>355</width>
-						<visible>![Control.HasFocus(7000) | Control.HasFocus(513)] | String.IsEmpty(System.CurrentControlID)</visible>
+						<visible>ControlGroup(4000).HasFocus | Control.HasFocus(61) | Window.IsVisible(1113)</visible>
 						<control type="group">
 							<top>25</top>
 						</control>
