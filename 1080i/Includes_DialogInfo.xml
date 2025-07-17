@@ -29,7 +29,7 @@
         <include content="Info_Panel">
             <param name="titlelabel">$VAR[Label_Title]</param>
             <param name="plotlabel">$VAR[Label_WidgetPlot]</param>
-			<param name="visible">!Control.HasFocus(513)</param>
+			<param name="visible">!Control.HasFocus(513) + !Control.HasFocus(514)</param>
         </include>
 		<include content="Info_Panel">
 			<param name="titlelabel">$VAR[Label_Title_C513]</param>
@@ -37,11 +37,17 @@
 			<param name="plotlabel">$VAR[Label_Plot_C513]</param>
 			<param name="visible">Control.HasFocus(513)</param>
 		</include>
+		<include content="Info_Panel">
+			<param name="titlelabel">$VAR[Label_Title_C514]</param>
+			<param name="container">Container(514).</param>
+			<param name="plotlabel">$VAR[Label_Plot_C514]</param>
+			<param name="visible">Control.HasFocus(514)</param>
+		</include>
         <include content="Info_Viewline">
             <param name="label">$VAR[Label_Info_ViewLine_Sub]</param>
             <param name="item_condition">true</param>
             <param name="top_padding_info">true</param>
-            <param name="item_updating">[[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + Container(5003).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating] | [Control.HasFocus(5003) + Container(5103).IsUpdating]]</param>
+            <param name="item_updating">[[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]]] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating]]</param>
             <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
 			    <param name="top">441</param>	
 			</include>
@@ -49,7 +55,7 @@
 			    <param name="top">520</param>	
 			</include>
             <left>0</left>
-			<visible>!Control.HasFocus(513)</visible>
+			<visible>!Control.HasFocus(513) + !Control.HasFocus(514)</visible>
         </include>
     </include>
 
@@ -83,7 +89,9 @@
 
     <include name="DialogInfo_Onload">
 
-        <onload>SetProperty(SideMenu.HasFocus.Prev,$INFO[Window(Home).Property(SideMenu.HasFocus)],Home)</onload>
+        <onload>SetProperty(Cast_TMDb_ID,$VAR[Path_VideoInfo_OnlineCast])</onload>
+        
+		<onload>SetProperty(SideMenu.HasFocus.Prev,$INFO[Window(Home).Property(SideMenu.HasFocus)],Home)</onload>
         <onload>ClearProperty(SideMenu.HasFocus,Home)</onload>
         <onunload>SetProperty(SideMenu.HasFocus,$INFO[Window(Home).Property(SideMenu.HasFocus.Prev)],Home)</onunload>
         <onunload>ClearProperty(SideMenu.HasFocus.Prev,Home)</onunload>
@@ -100,7 +108,9 @@
         <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">ActivateWindow(1183)</onload>
 
         <onunload>Dialog.Close(1121)</onunload>
+        <onunload>Dialog.Close(1122)</onunload>
         <onunload>ClearProperty(DetailsView,12003)</onunload>
+        <onunload>ClearProperty(Cast_TMDb_ID)</onunload>
     </include>
 
     <include name="DialogInfo_List_Movement">
@@ -462,7 +472,7 @@
             <control type="group">
                 <include>DialogInfo_VideoInfo_CastSpotlight</include>
                 <include>Animation_Right</include>
-                <visible>Control.HasFocus(5003) | Control.HasFocus(5103) | Control.HasFocus(5303)</visible>
+                <visible>Control.HasFocus(5003) | Control.HasFocus(513)</visible>
                 <top>-390</top>
             </control>
         </control>
@@ -471,11 +481,91 @@
      <include name="DialogInfo_Cast_Online">
         <control type="group">
             <include content="Animation_ConditionalFade">
-                <param name="condition">Container(5003).IsUpdating</param>
+                <param name="condition">[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]</param>
             </include>
             <visible>$PARAM[visible]</visible>
 
             <include condition="!$EXP[Exp_AspectRatio_Reduced]">DialogInfo_Cast_PersonBiography</include>
+			
+			<control type="group">
+				<visible>Control.HasFocus(5003) | Control.HasFocus(514)</visible>
+				
+				<control type="group">
+					<top>-10</top>
+					<animation effect="slide" start="420" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(514)">Conditional</animation>
+					<animation effect="slide" start="0" end="420" tween="quadratic" easing="out" time="400" reversible="false" condition="!Control.HasFocus(514)">Conditional</animation>
+
+					<!-- Poster Row -->
+					<include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+						<param name="baseid">51</param>
+						<param name="basegroupid">52</param>
+						<param name="id">4</param>
+						<param name="label">$LOCALIZE[31076] $INFO[Container(5003).ListItem.Label,(,)]</param>
+						<param name="include">List_Poster_Row</param>
+						<param name="detailed">true</param>
+						<param name="visible">!String.IsEmpty(Container(5003).ListItem.UniqueID(tmdb))</param>
+						<param name="altvisible">!String.IsEmpty(Container(5003).ListItem.UniqueID(tmdb))</param>
+						<param name="labeltop">0</param>
+						<param name="include_movement">false</param>
+						<content>$INFO[Container(5003).ListItem.UniqueID(tmdb),plugin://plugin.video.themoviedb.helper/?info=stars_in_both&amp;tmdb_type=person&amp;sort_by=premiered&amp;tmdb_id=,&amp;nextpage=false&amp;cacheonly=true&amp;length=1]</content>
+						<include content="Action_Recommendations_OnClick">
+							<param name="id">514</param>
+						</include>
+						<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+							<param name="condition">!Control.HasFocus(514)</param>
+						</include>
+						<include>Action_514_OnWidget</include>
+					</include>
+					
+					<!-- Landscape Row -->
+					<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
+						<param name="baseid">51</param>
+						<param name="basegroupid">52</param>
+						<param name="id">4</param>
+						<param name="label">$LOCALIZE[31076] $INFO[Container(5003).ListItem.Label,(,)]</param>
+						<param name="include">List_Landscape_Row</param>
+						<param name="visible">!String.IsEmpty(Container(5003).ListItem.UniqueID(tmdb))</param>
+						<param name="altvisible">!String.IsEmpty(Container(5003).ListItem.UniqueID(tmdb))</param>
+						<param name="labeltop">0</param>
+						<param name="include_movement">false</param>
+						<content>$INFO[Container(5003).ListItem.UniqueID(tmdb),plugin://plugin.video.themoviedb.helper/?info=stars_in_both&amp;tmdb_type=person&amp;sort_by=premiered&amp;tmdb_id=,&amp;nextpage=false&amp;cacheonly=true&amp;length=1]</content>
+						<include content="Action_Recommendations_OnClick">
+							<param name="id">514</param>
+						</include>
+						<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+							<param name="condition">!Control.HasFocus(514)</param>
+						</include>
+						<include>Action_514_OnWidget</include>
+					</include>				
+				</control>
+					<include content="Widget_Fake_Row" condition="Skin.HasSetting(InfoDialog.Poster) + !Skin.HasSetting(Views.DisableItemPeek)">
+						<param name="id">514</param>
+						<param name="affix">_C514</param>
+						<param name="content">Layout_Poster</param>
+						<param name="detailed">true</param>
+						<param name="icon_base_var">Image_Poster</param>
+						<param name="itemlayout_w">240</param>
+						<param name="item_w">200</param>
+						<param name="item_h">view_poster_item_h</param>
+						<param name="prefix">transition_poster</param>
+						<param name="left_padding">620</param>
+		                <param name="top_padding">75</param>
+						<animation type="Conditional" reversible="false" condition="Container(514).IsUpdating">
+							<effect type="fade" start="100" end="0" time="200" delay="600" />
+						</animation>
+						<visible>!Control.HasFocus(514)</visible>
+					</include>
+					<include content="Widget_Fake_Row" condition="!Skin.HasSetting(InfoDialog.Poster) + !Skin.HasSetting(Views.DisableItemPeek)">
+						<param name="id">514</param>
+						<param name="affix">_C514</param>
+						<param name="left_padding">620</param>
+		                <param name="top_padding">75</param>
+						<animation type="Conditional" reversible="false" condition="Container(514).IsUpdating">
+							<effect type="fade" start="100" end="0" time="200" delay="600" />
+						</animation>
+						<visible>!Control.HasFocus(514)</visible>
+					</include>
+			</control>			
 
             <control type="group">
                 <top>40</top>
@@ -517,79 +607,28 @@
                         <param name="onup_condition">false</param>
                         <param name="ondown_condition">false</param>
                     </include>
-                    <onright condition="![Integer.IsEqual(Container(5103).NumItems,0) | Container(5103).IsUpdating]">SetFocus(5303)</onright>
-                    <content target="videos">$VAR[Path_VideoInfo_Generic,,&amp;info=cast&amp;aggregate=true]$VAR[Path_Param_Widget]</content>
+                    <onright condition="![Integer.IsEqual(Container(514).NumItems,0) | Container(514).IsUpdating]">SetFocus(514,0,absolute)</onright>
+                    <content target="videos">$INFO[Window.Property(Cast_TMDb_ID)]</content>
                     <include content="Animation_ConditionalFade">
-                        <param name="condition">!Control.HasFocus(5003) + !Control.HasFocus(5303)</param>
+                        <param name="condition">!Control.HasFocus(5003)</param>
                     </include>
                 </include>
+				<include content="Object_Hidden_List">
+				    <param name="id">5303</param>
+					<content target="videos">$VAR[Path_VideoInfo_OnlineCast]</content>
+				</include>
                 <control type="group">
                     <left>60</left>
                     <right>-60</right>
                     <top>25</top>
                     <bottom>-25</bottom>
-                    <visible>Control.IsVisible(5003) + !Control.HasFocus(5003) + !Control.HasFocus(5103) + !Control.HasFocus(5303)</visible>
+                    <visible>Control.IsVisible(5003) + !Control.HasFocus(5003) + !Control.HasFocus(514)</visible>
                     <include content="ObjectWall_FixedList">
-                        <param name="container">Container(5003).</param>
+                        <param name="container">Container(5303).</param>
                         <param name="listitem">ListItemAbsolute</param>
                     </include>
                 </control>
-
-                <control type="group">
-                    <visible>Control.HasFocus(5003) | Control.HasFocus(5103) | Control.HasFocus(5303)</visible>
-
-                    <left>420</left>
-
-                    <control type="group">
-                        <visible>!Container(5103).IsUpdating</visible>
-                        <height>scrollbar_w</height>
-						<right>160</right>
-                        <centerbottom>-25</centerbottom>
-                        <left>80</left>                        
-                        <control type="image">
-                            <height>1</height>
-                            <centertop>50%</centertop>
-                            <texture colordiffuse="main_fg_12">common/white.png</texture>
-                        </control>
-                        <control type="scrollbar" id="5303">
-                            <orientation>horizontal</orientation>							
-                            <onleft>5003</onleft>
-                            <texturesliderbar colordiffuse="main_logo" border="4">scrollbar/scrollv.png</texturesliderbar>
-                        </control>
-                    </control>
-
-                    <include content="List_Button_Row">
-                        <param name="id">5103</param>
-                        <param name="orientation">horizontal</param>
-                        <param name="offset_x">60</param>
-                        <param name="offset_y">25</param>
-                        <param name="item_h">80</param>
-                        <param name="itemlayout_h">80</param>
-                        <param name="item_w">400</param>
-                        <param name="itemlayout_w">420</param>
-                        <param name="itemlayout_include">Layout_InfoDialog_Simple</param>
-                        <param name="control">panel</param>
-						<param name="art">Art(poster)</param>
-                        <preloaditems>0</preloaditems>
-                        <pagecontrol>5303</pagecontrol>
-                        <onleft>SetFocus(5103,0,absolute)</onleft>
-                        <onleft>5003</onleft>
-                        <onright>SetFocus(5103,0,absolute)</onright>
-                        <onright>5003</onright>
-                        <content sortby="year" sortorder="descending">$INFO[Container(5003).ListItem.UniqueID(tmdb),plugin://plugin.video.themoviedb.helper/?info=credits_in_both&amp;tmdb_type=person&amp;tmdb_id=,]$VAR[Path_Param_Widget]</content>
-                        <include content="Animation_ConditionalFade">
-                            <param name="condition">Container(5103).IsUpdating</param>
-                        </include>
-                    </include>
-
-                    <include content="Widget_Busy">
-                        <param name="label">$LOCALIZE[19032]</param>
-                        <param name="visible">Container(5103).IsUpdating</param>
-                        <param name="include">List_Button_Row</param>
-						<top>-50</top>
-                        <left>80</left>
-                    </include>
-                </control>
+				
             </control>
 
         </control>
@@ -600,7 +639,7 @@
             <include content="Animation_ConditionalFade">
                 <param name="condition">Container(50).IsUpdating</param>
             </include>
-            <include content="List_Landscape_Row">
+            <include content="List_Poster_Row">
                 <param name="id">50</param>
                 <param name="detailed">true</param>
                 <height>divider_bottom</height>
@@ -822,7 +861,7 @@
         </include>
 		<include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
-            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + Container(5003).IsUpdating]</param>
+            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]]]</param>
             <param name="include">List_Button_Row</param>
 			<top>-10</top>
             <left>200</left>
@@ -968,6 +1007,11 @@
         </include>
 
         <!-- Cast -->
+		<ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal]">SetProperty(Cast_TMDb_ID,$VAR[Path_VideoInfo_OnlineCast])</ondown>
+		<ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
+		<ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</ondown>
+		<ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</ondown>
+        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</ondown>
         <ondown condition="[String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(5003).NumItems,0)]">SetFocus(5003,0,absolute)</ondown>
         <ondown condition="[String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(50).NumItems,0) + $EXP[Exp_InfoDialogs_Cast_IsLocal]]">SetFocus(50,0,absolute)</ondown>
 
@@ -1345,11 +1389,127 @@
 								<top>hub_recommendations_widgets_grouplist_t</top>
 								<bottom>hub_recommendations_widgets_grouplist_b</bottom>
 
-								<include content="Widget_Info_Row">
+								<!-- Poster Row -->
+								<include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
 									<param name="baseid">51</param>
 									<param name="basegroupid">52</param>
 									<param name="id">3</param>
-									<param name="label">$LOCALIZE[20339]</param>
+									<param name="label">$LOCALIZE[20339] $INFO[Window.Property(Director_Label),(,)]</param>
+									<param name="include">List_Poster_Row</param>
+									<param name="visible">[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]]</param>
+									<param name="altvisible">[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]]</param>
+									<param name="labeltop">0</param>
+									<param name="include_movement">false</param>
+									<content>$INFO[Window.Property(Director_Query),plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person&amp;filter_key=job&amp;filter_value=Director&amp;sort_by=premiered,]$VAR[Path_Param_Widget]</content>
+									<include content="Action_Recommendations_OnClick">
+										<param name="id">513</param>
+									</include>
+									<include>Action_513_OnWidget</include>
+									<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+										<param name="condition">!Control.HasFocus(513)</param>
+									</include>
+								</include>
+								<include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+									<param name="baseid">51</param>
+									<param name="basegroupid">52</param>
+									<param name="id">3</param>
+									<param name="label">$LOCALIZE[20417] $INFO[Window.Property(Writer_Label),(,)]</param>
+									<param name="include">List_Poster_Row</param>
+									<param name="visible">[!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]]</param>
+									<param name="altvisible">[!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]]</param>
+									<param name="labeltop">0</param>
+									<param name="include_movement">false</param>
+									<content>$INFO[Window.Property(Writer_Query),plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person&amp;filter_key=department&amp;filter_value=Writing&amp;sort_by=premiered,]$VAR[Path_Param_Widget]</content>
+									<include content="Action_Recommendations_OnClick">
+										<param name="id">513</param>
+									</include>
+									<include>Action_513_OnWidget</include>
+									<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+										<param name="condition">!Control.HasFocus(513)</param>
+									</include>
+								</include>
+								<include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+									<param name="baseid">51</param>
+									<param name="basegroupid">52</param>
+									<param name="id">3</param>
+									<param name="label">$LOCALIZE[31065] $INFO[Window.Property(Creator_Label),(,)]</param>
+									<param name="include">List_Poster_Row</param>
+									<param name="visible">[!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]]</param>
+									<param name="altvisible">[!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]]</param>
+									<param name="labeltop">0</param>
+									<param name="include_movement">false</param>
+									<content>$INFO[Window.Property(Creator_Query),plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person&amp;filter_key=department&amp;filter_value=Creator&amp;sort_by=premiered,]$VAR[Path_Param_Widget]</content>
+									<include content="Action_Recommendations_OnClick">
+										<param name="id">513</param>
+									</include>
+									<include>Action_513_OnWidget</include>
+									<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+										<param name="condition">!Control.HasFocus(513)</param>
+									</include>
+								</include>
+								<include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+									<param name="baseid">51</param>
+									<param name="basegroupid">52</param>
+									<param name="id">3</param>
+									<param name="label">$LOCALIZE[572] $INFO[Window.Property(Studio_Label),(,)]</param>
+									<param name="include">List_Poster_Row</param>
+									<param name="visible">[!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]]</param>
+									<param name="altvisible">[!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]]</param>
+									<param name="labeltop">0</param>
+									<param name="include_movement">false</param>
+									<content>$INFO[Window.Property(Studio_Query),plugin://plugin.video.themoviedb.helper/?info=discover,]$VAR[Path_Param_Widget]</content>
+									<include content="Action_Recommendations_OnClick">
+										<param name="id">513</param>
+									</include>
+									<include>Action_513_OnWidget</include>
+									<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+										<param name="condition">!Control.HasFocus(513)</param>
+									</include>
+								</include>
+								<include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+									<param name="baseid">51</param>
+									<param name="basegroupid">52</param>
+									<param name="id">3</param>
+									<param name="label">$LOCALIZE[31236] $INFO[Window.Property(Set_Label),(,)]</param>
+									<param name="include">List_Poster_Row</param>
+									<param name="visible">[!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]</param>
+									<param name="altvisible">[!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]</param>
+									<param name="labeltop">0</param>
+									<param name="include_movement">false</param>
+									<content sortby="year" sortorder="ascending">$INFO[Window.Property(Set_Query),plugin://plugin.video.themoviedb.helper/?info=collection&amp;tmdb_type=collection,]$VAR[Path_Param_Widget]</content>
+									<include content="Action_Recommendations_OnClick">
+										<param name="id">513</param>
+									</include>
+									<include>Action_513_OnWidget</include>
+									<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+										<param name="condition">!Control.HasFocus(513)</param>
+									</include>
+								</include>
+								<include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+									<param name="baseid">51</param>
+									<param name="basegroupid">52</param>
+									<param name="id">3</param>
+									<param name="label">$LOCALIZE[31159]</param>
+									<param name="include">List_Poster_Row</param>
+									<param name="visible">[!String.IsEmpty(Window.Property(Version_Query)) + !String.IsEmpty(Window.Property(Version_Label)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31159])]]</param>
+									<param name="altvisible">[!String.IsEmpty(Window.Property(Version_Query)) + !String.IsEmpty(Window.Property(Version_Label)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31159])]]</param>
+									<param name="labeltop">0</param>
+									<param name="include_movement">false</param>
+									<content>$INFO[Window.Property(Version_Query)]</content>
+									<onclick>Dialog.Close(all,true)</onclick>
+									<onclick>PlayMedia($ESCINFO[Container(513).ListItem.FolderPath])</onclick>
+									<include>Action_513_OnWidget</include>
+									<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+										<param name="condition">!Control.HasFocus(513)</param>
+									</include>
+								</include>
+								
+								<!-- Landscape Row -->
+								<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
+									<param name="baseid">51</param>
+									<param name="basegroupid">52</param>
+									<param name="id">3</param>
+									<param name="label">$LOCALIZE[20339] $INFO[Window.Property(Director_Label),(,)]</param>
 									<param name="include">List_Landscape_Row</param>
 									<param name="visible">[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]]</param>
 									<param name="altvisible">[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]]</param>
@@ -1364,11 +1524,11 @@
 										<param name="condition">!Control.HasFocus(513)</param>
 									</include>
 								</include>
-								<include content="Widget_Info_Row">
+								<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
 									<param name="baseid">51</param>
 									<param name="basegroupid">52</param>
 									<param name="id">3</param>
-									<param name="label">$LOCALIZE[20417]</param>
+									<param name="label">$LOCALIZE[20417] $INFO[Window.Property(Writer_Label),(,)]</param>
 									<param name="include">List_Landscape_Row</param>
 									<param name="visible">[!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]]</param>
 									<param name="altvisible">[!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]]</param>
@@ -1383,11 +1543,11 @@
 										<param name="condition">!Control.HasFocus(513)</param>
 									</include>
 								</include>
-								<include content="Widget_Info_Row">
+								<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
 									<param name="baseid">51</param>
 									<param name="basegroupid">52</param>
 									<param name="id">3</param>
-									<param name="label">$LOCALIZE[31065]</param>
+									<param name="label">$LOCALIZE[31065] $INFO[Window.Property(Creator_Label),(,)]</param>
 									<param name="include">List_Landscape_Row</param>
 									<param name="visible">[!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]]</param>
 									<param name="altvisible">[!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]]</param>
@@ -1402,11 +1562,11 @@
 										<param name="condition">!Control.HasFocus(513)</param>
 									</include>
 								</include>
-								<include content="Widget_Info_Row">
+								<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
 									<param name="baseid">51</param>
 									<param name="basegroupid">52</param>
 									<param name="id">3</param>
-									<param name="label">$LOCALIZE[572]</param>
+									<param name="label">$LOCALIZE[572] $INFO[Window.Property(Studio_Label),(,)]</param>
 									<param name="include">List_Landscape_Row</param>
 									<param name="visible">[!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]]</param>
 									<param name="altvisible">[!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]]</param>
@@ -1421,11 +1581,11 @@
 										<param name="condition">!Control.HasFocus(513)</param>
 									</include>
 								</include>
-								<include content="Widget_Info_Row">
+								<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
 									<param name="baseid">51</param>
 									<param name="basegroupid">52</param>
 									<param name="id">3</param>
-									<param name="label">$LOCALIZE[31236]</param>
+									<param name="label">$LOCALIZE[31236] $INFO[Window.Property(Set_Label),(,)]</param>
 									<param name="include">List_Landscape_Row</param>
 									<param name="visible">[!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]</param>
 									<param name="altvisible">[!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]</param>
@@ -1440,7 +1600,7 @@
 										<param name="condition">!Control.HasFocus(513)</param>
 									</include>
 								</include>
-								<include content="Widget_Info_Row">
+								<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
 									<param name="baseid">51</param>
 									<param name="basegroupid">52</param>
 									<param name="id">3</param>
@@ -1468,24 +1628,39 @@
 									<param name="altvisible">[String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</param>
 									<param name="labeltop">0</param>
 									<param name="include_movement">false</param>
-									<content target="videos">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=flatseasons&amp;tmdb_type=tv,]$VAR[Path_Param_Widget]</content>
+									<content target="videos">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=flatseasons&amp;tmdb_type=tv,&amp;nextpage=false&amp;cacheonly=true&amp;length=1]</content>
 									<onclick>Dialog.Close(all,true)</onclick>
 									<onclick>PlayMedia($ESCINFO[Container(513).ListItem.FolderPath])</onclick>
 									<include>Action_513_OnWidget</include>
 									<include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
 										<param name="condition">!Control.HasFocus(513)</param>
 									</include>
-								</include>
+								</include>								
 							</control>
-
-							<include content="Widget_Fake_Row" condition="!Skin.HasSetting(Views.DisableItemPeek)">
-								<param name="id">513</param>
-								<param name="affix">_C513</param>
-								<animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
-									<effect type="fade" start="100" end="0" time="200" delay="600" />
-								</animation>
-								<visible>!Control.HasFocus(513)</visible>
-							</include>
+								
+								<include content="Widget_Fake_Row" condition="Skin.HasSetting(InfoDialog.Poster) + !Skin.HasSetting(Views.DisableItemPeek)">
+									<param name="id">513</param>
+									<param name="affix">_C513</param>
+									<param name="content">Layout_Poster</param>
+									<param name="icon_base_var">Image_Poster</param>
+									<param name="itemlayout_w">240</param>
+									<param name="item_w">200</param>
+									<param name="item_h">view_poster_item_h</param>
+									<param name="prefix">transition_poster</param>
+									<animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
+										<effect type="fade" start="100" end="0" time="200" delay="600" />
+									</animation>
+									<visible>!Control.HasFocus(513) + !String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])</visible>
+								</include>
+								<include content="Widget_Fake_Row" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+									<param name="id">513</param>
+									<param name="affix">_C513</param>
+									<param name="content">Layout_513_Episode</param>
+									<animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
+										<effect type="fade" start="100" end="0" time="200" delay="600" />
+									</animation>
+									<visible>!Control.HasFocus(513) + [!Skin.HasSetting(InfoDialog.Poster) | [Skin.HasSetting(InfoDialog.Poster) + String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>
+								</include>
 						</control>
 
 						<!-- Person Info -->
@@ -2401,7 +2576,7 @@
 			
 			<!-- Poster Row -->
 
-            <include content="Widget_Info_Row" condition="!Skin.HasSetting(Discover.Landscape) + !String.IsEmpty(Window.Property(Item_Year))">
+            <include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster) + !String.IsEmpty(Window.Property(Item_Year))">
                 <param name="id">01</param>
                 <param name="label">$LOCALIZE[31390]$INFO[Window.Property(Item_Year), (,)]</param>
                 <param name="include">List_Poster_Row</param>
@@ -2416,7 +2591,7 @@
                 </include>
             </include>
 
-            <include content="Widget_Info_Row" condition="!Skin.HasSetting(Discover.Landscape) + !String.IsEmpty(Window.Property(Genre_Title))">
+            <include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster) + !String.IsEmpty(Window.Property(Genre_Title))">
                 <param name="id">02</param>
                 <param name="label">$LOCALIZE[515]$INFO[Window.Property(Genre_Title), (,)]</param>
                 <param name="include">List_Poster_Row</param>
@@ -2431,7 +2606,7 @@
                 </include>
             </include>
 
-            <include content="Widget_Info_Row" condition="!Skin.HasSetting(Discover.Landscape) + !String.IsEmpty(Window.Property(Item_Query))">
+            <include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster) + !String.IsEmpty(Window.Property(Item_Query))">
                 <param name="id">03</param>
                 <param name="label">$LOCALIZE[31018]$INFO[Window.Property(Item_Title), (,)]</param>
                 <param name="include">List_Poster_Row</param>
@@ -2448,7 +2623,7 @@
 			
 			<!-- Landscape Row -->
 			
-			<include content="Widget_Info_Row" condition="Skin.HasSetting(Discover.Landscape) + !String.IsEmpty(Window.Property(Item_Year))">
+			<include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster) + !String.IsEmpty(Window.Property(Item_Year))">
                 <param name="id">01</param>
                 <param name="label">$LOCALIZE[31390]$INFO[Window.Property(Item_Year), (,)]</param>
                 <param name="include">List_Landscape_Row</param>
@@ -2463,7 +2638,7 @@
                 </include>
             </include>
 
-            <include content="Widget_Info_Row" condition="Skin.HasSetting(Discover.Landscape) + !String.IsEmpty(Window.Property(Genre_Title))">
+            <include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster) + !String.IsEmpty(Window.Property(Genre_Title))">
                 <param name="id">02</param>
                 <param name="label">$LOCALIZE[515]$INFO[Window.Property(Genre_Title), (,)]</param>
                 <param name="include">List_Landscape_Row</param>
@@ -2478,7 +2653,7 @@
                 </include>
             </include>
 
-            <include content="Widget_Info_Row" condition="Skin.HasSetting(Discover.Landscape) + !String.IsEmpty(Window.Property(Item_Query))">
+            <include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster) + !String.IsEmpty(Window.Property(Item_Query))">
                 <param name="id">03</param>
                 <param name="label">$LOCALIZE[31018]$INFO[Window.Property(Item_Title), (,)]</param>
                 <param name="include">List_Landscape_Row</param>
