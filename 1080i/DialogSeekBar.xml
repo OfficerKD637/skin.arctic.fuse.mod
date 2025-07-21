@@ -9,6 +9,21 @@
     <onload condition="Player.Paused + !String.IsEmpty(Window(Home).Property(OSDExtendedInfo))">PlayerControl(Play)</onload>
     <onload condition="Player.Paused + !String.IsEmpty(Window(Home).Property(OSDExtendedInfo))">ClearProperty(OSDExtendedInfo,Home)</onload>
     <controls>
+	
+	<!-- HDR Pop Up Logo -->
+		<control type="group">
+            <visible>[!String.IsEmpty(System.SupportedHDRTypes) + !String.IsEmpty(VideoPlayer.Hdrtype) + Skin.HasSetting(Enable.OSD.HDRPopUp) + !Skin.String(OSD.HDRPopUp,None) + Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(hdr_logo_popup),2) + Integer.IsLessOrEqual(Skin.TimerElapsedSecs(hdr_logo_popup),6)]</visible>		
+            <animation effect="fade" start="0" end="100" time="500" delay="2000" reversible="false">Visible</animation>
+	        <animation effect="fade" start="100" end="0" time="500" delay="1000" reversible="false">Hidden</animation>
+            <width>150</width>
+			<right>view_menu</right>				
+			<control type="image">	
+				<texture>$VAR[Image_OSD_HDRPopUp]</texture>	
+				<aspectratio>keep</aspectratio>	
+				<centerright>50%</centerright>
+				<centertop>100</centertop>
+			</control>
+		</control>
 
         <control type="image">
             <texture colordiffuse="7f000000">common/white.png</texture>
