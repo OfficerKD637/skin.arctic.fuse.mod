@@ -8,23 +8,23 @@
         <stop>[[![[[Skin.HasSetting(Trailers.EnableAutoPlayback) + [[Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + ControlGroup(310).HasFocus()] | [Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + [Window.IsVisible(Home) | Window.IsVisible(1101) | Window.IsVisible(1102) | Window.IsVisible(1103) | Window.IsVisible(1104) | Window.IsVisible(1106) | Window.IsVisible(1107) | Window.IsVisible(1108) | Window.IsVisible(1109) | Window.IsVisible(1110) | Window.IsVisible(1112) | Window.IsVisible(1114) | Window.IsVisible(1125) | Window.IsVisible(1126) | Window.IsVisible(1127)]] | [Skin.HasSetting(Trailers.EnableAutoPlayback.Library) + Window.IsVisible(MyVideoNav.xml)] | [Skin.HasSetting(Trailers.EnableAutoPlayback.Hubs) + !Skin.HasSetting(Background.DisableVideo) + [[Window.IsVisible(1105) | [Window.IsVisible(1185) + !String.IsEmpty(Container(5099).ListItem.Property(guid))]] + ControlGroup(5000).HasFocus()]]]] | [Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Window.IsVisible(DialogVideoInfo.xml) + !Skin.HasSetting(Background.DisableVideo)]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + ![Control.HasFocus(303)| Control.HasFocus(308) | Control.HasFocus(309)]]] | !String.IsEqual(Window(Home).Property(AutoTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) | [Player.HasVideo + !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]]</stop>
         <onstart>SetProperty(AutoTrailer,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],Home)</onstart>
         <onstart>SetProperty(AutoTrailerTitle,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Title)],Home)</onstart>
-		
+        
         <onstop condition="Player.HasVideo + !System.IdleTime(1) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath) + !Window.IsVisible(1123) + [!Window.IsVisible(DialogVideoInfo.xml) | String.IsEqual(Window(Home).Property(PlayTrailerTrigger),VideoInfo)]">Action(Stop)</onstop>
-		
-		
-		<!-- To clear PlayTrailer property when trailer is partially played in Spotlight only -->		
-		
-		<onstop condition="[Control.HasFocus(311) | Control.HasFocus(313) | Control.HasFocus(303)]">ClearProperty(PlayTrailer,Home)</onstop>
+        
+        
+        <!-- To clear PlayTrailer property when trailer is partially played in Spotlight only -->        
+        
+        <onstop condition="[Control.HasFocus(311) | Control.HasFocus(313) | Control.HasFocus(303)]">ClearProperty(PlayTrailer,Home)</onstop>
         <onstop condition="[Control.HasFocus(311) | Control.HasFocus(313) | Control.HasFocus(303)]">ClearProperty(PlayTrailerTitle,Home)</onstop>
         
-		
-		<onstop>ClearProperty(AutoTrailer,Home)</onstop>
+        
+        <onstop>ClearProperty(AutoTrailer,Home)</onstop>
         <onstop>ClearProperty(AutoTrailerTitle,Home)</onstop>
-		
-		<!-- MUTE CONTROLS -->
-		<onstart condition="Skin.HasSetting(Trailers.EnableMute) + Player.HasVideo + !Player.Muted">Action(Mute)</onstart> <!-- "ON" -->					
-		<onstart condition="!Player.HasVideo + Player.Muted">Action(Mute)</onstart> <!-- "OFF" -->	
-		<onstop condition="[Control.HasFocus(303)| Control.HasFocus(308) | Control.HasFocus(309)] + Player.Muted">Action(Mute)</onstop> <!-- "OFF" -->	
+        
+        <!-- MUTE CONTROLS -->
+        <onstart condition="Skin.HasSetting(Trailers.EnableMute) + Player.HasVideo + !Player.Muted">Action(Mute)</onstart> <!-- "ON" -->                    
+        <onstart condition="!Player.HasVideo + Player.Muted">Action(Mute)</onstart> <!-- "OFF" -->    
+        <onstop condition="[Control.HasFocus(303)| Control.HasFocus(308) | Control.HasFocus(309)] + Player.Muted">Action(Mute)</onstop> <!-- "OFF" -->    
     </timer>
 
     <timer>
@@ -37,38 +37,38 @@
         <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,plugin://plugin.video.imdb.trailers/?action=play_id&imdb=$VAR[Trailer_IMDbID_Switch],Home)</onstart>
         <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + !Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],1)</onstart>
         <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia(plugin://plugin.video.imdb.trailers/?action=play_id&imdb=$VAR[Trailer_IMDbID_Switch],1)</onstart>
-		
-		<onstart condition="Skin.HasSetting(Trailers.EnableMute) + !Player.Muted">Action(Mute)</onstart> <!-- MUTE "ON" --> 
+        
+        <onstart condition="Skin.HasSetting(Trailers.EnableMute) + !Player.Muted">Action(Mute)</onstart> <!-- MUTE "ON" --> 
    </timer>
-	
-	<!-- CUSTOM TIMERS -->
-		 	
-	<timer>
-		<name>play_fullscreen_trailer_info</name>
-		<start reset="true">[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Window(1123).Property(TrailerFullscreen),True)]]</start>
-		<reset>![[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Window(1123).Property(TrailerFullscreen),True)]]</reset>
-		<stop>Integer.IsGreaterOrEqual(Player.Time(ss),Skin.String(Fullscreen_Trailer_Delay)) + Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(play_fullscreen_trailer_info),Skin.String(Fullscreen_Trailer_Delay)) + System.IdleTime(1)</stop>
-		<onstop>SetProperty(TrailerFullscreen,True,1123)</onstop>
-		<onstop>SetProperty(ReplaceWindow,1123,DialogVideoInfo.xml)</onstop>
-		<onstop condition="!Window.IsActive(1123)">ActivateWindow(1123)</onstop>
-		<onstop condition="Window.IsActive(1123)">ReplaceWindow(1197)</onstop>
-		
-		<onstop condition="Player.Muted">Action(Mute)</onstop> <!-- MUTE "OFF" --> 
-	</timer>
-	
-	<timer>
-		<name>play_fullscreen_trailer_others</name>
-		<start reset="true">[[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + !VideoPlayer.IsFullscreen]</start>
-		<reset>![[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + !VideoPlayer.IsFullscreen]</reset>
-		<stop>Integer.IsGreaterOrEqual(Player.Time(ss),Skin.String(Fullscreen_Trailer_Delay)) + Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(play_fullscreen_trailer_others),Skin.String(Fullscreen_Trailer_Delay)) + System.IdleTime(1)</stop>
-		<onstop>Fullscreen</onstop>	
-		
-		<onstop condition="Player.Muted">Action(Mute)</onstop> <!-- MUTE "OFF" -->	
-	</timer>
-	
-	<timer>
-		<name>hdr_logo_popup</name>
-		<start reset="false">[VideoPlayer.IsFullscreen + !String.IsEmpty(VideoPlayer.Hdrtype) + Skin.HasSetting(Enable.OSD.HDRPopUp) + !Skin.String(OSD.HDRPopUp,None)]</start>
-		<stop>![VideoPlayer.IsFullscreen + !String.IsEmpty(VideoPlayer.Hdrtype) + Skin.HasSetting(Enable.OSD.HDRPopUp) + !Skin.String(OSD.HDRPopUp,None)]</stop>
-	</timer>	
+    
+    <!-- CUSTOM TIMERS -->
+             
+    <timer>
+        <name>play_fullscreen_trailer_info</name>
+        <start reset="true">[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Window(1123).Property(TrailerFullscreen),True)]]</start>
+        <reset>![[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Window(1123).Property(TrailerFullscreen),True)]]</reset>
+        <stop>Integer.IsGreaterOrEqual(Player.Time(ss),Skin.String(Fullscreen_Trailer_Delay)) + Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(play_fullscreen_trailer_info),Skin.String(Fullscreen_Trailer_Delay)) + System.IdleTime(1)</stop>
+        <onstop>SetProperty(TrailerFullscreen,True,1123)</onstop>
+        <onstop>SetProperty(ReplaceWindow,1123,DialogVideoInfo.xml)</onstop>
+        <onstop condition="!Window.IsActive(1123)">ActivateWindow(1123)</onstop>
+        <onstop condition="Window.IsActive(1123)">ReplaceWindow(1197)</onstop>
+        
+        <onstop condition="Player.Muted">Action(Mute)</onstop> <!-- MUTE "OFF" --> 
+    </timer>
+    
+    <timer>
+        <name>play_fullscreen_trailer_others</name>
+        <start reset="true">[[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + !VideoPlayer.IsFullscreen]</start>
+        <reset>![[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + !VideoPlayer.IsFullscreen]</reset>
+        <stop>Integer.IsGreaterOrEqual(Player.Time(ss),Skin.String(Fullscreen_Trailer_Delay)) + Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(play_fullscreen_trailer_others),Skin.String(Fullscreen_Trailer_Delay)) + System.IdleTime(1)</stop>
+        <onstop>Fullscreen</onstop>    
+        
+        <onstop condition="Player.Muted">Action(Mute)</onstop> <!-- MUTE "OFF" -->    
+    </timer>
+    
+    <timer>
+        <name>hdr_logo_popup</name>
+        <start reset="false">[VideoPlayer.IsFullscreen + !String.IsEmpty(VideoPlayer.Hdrtype) + Skin.HasSetting(Enable.OSD.HDRPopUp) + !Skin.String(OSD.HDRPopUp,None)]</start>
+        <stop>![VideoPlayer.IsFullscreen + !String.IsEmpty(VideoPlayer.Hdrtype) + Skin.HasSetting(Enable.OSD.HDRPopUp) + !Skin.String(OSD.HDRPopUp,None)]</stop>
+    </timer>    
 </timers>
