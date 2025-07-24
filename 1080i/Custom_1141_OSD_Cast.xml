@@ -81,7 +81,7 @@
             </include>
 
             <!-- Starring in List -->
-            <include content="List_Poster_Row">
+            <include content="List_Poster_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
                 <param name="orientation">horizontal</param>
                 <param name="control">fixedlist</param>
                 <param name="id">6539</param>
@@ -122,7 +122,54 @@
                 <content>
                     <item>
                         <label>$LOCALIZE[31046]</label>
-                        <icon>fallback/no-results.png</icon>
+                        <icon>fallback/no-results-poster.png</icon>
+                        <visible>Integer.IsEqual(Container(6539).NumItems,0) | [Integer.IsEqual(Container(6539).NumItems,1) + String.IsEqual(Container(6539).ListItemAbsolute(0).Label,$LOCALIZE[31046])]</visible>
+                    </item>
+                </content>
+            </include>
+            
+            <include content="List_Landscape_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
+                <param name="orientation">horizontal</param>
+                <param name="control">fixedlist</param>
+                <param name="id">6539</param>
+                <param name="detailed">true</param>
+                <include>OSD_List_Dimensions</include>
+
+                <onleft>4000</onleft>
+                <onright>SetFocus(6539,0,absolute)</onright>
+                <onright>4000</onright>
+
+                <onfocus>SetProperty(TMDb_ID,$INFO[Container(6501).ListItem.UniqueID(tmdb)],1141)</onfocus>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,6539,1141)</onfocus>
+
+                <onup>SetProperty(TMDbHelper.WidgetContainer,6501,1141)</onup>
+                <onup>SetFocus(6501)</onup>
+
+                <onback>SetFocus(6539,0,absolute)</onback>
+                <onback>4000</onback>
+
+                <include>Animation_OSD_Dialog_VisibleChange</include>
+
+                <visible allowhiddenfocus="true">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),6539)</visible>
+
+                <include content="Animation_Busy_Fade">
+                    <param name="end">0</param>
+                    <param name="id">6539</param>
+                </include>
+
+                <onclick condition="!String.IsEqual(Container(6539).ListItem.Label,$LOCALIZE[31046])">SetProperty(OSDExtendedInfo,1,Home)</onclick>
+                <onclick condition="!String.IsEqual(Container(6539).ListItem.Label,$LOCALIZE[31046]) + !Player.Paused">Pause</onclick>
+                <onclick condition="!String.IsEqual(Container(6539).ListItem.Label,$LOCALIZE[31046])">runscript(script.wikipedia,wikipedia=$INFO[Container(6539).ListItem.Label],tmdb_type=$INFO[Container(6539).ListItem.Property(tmdb_type)])</onclick>
+
+                <onclick condition="String.IsEqual(Container(6539).ListItem.Label,$LOCALIZE[31046])">SetFocus(4001)</onclick>
+                <onclick condition="String.IsEqual(Container(6539).ListItem.Label,$LOCALIZE[31046])">Action(Select)</onclick>
+
+                <content>$VAR[Path_VideoOSD_PersonCredits]</content>
+
+                <content>
+                    <item>
+                        <label>$LOCALIZE[31046]</label>
+                        <icon>fallback/no-results-landscape.png</icon>
                         <visible>Integer.IsEqual(Container(6539).NumItems,0) | [Integer.IsEqual(Container(6539).NumItems,1) + String.IsEqual(Container(6539).ListItemAbsolute(0).Label,$LOCALIZE[31046])]</visible>
                     </item>
                 </content>
@@ -201,10 +248,19 @@
             <visible>Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),6501)</visible>
         </include>
 
-        <include content="Widget_Busy">
+        <include content="Widget_Busy" condition="Skin.HasSetting(InfoDialog.Poster)">
             <param name="label">$LOCALIZE[31415]...</param>
             <param name="visible">Container(6539).IsUpdating</param>
             <param name="include">List_Poster_Row</param>
+            <height>divider_bottom</height>
+            <bottom>40</bottom>
+            <left>200</left>
+            <visible>Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),6539)</visible>
+        </include>
+        <include content="Widget_Busy" condition="!Skin.HasSetting(InfoDialog.Poster)">
+            <param name="label">$LOCALIZE[31415]...</param>
+            <param name="visible">Container(6539).IsUpdating</param>
+            <param name="include">List_Landscape_Row</param>
             <height>divider_bottom</height>
             <bottom>40</bottom>
             <left>200</left>
