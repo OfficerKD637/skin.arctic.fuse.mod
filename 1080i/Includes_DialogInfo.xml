@@ -22,7 +22,6 @@
     </include>
 
     <include name="DialogInfo_InfoPanel_Group">
-        <include>Animation_Transition_InfoPanel_Open</include>
         <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
             <param name="top">-79</param>    
         </include>        
@@ -30,18 +29,21 @@
             <param name="titlelabel">$VAR[Label_Title]</param>
             <param name="plotlabel">$VAR[Label_WidgetPlot]</param>
             <param name="visible">!Control.HasFocus(513) + !Control.HasFocus(514)</param>
+            <include>Animation_Transition_InfoPanel_Open</include>
         </include>
         <include content="Info_Panel">
             <param name="titlelabel">$VAR[Label_Title_C513]</param>
             <param name="container">Container(513).</param>
             <param name="plotlabel">$VAR[Label_Plot_C513]</param>
             <param name="visible">Control.HasFocus(513)</param>
+            <include>Animation_Transition_InfoPanel_Open</include>
         </include>
         <include content="Info_Panel">
             <param name="titlelabel">$VAR[Label_Title_C514]</param>
             <param name="container">Container(514).</param>
             <param name="plotlabel">$VAR[Label_Plot_C514]</param>
             <param name="visible">Control.HasFocus(514)</param>
+            <include>Animation_Transition_InfoPanel_Open</include>
         </include>
         <include content="Info_Viewline">
             <param name="label">$VAR[Label_Info_ViewLine_Sub]</param>
@@ -55,6 +57,7 @@
                 <param name="top">520</param>    
             </include>
             <left>0</left>
+            <include>Animation_Transition_InfoPanel_Open_Fade</include>
             <visible>!Control.HasFocus(513) + !Control.HasFocus(514)</visible>
         </include>
     </include>
@@ -1659,7 +1662,15 @@
                                     <animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
                                         <effect type="fade" start="100" end="0" time="200" delay="600" />
                                     </animation>
-                                    <visible>!Control.HasFocus(513) + [!Skin.HasSetting(InfoDialog.Poster) | [Skin.HasSetting(InfoDialog.Poster) + String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>
+                                    <visible>!Control.HasFocus(513) + [[!Skin.HasSetting(InfoDialog.Poster) | Skin.HasSetting(InfoDialog.Poster)] + String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]</visible>
+                                </include>
+                                <include content="Widget_Fake_Row" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                                    <param name="id">513</param>
+                                    <param name="affix">_C513</param>
+                                    <animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
+                                        <effect type="fade" start="100" end="0" time="200" delay="600" />
+                                    </animation>
+                                    <visible>!Control.HasFocus(513) + !Skin.HasSetting(InfoDialog.Poster) + !String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])</visible>
                                 </include>
                         </control>
 
