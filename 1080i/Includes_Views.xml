@@ -88,13 +88,11 @@
     </include>
 
     <include name="View_Hidden_Buttons">
-        <!-- Wall Action -->
+        <!-- Filter Action -->
         <include content="Object_Hidden_Button">
             <param name="id">68</param>
-            <onfocus condition="![$EXP[Exp_FilterWall_IsActive]]">SetFocus($VAR[Action_View_ContentID])</onfocus>
-            <onfocus condition="![$EXP[Exp_FilterWall_IsActive]]">ClearProperty(MediaFilterBase)</onfocus>
-            <onfocus condition="![$EXP[Exp_FilterWall_IsActive]]">ClearProperty(MediaFilterWall)</onfocus>
-            <onfocus condition="$EXP[Exp_FilterWall_IsActive]">Runscript(script.skinvariables,$VAR[MediaWall_ScriptTypeDef],use_rules,id=$VAR[Action_View_ContentID],win_prop=WallSlideOut,focus_id=$VAR[Action_View_ContentID],clear_prop_one=MediaFilterBase,clear_prop_two=MediaFilterWall)</onfocus>
+            <onfocus>SetFocus($VAR[Action_View_ContentID])</onfocus>
+            <onfocus>ClearProperty(MediaFilterBase)</onfocus>
         </include>
         <!-- Dummy for bouncing focus back to view on back -->
         <include content="Object_Hidden_Button">
@@ -159,7 +157,6 @@
             <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="$EXP[Exp_View_WallMode]">Conditional</animation>
 
             <control type="group">
-                <include>MediaWall_Info_Transition</include>
                 <include content="Info_Panel">
                     <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer)) + ![Control.IsVisible(524) | $EXP[Exp_View_WallMode]]</param>                    
                     <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
@@ -240,10 +237,10 @@
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
             <control type="group">                
-                <animation type="Conditional" reversible="false" condition="[$EXP[Exp_FilterWall_IsActive] | $EXP[Exp_DiscoverWall_IsActive] | $EXP[Exp_View_WallMode]]">
+                <animation type="Conditional" reversible="false" condition="$EXP[Exp_View_WallMode]">
                     <effect type="slide" end="0,-334" start="0" time="200" delay="0" tween="cubic" easing="out" />
                 </animation>
-                <animation type="Conditional" reversible="false" condition="[!$EXP[Exp_FilterWall_IsActive] | !$EXP[Exp_DiscoverWall_IsActive] | !$EXP[Exp_View_WallMode]]">
+                <animation type="Conditional" reversible="false" condition="![$EXP[Exp_View_WallMode]]">
                     <effect type="slide" start="0,-334" end="0" time="200" delay="0" tween="cubic" easing="out" />
                 </animation>                
                 <animation type="Conditional" reversible="false" condition="[Control.IsVisible(524) + Skin.HasSetting(Disable.ComboListDetailedView)]">
@@ -326,7 +323,6 @@
                     <include>Animation_Half_WindowChange_UpDown</include>
                     <include>$PARAM[include_combinedviews]</include>
                     <control type="group">
-                        <include>MediaWall_View_Transition</include>
                         <include>$PARAM[include_standardviews]</include>
                     </control>
                 </control>
@@ -393,7 +389,7 @@
             <control type="group">
                 <visible>!Window.IsVisible(1171)</visible>
                 <control type="group">
-                    <visible>![[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible]] | !String.IsEmpty(Window.Property(MediaFilterBase)) | !String.IsEmpty(Window.Property(MediaFilterWall))]</visible>
+                    <visible>![[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
                     <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="true">Hidden</animation>
                     <animation effect="fade" start="0" end="100" delay="400" time="1" reversible="false">Visible</animation>
                     <include>$PARAM[include]</include>
@@ -479,7 +475,7 @@
                 <visible>!Window.IsVisible(1171)</visible>
                 <include>Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <control type="group">
-                    <visible>[[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible]] | !String.IsEmpty(Window.Property(MediaFilterBase)) | !String.IsEmpty(Window.Property(MediaFilterWall))]</visible>
+                    <visible>[[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
                     <animation effect="fade" start="0" end="100" delay="400" time="1" reversible="true">Visible</animation>
                     <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
                     <height>40</height>
@@ -656,20 +652,12 @@
         <include content="Home_Menu_Media">
             <param name="onlist">50</param>
         </include>
-        <include condition="Window.IsVisible(MyVideoNav.xml)">MediaFilter_Discover_Node</include>
         <include>MediaFilter_Node</include>
-    </include>
-
-    <include name="View_MediaWall">
-        <control type="group">
-            <include condition="Window.IsVisible(MyVideoNav.xml)">MediaWall_Discover</include>
-            <include condition="$EXP[Exp_FilterWall_IsEnabled]">MediaWall_All</include>
-        </control>
     </include>
 
     <include name="View_Dialog_VideoPIP">
         <include content="Dialog_VideoPIP" condition="Skin.HasSetting(Background.DisableVideo)">
-            <param name="visible">[!$EXP[Exp_InfoDialogs] + String.IsEmpty(Window.Property(MediaFilterBase)) + !$EXP[Exp_FilterWall_IsActive]]</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + String.IsEmpty(Window.Property(MediaFilterBase))]</param>
         </include>
     </include>
 
@@ -691,7 +679,6 @@
                 <include>Animation_Group_Bumper</include>
                 <include>Animation_View_SlideOver</include>
                 <include>Animation_View_WindowChange</include>
-                <include>View_MediaWall</include>
                 <include>View_Row_Items</include>
                 <include>View_Row_Info</include>
             </control>
