@@ -330,9 +330,23 @@
 
             <onclick condition="!Skin.HasSetting(OSD.AutoHideOnPause) + !Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.SetBool(OSD.AutoInfoOnPause)</onclick>
         </include>
-        <include content="Settings_Button" description="Seekbar times">
+        <include content="Settings_Button" description="Autohide seekbar timing">
             <param name="dialog">true</param>
             <param name="id">8004</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31165]</label>
+            <label2>$VAR[Label_Setting_SeekbarPauseDelay]</label2>
+
+            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,0s)">Skin.SetString(OSD.AutoOnPause.Delay,1s)</onclick>
+            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,1s)">Skin.SetString(OSD.AutoOnPause.Delay,2s)</onclick>
+            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,2s)">Skin.SetString(OSD.AutoOnPause.Delay,3s)</onclick>
+            <onclick condition="![Skin.String(OSD.AutoOnPause.Delay,0s) | Skin.String(OSD.AutoOnPause.Delay,1s) | Skin.String(OSD.AutoOnPause.Delay,2s)]">Skin.SetString(OSD.AutoOnPause.Delay,0s)</onclick>
+
+            <visible>[Skin.HasSetting(OSD.AutoInfoOnPause) | Skin.HasSetting(OSD.AutoHideOnPause)]</visible>
+        </include>
+        <include content="Settings_Button" description="Seekbar times">
+            <param name="dialog">true</param>
+            <param name="id">8005</param>
             <param name="control">button</param>
             <label>$LOCALIZE[31355]</label>
             <label2>$VAR[Label_Setting_SeekbarTimeDisplay]</label2>            

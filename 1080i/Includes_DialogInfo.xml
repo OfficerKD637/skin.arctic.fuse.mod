@@ -71,8 +71,12 @@
             </control>
             <control type="group">
                 <left>-120</left>
-                <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader) + !String.IsEqual(ListItem.Property(tmdb_type),person)">
                     <param name="include_topbar_animation">False</param>
+                </include>  
+                <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader) + String.IsEqual(ListItem.Property(tmdb_type),person)">
+                    <param name="include_topbar_animation">False</param>
+                    <param name="label">$INFO[Window.Property(Item_Title)]</param>
                 </include>                
             </control>
             <control type="group">
@@ -105,10 +109,9 @@
         <onload condition="![String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">AlarmClock(reclear,ClearProperty(TMDbHelper.WidgetContainer),00:00,silent)</onload>
         <onload condition="![String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">AlarmClock(refocus,SetFocus(4001),00:00,silent)</onload>
 
-        <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">Dialog.Close(movieinformation,true)</onload>
-        <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">SetProperty(Item_Title,$INFO[ListItem.Label],1183)</onload>
-        <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">SetProperty(Item_Query,$INFO[ListItem.Label,&amp;query=,],1183)</onload>
-        <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">ActivateWindow(1183)</onload>
+        <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">SetProperty(Item_Title,$INFO[ListItem.Label])</onload>
+        <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">SetProperty(Item_Query,$INFO[ListItem.Label,&amp;query=,])</onload>
+        <onload condition="[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)]">AlarmClock(refocus,SetFocus(5001),00:00,silent)</onload>
 
         <onunload>Dialog.Close(1121)</onunload>
         <onunload>Dialog.Close(1122)</onunload>
@@ -884,6 +887,146 @@
             <left>200</left>
         </include>        
     </include>
+    
+    <include name="DialogInfo_PersonInfo">
+        <control type="group">
+            <top>-590</top>
+            <bottom>-160</bottom>
+            <left>120</left>            
+            <include content="DialogInfo_Recommendations_Group">
+                <param name="include_slideover">false</param>
+                <param name="include_slideover_2">true</param>
+                <include content="Object_Hidden_List">
+                    <param name="id">5203</param>
+                    <content sortby="year" sortorder="descending">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=person,]</content>
+                </include>
+                <include content="DialogInfo_Recommendations_InfoPanel">
+                    <param name="include_slideup">true</param>
+                </include>
+                <include content="DialogInfo_Recommendations_Widgets_Grouplist">
+                    <param name="onup">303</param>
+                    <param name="ondown">330</param>
+                    <onleft>303</onleft>
+                    
+                    <!-- Poster Row -->
+                    
+                    <include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+                        <param name="id">01</param>
+                        <param name="label">$LOCALIZE[342]</param>
+                        <param name="include">List_Poster_Row</param>
+                        <param name="detailed">true</param>
+                        <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
+                        <param name="widgetfade_include">true</param>
+                        <param name="transition_include">true</param>
+                        <param name="transition_hidden">Control.HasFocus(5001)</param>
+                        <param name="include_movement">false</param>
+                        <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_MovieCredits]$VAR[Path_Param_Widget]&amp;limit=100</content>
+                        <include content="Action_Recommendations_OnClick">
+                            <param name="id">5001</param>
+                        </include>
+                    </include>
+
+                    <include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+                        <param name="id">02</param>
+                        <param name="label">$LOCALIZE[20343]</param>
+                        <param name="include">List_Poster_Row</param>
+                        <param name="detailed">true</param>
+                        <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
+                        <param name="widgetfade_include">true</param>
+                        <param name="transition_include">true</param>
+                        <param name="transition_hidden">Control.HasFocus(5002)</param>
+                        <param name="include_movement">false</param>
+                        <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_TVShowCredits]$VAR[Path_Param_Widget]&amp;limit=100</content>
+                        <include content="Action_Recommendations_OnClick">
+                            <param name="id">5002</param>
+                        </include>
+                    </include>
+
+                    <include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+                        <param name="id">04</param>
+                        <param name="label">$LOCALIZE[31383]</param>
+                        <param name="include">List_Poster_Row</param>
+                        <param name="detailed">true</param>
+                        <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
+                        <param name="widgetfade_include">true</param>
+                        <param name="transition_include">true</param>
+                        <param name="transition_hidden">Control.HasFocus(5004)</param>
+                        <param name="include_movement">false</param>
+                        <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_MovieCredits]$VAR[Path_Param_Widget]</content>
+                        <include content="Action_Recommendations_OnClick">
+                            <param name="id">5004</param>
+                        </include>
+                    </include>
+                    
+                    <!-- Landscape Row -->
+                    
+                    <include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
+                        <param name="id">01</param>
+                        <param name="label">$LOCALIZE[342]</param>
+                        <param name="include">List_Landscape_Row</param>
+                        <param name="detailed">true</param>
+                        <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
+                        <param name="widgetfade_include">true</param>
+                        <param name="transition_include">false</param>
+                        <param name="transition_hidden">Control.HasFocus(5001)</param>
+                        <param name="include_movement">false</param>
+                        <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_MovieCredits]$VAR[Path_Param_Widget]&amp;limit=100</content>
+                        <include content="Action_Recommendations_OnClick">
+                            <param name="id">5001</param>
+                        </include>
+                    </include>
+
+                    <include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
+                        <param name="id">02</param>
+                        <param name="label">$LOCALIZE[20343]</param>
+                        <param name="include">List_Landscape_Row</param>
+                        <param name="detailed">true</param>
+                        <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
+                        <param name="widgetfade_include">true</param>
+                        <param name="transition_include">false</param>
+                        <param name="transition_hidden">Control.HasFocus(5002)</param>
+                        <param name="include_movement">false</param>
+                        <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_TVShowCredits]$VAR[Path_Param_Widget]&amp;limit=100</content>
+                        <include content="Action_Recommendations_OnClick">
+                            <param name="id">5002</param>
+                        </include>
+                    </include>
+
+                    <include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
+                        <param name="id">04</param>
+                        <param name="label">$LOCALIZE[31383]</param>
+                        <param name="include">List_Landscape_Row</param>
+                        <param name="detailed">true</param>
+                        <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
+                        <param name="widgetfade_include">true</param>
+                        <param name="transition_include">false</param>
+                        <param name="include_movement">false</param>
+                        <param name="transition_hidden">Control.HasFocus(5004)</param>
+                        <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_MovieCredits]$VAR[Path_Param_Widget]</content>
+                        <include content="Action_Recommendations_OnClick">
+                            <param name="id">5004</param>
+                        </include>
+                    </include>
+                </include>
+            </include>
+            <control type="group">
+                <control type="group">
+                    <top>200</top>
+                    <left>-120</left>
+                    <include content="DialogInfo_VideoInfo_CastSpotlight">
+                        <param name="icon">$INFO[Container(5203).ListItem.Icon]</param>
+                        <param name="plot">$VAR[Label_VideoInfo_CastBio]</param>
+                        <param name="label">$INFO[Window.Property(Item_Title)]</param>
+                        <param name="label2">$VAR[Label_VideoInfo_CastAge,   ,]</param>
+                    </include>
+                    <include>Animation_Right</include>
+                </control>
+            </control>
+            
+            <include>DialogInfo_ButtonGroup_Recommendations</include>
+            
+        </control>
+    </include>
 
     <include name="DialogInfo_Video_SideArt">
         <control type="group">
@@ -996,6 +1139,8 @@
         <ondown>5000</ondown>
     </include>
     <include name="DialogInfo_ButtonGroup_Basic__Def_1183_Person">
+        <onup>61</onup>
+        <ondown>61</ondown>
         <include content="Action_HomeMenu_OnRightLeft">
             <param name="onlist">5000</param>
         </include>
@@ -1363,9 +1508,13 @@
                         <param name="backing">true</param>
                         <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
                         <param name="icon">$VAR[Image_DialogInfo_PlayButton]</param>
-                        <onclick condition="!Window.IsVisible(1190)">SendClick(8)</onclick>
-                        <onclick condition="Window.ISVisible(1190) + !$EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"playmedia=$INFO[ListItem.FilenameAndPath]")</onclick>
-                        <onclick condition="Window.ISVisible(1190) + $EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"call_path=$INFO[ListItem.FilenameAndPath]")</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(movieinformation,true)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(1190,true)</onclick>
+                        <onclick condition="String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID)) + Player.Paused">PlayerControl(Play)</onclick>
+                        <onclick condition="!VideoPlayer.IsFullScreen + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Fullscreen</onclick>
+                        <onclick condition="String.isEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + !Window.IsVisible(1190)">SendClick(8)</onclick>
+                        <onclick condition="String.isEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + !$EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"playmedia=$INFO[ListItem.FilenameAndPath]")</onclick>
+                        <onclick condition="String.isEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + $EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"call_path=$INFO[ListItem.FilenameAndPath]")</onclick>
                         <onfocus>ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
                     </include>
@@ -2333,7 +2482,7 @@
                     <param name="reversible">true</param>
                 </include>
 
-                <include content="DialogInfo_PlotBox_Foreground">
+                <include content="DialogInfo_PlotBox_Foreground" condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">
                     <param name="header">$PARAM[header]</param>
                     <param name="textbox">$PARAM[textbox]</param>
                     <param name="include_movement">$PARAM[include_movement]</param>
@@ -2341,6 +2490,19 @@
                     <param name="square_icon">$PARAM[square_icon]</param>
                     <param name="landscape_icon">$PARAM[landscape_icon]</param>
                     <param name="clearlogo_icon">$PARAM[clearlogo_icon]</param>
+                    <param name="scrollbar_fakefocus">$PARAM[scrollbar_fakefocus]</param>
+                    <param name="dialog_size">$PARAM[dialog_size]</param>
+                    <param name="include_buttons">$PARAM[include_buttons]</param>
+                    <param name="include_buttons_condition">$PARAM[include_buttons_condition]</param>
+                </include>
+                <include content="DialogInfo_PlotBox_Foreground" condition="String.IsEqual(ListItem.Property(tmdb_type),person)">
+                    <param name="header">$INFO[Container(5203).ListItem.Label]$VAR[Label_VideoInfo_CastAge,   ,]</param>
+                    <param name="textbox">$VAR[Label_VideoInfo_CastBio]</param>
+                    <param name="include_movement">DialogInfo_PlotBox_Details_OnMove</param>
+                    <param name="poster_icon">$INFO[Container(5203).ListItem.Icon]</param>
+                    <param name="square_icon">$INFO[Container(5203).ListItem.Icon]</param>
+                    <param name="landscape_icon">$INFO[Container(5203).ListItem.Icon]</param>
+                    <param name="clearlogo_icon">$INFO[Container(5203).ListItem.Icon]</param>
                     <param name="scrollbar_fakefocus">$PARAM[scrollbar_fakefocus]</param>
                     <param name="dialog_size">$PARAM[dialog_size]</param>
                     <param name="include_buttons">$PARAM[include_buttons]</param>

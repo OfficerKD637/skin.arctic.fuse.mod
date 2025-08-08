@@ -843,6 +843,11 @@
         <value condition="Skin.HasSetting(OSD.AutoInfoOnPause)">$LOCALIZE[29915]</value>
         <value>$LOCALIZE[16018]</value>
     </variable>
+    
+    <variable name="Label_Setting_SeekbarPauseDelay">
+        <value condition="!String.IsEmpty(Skin.String(OSD.AutoOnPause.Delay))">$INFO[Skin.String(OSD.AutoOnPause.Delay)]</value>
+        <value>3s</value>
+    </variable>
 
     <variable name="Label_Setting_CombinedStyle">
         <value condition="!Skin.HasSetting(Views.UseAltCombined)">$LOCALIZE[10036]</value>
@@ -1195,10 +1200,20 @@
         <value condition="!String.IsEmpty(ListItem.Country)">$INFO[ListItem.Country]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Country))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Country)]</value>
     </variable>
-
+    
+    <variable name="Label_OSD_Country">
+        <value condition="!String.IsEmpty(VideoPlayer.Country)">$INFO[VideoPlayer.Country]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Country))">$INFO[Window(Home).Property(TMDbHelper.Player.Country)]</value>
+    </variable>
+    
     <variable name="Label_Genre">
         <value condition="!String.IsEmpty(ListItem.Genre)">$INFO[ListItem.Genre]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre)]</value>
+    </variable>
+
+    <variable name="Label_OSD_Genre">
+        <value condition="!String.IsEmpty(VideoPlayer.Genre)">$INFO[VideoPlayer.Genre]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre))">$INFO[Window(Home).Property(TMDbHelper.Player.Genre)]</value>
     </variable>
 
     <variable name="Label_Director">
@@ -1262,6 +1277,11 @@
         <value condition="!String.IsEmpty(ListItem.Tagline)">$INFO[ListItem.Tagline]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Tagline))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Tagline)]</value>
     </variable>
+    
+    <variable name="Label_OSD_Tagline">
+        <value condition="!String.IsEmpty(VideoPlayer.Tagline)">$INFO[VideoPlayer.Tagline]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Tagline))">$INFO[Window(Home).Property(TMDbHelper.Player.Tagline)]</value>
+    </variable>
 
     <variable name="Label_OSD_CastMember_Bio">
         <value condition="!String.IsEmpty(Container(6501).ListItem.Property(biography))">$INFO[Container(6501).ListItem.Property(biography)]</value>
@@ -1322,7 +1342,8 @@
     </variable>
 
     <variable name="Label_DialogInfo_PlayButton">
-        <value condition="$EXP[Exp_IsFolder]">$LOCALIZE[1024]</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">$LOCALIZE[22078]</value>
+        <value condition="!String.Is$EXP[Exp_IsFolder]">$LOCALIZE[1024]</value>
         <value>$LOCALIZE[208]</value>
     </variable>
 
@@ -1893,16 +1914,6 @@
         <value condition="!String.IsEmpty(Player.PlaySpeed) + !String.IsEqual(Player.PlaySpeed,1.00) + !String.IsEqual(Player.PlaySpeed,0.00)">$INFO[Player.PlaySpeed,$LOCALIZE[31071] ,x]</value>
     </variable>
 
-    <variable name="Label_Player_Status">
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Canceled)">$LOCALIZE[31490]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Ended)">$LOCALIZE[31493]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Released)">$LOCALIZE[31498]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Post Production)">$LOCALIZE[31499]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Planned)">$LOCALIZE[31504]</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Returning Series)">$LOCALIZE[31381]</value>
-        <value>$LOCALIZE[13205]</value>
-    </variable>
-
     <variable name="Label_ListItem_Status">
         <!-- Canceled -->
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Canceled)">$LOCALIZE[31490]</value>
@@ -1930,6 +1941,36 @@
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Rumored)">$LOCALIZE[31577]</value>
         <!-- Last Aired -->
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Returning Series) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)">$LOCALIZE[31555]</value>         
+        <value>$LOCALIZE[13205]</value>
+    </variable>
+    
+    <variable name="Label_Player_Status">
+        <!-- Canceled -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Canceled)">$LOCALIZE[31490]</value>
+        <!-- Ended -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Ended)">$LOCALIZE[31493]</value>
+        <!-- Premiered (Movies) -->
+        <value condition="VideoPlayer.Content(movies) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Released) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired)) + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired),31)">$LOCALIZE[20473]</value>
+         <!-- Released (Movies) -->
+        <value condition="VideoPlayer.Content(movies) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Released) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired))">$LOCALIZE[31498]</value>
+        <!-- Premiering (Movies) -->
+        <value condition="VideoPlayer.Content(movies) + [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Released) + String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired))] | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Post Production)] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Year),System.Date(yyyy))">$LOCALIZE[31545]</value>         
+        <!-- In-Production -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Post Production)">$LOCALIZE[31499]</value> 
+        <!-- Planned -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Planned)">$LOCALIZE[31504]</value>  
+        <!-- Premiering (TV Shows) -->
+        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Pilot) | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Returning Series) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Next_Aired.Episode),1) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Next_Aired.Season),1) + String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))]]">$LOCALIZE[31545]</value> 
+        <!-- Premiered (TV Shows) -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Returning Series) + String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Last_Aired.Season),1) + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired),7) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Last_Aired),Window(Home).Property(TMDbHelper.Player.Premiered))">$LOCALIZE[20473]</value>
+         <!-- Airing -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Returning Series) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired)) + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired),7) + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired),8)">$LOCALIZE[31544]</value>
+        <!-- Returning -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Returning Series) + [Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Next_Aired.Episode),1) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired)) | !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)]">$LOCALIZE[31381]</value>                
+        <!-- Rumored (Movies) -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Rumored)">$LOCALIZE[31577]</value>
+        <!-- Last Aired -->
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Returning Series) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)">$LOCALIZE[31555]</value>         
         <value>$LOCALIZE[13205]</value>
     </variable>
     
@@ -1981,6 +2022,50 @@
         <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Returning Series) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Post Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Planned)] + [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Last_Aired)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Year)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Premiered))]">$LOCALIZE[31546]</value>
         <value />
     </variable>
+    
+    <variable name="Label_Player_StatusDate">
+        <value condition="!Skin.HasSetting(CustomRating.EnablePremiereStatusDates)" />
+        <!-- MOVIES -->
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired),0)">$LOCALIZE[33006]</value>
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired),1)">$LOCALIZE[33007]</value>
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired)) + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired),7)">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered.Day)]</value>
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired))">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered.Short)] $INFO[Window(Home).Property(TMDbHelper.Player.Premiered.Year)]</value>
+        
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired),0)">$LOCALIZE[33006]</value>
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired),1)">$LOCALIZE[31547]</value>
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired)) + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired),7)">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered.Day)]</value>
+        
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Year)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Premiered.Year),System.Date(yyyy))">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered.Short)]</value>
+        <value condition="VideoPlayer.Content(movies) + !Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Year))">$INFO[Window(Home).Property(TMDbHelper.Player.Year)]</value>
+        
+        <value condition="VideoPlayer.Content(movies) + Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered))">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered)]</value>
+        <value condition="VideoPlayer.Content(movies)">$LOCALIZE[31546]</value> <!-- TBC -->
+
+        <!-- TV SHOWS / SEASONS / EPISODES -->
+        <!-- Next Aired -->
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired))] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired),0)">$LOCALIZE[33006]</value>
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired))] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired),1)">$LOCALIZE[33007]</value>
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired))] + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired),7)">$INFO[Window(Home).Property(TMDbHelper.Player.Next_Aired.Day)]</value>
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired))] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Next_Aired.Year),System.Date(yyyy))">$INFO[Window(Home).Property(TMDbHelper.Player.Next_Aired.Short)]</value>
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired))]">$INFO[Window(Home).Property(TMDbHelper.Player.Next_Aired.Short)] $INFO[Window(Home).Property(TMDbHelper.Player.Next_Aired.Year)]</value>    
+        
+        <!-- Last Aired -->
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired),0)">$LOCALIZE[33006]</value>
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired),1)">$LOCALIZE[31547]</value>
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))] + Integer.IsLess(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired),7)">$INFO[Window(Home).Property(TMDbHelper.Player.Last_Aired.Day)]</value>
+        
+        <!-- Only show last aired date in detailed if recent and show is not officially 'Cancelled' else show year to avoid confusion about Cancelled dates meaning -->        
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + !String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Canceled) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Last_Aired.Year),System.Date(yyyy))">$INFO[Window(Home).Property(TMDbHelper.Player.Last_Aired.Short)]</value> 
+        <value condition="!Skin.String(CustomStatus.DateStyle,Long) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired.Days_From_Aired)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))]">$INFO[Window(Home).Property(TMDbHelper.Player.Last_Aired.Year)]</value>
+        
+        <!-- Long Date AF2 Style -->
+        <value condition="Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired))">$INFO[Window(Home).Property(TMDbHelper.Player.Next_Aired)]</value>
+        <value condition="Skin.String(CustomStatus.DateStyle,Long) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))">$INFO[Window(Home).Property(TMDbHelper.Player.Last_Aired)]</value>        
+        
+        <!-- TBC -->
+        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Returning Series) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Post Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Planned)] + [String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired)) | String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired)) | String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Year)) | String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered))]">$LOCALIZE[31546]</value>
+        <value />
+    </variable>
 
     <variable name="Label_ListItem_NextAired_Header">
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired)) + Integer.IsGreater(Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Days_Until_Aired),0)">$LOCALIZE[31541]</value>
@@ -1992,6 +2077,17 @@
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Premiered))">$LOCALIZE[31498]</value>
         <value>$LOCALIZE[31498]</value>
     </variable>
+    
+    <variable name="Label_OSD_NextAired_Header">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired)) + Integer.IsGreater(Window(Home).Property(TMDbHelper.Player.Next_Aired.Days_Until_Aired),0)">$LOCALIZE[31541]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))">$LOCALIZE[31542]</value>        
+        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Post Production)] + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Year),System.Date(yyyy))">$LOCALIZE[31545]</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Post Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Planned) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Rumored)">$LOCALIZE[31543]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_Until_Aired)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Year),System.Date(yyyy))">$LOCALIZE[31545]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered.Days_From_Aired)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.Player.Year),System.Date(yyyy))">$LOCALIZE[20473]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered))">$LOCALIZE[31498]</value>
+        <value>$LOCALIZE[31498]</value>
+    </variable>
 
     <variable name="Label_ListItem_NextAired">
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Next_Aired))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Next_Aired.Long)]</value>
@@ -1999,6 +2095,14 @@
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Post Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Planned)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Premiered.Long)]</value>
         <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Premiered))">$LOCALIZE[19055]</value>
         <value>$INFO[Window(Home).Property(TMDbHelper.ListItem.Premiered.Long)]</value>
+    </variable>
+    
+    <variable name="Label_OSD_NextAired">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Next_Aired))">$INFO[Window(Home).Property(TMDbHelper.Player.Next_Aired.Long)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Last_Aired))">$INFO[Window(Home).Property(TMDbHelper.Player.Last_Aired.Long)]</value>        
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Post Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.Player.Status),Planned)">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered.Long)]</value>
+        <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered))">$LOCALIZE[19055]</value>
+        <value>$INFO[Window(Home).Property(TMDbHelper.Player.Premiered.Long)]</value>
     </variable>
 
     <variable name="Label_Header_Main_Home">        

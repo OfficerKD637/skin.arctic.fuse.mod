@@ -168,20 +168,35 @@
         </include>
     </include>
 
-    <include name="Info_Line_Pillbox">
+    <include name="Info_Line_Pillbox_Object">
         <control type="button">
-            <texturefocus colordiffuse="$PARAM[textcolor]" border="4">flags/quality/blank-panel.png</texturefocus>
-            <texturenofocus colordiffuse="$PARAM[textcolor]" border="4">flags/quality/blank-panel.png</texturenofocus>
-            <font>font_infotag</font>
+            <texturefocus colordiffuse="$PARAM[textcolor]" border="8">flags/quality/blank-panel.png</texturefocus>
+            <texturenofocus colordiffuse="$PARAM[textcolor]" border="8">flags/quality/blank-panel.png</texturenofocus>
+            <width>auto</width>
+            <textoffsetx>10</textoffsetx>
+            <textoffsety>info_tag_offset_y</textoffsety>
+            <aligny>top</aligny>
+            <font>font_infotag_bold</font>
             <textcolor>$PARAM[textcolor]</textcolor>
             <focusedcolor>$PARAM[textcolor]</focusedcolor>
             <include>Dimension_Info_Line_Pillbox</include>
-            <textoffsety>info_tag_light_offset_y</textoffsety>
-            <aligny>top</aligny>
+            <shadowcolor>$PARAM[shadowcolor]</shadowcolor>
             <nested />
-            <width>auto</width>
-            <textoffsetx>12</textoffsetx>
         </control>
+    </include>
+    
+    <include name="Info_Line_Pillbox">
+        <include content="Info_Line_Pillbox_Object" condition="![Window.IsActive(VideoFullScreen.xml) | Window.IsActive(MusicVisualisation.xml)]">
+            <param name="colordiffuse">main_fg_30</param>
+            <param name="textcolor">main_fg_90</param>
+            <param name="shadowcolor">main_bg_12</param>
+            <nested />
+        </include>
+        <include content="Info_Line_Pillbox_Object" condition="Window.IsActive(VideoFullScreen.xml) | Window.IsActive(MusicVisualisation.xml)">
+            <param name="colordiffuse">panel_fg_30</param>
+            <param name="textcolor">panel_fg_90</param>
+            <nested />
+        </include>
     </include>
 
     <include name="Info_Line_Label">
@@ -665,7 +680,7 @@
                 <param name="visible">[[[$PARAM[visible_movies] + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),set) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShowTitle)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_tvshowtitle))]]]] | [$PARAM[visible_tvshows] + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + ![String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShowTitle)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_tvshowtitle))]]]]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))]</param>
             </include>
             <include content="Info_Line_Rating" condition="$PARAM[is_player]">
-                <param name="label">$VAR[Label_Player_Status]</param>
+                <param name="label">$VAR[Label_Player_Status]$VAR[Label_Player_StatusDate, ,]</param>
                 <param name="icon">$VAR[Image_Player_Status]</param>
                 <param name="icon_centertop">50%</param>
                 <param name="visible">[[[$PARAM[visible_movies] + [VideoPlayer.Content(movies)]] | [$PARAM[visible_tvshows] + [VideoPlayer.Content(episodes)]]] + !String.IsEmpty(Window(Home).Property(TMDBHelper.Player.Status))]</param>
@@ -3911,9 +3926,13 @@
                             <param name="starrating">$PARAM[starrating]</param>
                             <param name="grouplistid">$PARAM[grouplistid]</param>
                             <param name="infoline_customvis">$PARAM[infoline_customvis]</param>
+                            <param name="visible">[[!VideoPlayer.IsFullScreen] | [VideoPlayer.IsFullScreen + !String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))]]</param>
                             <centertop>37.5</centertop>
                             <visible>$PARAM[visible]</visible>
                         </include>
+                        <include content="OSD_Info_Line" condition="!Skin.HasSetting(Info.DisableDetailsLine) + $PARAM[infoline_visible] + VideoPlayer.IsFullScreen">
+                            <param name="osd_infoline_visible">String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))</param>
+                        </include>    
                     </control>
 
                     <!-- Textbox -->
