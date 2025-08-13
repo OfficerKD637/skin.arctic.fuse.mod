@@ -71,6 +71,8 @@
             </control>
             <control type="group">
                 <left>-120</left>
+                <animation effect="slide" start="120" end="0" time="400" tween="cubic" easing="out" condition="String.IsEqual(ListItem.Property(tmdb_type),person) + ![Control.HasFocus(4001) | Control.HasFocus(4002) | Control.HasFocus(4003) | Control.HasFocus(4004) | Control.HasFocus(4005)]" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0" end="120" time="400" tween="cubic" easing="out" condition="String.IsEqual(ListItem.Property(tmdb_type),person) + [Control.HasFocus(4001) | Control.HasFocus(4002) | Control.HasFocus(4003) | Control.HasFocus(4004) | Control.HasFocus(4005)]" reversible="false">Conditional</animation>
                 <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader) + !String.IsEqual(ListItem.Property(tmdb_type),person)">
                     <param name="include_topbar_animation">False</param>
                 </include>  
@@ -917,7 +919,7 @@
                         <param name="detailed">true</param>
                         <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
                         <param name="widgetfade_include">true</param>
-                        <param name="transition_include">true</param>
+                        <param name="transition_include">false</param>
                         <param name="transition_hidden">Control.HasFocus(5001)</param>
                         <param name="include_movement">false</param>
                         <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_MovieCredits]$VAR[Path_Param_Widget]&amp;limit=100</content>
@@ -933,7 +935,7 @@
                         <param name="detailed">true</param>
                         <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
                         <param name="widgetfade_include">true</param>
-                        <param name="transition_include">true</param>
+                        <param name="transition_include">false</param>
                         <param name="transition_hidden">Control.HasFocus(5002)</param>
                         <param name="include_movement">false</param>
                         <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_TVShowCredits]$VAR[Path_Param_Widget]&amp;limit=100</content>
@@ -949,7 +951,7 @@
                         <param name="detailed">true</param>
                         <param name="visible">!String.IsEmpty(Window.Property(Item_Query))</param>
                         <param name="widgetfade_include">true</param>
-                        <param name="transition_include">true</param>
+                        <param name="transition_include">false</param>
                         <param name="transition_hidden">Control.HasFocus(5004)</param>
                         <param name="include_movement">false</param>
                         <content>$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person,]$VAR[Path_Param_SortKey_MovieCredits]$VAR[Path_Param_Widget]</content>
@@ -1577,13 +1579,13 @@
                         <param name="backing">true</param>
                         <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
                         <param name="icon">$VAR[Image_DialogInfo_PlayButton]</param>
-                        <onclick condition="String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(movieinformation,true)</onclick>
-                        <onclick condition="String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(1190,true)</onclick>
-                        <onclick condition="String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID)) + Player.Paused">PlayerControl(Play)</onclick>
+                        <onclick condition="VideoPlayer.IsFullScreen + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(movieinformation,true)</onclick>
+                        <onclick condition="VideoPlayer.IsFullScreen + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(1190,true)</onclick>
+                        <onclick condition="Player.Paused + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">PlayerControl(Play)</onclick>
                         <onclick condition="!VideoPlayer.IsFullScreen + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Fullscreen</onclick>
-                        <onclick condition="String.isEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + !Window.IsVisible(1190)">SendClick(8)</onclick>
-                        <onclick condition="String.isEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + !$EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"playmedia=$INFO[ListItem.FilenameAndPath]")</onclick>
-                        <onclick condition="String.isEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + $EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"call_path=$INFO[ListItem.FilenameAndPath]")</onclick>
+                        <onclick condition="String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + !Window.IsVisible(1190)">SendClick(8)</onclick>
+                        <onclick condition="String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + !$EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"playmedia=$INFO[ListItem.FilenameAndPath]")</onclick>
+                        <onclick condition="String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + $EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"call_path=$INFO[ListItem.FilenameAndPath]")</onclick>
                         <onfocus>ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
                     </include>
@@ -2368,7 +2370,7 @@
         <param name="poster_icon">$VAR[Image_DialogInfo_Poster]</param>
         <param name="poster_visible">[!String.IsEmpty(ListItem.Art(poster)) | !String.IsEmpty(ListItem.Art(season.poster)) | !String.IsEmpty(ListItem.Art(tvshow.poster)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Season.Poster)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShow.Poster))]</param>
         <param name="square_icon">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_icon)]</param>
-        <param name="landscape_visible">true</param>
+        <param name="landscape_visible">!String.IsEqual(ListItem.Property(tmdb_type),person)</param>
         <param name="landscape_icon">$VAR[Image_Landscape]</param>
         <param name="clearlogo_icon">$VAR[Image_Clearlogo]</param>
         <definition>
@@ -2465,9 +2467,6 @@
             </include>
 
             <control type="group">
-                <include content="Object_Right" condition="$PARAM[include_buttons_condition]">
-                    <param name="right">dialog_panelgroup_w</param>
-                </include>
                 <!-- Header -->
                 <include content="Dialog_Head">
                     <param name="label">$PARAM[header]</param>
