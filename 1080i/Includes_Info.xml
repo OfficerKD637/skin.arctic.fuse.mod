@@ -12,39 +12,9 @@
         </control>
     </include>
 
-    <include name="Info_Title_LogoLabel_SmallText_ArcticFuseLogo">
-        <control type="group">
-            <centertop>20</centertop>
-            <height>40</height>
-            <control type="group">
-                <height>40</height>
-                <width>40</width>
-                <control type="label">
-                    <label>&#xe52f;</label>
-                    <font>font_tiny_iconic</font>
-                    <textcolor>$VAR[ColorHighlight]</textcolor>
-                </control>
-                <control type="label">
-                    <label>&#xe52f;</label>
-                    <font>font_tiny_iconic</font>
-                    <textcolor>$VAR[ColorGradient]</textcolor>
-                    <animation effect="fade" end="33" condition="true">Conditional</animation>
-                </control>
-            </control>
-            <control type="label">
-                <bottom>11</bottom>
-                <left>36</left>
-                <height>10</height>
-                <textcolor>$PARAM[colordiffuse]_100</textcolor>
-                <font>font_logo</font>
-                <label>arctic fuse</label>
-            </control>
-        </control>
-    </include>
-
     <include name="Info_Title_LogoLabel_SmallText">
         <control type="label">
-            <visible>!Skin.HasSetting(Multiline.Title)</visible>
+            <visible>Skin.HasSetting(DisableMultiline.Title) | Skin.HasSetting(TMDbHelper.EnableCrop)</visible>
             <wrapmultiline>$PARAM[wrapmultiline]</wrapmultiline>
             <height>84</height>
             <bottom>5</bottom>
@@ -55,24 +25,19 @@
             <scroll>true</scroll>           
         </control> 
         <control type="textbox">
-            <visible>Skin.HasSetting(Multiline.Title) + !String.IsEqual(Skin.Font,NotoUniversal (Fallback))</visible>
-            <height>160</height>
+            <visible>!Skin.HasSetting(DisableMultiline.Title) + !Skin.HasSetting(TMDbHelper.EnableCrop)</visible>
+            <include content="Object_Height" condition="!String.IsEqual(Skin.Font,NotoUniversal (Fallback))">
+                <param name="height">160</param>
+            </include>
+            <include content="Object_Height" condition="String.IsEqual(Skin.Font,NotoUniversal (Fallback))">
+                <param name="height">185</param>
+            </include>
             <bottom>5</bottom>
             <aligny>center</aligny>
             <label>$PARAM[label]</label>
             <textcolor>$PARAM[colordiffuse]_100</textcolor>
             <font>font_title_main</font>
-            <autoscroll delay="2000" time="3000" repeat="10000">true</autoscroll>   
-        </control>
-        <control type="textbox">
-            <visible>Skin.HasSetting(Multiline.Title) + String.IsEqual(Skin.Font,NotoUniversal (Fallback))</visible>
-            <height>190</height>
-            <bottom>5</bottom>
-            <aligny>center</aligny>
-            <label>$PARAM[label]</label>
-            <textcolor>$PARAM[colordiffuse]_100</textcolor>
-            <font>font_title_main</font>
-            <autoscroll delay="2000" time="3000" repeat="10000">true</autoscroll>   
+            <autoscroll delay="4000" time="3000" repeat="10000">true</autoscroll>   
         </control>
     </include> 
 
@@ -1000,7 +965,7 @@
             <nested />
             <aligny>center</aligny>
             <textcolor>$PARAM[textcolor_base]</textcolor>
-            <font>font_main_black</font>
+            <font>font_main_bold</font>
             <width>auto</width>
             <height>35</height>
         </control>
@@ -1112,7 +1077,7 @@
                     <control type="label">
                         <aligny>center</aligny>
                         <textcolor>$VAR[ColorGradient]</textcolor>
-                        <font>font_main_black</font>
+                        <font>font_main_bold</font>
                         <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
                         <width>auto</width>
                         <height>35</height>
