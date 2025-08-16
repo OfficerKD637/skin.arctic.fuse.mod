@@ -279,23 +279,29 @@
 
     <include name="Layout_OptionTray">
         <param name="selected">false</param>
-        <param name="detailed">Skin.HasSetting(Options.EnableTrayLabels)</param>
+        <param name="detailed">false</param>
         <param name="variation">Skin.HasSetting(Home.SideMenu.DisableIndicator)</param>
         <param name="color">main_fg</param>
+        <param name="centertop">50%</param>
+        <param name="include_hintlabel">!Skin.HasSetting(Options.DisableButtonLabels)</param>
         <definition>
             <control type="group">
                 <right>20</right>
-                <include content="Object_Control" condition="$PARAM[selected]">
-                    <param name="control">image</param>
-                    <include>Texture_Circle_Highlight_H</include>
-                </include>
-
                 <control type="group">
                     <width>40</width>
                     <height>40</height>
-                    <centertop>50%</centertop>
+                    <centertop>$PARAM[centertop]</centertop>
                     <centerleft>50%</centerleft>
+                    <include content="Object_Control" condition="$PARAM[selected]">
+                        <param name="control">image</param>
+                        <bordersize>-20</bordersize>
+                        <include>Texture_Circle_Highlight_H</include>
+                    </include>
                     <control type="image">
+                        <include content="Object_Top" condition="$PARAM[selected] + $PARAM[include_hintlabel]">
+                            <param name="top">-10</param>
+                        </include>
+                        <height>40</height>
                         <bordersize>icon_home_bordersize</bordersize>
                         <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
                             <param name="colordiffuse">$VAR[ColorSelected]</param>
@@ -305,34 +311,19 @@
                         </include>
                         <colordiffuse>$PARAM[color]_30</colordiffuse>
                         <texture diffuse="diffuse/circle_120.png">$INFO[ListItem.Icon]</texture>
-                        <visible>![$PARAM[detailed]]</visible>
                     </control>
-
-                    <control type="group">
-                        <top>-8</top>
-                        <bottom>8</bottom>
-                        <visible>$PARAM[detailed]</visible>
-                        <control type="image">
-                            <bordersize>icon_home_bordersize</bordersize>
-                            <include content="Object_ColorDiffuse" condition="$PARAM[selected]">
-                                <param name="colordiffuse">$VAR[ColorSelected]</param>
-                            </include>
-                            <colordiffuse>$PARAM[color]_70</colordiffuse>
-                            <texture diffuse="diffuse/circle_120.png">$INFO[ListItem.Icon]</texture>
-                        </control>
-                        <control type="label">
-                            <top>33</top>
-                            <height>10</height>
-                            <label>$INFO[ListItem.Label]</label>
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>$PARAM[color]_70</textcolor>
-                            <font>font_hint_button</font>
-                            <align>center</align>
-                            <aligny>top</aligny>
-                            <left>-40</left>
-                            <right>-40</right>
-                        </control>
-                    </control>
+                    <include content="Object_Control" condition="$PARAM[selected] + $PARAM[include_hintlabel]">
+                        <param name="control">label</param>
+                        <textcolor>$VAR[ColorSelected]</textcolor>
+                        <font>font_hint</font>
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <height>10</height>
+                        <centerbottom>11</centerbottom>
+                        <left>-8</left>
+                        <right>-8</right>
+                        <label>$INFO[ListItem.Label]</label>
+                    </include>
                 </control>
             </control>
         </definition>
@@ -2186,29 +2177,6 @@
                 <colordiffuse>$PARAM[color]</colordiffuse>
                 <texture>$INFO[ListItem.Icon]</texture>
                 <visible>String.IsEmpty(ListItem.Property(showlabel))</visible>
-            </control>
-            <control type="image">
-                <include condition="$PARAM[include_fadediffuse]">Layout_Home_Menu_Icon_FadeDiffuse</include>
-                <top>-10</top>
-                <bottom>10</bottom>
-                <aspectratio>keep</aspectratio>
-                <bordersize>icon_home_bordersize</bordersize>
-                <colordiffuse>$PARAM[color]</colordiffuse>
-                <texture>$INFO[ListItem.Icon]</texture>
-                <visible>![String.IsEmpty(ListItem.Property(showlabel))]</visible>
-            </control>
-            <control type="label">
-                <include condition="$PARAM[include_fadediffuse]">Layout_Home_Menu_Icon_FadeDiffuse</include>
-                <top>25</top>
-                <height>10</height>
-                <label>$INFO[ListItem.Label]</label>
-                <textcolor>$PARAM[color]</textcolor>
-                <font>font_hint_button</font>
-                <align>center</align>
-                <aligny>top</aligny>
-                <left>-40</left>
-                <right>-40</right>
-                <visible>![String.IsEmpty(ListItem.Property(showlabel))]</visible>
             </control>
         </definition>
     </include>

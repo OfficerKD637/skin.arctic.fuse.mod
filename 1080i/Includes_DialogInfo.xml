@@ -1235,6 +1235,7 @@
         <param name="zoom_in_delay">0</param>
         <param name="zoom_in_include">false</param>
         <param name="include_slide">false</param>
+        <param name="include_hintlabel">false</param>
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <include content="Object_Top" condition="$PARAM[vertical]">
@@ -1253,8 +1254,18 @@
                 <include>Texture_CircleButtonDialog_Highlight_Focus_V</include>
                 <texturenofocus />
                 <visible>$PARAM[visible]</visible>
-                <textcolor>$PARAM[textcolor]_$PARAM[nf_opacity]</textcolor>
-                <selectedcolor>$PARAM[textcolor]_$PARAM[nf_opacity]</selectedcolor>
+                <include content="Object_TextColor" condition="$PARAM[include_hintlabel]">
+                    <param name="textcolor">00ffffff</param>
+                </include>
+                <include content="Object_TextColor" condition="![$PARAM[include_hintlabel]]">
+                    <param name="textcolor">$PARAM[textcolor]_$PARAM[nf_opacity]</param>
+                </include>
+                <include content="Object_SelectedColor" condition="$PARAM[include_hintlabel]">
+                    <param name="selectedcolor">00ffffff</param>
+                </include>
+                <include content="Object_SelectedColor" condition="![$PARAM[include_hintlabel]]">
+                    <param name="selectedcolor">$PARAM[textcolor]_$PARAM[nf_opacity]</param>
+                </include>
                 <radiowidth>100</radiowidth>
                 <radioheight>14</radioheight>
                 <radioposy>56</radioposy>
@@ -1285,6 +1296,10 @@
                 <include condition="$PARAM[include_slide]">Home_Menu_List_SlideOver_OnFocus</include>
 
                 <nested />
+                
+                <include content="DialogInfo_Button_HintLabel" condition="$PARAM[include_hintlabel]">
+                    <param name="label">$PARAM[label]</param>
+                </include>
             </control>
             <control type="group" id="$PARAM[groupid]">
 
@@ -1315,19 +1330,33 @@
                     <param name="id">$PARAM[id]</param>
                 </include>
 
-                <control type="image">
-                    <texture colordiffuse="$PARAM[textcolor]_$PARAM[nf_opacity]">$PARAM[icon]</texture>
-                    <aspectratio>keep</aspectratio>
-                    <bordersize>icon_menu_bordersize</bordersize>
-                    <bordersize>$PARAM[bordersize]</bordersize>
-                    <visible>!Control.HasFocus($PARAM[id])</visible>
-                </control>
-                <control type="image">
-                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
-                    <aspectratio>keep</aspectratio>
-                    <bordersize>icon_menu_bordersize</bordersize>
-                    <bordersize>$PARAM[bordersize]</bordersize>
-                    <visible>Control.HasFocus($PARAM[id])</visible>
+                <control type="group">
+
+                    <top>10</top>
+                    <animation effect="slide" start="0" end="0,-10" condition="![$PARAM[include_hintlabel]] | [$PARAM[include_hintlabel] + Control.HasFocus($PARAM[id])]">Conditional</animation>
+
+                    <include content="Object_Left" condition="$PARAM[include_customwidth]">
+                        <param name="left">$PARAM[icon_offset_x]</param>
+                    </include>
+
+                    <height>$PARAM[icon_size]</height>
+
+                    <control type="image">
+                        <texture colordiffuse="$PARAM[textcolor]_$PARAM[nf_opacity]">$PARAM[icon]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <bordersize>icon_menu_bordersize</bordersize>
+                        <bordersize>$PARAM[bordersize]</bordersize>
+                        <width>$PARAM[icon_size]</width>
+                        <visible>!Control.HasFocus($PARAM[id])</visible>
+                    </control>
+                    <control type="image">
+                        <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                        <aspectratio>keep</aspectratio>
+                        <bordersize>icon_menu_bordersize</bordersize>
+                        <bordersize>$PARAM[bordersize]</bordersize>
+                        <width>$PARAM[icon_size]</width>
+                        <visible>Control.HasFocus($PARAM[id])</visible>
+                    </control>
                 </control>
             </control>
         </definition>
