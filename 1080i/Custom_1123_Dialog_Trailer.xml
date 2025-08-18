@@ -7,6 +7,7 @@
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + !Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($INFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
     <onunload>ClearProperty(TrailerFullscreen,1123)</onunload>
+    <onunload>ClearProperty(TrailerItemsDialog,1123)</onunload>
     <onunload condition="Player.HasVideo + [Skin.HasSetting(Background.DisableVideo) | !Skin.HasSetting(Trailers.EnableAutoPlayback.Info) | !Window.IsVisible(DialogVideoInfo.xml)]">Action(Stop)</onunload>
     <onload>SetProperty(TMDbHelper.ContextMenu,True)</onload>
     <controls>
@@ -30,13 +31,16 @@
                     <control type="grouplist" id="9000">
                         <include>Dialog_Side_Grouplist_Def</include>
                         <onleft condition="!Player.HasVideo">Close</onleft>
-                        <onleft condition="Player.HasVideo">Seek(-10)</onleft>
-                        <onright condition="Player.HasVideo">Seek(10)</onright>
+                        <onleft condition="String.IsEmpty(Window.Property(TrailerItemsDialog)) + Player.HasVideo">Seek(-10)</onleft>
+                        <onright condition="String.IsEmpty(Window.Property(TrailerItemsDialog)) + Player.HasVideo">Seek(10)</onright>
+                        <onleft condition="!String.IsEmpty(Window.Property(TrailerItemsDialog))">SetFocus(8000,absolute)</onleft>
+                        <onright condition="!String.IsEmpty(Window.Property(TrailerItemsDialog))">SetFocus(8000,absolute)</onright>
                         <include content="Dialog_Side_Button">
                             <param name="id">02</param>
                             <param name="label">$LOCALIZE[31485]</param>
                             <param name="icon">special://skin/extras/icons/stop.png</param>
                             <param name="visible">Player.HasVideo</param>
+                            <onclick>ClearProperty(TrailerItemsDialog,1123)</onclick>
                             <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">Action(Stop)</onclick>
                             <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">Close</onclick>
                             <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
@@ -58,7 +62,7 @@
                         </include>
                         <include content="Dialog_Side_Button">
                             <param name="id">05</param>
-                            <param name="label">Fullscreen</param>
+                            <param name="label">$LOCALIZE[35232]</param>
                             <param name="icon">special://skin/extras/icons/fullscreen.png</param>
                             <param name="visible">Player.HasVideo</param>
                             <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">ClearProperty(TrailerFullscreen,1123)</onback>
@@ -66,6 +70,14 @@
                             <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">SetProperty(TrailerFullscreen,True,1123)</onclick>
                             <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
                             <onunfocus>ClearProperty(TrailerFullscreen,1123)</onunfocus>
+                        </include>
+                        <include content="Dialog_Side_Button">
+                            <param name="id">06</param>
+                            <param name="label">$LOCALIZE[22082]</param>
+                            <param name="icon">special://skin/extras/icons/videoplay.png</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(PlayTrailerItems)) + !String.IsEqual(Window(Home).Property(PlayTrailerItems),-)</param>
+                            <onclick>SetProperty(TrailerItemsDialog,True,1123)</onclick>
+                            <onclick>SetFocus(8000)</onclick>
                         </include>
                     </control>
                 </control>
@@ -127,10 +139,64 @@
                         </control>
                     </control>
                 </control>
+                
+                <!-- Extra Trailers -->
+                <control type="group">
+                    <height>divider_bottom</height>
+                    <centerbottom>240</centerbottom>
+                    <left>view_pad</left>
+                    <right>view_pad</right>
+                    <visible>!String.IsEmpty(Window(Home).Property(PlayTrailerItems)) + !String.IsEqual(Window(Home).Property(PlayTrailerItems),-) + !String.IsEmpty(Window.Property(TrailerItemsDialog))</visible>
+                    <include content="Animation_Fade_In">
+                        <param name="type">Visible</param>
+                        <param name="delay">0</param>
+                    </include>
+                    <include content="Animation_Fade_Out">
+                        <param name="type">Hidden</param>
+                        <param name="delay">0</param>
+                    </include>
+                    <control type="image">
+                        <height>768</height>
+                        <texture diffuse="common/gradient-box-v.png" colordiffuse="black" border="12">common/box.png</texture>
+                        <bottom>145.3</bottom>
+                    </control>            
+                    <include content="List_Landscape_Row">
+                        <param name="id">8000</param>
+                        <param name="offset_x">6</param>
+                        <param name="itemlayout_include">Layout_513_Episode</param>
+                        <height>divider_bottom</height>
+                        <left>25</left>
+                        <right>25</right>
+                        <bottom>2</bottom>
+                        
+                        <onclick>SetFocus(9000)</onclick>
+                        <onleft>9000</onleft>
+                        <onup>SetFocus(8000,0,absolute)</onup>
+                        <onup>9000</onup>
+                        <ondown>SetFocus(8000,0,absolute)</ondown>
+                        <ondown>9000</ondown>
+                        <onback>SetFocus(8000,0,absolute)</onback>
+                        <onback>9000</onback>
+                        
+                        <onclick>SetProperty(PlayTrailerItems,$VAR[Path_VideoInfo_Trailers],Home)</onclick>
+                        <onclick>SetProperty(PlayTrailerTitle,$INFO[Container(8000).ListItem.Label],Home)</onclick>
+
+                        <onclick>ClearProperty(TrailerItemsDialog,1123)</onclick>
+                        <onleft>ClearProperty(TrailerItemsDialog,1123)</onleft>
+                        <onup>ClearProperty(TrailerItemsDialog,1123)</onup>
+                        <ondown>ClearProperty(TrailerItemsDialog,1123)</ondown>
+                        <onback>ClearProperty(TrailerItemsDialog,1123)</onback>
+                        
+                        <onclick>PlayMedia(Container(8000).ListItem.FileNameAndPath,False,1)</onclick>
+
+                        <content target="videos">$INFO[Window(Home).Property(PlayTrailerItems)]</content>
+                    </include>
+                </control>
             </include>
-
         </control>
+        
 
+        <!-- Fullscreen OSD -->
         <control type="group">
             <visible>Player.HasVideo</visible>
             <visible>!String.IsEmpty(Window.Property(TrailerFullscreen))</visible>
@@ -139,76 +205,67 @@
             </control>
             
             <control type="videowindow">
-                    <centertop>540</centertop>
-                    <centerright>960</centerright>
-                    <!-- To remove black bars forcibly, use height=1461 and width=2600 --> 
-                    <height>100%</height>
-                    <width>100%</width>
+                <centertop>540</centertop>
+                <centerright>960</centerright>
+                <!-- To remove black bars forcibly, use height=1461 and width=2600 --> 
+                <height>100%</height>
+                <width>100%</width>
             </control>
             
             <control type="group">
                 <animation condition="System.IdleTime(4)" effect="fade" start="100" end="0" time="250" reversible="true">Conditional</animation>
-                
                 <!-- Side Buttons_Fullscreen -->
-                
-                    <control type="group">
-                    
-                        <centerbottom>60</centerbottom>
-                        <centerleft>view_pad</centerleft>
-                        
-                        <control type="image">
-                            <texture colordiffuse="main_fg_100">$VAR[Image_Trailer_PlayPause]</texture>
-                            <bordersize>25</bordersize>
-                            <aspectratio>keep</aspectratio>
-                        </control>
+                <control type="group">
+                    <centerbottom>60</centerbottom>
+                    <centerleft>view_pad</centerleft>
+                    <control type="image">
+                        <texture colordiffuse="main_fg_100">$VAR[Image_Trailer_PlayPause]</texture>
+                        <bordersize>25</bordersize>
+                        <aspectratio>keep</aspectratio>
                     </control>
-                    <control type="label">
-                        <centerbottom>60</centerbottom>
-                        <height>12</height>
-                        <right>view_pad</right>
-                        <align>right</align>
-                        <aligny>center</aligny>
-                        <label>$VAR[Label_OSD_Time][COLOR=$VAR[ColorHighlight]]  |  [/COLOR]$VAR[Label_OSD_Duration]</label>
-                        <textcolor>main_fg_100</textcolor>
-                    </control>
+                </control>
+                <control type="label">
+                    <centerbottom>60</centerbottom>
+                    <height>12</height>
+                    <right>view_pad</right>
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <label>$VAR[Label_OSD_Time][COLOR=$VAR[ColorHighlight]]  |  [/COLOR]$VAR[Label_OSD_Duration]</label>
+                    <textcolor>main_fg_100</textcolor>
+                </control>
                 
                 <!-- Progress bar_Fullscreen -->
-                
-                    <control type="group">
-                        <left>147</left>
-                        <centerbottom>60</centerbottom>
-                        <height>12</height>
-                        
-                        <control type="image">
-                            <centerbottom>50%</centerbottom>
-                            <height>4</height>
-                            <width>77%</width>
-                            <texture colordiffuse="dialog_fg_50">common/white.png</texture>
-                        </control>
-                        
-                        <control type="progress" id="499">
-                            <width>78%</width>
-                            <height>12</height>
-                            <info>Player.Progress</info>
-                            <visible>Player.HasVideo</visible>
-                            <texturebg colordiffuse="00ffffff" border="12,0,12,0">progress/progress-nib.png</texturebg>
-                        </control>
-                        <control type="progress">
-                            <description>Progressbar</description>
-                            <width>78%</width>
-                            <height>12</height>
-                            <info>Player.Progress</info>
-                            <texturebg colordiffuse="00ffffff" border="12,0,12,0">progress/progress-bg.png</texturebg>
-                            <midtexture colordiffuse="$VAR[ColorGradient]" border="12,0,12,0" diffuse="progress/diffuse.png">progress/progress-bg.png</midtexture>
-                            <include content="Defs_Progress_Colorfade">
-                                <param name="id">499</param>
-                            </include>
-                            <visible>Player.HasVideo</visible>
-                        </control>
+                <control type="group">
+                    <left>147</left>
+                    <centerbottom>60</centerbottom>
+                    <height>12</height>
+                    <control type="image">
+                        <centerbottom>50%</centerbottom>
+                        <height>4</height>
+                        <width>77%</width>
+                        <texture colordiffuse="dialog_fg_50">common/white.png</texture>
                     </control>
-            
+                    <control type="progress" id="499">
+                        <width>78%</width>
+                        <height>12</height>
+                        <info>Player.Progress</info>
+                        <visible>Player.HasVideo</visible>
+                        <texturebg colordiffuse="00ffffff" border="12,0,12,0">progress/progress-nib.png</texturebg>
+                    </control>
+                    <control type="progress">
+                        <description>Progressbar</description>
+                        <width>78%</width>
+                        <height>12</height>
+                        <info>Player.Progress</info>
+                        <texturebg colordiffuse="00ffffff" border="12,0,12,0">progress/progress-bg.png</texturebg>
+                        <midtexture colordiffuse="$VAR[ColorGradient]" border="12,0,12,0" diffuse="progress/diffuse.png">progress/progress-bg.png</midtexture>
+                        <include content="Defs_Progress_Colorfade">
+                            <param name="id">499</param>
+                        </include>
+                        <visible>Player.HasVideo</visible>
+                    </control>
+                </control>
             </control>
-            
         </control>
     </controls>
 </window>
