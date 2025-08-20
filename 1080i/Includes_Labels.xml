@@ -625,6 +625,16 @@
         <value condition="!String.IsEmpty(Container(5403).ListItem.Plot)">$INFO[Container(5403).ListItem.Plot]</value>
         <value>$LOCALIZE[19055]</value>
     </variable>
+    
+    <variable name="Label_VideoInfo_CrewBio">
+        <value condition="Container(5507).IsUpdating">$LOCALIZE[31023] [LOWERCASE]$LOCALIZE[14116][/LOWERCASE]...</value>
+        <value condition="!String.IsEmpty(Container(5507).ListItem.Plot)">$INFO[Container(5507).ListItem.Plot]</value>
+        <value>$LOCALIZE[19055]</value>
+    </variable>
+    
+    <variable name="Label_VideoInfo_CrewAge">
+        <value condition="!String.IsEmpty(Container(5507).ListItem.Property(Age)) + !Container(5507).IsUpdating">$INFO[Container(5507).ListItem.Property(Age),, $LOCALIZE[31057]]$INFO[Container(5507).ListItem.Property(Deathday),   † ,]</value>
+    </variable>
 
     <variable name="Label_VideoInfo_CastBio_Prop">
         <value condition="!String.IsEmpty(Container(5003).ListItem.Plot)">$ESCINFO[Container(5003).ListItem.Plot]</value>
@@ -1034,8 +1044,20 @@
         <value condition="String.IsEmpty(ListItem.Property(Deathday))">$INFO[ListItem.Property(Birthday)]$INFO[ListItem.Property(Age), (, [LOWERCASE]$LOCALIZE[31057][/LOWERCASE])]</value>
         <value>$INFO[ListItem.Property(Birthday)]</value>
     </variable>
+    
+    <variable name="Label_Info_ViewLine_CrewDepartment">
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Director)">$LOCALIZE[31038]</value>
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Writer)">$LOCALIZE[31039]</value>
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Creator)">$LOCALIZE[31065]</value>
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Producer)">$LOCALIZE[38039]</value>
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Sound_Department)">$LOCALIZE[31052]</value>
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Art_Department)">$LOCALIZE[31072]</value>
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Photography)">$LOCALIZE[31067]</value>
+        <value condition="Control.HasFocus(5504) + String.IsEqual(Container(5504).ListItem.Property(department),Editor)">$LOCALIZE[31075]</value>
+    </variable>
 
     <variable name="Label_Info_ViewLine_Sub">
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + !String.IsEmpty(Window.Property(DialogInfo.CastCrew))">$LOCALIZE[31050] $VAR[Label_Info_ViewLine_CrewDepartment,(,)]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Cast)">$LOCALIZE[206]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Reviews)">$LOCALIZE[31334]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Trailer)">$LOCALIZE[10025]</value>
