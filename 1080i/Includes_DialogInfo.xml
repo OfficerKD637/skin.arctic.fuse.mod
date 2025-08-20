@@ -66,22 +66,46 @@
             <left>0</left>
             <include>Animation_Transition_InfoPanel_Open_Fade</include>
             <visible>!Control.HasFocus(513) + !Control.HasFocus(514) + !Control.HasFocus(515)</visible>
-            <control type="group">
-                <visible>Control.HasFocus(5503) + ![[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]]] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating]]</visible>
-                <centertop>50%</centertop>
-                <control type="image">
-                    <include>Texture_Highlight_Scrollbar_V</include>
-                    <height>8</height>
-                    <width>77</width>
-                    <centerbottom>-5</centerbottom>
+            <control type="grouplist">
+                <orientation>horizontal</orientation>
+                <left>0</left>
+                <onleft>5505</onleft>
+                <onright>5505</onright>
+                <control type="button" id="5503">
+                    <visible>String.IsEqual(Window.Property(DetailsView),Cast)</visible>
+                    <width>auto</width>
+                    <include>Texture_Highlight_Underline_H</include>
+                    <label>$VAR[Label_Info_ViewLine_Sub]</label>
+                    <align>center</align>
+                    <top>-5</top>
+                    <textoffsetx>0</textoffsetx>
+                    <textoffsety>-5</textoffsety>
+                    <font>font_main_bold</font>
+                    <textcolor>00ffffff</textcolor>
+                    <selectedcolor>00ffffff</selectedcolor>
+                    <focusedcolor>00ffffff</focusedcolor>
+                    <onup>4000</onup>
+                    <onback>4000</onback>
+                    <onup>ClearProperty(DialogInfo.CastCrew)</onup>
+                    <ondown condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetFocus(5003,0,absolute)</ondown>
+                    <ondown condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetFocus(5504,0,absolute)</ondown>
+                    <onclick condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onclick>
+                    <onclick condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onclick>
+                    <onback>ClearProperty(DialogInfo.CastCrew)</onback>                  
                 </control>
-                <control type="image">
-                    <centerleft>100</centerleft>
+                <control type="image" id="5502">
+                    <visible>Control.HasFocus(5503) + ![[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]]] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating]]</visible>
                     <width>50</width>
                     <texture colordiffuse="dialog_fg_90">special://skin/extras/icons/arrow-right-arrow-left.png</texture>
                     <aspectratio>scale</aspectratio>
                 </control>
             </control>
+            <include content="Object_Hidden_Button">
+                <param name="id">5505</param>
+                <onfocus>SetFocus(5503,absolute)</onfocus>
+                <onfocus condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onfocus>
+                <onfocus condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onfocus>
+            </include>
         </include>
     </include>
 
@@ -594,21 +618,6 @@
         <include content="Object_Hidden_List">
             <param name="id">5506</param>
             <content limit="1">$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]</content>
-        </include>
-        <include content="Object_Hidden_Button">
-            <param name="id">5503</param>
-            <onup>4000</onup>
-            <onback>4000</onback>
-            <onup>ClearProperty(DialogInfo.CastCrew)</onup>
-            <ondown condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetFocus(5003,0,absolute)</ondown>
-            <ondown condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetFocus(5504,0,absolute)</ondown>
-            <onclick condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onclick>
-            <onclick condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onclick>
-            <onleft condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onleft>
-            <onleft condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onleft>
-            <onright condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onright>
-            <onright condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onright>
-            <onback>ClearProperty(DialogInfo.CastCrew)</onback>
         </include>
         
         <!-- CAST -->
