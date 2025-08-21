@@ -615,11 +615,7 @@
     </include>
     
     <include name="DialogInfo_Cast_Online">
-        <include content="Object_Hidden_List">
-            <param name="id">5506</param>
-            <content limit="1">$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]</content>
-        </include>
-        
+    
         <!-- CAST -->
         <control type="group">
             <include content="Animation_ConditionalFade">
@@ -908,32 +904,50 @@
                         <include content="DialogInfo_CrewItems">
                             <param name="type">Director</param>
                         </include>
+                    </content>
+                    <content target="videos">
                         <include content="DialogInfo_CrewItems">
                             <param name="type">Writer</param>
                         </include>
+                    </content>
+                    <content target="videos">
                         <include content="DialogInfo_CrewItems">
                             <param name="type">Creator</param>
                         </include>
+                    </content>
+                    <content target="videos">
                         <include content="DialogInfo_CrewItems">
                             <param name="type">Producer</param>
                         </include>
-                        <include content="DialogInfo_CrewItems">
-                            <param name="type">Sound_Department</param>
-                        </include>
-                        <include content="DialogInfo_CrewItems">
-                            <param name="type">Art_Department</param>
-                        </include>
+                    </content>
+                    <content target="videos">
                         <include content="DialogInfo_CrewItems">
                             <param name="type">Photography</param>
                         </include>
+                    </content>
+                    <content target="videos">
                         <include content="DialogInfo_CrewItems">
                             <param name="type">Editor</param>
+                        </include>
+                    </content>
+                    <content target="videos">
+                        <include content="DialogInfo_CrewItems">
+                            <param name="type">Sound_Department</param>
+                        </include>
+                    </content>
+                    <content target="videos">        
+                        <include content="DialogInfo_CrewItems">
+                            <param name="type">Art_Department</param>
                         </include>
                     </content>
                     <include content="Animation_ConditionalFade">
                         <param name="condition">!Control.HasFocus(5504)</param>
                     </include>
-                </include>           
+                </include>
+                <include content="Object_Hidden_List">
+                    <param name="id">5506</param>
+                    <content limit="1">$VAR[DialogInfo_Origin_TMDbPath]</content>
+                </include>                
                 <control type="group">
                     <left>60</left>
                     <right>-60</right>
@@ -948,6 +962,13 @@
             </control>
         </control>
     </include>
+    
+    <variable name="DialogInfo_Origin_TMDbPath">
+        <value condition="[String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]$INFO[Window.Property(origin_tmdb_season),&amp;season=,]$INFO[Window.Property(origin_tmdb_episode),&amp;episode=,]</value>
+        <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]$INFO[Window.Property(origin_tmdb_season),&amp;season=,]</value>
+        <value>$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]</value>
+    </variable>
+    
         <include name="DialogInfo_Cast_Local">
             <control type="group">
             <visible>$PARAM[visible]</visible>
@@ -1180,7 +1201,7 @@
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + [Container(5303).IsUpdating | Container(5504).IsUpdating]] | [!Control.HasFocus(4003) + [Container(5303).IsUpdating | Container(5504).IsUpdating]]]]</param>
             <param name="include">List_Button_Row</param>
-            <top>-10</top>
+            <top>-5</top>
             <left>200</left>
         </include>
         <include content="Widget_Busy">
@@ -1470,6 +1491,8 @@
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal]">SetProperty(Cast_TMDb_ID,$VAR[Path_VideoInfo_OnlineCast])</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</ondown>
+        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + [String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">SetProperty(origin_tmdb_season,$INFO[Window(Home).Property(TMDbHelper.ListItem.Season)])</ondown>
+        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">SetProperty(origin_tmdb_episode,$INFO[Window(Home).Property(TMDbHelper.ListItem.Episode)])</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</ondown>
         <ondown condition="[String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(5003).NumItems,0)]">SetFocus(5503)</ondown>
