@@ -56,7 +56,7 @@
             <param name="label">$VAR[Label_Info_ViewLine_Sub]</param>
             <param name="item_condition">true</param>
             <param name="top_padding_info">true</param>
-            <param name="item_updating">[[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]]] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating]]</param>
+            <param name="item_updating">[[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + [[String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5003).IsUpdating] | [!String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5504).IsUpdating]]]]] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating]]</param>
             <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                 <param name="top">441</param>    
             </include>
@@ -619,7 +619,7 @@
         <!-- CAST -->
         <control type="group">
             <include content="Animation_ConditionalFade">
-                <param name="condition">[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]</param>
+                <param name="condition">[[Control.HasFocus(4003) | Control.HasFocus(5503)] + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]</param>
             </include>
             <visible>$PARAM[visible]</visible>
 
@@ -773,7 +773,7 @@
         <!-- CREW -->
         <control type="group">
             <include content="Animation_ConditionalFade">
-                <param name="condition">[Control.HasFocus(4003) + Container(5504).IsUpdating] | [!Control.HasFocus(4003) + Container(5504).IsUpdating]</param>
+                <param name="condition">[[Control.HasFocus(4003) | Control.HasFocus(5503)] + Container(5504).IsUpdating] | [!Control.HasFocus(4003) + Container(5504).IsUpdating]</param>
             </include>
             <visible>$PARAM[visible]</visible>
             <visible>!String.IsEmpty(Window.Property(DialogInfo.CastCrew))</visible>
@@ -1199,7 +1199,7 @@
         </include>
         <include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
-            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + [Container(5303).IsUpdating | Container(5504).IsUpdating]] | [!Control.HasFocus(4003) + [Container(5303).IsUpdating | Container(5504).IsUpdating]]]]</param>
+            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + [[String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5003).IsUpdating + !Control.HasFocus(7000) + !Control.HasFocus(514)] | [!String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5504).IsUpdating + !Control.HasFocus(5504) + !Control.HasFocus(515)]]]]]</param>
             <param name="include">List_Button_Row</param>
             <top>-5</top>
             <left>200</left>
