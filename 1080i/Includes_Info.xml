@@ -53,13 +53,13 @@
                 <width>$PARAM[width]</width>
                 <height>$PARAM[height]</height>
 
-                <include content="Info_Title_LogoLabel_LargeText" condition="!Skin.HasSetting(Info.EnableSmallerTitle)">
+                <include content="Info_Title_LogoLabel_LargeText" condition="Skin.HasSetting(Info.DisableSmallerTitle)">
                     <param name="label">$PARAM[label]</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="wrapmultiline">$PARAM[wrapmultiline]</param>
                 </include>
 
-                <include content="Info_Title_LogoLabel_SmallText" condition="Skin.HasSetting(Info.EnableSmallerTitle)">
+                <include content="Info_Title_LogoLabel_SmallText" condition="!Skin.HasSetting(Info.DisableSmallerTitle)">
                     <param name="label">$PARAM[label]</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="wrapmultiline">$PARAM[wrapmultiline]</param>
@@ -1004,7 +1004,7 @@
                 <control type="grouplist">
 
                     <include content="Info_Viewline_Label">
-                        <include content="Object_TextColor" condition="!Skin.HasSetting(Furniture.ViewLineMonochrome)">
+                        <include content="Object_TextColor" condition="Skin.HasSetting(Furniture.ViewLineColor)">
                             <param name="textcolor">$VAR[ColorHighlight]</param>
                         </include>
                         <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
@@ -1072,7 +1072,7 @@
                     <itemgap>12</itemgap>
                 </control>
 
-                <include content="Object_Control" condition="!Skin.HasSetting(Furniture.ViewLineMonochrome)">
+                <include content="Object_Control" condition="Skin.HasSetting(Furniture.ViewLineColor)">
                     <param name="control">grouplist</param>
                     <control type="label">
                         <aligny>center</aligny>
@@ -1768,7 +1768,7 @@
                 <orientation>horizontal</orientation>
                 <itemgap>10</itemgap>
 
-                <visible>Integer.IsEqual(Container($PARAM[grouplistid]).NumItems,0) + !Skin.HasSetting(Disable.PlotDetails.Fallback)</visible>
+                <visible>Integer.IsEqual(Container($PARAM[grouplistid]).NumItems,0) + Skin.HasSetting(Enable.PlotDetails.Fallback)</visible>
                 
                 <include content="Info_Line_VideoQuality_Icon" condition="[!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Infoline.DisableHDR) | !Skin.HasSetting(Infoline.DisableAudioChannels) | !Skin.HasSetting(Infoline.DisableCodec) | !Skin.HasSetting(Infoline.DisableVersion) | !Skin.HasSetting(Infoline.DisableCollection) | !Skin.HasSetting(Info.EnablePillboxStyle)]">
                     <param name="colordiffuse">main_fg_90</param>
