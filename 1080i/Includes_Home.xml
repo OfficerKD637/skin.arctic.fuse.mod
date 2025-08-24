@@ -352,7 +352,7 @@
     <include name="Home_Menu_Background_Fade">
     <definition>
         <control type="group">
-            <width>view_menu_main</width>
+            <width>960</width>
             <visible>$EXP[Exp_HomeMenu_HasFocus]</visible>
             <include content="Animation_Slide_In">
                 <param name="type">Visible</param>
@@ -364,11 +364,11 @@
             </include>
             <control type="image">
                 <right>-1080</right>
-                <texture colordiffuse="$VAR[ColorBackgroundFade]">common/dim-thick-side-full.png</texture>
+                <texture colordiffuse="$VAR[ColorBackgroundFade]">background/combined_sidemenu.png</texture>
             </control>
             <control type="image">
                 <right>-540</right>
-                <texture colordiffuse="$VAR[ColorBackgroundFade]">common/dim-thick-side-full.png</texture>
+                <texture colordiffuse="$VAR[ColorBackgroundFade]">background/combined_sidemenu.png</texture>
             </control>
         </control>
         </definition>
@@ -535,6 +535,16 @@
     </include>
 
     <include name="Home_Menu_Vert">
+        <control type="image">
+            <width>160</width>
+            <left>0</left>
+            <visible>[$EXP[Exp_HomeMenu_HasFocus] + !Window.IsVisible(MyWeather.xml) + !Window.IsVisible(pvrchannelguide) + !$EXP[Exp_PVRWindows]]</visible>
+            <include content="Animation_Fade_In">
+                <param name="type">Visible</param>
+                <param name="time">400</param>
+            </include>
+            <texture colordiffuse="$VAR[ColorBackground]">common/white.png</texture>
+        </control>
         <control type="group">
             <include>Animation_Home_SlideOver</include>
             <include condition="Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)">Home_Menu_Background_Fade</include>
@@ -554,6 +564,8 @@
         <param name="include_ribbon">false</param>
         <param name="include_dialog">true</param>
         <param name="include_mask">true</param>
+        <param name="transparency_include">false</param>
+        <param name="transparency">80</param> 
         <definition>
             <control type="group">
                 <left>$PARAM[left]</left>
@@ -566,21 +578,12 @@
                         <left>-1920</left>
                         <texture colordiffuse="$VAR[ColorBackground]">common/white.png</texture>
                     </include>
-                    <include content="Object_Control" condition="$PARAM[include_ribbon]">
-                        <param name="control">image</param>
-                        <left>-1920</left>
-                        <texture colordiffuse="dialog_bg_30">common/white.png</texture>
-                    </include>
-                    <include content="Object_Control" condition="$PARAM[include_ribbon]">
-                        <param name="control">image</param>
-                        <right>0</right>
-                        <width>1</width>
-                        <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                    </include>
                     <include content="Dialog_Background_Group" condition="$PARAM[include_dialog]">
                         <param name="include_glass">true</param>
                         <param name="dialog_size">$PARAM[dialog_size]</param>
-                        <param name="adaptive_texture">$PARAM[adaptive_texture]</param>    
+                        <param name="adaptive_texture">$PARAM[adaptive_texture]</param>
+                        <param name="transparency_include">$PARAM[transparency_include]</param>
+                        <param name="transparency">$PARAM[transparency]</param>                        
                     </include>
                 </control>
                 <control type="group">
