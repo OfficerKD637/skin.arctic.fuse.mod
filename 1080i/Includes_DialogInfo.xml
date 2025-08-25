@@ -1523,6 +1523,13 @@
         <height>160</height>
         <left>20</left>
     </include>
+    
+    <include name="DialogInfo_VideoVersions_Content">
+        <onback>8000</onback>
+        <onclick>Dialog.Close(movieinformation,true)</onclick>
+        <onclick>PlayMedia($ESCINFO[Container(8908).ListItem.FileNameAndPath])</onclick>
+        <content>$INFO[ListItem.DBID,videodb://movies/videoversions/0?mediaid=,]</content>
+    </include>
 
     <include name="DialogInfo_Button_GroupBuiltin">
         <visible>Control.IsVisible($PARAM[id])</visible>
@@ -1941,13 +1948,7 @@
                         <param name="backing">true</param>
                         <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
                         <param name="icon">$VAR[Image_DialogInfo_PlayButton]</param>
-                        <onclick condition="VideoPlayer.IsFullScreen + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(movieinformation,true)</onclick>
-                        <onclick condition="VideoPlayer.IsFullScreen + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Dialog.Close(1190,true)</onclick>
-                        <onclick condition="Player.Paused + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">PlayerControl(Play)</onclick>
-                        <onclick condition="!VideoPlayer.IsFullScreen + String.IsEqual(Window(Home).Property(TMDBHelper.Player.TMDb_ID),Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))">Fullscreen</onclick>
-                        <onclick condition="String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + !Window.IsVisible(1190)">SendClick(8)</onclick>
-                        <onclick condition="String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + !$EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"playmedia=$INFO[ListItem.FilenameAndPath]")</onclick>
-                        <onclick condition="String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) + Window.IsVisible(1190) + $EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"call_path=$INFO[ListItem.FilenameAndPath]")</onclick>
+                        <onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>
                         <onfocus>ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
                         <onfocus>ClearProperty(DialogInfo.CastCrew)</onfocus>
