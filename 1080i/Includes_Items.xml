@@ -1636,10 +1636,41 @@
                 <param name="visible">String.IsEmpty(ListItem.Trailer) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer))</param>
                 <onclick>Dialog.Close(musicinformation)</onclick>
                 <onclick>Dialog.Close(songinformation)</onclick>
-                <onclick>ActivateWindow(videos,$VAR[Path_Youtube_Query,plugin://plugin.video.youtube/kodion/search/query/?q=,],return)</onclick>
+                <onclick>Dialog.Close(movieinformation)</onclick>
+                <onclick>AlarmClock(openyoutubepath,ActivateWindow(videos,$VAR[Path_Youtube_Query,plugin://plugin.video.youtube/kodion/search/query/?q=,],return),00:01,silent)</onclick>
 
                 <onfocus>SetProperty(DetailsView,Trailer)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
+            </include>
+            
+            <!-- Versions -->
+            <include content="DialogInfo_Button_Expansion">
+                <param name="id">4014</param>
+                <param name="groupid">4121</param>
+                <param name="sliceid">4221</param>
+                <param name="label">$LOCALIZE[40000]</param>
+                <param name="icon">special://skin/extras/icons/bookmarks.png</param>
+                <param name="visible">[ListItem.HasVideoVersions]</param>
+                <onclick>SetFocus(8908)</onclick>
+                
+                <onfocus>ClearProperty(DetailsView)</onfocus>
+                <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.CastCrew)</onfocus>
+            </include>
+
+            <!-- Extras -->
+            <include content="DialogInfo_Button_Expansion">
+                <param name="id">4015</param>
+                <param name="groupid">4115</param>
+                <param name="sliceid">4215</param>
+                <param name="label">$LOCALIZE[40211]</param>
+                <param name="icon">special://skin/extras/icons/director.png</param>
+                <param name="visible">[ListItem.HasVideoExtras + Control.IsEnabled(15)]</param>
+                <onclick>SendClick(15)</onclick>
+                
+                <onfocus>ClearProperty(DetailsView)</onfocus>
+                <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.CastCrew)</onfocus>
             </include>
             
             <!-- Cast/Details -->
@@ -1688,6 +1719,7 @@
                 <param name="sliceid">4209</param>
                 <param name="label">$LOCALIZE[39123]</param>
                 <param name="icon">special://skin/extras/icons/image.png</param>
+                <param name="visible">Control.IsEnabled(10)</param>
                 <ondown>5009</ondown>
                 <onclick condition="![String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/) + String.IsEmpty(ListItem.DBID)]">SendClick(10)</onclick>
                 <onclick condition="[String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/) + String.IsEmpty(ListItem.DBID)]">RunScript(plugin.video.themoviedb.helper,modify_artwork,tmdb_id=$VAR[Path_InfoParams_TMDbID],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
@@ -1702,7 +1734,7 @@
                 <param name="sliceid">4207</param>
                 <param name="label">$LOCALIZE[563]</param>
                 <param name="icon">special://skin/extras/icons/star.png</param>
-                <param name="visible">!String.IsEmpty(ListItem.DBID)</param>
+                <param name="visible">Control.IsEnabled(7)</param>
                 <onclick>SendClick(7)</onclick>
                 <onfocus>ClearProperty(DetailsView)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
@@ -1715,7 +1747,7 @@
                 <param name="sliceid">4208</param>
                 <param name="label">$LOCALIZE[184]</param>
                 <param name="icon">special://skin/extras/icons/update.png</param>
-                <param name="visible">!String.IsEmpty(ListItem.DBID)</param>
+                <param name="visible">Control.IsEnabled(6)</param>
                 <onclick condition="![String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/)]">SendClick(6)</onclick>
                 <onclick condition="[String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/)]">RunScript(plugin.video.themoviedb.helper,refresh_details,tmdb_id=$VAR[Path_InfoParams_TMDbID],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
                 <onfocus>ClearProperty(DetailsView)</onfocus>
@@ -1775,6 +1807,7 @@
                 <param name="sliceid">4205</param>
                 <param name="label">$LOCALIZE[39123]</param>
                 <param name="icon">special://skin/extras/icons/image.png</param>
+                <param name="visible">Control.IsEnabled(10)</param>
                 <ondown>5009</ondown>
                 <onclick>SendClick(10)</onclick>
                 <onfocus>SetProperty(DetailsView,Artwork)</onfocus>
@@ -1787,7 +1820,7 @@
                 <param name="sliceid">4207</param>
                 <param name="label">$LOCALIZE[563]</param>
                 <param name="icon">special://skin/extras/icons/star.png</param>
-                <param name="visible">!String.IsEmpty(ListItem.DBID)</param>
+                <param name="visible">Control.IsEnabled(7)</param>
                 <onclick>SendClick(7)</onclick>
                 <onfocus>ClearProperty(DetailsView)</onfocus>
             </include>
@@ -1799,7 +1832,7 @@
                 <param name="sliceid">4206</param>
                 <param name="label">$LOCALIZE[184]</param>
                 <param name="icon">special://skin/extras/icons/update.png</param>
-                <param name="visible">!String.IsEmpty(ListItem.DBID)</param>
+                <param name="visible">Control.IsEnabled(6)</param>
                 <onclick>SendClick(6)</onclick>
                 <onfocus>ClearProperty(DetailsView)</onfocus>
             </include>

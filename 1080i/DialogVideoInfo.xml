@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog">
-    <include content="Object_DefaultControl" condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">
+    <include content="Object_DefaultControl">
         <param name="always">true</param>
-        <param name="defaultcontrol">4001</param>
-    </include>
-    
-    <include content="Object_DefaultControl" condition="String.IsEqual(ListItem.Property(tmdb_type),person)">
-        <param name="always">true</param>
-        <param name="defaultcontrol">5001</param>
+        <param name="defaultcontrol">8000</param>
     </include>
 
     <menucontrol>4000</menucontrol>
@@ -25,6 +20,25 @@
     <onload condition="Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Player.HasVideo + !VideoPlayer.IsFullScreen + !String.IsEqual(Window(Home).Property(AutoTrailer),Player.FileNameAndPath)">Stop</onload>
 
     <controls>
+        
+        <control type="button" id="8000">
+            <texturenofocus />
+            <texturefocus />
+            <font />
+            <ondown>4000</ondown>
+            <onfocus condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(4001)</onfocus>
+            <onfocus condition="String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(5001)</onfocus>
+            <onright condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">4001</onright>
+            <onleft condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">4001</onleft>
+            <onleft condition="String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(5001)</onleft>
+            <onright condition="String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(5001)</onright>
+            <onup>61</onup>
+            <onclick condition="String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(61)</onclick>
+            <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + ListItem.HasVideoVersions">SetFocus(8908)</onclick>
+            <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + !ListItem.HasVideoVersions">SendClick(8)</onclick>
+            <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + !ListItem.HasVideoVersions">RunScript(plugin.video.themoviedb.helper,close_dialog=1190)</onclick>
+        </control>
+        
         <include>Defs_Background_Loader</include>
         
         <control type="group">
@@ -55,5 +69,27 @@
         <include>DialogInfo_Furniture</include>
         <include>TouchMode_Info_Zones</include>
         <include>DialogInfo_PlotBox</include>
+        
+        
+        <include content="DialogSelect_VideoVersions_Main" condition="ListItem.HasVideoVersions">
+            <param name="id">8908</param>
+            <param name="scrollbar_id">8961</param>
+            <param name="include_content">DialogInfo_VideoVersions_Content</param>
+            <param name="visible">[Control.HasFocus(8908) | Control.HasFocus(8961)]</param>
+            <param name="label">$LOCALIZE[40000]</param>
+        </include>
+        
+        <include content="Object_Hidden_Button">
+            <param name="id">6</param>
+        </include>
+        <include content="Object_Hidden_Button">
+            <param name="id">7</param>
+        </include>
+        <include content="Object_Hidden_Button">
+            <param name="id">10</param>
+        </include>
+        <include content="Object_Hidden_Button">
+            <param name="id">15</param>
+        </include>
     </controls>
 </window>
