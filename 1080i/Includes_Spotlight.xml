@@ -193,7 +193,13 @@
                         <param name="name">$VAR[Label_Title_C301]</param>
                         <param name="role">$VAR[Label_FullscreenWidget_PlayButton]</param>
                         <param name="icon">$VAR[Image_FullscreenWidget_PlayButton]</param>
-                        <onclick>$VAR[Action_Spotlight_PlayMedia]</onclick>
+                        
+                        <onclick condition="!Player.HasVideo | [Player.HasVideo + !$EXP[Exp_Spotlight_ResumeMedia]]">$VAR[Action_Spotlight_PlayMedia]</onclick>
+                        
+                        <!-- Resume controls -->
+                        <onclick condition="Player.Paused + $EXP[Exp_Spotlight_ResumeMedia]">PlayerControl(Play)</onclick>
+                        <onclick condition="Player.HasVideo + !VideoPlayer.IsFullScreen + $EXP[Exp_Spotlight_ResumeMedia]">Fullscreen</onclick>
+                        
                         <include content="Spotlight_Main_Button_Standard">
                             <param name="id">311</param>
                             <param name="window_id">$PARAM[window_id]</param>

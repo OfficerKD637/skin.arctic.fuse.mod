@@ -1948,7 +1948,15 @@
                         <param name="backing">true</param>
                         <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
                         <param name="icon">$VAR[Image_DialogInfo_PlayButton]</param>
-                        <onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>
+
+                        <onclick condition="!Player.HasVideo | [Player.HasVideo + !$EXP[Exp_InfoDialogs_ResumeMedia]]">$VAR[Action_DialogInfo_PlayMedia]</onclick>
+                        
+                        <!-- Resume controls -->
+                        <onclick condition="Player.HasVideo + $EXP[Exp_InfoDialogs_ResumeMedia]">Dialog.Close(movieinformation,true)</onclick>
+                        <onclick condition="Player.HasVideo + Window.IsVisible(1190) + $EXP[Exp_InfoDialogs_ResumeMedia]">Dialog.Close(1190,true)</onclick>
+                        <onclick condition="Player.Paused + $EXP[Exp_InfoDialogs_ResumeMedia]">PlayerControl(Play)</onclick>
+                        <onclick condition="Player.HasVideo + !VideoPlayer.IsFullScreen + $EXP[Exp_InfoDialogs_ResumeMedia]">Fullscreen</onclick>
+                        
                         <onfocus>ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
                         <onfocus>ClearProperty(DialogInfo.CastCrew)</onfocus>
