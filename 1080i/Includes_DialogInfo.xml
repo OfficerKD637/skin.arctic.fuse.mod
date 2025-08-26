@@ -28,14 +28,14 @@
         <include content="Info_Panel">
             <param name="titlelabel">$VAR[Label_Title]</param>
             <param name="plotlabel">$VAR[Label_WidgetPlot]</param>
-            <param name="visible">!Control.HasFocus(513) + !Control.HasFocus(514) + !Control.HasFocus(515)</param>
+            <param name="visible">!Control.HasFocus(513) + !Control.HasFocus(555) + !Control.HasFocus(514) + !Control.HasFocus(515)</param>
             <include>Animation_Transition_InfoPanel_Open</include>
         </include>
         <include content="Info_Panel">
             <param name="titlelabel">$VAR[Label_Title_C513]</param>
             <param name="container">Container(513).</param>
             <param name="plotlabel">$VAR[Label_Plot_C513]</param>
-            <param name="visible">Control.HasFocus(513)</param>
+            <param name="visible">Control.HasFocus(513) | Control.HasFocus(555)</param>
             <include>Animation_Transition_InfoPanel_Open</include>
         </include>
         <include content="Info_Panel">
@@ -65,7 +65,7 @@
             </include>
             <left>0</left>
             <include>Animation_Transition_InfoPanel_Open_Fade</include>
-            <visible>!Control.HasFocus(513) + !Control.HasFocus(514) + !Control.HasFocus(515)</visible>
+            <visible>!Control.HasFocus(513) + !Control.HasFocus(555) + !Control.HasFocus(514) + !Control.HasFocus(515)</visible>
             <control type="grouplist">
                 <orientation>horizontal</orientation>
                 <left>0</left>
@@ -131,13 +131,14 @@
             <control type="group">
                 <bottom>-40</bottom>
                 <left>-120</left>
+                <visible>![Control.HasFocus(513) + String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]</visible>
                 <include condition="$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Open</include>
                 <include condition="!$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Open_Fade</include>
                 <include>Furniture_Bottom_Left</include>
             </control>
         </control>
         <control type="group">
-            <visible>[[String.IsEmpty(Window.Property(DetailsView)) + !Control.HasFocus(7000) + !Control.HasFocus(513)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]] | Control.HasFocus(5009)]</visible>
+            <visible>[[String.IsEmpty(Window.Property(DetailsView)) + !Control.HasFocus(7000) + !Control.HasFocus(513) + !Control.HasFocus(555)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]] | Control.HasFocus(5009)]</visible>
             <include>Furniture_Bottom_Right</include>
             <include>Animation_Transition_InfoPanel_Open</include>
         </control>
@@ -1180,7 +1181,7 @@
             <bottom>-40</bottom>
             <height>view_poster_itemlayout_h</height>
             <visible>String.IsEqual(Window.Property(DetailsView),Critics) | String.IsEmpty(Window.Property(DetailsView))</visible>
-            <visible>![Control.HasFocus(7000) |  Control.HasFocus(513)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]</visible>
+            <visible>![Control.HasFocus(7000) |  Control.HasFocus(513) | Control.HasFocus(555)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]</visible>
             <include content="DialogInfo_Video_SideArt">
                 <param name="visible">![String.IsEqual(ListItem.DBType,musicvideo)]</param>
             </include>
@@ -1978,8 +1979,8 @@
                         <control type="group">
                             <visible>!String.IsEmpty(System.CurrentControlID)</visible>
                             <visible>[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>
-                            <animation effect="slide" start="420" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(513)">Conditional</animation>
-                            <animation effect="slide" start="0" end="420" tween="quadratic" easing="out" time="400" reversible="false" condition="!Control.HasFocus(513)">Conditional</animation>
+                            <animation effect="slide" start="420" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(513) | Control.HasFocus(555)">Conditional</animation>
+                            <animation effect="slide" start="0" end="420" tween="quadratic" easing="out" time="400" reversible="false" condition="![Control.HasFocus(513) | Control.HasFocus(555)]">Conditional</animation>
                             <control type="group" id="5000">
                                 <top>hub_recommendations_widgets_grouplist_t</top>
                                 <bottom>hub_recommendations_widgets_grouplist_b</bottom>
@@ -2181,20 +2182,61 @@
                                     <param name="baseid">51</param>
                                     <param name="basegroupid">52</param>
                                     <param name="id">3</param>
-                                    <param name="label">$LOCALIZE[20360]$INFO[Container(513).ListItem.Season, &gt; $LOCALIZE[20373] ,]</param>
+                                    <param name="label">$LOCALIZE[20360]$INFO[Container(555).ListItem.Label, &gt; ,]</param>
                                     <param name="include">List_Landscape_Row</param>
                                     <param name="visible">[String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</param>
                                     <param name="altvisible">[String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</param>
                                     <param name="labeltop">0</param>
                                     <param name="include_movement">false</param>
-                                    <content target="videos">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=flatseasons&amp;tmdb_type=tv,&amp;nextpage=false&amp;cacheonly=true&amp;length=1]</content>
+                                    <content target="videos">$INFO[Container(555).ListItem.FolderPath]</content>
                                     <onclick>Dialog.Close(all,true)</onclick>
                                     <onclick>PlayMedia($ESCINFO[Container(513).ListItem.FolderPath])</onclick>
+                                    <ondown>555</ondown>
+                                    <onleft>SetFocus(555,0,absolute)</onleft>
+                                    <onback>SetFocus(555,0,absolute)</onback>
                                     <include>Action_513_OnWidget</include>
                                     <include content="Animation_ConditionalFade" condition="!Skin.HasSetting(Views.DisableItemPeek)">
-                                        <param name="condition">!Control.HasFocus(513)</param>
+                                        <param name="condition">!Control.HasFocus(513) + !Control.HasFocus(555)</param>
                                     </include>
-                                </include>                                
+                                </include>
+                                <control type="group">
+                                    <left>180</left>
+                                    <top>380</top>
+                                    <visible>[String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>    
+                                    <include content="Categories_Selector" condition="!Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                                        <param name="id">555</param>
+                                        <param name="font">font_mini_bold</param>
+                                        <param name="hitrect_x">0</param>
+                                        <param name="hitrect_y">0</param>
+                                        <param name="hitrect_w">1080</param>
+                                        <param name="hitrect_h">120</param>
+                                        <param name="detailed">true</param>
+                                        <content>$VAR[Path_VideoInfo_OnlineSeasons]</content>
+                                        <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(555).ListItem.FolderPath])</onclick>                                        
+                                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,513)</onfocus>
+                                        <onup>513</onup>
+                                        <ondown>513</ondown>
+                                        <onback>513</onback>
+                                        <onleft>7000</onleft>
+                                   </include>
+                                    <include content="Categories_Iconic_Selector" condition="Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                                        <param name="id">555</param>
+                                        <param name="font">font_mini_bold</param>
+                                        <param name="hitrect_x">0</param>
+                                        <param name="hitrect_y">0</param>
+                                        <param name="hitrect_w">1080</param>
+                                        <param name="hitrect_h">120</param>
+                                        <left>-20</left>
+                                        <top>-60</top>
+                                        <content>$VAR[Path_VideoInfo_OnlineSeasons]</content>
+                                        <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(555).ListItem.FolderPath])</onclick>
+                                        <onfocus>SetProperty(TMDbHelper.WidgetContainer,513)</onfocus>
+                                        <onup>513</onup>
+                                        <ondown>513</ondown>
+                                        <onback>513</onback>
+                                        <onleft>7000</onleft>
+                                    </include>
+                                </control>
                             </control>
                                 
                                 <include content="Widget_Fake_Row" condition="Skin.HasSetting(InfoDialog.Poster) + !Skin.HasSetting(Views.DisableItemPeek)">
@@ -2209,7 +2251,7 @@
                                     <animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
                                         <effect type="fade" start="100" end="0" time="200" delay="600" />
                                     </animation>
-                                    <visible>!Control.HasFocus(513) + !String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])</visible>
+                                    <visible>!Control.HasFocus(513) + !Control.HasFocus(555) + !String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])</visible>
                                 </include>
                                 <include content="Widget_Fake_Row" condition="!Skin.HasSetting(Views.DisableItemPeek)">
                                     <param name="id">513</param>
@@ -2218,7 +2260,7 @@
                                     <animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
                                         <effect type="fade" start="100" end="0" time="200" delay="600" />
                                     </animation>
-                                    <visible>!Control.HasFocus(513) + [[!Skin.HasSetting(InfoDialog.Poster) | Skin.HasSetting(InfoDialog.Poster)] + String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]</visible>
+                                    <visible>!Control.HasFocus(513) + !Control.HasFocus(555) + [[!Skin.HasSetting(InfoDialog.Poster) | Skin.HasSetting(InfoDialog.Poster)] + String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]</visible>
                                 </include>
                                 <include content="Widget_Fake_Row" condition="!Skin.HasSetting(Views.DisableItemPeek)">
                                     <param name="id">513</param>
@@ -2226,7 +2268,7 @@
                                     <animation type="Conditional" reversible="false" condition="Container(513).IsUpdating">
                                         <effect type="fade" start="100" end="0" time="200" delay="600" />
                                     </animation>
-                                    <visible>!Control.HasFocus(513) + !Skin.HasSetting(InfoDialog.Poster) + !String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])</visible>
+                                    <visible>!Control.HasFocus(513) + !Control.HasFocus(555) + !Skin.HasSetting(InfoDialog.Poster) + !String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])</visible>
                                 </include>
                         </control>
 
@@ -2254,7 +2296,7 @@
                                 <onup>SetFocus(4000)</onup>
                                 <ondown>SetFocus(4000)</ondown>
                                 <onleft>SetFocus(4000)</onleft>
-                                <onright condition="[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]">SetFocus(5000)</onright>
+                                <onright condition="!Container(513).IsUpdating + [[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]]">SetFocus(5000)</onright>
                                 <onback>4000</onback>                
 
                                 <left>-80</left>
@@ -2267,7 +2309,7 @@
                                 <movement>3</movement>
 
                                 <include content="Animation_ConditionalFade">
-                                    <param name="condition">Control.HasFocus(513)</param>
+                                    <param name="condition">Control.HasFocus(513) | Control.HasFocus(555)</param>
                                 </include>
 
                                 <content>
@@ -2452,7 +2494,7 @@
                         <include content="Object_Right" condition="$EXP[Exp_AspectRatio_Reduced]">
                             <param name="right">-view_poster_itemlayout_w</param>
                         </include>
-                        <visible>![Control.HasFocus(7000) |  Control.HasFocus(513)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]</visible>
+                        <visible>![Control.HasFocus(7000) |  Control.HasFocus(513) | Control.HasFocus(555)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]</visible>
                         <control type="grouplist">
                             <left>380</left>
                             <right>800</right>
