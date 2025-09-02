@@ -394,15 +394,14 @@
                                             <param name="control">radiobutton</param>
                                             <label>$LOCALIZE[31443]</label>
 
-                                            <selected>!String.IsEmpty(Container(22001).ListItem.Property(path_opendialog))</selected>
+                                            <selected>$EXP[Shortcuts_Dialog_Exp_IsOpenInDialog]</selected>
                                             <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_toggle&amp;&amp;path_opendialog])</onclick>
 
                                             <onback>29999</onback>
 
-                                            <visible>!String.IsEqual(Container(22001).ListItem.Property(blank),True)</visible>
-                                            <visible>!String.IsEmpty(Container(22001).ListItem.Property(path))</visible>
-                                            <visible>!String.IsEmpty(Container(22001).ListItem.Property(target))</visible>
-                                            <visible>!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</visible>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_HasShortcutPath]</visible>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_IsEnabled]</visible>
+                                            <selected>$EXP[Shortcuts_Dialog_Exp_IsOpenInDialog]</selected>
                                         </include>
 
                                         <!-- Open In Expanded Dialog Item -->
@@ -412,16 +411,14 @@
                                             <param name="control">radiobutton</param>
                                             <label> -- $LOCALIZE[39123]</label>
 
-                                            <selected>!String.IsEmpty(Container(22001).ListItem.Property(path_opendialog_expanded))</selected>
+                                            <selected>$EXP[Shortcuts_Dialog_Exp_IsOpenInExpandedDialog]</selected>
                                             <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_toggle&amp;&amp;path_opendialog_expanded])</onclick>
 
                                             <onback>29999</onback>
 
-                                            <visible>!String.IsEqual(Container(22001).ListItem.Property(blank),True)</visible>
-                                            <visible>!String.IsEmpty(Container(22001).ListItem.Property(path))</visible>
-                                            <visible>!String.IsEmpty(Container(22001).ListItem.Property(target))</visible>
-                                            <visible>!String.IsEmpty(Container(22001).ListItem.Property(path_opendialog))</visible>
-                                            <visible>!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</visible>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_HasShortcutPath]</visible>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_IsEnabled]</visible>
+                                            <selected>$EXP[Shortcuts_Dialog_Exp_IsOpenInExpandedDialog]</selected>
                                         </include>
                                         
                                         <include content="Settings_Button">
@@ -628,6 +625,50 @@
 
                                             <onclick>ClearProperty(Shortcuts.Category,Home)</onclick>
 
+                                            <onback>29999</onback>
+                                        </include>
+                                        
+                                        <!-- =============== -->
+                                        <!-- Pop-up Submenu Options -->
+                                        <!-- =============== -->
+                                        <include content="Settings_Label">
+                                            <param name="dialog">true</param>
+                                            <param name="id">23098</param>
+                                            <label>$LOCALIZE[1034] $LOCALIZE[33063]</label>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_HasSideMenuEdit] | $EXP[Shortcuts_Dialog_Exp_HasCustomSubmenu]</visible>
+                                            <visible>[String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=sidemenu) + !String.IsEqual(Container(22001).ListItem.Property(disabled),True) + !String.IsEqual(Container(22001).ListItem.Property(blank),True)]</visible>
+                                            <onback>29999</onback>
+                                        </include>
+
+                                        <!-- Edit pop up submenu node items -->
+                                        <include content="Settings_Button">
+                                            <param name="dialog">true</param>
+                                            <param name="id">23081</param>
+                                            <label>$LOCALIZE[31516]</label>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_HasSideMenuEdit]</visible>
+                                            <visible>[String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=sidemenu) + !String.IsEqual(Container(22001).ListItem.Property(disabled),True) + !String.IsEqual(Container(22001).ListItem.Property(blank),True)]</visible>
+                                            <onclick>SetProperty(Shortcuts.EditMenu.Previous,$INFO[Window(Home).Property(Shortcuts.EditMenu)],Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditMode.Previous,$INFO[Window(Home).Property(Shortcuts.EditMode)],Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditGUID.Previous,$INFO[Window(Home).Property(Shortcuts.EditGUID)],Home)</onclick>
+                                            <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditMenu,menu=sidemenu-customnode-$INFO[Container(22001).ListItem.Property(guid)],Home)</onclick>
+                                            <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
+                                            <onback>29999</onback>
+                                        </include>
+                                        
+                                         <!-- Edit pop up custom submenu widget item -->
+                                        <include content="Settings_Button">
+                                            <param name="dialog">true</param>
+                                            <param name="id">23082</param>
+                                            <label>$LOCALIZE[31516]</label>
+                                            <visible>$EXP[Shortcuts_Dialog_Exp_HasCustomSubmenu]</visible>
+                                            <visible>[String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=sidemenu) + !String.IsEqual(Container(22001).ListItem.Property(disabled),True) + !String.IsEqual(Container(22001).ListItem.Property(blank),True)]</visible>
+                                            <onclick>SetProperty(Shortcuts.EditMenu.Previous,$INFO[Window(Home).Property(Shortcuts.EditMenu)],Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditMode.Previous,$INFO[Window(Home).Property(Shortcuts.EditMode)],Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditGUID.Previous,$INFO[Window(Home).Property(Shortcuts.EditGUID)],Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditGUID,guid=$INFO[Container(22001).ListItem.Property(guid)],Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditMenu,menu=$INFO[Container(22001).ListItem.Property(menu)],Home)</onclick>
+                                            <onclick>SetProperty(Shortcuts.EditMode,mode=submenu,Home)</onclick>
                                             <onback>29999</onback>
                                         </include>
 

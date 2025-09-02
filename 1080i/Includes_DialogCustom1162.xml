@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <variable name="DialogCustom1162_OnClick">
+        <value condition="!String.IsEmpty(ListItem.Property(target)) + !String.IsEmpty(ListItem.Property(path))">ActivateWindow($INFO[ListItem.Property(target)],$INFO[ListItem.Property(path)],return)</value>
+        <value condition="!String.IsEmpty(ListItem.Property(path))">$INFO[ListItem.Property(path)]</value>
+        <value condition="String.StartsWith(ListItem.FolderPath,favourites://)">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openfavourite.json,use_rules,folderpath=$INFO[ListItem.FolderPath])</value>
+        <value condition="ListItem.IsFolder">ActivateWindow($INFO[Window.Property(Target)],$INFO[ListItem.FolderPath],return)</value>
+        <value>PlayMedia($INFO[ListItem.FolderPath])</value>
+    </variable>
+    
     <include name="DialogCustom1162_Plotbox">
         <param name="landscape_icon">$VAR[Image_Landscape_C450]</param>
         <param name="textbox_label">$VAR[Label_Plot_C450]</param>
