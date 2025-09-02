@@ -87,7 +87,7 @@
     
     <expression name="Exp_HomeHub_Spotlight_IsVisible">!$EXP[Exp_Hubs_Spotlight_IsDisabled] + [!Window.IsVisible(Home) | [Window.IsVisible(Home) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))] | [Window.IsVisible(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + ![Integer.IsEqual(Container(300).NumItems,0) + String.IsEmpty(Container(300).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(303).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(370).ListItem.Property(spotlight_path)) + [String.IsEmpty(Skin.String(Hub.Home.Spotlight.Path)) | String.IsEqual(Skin.String(Hub.Home.Spotlight.Path),noop)] + String.IsEmpty(Skin.String(Hub.Home.Spotlight.Fallback))]]]</expression>
     
-    <expression name="Exp_HubName_IsVisible">[[Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301) + !Integer.IsEqual(Container(300).NumItems,0) + Control.IsVisible(300)] | $EXP[Exp_HomeMenu_HasFocus]]</expression>
+    <expression name="Exp_HubName_IsVisible">[[Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301) + !Integer.IsEqual(Container(300).NumItems,0) + Control.IsVisible(300)] | $EXP[Exp_HomeMenu_HasFocusBG]]</expression>
     
     <expression name="Exp_HomeHub_IsPrevious">[Window.Previous(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))]</expression>
     <expression name="Exp_HomeHub_IsNext">[Window.Next(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))]</expression>
@@ -96,7 +96,7 @@
 
     <expression name="Exp_Navigation_OnWrap">[$EXP[Exp_HomeMenu_IsTopBar] | $EXP[Exp_Navigation_OnMenu] | !$EXP[Exp_HomeMenu_IsExpanded]]</expression>
     <expression name="Exp_Navigation_OnWrap2">[$EXP[Exp_HomeMenu_IsTopBar] | $EXP[Exp_Navigation_OnMenu] | $EXP[Exp_HomeMenu_IsExpanded]]</expression>
-    <expression name="Exp_Navigation_OnBump">[!Skin.HasSetting(Navigation.DisableOptionsOnLeft) + !$EXP[Exp_Navigation_OnWrap]]</expression>
+    <expression name="Exp_Navigation_OnBump">[Skin.String(Home.LeftMenu.Action,Bump) + !$EXP[Exp_Navigation_OnWrap]]</expression>
 
     <expression name="Exp_Navigation_OnMenu">[!$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Navigation.OnBack,Menu)]</expression>
     <expression name="Exp_Navigation_OnParent">[Skin.String(Navigation.OnBack,Parent) | [$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Navigation.OnBack,Menu)]]</expression>
