@@ -1,10 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <include name="View_Row_WallSwitch">
+        <param name="wall_toppadding">245</param>
+        <param name="wall_toppadding_horz">200</param>
+        <param name="wall_bottompadding">140</param>
+        <param name="wall_leftpadding" />
+        <param name="wall_leftpadding_horz" />
+        <param name="wall_rightpadding" />
+        <param name="wall_rightpadding_horz" />
+        <param name="wall_offsetx">view_offx</param>
+        <param name="wall_offsety">40</param>
+        <definition>
+            <control type="group">
+                <visible>Control.IsVisible($PARAM[id]8)</visible>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="400" tween="sine" easing="in"/>
+                    <effect type="slide" start="0,200" end="0" center="auto" tween="cubic" easing="out" time="300"/>
+                </animation>
+                <include content="$PARAM[include]" condition="$EXP[Exp_View_WallVert]">
+                    <param name="id">$PARAM[id]8</param>
+                    <param name="orientation">vertical</param>
+                    <param name="preloaditems">2</param>
+                    <param name="offset_y">$PARAM[wall_offsety]</param>
+                    <top>$PARAM[wall_toppadding]</top>
+                    <bottom>$PARAM[wall_bottompadding]</bottom>
+                    <left>$PARAM[wall_leftpadding]</left>
+                    <right>$PARAM[wall_rightpadding]</right>
+                    <onback>ClearProperty(FurnitureWallMode)</onback>
+                    <onleft>SetProperty(List.ViewContainer,50)</onleft>
+                    <onleft>SetFocus(303,1,absolute)</onleft>                        
+                    <onright>611</onright>
+                    <pagecontrol>66</pagecontrol>
+                    <onback>Container.SetViewMode($PARAM[id])</onback>
+                    <onback>$PARAM[id]50</onback>
+                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                    <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                    <visible>String.IsEqual(Window.Property(FurnitureWallMode),Container.FolderPath)</visible>
+                    <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                    <viewtype label="$LOCALIZE[587] $LOCALIZE[31167]">wrap</viewtype>
+                </include>
+                <include content="$PARAM[include]" condition="!$EXP[Exp_View_WallVert]">
+                    <param name="id">$PARAM[id]8</param>
+                    <param name="preloaditems">2</param>
+                    <param name="offset_x">$PARAM[wall_offsetx]</param>
+                    <top>$PARAM[wall_toppadding_horz]</top>
+                    <bottom>$PARAM[wall_bottompadding]</bottom>
+                    <left>$PARAM[wall_leftpadding_horz]</left>
+                    <right>$PARAM[wall_rightpadding_horz]</right>
+                    
+                    <include content="Action_View_Movement_OnUp">
+                        <param name="id">$PARAM[id]8</param>
+                    </include>
+                        
+                    <ondown>610</ondown>
+                    <pagecontrol>69</pagecontrol>
+                    <onback>ClearProperty(FurnitureWallMode)</onback>
+                    <onback>Container.SetViewMode($PARAM[id])</onback>
+                    <onback>$PARAM[id]50</onback>
+                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                    <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                    <visible>String.IsEqual(Window.Property(FurnitureWallMode),Container.FolderPath)</visible>
+                    <visible>$EXP[Exp_View_$PARAM[id]]</visible>
+                    <viewtype label="$LOCALIZE[587] $LOCALIZE[31167]">wrap</viewtype>
+                </include>
+            </control>
+            <control type="group">
+                <include content="Object_Hidden_Button">
+                    <param name="id">$PARAM[id]50</param>
+                    <onfocus>SetFocus($PARAM[id])</onfocus>
+                </include>
+                <include content="Object_Hidden_Button">
+                    <param name="id">$PARAM[id]60</param>
+                    <onfocus>Container.SetViewMode($PARAM[id]8)</onfocus>
+                    <onfocus>Container.SetViewMode($PARAM[id]8)</onfocus>
+                    <onfocus>SetFocus($PARAM[id]8)</onfocus>
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <!-- Square Row -->
     <include name="View_050_Square_Row">
         <include content="View_Row_Include">
             <param name="id">50</param>
+            <param name="wall_rightpadding">180</param>
+            <param name="wall_include">List_Square_Wall</param>
             <param name="include">List_Square_Row</param>
             <param name="viewtype_label">$LOCALIZE[31320]</param>
             <param name="visible">$EXP[Exp_View_50]</param>
@@ -15,6 +98,8 @@
     <include name="View_051_Landscape_Row">
         <include content="View_Row_Include">
             <param name="id">51</param>
+            <param name="wall_offsety">35</param>
+            <param name="wall_include">List_Landscape_Wall</param>
             <param name="include">List_Landscape_Row</param>
             <param name="viewtype_label">$LOCALIZE[31045]</param>
             <param name="visible">$EXP[Exp_View_51]</param>
@@ -25,6 +110,11 @@
     <include name="View_052_Poster_Row">
         <include content="View_Row_Include">
             <param name="id">52</param>
+            <param name="wall_toppadding">260</param>
+            <param name="wall_rightpadding">180</param>
+            <param name="wall_rightpadding_horz">180</param>
+            <param name="wall_offsety">20</param>
+            <param name="wall_include">List_Poster_Wall</param>
             <param name="include">List_Poster_Row</param>
             <param name="viewtype_label">$LOCALIZE[20021]</param>
             <param name="visible">$EXP[Exp_View_52]</param>
@@ -35,6 +125,9 @@
     <include name="View_500_Circle_Row">
         <include content="View_Row_Include">
             <param name="id">500</param>
+            <param name="wall_rightpadding">180</param>
+            <param name="wall_rightpadding_horz">180</param>
+            <param name="wall_include">List_Circle_Wall</param>
             <param name="include">List_Circle_Row</param>
             <param name="viewtype_label">$LOCALIZE[31431]</param>
             <param name="visible">$EXP[Exp_View_500]</param>
@@ -45,6 +138,10 @@
     <include name="View_530_Banner_Row">
         <include content="View_Row_Include">
             <param name="id">530</param>
+            <param name="wall_toppadding">260</param>
+            <param name="wall_offsety">20</param>
+            <param name="wall_bottompadding">114</param>
+            <param name="wall_include">List_MiniBanner_Wall</param>
             <param name="include">List_Banner_Row</param>
             <param name="viewtype_label">$LOCALIZE[20020]</param>
             <param name="visible">$EXP[Exp_View_530]</param>
@@ -71,6 +168,8 @@
     <include name="View_533_Overview_Row">
         <include content="View_Row_Include">
             <param name="id">533</param>
+            <param name="wall_offsety">35</param>
+            <param name="wall_include">List_Overview_Wall</param>
             <param name="include">List_Overview_Row</param>
             <param name="viewtype_label">$LOCALIZE[31419]</param>
             <param name="visible">$EXP[Exp_View_533]</param>
@@ -81,12 +180,18 @@
     <include name="View_531_Board_Row">
         <include content="View_Row_Include" condition="!Skin.HasSetting(View.UseTextBasedBoard)">
             <param name="id">531</param>
+            <param name="wall_toppadding">260</param>
+            <param name="wall_offsety">20</param>
+            <param name="wall_include">List_Board_Wall</param>
             <param name="include">List_Board_Row</param>
             <param name="viewtype_label">$LOCALIZE[31424]</param>
             <param name="visible">$EXP[Exp_View_531]</param>
         </include>
         <include content="View_Row_Include" condition="Skin.HasSetting(View.UseTextBasedBoard)">
             <param name="id">531</param>
+            <param name="wall_toppadding">260</param>
+            <param name="wall_offsety">20</param>
+            <param name="wall_include">List_Placard_Wall</param>
             <param name="include">List_Placard_Row</param>
             <param name="viewtype_label">$LOCALIZE[31424] (T)</param>
             <param name="visible">$EXP[Exp_View_531]</param>
@@ -98,6 +203,7 @@
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
+                <visible>!Control.IsVisible($PARAM[id]8)</visible>
                 <control type="group">
                     <include>Transitions_List_Visibility</include>
                     <include content="$PARAM[include]">
@@ -129,6 +235,19 @@
                     </include>
                 </control>
             </control>
+            <include content="View_Row_WallSwitch" condition="String.IsEqual(Skin.String(Navigation.Global.OnDown),Wall) + !$EXP[Exp_View_532]">
+                <param name="id">$PARAM[id]</param>
+                <param name="include">$PARAM[wall_include]</param>
+                <param name="wall_toppadding">$PARAM[wall_toppadding]</param>
+                <param name="wall_toppadding_horz">$PARAM[wall_toppadding_horz]</param>
+                <param name="wall_bottompadding">$PARAM[wall_bottompadding]</param>
+                <param name="wall_leftpadding">$PARAM[wall_leftpadding]</param>
+                <param name="wall_leftpadding_horz">$PARAM[wall_leftpadding_horz]</param>
+                <param name="wall_rightpadding">$PARAM[wall_rightpadding]</param>
+                <param name="wall_rightpadding_horz">$PARAM[wall_rightpadding_horz]</param>
+                <param name="wall_offsetx">$PARAM[wall_offsetx]</param>
+                <param name="wall_offsety">$PARAM[wall_offsety]</param>
+            </include>
         </definition>
     </include>
 </includes>

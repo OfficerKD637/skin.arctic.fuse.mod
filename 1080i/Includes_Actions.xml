@@ -358,8 +358,8 @@
     <include name="Action_View_Movement_OnUp">
         <param name="id">50</param>
         <definition>
-            <onup condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">SetFocus(9094)</onup>
-            <onup condition="Skin.HasSetting(Furniture.DisableLeftHeader)">SetFocus(333)</onup>
+            <onup condition="!Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(9094)</onup>
+            <onup condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(333)</onup>
         </definition>
     </include>
     
@@ -819,7 +819,10 @@
             <!-- Bump -->
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump)">SetProperty(List.ViewContainer,$INFO[System.CurrentControlId])</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
-
+            
+            <!-- Wall -->
+            <ondown condition="[[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]] + $PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall)">SetFocus(612)</ondown>
+            <ondown condition="![[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]] + $PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall)">SetFocus(64)</ondown>
         </definition>
     </include>
     

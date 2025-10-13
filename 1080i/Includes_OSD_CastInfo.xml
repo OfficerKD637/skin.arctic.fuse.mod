@@ -12,31 +12,36 @@
     <include name="OSD_CastInfo_HintText">
         <param name="visible">true</param>
         <param name="colordiffuse">panel_fg_70</param>
-        <param name="icon">special://skin/extras/icons/angle-up.png</param>
-        <param name="flipy">true</param>
+        <param name="centerbottom">25</param>
+        <param name="left">view_side</param>
+        <param name="fade_in">true</param>
+        <param name="fade_out">true</param>
+        <param name="arrow_direction">down</param>
         <definition>
-            <control type="grouplist">
+            <control type="group">
                 <visible>$PARAM[visible]</visible>
-                <bottom>0</bottom>
+                <include content="Animation_Fade_In" condition="$PARAM[fade_in]">
+                    <param name="type">Visible</param>
+                </include>
+                <include content="Animation_Fade_Out" condition="$PARAM[fade_out]">
+                    <param name="type">Hidden</param>
+                </include>
+                <left>$PARAM[left]</left>
+                <centerbottom>$PARAM[centerbottom]</centerbottom>
                 <height>40</height>
-                <left>view_side</left>
-                <right>view_pad</right>
-                <orientation>horizontal</orientation>
-                <align>left</align>
-                <include>Animation_FadeIn_Delay</include>
                 <control type="image">
-                    <left>-10</left>
-                    <texture flipy="$PARAM[flipy]" colordiffuse="$PARAM[colordiffuse]">$PARAM[icon]</texture>
+                    <centerleft>10</centerleft>
                     <width>40</width>
                     <height>40</height>
+                    <centertop>50%</centertop>
+                    <texture colordiffuse="$PARAM[colordiffuse]">special://skin/extras/icons/arrow-$PARAM[arrow_direction].png</texture>
                 </control>
                 <control type="label">
-                    <left>10</left>
-                    <font>font_tiny</font>
                     <textcolor>$PARAM[colordiffuse]</textcolor>
+                    <left>40</left>
+                    <font>font_tiny</font>
+                    <align>left</align>
                     <label>$PARAM[label]</label>
-                    <height>35</height>
-                    <width>auto</width>
                 </control>
             </control>
         </definition>
