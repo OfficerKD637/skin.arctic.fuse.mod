@@ -545,6 +545,11 @@
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),movie)">plugin://plugin.video.themoviedb.helper/?info=videos&amp;nextpage=false&amp;cacheonly=true&amp;length=1&amp;tmdb_type=movie&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)]</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TMDb_Type),tv)">plugin://plugin.video.themoviedb.helper/?info=videos&amp;nextpage=false&amp;cacheonly=true&amp;length=1&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)]</value>
     </variable>
+    
+    <variable name="Path_IMDb_Trailers">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Season)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode)]">$INFO[Window(Home).Property(TMDbHelper.ListItem.tvshow.imdb_id),plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Season),&amp;season=,]</value>
+        <value>$INFO[Window(Home).Property(TMDbHelper.ListItem.imdb_id),plugin://plugin.video.imdb.trailers/?action=play_id&amp;imdb=,]</value>        
+    </variable>
 
     <variable name="Path_VideoInfo_Generic">
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tmdb_id)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)">$INFO[Window(Home).Property(TMDbHelper.ListItem.tmdb_id),plugin://plugin.video.themoviedb.helper?tmdb_id=,&amp;tmdb_type=movie]</value>

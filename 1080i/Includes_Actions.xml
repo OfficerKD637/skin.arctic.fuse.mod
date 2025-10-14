@@ -1166,10 +1166,14 @@
 
     <include name="Action_PlayTrailer_OnClick">
         <onclick condition="String.IsEmpty($PARAM[trailer]) + !String.IsEmpty($PARAM[trailer_fallback]) + !Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$ESCINFO[$PARAM[trailer_fallback]],Home)</onclick>        
-        <onclick condition="String.IsEmpty($PARAM[trailer]) + !String.IsEmpty($PARAM[trailer_fallback]) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,plugin://plugin.video.imdb.trailers/?action=play_id&imdb=$VAR[Trailer_IMDbID_Switch],Home)</onclick>        
+        <onclick condition="String.IsEmpty($PARAM[trailer]) + !String.IsEmpty($PARAM[trailer_fallback]) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$VAR[Path_IMDb_Trailers],Home)</onclick>        
         <onclick condition="!String.IsEmpty($PARAM[trailer])">SetProperty(PlayTrailer,$ESCINFO[$PARAM[trailer]],Home)</onclick>       
         <onclick condition="!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])">SetProperty(PlayTrailerTitle,$PARAM[title],Home)</onclick>
         <onclick condition="!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])">SetProperty(PlayTrailerItems,$PARAM[items],Home)</onclick>
+        <onclick condition="[!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])] + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerDBType,$INFO[Window(Home).Property(TMDBHelper.ListItem.base_dbtype)],Home)</onclick>
+        <onclick condition="[!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])] + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerSeason,$INFO[Window(Home).Property(TMDBHelper.ListItem.Season)],Home)</onclick>
+        <onclick condition="[!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])] + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.imdb_id)],Home)</onclick>
+        <onclick condition="[!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])] + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTVIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.tvshow.imdb_id)],Home)</onclick>
         <onclick condition="!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])">ActivateWindow(1123)</onclick>
     </include>
 
