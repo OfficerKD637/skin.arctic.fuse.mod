@@ -405,7 +405,8 @@
 
     <include name="Action_Recommendations_OnClick">
         <oninfo>Action(Select)</oninfo>
-        <onclick>RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],return)</onclick>
+        <onclick condition="String.IsEmpty(Window(movieinformation).Property(origin_dbid)) + String.IsEmpty(Window(1121).Property(origin_dbid)) + String.IsEmpty(Window(1122).Property(origin_dbid))">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],origin_season=$INFO[Window.Property(origin_tmdb_season)],origin_episode=$INFO[Window.Property(origin_tmdb_episode)],return)</onclick>
+        <onclick condition="[!String.IsEmpty(Window(movieinformation).Property(origin_dbid)) | !String.IsEmpty(Window(1121).Property(origin_dbid)) | !String.IsEmpty(Window(1122).Property(origin_dbid))]">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_dbid=$INFO[Window.Property(origin_dbid)],origin_season=$INFO[Window.Property(origin_tmdb_season)],origin_episode=$INFO[Window.Property(origin_tmdb_episode)],return)</onclick>
         <onclick>Dialog.Close(1121,true)</onclick>
         <onclick>Dialog.Close(1122,true)</onclick>
     </include>
@@ -656,6 +657,7 @@
     <include name="Action_VideoInfo_Main_OnDown">
     
         <ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
+        <ondown condition="$PARAM[condition] + [!String.IsEmpty(ListItem.DBID) | !String.IsEmpty(ListItem.TvShowDBID)]">SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType])</ondown>
         <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">SetProperty(origin_tmdb_season,$INFO[Window(Home).Property(TMDbHelper.ListItem.Season)])</ondown>
         <ondown condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">SetProperty(origin_tmdb_episode,$INFO[Window(Home).Property(TMDbHelper.ListItem.Episode)])</ondown>
@@ -698,7 +700,10 @@
         <param name="condition">true</param>
         <definition>            
             <onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1121)</onclick>
+            <onclick condition="$PARAM[condition] + [!String.IsEmpty(ListItem.DBID) | !String.IsEmpty(ListItem.TvShowDBID)]">SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID],1121)</onclick>
             <onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_ContextParams_TMDbType],1121)</onclick>
+            <onclick condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">SetProperty(origin_tmdb_season,$INFO[Window(Home).Property(TMDbHelper.ListItem.Season)],1121)</onclick>
+            <onclick condition="$PARAM[condition] + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">SetProperty(origin_tmdb_episode,$INFO[Window(Home).Property(TMDbHelper.ListItem.Episode)],1121)</onclick>
         
             <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Header,"$VAR[Label_Title]",1121)</onclick>
             <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Textbox,"$VAR[Label_Overlay_PlotBox]",1121)</onclick>
