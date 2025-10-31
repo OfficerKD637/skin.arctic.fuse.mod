@@ -610,7 +610,7 @@
                             <param name="id">3012</param>
                             <param name="control">button</param>
                             <label>$LOCALIZE[31568] > $LOCALIZE[31434]</label>
-                            <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_VideoOSDWidgets,Home)</onclick>
+                            <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_VideoOSD,Home)</onclick>
                             <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31568]: $LOCALIZE[31434],Home)</onclick>
                             <onclick>ActivateWindow(1118)</onclick>
                             <visible>Container(3).HasFocus(6)</visible>
@@ -737,16 +737,47 @@
                             <onclick condition="Skin.String(OSD.HDRPopUp,HLG)">Skin.SetString(OSD.HDRPopUp,All)</onclick>
                             <visible>!String.IsEmpty(System.SupportedHDRTypes) + Skin.HasSetting(Enable.OSD.HDRPopUp)</visible>
                         </include>
-                        <include content="Settings_Button" description="Seekbar">
+                        <include content="Settings_Button" description="Autohide seekbar after pausing">
                             <param name="dialog">true</param>
                             <param name="id">6009</param>
                             <param name="control">button</param>
-                            <label>Seekbar [LOWERCASE]$LOCALIZE[31186][/LOWERCASE]</label>
                             <visible>Container(3).HasFocus(7)</visible>
-                            <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_SeekbarBehavior,Home)</onclick>
-                            <onclick>SetProperty(CustomDialogSettingsTitle,Seekbar,Home)</onclick>
-                            <onclick>ActivateWindow(1118)</onclick>
-                        </include>                        
+                            <label>$LOCALIZE[31165]</label>
+                            <label2>$VAR[Label_Setting_SeekbarPauseBehaviour]</label2>            
+                            <onclick condition="Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.SetBool(OSD.AutoHideOnPause)</onclick>
+                            <onclick condition="Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.Reset(OSD.AutoInfoOnPause)</onclick>
+
+                            <onclick condition="Skin.HasSetting(OSD.AutoHideOnPause)">Skin.Reset(OSD.AutoHideOnPause)</onclick>
+                            <onclick condition="Skin.HasSetting(OSD.AutoHideOnPause)">Skin.Reset(OSD.AutoInfoOnPause)</onclick>
+
+                            <onclick condition="!Skin.HasSetting(OSD.AutoHideOnPause) + !Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.SetBool(OSD.AutoInfoOnPause)</onclick>
+                        </include>
+                        <include content="Settings_Button" description="Autohide seekbar timing">
+                            <param name="dialog">true</param>
+                            <param name="id">6010</param>
+                            <param name="control">button</param>
+                            <visible>Container(3).HasFocus(7)</visible>
+                            <label>$LOCALIZE[31593]</label>
+                            <label2>$VAR[Label_Setting_SeekbarPauseDelay]</label2>
+
+                            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,0s)">Skin.SetString(OSD.AutoOnPause.Delay,1s)</onclick>
+                            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,1s)">Skin.SetString(OSD.AutoOnPause.Delay,2s)</onclick>
+                            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,2s)">Skin.SetString(OSD.AutoOnPause.Delay,3s)</onclick>
+                            <onclick condition="![Skin.String(OSD.AutoOnPause.Delay,0s) | Skin.String(OSD.AutoOnPause.Delay,1s) | Skin.String(OSD.AutoOnPause.Delay,2s)]">Skin.SetString(OSD.AutoOnPause.Delay,0s)</onclick>
+
+                            <visible>[Skin.HasSetting(OSD.AutoInfoOnPause) | Skin.HasSetting(OSD.AutoHideOnPause)]</visible>
+                        </include>
+                        <include content="Settings_Button" description="Seekbar times">
+                            <param name="dialog">true</param>
+                            <param name="id">6011</param>
+                            <param name="control">button</param>
+                            <visible>Container(3).HasFocus(7)</visible>
+                            <label>$LOCALIZE[31355]</label>
+                            <label2>$VAR[Label_Setting_SeekbarTimeDisplay]</label2>            
+                            <onclick condition="String.IsEmpty(Skin.String(Seekbar.TimeDisplay))">Skin.SetString(Seekbar.TimeDisplay,Remaining)</onclick>
+                            <onclick condition="Skin.String(Seekbar.TimeDisplay,Remaining)">Skin.SetString(Seekbar.TimeDisplay,Combined)</onclick>
+                            <onclick condition="Skin.String(Seekbar.TimeDisplay,Combined)">Skin.Reset(Seekbar.TimeDisplay)</onclick>
+                        </include>
                         <include content="Settings_Button" description="Background video">
                             <param name="dialog">true</param>
                             <param name="id">6031</param>

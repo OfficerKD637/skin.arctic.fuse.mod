@@ -38,7 +38,7 @@
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomStartup)">Items_Settings_CustomStartup</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_Autoscroll)">Items_Settings_Autoscroll</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_MPAACountries)">Items_Settings_MPAACountries</include>
-        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoOSDWidgets)">Items_Settings_VideoOSDWidgets</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoOSD)">Items_Settings_VideoOSD</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags)">Items_Settings_InfolineAdditionalTags</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)">Items_Settings_AutoTrailers</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RatingsMovies)">Items_Settings_RatingsMovies</include>
@@ -46,7 +46,6 @@
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_LeftFooter)">Items_Settings_LeftFooter</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RightFooter)">Items_Settings_RightFooter</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineStatus)">Items_Settings_InfolineStatus</include>
-        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_SeekbarBehavior)">Items_Settings_SeekbarBehavior</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_SideMenuBehavior)">Items_Settings_SideMenuBehavior</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseHubs)">Items_Settings_CustomiseHubs</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseWidgets)">Items_Settings_CustomiseWidgets</include>
@@ -315,45 +314,7 @@
             <label>$LOCALIZE[31280]</label>            
             <onclick>Skin.ToggleSetting(OSD.DisplayPlotWithTitle)</onclick>
             <selected>Skin.HasSetting(OSD.DisplayPlotWithTitle)</selected>
-        </include>
-        <include content="Settings_Button" description="Autohide seekbar after pausing">
-            <param name="dialog">true</param>
-            <param name="id">8003</param>
-            <param name="control">button</param>
-            <label>$LOCALIZE[31165]</label>
-            <label2>$VAR[Label_Setting_SeekbarPauseBehaviour]</label2>            
-            <onclick condition="Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.SetBool(OSD.AutoHideOnPause)</onclick>
-            <onclick condition="Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.Reset(OSD.AutoInfoOnPause)</onclick>
-
-            <onclick condition="Skin.HasSetting(OSD.AutoHideOnPause)">Skin.Reset(OSD.AutoHideOnPause)</onclick>
-            <onclick condition="Skin.HasSetting(OSD.AutoHideOnPause)">Skin.Reset(OSD.AutoInfoOnPause)</onclick>
-
-            <onclick condition="!Skin.HasSetting(OSD.AutoHideOnPause) + !Skin.HasSetting(OSD.AutoInfoOnPause)">Skin.SetBool(OSD.AutoInfoOnPause)</onclick>
-        </include>
-        <include content="Settings_Button" description="Autohide seekbar timing">
-            <param name="dialog">true</param>
-            <param name="id">8004</param>
-            <param name="control">button</param>
-            <label>$LOCALIZE[31593]</label>
-            <label2>$VAR[Label_Setting_SeekbarPauseDelay]</label2>
-
-            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,0s)">Skin.SetString(OSD.AutoOnPause.Delay,1s)</onclick>
-            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,1s)">Skin.SetString(OSD.AutoOnPause.Delay,2s)</onclick>
-            <onclick condition="Skin.String(OSD.AutoOnPause.Delay,2s)">Skin.SetString(OSD.AutoOnPause.Delay,3s)</onclick>
-            <onclick condition="![Skin.String(OSD.AutoOnPause.Delay,0s) | Skin.String(OSD.AutoOnPause.Delay,1s) | Skin.String(OSD.AutoOnPause.Delay,2s)]">Skin.SetString(OSD.AutoOnPause.Delay,0s)</onclick>
-
-            <visible>[Skin.HasSetting(OSD.AutoInfoOnPause) | Skin.HasSetting(OSD.AutoHideOnPause)]</visible>
-        </include>
-        <include content="Settings_Button" description="Seekbar times">
-            <param name="dialog">true</param>
-            <param name="id">8005</param>
-            <param name="control">button</param>
-            <label>$LOCALIZE[31355]</label>
-            <label2>$VAR[Label_Setting_SeekbarTimeDisplay]</label2>            
-            <onclick condition="String.IsEmpty(Skin.String(Seekbar.TimeDisplay))">Skin.SetString(Seekbar.TimeDisplay,Remaining)</onclick>
-            <onclick condition="Skin.String(Seekbar.TimeDisplay,Remaining)">Skin.SetString(Seekbar.TimeDisplay,Combined)</onclick>
-            <onclick condition="Skin.String(Seekbar.TimeDisplay,Combined)">Skin.Reset(Seekbar.TimeDisplay)</onclick>
-        </include>
+        </include>        
     </include>
     
     <include name="Items_Settings_InfolineStatus">
@@ -746,9 +707,59 @@
         </include>
     </include>
 
-    <include name="Items_Settings_VideoOSDWidgets">
-        <include content="Settings_Button">
+    <include name="Items_Settings_VideoOSD">
+        <include content="Settings_Button" description="Expanded info on OSD">
+            <param name="dialog">true</param>
             <param name="id">8001</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[33029]</label>            
+            <onclick>Skin.ToggleSetting(OSD.DisplayTitleDetailsOnSeek)</onclick>
+            <selected>Skin.HasSetting(OSD.DisplayTitleDetailsOnSeek)</selected>
+        </include>
+        <include content="Settings_Button" description="Expanded info plot and ratings">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[207] + $LOCALIZE[31202]</label>            
+            <onclick>Skin.ToggleSetting(OSD.DisplayPlotWithTitle)</onclick>
+            <selected>Skin.HasSetting(OSD.DisplayPlotWithTitle)</selected>
+            <visible>Skin.HasSetting(OSD.DisplayTitleDetailsOnSeek)</visible>
+        </include>
+        
+        <include content="Settings_Label">
+            <param name="id">8003</param>
+            <param name="dialog">true</param>
+            <label>$LOCALIZE[31605]</label>
+            <visible>Skin.HasSetting(OSD.AutoInfoOnPause)</visible>
+        </include>
+        
+        <include content="Settings_Button" description="Expanded info landscape art">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+            <param name="control">radiobutton</param>
+            <visible>Skin.HasSetting(OSD.AutoInfoOnPause)</visible>
+            <label>$LOCALIZE[31045]</label>
+            <selected>!Skin.HasSetting(OSD.InfoOverlay.DisableLandscapeOnInfo)</selected>
+            <onclick>Skin.ToggleSetting(OSD.InfoOverlay.DisableLandscapeOnInfo)</onclick>
+        </include>
+        <include content="Settings_Button" description="Expanded info plot and ratings">
+            <param name="dialog">true</param>
+            <param name="id">8005</param>
+            <param name="control">radiobutton</param>
+            <visible>Skin.HasSetting(OSD.AutoInfoOnPause)</visible>
+            <label>$LOCALIZE[207] + $LOCALIZE[31202]</label>
+            <selected>!Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)</selected>
+            <onclick>Skin.ToggleSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)</onclick>
+        </include>
+        
+        <include content="Settings_Label">
+            <param name="id">8006</param>
+            <param name="dialog">true</param>
+            <label>$LOCALIZE[31103]</label>
+        </include>
+        
+        <include content="Settings_Button">
+            <param name="id">8007</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(OSD.OnDown.DisablePVROSDGuide)</onclick>
@@ -756,7 +767,7 @@
             <label>$LOCALIZE[19069]</label>
         </include>
         <include content="Settings_Button">
-            <param name="id">8004</param>
+            <param name="id">8008</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(OSD.OnDown.DisablePVROSDChannels)</onclick>
@@ -764,23 +775,23 @@
             <label>$LOCALIZE[19019]</label>
         </include>
         <include content="Settings_Button">
-            <param name="id">8002</param>
+            <param name="id">8009</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(OSD.OnDown.Disable1140)</onclick>
             <selected>!Skin.HasSetting(OSD.OnDown.Disable1140)</selected>
-            <label>$LOCALIZE[559] / $LOCALIZE[20360]</label>
+            <label>$LOCALIZE[559] + $LOCALIZE[20360]</label>
         </include>
         <include content="Settings_Button">
-            <param name="id">8003</param>
+            <param name="id">8010</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(OSD.OnDown.DisableVideoBookmarks)</onclick>
             <selected>!Skin.HasSetting(OSD.OnDown.DisableVideoBookmarks)</selected>
-            <label>$LOCALIZE[298] / $LOCALIZE[31429]</label>
+            <label>$LOCALIZE[298] + $LOCALIZE[31429]</label>
         </include>
         <include content="Settings_Button">
-            <param name="id">8005</param>
+            <param name="id">8011</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <onclick>Skin.ToggleSetting(OSD.OnDown.Disable1141)</onclick>
