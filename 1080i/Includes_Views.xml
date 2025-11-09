@@ -18,14 +18,19 @@
                 <visible>!Window.IsVisible(DialogPVRGroupManager.xml)</visible>
                 <control type="group">
                     <visible allowhiddenfocus="true">![String.IsEmpty(Window.Property(MediaFilterBase)) + [Control.HasFocus(19) | ControlGroup(9090).HasFocus() | Control.HasFocus(9992) | Control.HasFocus(9993)]]</visible>
-                    <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
-                        <param name="label">$PARAM[label]</param>
-                    </include>
                     <control type="group">
-                        <visible>[$EXP[Exp_View_FurnitureWall] | [$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)]]</visible>
-                        <include content="Animation_Fade_In">
-                            <param name="condition">$EXP[Exp_View_FurnitureWall]</param>
+                        <include content="Animation_Fade_Out">
+                            <param name="condition">[[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallStyle)]</param>
                         </include>
+                        <include content="Animation_Fade_In">
+                            <param name="condition">![[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallStyle)]</param>
+                        </include>
+                        <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                            <param name="label">$PARAM[label]</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <visible>$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle) + ![$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallStyle)]</visible>
                         <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
                             <param name="label">$PARAM[label]</param>
                             <param name="include_left_datelabel">false</param>
@@ -405,16 +410,16 @@
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
             <control type="group">                
-                <animation type="Conditional" reversible="false" condition="$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]">
+                <animation type="Conditional" reversible="false" condition="$EXP[Exp_View_WallMode] | [$EXP[Exp_View_FurnitureWall] + !$EXP[Exp_View_WallVert]]">
                     <effect type="slide" end="0,-334" start="0" time="200" delay="0" tween="cubic" easing="out" />
                 </animation>
-                <animation type="Conditional" reversible="false" condition="![$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">
+                <animation type="Conditional" reversible="false" condition="![$EXP[Exp_View_WallMode] | [$EXP[Exp_View_FurnitureWall] + !$EXP[Exp_View_WallVert]]]">
                     <effect type="slide" start="0,-334" end="0" time="200" delay="0" tween="cubic" easing="out" />
                 </animation>                
                 <animation type="Conditional" reversible="false" condition="[Control.IsVisible(524) + Skin.HasSetting(Disable.ComboListDetailedView)]">
                     <effect type="slide" end="0,-183" start="0" time="200" delay="0" tween="cubic" easing="out" />
                 </animation>
-                <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)">Conditional</animation>                
+                <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="[[$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)] | [[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallStyle)]]">Conditional</animation>                
                 
                 <include>Animation_Trailer_Dim</include>
                 <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>

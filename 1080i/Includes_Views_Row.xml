@@ -11,6 +11,8 @@
         <param name="wall_rightpadding_horz" />
         <param name="wall_offsetx">view_offx</param>
         <param name="wall_offsety">40</param>
+        <param name="wall_posy">-117</param>
+        <param name="wall_animnumitems">8</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id]8)</visible>
@@ -25,8 +27,16 @@
                     <param name="orientation">vertical</param>
                     <param name="preloaditems">2</param>
                     <param name="offset_y">$PARAM[wall_offsety]</param>
-                    <top>$PARAM[wall_toppadding]</top>
-                    <bottom>$PARAM[wall_bottompadding]</bottom>
+                    <animation effect="slide" start="0" end="0,$PARAM[wall_posy]" tween="cubic" easing="out" time="300" condition="Skin.HasSetting(View.SwitchVerticalWallStyle) + Integer.IsGreater(Container.NumItems,$PARAM[wall_animnumitems]) + Integer.IsGreaterOrEqual(Container.Position,$PARAM[wall_animnumitems])">Conditional</animation>
+                    <include content="Object_Top" condition="!Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                        <param name="top">$PARAM[wall_toppadding]</param>
+                    </include>
+                    <include content="Object_Bottom" condition="!Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                        <param name="bottom">$PARAM[wall_bottompadding]</param>
+                    </include>
+                    <include content="Object_Bottom" condition="Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                        <param name="bottom">$PARAM[wall_posy]</param>
+                    </include>
                     <left>$PARAM[wall_leftpadding]</left>
                     <right>$PARAM[wall_rightpadding]</right>
                     <onback>ClearProperty(FurnitureWallMode)</onback>
@@ -79,6 +89,23 @@
                     <onfocus>SetFocus($PARAM[id]8)</onfocus>
                 </include>
             </control>
+            <control type="group">
+                <visible>Skin.HasSetting(View.SwitchVerticalWallStyle) + $EXP[Exp_View_WallVert]</visible>
+                <control type="image">
+                    <top>0</top>
+                    <height>view_side</height>
+                    <texture colordiffuse="main_bg_90" flipy="true">common/gradient-v.png</texture>
+                    <animation effect="fade" start="0" end="100" time="300" tween="sine" easing="in" condition="Integer.IsGreaterOrEqual(Container.Position,$PARAM[wall_animnumitems])" reversible="false">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="300" tween="sine" easing="in" condition="![Integer.IsGreaterOrEqual(Container.Position,$PARAM[wall_animnumitems])]" reversible="false">Conditional</animation>
+                </control>
+                <control type="image">
+                    <bottom>0</bottom>
+                    <height>view_side</height>
+                    <texture colordiffuse="main_bg_90">common/gradient-v.png</texture>
+                    <animation effect="fade" start="0" end="100" time="300" tween="sine" easing="in" condition="Container.HasNext" reversible="false">Conditional</animation>
+                    <animation effect="fade" start="100" end="0" time="300" tween="sine" easing="in" condition="!Container.HasNext" reversible="false">Conditional</animation>
+                </control>
+            </control>
         </definition>
     </include>
 
@@ -87,6 +114,8 @@
         <include content="View_Row_Include">
             <param name="id">50</param>
             <param name="wall_rightpadding">180</param>
+            <param name="wall_posy">-122</param>
+            <param name="wall_animnumitems">14</param>
             <param name="wall_include">List_Square_Wall</param>
             <param name="include">List_Square_Row</param>
             <param name="viewtype_label">$LOCALIZE[31320]</param>
@@ -114,6 +143,8 @@
             <param name="wall_rightpadding">180</param>
             <param name="wall_rightpadding_horz">180</param>
             <param name="wall_offsety">20</param>
+            <param name="wall_posy">-102</param>
+            <param name="wall_animnumitems">14</param>
             <param name="wall_include">List_Poster_Wall</param>
             <param name="include">List_Poster_Row</param>
             <param name="viewtype_label">$LOCALIZE[20021]</param>
@@ -127,6 +158,8 @@
             <param name="id">500</param>
             <param name="wall_rightpadding">180</param>
             <param name="wall_rightpadding_horz">180</param>
+            <param name="wall_posy">-122</param>
+            <param name="wall_animnumitems">14</param>
             <param name="wall_include">List_Circle_Wall</param>
             <param name="include">List_Circle_Row</param>
             <param name="viewtype_label">$LOCALIZE[31431]</param>
@@ -141,6 +174,8 @@
             <param name="wall_toppadding">260</param>
             <param name="wall_offsety">20</param>
             <param name="wall_bottompadding">114</param>
+            <param name="wall_posy">-140</param>
+            <param name="wall_animnumitems">21</param>
             <param name="wall_include">List_MiniBanner_Wall</param>
             <param name="include">List_Banner_Row</param>
             <param name="viewtype_label">$LOCALIZE[20020]</param>
@@ -169,6 +204,8 @@
         <include content="View_Row_Include">
             <param name="id">533</param>
             <param name="wall_offsety">35</param>
+            <param name="wall_posy">-117</param>
+            <param name="wall_animnumitems">6</param>
             <param name="wall_include">List_Overview_Wall</param>
             <param name="include">List_Overview_Row</param>
             <param name="viewtype_label">$LOCALIZE[31419]</param>
@@ -182,6 +219,8 @@
             <param name="id">531</param>
             <param name="wall_toppadding">260</param>
             <param name="wall_offsety">20</param>
+            <param name="wall_posy">-102</param>
+            <param name="wall_animnumitems">6</param>
             <param name="wall_include">List_Board_Wall</param>
             <param name="include">List_Board_Row</param>
             <param name="viewtype_label">$LOCALIZE[31424]</param>
@@ -191,6 +230,8 @@
             <param name="id">531</param>
             <param name="wall_toppadding">260</param>
             <param name="wall_offsety">20</param>
+            <param name="wall_posy">-102</param>
+            <param name="wall_animnumitems">6</param>
             <param name="wall_include">List_Placard_Wall</param>
             <param name="include">List_Placard_Row</param>
             <param name="viewtype_label">$LOCALIZE[31424] (T)</param>
@@ -247,6 +288,8 @@
                 <param name="wall_rightpadding_horz">$PARAM[wall_rightpadding_horz]</param>
                 <param name="wall_offsetx">$PARAM[wall_offsetx]</param>
                 <param name="wall_offsety">$PARAM[wall_offsety]</param>
+                <param name="wall_posy">$PARAM[wall_posy]</param>
+                <param name="wall_animnumitems">$PARAM[wall_animnumitems]</param>
             </include>
         </definition>
     </include>
