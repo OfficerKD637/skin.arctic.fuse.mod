@@ -15,7 +15,7 @@
         <include>Dialog_Dim_Overlay</include>
 
         <control type="group">
-            <include>Dimension_DialogFullMenu</include>
+            <include>Dimension_DialogMainMenu</include>
             <include>Animation_Right_Delay</include>
             <include content="Dialog_Dim_Side">
                 <param name="slide_condition">True</param>
@@ -24,7 +24,7 @@
             <!-- Bottom Layer -->
             <include content="Dialog_Background_Side">
                 <param name="slide_condition">True</param>
-                <param name="dialog_size">Dimension_DialogFullMenu</param>
+                <param name="dialog_size">Dimension_DialogMainMenu</param>
                 <!-- Side Buttons -->
                 <control type="group">
                     <include>Dimension_Dialog_Body</include>
@@ -35,6 +35,8 @@
                         <onright condition="String.IsEmpty(Window.Property(TrailerItemsDialog)) + Player.HasVideo">Seek(10)</onright>
                         <onleft condition="!String.IsEmpty(Window.Property(TrailerItemsDialog))">SetFocus(8000,absolute)</onleft>
                         <onright condition="!String.IsEmpty(Window.Property(TrailerItemsDialog))">SetFocus(8000,absolute)</onright>
+                        <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">ClearProperty(TrailerFullscreen,1123)</onback>
+                        <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">9000</onback>
                         <include content="Dialog_Side_Button">
                             <param name="id">02</param>
                             <param name="label">$LOCALIZE[31485]</param>
@@ -65,8 +67,6 @@
                             <param name="label">$LOCALIZE[35232]</param>
                             <param name="icon">special://skin/extras/icons/fullscreen.png</param>
                             <param name="visible">Player.HasVideo</param>
-                            <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">ClearProperty(TrailerFullscreen,1123)</onback>
-                            <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">9000</onback>
                             <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">SetProperty(TrailerFullscreen,True,1123)</onclick>
                             <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
                             <onunfocus>ClearProperty(TrailerFullscreen,1123)</onunfocus>
@@ -84,7 +84,7 @@
             </include>
 
             <include content="Dialog_Foreground_Side">
-                <param name="dialog_size">Dimension_DialogFullMenu</param>
+                <param name="dialog_size">Dimension_DialogMainMenu</param>
                 <param name="slide_condition">True</param>
                 <param name="lines_right">0</param>
                 <param name="topline">true</param>
@@ -216,16 +216,12 @@
             </control>
             
             <control type="videowindow">
-                <centertop>540</centertop>
-                <centerright>960</centerright>
                 <!-- To remove black bars forcibly, use height=1461 and width=2600 --> 
-                <height>100%</height>
-                <width>100%</width>
             </control>
             
             <control type="group">
-                <animation condition="System.IdleTime(4)" effect="fade" start="100" end="0" time="250" reversible="true">Conditional</animation>
-                <!-- Side Buttons_Fullscreen -->
+                <animation condition="$EXP[Exp_OSD_DelayInfo_Timing]" effect="fade" start="100" end="0" time="300" reversible="true">Conditional</animation>
+                <!-- OSD Fullscreen -->
                 <control type="group">
                     <centerbottom>60</centerbottom>
                     <centerleft>view_pad</centerleft>
