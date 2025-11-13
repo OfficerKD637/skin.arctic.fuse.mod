@@ -1231,6 +1231,22 @@
             </control>
         </definition>
     </include>
+    
+    <include name="OSD_Poster_Info">
+        <definition>
+            <control type="group">
+                <height>view_poster_item_h</height>
+                <width>view_poster_item_w</width>
+                <align>top</align>
+                <left>view_side</left>
+                <bottom>220</bottom>
+                <include>Object_ItemBack</include>
+                <control type="image">
+                    <texture background="true" diffuse="diffuse/poster_w200_h294.png">$VAR[Image_OSD_Poster]</texture>
+                </control>
+            </control>
+        </definition>
+    </include>
 
     <include name="OSD_QuickInfo">
         <control type="group">
@@ -1249,9 +1265,13 @@
                     <animation effect="fade" time="200" start="100" end="0" condition="Window.IsVisible(1143)" reversible="false">Conditional</animation>
                     <animation effect="fade" time="200" delay="200" end="100" start="0" condition="!Window.IsVisible(1143)" reversible="false">Conditional</animation>
                     <visible>![Window.IsVisible(pvrosdguide) | Window.IsVisible(pvrosdchannels) | Window.IsVisible(videobookmarks) | Window.IsVisible(1140) | Window.IsVisible(1141)]</visible>
-                    <include condition="!Skin.HasSetting(OSD.InfoOverlay.DisableLandscapeOnInfo)">OSD_Landscape_Info</include>
+                    <include condition="String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Landscape)">OSD_Landscape_Info</include>
                 </control>
                 <control type="group">
+                    <include condition="String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Poster)">OSD_Poster_Info</include>
+                </control>
+                <control type="group">
+                    <animation effect="slide" end="240" start="0" condition="String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Poster)">Conditional</animation>
                     <include content="OSD_Progress_Details">
                         <param name="visible">[True]</param>
                         <param name="plot_visible">!Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)</param>
