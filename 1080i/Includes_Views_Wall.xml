@@ -75,6 +75,7 @@
             <param name="right_padding_horz">180</param>
             <param name="pos_y">-102</param>
             <param name="anim_numitems">14</param>
+            <param name="detailed">Skin.HasSetting(Enable.WallDetailedLabels) + Skin.HasSetting(View.SwitchVerticalWallSize)</param>
             <param name="visible">$EXP[Exp_View_585]</param>
         </include>
         <include content="View_Wall_Include" condition="Skin.HasSetting(View.SwitchWallStyle)">
@@ -280,15 +281,16 @@
                         <param name="item_w">$PARAM[item_w]</param>
                         <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                         <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
+                        <param name="detailed">$PARAM[detailed]</param>
                         <preloaditems>0</preloaditems>
-                        <animation effect="slide" start="0" end="0,$PARAM[pos_y]" tween="cubic" easing="out" time="300" condition="Skin.HasSetting(View.SwitchVerticalWallStyle) + Integer.IsGreater(Container.NumItems,$PARAM[anim_numitems]) + Integer.IsGreaterOrEqual(Container.Position,$PARAM[anim_numitems])">Conditional</animation>
-                        <include content="Object_Top" condition="!Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                        <animation effect="slide" start="0" end="0,$PARAM[pos_y]" tween="cubic" easing="out" time="300" condition="Skin.HasSetting(View.SwitchVerticalWallSize) + Integer.IsGreater(Container.NumItems,$PARAM[anim_numitems]) + Integer.IsGreaterOrEqual(Container.Position,$PARAM[anim_numitems])">Conditional</animation>
+                        <include content="Object_Top" condition="!Skin.HasSetting(View.SwitchVerticalWallSize)">
                             <param name="top">$PARAM[top]</param>
                         </include>
-                        <include content="Object_Bottom" condition="!Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                        <include content="Object_Bottom" condition="!Skin.HasSetting(View.SwitchVerticalWallSize)">
                             <param name="bottom">$PARAM[bottom_padding]</param>
                         </include>
-                        <include content="Object_Bottom" condition="Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                        <include content="Object_Bottom" condition="Skin.HasSetting(View.SwitchVerticalWallSize)">
                             <param name="bottom">$PARAM[pos_y]</param>
                         </include>
                         <right>$PARAM[right_padding]</right>
@@ -339,7 +341,7 @@
                         <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
                     </include>
                     <control type="group">
-                        <visible>Skin.HasSetting(View.SwitchVerticalWallStyle) + $EXP[Exp_View_WallVert]</visible>
+                        <visible>Skin.HasSetting(View.SwitchVerticalWallSize) + $EXP[Exp_View_WallVert]</visible>
                         <control type="image">
                             <top>0</top>
                             <height>view_side</height>

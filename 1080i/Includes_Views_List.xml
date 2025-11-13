@@ -7,33 +7,113 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">802.67</param>
+            <param name="right">831</param>
             <include>View_MediaList_PosterLandscape</include>
         </include>
         <include content="View_MediaList_Include" condition="!Window.IsVisible(MyVideoNav.xml)">
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">896.67</param>
+            <param name="right">920</param>
             <include>View_MediaList_SquareLandscape</include>
         </include>
     </include>
+    
+    <!-- Landscape List -->
     <include name="View_516_Landscape_MediaList">
         <include content="View_MediaList_Include">
             <param name="id">516</param>
             <param name="viewtype_label">$LOCALIZE[31480]</param>
             <param name="visible">$EXP[Exp_View_516]</param>
-            <param name="right">view_board_itemlayout_w</param>
+            <param name="right">590</param>
             <include>View_MediaList_Landscape</include>
         </include>
     </include>
+    
+    <!-- BigPoster List -->
     <include name="View_517_BigPoster_MediaList">
-        <include content="View_MediaList_Include">
+        <include content="View_MediaList_Include" condition="!Skin.HasSetting(Disable.ListBigPosterDetailedView)">
             <param name="id">517</param>
             <param name="viewtype_label">List BigPoster</param>
             <param name="visible">$EXP[Exp_View_517]</param>
-            <param name="right">view_board_itemlayout_w</param>
+            <param name="right">590</param>
             <include>View_MediaList_BigPoster</include>
+        </include>
+        <include content="View_MediaList_Include" condition="Skin.HasSetting(Disable.ListBigPosterDetailedView)">
+            <param name="id">517</param>
+            <param name="viewtype_label">List BigPoster</param>
+            <param name="visible">$EXP[Exp_View_517]</param>
+            <param name="top">180</param>
+            <param name="right">590</param>
+            <include>View_MediaList_BigPoster</include>
+        </include>
+    </include>
+    
+    <!-- BigLandscape List -->
+    <include name="View_519_BigLandscape_MediaList">
+        <include content="View_MediaList_Include" condition="!Skin.HasSetting(Disable.ListBigLandscapeDetailedView)">
+            <param name="id">519</param>
+            <param name="viewtype_label">List BigLandscape</param>
+            <param name="visible">$EXP[Exp_View_519]</param>
+            <param name="right">1010</param>
+            <include>View_MediaList_BigLandscape</include>
+        </include>
+        
+        <include content="View_MediaList_Include" condition="Skin.HasSetting(Disable.ListBigLandscapeDetailedView)">
+            <param name="id">519</param>
+            <param name="viewtype_label">List BigLandscape</param>
+            <param name="visible">$EXP[Exp_View_519]</param>
+            <param name="top">180</param>
+            <param name="right">1010</param>
+            <include>View_MediaList_BigLandscape</include>
+        </include>
+    </include>
+    
+    <!-- Expanded List-->
+    <include name="View_520_Expanded_MediaList">
+        <include content="View_MediaList_Include">
+            <param name="id">520</param>
+            <param name="viewtype_label">$LOCALIZE[31427]</param>
+            <param name="visible">$EXP[Exp_View_520]</param>
+            <param name="left">-60</param>
+            <param name="right">375</param>
+            <param name="top">180</param>
+            <param name="bottom">0</param>
+            <param name="focusposition">1</param>
+            <param name="movement">1</param>
+            <param name="overlay">true</param>
+            <param name="itemlayout_include">Layout_MediaList_Detailed</param>
+            <param name="item_height">193.33</param>
+            <param name="misc">237.037</param>
+            <param name="diffuse">diffuse/landscape_w200_h112.png</param>
+
+            <control type="group">
+                <right>-40</right>
+                
+                <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                
+                <bottom>40</bottom>
+                <height>606</height>
+                <control type="group">
+                    <right>15</right>
+                    <height>606</height>
+                    <width>410</width>
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+                    <include content="Transitions_Standard_Animation">
+                        <param name="visible_delay">120</param>
+                        <param name="hidden_delay">240</param>
+                        <param name="slide_x">320</param>
+                    </include>
+                    <include content="Layout_Poster">
+                        <param name="icon">$VAR[Image_Poster]</param>
+                        <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                        <param name="indicator">true</param>
+                        <param name="item_w">385</param>
+                        <param name="item_h">606</param>
+                    </include>
+                </control>
+            </control>
         </include>
     </include>
     
@@ -216,7 +296,7 @@
                                 <param name="id">$PARAM[comboid]</param>
                                 <param name="textcolor">main_fg</param>
                                 <param name="control">fixedlist</param>
-                                <param name="itemlayout_include">Layout_MediaList_Detailed</param>
+                                <param name="itemlayout_include">Layout_ComboList_Detailed</param>
                                 <param name="variation">7</param>
 
                                 <param name="item_height">293.33</param>
@@ -305,7 +385,7 @@
             <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             
             <bottom>0</bottom>
-             <height>view_poster_itemlayout_h</height>
+            <height>view_poster_itemlayout_h</height>
             <control type="group">
                 <right>0</right>
                 <height>view_poster_itemlayout_h</height>
@@ -338,8 +418,8 @@
             <height>764.4</height>
             <control type="group">
                 <right>0</right>
-                <height>764.4</height>
-                <width>view_board_itemlayout_w</width>
+                <height>827.82</height>
+                <width>560</width>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include content="Transitions_Standard_Animation">
                     <param name="visible_delay">120</param>
@@ -350,8 +430,38 @@
                     <param name="icon">$VAR[Image_Poster]</param>
                     <param name="diffuse">diffuse/poster_w460_h680.png</param>
                     <param name="indicator">true</param>
-                    <param name="item_w">view_board_item_w</param>
-                    <param name="item_h">764.4</param>
+                    <param name="item_w">520</param>
+                    <param name="item_h">827.82</param>
+                </include>
+            </control>
+        </control>
+    </include>
+    
+    <include name="View_MediaList_BigLandscape">
+        <control type="group">
+            <right>-40</right>
+            
+            <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+            <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+            
+            <bottom>20</bottom>
+            <height>560.7</height>
+            <control type="group">
+                <right>40</right>
+                <height>560.7</height>
+                <width>940</width>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <include content="Transitions_Standard_Animation">
+                    <param name="visible_delay">120</param>
+                    <param name="hidden_delay">240</param>
+                    <param name="slide_x">320</param>
+                </include>
+                <include content="Layout_Poster">
+                    <param name="icon">$VAR[Image_Landscape]</param>
+                    <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
+                    <param name="indicator">true</param>
+                    <param name="item_w">940</param>
+                    <param name="item_h">560.7</param>
                 </include>
             </control>
         </control>
@@ -410,6 +520,10 @@
     <include name="View_MediaList_SquareLandscape">
         <control type="group">
             <right>-40</right>
+            
+            <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+            <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+            
             <bottom>0</bottom>
             <height>view_poster_itemlayout_h</height>
             <control type="group">
@@ -453,6 +567,12 @@
 
     <include name="View_MediaList_Include">
         <param name="overlay">false</param>
+        <param name="scrollbar_id">60</param>
+        <param name="control">fixedlist</param>
+        <param name="itemlayout_include">Layout_MediaList</param>
+        <param name="left">-20</param>
+        <param name="bottom">20</param>
+        <param name="top">402</param>
         <definition>
 
             <control type="group">
@@ -462,10 +582,10 @@
                 <nested />
 
                 <control type="group">
-                    <left>-20</left>
+                    <left>$PARAM[left]</left>
                     <right>$PARAM[right]</right>
-                    <bottom>20</bottom>
-                    <top>402</top>
+                    <bottom>$PARAM[bottom]</bottom>
+                    <top>$PARAM[top]</top>
 
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
 
@@ -483,8 +603,11 @@
                     <include content="List_DialogSelect">
                         <param name="id">$PARAM[id]</param>
                         <param name="textcolor">main_fg</param>
-                        <param name="control">fixedlist</param>
-                        <param name="itemlayout_include">Layout_MediaList</param>                        
+                        <param name="control">$PARAM[control]</param>
+                        <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
+                        <param name="item_height">$PARAM[item_height]</param>
+                        <param name="variation">$PARAM[variation]</param>
+                        <param name="misc">$PARAM[misc]</param>                       
                         
                         <right>30</right>                        
 
@@ -505,7 +628,7 @@
                         <focusposition>1</focusposition>
                         <movement>2</movement>
                         <top>15</top>
-                        <pagecontrol>60</pagecontrol>
+                        <pagecontrol>$PARAM[scrollbar_id]</pagecontrol>
                         <visible>$PARAM[visible]</visible>
                         <viewtype label="$PARAM[viewtype_label]">list</viewtype>
                         <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>

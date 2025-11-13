@@ -13,6 +13,7 @@
         <param name="wall_offsety">40</param>
         <param name="wall_posy">-117</param>
         <param name="wall_animnumitems">8</param>
+        <param name="wall_detailed">false</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id]8)</visible>
@@ -28,14 +29,15 @@
                     <param name="preloaditems">2</param>
                     <param name="offset_x">200</param>
                     <param name="offset_y">$PARAM[wall_offsety]</param>
-                    <animation effect="slide" start="0" end="0,$PARAM[wall_posy]" tween="cubic" easing="out" time="300" condition="Skin.HasSetting(View.SwitchVerticalWallStyle) + Integer.IsGreater(Container.NumItems,$PARAM[wall_animnumitems]) + Integer.IsGreaterOrEqual(Container.Position,$PARAM[wall_animnumitems])">Conditional</animation>
-                    <include content="Object_Top" condition="!Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                    <param name="detailed">$PARAM[wall_detailed]</param>
+                    <animation effect="slide" start="0" end="0,$PARAM[wall_posy]" tween="cubic" easing="out" time="300" condition="Skin.HasSetting(View.SwitchVerticalWallSize) + Integer.IsGreater(Container.NumItems,$PARAM[wall_animnumitems]) + Integer.IsGreaterOrEqual(Container.Position,$PARAM[wall_animnumitems])">Conditional</animation>
+                    <include content="Object_Top" condition="!Skin.HasSetting(View.SwitchVerticalWallSize)">
                         <param name="top">$PARAM[wall_toppadding]</param>
                     </include>
-                    <include content="Object_Bottom" condition="!Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                    <include content="Object_Bottom" condition="!Skin.HasSetting(View.SwitchVerticalWallSize)">
                         <param name="bottom">$PARAM[wall_bottompadding]</param>
                     </include>
-                    <include content="Object_Bottom" condition="Skin.HasSetting(View.SwitchVerticalWallStyle)">
+                    <include content="Object_Bottom" condition="Skin.HasSetting(View.SwitchVerticalWallSize)">
                         <param name="bottom">$PARAM[wall_posy]</param>
                     </include>
                     <left>$PARAM[wall_leftpadding]</left>
@@ -91,7 +93,7 @@
                 </include>
             </control>
             <control type="group">
-                <visible>Skin.HasSetting(View.SwitchVerticalWallStyle) + $EXP[Exp_View_WallVert]</visible>
+                <visible>Skin.HasSetting(View.SwitchVerticalWallSize) + $EXP[Exp_View_WallVert]</visible>
                 <control type="image">
                     <top>0</top>
                     <height>view_side</height>
@@ -146,6 +148,7 @@
             <param name="wall_offsety">20</param>
             <param name="wall_posy">-102</param>
             <param name="wall_animnumitems">14</param>
+            <param name="wall_detailed">Skin.HasSetting(Enable.WallDetailedLabels) + Skin.HasSetting(View.SwitchVerticalWallSize)</param>
             <param name="wall_include">List_Poster_Wall</param>
             <param name="include">List_Poster_Row</param>
             <param name="viewtype_label">$LOCALIZE[20021]</param>
@@ -291,6 +294,7 @@
                 <param name="wall_offsety">$PARAM[wall_offsety]</param>
                 <param name="wall_posy">$PARAM[wall_posy]</param>
                 <param name="wall_animnumitems">$PARAM[wall_animnumitems]</param>
+                <param name="wall_detailed">$PARAM[wall_detailed]</param>
             </include>
         </definition>
     </include>
