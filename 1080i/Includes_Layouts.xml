@@ -2095,6 +2095,7 @@
 
     <include name="Layout_Poster">
         <param name="detailed">false</param>
+        <param name="wall_textlabels">false</param>
         <param name="selected">false</param>
         <param name="indicator">true</param>
         <param name="diffuse">diffuse/poster_w200_h294.png</param>
@@ -2145,6 +2146,17 @@
                     </include>
                 </control>
                 <control type="group">
+                    <include content="Layout_Landscape_Labels" condition="$PARAM[wall_textlabels]">
+                        <param name="top">5</param>
+                        <param name="left">5</param>
+                        <param name="right">5</param>
+                        <param name="item_h">$PARAM[item_h]</param>
+                        <param name="affix">$PARAM[affix]</param>
+                        <param name="listitem">$PARAM[listitem]</param>
+                        <param name="textcolor">main_fg</param>
+                        <param name="wall_textlabels">true</param>
+                        <param name="align">center</param>
+                    </include>
                     <include content="Object_ContentBanner" condition="$PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
                     </include>
@@ -3264,6 +3276,7 @@
         <param name="fade">false</param>
         <param name="selected">false</param>
         <param name="align">left</param>
+        <param name="wall_textlabels">false</param>
         <definition>
             <control type="image">
                 <texture border="12" colordiffuse="e7ffffff">diffuse/poster_fade.png</texture>
@@ -3300,8 +3313,16 @@
                     </control>
 
                     <control type="group">
-                        <include content="Object_InfoCircle_Text_Sub">
+                        <include content="Object_InfoCircle_Text_Sub" condition="![$PARAM[wall_textlabels]]">
                             <label>$VAR[Label_Landscape_Lower$PARAM[affix]]</label>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>$PARAM[textcolor]_70</textcolor>
+                            <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                            <align>$PARAM[align]</align>
+                            <visible>String.IsEmpty($PARAM[listitem].ChannelNumberLabel)</visible>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[wall_textlabels]">
+                            <label>$INFO[$PARAM[listitem].Year]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
                             <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
