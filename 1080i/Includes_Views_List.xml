@@ -421,18 +421,46 @@
                 <height>827.82</height>
                 <width>560</width>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <include content="Transitions_Standard_Animation">
-                    <param name="visible_delay">120</param>
-                    <param name="hidden_delay">240</param>
-                    <param name="slide_x">320</param>
-                </include>
-                <include content="Layout_Poster">
-                    <param name="icon">$VAR[Image_Poster]</param>
-                    <param name="diffuse">diffuse/poster_w460_h680.png</param>
-                    <param name="indicator">true</param>
-                    <param name="item_w">520</param>
-                    <param name="item_h">827.82</param>
-                </include>
+                <control type="group">
+                    <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))]</visible>
+                    <include content="Transitions_Standard_Animation">
+                        <param name="visible_delay">120</param>
+                        <param name="hidden_delay">240</param>
+                        <param name="slide_x">320</param>
+                    </include>
+                    <include content="Layout_Poster">
+                        <param name="icon">$VAR[Image_Poster]</param>
+                        <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                        <param name="indicator">true</param>
+                        <param name="item_w">520</param>
+                        <param name="item_h">827.82</param>
+                    </include>
+                </control>
+                <control type="group">
+                    <visible>String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))</visible>
+                    <include content="Transitions_Standard_Animation">
+                        <param name="visible_delay">120</param>
+                        <param name="hidden_delay">240</param>
+                        <param name="slide_x">320</param>
+                    </include>
+                    <control type="image">
+                        <width>520</width>
+                        <height>520</height>
+                        <centerbottom>520</centerbottom>
+                        <texture background="true">$VAR[Image_DiscArt]</texture>
+                        <bordersize>20</bordersize>
+                        <animation effect="rotate" condition="Player.Playing" start="0" end="-360" loop="true" time="30000" center="auto" reversible="false">Conditional</animation>
+                        <visible>![String.IsEmpty(ListItem.Art(discart)) + String.IsEmpty(ListItem.Art(album.discart))]</visible>
+                    </control>
+                    <include content="Object_BigPoster">
+                        <param name="icon">$VAR[Image_Poster]</param>
+                        <param name="diffuse">diffuse/square_w600_h600.png</param>
+                        <width>520</width>
+                        <height>520</height>
+                        <right>40</right>
+                        <bottom>0</bottom>
+                    </include>
+                </control>
             </control>
         </control>
     </include>
