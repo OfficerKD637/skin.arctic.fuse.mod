@@ -91,7 +91,7 @@
                 <param name="labelheight">$PARAM[labelheight]</param>
                 <param name="include">$PARAM[include]</param>                
                 <include condition="$PARAM[transition_include]">Animation_Transition_InfoPanel_Cond</include>
-                <include content="Transitions_Lower_Visibility" condition="$PARAM[transition_include]">
+                <include content="Widget_Lower_Visibility" condition="$PARAM[transition_include]">
                     <param name="hidden">![$PARAM[transition_hidden]]</param>
                 </include>
                 <include content="Animation_ConditionalFade">
@@ -118,10 +118,10 @@
                     <param name="h">view_poster_item_h</param>
                 </include>
 
-                <include content="Transitions_List_Visibility" condition="$PARAM[transition_include]">
+                <include content="Widget_List_Visibility" condition="$PARAM[transition_include]">
                     <param name="hidden">$PARAM[transition_hidden]</param>
                 </include>
-                <include content="Transitions_Lower_Visibility" condition="$PARAM[transition_include]">
+                <include content="Widget_Lower_Visibility" condition="$PARAM[transition_include]">
                     <param name="hidden">![$PARAM[transition_hidden]]</param>
                 </include>
 
@@ -895,215 +895,6 @@
         </control>
     </include>    
 
-    <include name="Widget_Fake_Row_PreItem_Animation">
-        <include content="Animation_Fade_In">
-            <param name="type">Visible</param>
-        </include>
-        <include content="Animation_Fade_Out">
-            <param name="type">Hidden</param>
-        </include>
-    </include>
-
-    <include name="Widget_Fake_Row">
-        <param name="content">Layout_Landscape</param>
-        <param name="icon_base_var">Image_Landscape</param>
-        <param name="itemlayout_w">420</param>
-        <param name="item_w">380</param>
-        <param name="item_h">view_landscape_item_h</param>
-        <param name="prefix">transition_landscape</param>
-        <param name="overhang_visible">false</param>
-        <param name="left_padding">200</param>
-        <param name="top_padding">586</param>
-        <definition>
-            <control type="group">
-                <nested />
-                <left>$PARAM[left_padding]</left>
-                <top>$PARAM[top_padding]</top>
-
-                <animation effect="slide" end="-$PARAM[itemlayout_w]" time="400" tween="quadratic" reversible="false" condition="!Container($PARAM[id]).OnNext">Conditional</animation>
-                <animation effect="slide" end="$PARAM[itemlayout_w]" time="400" tween="quadratic" reversible="false" condition="!Container($PARAM[id]).OnPrevious">Conditional</animation>
-
-                <!-- Overhang -->
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">-1</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                    <param name="visible">Control.HasFocus($PARAM[id]) | $PARAM[overhang_visible]</param>
-                    <param name="include_animation">Widget_Fake_Row_PreItem_Animation</param>
-                </include>
-
-                <!-- Focus -->
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">0</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                    <param name="selected">true</param>
-                    <param name="visible">Control.HasFocus($PARAM[id])</param>
-                </include>
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">0</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                    <param name="selected">false</param>
-                    <param name="visible">![Control.HasFocus($PARAM[id])]</param>
-                </include>
-
-                <!-- Rest of Items -->
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">1</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                </include>
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">2</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                </include>
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">3</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                </include>
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">4</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                </include>
-
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">5</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                </include>
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">6</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                </include>
-                <include content="Transitions_List_Row_Item">
-                    <param name="pos">7</param>
-                    <param name="content">$PARAM[content]</param>
-                    <param name="detailed">$PARAM[detailed]</param>
-                    <param name="icon_base_var">$PARAM[icon_base_var]</param>
-                    <param name="item_w">$PARAM[item_w]</param>
-                    <param name="item_h">$PARAM[item_h]</param>
-                    <param name="id">$PARAM[id]</param>
-                    <param name="prefix">$PARAM[prefix]</param>
-                    <param name="affix">$PARAM[affix]</param>
-                    <param name="transition_animation">false</param>
-                </include>
-            </control>
-        </definition>
-    </include>
-
-    <include name="Widget_Fake_List_Poster_Row">
-        <include content="Widget_Fake_Row">
-            <param name="id">$PARAM[id]</param>
-            <param name="affix">_LIP_C$PARAM[id]</param>
-            <param name="content">Layout_Poster</param>
-            <param name="icon_base_var">Image_Poster</param>
-            <param name="itemlayout_w">view_poster_itemlayout_w</param>
-            <param name="item_w">view_poster_item_w</param>
-            <param name="item_h">view_poster_item_h</param>
-            <param name="prefix">transition_poster</param>
-            <param name="overhang_visible">$PARAM[overhang_visible]</param>
-            <nested />
-        </include>
-    </include>
-
-    <include name="Widget_Fake_List_Square_Row">
-        <include content="Widget_Fake_Row">
-            <param name="id">$PARAM[id]</param>
-            <param name="affix">_LIP_C$PARAM[id]</param>
-            <param name="content">Layout_Square</param>
-            <param name="icon_base_var">Image_Icon</param>
-            <param name="itemlayout_w">view_poster_itemlayout_w</param>
-            <param name="item_w">view_poster_item_w</param>
-            <param name="item_h">view_poster_item_h</param>
-            <param name="prefix">transition_poster</param>
-            <param name="overhang_visible">$PARAM[overhang_visible]</param>
-            <nested />
-        </include>
-    </include>
-
-    <include name="Widget_Fake_List_Landscape_Row">
-        <include content="Widget_Fake_Row">
-            <param name="id">$PARAM[id]</param>
-            <param name="affix">_LIP_C$PARAM[id]</param>
-            <param name="content">Layout_Landscape</param>
-            <param name="icon_base_var">Image_Landscape</param>
-            <param name="itemlayout_w">view_landscape_itemlayout_w</param>
-            <param name="item_w">view_landscape_item_w</param>
-            <param name="item_h">view_landscape_item_h</param>
-            <param name="prefix">transition_landscape</param>
-            <param name="overhang_visible">$PARAM[overhang_visible]</param>
-            <nested />
-        </include>
-    </include>
-
     <include name="_Widget_Row">
         <param name="labeltop">widget_label_t</param>
         <param name="labelheight">widget_label_h</param>
@@ -1221,69 +1012,6 @@
                 <nested />
             </include>
         </definition>
-    </include>
-
-    <include name="Widget_Transitions_Small">
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Text_Row)</visible>
-            <include>Transitions_List_Text_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Sign_Row)</visible>
-            <include>Transitions_List_Sign_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Apps_Row)</visible>
-            <include>Transitions_List_Apps_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Icon_Row)</visible>
-            <include>Transitions_List_Icon_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Ring_Row)</visible>
-            <include>Transitions_List_Ring_Row</include>
-        </control>
-    </include>
-
-    <include name="Widget_Transitions">
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Banner_Row)</visible>
-            <include>Transitions_List_Banner_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Card_Row)</visible>
-            <include>Transitions_List_Card_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Board_Row)</visible>
-            <include>Transitions_List_Board_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Placard_Row)</visible>
-            <include>Transitions_List_Placard_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Poster_Row)</visible>
-            <include>Transitions_List_Poster_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Landscape_Row)</visible>
-            <include>Transitions_List_Landscape_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Square_Row)</visible>
-            <include>Transitions_List_Square_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Overview_Row)</visible>
-            <include>Transitions_List_Overview_Row</include>
-        </control>
-        <control type="group">
-            <visible>String.IsEqual(Window(Home).Property(Transition.WidgetStyle),List_Circle_Row)</visible>
-            <include>Transitions_List_Circle_Row</include>
-        </control>
-        <include condition="!Skin.String(Furniture.BottomLeft.Enable,Always)">Widget_Transitions_Small</include>
     </include>
 
     <include name="Widget_EndRow_Selector_Def">
@@ -1405,5 +1133,53 @@
         <include content="_Widget_NoResults" condition="!Skin.HasSetting(Widgets.DisableNoResultsItem)">
             <param name="id">$PARAM[id]</param>
         </include>
+    </include>
+    
+    <include name="Widget_Standard_Animation">
+        <param name="visible_delay">0</param>
+        <param name="hidden_delay">0</param>
+        <param name="slide_x">0</param>
+        <definition>
+            <animation type="Visible" reversible="false">
+                <effect type="slide" start="$PARAM[slide_x]" end="0" time="300" delay="$PARAM[visible_delay]" tween="cubic" easing="out" />
+                <effect type="fade" start="0" end="100" time="300" delay="$PARAM[visible_delay]" tween="sine" easing="in" />
+            </animation>
+
+            <animation type="Hidden" reversible="false">
+                <effect type="zoom" end="75" start="100" time="200" delay="$PARAM[hidden_delay]" tween="quadratic" easing="out" center="auto" />
+                <effect type="fade" end="0" start="100" time="200" delay="$PARAM[hidden_delay]" tween="sine" easing="in" />
+            </animation>
+        </definition>
+    </include>
+
+    <include name="Widget_Lower_Visibility">
+        <param name="visible">!$EXP[Exp_InfoDialogs]</param>
+        <param name="hidden">True</param>
+        <definition>
+            <include content="Animation_Fade_Out">
+                <param name="condition">![$PARAM[visible]] + $PARAM[hidden]</param>
+                <param name="delay">200</param>
+            </include>
+            <include content="Animation_Fade_In">
+                <param name="condition">$PARAM[visible] | ![$PARAM[hidden]]</param>
+                <param name="delay">0</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Widget_List_Visibility">
+        <param name="visible">!$EXP[Exp_InfoDialogs]</param>
+        <param name="hidden">True</param>
+        <definition>
+        
+            <include content="Animation_Fade_Out">
+                <param name="condition">[![$PARAM[visible]] + $PARAM[hidden]]</param>
+                <param name="delay">200</param>
+            </include>
+            <include content="Animation_Fade_In">
+                <param name="condition">[$PARAM[visible] | ![$PARAM[hidden]]]</param>
+                <param name="delay">0</param>
+            </include>
+        </definition>
     </include>
 </includes>
