@@ -11,6 +11,71 @@
         <onback condition="!Window.IsVisible(1170)">68</onback>
         <oninfo>Close</oninfo>
     </include>
+    
+    <include name="ButtonMenu_ContextControls">
+
+        <item>
+            <label>$LOCALIZE[207]</label>
+            <icon>special://skin/extras/icons/quote.png</icon>
+            <onclick>Close</onclick>
+            <onclick>ActivateWindow(1113)</onclick>
+            <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))]</visible>
+        </item>
+
+        <item>
+            <label>$LOCALIZE[31066]</label>
+            <icon>special://skin/extras/icons/binoculars.png</icon>
+            <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_title))]</visible>
+            <onclick>Dialog.Close(contextmenu,true)</onclick>
+            <onclick>SetProperty(CustomSearchTerm,$VAR[Dialog_ContextMenu_SideButtons_WikiTitle],Home)</onclick>
+            <onclick>SetProperty(ReplaceWindow,1105,Home)</onclick>
+            <onclick condition="!Window.IsActive(1105)">ActivateWindow(1105)</onclick>
+            <onclick condition="Window.IsActive(1105)">ReplaceWindow(1197)</onclick>
+        </item>
+        <item>
+            <label>Wiki</label>
+            <icon>special://skin/extras/icons/globe.png</icon>
+            <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_title))]</visible>
+            <onclick>Dialog.Close(contextmenu,true)</onclick>
+            <onclick>runscript(script.wikipedia,wikipedia=$VAR[Dialog_ContextMenu_SideButtons_WikiTitle]$VAR[Dialog_ContextMenu_SideButtons_WikiType])</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[31041]</label>
+            <icon>special://skin/extras/icons/fire2.png</icon>
+            <visible>[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)]</visible>
+            <onclick>Dialog.Close(contextmenu,true)</onclick>
+            <onclick>RunScript(plugin.video.themoviedb.helper,related_lists,query=$VAR[Path_ContextParams_Query],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[20410]</label>
+            <icon>special://skin/extras/icons/video.png</icon>
+            <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer))]</visible>
+            <onclick>Dialog.Close(contextmenu,true)</onclick>
+            <onclick>SetProperty(PlayTrailerItems,$VAR[Path_VideoInfo_Trailers],Home)</onclick>
+            <onclick condition="!Skin.HasSetting(Trailers.Source.IMDb)">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-playtrailer.json,use_rules)</onclick>
+            <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTitle,$VAR[Label_Title],Home)</onclick>
+            <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$VAR[Path_IMDb_Trailers],Home)</onclick>
+            <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerDBType,$INFO[Window(Home).Property(TMDBHelper.ListItem.base_dbtype)],Home)</onclick>
+            <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerSeason,$INFO[Window(Home).Property(TMDBHelper.ListItem.Season)],Home)</onclick>
+            <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.imdb_id)],Home)</onclick>
+            <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTVIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.tvshow.imdb_id)],Home)</onclick>
+            <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">ActivateWindow(1123)</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[33061]</label>
+            <icon>special://skin/extras/icons/circle-plus.png</icon>
+            <visible>ListItem.IsFolder</visible>
+            <onclick>Dialog.Close(contextmenu,true)</onclick>
+            <onclick>RunScript(script.skinvariables,set_listitem_to_menunode=sidemenu||1101menu||1102menu||1103menu||1104menu||1106menu||1107menu||1108menu||1109menu||1110menu||1112menu||1114menu||1125menu||1126menu||1127menu||powermainmenu,skin=$VAR[Path_SkinVariables_SkinFolder])</onclick>
+        </item>
+        <item>
+            <label>$LOCALIZE[5]</label>
+            <icon>special://skin/extras/icons/settings.png</icon>
+            <visible>!String.IsEmpty(Container.PluginName)</visible>
+            <onclick>Dialog.Close(contextmenu,true)</onclick>
+            <onclick>Addon.OpenSettings($INFO[Container.PluginName])</onclick>
+        </item>
+    </include>
 
     <include name="ButtonMenu_MediaControls">
         <item>
@@ -24,7 +89,7 @@
         </item>
 
         <item>
-            <label>$LOCALIZE[31579]</label>
+            <label>$LOCALIZE[210]</label>
             <icon>special://skin/extras/icons/backward-step.png</icon>
             <onclick>PlayerControl(Previous)</onclick>
             <visible>Player.HasAudio</visible>
@@ -41,6 +106,7 @@
             <label>$LOCALIZE[31485]</label>
             <icon>special://skin/extras/icons/stop.png</icon>
             <onclick>PlayerControl(Stop)</onclick>
+            <onclick condition="$PARAM[onclick_stop_include]">$PARAM[onclick_stop]</onclick>
             <visible>Player.HasMedia</visible>
         </item>
 
@@ -61,9 +127,64 @@
             <visible>Player.HasMedia</visible>
         </item>
     </include>
-
-    <include name="ButtonMenu_OptionsTray">
+    
+    <include name="ButtonMenu_SideTray">
         <param name="include">ButtonMenu_MediaControls</param>
+        <param name="onleft">Close</param>
+        <param name="onright">7000</param>
+        <param name="onback" />
+        <param name="onclick_stop_include">False</param>
+        <definition>
+            <control type="list" id="6099">
+                <orientation>vertical</orientation>
+                <width>100</width>
+                <top>140</top>
+                <centerright>70</centerright>
+                <onleft>$PARAM[onleft]</onleft>
+                <onright>$PARAM[onright]</onright>
+                <onback>$PARAM[onback]</onback>
+                <scrolltime tween="quadratic">400</scrolltime>
+
+                <itemlayout width="100" height="100">
+                    <include content="Layout_OptionTray">
+                        <param name="selected">false</param>
+                        <param name="color_nf">dialog_fg_</param>
+                        <param name="variation">true</param>
+                    </include>
+                </itemlayout>
+
+                <focusedlayout width="100" height="100">
+                    <control type="group">
+                        <visible>Control.HasFocus(6099)</visible>
+                        <include content="Layout_OptionTray">
+                            <param name="selected">true</param>
+                            <param name="color">dialog_fg</param>
+                            <param name="variation">true</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <visible>!Control.HasFocus(6099)</visible>
+                        <include content="Layout_OptionTray">
+                            <param name="selected">false</param>
+                            <param name="color">dialog_fg</param>
+                            <param name="variation">true</param>
+                        </include>
+                    </control>
+                </focusedlayout>
+
+                <content>
+                    <include content="$PARAM[include]">
+                        <param name="onclick_stop_include">$PARAM[onclick_stop_include]</param>
+                        <param name="onclick_stop">$PARAM[onclick_stop]</param>
+                    </include>
+                </content>
+
+            </control>
+        </definition>
+    </include>
+
+    <include name="ButtonMenu_BottomTray">
+        <param name="include">skinvariables-options-tray-staticitems</param>
         <definition>
             <control type="image">
                 <bottom>60</bottom>
@@ -72,12 +193,8 @@
                 <height>1</height>
                 <texture colordiffuse="dialog_fg_12">common/white.png</texture>
             </control>
-            <control type="button" id="6000">
-                <onfocus>SetFocus(6099)</onfocus>
-                <include>Object_Hidden_Button_Definition</include>
-            </control>
-            <control type="fixedlist" id="6099">
-                <animation effect="slide" start="0" end="-50" condition="Integer.IsEqual(Container(6099).NumItems,2) | Integer.IsEqual(Container(6099).NumItems,4)">Conditional</animation>
+            <control type="fixedlist" id="6000">
+                <animation effect="slide" start="0" end="-50" condition="Integer.IsEqual(Container(6000).NumItems,2) | Integer.IsEqual(Container(6000).NumItems,4)">Conditional</animation>
                 <focusposition>2</focusposition>
                 <movement>2</movement>
                 <orientation>horizontal</orientation>
@@ -98,7 +215,7 @@
 
                 <focusedlayout width="100" height="80">
                     <control type="group">
-                        <visible>Control.HasFocus(6099)</visible>
+                        <visible>Control.HasFocus(6000)</visible>
                         <include content="Layout_OptionTray">
                             <param name="selected">true</param>
                             <param name="color">dialog_fg</param>
@@ -106,7 +223,7 @@
                         </include>
                     </control>
                     <control type="group">
-                        <visible>!Control.HasFocus(6099)</visible>
+                        <visible>!Control.HasFocus(6000)</visible>
                         <include content="Layout_OptionTray">
                             <param name="selected">false</param>
                             <param name="color">dialog_fg</param>
@@ -117,10 +234,8 @@
 
                 <content>
                     <include>$PARAM[include]</include>
-                </content>    
-                <content>
-                    <include>skinvariables-options-tray-staticitems</include>
                 </content>
+                
             </control>
         </definition>
     </include>
@@ -486,11 +601,22 @@
     </include>
 
     <include name="ButtonMenu_LayoutGroup_Single">
-        <include content="ButtonMenu_LayoutGroup">
+        <include content="ButtonMenu_LayoutGroup" condition="![Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">
             <param name="id">70$PARAM[groupid]1</param>
             <param name="onup">$PARAM[onup]</param>
             <param name="ondown">$PARAM[ondown]</param>
             <param name="onleft">Close</param>
+            <param name="onright">-</param>
+            <param name="onclick">$PARAM[button_one_onclick]</param>
+            <param name="label">$PARAM[button_one_label]</param>
+            <param name="icon">$PARAM[button_one_icon]</param>
+            <param name="include">$PARAM[button_one_include]</param>
+        </include>
+        <include content="ButtonMenu_LayoutGroup" condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">
+            <param name="id">70$PARAM[groupid]1</param>
+            <param name="onup">$PARAM[onup]</param>
+            <param name="ondown">$PARAM[ondown]</param>
+            <param name="onleft">6099</param>
             <param name="onright">-</param>
             <param name="onclick">$PARAM[button_one_onclick]</param>
             <param name="label">$PARAM[button_one_label]</param>
@@ -503,11 +629,23 @@
         <control type="group">
             <width>50%</width>
             <left>0</left>
-            <include content="ButtonMenu_LayoutGroup">
+            <include content="ButtonMenu_LayoutGroup" condition="![Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">
                 <param name="id">70$PARAM[groupid]1</param>
                 <param name="onup">$PARAM[a_onup]</param>
                 <param name="ondown">$PARAM[a_ondown]</param>
                 <param name="onleft">Close</param>
+                <param name="onright">70$PARAM[groupid]2</param>
+                <param name="onclick">$PARAM[button_one_onclick]</param>
+                <param name="label">$PARAM[button_one_label]</param>
+                <param name="icon">$PARAM[button_one_icon]</param>
+                <param name="include">$PARAM[button_one_include]</param>
+                <right>10</right>
+            </include>
+            <include content="ButtonMenu_LayoutGroup" condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">
+                <param name="id">70$PARAM[groupid]1</param>
+                <param name="onup">$PARAM[a_onup]</param>
+                <param name="ondown">$PARAM[a_ondown]</param>
+                <param name="onleft">6099</param>
                 <param name="onright">70$PARAM[groupid]2</param>
                 <param name="onclick">$PARAM[button_one_onclick]</param>
                 <param name="label">$PARAM[button_one_label]</param>

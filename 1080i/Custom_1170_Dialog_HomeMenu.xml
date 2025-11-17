@@ -13,7 +13,26 @@
             <include>Dimension_DialogSideMenu</include>
             <include>Animation_Right_Delay</include>
             <include content="Dialog_Dim_Side">
-                <param name="slide_animation">false</param>
+                <param name="slide_condition">[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</param>
+                <param name="slide_animation">true</param>
+            </include>
+            
+            <include content="Dialog_Background_Side">
+                <param name="dialog_size">Dimension_DialogSideMenu</param>
+                <param name="slide_condition">[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</param>
+                <!-- Side Buttons -->
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <visible>[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</visible>
+                    <include>Dimension_Dialog_Body</include>
+                    <control type="group">
+                        <include>Dialog_Side_Grouplist_Def</include>
+                        <include content="ButtonMenu_SideTray">
+                            <param name="onclick_stop_include">![Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</param>
+                            <param name="onclick_stop">SetFocus(7000)</param>
+                        </include>
+                    </control>
+                </include>
             </include>
 
             <include content="Dialog_Foreground_Side">
@@ -60,7 +79,8 @@
                             <orientation>vertical</orientation>
                             <onup>7020</onup>
                             <ondown>SetFocus(6000,2)</ondown>
-                            <onleft>Close</onleft>
+                            <onleft condition="![Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">Close</onleft>
+                            <onleft condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">6099</onleft>
                             <oninfo>Close</oninfo>
                             <onright>-</onright>
                             <content>
@@ -69,15 +89,15 @@
                         </include>
 
                         <control type="group">
-                            <include>ButtonMenu_OptionsTray</include>
+                            <include>ButtonMenu_BottomTray</include>
                         </control>
 
                     </control>
                 </control>
 
             </include>
+            
         </control>
-
 
     </controls>
 </window>

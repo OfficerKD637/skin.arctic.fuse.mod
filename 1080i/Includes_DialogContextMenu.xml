@@ -12,89 +12,6 @@
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)"> film</value>
     </variable>
 
-    <include name="Dialog_ContextMenu_SideButtons">
-        <include content="Dialog_Background_Side">
-            <param name="slide_condition">![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]</param>
-            <param name="dialog_size">$PARAM[dialog_size]</param>
-
-            <!-- Side Buttons -->
-            <control type="group">
-                <include>Dimension_Dialog_Body</include>
-                <control type="grouplist" id="9000">
-                    <include>Dialog_Side_Grouplist_Def</include>
-                    <onleft>Close</onleft>
-                    <onright>996</onright>
-                    <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs]">
-                        <param name="id">02</param>
-                        <param name="label">$LOCALIZE[207]</param>
-                        <param name="icon">special://skin/extras/icons/quote.png</param>
-                        <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))]</param>
-                        <onclick>ActivateWindow(1113)</onclick>
-                    </include>
-                    <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs]">
-                        <param name="id">03</param>
-                        <param name="label">$LOCALIZE[31066]</param>
-                        <param name="icon">special://skin/extras/icons/binoculars.png</param>
-                        <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_title))]</param>
-                        <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>SetProperty(CustomSearchTerm,$VAR[Dialog_ContextMenu_SideButtons_WikiTitle],Home)</onclick>
-                        <onclick>SetProperty(ReplaceWindow,1105,Home)</onclick>
-                        <onclick condition="!Window.IsActive(1105)">ActivateWindow(1105)</onclick>
-                        <onclick condition="Window.IsActive(1105)">ReplaceWindow(1197)</onclick>
-                    </include>
-                    <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs]">
-                        <param name="id">04</param>
-                        <param name="label">Wiki</param>
-                        <param name="icon">special://skin/extras/icons/globe.png</param>
-                        <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_title))]</param>
-                        <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>runscript(script.wikipedia,wikipedia=$VAR[Dialog_ContextMenu_SideButtons_WikiTitle]$VAR[Dialog_ContextMenu_SideButtons_WikiType])</onclick>
-                    </include>
-                    <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs]">
-                        <param name="id">05</param>
-                        <param name="label">$LOCALIZE[31041]</param>
-                        <param name="icon">special://skin/extras/icons/fire2.png</param>
-                        <param name="visible">[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)]</param>
-                        <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>RunScript(plugin.video.themoviedb.helper,related_lists,query=$VAR[Path_ContextParams_Query],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
-                    </include>
-                    <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs]">
-                        <param name="id">06</param>
-                        <param name="label">$LOCALIZE[20410]</param>
-                        <param name="icon">special://skin/extras/icons/video.png</param>
-                        <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer))]</param>
-                        <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>SetProperty(PlayTrailerItems,$VAR[Path_VideoInfo_Trailers],Home)</onclick>
-                        <onclick condition="!Skin.HasSetting(Trailers.Source.IMDb)">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-playtrailer.json,use_rules)</onclick>
-                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTitle,$VAR[Label_Title],Home)</onclick>
-                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$VAR[Path_IMDb_Trailers],Home)</onclick>
-                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerDBType,$INFO[Window(Home).Property(TMDBHelper.ListItem.base_dbtype)],Home)</onclick>
-                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerSeason,$INFO[Window(Home).Property(TMDBHelper.ListItem.Season)],Home)</onclick>
-                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.imdb_id)],Home)</onclick>
-                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTVIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.tvshow.imdb_id)],Home)</onclick>
-                        <onclick condition="Skin.HasSetting(Trailers.Source.IMDb)">ActivateWindow(1123)</onclick>
-                    </include>
-                    <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs] + Window.IsMedia">
-                        <param name="id">07</param>
-                        <param name="label">$LOCALIZE[33061]</param>
-                        <param name="icon">special://skin/extras/icons/circle-plus.png</param>
-                        <param name="visible">ListItem.IsFolder</param>
-                        <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>RunScript(script.skinvariables,set_listitem_to_menunode=sidemenu||homemenu||1101menu||1102menu||1103menu||1104menu,skin=$VAR[Path_SkinVariables_SkinFolder])</onclick>
-                    </include>
-                    <include content="Dialog_Side_Button" condition="!$EXP[Exp_InfoDialogs] + Window.IsMedia">
-                        <param name="id">08</param>
-                        <param name="label">$LOCALIZE[5]</param>
-                        <param name="icon">special://skin/extras/icons/settings.png</param>
-                        <param name="visible">!String.IsEmpty(Container.PluginName)</param>
-                        <onclick>Dialog.Close(contextmenu,true)</onclick>
-                        <onclick>Addon.OpenSettings($INFO[Container.PluginName])</onclick>
-                    </include>
-                </control>
-            </control>
-        </include>
-    </include>
-
     <include name="Dialog_ContextMenu_BodyContent_Artwork">
         <control type="group">
             <include>Dimension_Dialog_Body_Group</include>
@@ -119,8 +36,8 @@
 
                 <control type="grouplist" id="996">
                     <include>Dimension_Dialog_Body_Group</include>
-                    <onleft condition="!Integer.IsEqual(Container(9000).NumItems,0)">9000</onleft>
-                    <onleft condition="Integer.IsEqual(Container(9000).NumItems,0)">Close</onleft>
+                    <onleft condition="Control.IsVisible(6099)">6099</onleft>
+                    <onleft condition="!Control.IsVisible(6099)">Close</onleft>
                     <right>$PARAM[lines_right]</right>
                     <onright>61</onright>
                     <pagecontrol>61</pagecontrol>
@@ -164,10 +81,25 @@
                      <param name="slide_condition">![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]</param>
                      <param name="slide_animation">true</param>
                 </include>
-
-                <!-- Background Layer -->
-                <include content="Dialog_ContextMenu_SideButtons">
+                
+                <include content="Dialog_Background_Side">
                     <param name="dialog_size">$PARAM[dialog_size]</param>
+                    <param name="slide_condition">![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]</param>
+                    <!-- Side Buttons -->
+                    <include content="Object_Control">
+                        <param name="control">group</param>
+                        <visible>![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]</visible>
+                        <control type="group">
+                            <include>Dimension_Dialog_Body</include>
+                            <control type="group">
+                                <include>Dialog_Side_Grouplist_Def</include>
+                                <include content="ButtonMenu_SideTray">
+                                    <param name="include">ButtonMenu_ContextControls</param>
+                                    <param name="onright">996</param>
+                                </include>
+                            </control>
+                        </control>
+                    </include>
                 </include>
 
                 <!-- Foreground Layer -->

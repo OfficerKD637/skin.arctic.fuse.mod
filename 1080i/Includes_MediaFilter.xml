@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <include name="MediaFilter_Node_ClearAll">
-        <onfocus>ClearProperty(MediaFilter.InfoLabel)</onfocus>
-
-        <onfocus condition="Window.IsVisible(MyVideoNav.xml) + [Container.Content(movies) | Container.Content(sets)]">SetProperty(MediaFilter.ContentType,Movies)</onfocus>
-        <onfocus condition="Window.IsVisible(MyVideoNav.xml) + [Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes)]">SetProperty(MediaFilter.ContentType,TV)</onfocus>
-        <onfocus condition="Window.IsVisible(MyMusicNav.xml)">SetProperty(MediaFilter.ContentType,Music)</onfocus>
-
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(albums) | Container.Content(artists)]">SetProperty(MediaFilter.BaseDir.Name,$VAR[Label_Section_Main])</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir) + [Container.Content(movies) | Container.Content(tvshows) | Container.Content(albums) | Container.Content(artists)]">SetProperty(MediaFilter.BaseDir,$INFO[Container.FolderPath])</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir) + ![Container.Content(movies) | Container.Content(tvshows) | Container.Content(albums) | Container.Content(artists)]">ClearProperty(MediaFilter.BaseDir.Name)</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir) + ![Container.Content(movies) | Container.Content(tvshows) | Container.Content(albums) | Container.Content(artists)]">ClearProperty(MediaFilter.BaseDir)</onfocus>
-
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir)">ClearProperty(MediaFilter.Genre)</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir)">ClearProperty(MediaFilter.Studio)</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir)">ClearProperty(MediaFilter.Country)</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir)">ClearProperty(MediaFilter.MPAA)</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir)">ClearProperty(MediaFilter.Director)</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir)">ClearProperty(MediaFilter.Writer)</onfocus>
-        <onfocus condition="!String.StartsWith(Container.FolderPath,plugin://script.skinvariables/?info=get_filter_dir)">ClearProperty(MediaFilter.Artist)</onfocus>
-    </include>
-
     <include name="MediaFilter_Node">
         <control type="group">
             <include>Dimension_DialogSideMenu</include>
             <include>Animation_Right</include>
             <visible>$EXP[Exp_ViewDialog_HasFocus]</visible>
             <include content="Dialog_Dim_Side">
-                <param name="slide_animation">False</param>
+                <param name="slide_condition">[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</param>
+                <param name="slide_animation">true</param>
+            </include>
+            <include content="Dialog_Background_Side">
+                <param name="dialog_size">Dimension_DialogSideMenu</param>
+                <param name="slide_condition">[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</param>
+                <!-- Side Buttons -->
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <include>Dimension_Dialog_Body</include>
+                    <control type="group">
+                        <visible>[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</visible>
+                        <include>Dialog_Side_Grouplist_Def</include>
+                        <include content="ButtonMenu_SideTray">
+                            <param name="onleft">68</param>
+                            <param name="onright">9000</param>
+                            <param name="onback">68</param>
+                            <param name="onclick_stop_include">![Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]</param>
+                            <param name="onclick_stop">SetFocus(9000)</param>
+                        </include>
+                    </control>
+                </include>
             </include>
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogSideMenu</param>
@@ -41,12 +41,13 @@
                 <include content="Dialog_Head_CloseButton">
                     <param name="onclick">SetFocus(68)</param>
                 </include>
-                <control type="group">
+                <control type="group" id="9000">
                     <include>Dimension_Dialog_Body</include>
-                    <control type="grouplist" id="9000">
+                    <control type="grouplist" id="9015">
                         <bottom>-40</bottom>
                         <include>Dimension_Dialog_Body_Group</include>
-                        <onleft>68</onleft>
+                        <onleft condition="![Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">68</onleft>
+                        <onleft condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">6099</onleft>
                         <onback>68</onback>
                         <onup>SetFocus(6000,2)</onup>
                         <ondown>9005</ondown>
@@ -123,12 +124,12 @@
                         <top>340</top>
                         <include>Dimension_Dialog_Body_Group</include>
                         <height>400</height>
-                        <onleft>68</onleft>
+                        <onleft condition="![Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">68</onleft>
+                        <onleft condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">6099</onleft>
                         <onback>68</onback>
                         <onup>9012</onup>
-                        <ondown>SetFocus(6000,2)</ondown>
-                        <ondown condition="Integer.IsGreater(Container(9004).NumItems,5) + Container.CanFilterAdvanced">SetFocus(9005)</ondown>
-                        <ondown condition="Integer.IsGreater(Container(9004).NumItems,5) + !Container.CanFilterAdvanced">SetFocus(9006)</ondown>
+                        <ondown condition="Integer.IsGreater(Container(9004).NumItems,5)">RunScript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-mediafilter-refocus.json",use_rules)</ondown>
+                        <ondown condition="!Integer.IsGreater(Container(9004).NumItems,5)">SetFocus(6000,2)</ondown>
                         <include content="Settings_ButtonImage">
                             <param name="id">9005</param>
                             <param name="groupid">9105</param>
@@ -221,7 +222,7 @@
                     <control type="group">
                         <include>Dimension_Dialog_Body_Group</include>
                         <control type="group">
-                            <include>ButtonMenu_OptionsTray</include>
+                            <include>ButtonMenu_BottomTray</include>
                         </control>
                     </control>
                     <control type="group">
