@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1124">
+
+    <defaultcontrol always="true">8000</defaultcontrol>
+    <onload>SetProperty(TMDbHelper.ContextMenu,True)</onload>
+    <onload condition="String.IsEmpty(Window(Home).Property(PlayTrailerItems)) | String.IsEqual(Window(Home).Property(PlayTrailerItems),-)">Close</onload>
+    <controls>
+
+        <control type="group">
+            <include>Dimension_DialogMainMenu</include>
+            
+            <include content="Animation_Fade_In">
+                <param name="type">WindowOpen</param>
+                <param name="delay">0</param>
+            </include>
+            <include content="Animation_Fade_Out">
+                <param name="type">WindowClose</param>
+                <param name="delay">0</param>
+            </include>
+            
+            <control type="group">
+                <height>divider_bottom</height>
+                <centerbottom>240</centerbottom>
+                <left>view_pad</left>
+                <right>view_pad</right>
+              
+                <control type="image">
+                    <height>768</height>
+                    <texture diffuse="common/gradient-box-v.png" colordiffuse="black" border="12">common/box.png</texture>
+                    <bottom>145.3</bottom>
+                </control>
+            </control>
+                
+            <control type="group">
+                <height>divider_bottom</height>
+                <centerbottom>240</centerbottom>
+                <left>view_pad</left>
+                <right>view_pad</right>
+                
+                <include>Animation_Right_Delay</include> 
+                
+                <include content="List_Landscape_Row">
+                    <param name="id">8000</param>
+                    <param name="offset_x">6</param>
+                    <param name="itemlayout_include">Layout_513_Episode</param>
+                    <param name="include_movement">False</param>
+                    <height>divider_bottom</height>
+                    <left>25</left>
+                    <right>25</right>
+                    <bottom>2</bottom>
+                    <movement>2</movement>
+                    
+                    
+                    <onleft>Close</onleft>
+                    <onup>SetFocus(8000,0,absolute)</onup>
+                    <onup>Close</onup>
+                    <ondown>SetFocus(8000,0,absolute)</ondown>
+                    <ondown>Close</ondown>
+                    <onback>SetFocus(8000,0,absolute)</onback>
+                    
+                    <onclick>Close</onclick>
+                    <onclick>Dialog.Close(1123,true)</onclick>
+                    <include content="Action_PlayTrailer_OnClick">
+                        <param name="trailer">Container(8000).ListItem.FileNameAndPath</param>
+                        <param name="trailer_fallback" />
+                        <param name="title">$INFO[Container(8000).ListItem.Label]</param>
+                        <param name="items">$INFO[Window(Home).Property(PlayTrailerItems)]</param>
+                    </include>
+
+                    <content target="videos">$INFO[Window(Home).Property(PlayTrailerItems)]</content>
+                    <animation effect="fade" start="100" end="0" condition="Container(8000).IsUpdating">Conditional</animation>
+                </include>
+                <include content="Widget_Busy">
+                    <param name="label">$LOCALIZE[35232]</param>
+                    <param name="visible">Container(8000).IsUpdating</param>
+                    <param name="include">List_Landscape_Row</param>
+                    <top>-2</top>
+                    <left>30</left>
+                    <right>110</right>
+                </include>
+            </control>
+        </control>
+    </controls>
+</window>
