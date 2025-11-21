@@ -1916,7 +1916,7 @@
                         <!-- Widgets -->
                         <control type="group">
                             <visible>!String.IsEmpty(System.CurrentControlID)</visible>
-                            <visible>[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>
+                            <visible>[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]] | [!String.IsEmpty(Window.Property(Providers_Query)) + [String.IsEqual(Container(7000).ListItem.Label,JustWatch)]]</visible>
                             <animation effect="slide" start="420" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(513) | Control.HasFocus(555)">Conditional</animation>
                             <animation effect="slide" start="0" end="420" tween="quadratic" easing="out" time="400" reversible="false" condition="![Control.HasFocus(513) | Control.HasFocus(555)]">Conditional</animation>
                             <control type="group" id="5000">
@@ -2004,6 +2004,22 @@
                                     </include>
                                     <include>Action_513_OnWidget</include>
                                 </include>
+                                <include content="Widget_Info_Row" condition="Skin.HasSetting(InfoDialog.Poster)">
+                                    <param name="baseid">51</param>
+                                    <param name="basegroupid">52</param>
+                                    <param name="id">3</param>
+                                    <param name="label">$LOCALIZE[15225] $INFO[Window.Property(Providers_1_Label),(,)]</param>
+                                    <param name="include">List_Poster_Row</param>
+                                    <param name="visible">[!String.IsEqual(Window.Property(Providers_Query),special://skin/extras/playlists/Null.xsp) + [String.IsEqual(Container(7000).ListItem.Label,JustWatch)]]</param>
+                                    <param name="altvisible">[!String.IsEqual(Window.Property(Providers_Query),special://skin/extras/playlists/Null.xsp) + [String.IsEqual(Container(7000).ListItem.Label,JustWatch)]]</param>
+                                    <param name="labeltop">0</param>
+                                    <param name="include_movement">false</param>
+                                    <content>$INFO[Window.Property(Providers_Query)]</content>
+                                    <include content="Action_Recommendations_OnClick">
+                                        <param name="id">513</param>
+                                    </include>
+                                    <include>Action_513_OnWidget</include>
+                                </include>
                                 
                                 <!-- Landscape Row -->
                                 <include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
@@ -2081,6 +2097,22 @@
                                     <param name="labeltop">0</param>
                                     <param name="include_movement">false</param>
                                     <content sortby="year" sortorder="ascending">$INFO[Window.Property(Set_Query),plugin://plugin.video.themoviedb.helper/?info=collection&amp;tmdb_type=collection,]$VAR[Path_Param_Widget]</content>
+                                    <include content="Action_Recommendations_OnClick">
+                                        <param name="id">513</param>
+                                    </include>
+                                    <include>Action_513_OnWidget</include>
+                                </include>
+                                <include content="Widget_Info_Row" condition="!Skin.HasSetting(InfoDialog.Poster)">
+                                    <param name="baseid">51</param>
+                                    <param name="basegroupid">52</param>
+                                    <param name="id">3</param>
+                                    <param name="label">$LOCALIZE[15225] $INFO[Window.Property(Providers_1_Label),(,)]</param>
+                                    <param name="include">List_Landscape_Row</param>
+                                    <param name="visible">[!String.IsEqual(Window.Property(Providers_Query),special://skin/extras/playlists/Null.xsp) + [String.IsEqual(Container(7000).ListItem.Label,JustWatch)]]</param>
+                                    <param name="altvisible">[!String.IsEqual(Window.Property(Providers_Query),special://skin/extras/playlists/Null.xsp) + [String.IsEqual(Container(7000).ListItem.Label,JustWatch)]]</param>
+                                    <param name="labeltop">0</param>
+                                    <param name="include_movement">false</param>
+                                    <content>$INFO[Window.Property(Providers_Query)]</content>
                                     <include content="Action_Recommendations_OnClick">
                                         <param name="id">513</param>
                                     </include>
@@ -2174,7 +2206,7 @@
                                 <onup>SetFocus(4000)</onup>
                                 <ondown>SetFocus(4000)</ondown>
                                 <onleft>SetFocus(4000)</onleft>
-                                <onright condition="!Container(513).IsUpdating + [[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]]">SetFocus(5000)</onright>
+                                <onright condition="!Container(513).IsUpdating + [[!String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [!String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [!String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [!String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [!String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]] | [String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]] | [!String.IsEmpty(Window.Property(Providers_Query)) + [String.IsEqual(Container(7000).ListItem.Label,JustWatch)]]]">SetFocus(5000)</onright>
                                 <onback>4000</onback>                
 
                                 <left>-80</left>
@@ -2241,6 +2273,14 @@
                                         <property name="icon">special://skin/extras/icons/cubes.png</property>
                                         <onclick>runscript(script.wikipedia,wikipedia=$INFO[ListItem.VideoVersionName])</onclick>
                                         <visible>ListItem.HasVideoVersions</visible>
+                                    </item>
+                                    <item>
+                                        <label2>$INFO[Window.Property(Providers_Label)]</label2>
+                                        <label>JustWatch</label>
+                                        <icon>$INFO[Window.Property(Providers_Image)]</icon>
+                                        <property name="icon">special://skin/extras/icons/photo-film.png</property>
+                                        <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(ListItem.DBType,movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(ListItem.DBType,episode)</visible>
+                                        <visible>!String.IsEmpty(Window.Property(Providers_Label))</visible>
                                     </item>
                                     <item>
                                         <label2>$INFO[Window.Property(Episodes_Label)]</label2>
@@ -2350,6 +2390,20 @@
                             </include>
                             <visible>[!String.IsEmpty(ListItem.VideoVersionName) | !String.IsEmpty(ListItem.VideoCodec)]</visible>
                         </include>
+                        
+                        <include content="Object_InfoCircle">
+                            <param name="role">JustWatch</param>
+                            <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.2.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.3.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.4.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.5.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.6.Name), • ,]</param>
+                            <param name="icon_background">true</param>
+                            <param name="colordiffuse">white</param>
+                            <include content="Object_InfoCircle_Image">
+                                <param name="colordiffuse">white</param>
+                                <param name="icon">$VAR[Image_ProvidersIcon]</param>
+                                <param name="fallback">special://skin/extras/icons/photo-film.png</param>
+                            </include>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
+                            <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(ListItem.DBType,movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(ListItem.DBType,episode)</visible>
+                        </include>
 
                         <include content="Object_InfoCircle">
                             <param name="role">$LOCALIZE[20360]</param>
@@ -2363,7 +2417,6 @@
                             </include>
                             <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(ListItem.DBType,episode)</visible>
                         </include>
-
                     </control>
 
 
