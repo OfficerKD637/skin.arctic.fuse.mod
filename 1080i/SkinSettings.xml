@@ -389,12 +389,19 @@
                         <include content="Settings_Button" description="Title or Clock">
                             <param name="dialog">true</param>
                             <param name="id">5014</param>
-                            <param name="control">radiobutton</param>
-                            <label>$LOCALIZE[31199]</label>
-                            <selected>Skin.HasSetting(Furniture.EnableClock.TopLeft)</selected>
+                            <param name="control">button</param>
+                            <label>$LOCALIZE[31042]</label>
+                            <label2>$VAR[Label_Settings_Furniture_ClockTopLeft]</label2>
                             <visible>Container(3).HasFocus(4)</visible>
-                            <onclick>Skin.Reset(Furniture.EnableClock)</onclick>
-                            <onclick>Skin.ToggleSetting(Furniture.EnableClock.TopLeft)</onclick>
+                            <onclick condition="!String.IsEqual(Skin.String(Furniture.EnableClock.TopLeft),Date)">Skin.Reset(Furniture.EnableClock)</onclick>
+                            
+                            <onclick condition="String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft)) + Skin.HasSetting(Furniture.DisableLeftHeader)">Skin.SetString(Furniture.EnableClock.TopLeft,Time)</onclick>
+                            <onclick condition="String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft)) + !Skin.HasSetting(Furniture.DisableLeftHeader)">Skin.SetString(Furniture.EnableClock.TopLeft,Date)</onclick>
+                            
+                            <onclick condition="String.IsEqual(Skin.String(Furniture.EnableClock.TopLeft),Time) + Skin.HasSetting(Furniture.DisableLeftHeader)">Skin.SetString(Furniture.EnableClock.TopLeft,Date)</onclick>
+                            <onclick condition="String.IsEqual(Skin.String(Furniture.EnableClock.TopLeft),Time) + !Skin.HasSetting(Furniture.DisableLeftHeader)">Skin.Reset(Furniture.EnableClock.TopLeft)</onclick>
+                            
+                            <onclick condition="String.IsEqual(Skin.String(Furniture.EnableClock.TopLeft),Date)">Skin.Reset(Furniture.EnableClock.TopLeft)</onclick>
                         </include>
                         <include content="Settings_Label" description="Footer">
                             <param name="id">5000</param>
@@ -550,7 +557,7 @@
                             <param name="control">button</param>
                             <visible>Container(3).HasFocus(5)</visible>
                             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
-                            <label>$LOCALIZE[31203] [LOWERCASE]$LOCALIZE[31202][/LOWERCASE] > $LOCALIZE[20343]</label>
+                            <label>$LOCALIZE[31203] [LOWERCASE]$LOCALIZE[31202][/LOWERCASE] > [CAPITALIZE]$LOCALIZE[20343][/CAPITALIZE]</label>
                             <onclick>SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31202]: $LOCALIZE[20343][/CAPITALIZE],Home)</onclick>
                             <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_RatingsTVShows,Home)</onclick>                            
                             <onclick>ActivateWindow(1118)</onclick>

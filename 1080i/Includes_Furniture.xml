@@ -9,7 +9,7 @@
         <param name="textcolor_sublabel">main_fg_70</param>
         <param name="shadowcolor_sublabel">main_bg_12</param>
         <param name="include_topbar_animation">$EXP[Exp_HomeMenu_IsTopBar]</param>
-        <param name="clock">Skin.HasSetting(Furniture.EnableClock.TopLeft)</param>
+        <param name="clock">!String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))</param>
         <param name="include_left_datelabel">true</param>
         <definition>
             <include content="_Furniture_Top" condition="$PARAM[enabled]">
@@ -316,7 +316,7 @@
     <param name="font_top">font_mini_bold</param>
     <param name="font_bottom">font_tiny</param>
     <param name="info_hide">false</param>
-    <param name="visible">!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | Skin.HasSetting(Furniture.EnableClock.TopLeft)]</param>
+    <param name="visible">!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
         <definition>            
             <control type="group">
                 <top>view_pad</top>
@@ -332,6 +332,18 @@
                     <animation effect="slide" start="0" end="0,-15" condition="$PARAM[visible]">Conditional</animation>
                     <control type="label">
                         <align>right</align>
+                        <width>auto</width>
+                        <font>font_main_bold</font>
+                        <label>$INFO[System.Time]</label>
+                        <textcolor>main_fg_70</textcolor>
+                        <shadowcolor>main_bg_12</shadowcolor>
+                        <centerbottom>25%</centerbottom>
+                        <height>40</height>
+                        <visible>String.IsEqual(Skin.String(Furniture.EnableClock.TopLeft),Time)</visible>
+                        <visible>$PARAM[visible]</visible>
+                    </control>
+                    <control type="label">
+                        <align>right</align>
                         <aligny>center</aligny>
                         <width>auto</width>
                         <font>$PARAM[font_top]</font>
@@ -340,6 +352,7 @@
                         <shadowcolor>main_bg_12</shadowcolor>
                         <bottom>0</bottom>
                         <height>50</height>
+                        <visible>String.IsEqual(Skin.String(Furniture.EnableClock.TopLeft),Date)</visible>
                         <visible>$PARAM[visible]</visible>
                     </control>
                     <control type="label">
@@ -352,6 +365,7 @@
                         <shadowcolor>main_bg_12</shadowcolor>
                         <bottom>-30</bottom>
                         <height>50</height>
+                        <visible>String.IsEqual(Skin.String(Furniture.EnableClock.TopLeft),Date)</visible>
                         <visible>$PARAM[visible]</visible>
                         <animation effect="fade" start="100" end="0" time="200" delay="200" reversible="false" condition="$EXP[Exp_View_524]">Conditional</animation>
                         <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="!$EXP[Exp_View_524]">Conditional</animation>
