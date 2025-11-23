@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
 
+    <defaultcontrol always="true">120</defaultcontrol>
     <include content="Action_OSD_SuspendAutoClose">
         <param name="window">DialogSubtitles.xml</param>
     </include>
-
     <controls>
 
         <include>Dialog_Dim_Overlay</include>
         
         <control type="group">
-            <include>Dimension_DialogFullMenu</include>
+            <include>Dimension_DialogMainMenu</include>
             <include>Animation_Right_Delay</include>
             <include content="Dialog_Dim_Side">
                 <param name="slide_condition">True</param>
@@ -19,7 +19,7 @@
             <!-- Bottom Layer -->
             <include content="Dialog_Background_Side">
                 <param name="slide_condition">True</param>
-                <param name="dialog_size">Dimension_DialogFullMenu</param>
+                <param name="dialog_size">Dimension_DialogMainMenu</param>
                 <!-- Side Buttons -->
                 <control type="group">
                     <include>Dimension_Dialog_Body</include>
@@ -27,26 +27,18 @@
                         <include>Dialog_Side_Grouplist_Def</include>
                         <onright>150</onright>
                         <onleft>Close</onleft>
-                        <include content="DialogInfo_Button">
-                            <param name="vertical">true</param>
-                            <param name="id">160</param>
-                            <param name="groupid">9102</param>
-                            <param name="sliceid">9202</param>
-                            <param name="label">$LOCALIZE[413]</param>
-                            <param name="icon">special://skin/extras/icons/circle-plus.png</param>
-                            <param name="textcolor">dialog_fg</param>
-                            <param name="include_hintlabel">!Skin.HasSetting(Options.DisableButtonLabels)</param>
-                            <include content="DialogInfo_Button_HintLabel" condition="![!Skin.HasSetting(Options.DisableButtonLabels)]">
-                                <param name="textcolor">dialog_fg</param>
-                                <param name="label">$LOCALIZE[413]</param>
-                            </include>
+                        <include content="Dialog_Side_Button">
+                            <param name="id">01</param>
+                            <param name="label">$LOCALIZE[15067]</param>
+                            <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+                            <onclick>Close</onclick>
                         </include>
                     </control>
                 </control>
             </include>
 
             <include content="Dialog_Foreground_Side">
-                <param name="dialog_size">Dimension_DialogFullMenu</param>
+                <param name="dialog_size">Dimension_DialogMainMenu</param>
                 <param name="slide_condition">True</param>
                 <param name="lines_right">0</param>
                 <param name="topline">false</param>
@@ -106,11 +98,45 @@
                                 </control>
                             </control>
 
+                            <control type="button" id="160">
+                                <height>80</height>
+                                <onup>SetFocus(150,9999,absolute)</onup>
+                                <ondown>150</ondown>
+                                <onright>120</onright>
+                                <onleft>9000</onleft>
+                                <label>$LOCALIZE[137]</label>
+                                <texturenofocus />
+                                <align>left</align>
+                                <font>font_main</font>
+                                <textoffsetx>40</textoffsetx>
+                                <include>defs_dialog_button</include>
+                            </control>
+                            
+                            <control type="image">
+                                <height>60</height>
+                                <right>-250</right>
+                                <top>10</top>
+                                <texture colordiffuse="main_fg_30">special://skin/extras/icons/search.png</texture>
+                                <aspectratio>keep</aspectratio>
+                                <visible>!Control.HasFocus(160)</visible>
+                            </control>
+                            <control type="image">
+                                <height>60</height>
+                                <right>-250</right>
+                                <top>10</top>
+                                <texture colordiffuse="main_fg_100">special://skin/extras/icons/search.png</texture>
+                                <aspectratio>keep</aspectratio>
+                                <visible>Control.HasFocus(160)</visible>
+                            </control>
+
                             <include content="List_DialogSelect">
                                 <param name="id">150</param>
                                 <param name="textcolor">dialog_fg</param>
                                 <onright>120</onright>
                                 <onleft>9000</onleft>
+                                <top>80</top>
+                                <onup>160</onup>
+                                <ondown>160</ondown>
                             </include>
 
                             <control type="image" id="110" description="Service Logo">
