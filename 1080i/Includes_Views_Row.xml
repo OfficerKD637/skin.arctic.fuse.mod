@@ -146,7 +146,6 @@
         <include content="View_Row_Include">
             <param name="id">50</param>
             <param name="wall_rightpadding">180</param>
-            <param name="offset_x_vert">view_offx</param>
             <param name="wall_posy">-122</param>
             <param name="wall_animnumitems">14</param>
             <param name="wall_include">List_Square_Wall</param>
@@ -193,7 +192,6 @@
             <param name="id">500</param>
             <param name="wall_rightpadding">180</param>
             <param name="wall_rightpadding_horz">180</param>
-            <param name="offset_x_vert">view_offx</param>
             <param name="wall_posy">-122</param>
             <param name="wall_animnumitems">14</param>
             <param name="wall_include">List_Circle_Wall</param>
@@ -224,12 +222,14 @@
         <include content="View_Row_Include" condition="!Skin.HasSetting(View.UseTextBasedCard)">
             <param name="id">532</param>
             <param name="include">List_Card_Row</param>
+            <param name="include_view_row_wallswitch">[False]</param>
             <param name="viewtype_label">$LOCALIZE[31423]</param>
             <param name="visible">$EXP[Exp_View_532]</param>
         </include>
         <include content="View_Row_Include" condition="Skin.HasSetting(View.UseTextBasedCard)">
             <param name="id">532</param>
             <param name="include">List_Corflute_Row</param>
+            <param name="include_view_row_wallswitch">[False]</param>
             <param name="viewtype_label">$LOCALIZE[31423] (T)</param>
             <param name="visible">$EXP[Exp_View_532]</param>
         </include>
@@ -277,6 +277,7 @@
 
     <!-- Row Template View -->
     <include name="View_Row_Include">
+        <param name="include_view_row_wallswitch">[True]</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
@@ -312,7 +313,7 @@
                     </include>
                 </control>
             </control>
-            <include content="View_Row_WallSwitch" condition="String.IsEqual(Skin.String(Navigation.Global.OnDown),Wall) + !$EXP[Exp_View_532]">
+            <include content="View_Row_WallSwitch" condition="String.IsEqual(Skin.String(Navigation.Global.OnDown),Wall) + $PARAM[include_view_row_wallswitch]">
                 <param name="id">$PARAM[id]</param>
                 <param name="include">$PARAM[wall_include]</param>
                 <param name="include_special">$PARAM[wall_include_special]</param>
