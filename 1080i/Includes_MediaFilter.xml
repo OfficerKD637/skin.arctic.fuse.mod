@@ -50,7 +50,8 @@
                         <onleft condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">6099</onleft>
                         <onback>68</onback>
                         <onup>SetFocus(6000,2)</onup>
-                        <ondown>9005</ondown>
+                        <ondown condition="!Window.IsVisible(MyPlaylist.xml)">9005</ondown>
+                        <ondown condition="Window.IsVisible(MyPlaylist.xml)">20</ondown>
                         <include content="Settings_Button">
                             <param name="id">9019</param>
                             <param name="control">button</param>
@@ -128,9 +129,11 @@
                         <onleft condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)]">6099</onleft>
                         <onback>68</onback>
                         <onup>9012</onup>
-                        <ondown condition="Integer.IsGreater(Container(9004).NumItems,5)">RunScript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-mediafilter-refocus.json",use_rules)</ondown>
-                        <ondown condition="!Integer.IsGreater(Container(9004).NumItems,5)">SetFocus(6000,2)</ondown>
-                        <include content="Settings_ButtonImage">
+                        <ondown condition="!Window.IsVisible(MyPlaylist.xml) + Integer.IsGreater(Container(9004).NumItems,5)">RunScript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-mediafilter-refocus.json",use_rules)</ondown>
+                        <ondown condition="[Window.IsVisible(MyPlaylist.xml) | !Integer.IsGreater(Container(9004).NumItems,5)]">SetFocus(6000,2)</ondown>
+                        
+                        <!-- Filter -->
+                        <include content="Settings_ButtonImage" condition="!Window.IsVisible(MyPlaylist.xml)">
                             <param name="id">9005</param>
                             <param name="groupid">9105</param>
                             <param name="control">button</param>
@@ -140,7 +143,9 @@
                             <visible>Container.CanFilterAdvanced</visible>
                             <onclick>Filter</onclick>
                         </include>
-                        <include content="Settings_ButtonImage">
+                        
+                        <!-- Clear filter -->
+                        <include content="Settings_ButtonImage" condition="!Window.IsVisible(MyPlaylist.xml)">
                             <param name="id">9006</param>
                             <param name="groupid">9106</param>
                             <param name="control">button</param>
@@ -156,7 +161,9 @@
                             <onclick>ClearProperty(MediaFilter.Director)</onclick>
                             <onclick>ClearProperty(MediaFilter.Writer)</onclick>
                         </include>
-                        <include content="Settings_ButtonImage">
+                        
+                        <!-- Watched -->
+                        <include content="Settings_ButtonImage" condition="!Window.IsVisible(MyPlaylist.xml)">
                             <param name="id">9007</param>
                             <param name="groupid">9107</param>
                             <param name="control">button</param>
@@ -167,7 +174,9 @@
                             <onclick>SendClick(14)</onclick>
                             <visible>Window.IsVisible(videos)</visible>
                         </include>
-                        <include content="Settings_Button">
+                        
+                        <!-- Sort -->
+                        <include content="Settings_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
                             <param name="id">9008</param>
                             <param name="groupid">9108</param>
                             <param name="control">button</param>
@@ -179,7 +188,9 @@
                             <onclick condition="![Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))]">SendClick(3)</onclick>
                             <onclick condition="Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">RunScript(script.skinvariables,run_dialog=select,heading=$LOCALIZE[581],separator=||,list=title||genre||year||rating||playcount||director||originaltitle||lastplayed||writer||studio||mpaa||country||premiered||top250||votes,"executebuiltin=SetProperty(MediaFilter.SortBy,{v})||route=run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-mediafilter.json&amp;use_rules=True")</onclick>
                         </include>
-                        <include content="Settings_Button">
+                        
+                        <!-- Order -->
+                        <include content="Settings_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
                             <param name="id">9009</param>
                             <param name="groupid">9109</param>
                             <param name="control">button</param>
@@ -193,7 +204,9 @@
                             <onclick condition="String.IsEqual(Window.Property(MediaFilter.SortHow),desc) + Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">ClearProperty(MediaFilter.SortHow)</onclick>
                             <onclick condition="Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">RunScript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-mediafilter.json",use_rules)</onclick>
                         </include>
-                        <include content="Settings_ButtonImage" condition="!Window.IsVisible(favouritesbrowser)">
+                        
+                        <!-- Update Library --->
+                        <include content="Settings_ButtonImage" condition="!Window.IsVisible(favouritesbrowser) + !Window.IsVisible(MyPlaylist.xml)">
                             <param name="id">9010</param>
                             <param name="groupid">9110</param>
                             <param name="control">button</param>
@@ -206,7 +219,9 @@
                             <onclick condition="Window.IsVisible(videos)">UpdateLibrary(video)</onclick>
                             <onclick condition="Window.IsVisible(music)">UpdateLibrary(music)</onclick>
                         </include>
-                        <include content="Settings_Button" condition="!Window.IsVisible(favouritesbrowser)">
+                        
+                        <!-- View -->
+                        <include content="Settings_Button" condition="!Window.IsVisible(favouritesbrowser) + !Window.IsVisible(MyPlaylist.xml)">
                             <param name="id">9011</param>
                             <param name="groupid">9111</param>
                             <param name="control">button</param>
@@ -217,6 +232,50 @@
                             <onclick>ClearProperty(MediaFilterBase)</onclick>
                             <onclick>ClearProperty(MediaFilterWall)</onclick>
                             <onclick>Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
+                        </include>
+                        
+                        <!-- Shuffle -->
+                        <include content="Settings_ButtonImage" condition="Window.IsVisible(MyPlaylist.xml)">
+                            <param name="id">20</param>
+                            <param name="groupid">9120</param>
+                            <param name="control">button</param>
+                            <param name="dialog">true</param>
+                            <param name="icon">$VAR[Image_OSD_Shuffle]</param>
+                            <width>dialog_main_button_w</width>
+                            <label>$LOCALIZE[191]</label>
+                        </include>
+                        
+                        <!-- Repeat -->
+                        <include content="Settings_ButtonImage" condition="Window.IsVisible(MyPlaylist.xml)">
+                            <param name="id">26</param>
+                            <param name="groupid">9126</param>
+                            <param name="control">button</param>
+                            <param name="dialog">true</param>
+                            <param name="icon">$VAR[Image_OSD_Repeat]</param>
+                            <width>dialog_main_button_w</width>
+                            <label>$LOCALIZE[486]</label>
+                        </include>
+                        
+                        <!-- Save -->
+                        <include content="Settings_ButtonImage" condition="Window.IsVisible(MyPlaylist.xml)">
+                            <param name="id">21</param>
+                            <param name="groupid">9121</param>
+                            <param name="control">button</param>
+                            <param name="dialog">true</param>
+                            <param name="icon">special://skin/extras/icons/floppy-disk.png</param>
+                            <width>dialog_main_button_w</width>
+                            <label>$LOCALIZE[190]</label>
+                        </include>
+                        
+                        <!-- Clear -->
+                        <include content="Settings_ButtonImage" condition="Window.IsVisible(MyPlaylist.xml)">
+                            <param name="id">22</param>
+                            <param name="groupid">9122</param>
+                            <param name="control">button</param>
+                            <param name="dialog">true</param>
+                            <param name="icon">special://skin/extras/icons/triangle-exclamation.png</param>
+                            <width>dialog_main_button_w</width>
+                            <label>$LOCALIZE[192]</label>
                         </include>
                     </control>
                     <control type="group">
