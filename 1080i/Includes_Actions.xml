@@ -154,11 +154,17 @@
         <onfocus condition="$EXP[Exp_HomeMenu_IsStatic]">SetProperty(SideMenu.HasFocus,True,Home)</onfocus>
     </include>
     
+    <variable name="Action_OSD_SkipPrev">
+        <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,01)">ChapterOrBigStepBack</value>
+        <value condition="Integer.IsGreater(VideoPlayer.PlaylistPosition,1) + Integer.IsGreater(VideoPlayer.PlaylistLength,1)">SkipPrevious</value>
+        <value>Seek(-10)</value>
+    </variable>
+    
     <variable name="Action_OSD_SkipNext">
         <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,Player.ChapterCount)">ChapterOrBigStepForward</value>
         <value condition="Integer.IsLess(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">SkipNext</value>
         <value condition="!String.IsEmpty(Container(513).ListItem.FileNameAndPath) + Integer.IsLess(Player.TimeRemaining(mins),10)">PlayMedia($ESCINFO[Container(513).ListItem.FileNameAndPath])</value>
-        <value>ChapterOrBigStepForward</value>
+        <value>Seek(10)</value>
     </variable>
 
     <variable name="Action_OSD_Main_OnDown">
