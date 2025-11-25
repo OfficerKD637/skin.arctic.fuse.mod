@@ -71,19 +71,34 @@
 
     <include name="Info_Title_Logo">
         <definition>
-            <include content="Info_Title_LogoLabel">
+            <include content="Info_Title_LogoLabel" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                 <param name="label">$PARAM[label]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="height">132</param>
                 <param name="visible">![$PARAM[mainlogo_visible]]</param>
             </include>
-            <control type="image">
+            <include content="Info_Title_LogoLabel" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <param name="label">$PARAM[label]</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="height">160</param>
+                <param name="visible">![$PARAM[mainlogo_visible]]</param>
+            </include>
+            <include content="Object_Control" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <param name="control">image</param>
                 <height>132</height>
                 <aspectratio align="left" aligny="center">keep</aspectratio>
-                <fadetime>200</fadetime>
-                <texture background="true" colordiffuse="main_info">$PARAM[mainlogo_texture]</texture>
+                <fadetime>0</fadetime>
+                <texture background="true">$PARAM[mainlogo_texture]</texture>
                 <visible>$PARAM[mainlogo_visible]</visible>
-            </control>
+            </include>
+            <include content="Object_Control" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <param name="control">image</param>
+                <height>160</height>
+                <aspectratio align="left" aligny="center">keep</aspectratio>
+                <fadetime>0</fadetime>
+                <texture background="true">$PARAM[mainlogo_texture]</texture>
+                <visible>$PARAM[mainlogo_visible]</visible>
+            </include>
         </definition>
     </include>
 
@@ -96,15 +111,26 @@
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>
-                <height>120</height>
+                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <param name="height">120</param>
+                </include>
+                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <param name="height">160</param>
+                </include>
                 <nested />
                 <control type="group">
                     <right>80</right>
                     <!-- Title Only -->
-                    <include content="Info_Title_LogoLabel" condition="!Skin.HasSetting(TMDbHelper.EnableCrop)">
+                    <include content="Info_Title_LogoLabel" condition="!Skin.HasSetting(TMDbHelper.EnableCrop) + !Skin.HasSetting(Furniture.DisableLeftHeader)">
                         <param name="label">$PARAM[label]</param>
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="height">132</param>
+                        <param name="visible">True</param>
+                    </include>
+                    <include content="Info_Title_LogoLabel" condition="!Skin.HasSetting(TMDbHelper.EnableCrop) + Skin.HasSetting(Furniture.DisableLeftHeader)">
+                        <param name="label">$PARAM[label]</param>
+                        <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="height">160</param>
                         <param name="visible">True</param>
                     </include>
                     <!-- Other -->
@@ -3823,7 +3849,7 @@
                     <param name="height">$PARAM[plotheight]</param>
                 </include>
                 <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="height">203</param>
+                    <param name="height">163</param>
                 </include>
                 <control type="textbox">
                     <visible>$PARAM[details]</visible>
