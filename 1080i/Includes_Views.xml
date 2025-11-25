@@ -25,12 +25,16 @@
                         <include content="Animation_Fade_In">
                             <param name="condition">![[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</param>
                         </include>
+                        <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                         <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                             <param name="label">$PARAM[label]</param>
                         </include>
                     </control>
                     <control type="group">
                         <visible>[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)]| $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]</visible>
+                        <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                         <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
                             <param name="label">$PARAM[label]</param>
                             <param name="include_left_datelabel">false</param>
@@ -326,12 +330,12 @@
             <include>Animation_Transition_InfoPanel_Hide</include>
 
             <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="400" condition="$EXP[Exp_FilterItems_Keyboard]">Conditional</animation>
-            <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="$EXP[Exp_View_WallMode]">Conditional</animation>
             <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="$EXP[Exp_View_FurnitureWall]">Conditional</animation> 
 
             <control type="group">
                 <include content="Info_Panel">
-                    <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer)) + ![Control.IsVisible(524) | $EXP[Exp_View_WallMode] | $EXP[Exp_View_ListMode_Standard]]</param>                    
+                    <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
+                    <param name="details">![Control.IsVisible(519) | Control.IsVisible(520)]</param>
                     <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                        <param name="top">view_top</param>    
                     </include>
@@ -340,15 +344,13 @@
                     </include>
                     <width>info_panel_w</width>
                     <left>view_side</left>
+                    <visible>![Control.IsVisible(524) | Control.IsVisible(517) | $EXP[Exp_View_WallMode]]</visible>
                 </include>
                 <include content="Info_Panel">
-                    <param name="visible">Control.IsVisible(524)</param>
-                    <param name="title">true</param>
-                    <param name="ratings">![Skin.HasSetting(Disable.ComboListDetailedView)]</param>
-                    <param name="details">![Skin.HasSetting(Disable.ComboListDetailedView)]</param>
-                    <param name="infoline_visible">![Skin.HasSetting(Disable.ComboListDetailedView)]</param>
-                    <param name="infoline_customvis">[Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),System.CurrentControlID) | Control.IsVisible(524)]</param>
-                    <param name="plotbox_scroll">[!Skin.HasSetting(Textboxes.DisableAutoscroll) + Control.HasFocus(524)]</param>
+                    <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
+                    <param name="grouplistid">99953</param>
+                    <param name="details">!Skin.HasSetting(Disable.ListBigPosterDetailedView)</param>
+                    <param name="plotwidth">1040</param>
                     <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                         <param name="top">view_top</param>    
                     </include>
@@ -357,19 +359,38 @@
                     </include>
                     <width>info_panel_w</width>
                     <left>view_side</left>
+                    <visible>Control.IsVisible(517)</visible>
                 </include>
                 <include content="Info_Panel">
-                    <param name="visible">$EXP[Exp_View_ListMode_Standard]</param>
-                    <param name="title">true</param>
-                    <param name="ratings">false</param>
-                    <param name="details">false</param>
-                    <param name="infoline_visible">false</param>
+                    <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
+                    <param name="title">false</param>
+                    <param name="grouplistid">99954</param>
+                    <param name="details">!Skin.HasSetting(Disable.ListBigLandscapeDetailedView)</param>
+                    <param name="plotwidth">940</param>
+                    <param name="plotautoheight">false</param>
+                    <height>560.7</height>
+                    <width>940</width>
+                    <right>view_pad</right>
+                    <bottom>-160</bottom>
+                    <visible>Control.IsVisible(519)</visible>
+                    <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                </include>
+                <include content="Info_Panel">
+                    <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
+                    <param name="grouplistid">99955</param>
+                    <param name="plotwidth">680</param>
+                    <param name="ratings">![Skin.HasSetting(Disable.ComboListDetailedView)]</param>
+                    <param name="details">![Skin.HasSetting(Disable.ComboListDetailedView)]</param>
+                    <param name="container">Container(524).</param>
+                    <param name="plotbox_scroll">[!Skin.HasSetting(Textboxes.DisableAutoscroll) + Control.HasFocus(524)]</param>
                     <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                         <param name="top">view_top</param>    
                     </include>
                     <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
                         <param name="top">view_pad</param>    
                     </include>
+                    <visible>Control.IsVisible(524)</visible>
                     <width>info_panel_w</width>
                     <left>view_side</left>
                 </include>
@@ -383,40 +404,40 @@
         </control>
         
         <control type="group">
-            <visible>$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)</visible>            
+            <visible>$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)</visible>
+            <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="$EXP[Exp_View_FurnitureWall]">Conditional</animation>
+            <control type="group">
+                <animation effect="fade" start="100" end="0" delay="600" reversible="false" time="1" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
+                <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <param name="top">view_top</param>    
+                </include>
+                <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <param name="top">view_pad</param>    
+                </include>
+                <left>view_side</left>
+                <right>view_pad</right>
+                <bottom>view_top</bottom>
+                <include content="Info_Panel">
+                    <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
+                    <param name="grouplistid">99956</param>
+                    <param name="title">true</param>
+                    <width>info_panel_w</width>
+                </include>
+            </control>
+            <control type="group">
+                <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="200" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
+                <animation effect="fade" start="0" end="100" delay="200" reversible="false" time="200" condition="!$EXP[Exp_InfoDialogs]">Conditional</animation>
+                <left>view_side</left>
+                <top>520</top>
+                <width>679</width>
+                <height>405</height>
                 <control type="group">
-                    <animation effect="fade" start="100" end="0" delay="600" reversible="false" time="1" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
-                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
-                        <param name="top">view_top</param>    
-                    </include>
-                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-                        <param name="top">view_pad</param>    
-                    </include>
-                    <left>view_side</left>
-                    <right>view_pad</right>
-                    <bottom>view_top</bottom>
-                    <include content="Info_Panel">
-                        <param name="infoline_visible">true</param>
-                        <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
-                        <param name="grouplistid">99954</param>
-                        <param name="title">true</param>
-                        <width>info_panel_w</width>
+                    <include content="Object_BigPoster">
+                        <param name="icon">$VAR[Image_Landscape]</param>
+                        <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
                     </include>
                 </control>
-                <control type="group">
-                    <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="200" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
-                    <animation effect="fade" start="0" end="100" delay="200" reversible="false" time="200" condition="!$EXP[Exp_InfoDialogs]">Conditional</animation>
-                    <left>view_side</left>
-                    <top>520</top>
-                    <width>679</width>
-                    <height>405</height>
-                    <control type="group">
-                        <include content="Object_BigPoster">
-                            <param name="icon">$VAR[Image_Landscape]</param>
-                            <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
-                        </include>
-                    </control>
-                </control>
+            </control>
         </control>
     </include>
 
@@ -426,16 +447,13 @@
             <include>Animation_Transition_InfoPanel_Hide</include>
             <control type="group">                
                 <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]">
-                    <effect type="slide" end="0,-334" start="0" time="200" delay="0" tween="cubic" easing="out" />
+                    <effect type="slide" end="0,-334" start="0" />
                 </animation>
                 <animation type="Conditional" reversible="false" condition="![$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]">
-                    <effect type="slide" start="0,-334" end="0" time="200" delay="0" tween="cubic" easing="out" />
-                </animation>                
-                <animation type="Conditional" reversible="false" condition="[Control.IsVisible(524) + Skin.HasSetting(Disable.ComboListDetailedView)]">
-                    <effect type="slide" end="0,-183" start="0" time="200" delay="0" tween="cubic" easing="out" />
+                    <effect type="slide" start="0,-334" end="0" />
                 </animation>
-                <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_ListMode_Standard]]">
-                    <effect type="slide" end="0,-223" start="0" time="200" delay="0" tween="cubic" easing="out" />
+                <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_ListMode_Standard] | [Control.IsVisible(524) + Skin.HasSetting(Disable.ComboListDetailedView)]]">
+                    <effect type="slide" end="0,-223" start="0" />
                 </animation>
                 <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="[[$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)] | [[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]]">Conditional</animation>                
                 
@@ -456,8 +474,8 @@
         <include content="View_Furniture_Bottom_Group">
             <param name="include">View_Furniture_Bottom_Group_NextLabel</param>
         </include>
-        <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+        <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
     </include>
 
     <include name="View_Row_Items_KeyboardSlide">

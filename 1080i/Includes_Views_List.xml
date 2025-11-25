@@ -37,6 +37,7 @@
             <param name="viewtype_label">List BigPoster</param>
             <param name="visible">$EXP[Exp_View_517]</param>
             <param name="right">590</param>
+            <param name="overlay">true</param>
             <include>View_MediaList_BigPoster</include>
         </include>
         <include content="View_MediaList_Include" condition="Skin.HasSetting(Disable.ListBigPosterDetailedView)">
@@ -56,7 +57,9 @@
             <param name="id">519</param>
             <param name="viewtype_label">List BigLandscape</param>
             <param name="visible">$EXP[Exp_View_519]</param>
+            <param name="top">180</param>
             <param name="right">1010</param>
+            <param name="overlay">true</param>
             <include>View_MediaList_BigLandscape</include>
         </include>
         
@@ -247,15 +250,13 @@
                     
                     <control type="group">                
                         <width>$PARAM[width]</width>
-                        <top>225</top>                    
-                        <include content="Object_Bottom" condition="!Skin.HasSetting(Disable.ComboListDetailedView)">
-                            <param name="bottom">200</param>
+                        <bottom>20</bottom>
+                        <include content="Object_Top" condition="!Skin.HasSetting(Disable.ComboListDetailedView)">
+                            <param name="top">402</param>
                         </include>
-                        <include content="Object_Bottom" condition="Skin.HasSetting(Disable.ComboListDetailedView)">
-                            <param name="bottom">30</param>
-                        </include>    
-                        
-                        <animation effect="slide" start="0" end="0,177" time="400" tween="cubic" easing="out" condition="!Skin.HasSetting(Disable.ComboListDetailedView)" reversible="false">Conditional</animation>
+                        <include content="Object_Top" condition="Skin.HasSetting(Disable.ComboListDetailedView)">
+                            <param name="top">180</param>
+                        </include>
 
                         <include content="List_DialogSelect">
                             <param name="id">$PARAM[id]</param>
@@ -280,7 +281,7 @@
                             <visible>$PARAM[visible]</visible>
                             <viewtype label="$PARAM[viewtype_label]">list</viewtype>
                             <top>15</top>
-                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,526)</onfocus>
+                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                             <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
                         </include>
                     </control>
@@ -324,7 +325,7 @@
                                 <movement>1</movement>
                                 <pagecontrol>66</pagecontrol>
                                 
-                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,526)</onfocus>
+                                <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                                 <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
                             </include>
 
@@ -416,7 +417,7 @@
             <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             
-            <bottom>40</bottom>
+            <bottom>47</bottom>
             <height>764.4</height>
             <control type="group">
                 <right>0</right>
@@ -440,6 +441,7 @@
                 </control>
                 <control type="group">
                     <visible>String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))</visible>
+                    <bottom>40</bottom>
                     <include content="Widget_Standard_Animation">
                         <param name="visible_delay">120</param>
                         <param name="hidden_delay">240</param>
@@ -480,6 +482,9 @@
                 <right>40</right>
                 <height>560.7</height>
                 <width>940</width>
+                <include content="Object_Bottom" condition="!Skin.HasSetting(Disable.ListBigLandscapeDetailedView)">
+                    <param name="bottom">231</param>
+                </include>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include content="Widget_Standard_Animation">
                     <param name="visible_delay">120</param>

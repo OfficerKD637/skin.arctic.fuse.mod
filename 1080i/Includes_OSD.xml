@@ -558,6 +558,7 @@
     <include name="OSD_Info_Line">
         <definition>
             <param name="osd_infoline_visible">true</param>
+            <param name="colordiffuse">panel_fg</param>
             <control type="grouplist">
                 <centertop>37.5</centertop>
                 <hitrect x="0" y="0" w="0" h="0" />
@@ -567,7 +568,7 @@
                 <visible>$PARAM[osd_infoline_visible]</visible>
                 
                <include content="Info_Line_VideoQuality">
-                    <param name="textcolor">panel_fg_90</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]_90</param>
                     <param name="listitem_videoresolution">VideoPlayer.VideoResolution</param>
                     <param name="listitem_audiochannels">VideoPlayer.AudioChannels</param>
                     <param name="listitem_audiocodec">VideoPlayer.AudioCodec</param>
@@ -585,56 +586,55 @@
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[VideoPlayer.ChannelName]</param>
                         <param name="visible">!String.IsEmpty(VideoPlayer.ChannelName)</param>
-                        <param name="textcolor">panel_fg_70</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>       
 
                     <!-- Year / Premiered -->
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[VideoPlayer.Year]</param>
                         <param name="visible">!String.IsEmpty(VideoPlayer.Year) + String.IsEmpty(VideoPlayer.Premiered)</param>
-                        <param name="textcolor">panel_fg_70</param>
+                        <param name="textcolor">$$PARAM[colordiffuse]_70</param>
                     </include>
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[VideoPlayer.Premiered]</param>
                         <param name="visible">!String.IsEmpty(VideoPlayer.Premiered)</param>
-                        <param name="textcolor">panel_fg_70</param>
+                        <param name="textcolor">$$PARAM[colordiffuse]_70</param>
                     </include>
                     
                      <!-- Episode Number -->
                     <include content="Info_Line_Item">
                         <param name="label">$VAR[Label_OSD_Infoline_Plot_Episode_Number]</param>
                         <param name="visible">Skin.HasSetting(Infoline.SETags) + !String.IsEmpty(VideoPlayer.Episode)</param>
-                        <param name="textcolor">panel_fg_70</param>
-                    </include>
+                        <param name="textcolor">$$PARAM[colordiffuse]_70</param>
+                    </include>$$PARAM[colordiffuse]_70
 
                     <!-- MPAA -->
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[VideoPlayer.MPAA]</param>
                         <param name="visible">!String.IsEmpty(VideoPlayer.MPAA)</param>
-                        <param name="textcolor">panel_fg_70</param>
+                        <param name="textcolor">$$PARAM[colordiffuse]_70</param>
                     </include>
 
                     <!-- Genres -->
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
                         <param name="visible">String.IsEmpty(VideoPlayer.Property(Genre.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name))</param>
-                        <param name="textcolor">panel_fg_70</param>
+                        <param name="textcolor">$$PARAM[colordiffuse]_70</param>
                     </include>
 
                     <!-- Ends -->
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[Player.FinishTime,$LOCALIZE[31184] ,]</param>
                         <param name="visible">!String.IsEmpty(Player.FinishTime) + !VideoPlayer.Content(livetv)</param>
-                        <param name="textcolor">panel_fg_70</param>
+                        <param name="textcolor">$$PARAM[colordiffuse]_70</param>
                     </include>
                     
                     <!-- Start Time - End Time (Live TV)-->
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime,  -  ,]</param>
                         <param name="visible">VideoPlayer.Content(livetv)</param>
-                        <param name="textcolor">panel_fg_70</param>
+                        <param name="textcolor">$$PARAM[colordiffuse]_70</param>
                     </include> 
-                    
                 </control>
             </control>
         </definition>
