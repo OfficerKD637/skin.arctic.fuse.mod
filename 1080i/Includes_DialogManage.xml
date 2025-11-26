@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+
+    <include name="Dialog_Manage">
+        <param name="bounce_id">9897</param>
+        <param name="exit_id">9894</param>
+        <param name="confirm_exit">false</param>
+        <param name="confirm_exit_condition">true</param>
+        <param name="confirm_buttons">Dialog_Manage_Confirm_Buttons</param>
+        <param name="confirm_id">909881</param>
+        <param name="trigger_id">9893</param>
+        <param name="has_dim">true</param>
+
+        <definition>
+
+            <include content="Object_Hidden_Button">
+                <param name="id">$PARAM[bounce_id]</param>
+                <onfocus>SetFocus($PARAM[onback])</onfocus>
+            </include>
+            
+            <include content="Object_Hidden_Button">
+                <param name="id">$PARAM[trigger_id]</param>
+                <onfocus condition="[[$PARAM[confirm_exit]] + [$PARAM[confirm_exit_condition]]]">SetFocus($PARAM[confirm_id])</onfocus>
+                <onfocus condition="![[$PARAM[confirm_exit]] + [$PARAM[confirm_exit_condition]]]">PreviousMenu</onfocus>
+            </include>
+
+            <include content="Dialog_Confirm" condition="$PARAM[confirm_exit]">
+                <param name="include_header">Dialog_Manage_Confirm_Header</param>
+                <param name="include_textbox">Dialog_Manage_Confirm_Textbox</param>
+                <param name="include_progress">Items_Null</param>
+                <param name="include_buttons">$PARAM[confirm_buttons]</param>
+                <param name="include_dimensions">Dimension_DialogConfirm</param>
+                <param name="include_animation">Animation_SlideIn_Dialog</param>
+                <param name="visible">ControlGroup(909880).HasFocus()</param>
+            </include>
+
+        </definition>
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Header">
+        <include content="Dialog_Confirm_Header">
+            <param name="id">909883</param>
+            <param name="label">$LOCALIZE[31606]</param>
+        </include>
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Textbox">
+        <include content="Dialog_Confirm_Textbox">
+            <param name="id">909884</param>
+            <param name="label">$LOCALIZE[31607] $LOCALIZE[31609][CR][CR][COLOR=red][B][UPPERCASE]$LOCALIZE[14117][/UPPERCASE][/B][/COLOR] $LOCALIZE[31608]</param>
+        </include>
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Buttons">
+        <param name="onback">9897</param>
+        <param name="onclick">SendClick(28)</param>
+        <definition>
+            <control type="grouplist" id="909880">
+                <right>40</right>
+                <left>40</left>
+                <height>80</height>
+                <bottom>20</bottom>
+                <align>center</align>
+                <orientation>horizontal</orientation>
+                <onup>909880</onup>
+                <ondown>909880</ondown>
+                <onback>$PARAM[onback]</onback>
+                <onback>PreviousMenu</onback>
+
+                <include content="Dialog_Button_Expanded">
+                    <param name="id">9881</param>
+                    <param name="icon">special://skin/extras/icons/circle-check.png</param>
+                    <param name="label">$LOCALIZE[31032]</param>
+                    <onclick>$PARAM[onclick]</onclick>
+                </include>
+
+                <include content="Dialog_Button_Expanded">
+                    <param name="id">9883</param>
+                    <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+                    <param name="label">$LOCALIZE[222]</param>
+                    <onclick>SetFocus($PARAM[onback])</onclick>
+                </include>
+            </control>
+        </definition>
+
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Buttons_DialogSelect">
+        <include content="Dialog_Manage_Confirm_Buttons">
+            <param name="onclick">SendClick(5)</param>
+        </include>
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Buttons_DialogChannelManager">
+        <include content="Dialog_Manage_Confirm_Buttons">
+            <param name="onclick">SendClick(4)</param>
+        </include>
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Buttons_DialogGroupManager">
+        <include content="Dialog_Manage_Confirm_Buttons">
+            <param name="onclick">SendClick(29)</param>
+        </include>
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Buttons_DialogMediaSource">
+        <include content="Dialog_Manage_Confirm_Buttons">
+            <param name="onclick">SendClick(18)</param>
+        </include>
+    </include>
+
+    <include name="Dialog_Manage_Confirm_Buttons_SmartPlaylistEditor">
+        <include content="Dialog_Manage_Confirm_Buttons">
+            <param name="onclick">SendClick(20)</param>
+        </include>
+    </include>
+
+</includes>
