@@ -41,10 +41,28 @@
                         </include>
                     </control>
                     <control type="group">
-                        <include content="Animation_View_SlideOver_Invert" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                        <include content="Animation_View_SlideOver_Invert">
                             <param name="time">400</param>
                         </include>
                         <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
+                        <!-- Custom Shutdown Timer -->
+                        <control type="group">
+                            <include condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]]">Furniture_Right_SlidingFade</include>
+                            <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
+                                <param name="top">80</param>
+                            </include>
+                            <include content="Furniture_Busy">
+                                <param name="hasprogress">false</param>
+                                <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
+                                <param name="icon">special://skin/extras/icons/timer.png</param>
+                                <param name="mainlabel">$INFO[System.AlarmPos(shutdowntimer)]</param>
+                                <param name="minilabel">[CAPITALIZE]$LOCALIZE[20144][/CAPITALIZE]</param>
+                                <param name="haslabel">True</param>
+                                <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
+                                <param name="visible">System.HasAlarm(shutdowntimer)</param>
+                                <param name="flipspinner">false</param>
+                            </include>
+                        </control>
                     </control>
                 </control>
                 <control type="group">
