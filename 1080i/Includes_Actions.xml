@@ -42,7 +42,6 @@
         <value condition="$EXP[Exp_View_51]">51</value>
         <value condition="$EXP[Exp_View_52]">52</value>
         <value condition="$EXP[Exp_View_56]">56</value>
-        <value condition="$EXP[Exp_View_516]">516</value>
         <value condition="$EXP[Exp_View_500]">500</value>
         <value condition="$EXP[Exp_View_502]">502</value>
         <value condition="$EXP[Exp_View_512]">512</value>
@@ -634,6 +633,7 @@
         <onback>7000</onback>
         <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
         <onback>ClearProperty(TMDbHelper.WidgetContainer)</onback>
+        <onfocus condition="Skin.String(InfoDialog.Layout,Blur)">ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
         <onunfocus>ClearProperty(TMDbHelper.WidgetContainer)</onunfocus>
     </include>
     
@@ -648,6 +648,7 @@
         <onback>5003</onback>
         <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
         <onback>ClearProperty(TMDbHelper.WidgetContainer)</onback>
+        <onfocus condition="Skin.String(InfoDialog.Layout,Blur)">ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
         <onunfocus>ClearProperty(TMDbHelper.WidgetContainer)</onunfocus>
     </include>
     
@@ -662,6 +663,7 @@
         <onback>5504</onback>
         <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
         <onback>ClearProperty(TMDbHelper.WidgetContainer)</onback>
+        <onfocus condition="Skin.String(InfoDialog.Layout,Blur)">ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
         <onunfocus>ClearProperty(TMDbHelper.WidgetContainer)</onunfocus>
     </include>
 
@@ -689,9 +691,13 @@
         <ondown condition="$PARAM[condition]">SetProperty(Studio_Image,$VAR[Image_CombinedStudio])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Studio_Query,$VAR[Path_FromStudio])</ondown>
 
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)])</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)])</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID),&amp;tmdb_id=,])</ondown>
+        <ondown condition="$PARAM[condition] + !Skin.HasSetting(InfoDialog.EnableLocalCollection)">SetProperty(Set_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Name)])</ondown>
+        <ondown condition="$PARAM[condition] + !Skin.HasSetting(InfoDialog.EnableLocalCollection)">SetProperty(Set_Image,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.Fanart)])</ondown>
+        <ondown condition="$PARAM[condition] + !Skin.HasSetting(InfoDialog.EnableLocalCollection)">SetProperty(Set_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID)])</ondown>
+        
+        <ondown condition="$PARAM[condition] + Skin.HasSetting(InfoDialog.EnableLocalCollection)">SetProperty(Set_Label,$INFO[ListItem.Set])</ondown>
+        <ondown condition="$PARAM[condition] + Skin.HasSetting(InfoDialog.EnableLocalCollection)">SetProperty(Set_Image,$INFO[ListItem.Art(set.fanart)])</ondown>
+        <ondown condition="$PARAM[condition] + Skin.HasSetting(InfoDialog.EnableLocalCollection)">SetProperty(Set_Query,$INFO[ListItem.SetID])</ondown>
 
         <ondown condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query])</ondown>
@@ -829,22 +835,30 @@
         <param name="condition">true</param>
         <definition>
             <!-- Explore -->
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual(Container.NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + Integer.IsEqual(Container.NumPages,1)">SetFocus(67)</ondown>
 
             <!-- Filter -->
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + !Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + !Integer.IsEqual(Container.NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + Integer.IsEqual(Container.NumPages,1)">SetFocus(64)</ondown>
 
             <!-- Options -->
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options) + !Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options) + !Integer.IsEqual(Container.NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options) + Integer.IsEqual(Container.NumPages,1)">ActivateWindow(1171)</ondown>
 
             <!-- Bump -->
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump)">SetProperty(List.ViewContainer,$INFO[System.CurrentControlId])</ondown>
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump) + !Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump) + !Integer.IsEqual(Container.NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump) + Integer.IsEqual(Container.NumPages,1)">SetFocus(330)</ondown>
             
             <!-- Wall -->
-            <ondown condition="[[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]] + $PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1)">SetFocus(612)</ondown>
-            <ondown condition="[[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]] + $PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual(Container.NumPages,1)">SetFocus(64)</ondown>
-            <ondown condition="![[Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]] + $PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall)">SetFocus(64)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual(Container.NumPages,1)">SetFocus(64)</ondown>
         </definition>
     </include>
     

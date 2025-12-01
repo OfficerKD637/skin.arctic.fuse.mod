@@ -39,6 +39,7 @@
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_Autoscroll)">Items_Settings_Autoscroll</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_MPAACountries)">Items_Settings_MPAACountries</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoOSD)">Items_Settings_VideoOSD</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoInfo)">Items_Settings_VideoInfo</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags)">Items_Settings_InfolineAdditionalTags</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)">Items_Settings_AutoTrailers</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RatingsMovies)">Items_Settings_RatingsMovies</include>
@@ -47,7 +48,6 @@
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RightFooter)">Items_Settings_RightFooter</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineStatus)">Items_Settings_InfolineStatus</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_SideMenuBehavior)">Items_Settings_SideMenuBehavior</include>
-        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseHubs)">Items_Settings_CustomiseHubs</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseWidgets)">Items_Settings_CustomiseWidgets</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseViewtypes)">Items_Settings_CustomiseViewtypes</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_HDRPopUpLogo)">Items_Settings_HDRPopUpLogo</include>
@@ -142,7 +142,7 @@
             <label>$LOCALIZE[31347]</label>
             <onclick>Skin.ToggleSetting(Home.SideMenu.DisableIndicator)</onclick>
             <selected>!Skin.HasSetting(Home.SideMenu.DisableIndicator)</selected>
-        </include>            
+        </include>
         <include content="Settings_Button" description="Search And Options">
             <param name="dialog">true</param>
             <param name="id">8005</param>
@@ -159,7 +159,7 @@
             <onclick>Skin.ToggleSetting(SideMenu.SwapSearchForDiscover)</onclick>
             <selected>Skin.HasSetting(SideMenu.SwapSearchForDiscover)</selected>
             <visible>Skin.HasSetting(SideMenu.EnableSearchAndOptions)</visible>
-        </include>        
+        </include>
         <include content="Settings_Button" description="Home OnUp">
             <param name="dialog">true</param>
             <param name="id">8007</param>
@@ -184,13 +184,15 @@
              <label>$LOCALIZE[15217] ($LOCALIZE[31166])</label>
              <label2>$VAR[Label_Settings_NavigationHomeBack]</label2>
              <onclick>Skin.ToggleSetting(Navigation.DisableOptionsOnBack)</onclick>
-         </include>         
-    </include>
-    
-    <include name="Items_Settings_CustomiseHubs">        
-        <include content="Settings_Button" description="Spotlight Style">
+         </include>
+         <include content="Settings_Label">
+            <param name="id">8010</param>
             <param name="dialog">true</param>
-            <param name="id">8001</param>
+            <label>$LOCALIZE[31324]</label>
+        </include>
+         <include content="Settings_Button" description="Spotlight Style">
+            <param name="dialog">true</param>
+            <param name="id">8011</param>
             <param name="control">button</param>
             <label>$LOCALIZE[31105]</label>
             <label2>$VAR[Label_Setting_SpotlightStyle]</label2>
@@ -198,7 +200,7 @@
         </include>
         <include content="Settings_Button" description="Categories">
             <param name="dialog">true</param>
-            <param name="id">8002</param>
+            <param name="id">8012</param>
             <param name="control">button</param>
             <label>$LOCALIZE[31150]</label>
             <label2>$VAR[Label_Setting_CombinedStyle]</label2>
@@ -211,18 +213,18 @@
 
             <onclick condition="!Skin.HasSetting(Views.UseAltCombined) + !Skin.HasSetting(Views.UseAltCombined.Detailed)">Skin.SetBool(Views.UseAltCombined)</onclick>
             <onclick condition="!Skin.HasSetting(Views.UseAltCombined) + !Skin.HasSetting(Views.UseAltCombined.Detailed)">Skin.Reset(Views.UseAltCombined.Detailed)</onclick>
-        </include>        
+        </include>
         <include content="Settings_Button" description="TV Channels">
             <param name="dialog">true</param>
-            <param name="id">8003</param>
+            <param name="id">8013</param>
             <param name="control">button</param>
             <label>$LOCALIZE[19023]</label>
             <label2>$VAR[Label_Setting_EPGChannelsStyle]</label2>
             <onclick>Skin.ToggleSetting(Views.UseHalfPVRGuide)</onclick>
-        </include>        
+        </include>
         <include content="Settings_Button" description="Content OnBack">
             <param name="dialog">true</param>
-            <param name="id">8004</param>
+            <param name="id">8014</param>
             <param name="control">button</param>
             <label>$LOCALIZE[15217] ($LOCALIZE[31166])</label>
             <label2>$VAR[Label_Settings_NavigationOnBack]</label2>
@@ -233,14 +235,64 @@
         </include>
         <include content="Settings_Button" description="Content OnDown">
             <param name="dialog">true</param>
-            <param name="id">8005</param>
+            <param name="id">8015</param>
             <param name="control">button</param>
             <label>$LOCALIZE[15217] ($LOCALIZE[31008])</label>
             <label2>$VAR[Label_Settings_NavigationOnDown]</label2>
             <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Path_PreSelect_Nav_OnDown],heading=$LOCALIZE[31324] > $LOCALIZE[31008],separator=||,list=$LOCALIZE[33063]||$LOCALIZE[31148]||$LOCALIZE[587] ($LOCALIZE[14022])||$LOCALIZE[31167]||$LOCALIZE[31446],"executebuiltin_0=Skin.SetString(Navigation.Global.OnDown,Options)","executebuiltin_1=Skin.SetString(Navigation.Global.OnDown,Explore)","executebuiltin_2=Skin.SetString(Navigation.Global.OnDown,Filter)","executebuiltin_3=Skin.SetString(Navigation.Global.OnDown,Wall)","executebuiltin_4=Skin.SetString(Navigation.Global.OnDown,Bump)")</onclick>
-        </include>       
+        </include>
     </include>
     
+    <include name="Items_Settings_VideoInfo">
+        <include content="Settings_Button" description="InfoDialog widget style">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31103]</label>
+            <label2>$VAR[Label_InfoDialog_WidgetStyle]</label2>
+            <onclick>Skin.ToggleSetting(InfoDialog.WidgetsPoster)</onclick>
+        </include>
+        <include content="Settings_Button" description="InfoDialog layout artwork">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31158] $LOCALIZE[39123]</label>
+            <label2>$VAR[Label_InfoDialog_Layout]</label2>
+            <onclick condition="String.IsEmpty(Skin.String(InfoDialog.Layout))">Skin.SetString(InfoDialog.Layout,Blur)</onclick>
+            <onclick condition="Skin.String(InfoDialog.Layout,Blur)">Skin.SetString(InfoDialog.Layout,DisableArt)</onclick>
+            <onclick condition="Skin.String(InfoDialog.Layout,DisableArt)">Skin.Reset(InfoDialog.Layout)</onclick>
+        </include>
+        <include content="Settings_Label">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <label>$LOCALIZE[33063]</label>
+        </include>
+        <include content="Settings_Button" description="Use online cast">
+            <param name="dialog">true</param>
+            <param name="id">8004</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[31356]</label>
+            <onclick>Skin.ToggleSetting(Info.UseLocalCast)</onclick>
+            <selected>!Skin.HasSetting(Info.UseLocalCast)</selected>
+        </include>
+        <include content="Settings_Button" description="Use online collection">
+            <param name="id">8005</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>
+            <label>$LOCALIZE[31540]</label>
+            <onclick>Skin.ToggleSetting(InfoDialog.EnableLocalCollection)</onclick>
+            <selected>!Skin.HasSetting(InfoDialog.EnableLocalCollection)</selected>
+        </include>
+        <include content="Settings_Button" description="Use online gallery">
+            <param name="id">8006</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>
+            <label>$LOCALIZE[31539]</label>
+            <onclick>Skin.ToggleSetting(InfoDialog.DisableOnlineGallery)</onclick>
+            <selected>!Skin.HasSetting(InfoDialog.DisableOnlineGallery)</selected>
+        </include>
+    </include>
+
     <include name="Items_Settings_CustomiseWidgets">
         <include content="Settings_Button" description="No Items Placeholder">
             <param name="dialog">true</param>
@@ -281,24 +333,16 @@
     </include>
     
     <include name="Items_Settings_CustomiseViewtypes">
-        <include content="Settings_Button" description="InfoDialog widget style">
-             <param name="dialog">true</param>
-             <param name="id">8001</param>                            
-             <param name="control">button</param>
-             <label>$LOCALIZE[14116] [LOWERCASE]$LOCALIZE[31103][/LOWERCASE]</label>
-             <label2>$VAR[Label_InfoDialog_Style]</label2>
-             <onclick>Skin.ToggleSetting(InfoDialog.Poster)</onclick>                            
-        </include>
         <include content="Settings_Button" description="Discover widget style">
              <param name="dialog">true</param>
-             <param name="id">8002</param>                            
+             <param name="id">8001</param>                            
              <param name="control">button</param>
              <label>$LOCALIZE[31066] / $LOCALIZE[31148] [LOWERCASE]$LOCALIZE[31103][/LOWERCASE]</label>
              <label2>$VAR[Label_Discover_Style]</label2>
              <onclick>Skin.ToggleSetting(Discover.Landscape)</onclick>                            
         </include>
         <include content="Settings_Button" description="Use Text based Card widgets">
-            <param name="id">8003</param>
+            <param name="id">8002</param>
             <param name="control">button</param>
             <param name="dialog">true</param>
             <label>$LOCALIZE[31423]</label>
@@ -306,12 +350,20 @@
             <onclick>Skin.ToggleSetting(View.UseTextBasedCard)</onclick>
         </include>
         <include content="Settings_Button" description="Use Text based Board widgets">
-            <param name="id">8004</param>
+            <param name="id">8003</param>
             <param name="control">button</param>
             <param name="dialog">true</param>
             <label>$LOCALIZE[31424]</label>
             <label2>$VAR[Label_Settings_BoardViewMode]</label2>
             <onclick>Skin.ToggleSetting(View.UseTextBasedBoard)</onclick>
+        </include>
+        <include content="Settings_Button" description="Use Simple Text">
+            <param name="id">8004</param>
+            <param name="control">button</param>
+            <param name="dialog">true</param>
+            <label>$LOCALIZE[31329] [LOWERCASE]$LOCALIZE[31425][/LOWERCASE]</label>
+            <label2>$VAR[Label_Settings_TextViewMode]</label2>
+            <onclick>Skin.ToggleSetting(View.DisableDetailedListLabels)</onclick>
         </include>
         <include content="Settings_Label">
             <param name="id">8005</param>
@@ -358,9 +410,17 @@
             <param name="dialog">true</param>
             <label>$LOCALIZE[535]</label>
         </include>
-        <include content="Settings_Button" description="List BigPoster">
+        <include content="Settings_Button" description="List Flix">
              <param name="dialog">true</param>
              <param name="id">8011</param>
+             <param name="control">button</param>
+             <label>$LOCALIZE[31479]</label>
+             <label2>$VAR[Label_Setting_ListFlixPoster]</label2>
+             <onclick>Skin.ToggleSetting(Disable.ListFlixPoster)</onclick>
+        </include>
+        <include content="Settings_Button" description="List BigPoster">
+             <param name="dialog">true</param>
+             <param name="id">8012</param>
              <param name="control">button</param>
              <label>$LOCALIZE[31581]</label>
              <label2>$VAR[Label_Setting_ListBigPosterDetailedView]</label2>
@@ -368,7 +428,7 @@
         </include>
         <include content="Settings_Button" description="List BigLandscape">
              <param name="dialog">true</param>
-             <param name="id">8012</param>
+             <param name="id">8013</param>
              <param name="control">button</param>
              <label>$LOCALIZE[31452]</label>
              <label2>$VAR[Label_Setting_ListBigLandscapeDetailedView]</label2>
@@ -376,7 +436,7 @@
         </include>
         <include content="Settings_Button" description="Combined List">
              <param name="dialog">true</param>
-             <param name="id">8013</param>
+             <param name="id">8014</param>
              <param name="control">button</param>
              <label>$LOCALIZE[31588]</label>
              <label2>$VAR[Label_Setting_ComboListDetailedView]</label2>
@@ -1835,7 +1895,7 @@
                 <param name="label">$LOCALIZE[39123]</param>
                 <param name="icon">special://skin/extras/icons/image.png</param>
                 <param name="visible">Control.IsEnabled(10)</param>
-                <ondown>5009</ondown>
+                <ondown>7003</ondown>
                 <onclick condition="![String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/) + String.IsEmpty(ListItem.DBID)]">SendClick(10)</onclick>
                 <onclick condition="[String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/) + String.IsEmpty(ListItem.DBID)]">RunScript(plugin.video.themoviedb.helper,modify_artwork,tmdb_id=$VAR[Path_InfoParams_TMDbID],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
                 <onfocus>SetProperty(DetailsView,Artwork)</onfocus>
@@ -1923,7 +1983,7 @@
                 <param name="label">$LOCALIZE[39123]</param>
                 <param name="icon">special://skin/extras/icons/image.png</param>
                 <param name="visible">Control.IsEnabled(10)</param>
-                <ondown>5009</ondown>
+                <ondown>7003</ondown>
                 <onclick>SendClick(10)</onclick>
                 <onfocus>SetProperty(DetailsView,Artwork)</onfocus>
             </include>

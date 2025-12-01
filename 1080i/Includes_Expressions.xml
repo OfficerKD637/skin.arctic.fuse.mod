@@ -148,7 +148,7 @@
     <expression name="Exp_View_FurnitureWall">[Control.IsVisible(508) | Control.IsVisible(518) | Control.IsVisible(528) | Control.IsVisible(5008) | Control.IsVisible(5308) | Control.IsVisible(5338) | Control.IsVisible(5318)]</expression>
     <expression name="Exp_View_WallVert">[String.IsEqual(Skin.AspectRatio,16:9) + Skin.HasSetting(View.SwitchWallOrientation)]</expression>
     
-    <expression name="Exp_View_ListMode_Standard">[[Control.IsVisible(517) + Skin.HasSetting(Disable.ListBigPosterDetailedView)] | Control.IsVisible(519) | Control.IsVisible(520)]</expression>
+    <expression name="Exp_View_ListMode_Standard">[[Control.IsVisible(517) + Skin.HasSetting(Disable.ListBigPosterDetailedView)] | Control.IsVisible(519) | Control.IsVisible(520) | Window.IsVisible(MyPlaylist.xml)]</expression>    
 
     <!-- Discover -->
     <expression name="Exp_View_55">[Container.Content(files) + [String.IsEqual(Container.ListItem.Property(param.info),user_discover) | String.IsEqual(Container.Property(param.info),user_discover)]]</expression>
@@ -161,16 +161,22 @@
     <expression name="Exp_View_573">$EXP[Exp_View_572]</expression>
 
     <!-- Scrollbar -->
-    <expression name="Exp_ScrollbarVisible_H">[Control.HasFocus(60) | [Control.HasFocus(330) + Integer.IsEqual(Window.Property(List.ViewContainer),60)]]</expression>
-    <expression name="Exp_ScrollbarVisible_V">[Control.HasFocus(61) | Control.HasFocus(65)]</expression>
+    <expression name="Exp_View_CombinedMode">[Control.IsVisible(502) | Control.IsVisible(512) | Control.IsVisible(522) | Control.IsVisible(542) | Control.IsVisible(552) | Control.IsVisible(572)]</expression>
+    <expression name="Exp_FurnitureFooter_Left_IsVisible">[!$EXP[Exp_View_CombinedMode] | $EXP[Exp_View_ScrollFilter_HasFocus]]</expression>
 
-    <expression name="Exp_FurnitureFooter_Left_IsVisible">[![Control.IsVisible(502) | Control.IsVisible(512) | Control.IsVisible(522) | Control.IsVisible(542) | Control.IsVisible(552) | Control.IsVisible(572)]]</expression>
+    <expression name="Exp_View_Scrollbar_Mini_V">[Control.IsVisible(56)]</expression>
+    <expression name="Exp_View_Scrollbar_Midi_V">[Control.IsVisible(517) + !Skin.HasSetting(Disable.ListBigPosterDetailedView)]</expression>
+    <expression name="Exp_View_Scrollbar_Maxi_V">[[Control.IsVisible(517) + Skin.HasSetting(Disable.ListBigPosterDetailedView)] | Control.IsVisible(519) | Control.IsVisible(520) | Control.IsVisible(524) | [[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert]] | Window.IsVisible(MyPlaylist.xml)]</expression>
+    
+    <expression name="Exp_View_ScrollFilter_HasFocus">[Control.HasFocus(60) | Control.HasFocus(65) | Control.HasFocus(66) | Control.HasFocus(70) | Control.HasFocus(610) | Control.HasFocus(611)]</expression>
+    <expression name="Exp_View_ScrollFilterVert_HasFocus">[Control.HasFocus(65) | Control.HasFocus(66) | Control.HasFocus(70) | Control.HasFocus(611)]</expression>
+    <expression name="Exp_View_ScrollFilterHorz_HasFocus">[Control.HasFocus(60) | Control.HasFocus(610)]</expression>
 
 
     <!-- Filter Walls -->
-    <expression name="Exp_BackgroundArtwork_IsHidden">[Window.IsVisible(favouritesbrowser) | [!$EXP[Exp_InfoDialogs] + !String.IsEmpty(Window.Property(Background.HideArtwork))]]</expression>
+    <expression name="Exp_BackgroundArtwork_IsHidden">[[![$EXP[Exp_InfoDialogs] | Window.IsVisible(1190)] + [Window.IsVisible(favouritesbrowser) | Window.IsVisible(weather) | !String.IsEmpty(Window.Property(Background.HideArtwork))]] | [[$EXP[Exp_InfoDialogs] | Window.IsVisible(1190)] + [!String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork)) + Skin.String(InfoDialog.Layout,Blur)]]]</expression>
 
-    <expression name="Exp_BackgroundArtwork_IsOverlay">[$EXP[Exp_BackgroundArtwork_IsHidden] | [!$EXP[Exp_InfoDialogs] + !String.IsEmpty(Window(Home).Property(Background.ShowOverlay))] | [$EXP[Exp_InfoDialogs] + String.IsEqual(ListItem.Property(tmdb_type),person)]]</expression>
+    <expression name="Exp_BackgroundArtwork_IsOverlay">[$EXP[Exp_BackgroundArtwork_IsHidden] | [!$EXP[Exp_InfoDialogs] + !String.IsEmpty(Window(Home).Property(Background.ShowOverlay))] | [$EXP[Exp_InfoDialogs] + Skin.String(InfoDialog.Layout,Blur) + String.IsEqual(ListItem.Property(tmdb_type),person)]]</expression>
     
     <expression name="Exp_MediaFilter_IsActive">[!String.IsEmpty(Window.Property(MediaFilterBase))]</expression>
     

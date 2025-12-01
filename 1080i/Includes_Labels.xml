@@ -82,15 +82,35 @@
     </variable>
 
     <variable name="Label_NextBump">
+        <value condition="Control.IsVisible(502) + Window.IsMedia">$INFO[Container(503).NumItems, , $LOCALIZE[31022]]</value>
+        <value condition="Control.IsVisible(512) + Window.IsMedia">$INFO[Container(513).NumItems, , $LOCALIZE[31022]]</value>
+        <value condition="Control.IsVisible(522) + Window.IsMedia">$INFO[Container(523).NumItems, , $LOCALIZE[31022]]</value>
+        <value condition="Control.IsVisible(542) + Window.IsMedia">$INFO[Container(543).NumItems, , $LOCALIZE[31022]]</value>
+        <value condition="Control.IsVisible(552) + Window.IsMedia">$INFO[Container(553).NumItems, , $LOCALIZE[31022]]</value>
+        <value condition="Control.IsVisible(572) + Window.IsMedia">$INFO[Container(573).NumItems, , $LOCALIZE[31022]]</value>
+        <value condition="Control.IsVisible(524) + [Control.HasFocus(526) | Control.HasFocus(611) | Control.HasFocus(66)] + Window.IsMedia">$INFO[Container(526).NumItems, , $LOCALIZE[31022]]</value>
         <value condition="Window.IsMedia">$INFO[Container.NumItems, , $LOCALIZE[31022]]</value>
     </variable>
 
     <variable name="Label_NextMedia">
-        <value condition="Skin.String(Navigation.Global.OnDown,Explore)">$LOCALIZE[31148]</value>
-        <value condition="Skin.String(Navigation.Global.OnDown,Options)">$LOCALIZE[33063]</value>
-        <value condition="!$EXP[Exp_Window_IsHub] + Skin.HasSetting(Furniture.EnableViewLineIcons) + [Skin.String(Navigation.Global.OnDown,Filter) | [Skin.String(Navigation.Global.OnDown,Wall) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | $EXP[Exp_View_56] | $EXP[Exp_View_516] | $EXP[Exp_View_517] | $EXP[Exp_View_519] | $EXP[Exp_View_520] | $EXP[Exp_View_524] | $EXP[Exp_View_532]]]]">$LOCALIZE[587]</value>
-        <value condition="!$EXP[Exp_Window_IsHub] + Skin.HasSetting(Furniture.EnableViewLineIcons) + Skin.String(Navigation.Global.OnDown,Wall) + ![$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | $EXP[Exp_View_56] | $EXP[Exp_View_516] | $EXP[Exp_View_517] | $EXP[Exp_View_519] | $EXP[Exp_View_520] | $EXP[Exp_View_524] | $EXP[Exp_View_532]]">$LOCALIZE[31167]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Explore) + Skin.HasSetting(Furniture.EnableViewLineIcons)">$LOCALIZE[31148]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Options) + Skin.HasSetting(Furniture.EnableViewLineIcons)">$LOCALIZE[33063]</value>
+        <value condition="!$EXP[Exp_Window_IsHub] + Skin.HasSetting(Furniture.EnableViewLineIcons) + [Skin.String(Navigation.Global.OnDown,Filter) | [Skin.String(Navigation.Global.OnDown,Wall) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | $EXP[Exp_View_56] | $EXP[Exp_View_517] | $EXP[Exp_View_519] | $EXP[Exp_View_520] | $EXP[Exp_View_524] | $EXP[Exp_View_532]]]]">$LOCALIZE[587]</value>
+        <value condition="!$EXP[Exp_Window_IsHub] + Skin.HasSetting(Furniture.EnableViewLineIcons) + Skin.String(Navigation.Global.OnDown,Wall) + ![$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | $EXP[Exp_View_56] | $EXP[Exp_View_517] | $EXP[Exp_View_519] | $EXP[Exp_View_520] | $EXP[Exp_View_524] | $EXP[Exp_View_532]]">$LOCALIZE[31167]</value>
         <value>$VAR[Label_NextBump]</value>
+    </variable>
+    
+    <variable name="Label_OnDown_Footer_HintText">
+        <value condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + !$EXP[Exp_View_WallMode] + !$EXP[Exp_View_FurnitureWall] + !$EXP[Exp_View_CombinedMode]">$LOCALIZE[31333]</value>
+        <value condition="[Skin.String(Navigation.Global.OnDown,Wall) + [Integer.IsEqual(Container.NumPages,1) | $EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | $EXP[Exp_View_CombinedMode]]] | Skin.String(Navigation.Global.OnDown,Filter)">$LOCALIZE[31284]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Options)">$LOCALIZE[31277]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Explore)">$LOCALIZE[31276]</value>
+    </variable>
+    
+    <variable name="Label_OnRight_Footer_HintText">
+        <value condition="Skin.String(Navigation.Global.OnDown,Wall) | Skin.String(Navigation.Global.OnDown,Filter)">$LOCALIZE[31288]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Options)">$LOCALIZE[31273]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Explore)">$LOCALIZE[31281]</value>
     </variable>
 
     <variable name="Label_NextWidget">
@@ -158,9 +178,15 @@
         <value>$LOCALIZE[20021]</value>
     </variable>
     
-    <variable name="Label_InfoDialog_Style">
-        <value condition="!Skin.HasSetting(InfoDialog.Poster)">$LOCALIZE[31045]</value>
+    <variable name="Label_InfoDialog_WidgetStyle">
+        <value condition="!Skin.HasSetting(InfoDialog.WidgetsPoster)">$LOCALIZE[31045]</value>
         <value>$LOCALIZE[20021]</value>
+    </variable>
+    
+    <variable name="Label_InfoDialog_Layout">
+        <value condition="String.IsEmpty(Skin.String(InfoDialog.Layout))">Flix</value>
+        <value condition="Skin.String(InfoDialog.Layout,DisableArt)">$LOCALIZE[13106]</value>
+        <value>$LOCALIZE[39173]</value>
     </variable>
     
     <variable name="Label_Topbar_Style">
@@ -309,6 +335,11 @@
     <variable name="Label_Settings_BoardViewMode">
         <value condition="Skin.HasSetting(View.UseTextBasedBoard)">$LOCALIZE[31329]</value>
         <value>$LOCALIZE[31330]</value>
+    </variable>
+    
+    <variable name="Label_Settings_TextViewMode">
+        <value condition="!Skin.HasSetting(View.DisableDetailedListLabels)">$LOCALIZE[31137]</value>
+        <value>$LOCALIZE[31438]</value>
     </variable>
 
     <variable name="Label_Scrollbar_Content">
@@ -828,36 +859,27 @@
     
     <variable name="Label_Setting_AdditionalTags">
         <value condition="Skin.HasSetting(Info.EnablePillboxStyle) + Skin.HasSetting(Infoline.DisableSource) + !Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Infoline.DisableHDR) + Skin.HasSetting(Infoline.DisableAudioChannels) + Skin.HasSetting(Infoline.DisableCodec) + Skin.HasSetting(Infoline.DisableVersion) + Skin.HasSetting(Infoline.DisableCollection)">$LOCALIZE[16018]</value> <!--  NONE -->
-        <value>$VAR[Label_Setting_AdditionalTags_Source]$VAR[Label_Setting_AdditionalTags_EpisodeNumber]$VAR[Label_Setting_AdditionalTags_HDR]$VAR[Label_Setting_AdditionalTags_AudioChannels]$VAR[Label_Setting_AdditionalTags_AudioCodecs]$VAR[Label_Setting_AdditionalTags_Version]$VAR[Label_Setting_AdditionalTags_Collection]</value>                                
+        <value>$VAR[Label_Setting_AdditionalTags_Source,   ,]$VAR[Label_Setting_AdditionalTags_EpisodeNumber,   ,]$VAR[Label_Setting_AdditionalTags_HDR,   ,]$VAR[Label_Setting_AdditionalTags_AudioChannels,   ,]$VAR[Label_Setting_AdditionalTags_Version,   ,]$VAR[Label_Setting_AdditionalTags_Collection,   ,]</value>                                
     </variable>    
     
     <variable name="Label_Setting_AdditionalTags_Source">        
-        <value condition="[!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Info.EnablePillboxStyle)] + [!Skin.HasSetting(Infoline.DisableHDR) | !Skin.HasSetting(Infoline.DisableAudioChannels) | !Skin.HasSetting(Infoline.DisableCodec) | !Skin.HasSetting(Infoline.DisableVersion) | !Skin.HasSetting(Infoline.DisableCollection)]">$LOCALIZE[21870] + </value>
         <value condition="!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Info.EnablePillboxStyle)">$LOCALIZE[21870]</value>
     </variable>
     
     <variable name="Label_Setting_AdditionalTags_EpisodeNumber">        
-        <value condition="Skin.HasSetting(Infoline.SETags) + [!Skin.HasSetting(Infoline.DisableHDR) | !Skin.HasSetting(Infoline.DisableAudioChannels) | !Skin.HasSetting(Infoline.DisableCodec) | !Skin.HasSetting(Infoline.DisableVersion) | !Skin.HasSetting(Infoline.DisableCollection)]">$LOCALIZE[20359][LOWERCASE] $LOCALIZE[549][/LOWERCASE] + </value>
         <value condition="Skin.HasSetting(Infoline.SETags)">$LOCALIZE[20359][LOWERCASE] $LOCALIZE[549][/LOWERCASE]</value>
     </variable>
     
     <variable name="Label_Setting_AdditionalTags_HDR">        
-        <value condition="!Skin.HasSetting(Infoline.DisableHDR) + [!Skin.HasSetting(Infoline.DisableAudioChannels) | !Skin.HasSetting(Infoline.DisableCodec) | !Skin.HasSetting(Infoline.DisableVersion) | !Skin.HasSetting(Infoline.DisableCollection)]">HDR + </value>
         <value condition="!Skin.HasSetting(Infoline.DisableHDR)">HDR</value>
     </variable>
     
     <variable name="Label_Setting_AdditionalTags_AudioChannels">
-        <value condition="!Skin.HasSetting(Infoline.DisableAudioChannels) + Skin.HasSetting(Infoline.DisableCodec) + [!Skin.HasSetting(Infoline.DisableVersion) | !Skin.HasSetting(Infoline.DisableCollection)]">$LOCALIZE[21444] + </value> 
-        <value condition="!Skin.HasSetting(Infoline.DisableAudioChannels) + Skin.HasSetting(Infoline.DisableCodec)">$LOCALIZE[21444]</value> 
-    </variable>
-    
-    <variable name="Label_Setting_AdditionalTags_AudioCodecs">
-        <value condition="!Skin.HasSetting(Infoline.DisableCodec) + !Skin.HasSetting(Infoline.DisableAudioChannels) + [!Skin.HasSetting(Infoline.DisableVersion) | !Skin.HasSetting(Infoline.DisableCollection)]">$LOCALIZE[21444][LOWERCASE] & $LOCALIZE[31207][/LOWERCASE] + </value>
-        <value condition="!Skin.HasSetting(Infoline.DisableCodec) + !Skin.HasSetting(Infoline.DisableAudioChannels)">$LOCALIZE[21444][LOWERCASE] & $LOCALIZE[31207][/LOWERCASE]</value>
+        <value condition="!Skin.HasSetting(Infoline.DisableAudioChannels) + Skin.HasSetting(Infoline.DisableCodec)">$LOCALIZE[21444]</value>
+        <value condition="!Skin.HasSetting(Infoline.DisableCodec) + !Skin.HasSetting(Infoline.DisableAudioChannels)">$LOCALIZE[21444][LOWERCASE] + $LOCALIZE[31207][/LOWERCASE]</value>
     </variable>
     
     <variable name="Label_Setting_AdditionalTags_Version">
-        <value condition="!Skin.HasSetting(Infoline.DisableVersion) + !Skin.HasSetting(Infoline.DisableCollection)">$LOCALIZE[40013] + </value>
         <value condition="!Skin.HasSetting(Infoline.DisableVersion)">$LOCALIZE[40013]</value>
     </variable>
     
@@ -916,9 +938,9 @@
         <value>$LOCALIZE[31137]</value>
     </variable>
     
-    <variable name="Label_Setting_ListMediaDetailedView">
-        <value condition="Skin.HasSetting(Disable.ListMediaDetailedView)">$LOCALIZE[10037]</value>
-        <value>$LOCALIZE[29915]</value>
+    <variable name="Label_Setting_ListFlixPoster">
+        <value condition="!Skin.HasSetting(Disable.ListFlixPoster)">$LOCALIZE[20021] + $LOCALIZE[31045]</value>
+        <value>$LOCALIZE[31045]</value>
     </variable>
     <variable name="Label_Setting_ListLandscapeDetailedView">
         <value condition="Skin.HasSetting(Disable.ListLandscapeDetailedView)">$LOCALIZE[10037]</value>

@@ -3,29 +3,36 @@
 
     <!-- Media List -->
     <include name="View_056_MediaList">        
-        <include content="View_MediaList_Include" condition="Window.IsVisible(MyVideoNav.xml)">
+        <include content="View_MediaList_Include" condition="Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)">
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
             <param name="right">831</param>
+            <param name="scrollbar_id">70</param>
             <include>View_MediaList_PosterLandscape</include>
         </include>
-        <include content="View_MediaList_Include" condition="!Window.IsVisible(MyVideoNav.xml)">
+        <include content="View_MediaList_Include" condition="Window.IsVisible(MyVideoNav.xml) + Skin.HasSetting(Disable.ListFlixPoster)">
+            <param name="id">56</param>
+            <param name="viewtype_label">$LOCALIZE[31479]</param>
+            <param name="visible">$EXP[Exp_View_56]</param>
+            <param name="right">590</param>
+            <param name="scrollbar_id">70</param>
+            <include>View_MediaList_Landscape</include>
+        </include>
+        <include content="View_MediaList_Include" condition="!Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)">
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
             <param name="right">920</param>
+            <param name="scrollbar_id">70</param>
             <include>View_MediaList_SquareLandscape</include>
         </include>
-    </include>
-    
-    <!-- Landscape List -->
-    <include name="View_516_Landscape_MediaList">
-        <include content="View_MediaList_Include">
-            <param name="id">516</param>
-            <param name="viewtype_label">$LOCALIZE[31480]</param>
-            <param name="visible">$EXP[Exp_View_516]</param>
+        <include content="View_MediaList_Include" condition="!Window.IsVisible(MyVideoNav.xml) + Skin.HasSetting(Disable.ListFlixPoster)">
+            <param name="id">56</param>
+            <param name="viewtype_label">$LOCALIZE[31479]</param>
+            <param name="visible">$EXP[Exp_View_56]</param>
             <param name="right">590</param>
+            <param name="scrollbar_id">70</param>
             <include>View_MediaList_Landscape</include>
         </include>
     </include>
@@ -38,6 +45,7 @@
             <param name="visible">$EXP[Exp_View_517]</param>
             <param name="right">590</param>
             <param name="overlay">true</param>
+            <param name="scrollbar_id">65</param>
             <include>View_MediaList_BigPoster</include>
         </include>
         <include content="View_MediaList_Include" condition="Skin.HasSetting(Disable.ListBigPosterDetailedView)">
@@ -424,6 +432,7 @@
                 <height>827.82</height>
                 <width>560</width>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="Skin.String(InfoDialog.Layout,Blur)" reversible="false">Hidden</animation>
                 <control type="group">
                     <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))]</visible>
                     <include content="Widget_Standard_Animation">
@@ -602,7 +611,7 @@
 
     <include name="View_MediaList_Include">
         <param name="overlay">false</param>
-        <param name="scrollbar_id">60</param>
+        <param name="scrollbar_id">66</param>
         <param name="control">fixedlist</param>
         <param name="itemlayout_include">Layout_MediaList</param>
         <param name="left">-20</param>
@@ -649,10 +658,7 @@
                         <onleft>SetProperty(List.ViewContainer,50)</onleft>
                         <onleft>SetFocus(303,1,absolute)</onleft>
 
-                        <onright condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onright>
-                        <onright condition="[Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(64)</onright>
-                        <onright condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onright>
-                        <onright condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onright>
+                        <onright>611</onright>
 
                         <include content="Action_View_Movement_OnBack">
                             <param name="id">50</param>

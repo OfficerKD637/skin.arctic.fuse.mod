@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_MediaWindows_ID">
-        <views>50,51,52,502,512,522,524,542,552,572,55,500,56,516,517,519,520,530,531,532,533,540,545,585,555,565,570,580,508,518,528,5008,5308,5318,5338</views>
+        <views>50,51,52,502,512,522,524,542,552,572,55,500,56,517,519,520,530,531,532,533,540,545,585,555,565,570,580,508,518,528,5008,5308,5318,5338</views>
     </include>
 
     <include name="View_Row_Header">
@@ -136,57 +136,63 @@
             <param name="id">610</param>
             <onup>50</onup>
             <onback>50</onback>
-            <onleft>SetFocus(50)</onleft>
-            <onleft>Action(PrevLetter)</onleft>
+
+            <onleft condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(50)</onleft>
+            <onleft condition="$EXP[Exp_IsAlphabetStrip]">Action(PrevLetter)</onleft>
+            <onleft condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</onleft>
+            <onleft condition="$EXP[Exp_IsAlphabetStrip] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">PageUp(60)</onleft>
             <onleft>SetFocus(610)</onleft>
-            <onright>SetFocus(50)</onright>
-            <onright>Action(NextLetter)</onright>
+
+            <onright condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(50)</onright>
+            <onright condition="$EXP[Exp_IsAlphabetStrip]">Action(NextLetter)</onright>
+            <onright condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</onright>
+            <onright condition="$EXP[Exp_IsAlphabetStrip] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">PageDown(60)</onright>
             <onright>SetFocus(610)</onright>
-            <onfocus condition="!Integer.IsEqual(Container.NumPages,1) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !$EXP[Exp_View_WallVert]">SetFocus(69)</onfocus>
-            <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
-            <onfocus condition="Integer.IsEqual(Container.NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(64)</onfocus>
-            <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
-            <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
+
+            <onfocus condition="!$EXP[Exp_IsAlphabetStrip]">SetFocus(60)</onfocus>
+            
+            <!-- Explore -->
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</ondown>
+            
+            <!-- Filter -->
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</ondown>
+            
+            <!-- Options -->
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</ondown>
+            
+            <!-- Bump -->
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
+
+            <!-- Wall -->
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + ![Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetFocus(64)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + [Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetProperty(FurnitureWallMode,$INFO[Container.FolderPath])</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(50)">SetFocus(5060)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(51)">SetFocus(5160)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(52)">SetFocus(5260)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(500)">SetFocus(50060)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(533)">SetFocus(53360)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(531)">SetFocus(53160)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(530)">SetFocus(53060)</ondown>
         </include>
-        
+
         <include content="Object_Hidden_Button">
             <param name="id">611</param>
             <onleft>50</onleft>
             <onright>SetFocus(8000)</onright>
             <onback>50</onback>
-            <onup>Action(PrevLetter)</onup>            
+            <onup>Action(PrevLetter)</onup>
             <onup>SetFocus(611)</onup>
-            <ondown>SetFocus(50)</ondown>            
-            <ondown>SetFocus(611)</ondown> 
-            <ondown>Action(NextLetter)</ondown>            
-            <onfocus condition="!Integer.IsEqual(Container.NumPages,1) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert]">SetFocus(66)</onfocus>
+            <ondown>SetFocus(50)</ondown>
+            <ondown>SetFocus(611)</ondown>
+            <ondown>Action(NextLetter)</ondown>
+            <onfocus condition="!Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_View_Scrollbar_Mini_V]">SetFocus(70)</onfocus>
+            <onfocus condition="!Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_View_Scrollbar_Midi_V]">SetFocus(65)</onfocus>
+            <onfocus condition="!Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_View_Scrollbar_Maxi_V]">SetFocus(66)</onfocus>
+            
             <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <onfocus condition="Integer.IsEqual(Container.NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(64)</onfocus>
             <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
-        </include>
-        
-        <include content="Object_Hidden_Button">
-            <param name="id">612</param>
-            <onup>50</onup>
-            <onback>50</onback>
-            <onleft>Action(PrevLetter)</onleft>
-            <onleft>PageUp(60)</onleft>
-            <onleft>SetFocus(613,$VAR[Action_Letter_Position],absolute)</onleft>
-            <onleft>SetFocus(612)</onleft>
-            <onright>Action(NextLetter)</onright>
-            <onright>PageDown(60)</onright>
-            <onright>SetFocus(613,$VAR[Action_Letter_Position],absolute)</onright>
-            <onright>SetFocus(612)</onright>
-            
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + [Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetProperty(FurnitureWallMode,$INFO[Container.FolderPath])</ondown>
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(50)">SetFocus(5060)</ondown>
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(51)">SetFocus(5160)</ondown>
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(52)">SetFocus(5260)</ondown>
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(500)">SetFocus(50060)</ondown>
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(533)">SetFocus(53360)</ondown>
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(531)">SetFocus(53160)</ondown>
-            <ondown condition="!Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(530)">SetFocus(53060)</ondown>
         </include>
     </include>
     
@@ -199,6 +205,7 @@
             <movement>5</movement>
             <width>462</width>
             <centerleft>50%</centerleft>
+            <visible>$EXP[Exp_IsAlphabetStrip] + !$EXP[Exp_View_WallMode] + !$EXP[Exp_View_FurnitureWall]</visible>
 
             <onup>50</onup>
             <onback>50</onback>
@@ -209,7 +216,7 @@
                     <label>$INFO[ListItem.Label]</label>
                     <textcolor>dialog_fg_70</textcolor>
                     <align>center</align>
-                    <visible>Control.HasFocus(612)</visible>
+                    <visible>Control.HasFocus(610)</visible>
                 </control>
             </itemlayout>
 
@@ -219,7 +226,7 @@
                     <label>$INFO[ListItem.Label]</label>
                     <textcolor>ffffffff</textcolor>
                     <align>center</align>
-                    <visible>Control.HasFocus(612)</visible>
+                    <visible>Control.HasFocus(610)</visible>
                 </control>
                 <control type="image">
                     <height>scrollbar_w</height>
@@ -227,7 +234,7 @@
                     <include>Texture_Highlight_Scrollbar_H</include>
                     <width>30</width>
                     <centerleft>50%</centerleft>
-                    <visible>Control.HasFocus(612)</visible>
+                    <visible>Control.HasFocus(610)</visible>
                 </control>
             </focusedlayout>
 
@@ -315,13 +322,6 @@
                 </item>
             </content>
         </control>
-        <control type="group">
-            <control type="scrollbar" id="60">
-                <visible allowhiddenfocus="true">False</visible>
-                <onup>50</onup>
-                <onback>50</onback>
-            </control>
-        </control>
     </include>
 
     <include name="View_Row_Info">
@@ -344,12 +344,12 @@
                     </include>
                     <width>info_panel_w</width>
                     <left>view_side</left>
-                    <visible>![Control.IsVisible(524) | Control.IsVisible(517) | $EXP[Exp_View_WallMode]]</visible>
+                    <visible>![[Control.IsVisible(56) + Skin.HasSetting(Disable.ListFlixPoster)] | Control.IsVisible(524) | Control.IsVisible(517) | $EXP[Exp_View_WallMode]]</visible>
                 </include>
                 <include content="Info_Panel">
                     <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
                     <param name="grouplistid">99953</param>
-                    <param name="details">!Skin.HasSetting(Disable.ListBigPosterDetailedView)</param>
+                    <param name="details">Control.IsVisible(56) | [Control.IsVisible(517) + !Skin.HasSetting(Disable.ListBigPosterDetailedView)]</param>
                     <param name="plotwidth">1040</param>
                     <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                         <param name="top">view_top</param>    
@@ -359,7 +359,7 @@
                     </include>
                     <width>info_panel_w</width>
                     <left>view_side</left>
-                    <visible>Control.IsVisible(517)</visible>
+                    <visible>[Control.IsVisible(56) + Skin.HasSetting(Disable.ListFlixPoster)] | Control.IsVisible(517)</visible>
                 </include>
                 <include content="Info_Panel">
                     <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
@@ -447,15 +447,18 @@
             <include>Animation_Transition_InfoPanel_Hide</include>
             <control type="group">                
                 <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]">
-                    <effect type="slide" end="0,-334" start="0" />
+                    <effect type="slide" end="0,-350" start="0" />
                 </animation>
                 <animation type="Conditional" reversible="false" condition="![$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]">
-                    <effect type="slide" start="0,-334" end="0" />
+                    <effect type="slide" start="0,-350" end="0" />
                 </animation>
                 <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_ListMode_Standard] | [Control.IsVisible(524) + Skin.HasSetting(Disable.ComboListDetailedView)]]">
                     <effect type="slide" end="0,-223" start="0" />
                 </animation>
                 <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="[[$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)] | [[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]]">Conditional</animation>                
+                
+                <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                 
                 <include>Animation_Trailer_Dim</include>
                 <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>
@@ -474,8 +477,6 @@
         <include content="View_Furniture_Bottom_Group">
             <param name="include">View_Furniture_Bottom_Group_NextLabel</param>
         </include>
-        <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
     </include>
 
     <include name="View_Row_Items_KeyboardSlide">
@@ -497,7 +498,6 @@
         <include condition="$EXP[Exp_View_52_Include]">View_052_Poster_Row</include>
         <include condition="$EXP[Exp_View_500_Include]">View_500_Circle_Row</include>
         <include condition="$EXP[Exp_View_56_Include]">View_056_MediaList</include>
-        <include condition="$EXP[Exp_View_516_Include]">View_516_Landscape_MediaList</include> 
         <include condition="$EXP[Exp_View_517_Include]">View_517_BigPoster_MediaList</include> 
         <include condition="$EXP[Exp_View_519_Include]">View_519_BigLandscape_MediaList</include> 
         <include condition="$EXP[Exp_View_520_Include]">View_520_Expanded_MediaList</include> 
@@ -592,7 +592,7 @@
             <include condition="Skin.String(Furniture.BottomLeft.Enable,Library) | Skin.String(Furniture.BottomLeft.Enable,Always)">Furniture_Bottom_Left</include>
             <animation effect="slide" start="0" end="0,40" time="150" tween="sine" easing="in" condition="$EXP[Exp_InfoDialogs]" reversible="true">Conditional</animation>
             <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+            <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
         </control>
     </include>
 
@@ -606,9 +606,11 @@
             <control type="group">
                 <visible>!Window.IsVisible(1171)</visible>
                 <control type="group">
-                    <visible>![[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
+                    <visible>![[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible] + !$EXP[Exp_View_ScrollFilter_HasFocus]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
                     <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="true">Hidden</animation>
                     <animation effect="fade" start="0" end="100" delay="400" time="1" reversible="false">Visible</animation>
+                    <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                     <include>$PARAM[include]</include>
                 </control>
             </control>
@@ -688,8 +690,8 @@
             </include>
             
             <include content="OSD_CastInfo_HintText" condition="!Skin.HasSetting(Furniture.EnableViewLineIcons)">
-                <param name="label">$LOCALIZE[31284]</param>
-                <param name="visible">[Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + [Control.HasFocus(69) | Control.HasFocus(610)]</param>
+                <param name="label">$VAR[Label_OnDown_Footer_HintText]</param>
+                <param name="visible">$EXP[Exp_View_ScrollFilterHorz_HasFocus] + !Window.IsVisible(1171)</param>
                 <param name="centerbottom">50</param>
                 <param name="colordiffuse">main_fg_30</param>
                 <param name="fade_in">false</param>
@@ -697,17 +699,8 @@
                 <param name="arrow_direction">down</param>
             </include>
             <include content="OSD_CastInfo_HintText" condition="!Skin.HasSetting(Furniture.EnableViewLineIcons)">
-                <param name="label">$LOCALIZE[31333]</param>
-                <param name="visible">Skin.String(Navigation.Global.OnDown,Wall) + Control.HasFocus(612)</param>
-                <param name="centerbottom">50</param>
-                <param name="colordiffuse">main_fg_30</param>
-                <param name="fade_in">false</param>
-                <param name="fade_out">false</param>
-                <param name="arrow_direction">down</param>
-            </include>
-            <include content="OSD_CastInfo_HintText" condition="!Skin.HasSetting(Furniture.EnableViewLineIcons)">
-                <param name="label">$LOCALIZE[31288]</param>
-                <param name="visible">[Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + [Control.HasFocus(66) | Control.HasFocus(611)]</param>
+                <param name="label">$VAR[Label_OnRight_Footer_HintText]</param>
+                <param name="visible">$EXP[Exp_View_ScrollFilterVert_HasFocus] + !Window.IsVisible(1171)</param>
                 <param name="centerbottom">50</param>
                 <param name="colordiffuse">main_fg_30</param>
                 <param name="fade_in">false</param>
@@ -720,9 +713,11 @@
                 <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Animation_Widgets_Topbar_SlideUp_Fade_Filter</include>
                 <control type="group">
-                    <visible>[[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
+                    <visible>[[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible] + !$EXP[Exp_View_ScrollFilter_HasFocus]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
                     <animation effect="fade" start="0" end="100" delay="400" time="1" reversible="true">Visible</animation>
                     <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
+                    <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                     <height>40</height>
                     <centerbottom>100</centerbottom>
                     <left>view_side</left>
@@ -732,7 +727,7 @@
                 </control>
                 <include>View_Combined_Row_Horz_Selector</include>
             </control>
-            
+
             <!-- Scroll Bar -->
             <control type="group">
                 <include>Dimension_Bottombar</include>
@@ -743,7 +738,7 @@
                         <animation effect="slide" start="0" end="-120" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                         <include content="View_Furniture_Bottom_ViewLine">
                             <param name="label">[COLOR=main_fg_90]$VAR[Label_RightFooter_ScrollbarOnFocus][/COLOR]</param>
-                            <param name="visible">Control.HasFocus(66) | Control.HasFocus(69) | Control.HasFocus(610) | Control.HasFocus(611)</param>
+                            <param name="visible">$EXP[Exp_View_ScrollFilter_HasFocus]</param>
                             <param name="align">left</param>
                             <param name="left">1620</param>
                             <param name="right">-40</param>
@@ -753,11 +748,17 @@
             </control>
             
             <!-- Alphabet strip -->
-            <include condition="String.IsEqual(Skin.String(Navigation.Global.OnDown),Wall)">View_Alphabet_Scroll</include>
+            <include>View_Alphabet_Scroll</include>
         </control>
     </include>
 
     <variable name="Label_RightFooter_ScrollbarOnFocus">
+        <value condition="Control.IsVisible(502)">$LOCALIZE[31135]$INFO[Container(503).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(503).NumPages]</value>
+        <value condition="Control.IsVisible(512)">$LOCALIZE[31135]$INFO[Container(513).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(513).NumPages]</value>
+        <value condition="Control.IsVisible(522)">$LOCALIZE[31135]$INFO[Container(523).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(523).NumPages]</value>
+        <value condition="Control.IsVisible(542)">$LOCALIZE[31135]$INFO[Container(543).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(543).NumPages]</value>
+        <value condition="Control.IsVisible(552)">$LOCALIZE[31135]$INFO[Container(553).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(553).NumPages]</value>
+        <value condition="Control.IsVisible(572)">$LOCALIZE[31135]$INFO[Container(573).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(573).NumPages]</value>
         <value condition="Control.IsVisible(524)">$LOCALIZE[31135]$INFO[Container(526).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(526).NumPages]</value>
         <value>$LOCALIZE[31135]$INFO[Container.CurrentPage, , $LOCALIZE[20163] ]$INFO[Container.NumPages]</value>
     </variable>
@@ -818,27 +819,50 @@
             <height>scrollbar_w</height>
             <left>view_poster_itemlayout_w</left>
             <right>view_poster_itemlayout_w</right>
-            <visible allowhiddenfocus="true">Control.HasFocus(69) | Control.HasFocus(610)</visible>
-            <visible>[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !$EXP[Exp_View_WallVert]</visible>            
-            <control type="scrollbar" id="69">
+            <visible allowhiddenfocus="true">Control.HasFocus(60) | Control.HasFocus(610)</visible>
+            <visible>String.IsEmpty(Window.Property(MediaFilterBase))</visible>
+            <visible>![$EXP[Exp_View_Scrollbar_Mini_V] + $EXP[Exp_View_Scrollbar_Midi_V] + $EXP[Exp_View_Scrollbar_Maxi_V]]</visible>
+            <include content="Animation_ConditionalFade">
+                <param name="condition">[$EXP[Exp_IsAlphabetStrip] + !$EXP[Exp_View_WallMode] + !$EXP[Exp_View_FurnitureWall]] | Window.IsVisible(1171)</param>
+            </include>
+            <control type="scrollbar" id="60">
                 <orientation>horizontal</orientation>
                 <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollh_line.png</texturesliderbackground>
                 <include>Texture_Scrollbar_SliderBar_H</include>
                 <include>Texture_Scrollbar_H</include>
                 <onup>50</onup>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</ondown>
-                <ondown condition="[Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(64)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</ondown>
                 <onback>50</onback>
+                
+                <!-- Explore -->
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</ondown>
+                
+                <!-- Filter -->
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</ondown>
+                
+                <!-- Options -->
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</ondown>
+                
+                <!-- Bump -->
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
+
+                <!-- Wall -->
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + ![Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetFocus(64)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + [Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetProperty(FurnitureWallMode,$INFO[Container.FolderPath])</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(50)">SetFocus(5060)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(51)">SetFocus(5160)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(52)">SetFocus(5260)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(500)">SetFocus(50060)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(533)">SetFocus(53360)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(531)">SetFocus(53160)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(530)">SetFocus(53060)</ondown>
             </control>
         </control>
     </include>
     
     <include name="View_Furniture_Scrollbar_V">
         <control type="group">
-            <animation effect="slide" start="0" end="-120" time="0" condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | Control.IsVisible(524)] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            <centerright>40</centerright>
+            <animation effect="slide" start="0" end="-120" time="0" condition="$EXP[Exp_View_ScrollFilterVert_HasFocus] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
+            <centerright>$PARAM[centerright]</centerright>
             <width>scrollbar_w</width>
             <bottom>view_top</bottom>
             <height>$PARAM[height]</height>
@@ -870,11 +894,33 @@
             <include>Animation_View_SlideOver</include>
             <include>Animation_View_WindowChange</include>
             <control type="group">
+                <control type="group">
+                    <animation effect="slide" start="0" end="230" condition="Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="0" end="-95" condition="!Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
+                    <include content="View_Furniture_Scrollbar_V">
+                        <param name="id">70</param>
+                        <param name="centerright">820</param>
+                        <param name="height">view_poster_item_h</param>
+                        <param name="visible">$EXP[Exp_View_Scrollbar_Mini_V]</param>
+                    </include>
+                </control>
                 <include content="View_Furniture_Scrollbar_V">
-                    <param name="id">66</param>
-                    <param name="height">560</param>
-                    <param name="visible">[[[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert]] | Control.IsVisible(524)]</param>
+                    <param name="id">65</param>
+                    <param name="centerright">580</param>
+                    <param name="height">view_poster_item_h</param>
+                    <param name="visible">$EXP[Exp_View_Scrollbar_Midi_V]</param>
                 </include>
+                <control type="group">
+                    <animation effect="slide" start="0" end="-540" condition="Control.IsVisible(517) | Window.IsVisible(MyPlaylist.xml)" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="0" end="-1020" condition="Control.IsVisible(519)" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="0" end="-420" condition="Control.IsVisible(520)" reversible="false">Conditional</animation>
+                    <include content="View_Furniture_Scrollbar_V">
+                        <param name="id">66</param>
+                        <param name="centerright">40</param>
+                        <param name="height">500</param>
+                        <param name="visible">$EXP[Exp_View_Scrollbar_Maxi_V]</param>
+                    </include>
+                </control>
             </control>
             <control type="group">
                 <include>Animation_Half_WindowChange_UpDown</include>
@@ -894,7 +940,7 @@
             <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
             <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Animation_Widgets_Topbar_SlideUp_Fade_Filter</include>
                 <control type="group">
-                    <visible>![Control.HasFocus(66) | Control.HasFocus(69) | Control.HasFocus(610) | Control.HasFocus(611)]</visible>
+                    <visible>!$EXP[Exp_View_ScrollFilter_HasFocus]</visible>
                     <include>Furniture_Bottom_Right</include>
                 </control>           
         </control>
