@@ -218,7 +218,6 @@
         <control type="fixedlist" id="613">
             <orientation>horizontal</orientation>
             <height>47</height>
-            <bottom>85</bottom>
             <focusposition>5</focusposition>
             <movement>5</movement>
             <width>462</width>
@@ -571,9 +570,6 @@
                 <animation effect="fade" start="100" end="30" condition="$PARAM[fade_condition]">Conditional</animation>
                 <include content="Info_Viewline">
                     <param name="label">$PARAM[label]</param>
-                    <param name="align">$PARAM[align]</param>
-                    <param name="haspath">$PARAM[haspath]</param>
-                    <param name="use_highlight">$PARAM[use_highlight]</param>
                     <param name="top">10</param>
                     <param name="left">$PARAM[left]</param>
                     <param name="right">$PARAM[right]</param>
@@ -753,20 +749,25 @@
                     <include>Dimension_Furniture_Gutters</include>                    
                     <include>View_Scrollbar_Strip</include>
                     <control type="group">
-                        <animation effect="slide" start="0" end="-120" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <include content="View_Furniture_Bottom_ViewLine">
-                            <param name="label">[COLOR=main_fg_90]$VAR[Label_RightFooter_ScrollbarOnFocus][/COLOR]</param>
-                            <param name="visible">$EXP[Exp_View_ScrollFilter_HasFocus]</param>
-                            <param name="align">left</param>
-                            <param name="left">1620</param>
-                            <param name="right">-40</param>
-                        </include>
+                        <top>10</top>
+                        <height>40</height>
+                        <left>10</left>
+                        <right>10</right>
+                        <visible>$EXP[Exp_View_ScrollFilter_HasFocus]</visible>
+                        <animation effect="fade" start="100" end="30" condition="true">Conditional</animation>
+                        <control type="label">
+                            <label>[COLOR=main_fg_90]$VAR[Label_RightFooter_ScrollbarOnFocus][/COLOR]</label>
+                            <align>right</align>
+                            <aligny>center</aligny>
+                            <textcolor>main_fg_90</textcolor>
+                            <font>font_main_bold</font>
+                            <width>auto</width>
+                            <height>35</height>
+                        </control>
                     </control>
+                    <include>View_Alphabet_Scroll</include>
                 </control>
-            </control>
-            
-            <!-- Alphabet strip -->
-            <include>View_Alphabet_Scroll</include>
+            </control>            
         </control>
     </include>
 
