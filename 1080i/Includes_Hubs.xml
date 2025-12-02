@@ -335,7 +335,7 @@
                     <include condition="$EXP[Exp_Hubs_Spotlight_IsFanart] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !$EXP[Exp_Hubs_Spotlight_IsDisabled]">Hub_Slide_Spotlight_OnFanart</include>
 
                     <include content="Hub_Menu_Group" condition="![$PARAM[widgets_only]]">
-                        <include content="Hub_Categories">
+                        <include content="Hub_Categories" condition="![$PARAM[widgets_only]]">
                             <param name="categories">$PARAM[categories]</param>
                             <param name="window_id">$PARAM[window_id]</param>
                             <param name="property_window_id">$PARAM[property_window_id]</param>
@@ -360,7 +360,7 @@
                     <include content="Hub_Menu_Group" condition="![$PARAM[widgets_only]]">
                         <top>hub_widgets_grouplist_t</top>
                         <bottom>hub_group_widgetup_s</bottom>
-                        <include>skinvariables-$PARAM[categories]-widgets-selector</include>
+                        <include condition="Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)">skinvariables-$PARAM[categories]-widgets-selector</include>
                     </include>
                     <include content="Hub_Widgets_Only" condition="$PARAM[widgets_only]">
                         <param name="window_id">$PARAM[window_id]</param>
@@ -463,10 +463,10 @@
                 </include>
             </include>
             <include>$PARAM[widgets_include]</include>
-            <include content="Hub_Menu_Group" condition="Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)">
+            <include content="Hub_Menu_Group">
                 <top>hub_widgets_grouplist_t</top>
                 <bottom>hub_group_widgetup_s</bottom>
-                <include>$PARAM[widgets_include]-selector</include>
+                <include condition="Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)">$PARAM[widgets_include]-selector</include>
             </include>
         </control>
     </include>
@@ -499,7 +499,7 @@
         </include>
 
         <include condition="$EXP[Exp_HomeHub_IsVisible]">skinvariables-sidemenu-spotlight</include>
-        <include>skinvariables-$PARAM[categories]-spotlight</include>
+        <include condition="!$EXP[Exp_HomeHub_IsVisible]">skinvariables-$PARAM[categories]-spotlight</include>
 
         <control type="group" id="340">
             <include>skinvariables-$PARAM[categories]-widgets</include>
@@ -580,7 +580,7 @@
         <onfocus>SetProperty(Focus.ControlID,$NUMBER[300],$PARAM[property_window_id])</onfocus>    
 
         <content>
-            <include condition="!Skin.HasSetting(Hub.[window_id].DisableSubmenu)">skinvariables-$PARAM[categories]-staticitems</include>
+            <include>skinvariables-$PARAM[categories]-staticitems</include>
         </content>
     </include>
 
