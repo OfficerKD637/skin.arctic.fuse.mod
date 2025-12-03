@@ -560,7 +560,6 @@
             <param name="osd_infoline_visible">true</param>
             <param name="colordiffuse">panel_fg</param>
             <control type="grouplist">
-                <centertop>37.5</centertop>
                 <hitrect x="0" y="0" w="0" h="0" />
                 <height>80</height>
                 <orientation>horizontal</orientation>
@@ -649,48 +648,44 @@
                 <animation effect="fade" start="0" end="100" time="300" delay="200" condition="Window.IsVisible(DialogSeekBar.xml)">Visible</animation>
                 <animation effect="fade" start="0" end="100" time="300" delay="0" condition="!Window.IsVisible(DialogSeekBar.xml)">Visible</animation>
                 <animation effect="fade" end="0" start="100" time="300">Hidden</animation>
-                <align>top</align>
+                <align>bottom</align>
                 <left>view_side</left>
                 <width>info_panel_w</width>
-                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="height">360</param>
-                </include>
-                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="height">440</param>
-                </include>
                 <include content="Object_Bottom" condition="Skin.HasSetting(Info.DisableDetailsLine)">
-                    <param name="bottom">80</param>
+                    <param name="bottom">85</param>
                 </include>
-                <bottom>120</bottom>
+                <bottom>125</bottom>
                 <orientation>vertical</orientation>
 
-                <include content="OSD_Progress_Details_Animation" condition="Skin.HasSetting(Info.DisableDetailsLine)">
-                    <param name="posy">-140</param>
-                    <param name="condition">$PARAM[condition]</param>
-                </include>
                 <include content="OSD_Progress_Details_Animation" condition="!Skin.HasSetting(Info.DisableDetailsLine)">
-                    <param name="posy">-100</param>
+                    <param name="posy">-90</param>
                     <param name="condition">$PARAM[condition]</param>
                 </include>
-
-                <control type="group" description="Avoid grouplist chop with spacer">
-                    <height>20</height>
-                </control>
+                <include content="OSD_Progress_Details_Animation" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="posy">-130</param>
+                    <param name="condition">$PARAM[condition]</param>
+                </include>
 
                 <include content="Info_Title">
                     <param name="colordiffuse">panel_fg</param>
                     <param name="label">$VAR[Label_OSD_Title]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.CropImage))</param>
-                    <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDBHelper.Player.CropImage)]</param>
+                    <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.Player.CropImage)]</param>
+                    <param name="titlelargelogo">false</param>
                 </include>
+                
+                <control type="group" description="Avoid grouplist chop with spacer">
+                    <height>20</height>
+                </control>
 
                 <control type="group">
-                    <height>40</height>
+                    <height>50</height>
                     <include condition="!Skin.HasSetting(Info.DisableDetailsLine)">OSD_Info_Line</include>
                 </control>
                 <include content="Info_Panel_Textbox">
                     <param name="plotlabel">$VAR[Label_Player_Plot]</param>
-                    <param name="plotwidth">1020</param>
+                    <param name="plotwidth">1080</param>
+                    <param name="plotautoheight">false</param>
                     <param name="plotheight">info_plot_h</param>
                     <param name="visible">$PARAM[plot_visible]</param>
                     <param name="colordiffuse">panel_fg</param>
@@ -1240,19 +1235,8 @@
     <include name="OSD_Poster_Info">
         <definition>
             <control type="group">
-                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + !Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)">
-                    <param name="height">414</param>
-                </include>
-                <include content="Object_Width" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + !Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)">
-                    <param name="width">281.6</param>
-                </include>
-                <include content="Object_Height" condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + !Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)]">
-                    <param name="height">334</param>
-                </include>
-                <include content="Object_Width" condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + !Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)]">
-                    <param name="width">227.2</param>
-                </include>
-                <align>top</align>
+                <height>368.5</height>
+                <width>245.6</width>
                 <left>view_side</left>
                 <bottom>220</bottom>
                 <include>Object_ItemBack</include>
@@ -1269,16 +1253,14 @@
             <control type="group">
                 <animation effect="fade" start="0" end="100" delay="300" time="300" condition="!$EXP[Exp_OSD_QuickInfo]">Conditional</animation>
                 <animation effect="fade" start="100" end="0" time="300" condition="$EXP[Exp_OSD_QuickInfo]">Conditional</animation>
-                <animation effect="slide" start="0" end="0,80" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + !Skin.HasSetting(OSD.DisplayPlotWithTitle)" reversible="false">Conditional</animation>
                 <include condition="Skin.HasSetting(OSD.DisplayTitleDetailsOnSeek)">OSD_Progress_Details</include>
             </control>
             <control type="group">
                 <animation effect="fade" start="0" end="100" delay="300" time="300" condition="$EXP[Exp_OSD_QuickInfo]">Conditional</animation>
                 <animation effect="fade" start="100" end="0" time="300" condition="!$EXP[Exp_OSD_QuickInfo]">Conditional</animation>
                 <control type="group"> 
-                    <bottom>239</bottom>
-                    <animation effect="slide" start="0" end="0,info_plot_h" condition="Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="0" end="0,-80" condition="Skin.HasSetting(Furniture.DisableLeftHeader)" reversible="false">Conditional</animation>
+                    <bottom>280</bottom>
+                    <animation effect="slide" start="0" end="0,160" condition="Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)" reversible="false">Conditional</animation>
                     <animation effect="fade" time="200" start="100" end="0" condition="Window.IsVisible(1143)" reversible="false">Conditional</animation>
                     <animation effect="fade" time="200" delay="200" end="100" start="0" condition="!Window.IsVisible(1143)" reversible="false">Conditional</animation>
                     <visible>![Window.IsVisible(pvrosdguide) | Window.IsVisible(pvrosdchannels) | Window.IsVisible(videobookmarks) | Window.IsVisible(1140) | Window.IsVisible(1141)]</visible>
@@ -1288,9 +1270,7 @@
                     <include condition="String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Poster)">OSD_Poster_Info</include>
                 </control>
                 <control type="group">
-                    <animation effect="slide" end="267.2" start="0" condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + !Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)] + String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Poster)">Conditional</animation>
-                    <animation effect="slide" end="321.6" start="0" condition="[Skin.HasSetting(Furniture.DisableLeftHeader) + !Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)] + String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Poster)">Conditional</animation>
-                    <animation effect="slide" start="0" end="0,80" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)" reversible="false">Conditional</animation>
+                    <animation effect="slide" end="285.6" start="0" condition="String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Poster)">Conditional</animation>
                     <include content="OSD_Progress_Details" condition="Skin.HasSetting(OSD.AutoInfoOnPause)">
                         <param name="visible">[True]</param>
                         <param name="plot_visible">!Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)</param>

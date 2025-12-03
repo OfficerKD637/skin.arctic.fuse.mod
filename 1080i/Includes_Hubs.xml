@@ -450,7 +450,7 @@
 
     <include name="Hub_Widgets_Only">
         <include>Background_Transition</include>
-        <control type="group" id="340">             
+        <control type="group" id="340">
             <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
                 <param name="top">-440</param>
             </include>
@@ -677,7 +677,7 @@
             <left>40</left>
             <animation effect="fade" start="100" end="0" reversible="false" condition="$EXP[Exp_Hubs_Categories_SlideDown]">Conditional</animation>
             <animation effect="fade" start="0" end="100" delay="399" time="1" reversible="false" condition="!$EXP[Exp_Hubs_Categories_SlideDown]">Conditional</animation>
-            <include content="Info_Title_LogoLabel">
+            <include content="Info_Title_Label">
                 <param name="label">$INFO[Container(303).ListItem.Label]</param>
                 <param name="wrapmultiline">false</param>
                 <param name="visible">true</param>
@@ -816,8 +816,13 @@
             <control type="grouplist" id="$PARAM[id]">
                 <top>hub_widgets_grouplist_t</top>
                 <bottom>hub_widgets_grouplist_b</bottom>
-                <animation effect="slide" start="0,0" end="0,-80" time="400" delay="0" tween="quadratic" easing="out" condition="!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Spotlight_IsVisible]" reversible="false">Conditional</animation>
-                <animation effect="slide" start="0,-80" end="0" time="400" delay="0" tween="quadratic" easing="out" condition="![!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
+                
+                <!-- Offset animation when submenu is disabled-->
+                <animation effect="slide" start="0" end="0,-20" time="400" delay="0" tween="quadratic" easing="out" condition="!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + [Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Spotlight_IsVisible]" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0,-20" end="0" time="400" delay="0" tween="quadratic" easing="out" condition="![!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + [Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
+                
+                <animation effect="slide" start="0" end="0,-60" time="400" delay="0" tween="quadratic" easing="out" condition="!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(300).NumItems,0) + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(302).NumItems,0)] + [$EXP[Exp_Hubs_Spotlight_IsVisible] | Control.HasFocus(300) | Control.HasFocus(311) | Control.HasFocus(312) | Control.HasFocus(313)]" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0,-60" end="0" time="400" delay="0" tween="quadratic" easing="out" condition="![!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(300).NumItems,0) + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(302).NumItems,0)] + [$EXP[Exp_Hubs_Spotlight_IsVisible] | Control.HasFocus(300) | Control.HasFocus(311) | Control.HasFocus(312) | Control.HasFocus(313)]]" reversible="false">Conditional</animation>
 
                 <include condition="![$PARAM[widgets_only]]" content="Hub_Widgets_Grouplist__Def_Layout_Expanded">
                     <param name="window_id">$PARAM[window_id]</param>
@@ -882,19 +887,11 @@
         <definition>
             <control type="group">
                 <width>info_panel_w</width>
-                <left>view_side</left>
-                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="height">342</param>
-                </include>
-                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="height">422</param>
-                </include>                
+                <left>view_side</left>              
                 <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                     <param name="top">view_top</param>    
                 </include>
-                <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="top">view_pad</param>    
-                </include>
+                <top>view_pad</top>
                 <visible>$PARAM[visible]</visible>
                 <include>Animation_Transition_InfoPanel_Cond</include>
                 <animation effect="fade" start="100" end="0" condition="$PARAM[conditional_fade]" reversible="false">Conditional</animation>
