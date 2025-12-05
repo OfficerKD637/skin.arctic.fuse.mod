@@ -28,27 +28,15 @@
                 </include>
 
                 <include content="Info_Viewline" condition="$PARAM[labelvisible] + [$PARAM[usewidgetlabel]]">
-                    <param name="label">[CAPITALIZE]$INFO[Container($PARAM[id]).ListItem.Property(widget)][/CAPITALIZE]</param>
+                    <param name="label">$INFO[Container($PARAM[id]).ListItem.Property(widget)]</param>
                     <param name="item_condition">true</param>
                     <param name="item_count">$INFO[Container($PARAM[id]).NumItems]</param>
                     <param name="item_updating">[Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]]</param>
-                    <param name="label_fallback">31282</param>
+                    <param name="label_fallback">$PARAM[label]</param>
                     <param name="run_spinner">Container($PARAM[id]).IsUpdating</param>
                     <top>20</top>
                     <left>0</left>
-                    <visible>!String.IsEmpty(Container($PARAM[id]).ListItem.Property(widget)) + [!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]]</visible>
-                </include>
-                
-                <include content="Info_Viewline" condition="$PARAM[labelvisible] + [$PARAM[usewidgetlabel]]">
-                    <param name="label">[CAPITALIZE]$PARAM[label][/CAPITALIZE]</param>
-                    <param name="item_condition">true</param>
-                    <param name="item_count">$INFO[Container($PARAM[id]).NumItems]</param>
-                    <param name="item_updating">[Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]]</param>
-                    <param name="label_fallback">31282</param>
-                    <param name="run_spinner">Container($PARAM[id]).IsUpdating</param>
-                    <top>20</top>
-                    <left>0</left>
-                    <visible>String.IsEmpty(Container($PARAM[id]).ListItem.Property(widget)) + [!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]]</visible>
+                    <visible>!Integer.IsEqual(Container($PARAM[id]).NumItems,0) | Container($PARAM[id]).IsUpdating | $PARAM[busy_visible]</visible>
                 </include>
 
                 <include content="Widget_Busy">
