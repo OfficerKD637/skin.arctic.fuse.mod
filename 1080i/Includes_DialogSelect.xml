@@ -168,22 +168,12 @@
         <control type="group">
             <include>Dimension_DialogWideMenu</include>
             <include>Animation_Right_Delay</include>            
-
-            <!-- Bottom Layer -->
-            <include content="Dialog_Background_Side">
-                <param name="slide_condition">True</param>
-                <param name="dialog_size">Dimension_DialogWideMenu</param>
-                <!-- Side Buttons -->
-                <control type="group">
-                    <include>Dimension_Dialog_Body</include>
-                    <include condition="[Window.IsActive(gamevideofilter) | Window.IsActive(gamestretchmode) | Window.IsActive(gamesaves) | Window.IsActive(gamevideorotation) | Window.IsActive(ingamesaves)]">DialogSelect_SideButtons_Games</include>
-                    <include condition="![Window.IsActive(gamevideofilter) | Window.IsActive(gamestretchmode) | Window.IsActive(gamesaves) | Window.IsActive(gamevideorotation) | Window.IsActive(ingamesaves)]">DialogSelect_SideButtons_Standard</include>
-                </control>
-            </include>
+            
 
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogWideMenu</param>
                 <param name="slide_condition">True</param>
+                <param name="lines_left">120</param>
                 <param name="lines_right">0</param>
                 <param name="topline">true</param>
                 <param name="subline">true</param>
@@ -192,11 +182,13 @@
                 <include content="Dialog_Head">
                     <param name="label">$VAR[Label_ProfileName]</param>
                     <param name="visible">!Control.IsVisible(6)</param>
+                    <param name="left">200</param>
                 </include>
                 <include content="Dialog_Head">
                     <param name="id">0</param>
                     <param name="label">$INFO[Control.GetLabel(1)]</param>
                     <param name="visible">Control.IsVisible(6)</param>
+                    <param name="left">200</param>
                 </include>
                 <include>Dialog_Head_CloseButton</include>
 
@@ -204,6 +196,7 @@
                 <control type="group">
                     <include>Dimension_Dialog_Body</include>
                     <control type="group">
+                        <left>140</left>
                         <include>Dimension_Dialog_Body_Group</include>
                         <include content="List_DialogSelect">
                             <param name="id">3</param>
@@ -268,6 +261,14 @@
                     </include>
                 </control>
             </include>
+            
+            <!-- Side Buttons -->
+            <control type="group">
+                <include>Dimension_Dialog_Body</include>
+                <include>Dialog_Side_Panel_Group_Def</include>
+                <include condition="[Window.IsActive(gamevideofilter) | Window.IsActive(gamestretchmode) | Window.IsActive(gamesaves) | Window.IsActive(gamevideorotation) | Window.IsActive(ingamesaves)]">DialogSelect_SideButtons_Games</include>
+                <include condition="![Window.IsActive(gamevideofilter) | Window.IsActive(gamestretchmode) | Window.IsActive(gamesaves) | Window.IsActive(gamevideorotation) | Window.IsActive(ingamesaves)]">DialogSelect_SideButtons_Standard</include>
+            </control>
 
             <include content="Object_Hidden_Button">
                 <param name="id">64</param>
@@ -378,30 +379,12 @@
             <control type="group">
                 <include>Dimension_DialogFullMenu</include>
                 <include>Animation_Right_Delay</include>
-                <include content="Dialog_Dim_Side">
-                    <param name="slide_condition">ControlGroup(9000).HasFocus()</param>
-                </include>
-
-                <!-- Bottom Layer -->
-                <include content="Dialog_Background_Side">
-                    <param name="slide_condition">ControlGroup(9000).HasFocus()</param>
-                    <param name="dialog_size">Dimension_DialogFullMenu</param>
-                    <!-- Side Buttons -->
-                    <control type="group">
-                        <include>Dimension_Dialog_Body</include>
-                        <control type="grouplist" id="9000">
-                            <include>Dialog_Side_Grouplist_Def</include>
-                            <onleft>Close</onleft>
-                            <onright>7000</onright>
-                            <include>$PARAM[include_sidegrouplist_items]</include>
-                        </control>
-                    </control>
-                </include>
 
                 <include content="Dialog_Foreground_Side">
                     <param name="dialog_size">Dimension_DialogFullMenu</param>
                     <param name="slide_condition">ControlGroup(9000).HasFocus()</param>
                     <param name="lines_right">476</param>
+                    <param name="lines_left">120</param>
                     <param name="topline">true</param>
                     <param name="subline">true</param>
 
@@ -409,14 +392,15 @@
                     <include content="Dialog_Head">
                         <param name="id">0</param>
                         <param name="label">$PARAM[label_header]</param>
+                        <param name="left">200</param>
                     </include>
 
                     <!-- Content -->
                     <control type="group">
                         <include>Dimension_Dialog_Body</include>
                         <control type="group">
+                            <left>140</left>
                             <include>Dimension_Dialog_Body_Group</include>
-
                             <include content="DialogInfo_PlotBox_Artwork">
                                 <param name="poster_icon">$PARAM[poster_icon]</param>
                                 <param name="poster_visible">True</param>
@@ -464,6 +448,18 @@
                         </include>
                     </control>
                 </include>
+                
+                <!-- Side Buttons -->
+                <control type="group">
+                    <include>Dimension_Dialog_Body</include>
+                    <include>Dialog_Side_Panel_Group_Def</include>
+                    <control type="grouplist" id="9000">
+                        <include>Dialog_Side_Grouplist_Def</include>
+                        <onleft>Close</onleft>
+                        <onright>7000</onright>
+                        <include>$PARAM[include_sidegrouplist_items]</include>
+                    </control>
+                </control>
 
             </control>
         </definition>

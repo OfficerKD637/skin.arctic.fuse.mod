@@ -57,51 +57,18 @@
         <control type="group">
             <include>Dimension_DialogMainMenu</include>
             <include>Animation_Right_Delay</include>
-            <include content="Dialog_Dim_Side">
-                <param name="slide_condition">True</param>
-            </include>
-
-            <!-- Bottom Layer -->
-            <include content="Dialog_Background_Side">
-                <param name="slide_condition">True</param>
-                <param name="dialog_size">Dimension_DialogMainMenu</param>
-                <!-- Side Buttons -->
-                <control type="group">
-                    <include>Dimension_Dialog_Body</include>
-                    <control type="grouplist" id="9000">
-                        <include>Dialog_Side_Grouplist_Def</include>
-                        <onright>22001</onright>
-                        <onback>29999</onback>
-
-                        <include content="Dialog_Side_Button">
-                            <param name="id">01</param>
-                            <param name="label">$LOCALIZE[186]</param>
-                            <param name="icon">special://skin/extras/icons/circle-check.png</param>
-                            <onclick>SetFocus(29999)</onclick>
-                            <onback>29999</onback>
-                        </include>
-                        
-                        <include content="Dialog_Side_Button">
-                            <param name="id">03</param>
-                            <param name="label">$LOCALIZE[409]</param>
-                            <param name="icon">special://skin/extras/icons/triangle-exclamation.png</param>
-                            <onclick>RunPlugin(plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=True&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditMode),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditGUID),&amp;,]&amp;func=do_refresh&amp;&amp;restore::True&amp;&amp;executebuiltin::ActivateWindow(1116))</onclick>
-                            <onback>29999</onback>
-                        </include>
-                    </control>
-                </control>
-            </include>
 
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogMainMenu</param>
                 <param name="slide_condition">True</param>
                 <param name="lines_right">640</param>
+                <param name="lines_left">120</param>
                 <param name="topline">true</param>
                 <param name="subline">true</param>
 
                 <!-- Categories Filter -->
                 <control type="group">
-                    <left>0</left>
+                    <left>120</left>
                     <right>640</right>
                     <height>80</height>
                     <centertop>100</centertop>
@@ -140,6 +107,7 @@
                 <!-- Header -->
                 <include content="Dialog_Head">
                     <param name="label">$VAR[Label_Shortcut_TopHeader]</param>
+                    <param name="left">200</param>
                     <param name="sublabel">$VAR[Label_Shortcut_SubHeader_GroupName]$INFO[Container(22001).ListItem.Property(name), > ,]$VAR[Label_Shortcut_SubHeader_EditMode, > ,]</param>
                     <param name="sublabel_include">true</param>
                 </include>
@@ -151,7 +119,7 @@
                     <label>$INFO[Window(Home).Property(Shortcuts.EditMenu)]$INFO[Window(Home).Property(Shortcuts.EditMode), — ,]$INFO[Window(Home).Property(Shortcuts.EditGUID), — ,]</label>
                     <bottom>40</bottom>
                     <height>40</height>
-                    <left>view_pad</left>
+                    <left>200</left>
                     <right>view_pad</right>
                 </control>
 
@@ -161,6 +129,7 @@
                 <control type="group">
                     <include>Dimension_Dialog_Body</include>
                     <control type="group">
+                        <left>140</left>
                         <include>Dimension_Dialog_Body_Group</include>
                         <control type="group">
                             <right>640</right>
@@ -250,7 +219,7 @@
 
                                     <control type="image">
                                         <width>1</width>
-                                        <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                                        <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                                         <left>100</left>
                                     </control>
 
@@ -1043,6 +1012,33 @@
                     </include>
                 </control>
             </include>
+            
+            <!-- Side Buttons -->
+            <control type="group">
+                <include>Dimension_Dialog_Body</include>
+                <include>Dialog_Side_Panel_Group_Def</include>
+                <control type="grouplist" id="9000">
+                    <include>Dialog_Side_Grouplist_Def</include>
+                    <onright>22001</onright>
+                    <onback>29999</onback>
+
+                    <include content="Dialog_Side_Button">
+                        <param name="id">01</param>
+                        <param name="label">$LOCALIZE[186]</param>
+                        <param name="icon">special://skin/extras/icons/circle-check.png</param>
+                        <onclick>SetFocus(29999)</onclick>
+                        <onback>29999</onback>
+                    </include>
+                    
+                    <include content="Dialog_Side_Button">
+                        <param name="id">03</param>
+                        <param name="label">$LOCALIZE[409]</param>
+                        <param name="icon">special://skin/extras/icons/triangle-exclamation.png</param>
+                        <onclick>RunPlugin(plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=True&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditMode),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditGUID),&amp;,]&amp;func=do_refresh&amp;&amp;restore::True&amp;&amp;executebuiltin::ActivateWindow(1116))</onclick>
+                        <onback>29999</onback>
+                    </include>
+                </control>
+            </control>
         </control>
 
 
@@ -1050,9 +1046,7 @@
             <include>Dimension_DialogSideMenu</include>
             <include>Animation_Right_Delay</include>
             <visible>Control.HasFocus(25001)</visible>
-            <include content="Dialog_Dim_Side">
-                <param name="slide_animation">false</param>
-            </include>
+
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogSideMenu</param>
                 <param name="slide_animation">false</param>

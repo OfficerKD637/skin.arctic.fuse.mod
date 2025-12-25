@@ -22,72 +22,25 @@
         <control type="group">
             <include>Dimension_DialogWideMenu</include>
             <include>Animation_Right_Delay</include>
-            <include content="Dialog_Dim_Side">
-                <param name="slide_condition">True</param>
-            </include>
-
-            <!-- Bottom Layer -->
-            <include content="Dialog_Background_Side">
-                <param name="slide_condition">True</param>
-                <param name="dialog_size">Dimension_DialogWideMenu</param>
-                <!-- Side Buttons -->
-                <control type="group">
-                    <include>Dimension_Dialog_Body</include>
-                    <control type="grouplist" id="9000">
-                        <include>Dialog_Side_Grouplist_Def</include>
-                        <onleft>Close</onleft>
-                        <onright condition="Control.IsVisible(450)">450</onright>
-                        <onright condition="Control.IsVisible(451)">451</onright>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">01</param>
-                            <param name="label">$LOCALIZE[186]</param>
-                            <param name="icon">special://skin/extras/icons/circle-check.png</param>
-                            <param name="visible">Control.IsEnabled(413) + Control.IsVisible(413) + Control.IsVisible(450)</param>
-                            <onclick>SendClick(413)</onclick>
-                        </include>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">02</param>
-                            <param name="label">$LOCALIZE[222]</param>
-                            <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
-                            <param name="visible">Control.IsEnabled(414) + Control.IsVisible(414)</param>
-                            <onclick>SendClick(414)</onclick>
-                        </include>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">03</param>
-                            <param name="label">$LOCALIZE[119]</param>
-                            <param name="icon">special://skin/extras/icons/circle-plus.png</param>
-                            <param name="visible">Control.IsEnabled(415) + Control.IsVisible(415)</param>
-                            <onclick>SendClick(415)</onclick>
-                        </include>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">04</param>
-                            <param name="label">$LOCALIZE[1000]</param>
-                            <param name="icon">special://skin/extras/icons/image.png</param>
-                            <param name="visible">Control.IsVisible(451) + [String.IsEqual(Control.GetLabel(411),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(411),$LOCALIZE[20437])]</param>
-                            <param name="control">radiobutton</param>
-                            <param name="radiocross">true</param>
-                            <selected>!Skin.HasSetting(Dialog.DisableArtworkPreview)</selected>
-                            <onclick>Skin.ToggleSetting(Dialog.DisableArtworkPreview)</onclick>
-                        </include>
-                    </control>
-                </control>
-            </include>
 
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogWideMenu</param>
                 <param name="slide_condition">True</param>
                 <param name="lines_right">0</param>
+                <param name="lines_left">120</param>
                 <param name="topline">true</param>
                 <param name="subline">true</param>
 
                 <!-- Header -->
                 <include content="Dialog_Head">
                     <param name="id">411</param>
+                    <param name="left">200</param>
                 </include>
                 <include content="Dialog_Head">
                     <param name="id">9901</param>
                     <param name="visible">String.IsEmpty(Control.GetLabel(411))</param>
                     <param name="label">$LOCALIZE[424]</param>
+                    <param name="left">200</param>
                 </include>
                 <include>Dialog_Head_CloseButton</include>
 
@@ -95,6 +48,7 @@
                 <control type="group">
                     <include>Dimension_Dialog_Body</include>
                     <control type="group">
+                        <left>140</left>
                         <include>Dimension_Dialog_Body_Group</include>
                         <include content="List_DialogSelect">
                             <param name="id">450</param>
@@ -136,6 +90,49 @@
                     </include>
                 </control>
             </include>
+            
+            <!-- Side Buttons -->
+            <control type="group">
+                <include>Dimension_Dialog_Body</include>
+                <include>Dialog_Side_Panel_Group_Def</include>
+                <control type="grouplist" id="9000">
+                    <include>Dialog_Side_Grouplist_Def</include>
+                    <onleft>Close</onleft>
+                    <onright condition="Control.IsVisible(450)">450</onright>
+                    <onright condition="Control.IsVisible(451)">451</onright>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">01</param>
+                        <param name="label">$LOCALIZE[186]</param>
+                        <param name="icon">special://skin/extras/icons/circle-check.png</param>
+                        <param name="visible">Control.IsEnabled(413) + Control.IsVisible(413) + Control.IsVisible(450)</param>
+                        <onclick>SendClick(413)</onclick>
+                    </include>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">02</param>
+                        <param name="label">$LOCALIZE[222]</param>
+                        <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+                        <param name="visible">Control.IsEnabled(414) + Control.IsVisible(414)</param>
+                        <onclick>SendClick(414)</onclick>
+                    </include>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">03</param>
+                        <param name="label">$LOCALIZE[119]</param>
+                        <param name="icon">special://skin/extras/icons/circle-plus.png</param>
+                        <param name="visible">Control.IsEnabled(415) + Control.IsVisible(415)</param>
+                        <onclick>SendClick(415)</onclick>
+                    </include>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">04</param>
+                        <param name="label">$LOCALIZE[1000]</param>
+                        <param name="icon">special://skin/extras/icons/image.png</param>
+                        <param name="visible">Control.IsVisible(451) + [String.IsEqual(Control.GetLabel(411),$LOCALIZE[13511]) | String.IsEqual(Control.GetLabel(411),$LOCALIZE[20437])]</param>
+                        <param name="control">radiobutton</param>
+                        <param name="radiocross">true</param>
+                        <selected>!Skin.HasSetting(Dialog.DisableArtworkPreview)</selected>
+                        <onclick>Skin.ToggleSetting(Dialog.DisableArtworkPreview)</onclick>
+                    </include>
+                </control>
+            </control>
 
         </control>
 

@@ -17,79 +17,19 @@
         <control type="group">
             <include>Dimension_DialogMainMenu</include>
             <include>Animation_Right_Delay</include>
-            <include content="Dialog_Dim_Side">
-                <param name="slide_condition">True</param>
-            </include>
-
-            <!-- Bottom Layer -->
-            <include content="Dialog_Background_Side">
-                <param name="slide_condition">True</param>
-                <param name="dialog_size">Dimension_DialogMainMenu</param>
-                <!-- Side Buttons -->
-                <control type="group">
-                    <include>Dimension_Dialog_Body</include>
-                    <control type="grouplist" id="9000">
-                        <include>Dialog_Side_Grouplist_Def</include>
-                        <onleft condition="!Player.HasVideo">Close</onleft>
-                        <onleft condition="Player.HasVideo">Seek(-10)</onleft>
-                        <onright condition="Player.HasVideo">Seek(10)</onright>
-                        <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">ClearProperty(TrailerFullscreen,1123)</onback>
-                        <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">9000</onback>
-                        <animation effect="fade" start="100" end="40" time="300" condition="Window.IsVisible(1124)">Conditional</animation>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">02</param>
-                            <param name="label">$LOCALIZE[31485]</param>
-                            <param name="icon">special://skin/extras/icons/stop.png</param>
-                            <param name="visible">Player.HasVideo</param>
-                            <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">Action(Stop)</onclick>
-                            <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">Close</onclick>
-                            <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
-                        </include>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">03</param>
-                            <param name="label">$VAR[Label_Trailer_PlayPause]</param>
-                            <param name="icon">$VAR[Image_Trailer_PlayPause]</param>
-                            <param name="visible">Player.HasVideo</param>
-                            <onclick>PlayerControl(Play)</onclick>
-                        </include>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">04</param>
-                            <param name="label">$LOCALIZE[31483]</param>
-                            <param name="icon">special://skin/extras/icons/repeat2.png</param>
-                            <param name="visible">!String.IsEmpty(Window(Home).Property(PlayTrailer))</param>
-                            <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onclick>
-                            <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
-                        </include>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">05</param>
-                            <param name="label">$LOCALIZE[35232]</param>
-                            <param name="icon">special://skin/extras/icons/fullscreen.png</param>
-                            <param name="visible">Player.HasVideo</param>
-                            <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">SetProperty(TrailerFullscreen,True,1123)</onclick>
-                            <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
-                            <onunfocus>ClearProperty(TrailerFullscreen,1123)</onunfocus>
-                        </include>
-                        <include content="Dialog_Side_Button">
-                            <param name="id">06</param>
-                            <param name="label">$LOCALIZE[22082]</param>
-                            <param name="icon">special://skin/extras/icons/videoplay.png</param>
-                            <param name="visible">!String.IsEmpty(Window(Home).Property(PlayTrailerItems)) + !String.IsEqual(Window(Home).Property(PlayTrailerItems),-)</param>
-                            <onclick>ActivateWindow(1124)</onclick>
-                        </include>
-                    </control>
-                </control>
-            </include>
 
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogMainMenu</param>
                 <param name="slide_condition">True</param>
                 <param name="lines_right">0</param>
+                <param name="lines_left">120</param>
                 <param name="topline">true</param>
                 <param name="subline">true</param>
 
                 <!-- Header -->
                 <include content="Dialog_Head">
                     <param name="label">$VAR[Label_Trailer_Window_Header]</param>
+                    <param name="left">200</param>
                 </include>
                 <include>Dialog_Head_CloseButton</include>
 
@@ -97,6 +37,7 @@
                 <control type="group">
                     <include>Dimension_Dialog_Body</include>
                     <control type="group">
+                        <left>140</left>
                         <include>Dimension_Dialog_Body_Group</include>
                         <control type="group">
                             <include content="Dimension_Padding">
@@ -137,6 +78,61 @@
                     </control>
                 </control>
             </include>
+            
+            <!-- Side Buttons -->
+            <control type="group">
+                <include>Dimension_Dialog_Body</include>
+                <include>Dialog_Side_Panel_Group_Def</include>
+                <control type="grouplist" id="9000">
+                    <include>Dialog_Side_Grouplist_Def</include>
+                    <onleft condition="!Player.HasVideo">Close</onleft>
+                    <onleft condition="Player.HasVideo">Seek(-10)</onleft>
+                    <onright condition="Player.HasVideo">Seek(10)</onright>
+                    <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">ClearProperty(TrailerFullscreen,1123)</onback>
+                    <onback condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">9000</onback>
+                    <animation effect="fade" start="100" end="40" time="300" condition="Window.IsVisible(1124)">Conditional</animation>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">02</param>
+                        <param name="label">$LOCALIZE[31485]</param>
+                        <param name="icon">special://skin/extras/icons/stop.png</param>
+                        <param name="visible">Player.HasVideo</param>
+                        <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">Action(Stop)</onclick>
+                        <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">Close</onclick>
+                        <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
+                    </include>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">03</param>
+                        <param name="label">$VAR[Label_Trailer_PlayPause]</param>
+                        <param name="icon">$VAR[Image_Trailer_PlayPause]</param>
+                        <param name="visible">Player.HasVideo</param>
+                        <onclick>PlayerControl(Play)</onclick>
+                    </include>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">04</param>
+                        <param name="label">$LOCALIZE[31483]</param>
+                        <param name="icon">special://skin/extras/icons/repeat2.png</param>
+                        <param name="visible">!String.IsEmpty(Window(Home).Property(PlayTrailer))</param>
+                        <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onclick>
+                        <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
+                    </include>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">05</param>
+                        <param name="label">$LOCALIZE[35232]</param>
+                        <param name="icon">special://skin/extras/icons/fullscreen.png</param>
+                        <param name="visible">Player.HasVideo</param>
+                        <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">SetProperty(TrailerFullscreen,True,1123)</onclick>
+                        <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
+                        <onunfocus>ClearProperty(TrailerFullscreen,1123)</onunfocus>
+                    </include>
+                    <include content="Dialog_Side_Button">
+                        <param name="id">06</param>
+                        <param name="label">$LOCALIZE[22082]</param>
+                        <param name="icon">special://skin/extras/icons/videoplay.png</param>
+                        <param name="visible">!String.IsEmpty(Window(Home).Property(PlayTrailerItems)) + !String.IsEqual(Window(Home).Property(PlayTrailerItems),-)</param>
+                        <onclick>ActivateWindow(1124)</onclick>
+                    </include>
+                </control>
+            </control>
         </control>
         
 

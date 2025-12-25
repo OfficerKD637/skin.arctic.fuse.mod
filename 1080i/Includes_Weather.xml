@@ -9,64 +9,18 @@
             <control type="group">
                 <include>Dimension_DialogHugeMenu</include>
                 <include>Animation_Right_Delay</include>
-                <include content="Dialog_Dim_Side">
-                    <param name="slide_condition">true</param>
-                </include>
-
-                <!-- Bottom Layer -->
-                <include content="Dialog_Background_Side">
-                    <param name="slide_condition">true</param>
-                    <param name="dialog_size">Dimension_DialogHugeMenu</param>
-
-                    <!-- Side Buttons -->
-                    <control type="group">
-                        <include>Dimension_Dialog_Body</include>
-                        <control type="grouplist" id="9000">
-                            <include>Dialog_Side_Grouplist_Def</include>
-                            <onleft>Close</onleft>
-                            <include content="Dialog_Side_Button">
-                                <param name="id">03</param>
-                                <param name="label">$LOCALIZE[31310]</param>
-                                <param name="icon">special://skin/extras/icons/fullscreen.png</param>
-                                <onclick>Close</onclick>
-                                <onclick>ActivateWindow(weather)</onclick>
-                            </include>
-                            <include content="Dialog_Side_Button">
-                                <param name="id">04</param>
-                                <param name="label">$LOCALIZE[31311]</param>
-                                <param name="icon">special://skin/extras/icons/calendar-day.png</param>
-                                <param name="visible">!String.IsEmpty(Window(weather).Property(Radar))</param>
-                                <onclick>Close</onclick>
-                                <onclick>ActivateWindow(weather)</onclick>
-                            </include>
-                            <include content="Dialog_Side_Button">
-                                <param name="id">05</param>
-                                <param name="label">$LOCALIZE[31473]</param>
-                                <param name="icon">special://skin/extras/icons/radar.png</param>
-                                <param name="visible">!String.IsEmpty(Window(weather).Property(Radar))</param>
-                                <onclick>Close</onclick>
-                                <onclick>ActivateWindow(weather)</onclick>
-                            </include>
-                            <include content="Dialog_Side_Button">
-                                <param name="id">06</param>
-                                <param name="label">$LOCALIZE[5]</param>
-                                <param name="icon">special://skin/extras/icons/settings.png</param>
-                                <onclick>Close</onclick>
-                                <onclick>ActivateWindow(servicesettings,weather)</onclick>
-                            </include>
-                        </control>
-                    </control>
-                </include>
 
                 <include content="Dialog_Foreground_Side">
                     <param name="dialog_size">Dimension_DialogHugeMenu</param>
                     <param name="slide_condition">ControlGroup(9000).HasFocus()</param>
                     <param name="topline">false</param>
                     <param name="subline">false</param>
+                    <left>-120</left>
 
                     <!-- Header -->
                     <include content="Dialog_Head">
                         <param name="label">$INFO[Weather.Location]</param>
+                        <param name="left">200</param>
                     </include>
                     <include>Dialog_Head_CloseButton</include>
 
@@ -74,7 +28,9 @@
                     <control type="group">
                         <include>Dimension_Dialog_Body</include>
                         <control type="group">
-                            <include>Dialog_Group</include>
+                            <include content="Dialog_Group">
+                                <param name="left">160</param>
+                            </include>
 
                             <control type="group">
                                 <width>480</width>
@@ -82,13 +38,13 @@
                                     <left>0</left>
                                     <top>-40</top>
                                     <height>1</height>
-                                    <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                                    <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                                 </control>
                                 <control type="image">
                                     <left>0</left>
                                     <bottom>-40</bottom>
                                     <height>1</height>
-                                    <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                                    <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                                 </control>
 
                                 <control type="grouplist">
@@ -139,7 +95,7 @@
                                         <control type="image">
                                             <centertop>50%</centertop>
                                             <height>1</height>
-                                            <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                                            <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                                         </control>
                                     </control>
 
@@ -174,7 +130,7 @@
                                         <control type="image">
                                             <centertop>50%</centertop>
                                             <height>1</height>
-                                            <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                                            <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                                         </control>
                                     </control>
 
@@ -200,6 +156,49 @@
                         </control>
                     </control>
                 </include>
+                
+                <!-- Side Buttons -->
+                <control type="group">
+                    <left>-120</left>
+                    <control type="group">
+                        <include>Dimension_Dialog_Body</include>
+                        <include>Dialog_Side_Panel_Group_Def</include>
+                        <control type="grouplist" id="9000">
+                            <include>Dialog_Side_Grouplist_Def</include>
+                            <onleft>Close</onleft>
+                            <include content="Dialog_Side_Button">
+                                <param name="id">03</param>
+                                <param name="label">$LOCALIZE[31310]</param>
+                                <param name="icon">special://skin/extras/icons/fullscreen.png</param>
+                                <onclick>Close</onclick>
+                                <onclick>ActivateWindow(weather)</onclick>
+                            </include>
+                            <include content="Dialog_Side_Button">
+                                <param name="id">04</param>
+                                <param name="label">$LOCALIZE[31311]</param>
+                                <param name="icon">special://skin/extras/icons/calendar-day.png</param>
+                                <param name="visible">!String.IsEmpty(Window(weather).Property(Radar))</param>
+                                <onclick>Close</onclick>
+                                <onclick>ActivateWindow(weather)</onclick>
+                            </include>
+                            <include content="Dialog_Side_Button">
+                                <param name="id">05</param>
+                                <param name="label">$LOCALIZE[31473]</param>
+                                <param name="icon">special://skin/extras/icons/radar.png</param>
+                                <param name="visible">!String.IsEmpty(Window(weather).Property(Radar))</param>
+                                <onclick>Close</onclick>
+                                <onclick>ActivateWindow(weather)</onclick>
+                            </include>
+                            <include content="Dialog_Side_Button">
+                                <param name="id">06</param>
+                                <param name="label">$LOCALIZE[5]</param>
+                                <param name="icon">special://skin/extras/icons/settings.png</param>
+                                <onclick>Close</onclick>
+                                <onclick>ActivateWindow(servicesettings,weather)</onclick>
+                            </include>
+                        </control>
+                    </control>
+                </control>
 
             </control>
         </definition>
@@ -286,10 +285,10 @@
                 <top>20</top>
                 <include content="Dialog_Outline_Box">
                     <control type="image">
-                        <texture colordiffuse="7f7f7f7f" border="12">common/dialog.png</texture>
+                        <texture colordiffuse="7f7f7f7f" border="20">common/dialog.png</texture>
                     </control>
                     <control type="image">
-                        <texture colordiffuse="panel_fg_12" border="12">common/dialog.png</texture>
+                        <texture colordiffuse="panel_fg_12" border="20">common/dialog.png</texture>
                     </control>
                     <control type="label">
                         <height>60</height>
@@ -839,7 +838,7 @@
             <imagepath diffuse="$PARAM[diffuse]" colordiffuse="ff555555">$PARAM[imagepath]</imagepath>
         </control>
         <control type="image">
-            <texture colordiffuse="panel_fg_12" border="12">common/box.png</texture>
+            <texture colordiffuse="panel_fg_12" border="20">common/box.png</texture>
         </control>
     </include>
 
@@ -881,7 +880,7 @@
 
             <include content="Weather_Item_Backing">
                 <param name="imagepath">$INFO[ListItem.Property(Fanart)]</param>
-                <param name="diffuse">diffuse/weather_w240_h294.png</param>
+                <param name="diffuse">diffuse/dialog_w240_h294.png</param>
             </include>
 
             <include content="Weather_Item_Icon">
@@ -971,7 +970,7 @@
 
     <include name="Weather_Details_GroupItem">
         <param name="hasicon">true</param>
-        <param name="diffuse">diffuse/weather_w240_h294.png</param>
+        <param name="diffuse">diffuse/dialog_w240_h294.png</param>
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>

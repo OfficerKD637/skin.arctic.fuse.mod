@@ -58,7 +58,7 @@
             <param name="label">$VAR[Label_Info_ViewLine_Sub]</param>
             <param name="item_condition">true</param>
             <param name="top_padding_info">true</param>
-            <param name="item_updating">[[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + [[String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5003).IsUpdating] | [!String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5504).IsUpdating]]]]] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating]]</param>
+            <param name="item_updating">[[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Cast) + [[String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + !Control.HasFocus(5003) + !Control.HasFocus(514) + Container(5303).IsUpdating] | [!String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + !Control.HasFocus(5504) + !Control.HasFocus(515) + [Container(5504).IsUpdating | Container(5506).IsUpdating]]]] | [String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating] | [String.IsEqual(Window.Property(DetailsView),Albums) + Container(5008).IsUpdating]]</param>
             <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
                 <param name="top">441</param>    
             </include>
@@ -82,18 +82,18 @@
                 <selectedcolor>00ffffff</selectedcolor>
                 <focusedcolor>00ffffff</focusedcolor>
                 <onleft condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onleft>
-                <onleft condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onleft>
+                <onleft condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew,12003)</onleft>
                 <onright condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onright>
-                <onright condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onright>
+                <onright condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew,12003)</onright>
+                <onclick condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onclick>
+                <onclick condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew,12003)</onclick>
                 <onup>4000</onup>
                 <onback>4000</onback>
-                <onup>ClearProperty(DialogInfo.CastCrew)</onup>
-                <ondown condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetFocus(5003,0,absolute)</ondown>
-                <ondown condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetFocus(5504,0,absolute)</ondown>
-                <onclick condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">SetProperty(DialogInfo.CastCrew,True)</onclick>
-                <onclick condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew))">ClearProperty(DialogInfo.CastCrew)</onclick>
+                <onback>ClearProperty(DialogInfo.CastCrew,12003)</onback>
+                <onup>ClearProperty(DialogInfo.CastCrew,12003)</onup>
+                <ondown condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + !Integer.IsEqual(Container(5003).NumItems,0)">SetFocus(5003,0,absolute)</ondown>
+                <ondown condition="!String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + !Integer.IsEqual(Container(5504).NumItems,0)">SetFocus(5504,0,absolute)</ondown>
                 <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
-                <onback>ClearProperty(DialogInfo.CastCrew)</onback>                  
             </control>
         </include>
     </include>
@@ -156,7 +156,7 @@
         <onload condition="Skin.String(InfoDialog.Layout,Blur)">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onload>
 
         <onload>SetProperty(Cast_TMDb_ID,$VAR[Path_VideoInfo_OnlineCast])</onload>
-        <onload>ClearProperty(DialogInfo.CastCrew)</onload>
+        <onload>ClearProperty(DialogInfo.CastCrew,12003)</onload>
         
         <onload>SetProperty(SideMenu.HasFocus.Prev,$INFO[Window(Home).Property(SideMenu.HasFocus)],Home)</onload>
         <onload>ClearProperty(SideMenu.HasFocus,Home)</onload>
@@ -176,8 +176,8 @@
         <onunload>Dialog.Close(1121)</onunload>
         <onunload>Dialog.Close(1122)</onunload>
         <onunload>ClearProperty(DetailsView,12003)</onunload>
-        <onunload>ClearProperty(Cast_TMDb_ID)</onunload>
-        <onunload>ClearProperty(DialogInfo.CastCrew)</onunload>
+        <onunload>ClearProperty(Cast_TMDb_ID,12003)</onunload>
+        <onunload>ClearProperty(DialogInfo.CastCrew,12003)</onunload>
         <onunload>ClearProperty(Background.DialogInfo.HideArtwork,Home)</onunload>
     </include>
 
@@ -439,9 +439,9 @@
                 <left>1020</left>
                 <control type="group">
                     <include content="Dialog_Background_Blur">
+                        <param name="diffuse">diffuse/card_w800_h294.png</param>
                     </include>
                     <animation effect="fade" end="90" condition="true">Conditional</animation>
-                    <param name="diffuse">diffuse/card_w800_h294.png</param>
                 </control>
                 <control type="image">
                     <texture colordiffuse="panel_fg_12" border="20">common/dialog.png</texture>
@@ -621,18 +621,20 @@
     
         <!-- CAST -->
         <control type="group">
-            <include content="Animation_ConditionalFade">
-                <param name="condition">[[Control.HasFocus(4003) | Control.HasFocus(5503)] + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + Container(5003).IsUpdating]</param>
-            </include>
             <visible>$PARAM[visible]</visible>
-
             <include condition="!$EXP[Exp_AspectRatio_Reduced]">DialogInfo_Cast_PersonBiography</include>
             <visible>String.IsEmpty(Window.Property(DialogInfo.CastCrew))</visible>
-            
             <!-- Widgets -->
             <control type="group">
                 <visible>Control.HasFocus(5003) | Control.HasFocus(514)</visible>
-                
+                <include content="Animation_Slide_In">
+                    <param name="condition">Control.HasFocus(5003) | Control.HasFocus(514)</param>
+                    <param name="posy">320</param>
+                </include>
+                <include content="Animation_Slide_Out">
+                    <param name="condition">![Control.HasFocus(5003) | Control.HasFocus(514)]</param>
+                    <param name="posy">320</param>
+                </include>
                 <control type="group">
                     <top>-10</top>
                     <animation effect="slide" start="420" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(514)">Conditional</animation>
@@ -725,39 +727,77 @@
                     <onup>5503</onup>
                     <onleft>5503</onleft>
                     <onback>5503</onback>
-                    <onback>SetFocus(5504,0,absolute)</onback>
+                    <onback>SetFocus(5003,0,absolute)</onback>
                   
                     <onclick>ActivateWindow(1122)</onclick>
                     
                     <onright condition="![Integer.IsEqual(Container(514).NumItems,0) | Container(514).IsUpdating]">SetFocus(514,0,absolute)</onright>
                     <content target="videos">$INFO[Window.Property(Cast_TMDb_ID)]</content>
                     <include content="Animation_ConditionalFade">
-                        <param name="condition">!Control.HasFocus(5003)</param>
+                        <param name="condition">Container(5003).IsUpdating | Control.HasFocus(514)</param>
                     </include>
-                </include>
-                <include content="Object_Hidden_List">
-                    <param name="id">5303</param>
-                    <content target="videos">$VAR[Path_VideoInfo_OnlineCast]</content>
+                    <include content="Animation_Slide_In">
+                        <param name="condition">Control.HasFocus(5003) | Control.HasFocus(514)</param>
+                        <param name="posy">320</param>
+                    </include>
+                    <include content="Animation_Slide_Out">
+                        <param name="condition">![Control.HasFocus(5003) | Control.HasFocus(514)]</param>
+                        <param name="posy">320</param>
+                    </include>
                 </include>
                 <control type="group">
-                    <left>60</left>
-                    <right>-60</right>
-                    <top>25</top>
-                    <bottom>-25</bottom>
-                    <visible>Control.IsVisible(5003) + !Control.HasFocus(5003) + !Control.HasFocus(514)</visible>
-                    <include content="ObjectWall_FixedList">
-                        <param name="container">Container(5303).</param>
-                        <param name="listitem">ListItemAbsolute</param>
+                    <left>-120</left>
+                    <top>-50</top>
+                    <include content="Animation_ConditionalFade">
+                        <param name="condition">Container(5303).IsUpdating</param>
                     </include>
+                    <include content="Animation_Slide_In">
+                        <param name="condition">![Control.HasFocus(5003) | Control.HasFocus(514)]</param>
+                        <param name="posy">320</param>
+                    </include>
+                    <include content="Animation_Slide_Out">
+                        <param name="condition">Control.HasFocus(5003) | Control.HasFocus(514)</param>
+                        <param name="posy">320</param>
+                    </include>
+                    <control type="fixedlist" id="5303">
+                        <orientation>horizontal</orientation>
+                        <onfocus>SetFocus(5003)</onfocus>
+                        <itemlayout width="view_poster_itemlayout_w" height="view_poster_itemlayout_h">
+                            <control type="group">
+                                <left>view_offx</left>
+                                <right>-view_offx</right>
+                                <top>80</top>
+                                <bottom>-80</bottom>
+                                <include content="Layout_Poster">
+                                    <param name="item_h">view_poster_item_h</param>
+                                    <param name="item_w">view_poster_item_w</param>
+                                    <param name="icon">$INFO[ListItem.Icon]</param>
+                                    <param name="detailed">true</param>
+                                </include>
+                            </control>
+                        </itemlayout>
+                        <focusedlayout width="view_poster_itemlayout_w" height="view_poster_itemlayout_h">
+                            <control type="group">
+                                <left>view_offx</left>
+                                <right>-view_offx</right>
+                                <top>80</top>
+                                <bottom>-80</bottom>
+                                <include content="Layout_Poster">
+                                    <param name="item_h">view_poster_item_h</param>
+                                    <param name="item_w">view_poster_item_w</param>
+                                    <param name="icon">$INFO[ListItem.Icon]</param>
+                                    <param name="detailed">true</param>
+                                </include>
+                            </control>
+                        </focusedlayout>
+                        <content target="videos">$VAR[Path_VideoInfo_OnlineCast]</content>
+                    </control>
                 </control>
             </control>
         </control>
         
         <!-- CREW -->
         <control type="group">
-            <include content="Animation_ConditionalFade">
-                <param name="condition">[[Control.HasFocus(4003) | Control.HasFocus(5503)] + Container(5504).IsUpdating] | [!Control.HasFocus(4003) + Container(5504).IsUpdating]</param>
-            </include>
             <visible>$PARAM[visible]</visible>
             <visible>!String.IsEmpty(Window.Property(DialogInfo.CastCrew))</visible>
 
@@ -765,7 +805,14 @@
             <!-- Widgets -->
             <control type="group">
                 <visible>Control.HasFocus(5504) | Control.HasFocus(515)</visible>
-                
+                <include content="Animation_Slide_In">
+                    <param name="condition">Control.HasFocus(5504) | Control.HasFocus(515)</param>
+                    <param name="posy">320</param>
+                </include>
+                <include content="Animation_Slide_Out">
+                    <param name="condition">![Control.HasFocus(5504) | Control.HasFocus(515)]</param>
+                    <param name="posy">320</param>
+                </include>
                 <control type="group">
                     <top>-10</top>
                     <animation effect="slide" start="420" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(515)">Conditional</animation>
@@ -904,23 +951,95 @@
                         </include>
                     </content>
                     <include content="Animation_ConditionalFade">
-                        <param name="condition">!Control.HasFocus(5504)</param>
+                        <param name="condition">Container(5504).IsUpdating | Container(5506).IsUpdating | Control.HasFocus(515)</param>
+                    </include>
+                    <include content="Animation_Slide_In">
+                        <param name="condition">Control.HasFocus(5504) | Control.HasFocus(515)</param>
+                        <param name="posy">320</param>
+                    </include>
+                    <include content="Animation_Slide_Out">
+                        <param name="condition">![Control.HasFocus(5504) | Control.HasFocus(515)]</param>
+                        <param name="posy">320</param>
                     </include>
                 </include>
                 <include content="Object_Hidden_List">
                     <param name="id">5506</param>
                     <content limit="1">$VAR[DialogInfo_Origin_TMDbPath]</content>
-                </include>                
+                </include>
                 <control type="group">
-                    <left>60</left>
-                    <right>-60</right>
-                    <top>25</top>
-                    <bottom>-25</bottom>
-                    <visible>Control.IsVisible(5504) + !Control.HasFocus(5504) + !Control.HasFocus(515)</visible>
-                    <include content="ObjectWall_FixedList">
-                        <param name="container">Container(5504).</param>
-                        <param name="listitem">ListItemAbsolute</param>
+                    <left>80</left>
+                    <top>30</top>
+                    <include content="Animation_ConditionalFade">
+                        <param name="condition">Container(5504).IsUpdating | Container(5506).IsUpdating</param>
                     </include>
+                    <include content="Animation_Slide_In">
+                        <param name="condition">![Control.HasFocus(5504) | Control.HasFocus(515)]</param>
+                        <param name="posy">320</param>
+                    </include>
+                    <include content="Animation_Slide_Out">
+                        <param name="condition">Control.HasFocus(5504) | Control.HasFocus(515)</param>
+                        <param name="posy">320</param>
+                    </include>
+                    <control type="fixedlist">
+                        <orientation>horizontal</orientation>
+                        <onfocus>SetFocus(5504)</onfocus>
+                        <itemlayout height="view_poster_itemlayout_h" width="view_poster_itemlayout_w">
+                            <include content="Layout_Poster">
+                                <param name="item_h">view_poster_item_h</param>
+                                <param name="item_w">view_poster_item_w</param>
+                                <param name="icon">$VAR[Image_InfoDialog_Crew]</param>
+                                <param name="detailed">true</param>
+                            </include>
+                        </itemlayout>
+                        <focusedlayout height="view_poster_itemlayout_h" width="view_poster_itemlayout_w">
+                            <include content="Layout_Poster">
+                                <param name="item_h">view_poster_item_h</param>
+                                <param name="item_w">view_poster_item_w</param>
+                                <param name="icon">$VAR[Image_InfoDialog_Crew]</param>
+                                <param name="detailed">true</param>
+                            </include>
+                        </focusedlayout>
+                        <content target="videos">
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Director</param>
+                            </include>
+                        </content>
+                        <content target="videos">
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Writer</param>
+                            </include>
+                        </content>
+                        <content target="videos">
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Creator</param>
+                            </include>
+                        </content>
+                        <content target="videos">
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Producer</param>
+                            </include>
+                        </content>
+                        <content target="videos">
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Photography</param>
+                            </include>
+                        </content>
+                        <content target="videos">
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Editor</param>
+                            </include>
+                        </content>
+                        <content target="videos">
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Sound_Department</param>
+                            </include>
+                        </content>
+                        <content target="videos">        
+                            <include content="DialogInfo_CrewItems">
+                                <param name="type">Art_Department</param>
+                            </include>
+                        </content>
+                    </control>
                 </control>
             </control>
         </control>
@@ -1307,8 +1426,8 @@
         </include>
         <include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
-            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[Control.HasFocus(4003) + Container(5303).IsUpdating] | [!Control.HasFocus(4003) + [[String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5003).IsUpdating + !Control.HasFocus(7000) + !Control.HasFocus(514)] | [!String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + Container(5504).IsUpdating + !Control.HasFocus(5504) + !Control.HasFocus(515)]]]]]</param>
-            <param name="include">List_Button_Row</param>
+            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + !Control.HasFocus(5003) + !Control.HasFocus(514) + Container(5303).IsUpdating] | [!String.IsEmpty(Window.Property(DialogInfo.CastCrew)) + !Control.HasFocus(5504) + !Control.HasFocus(515) + [Container(5504).IsUpdating | Container(5506).IsUpdating]]]]</param>
+            <param name="include">List_Poster_Row</param>
             <top>-5</top>
             <left>200</left>
         </include>
@@ -1474,7 +1593,7 @@
             <right>0</right>
             <height>view_poster_itemlayout_h</height>
             <width>view_board_itemlayout_w</width>
-            <bottom>-39</bottom>
+            <bottom>0</bottom>
             <include content="Layout_Poster" condition="String.IsEmpty(Skin.String(InfoDialog.Layout))">
                 <param name="icon">$VAR[Image_DialogInfo_Landscape]</param>
                 <param name="diffuse">diffuse/landscape_w520_h294.png</param>
@@ -1487,7 +1606,7 @@
             <right>view_board_itemlayout_w</right>
             <height>view_poster_itemlayout_h</height>
             <width>view_poster_itemlayout_w</width>
-            <bottom>-39</bottom>
+            <bottom>0</bottom>
             <include content="Layout_Poster" condition="!$EXP[Exp_AspectRatio_Reduced] + String.IsEmpty(Skin.String(InfoDialog.Layout))">
                 <param name="icon">$VAR[Image_DialogInfo_Poster]</param>
                 <param name="indicator">false</param>
@@ -1497,15 +1616,15 @@
         </control>
         <control type="group">
             <right>-40</right>
-            <height>827.82</height>
-            <width>560</width>
-            <bottom>23</bottom>
+            <height>768</height>
+            <width>520</width>
+            <bottom>40</bottom>
             <include content="Layout_Poster" condition="!$EXP[Exp_AspectRatio_Reduced] + Skin.String(InfoDialog.Layout,Blur)">
                 <param name="diffuse">diffuse/poster_w460_h680.png</param>
                 <param name="icon">$VAR[Image_DialogInfo_Poster]</param>
                 <param name="indicator">true</param>
-                <param name="item_w">520</param>
-                <param name="item_h">827.82</param>
+                <param name="item_w">480</param>
+                <param name="item_h">768</param>
             </include>
         </control>
     </include>
@@ -1623,7 +1742,7 @@
         </include>
 
         <!-- Cast -->
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal]">ClearProperty(DialogInfo.CastCrew)</ondown>
+        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal]">ClearProperty(DialogInfo.CastCrew,12003)</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal]">SetProperty(Cast_TMDb_ID,$VAR[Path_VideoInfo_OnlineCast])</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + [!String.IsEmpty(ListItem.DBID) | !String.IsEmpty(ListItem.TvShowDBID)]">SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID])</ondown>
@@ -1632,7 +1751,7 @@
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + [String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">SetProperty(origin_tmdb_episode,$INFO[Window(Home).Property(TMDbHelper.ListItem.Episode)])</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</ondown>
         <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</ondown>
-        <ondown condition="[String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(5003).NumItems,0)]">SetFocus(5503)</ondown>
+        <ondown condition="[String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(5303).NumItems,0)]">SetFocus(5503)</ondown>
         <ondown condition="[String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(50).NumItems,0) + $EXP[Exp_InfoDialogs_Cast_IsLocal]]">SetFocus(50,0,absolute)</ondown>
 
         <!-- Songs -->
@@ -2097,7 +2216,7 @@
                         
                         <onfocus>ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
-                        <onfocus>ClearProperty(DialogInfo.CastCrew)</onfocus>
+                        <onfocus>ClearProperty(DialogInfo.CastCrew,12003)</onfocus>
                     </include>
 
                     <include>Items_DialogVideoInfo_MenuBar</include>
@@ -2751,6 +2870,16 @@
                                 <top>25</top>
                             </control>
                             
+                            <!-- Language -->
+                            <include content="Object_InfoCircle">
+                                <param name="icon">special://skin/extras/icons/language.png</param>
+                                <param name="role">$LOCALIZE[248]</param>
+                                <param name="name">$VAR[Label_Language]</param>
+                                <param name="icon_background">true</param>
+                                <param name="colordiffuse">white</param>
+                                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Language)) | !String.IsEmpty(ListItem.Property(Language))</visible>
+                            </include>
+                            
                             <!-- Genre -->
                             <include content="Object_InfoCircle">
                                 <param name="icon">special://skin/extras/icons/genre.png</param>
@@ -3253,7 +3382,7 @@
                     </control>
                     <control type="image">
                         <include>Texture_Shadow_40</include>
-                        <texture colordiffuse="black" border="12">common/box.png</texture>
+                        <texture colordiffuse="black" border="20">common/box.png</texture>
                     </control>
                     <control type="wraplist" id="7003">
                         <orientation>horizontal</orientation>
@@ -3266,13 +3395,13 @@
                         <onclick>ShowPicture($INFO[Container(7003).ListItem.Icon])</onclick>
                         <itemlayout>
                             <control type="image">
-                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <aspectratio scalediffuse="false">keep</aspectratio>
                                 <texture background="true" diffuse="diffuse/landscape_w1140_h680.png">$INFO[ListItem.Icon]</texture>
                             </control>
                         </itemlayout>
                         <focusedlayout>
                             <control type="image">
-                                <aspectratio scalediffuse="false">scale</aspectratio>
+                                <aspectratio scalediffuse="false">keep</aspectratio>
                                 <texture background="true" diffuse="diffuse/landscape_w1140_h680.png">$INFO[ListItem.Icon]</texture>
                             </control>
                         </focusedlayout>
@@ -3479,7 +3608,7 @@
         <control type="image">
             <texture colordiffuse="$VAR[ColorBackground]">common/white.png</texture>
         </control>
-        <include>Background_Main</include>
+        <include>Background</include>
     </include>
 
     <include name="DialogInfo_Recommendations_Furniture">

@@ -5,19 +5,15 @@
         <param name="include_heading">true</param>
         <param name="label">$VAR[Label_Header_Mini]</param>
         <definition>
-            <include content="Dialog_Foreground_Side">
-                <param name="dialog_size">Dimension_DialogMainMenu</param>
-                <param name="slide_condition">True</param>
-                <param name="lines_right">0</param>
-                <param name="topline">false</param>
-                <param name="subline">false</param>
+            <control type="group">
+                <left>120</left>
                 <!-- Header -->
                 <include content="Dialog_Head" condition="$PARAM[include_heading]">
                     <param name="id">9901</param>
                     <param name="label">$PARAM[label]</param>
                 </include>               
                 <nested />
-            </include>
+            </control>
         </definition>
     </include>
 
@@ -27,14 +23,14 @@
             <width>360</width>
 
             <control type="image">
-                <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                 <height>1</height>
                 <left>80</left>
                 <right>-60</right>
                 <top>160</top>
             </control>
             <control type="image">
-                <texture colordiffuse="dialog_fg_12">common/white.png</texture>
+                <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                 <height>1</height>
                 <left>80</left>
                 <right>-60</right>
@@ -52,6 +48,43 @@
             <left>60</left>
             <right>-120</right>
         </control>
+    </include>
+    
+    <include name="Settings_Category_List">
+        <param name="control">list</param>
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <itemlayout height="80">
+                    <control type="label">
+                        <textoffsetx>40</textoffsetx>
+                        <textcolor>main_fg_70</textcolor>
+                        <label>$INFO[ListItem.Label]</label>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="80">
+                    <control type="group">
+                        <control type="image">
+                            <include>Texture_Menu_Highlight_H</include>
+                            <visible>![ControlGroup(30000).HasFocus() | ControlGroup(30040).HasFocus()]</visible>
+                        </control>
+                        <control type="label">
+                            <textcolor>main_fg_70</textcolor>
+                            <textoffsetx>40</textoffsetx>
+                            <label>$INFO[ListItem.Label]</label>
+                            <visible>[ControlGroup(30000).HasFocus() | ControlGroup(30040).HasFocus()]</visible>
+                        </control>
+                        <control type="label">
+                            <include>Color_SelectedText</include>
+                            <textcolor>main_fg_70</textcolor>
+                            <textoffsetx>40</textoffsetx>
+                            <label>$INFO[ListItem.Label]</label>
+                            <visible>![ControlGroup(30000).HasFocus() | ControlGroup(30040).HasFocus()]</visible>
+                        </control>
+                    </control>
+                </focusedlayout>
+            </control>
+        </definition>
     </include>
 
     <include name="Settings_Left_Grouplist">
@@ -105,7 +138,8 @@
         <param name="arrow_prev_visible">false</param>
         <param name="arrow_next_visible">false</param>
         <definition>
-            <include content="Dialog_Outline_InnerBox">
+            <control type="group">
+                <include>Settings_Box</include>
                 <include content="Settings_Arrows">
                     <param name="arrow_prev_visible">$PARAM[arrow_prev_visible]</param>
                     <param name="arrow_next_visible">$PARAM[arrow_next_visible]</param>
@@ -115,7 +149,7 @@
                 <right>80</right>
                 <bottom>160</bottom>
                 <top>160</top>
-            </include>
+            </control>
         </definition>
     </include>
 
@@ -457,32 +491,24 @@
     <include name="Settings_Dialog">
         <param name="side_buttons_include">Settings_Standard_Buttons</param>
         <definition>
-            <include>Settings_Landing</include>
             <control type="group">
                 <include>Dimension_DialogMainMenu</include>
                 <include>Animation_Settings_WindowChange</include>
-                <include content="Dialog_Dim_Side">
-                    <param name="slide_condition">True</param>
-                </include>
-                <!-- Bottom Layer -->
-                <include content="Dialog_Background_Side">
-                    <param name="slide_condition">True</param>
-                    <param name="dialog_size">Dimension_DialogMainMenu</param>
-                    <!-- Side Buttons -->
-                    <control type="group">
-                        <include>Dimension_Dialog_Body</include>
-                        <control type="grouplist" id="30000">
-                            <include>Dialog_Side_Grouplist_Def</include>
-                            <onright condition="!Window.IsVisible(EventLog.xml) + !Window.IsVisible(addonbrowser) + !Window.IsVisible(filemanager) + !Window.IsVisible(1115)">3</onright>
-                            <onright condition="Window.IsVisible(EventLog.xml)">8000</onright>
-                            <onright condition="Window.IsVisible(addonbrowser)">6000</onright>
-                            <onright condition="Window.IsVisible(filemanager)">20</onright>
-                            <onright condition="Window.IsVisible(1115)">340</onright>
-                            <onleft>SetFocus(30040)</onleft>
-                            <include>$PARAM[side_buttons_include]</include>
-                        </control>
+                <!-- Side Buttons -->
+                <control type="group">
+                    <include>Dimension_Dialog_Body</include>
+                    <include>Dialog_Side_Panel_Group_Def</include>
+                    <control type="grouplist" id="30000">
+                        <include>Dialog_Side_Grouplist_Def</include>
+                        <onright condition="!Window.IsVisible(EventLog.xml) + !Window.IsVisible(addonbrowser) + !Window.IsVisible(filemanager) + !Window.IsVisible(1115)">3</onright>
+                        <onright condition="Window.IsVisible(EventLog.xml) | [Window.IsVisible(filemanager) + Container(3).HasFocus(2)]">8000</onright>
+                        <onright condition="Window.IsVisible(addonbrowser)">6000</onright>
+                        <onright condition="Window.IsVisible(filemanager) + Container(3).HasFocus(1)">20</onright>
+                        <onright condition="Window.IsVisible(1115)">340</onright>
+                        <onleft>SetFocus(30040)</onleft>
+                        <include>$PARAM[side_buttons_include]</include>
                     </control>
-                </include>
+                </control>
                 <nested />
             </control>
         </definition>
@@ -506,9 +532,6 @@
             <include>Dimension_DialogSideMenu</include>
             <visible>ControlGroup(30040).HasFocus()</visible>
             <include>Animation_Right_Delay</include>
-            <include content="Dialog_Dim_Side">
-                <param name="slide_animation">false</param>
-            </include>
 
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogSideMenu</param>

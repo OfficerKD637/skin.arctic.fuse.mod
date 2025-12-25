@@ -15,14 +15,17 @@
 
     <!-- SlideUp Categories = Disabled -->
     <include name="Hub_Slide_Group_OnWidgets">
-        <animation effect="slide" time="400" end="0" start="0,hub_group_widgetup_s" tween="quadratic" easing="out" reversible="false" condition="$EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]">Conditional</animation>
-        <animation effect="slide" time="400" end="0,hub_group_widgetup_s" start="0" tween="quadratic" easing="out" reversible="false" condition="![$EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,hub_group_widgetup_s" tween="quadratic" easing="out" reversible="false" condition="$EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_SpotlightSubmenu_IsVisible]">Conditional</animation>
+        <animation effect="slide" time="400" end="0,hub_group_widgetup_s" start="0" tween="quadratic" easing="out" reversible="false" condition="![$EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_SpotlightSubmenu_IsVisible]]">Conditional</animation>
+        
+        <animation effect="slide" time="400" end="0,-120" start="0" tween="quadratic" easing="out" reversible="false" condition="!$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0) + [Control.HasFocus(300) | Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),300) | Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),3002)]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,-120" tween="quadratic" easing="out" reversible="false" condition="![!$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0) + [Control.HasFocus(300) | Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),300) | Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),3002)]]">Conditional</animation>
     </include>
     <include name="Hub_Widgets_Grouplist__Def_Layout_Expanded_OnWidgets">
-        <animation effect="slide" time="400" end="0" start="0,-120" tween="quadratic" easing="out" reversible="false" condition="![Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]]">Conditional</animation>
-        <animation effect="slide" time="400" end="0,-120" start="0" tween="quadratic" easing="out" reversible="false" condition="Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]">Conditional</animation>
-        <animation effect="slide" time="400" end="0" start="0,-40" tween="quadratic" easing="out" reversible="false" condition="![[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]]">Conditional</animation>
-        <animation effect="slide" time="400" end="0,-40" start="0" tween="quadratic" easing="out" reversible="false" condition="[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_Spotlight_IsVisible]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,-120" tween="quadratic" easing="out" reversible="false" condition="![Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_SpotlightSubmenu_IsVisible]]">Conditional</animation>
+        <animation effect="slide" time="400" end="0,-120" start="0" tween="quadratic" easing="out" reversible="false" condition="Integer.IsEqual(Container(300).NumItems,0) + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_SpotlightSubmenu_IsVisible]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,-40" tween="quadratic" easing="out" reversible="false" condition="![[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_SpotlightSubmenu_IsVisible]]">Conditional</animation>
+        <animation effect="slide" time="400" end="0,-40" start="0" tween="quadratic" easing="out" reversible="false" condition="[Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Widgets_SlideDown] + $EXP[Exp_HomeHub_SpotlightSubmenu_IsVisible]">Conditional</animation>
     </include>
 
     <!-- Fanart Spotlight = Enabled -->
@@ -502,6 +505,8 @@
         <include condition="!$EXP[Exp_HomeHub_IsVisible]">skinvariables-$PARAM[categories]-spotlight</include>
 
         <control type="group" id="340">
+            <animation effect="slide" start="0" end="0,80" time="400" delay="0" tween="back" easing="out" condition="[$EXP[Exp_Hubs_Spotlight_IsSlide] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0,80" end="0" time="400" delay="0" tween="back" easing="out" condition="![$EXP[Exp_Hubs_Spotlight_IsSlide] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
             <include>skinvariables-$PARAM[categories]-widgets</include>
         </control>
 
@@ -574,7 +579,9 @@
 
         <ondown>3002</ondown>
 
-        <onfocus condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)">SetProperty(TMDbHelper.WidgetContainer,301,$PARAM[property_window_id])</onfocus>
+        <onfocus condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetProperty(TMDbHelper.WidgetContainer,301,$PARAM[property_window_id])</onfocus>
+        <onfocus condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(300).ListItem.Property(item),0)">SetProperty(TMDbHelper.WidgetContainer,601,$PARAM[property_window_id])</onfocus>
+        <onfocus condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0) + !Integer.IsEqual(Container(300).ListItem.Property(item),0)">SetProperty(TMDbHelper.WidgetContainer,$INFO[Container(300).ListItem.Property(item),,601],$PARAM[property_window_id])</onfocus>
         <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
         <onfocus>ClearProperty(Background.HideArtwork)</onfocus>
         <onfocus>SetProperty(Focus.ControlID,$NUMBER[300],$PARAM[property_window_id])</onfocus>    
@@ -825,8 +832,8 @@
                 <animation effect="slide" start="0" end="0,-20" time="400" delay="0" tween="quadratic" easing="out" condition="!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + [Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Spotlight_IsVisible]" reversible="false">Conditional</animation>
                 <animation effect="slide" start="0,-20" end="0" time="400" delay="0" tween="quadratic" easing="out" condition="![!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + [Integer.IsEqual(Container(300).NumItems,0)] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
                 
-                <animation effect="slide" start="0" end="0,-60" time="400" delay="0" tween="quadratic" easing="out" condition="!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(300).NumItems,0) + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(302).NumItems,0)] + [$EXP[Exp_Hubs_Spotlight_IsVisible] | Control.HasFocus(300) | Control.HasFocus(311) | Control.HasFocus(312) | Control.HasFocus(313)]" reversible="false">Conditional</animation>
-                <animation effect="slide" start="0,-60" end="0" time="400" delay="0" tween="quadratic" easing="out" condition="![!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(300).NumItems,0) + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(302).NumItems,0)] + [$EXP[Exp_Hubs_Spotlight_IsVisible] | Control.HasFocus(300) | Control.HasFocus(311) | Control.HasFocus(312) | Control.HasFocus(313)]]" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0" end="0,-60" time="400" delay="0" tween="quadratic" easing="out" condition="!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(300).NumItems,0) + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(302).NumItems,0)] + [$EXP[Exp_Hubs_Spotlight_IsVisible] | Control.HasFocus(300) | Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),300)]" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0,-60" end="0" time="400" delay="0" tween="quadratic" easing="out" condition="![!$EXP[Exp_Hubs_Spotlight_IsFanart] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(300).NumItems,0) + [Integer.IsEqual(Container(3002).NumItems,0) | Integer.IsEqual(Container(302).NumItems,0)] + [$EXP[Exp_Hubs_Spotlight_IsVisible] | Control.HasFocus(300) | Integer.IsEqual(Window(Home).Property(Slide.WidgetContainer),300)]]" reversible="false">Conditional</animation>
 
                 <include condition="![$PARAM[widgets_only]]" content="Hub_Widgets_Grouplist__Def_Layout_Expanded">
                     <param name="window_id">$PARAM[window_id]</param>
