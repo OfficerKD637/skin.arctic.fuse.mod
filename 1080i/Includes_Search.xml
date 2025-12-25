@@ -67,7 +67,8 @@
                             <include content="DialogInfo_Recommendations_Widgets_Grouplist">
                                 <param name="top">60</param>
                                 <param name="bottom">0</param>
-                                <param name="onup">333</param>                            
+                                <param name="onup">9090</param>
+                                <param name="ondown">9090</param>
                                 <param name="widget_windowchange_animation">false</param>
                                 <include>skinvariables-searchmenu-widgets</include>
                                 <include>Widget_End_Bumper</include>
@@ -233,13 +234,14 @@
                             <include>Animation_Transition_InfoPanel_Hide</include>
                         </include>
                         <include content="DialogInfo_Recommendations_Widgets_Grouplist">
-                            <param name="onup">333</param>
+                            <param name="onup">9090</param>
+                            <param name="ondown">9090</param>
                             <param name="widget_windowchange_animation">false</param>
                             <left>-120</left>    
                             <include content="_Widget_Row" condition="!Skin.HasSetting(Discover.Landscape)">
                                 <param name="id">5001</param>
                                 <param name="groupid">5101</param>
-                                <param name="label">$VAR[Label_Discover_TMDbType]$INFO[Control.GetLabel(9099).index(1), [COLOR=main_fg_30]&gt;[/COLOR] [CAPITALIZE],[/CAPITALIZE]]</param>
+                                <param name="label">$INFO[window(home).property(tmdbhelper.userdiscover.folderpath.name)]$INFO[Control.GetLabel(9099).index(1), [COLOR=main_fg_30]&gt;[/COLOR] [CAPITALIZE],[/CAPITALIZE]]</param>
                                 <param name="include">List_Poster_Row</param>
                                 <param name="visible">True</param>
                                 <param name="detailed">String.IsEqual(ListItem.Label,$LOCALIZE[31046])</param>
@@ -279,7 +281,7 @@
                             <include content="_Widget_Row" condition="Skin.HasSetting(Discover.Landscape)">
                                 <param name="id">5001</param>
                                 <param name="groupid">5101</param>
-                                <param name="label">$VAR[Label_Discover_TMDbType]$INFO[Control.GetLabel(9099).index(1), [COLOR=main_fg_30]&gt;[/COLOR] [CAPITALIZE],[/CAPITALIZE]]</param>
+                                <param name="label">$INFO[window(home).property(tmdbhelper.userdiscover.folderpath.name)]$INFO[Control.GetLabel(9099).index(1), [COLOR=main_fg_30]&gt;[/COLOR] [CAPITALIZE],[/CAPITALIZE]]</param>
                                 <param name="include">List_Landscape_Row</param>
                                 <param name="visible">True</param>
                                 <param name="detailed">String.IsEqual(ListItem.Label,$LOCALIZE[31046])</param>
@@ -718,7 +720,7 @@
                     <onclick>SetFocus(9099)</onclick>
                     <onclick condition="Window.Isvisible(1185)">RunScript(script.skinvariables,set_editcontrol=9099,window_id=1185,setfocus=9994)</onclick>
                     <onclick condition="Window.Isvisible(1105)">RunScript(script.skinvariables,set_editcontrol=9099,window_id=1105,setfocus=9994)</onclick>
-                    <onclick condition="Window.IsVisible(1105)">RunPlugin(plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=tv&amp;method=clear)</onclick>
+                    <onclick condition="Window.IsVisible(1105)">RunPlugin(plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=movie)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
             </content>
@@ -818,7 +820,9 @@
             <width>360</width>
             <centerleft>50%</centerleft>
 
-            <onclick condition="String.IsEmpty(Container(9993).ListItem.Property(override_onclick))">RunPlugin($INFO[Container(9993).ListItem.FolderPath])</onclick>
+            <onclick>SetProperty(TMDbHelper.UserDiscover.Folderpath,$ESCINFO[Container(9993).ListItem.FolderPath],Home)</onclick>
+            <onclick>SetProperty(TMDbHelper.UserDiscover.Folderpath.Name,$ESCINFO[Container(9993).ListItem.Label],Home)</onclick>
+            <onclick>SetProperty(TMDbHelper.UserDiscover.Folderpath.ParamString,$ESCINFO[Container(9993).ListItem.Property(paramstring_noinfo)],Home)</onclick>
 
             <itemlayout height="60">
                 <control type="label">
@@ -859,7 +863,7 @@
                 </control>
             </focusedlayout>
 
-            <content>plugin://plugin.video.themoviedb.helper/?info=user_discover&amp;tmdb_type=$INFO[Skin.String(Discover.TMDbType)]&amp;method=skip$INFO[Window(Home).Property(TMDbHelper.UserDiscover.ParamsDict),&amp;reload=,]</content>
+            <content limit="9">plugin://plugin.video.themoviedb.helper/?info=dir_custom_node&amp;filename=TMDb Discover.json&amp;basedir=special://profile/addon_data/plugin.video.themoviedb.helper/nodes/&amp;reload=$INFO[Window(Home).Property(TMDbHelper.UserDiscover.Folderpath.Reload)]</content>
         </control>
     </include>
 
@@ -944,14 +948,13 @@
                                 <param name="label">$LOCALIZE[31324]: $INFO[Container(5099).ListItem.Label]</param>
                             </include>
                             <include content="Object_Label" condition="Window.IsVisible(1105)">
-                                <param name="label">$LOCALIZE[31324]: $VAR[Label_Discover_TMDbType]</param>
+                                <param name="label">$LOCALIZE[21435] $LOCALIZE[587]</param>
                             </include>
 
                             <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>                            
 
                             <onclick condition="Window.IsVisible(1185)">SetFocus(5099)</onclick>
-                            <onclick condition="Window.IsVisible(1105) + Skin.String(Discover.TMDbType,movie)">Skin.SetString(Discover.TMDbType,tv)</onclick>
-                            <onclick condition="Window.IsVisible(1105) + !Skin.String(Discover.TMDbType,movie)">Skin.SetString(Discover.TMDbType,movie)</onclick>
+                            <onclick condition="Window.IsVisible(1105)">RunPlugin(plugin://plugin.video.themoviedb.helper/?info=user_discover$INFO[Window(Home).Property(TMDbHelper.UserDiscover.Folderpath.ParamString),&amp;,])</onclick>
                         </control>
                     </control>
 
