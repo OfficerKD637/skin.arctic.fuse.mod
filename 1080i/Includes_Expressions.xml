@@ -176,9 +176,9 @@
 
 
     <!-- Filter Walls -->
-    <expression name="Exp_BackgroundArtwork_IsHidden">[[![$EXP[Exp_InfoDialogs] | Window.IsVisible(1190)] + [Window.IsVisible(favouritesbrowser) | Window.IsVisible(weather) | !String.IsEmpty(Window.Property(Background.HideArtwork))]] | [[$EXP[Exp_InfoDialogs] | Window.IsVisible(1190)] + [!String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork)) + Skin.String(InfoDialog.Layout,Blur)]]]</expression>
+    <expression name="Exp_BackgroundArtwork_IsHidden">[[![$EXP[Exp_InfoDialogs] | Window.IsVisible(1190)] + [Window.IsVisible(favouritesbrowser) | Window.IsVisible(weather) | !String.IsEmpty(Window.Property(Background.HideArtwork))]] | [[$EXP[Exp_InfoDialogs] | Window.IsVisible(1190)] + [!String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork)) + Skin.String(InfoDialog.Layout,Blur)]] | [$EXP[Exp_InfoDialogs] + String.IsEqual(Window(movieinformation).Property(DetailsView),Artwork) + String.IsEqual(System.CurrentControlID,7003)]]</expression>
 
-    <expression name="Exp_BackgroundArtwork_IsOverlay">[$EXP[Exp_BackgroundArtwork_IsHidden] | [!$EXP[Exp_InfoDialogs] + !String.IsEmpty(Window(Home).Property(Background.ShowOverlay))] | [$EXP[Exp_InfoDialogs] + Skin.String(InfoDialog.Layout,Blur) + String.IsEqual(ListItem.Property(tmdb_type),person)]]</expression>
+    <expression name="Exp_BackgroundArtwork_IsOverlay">[$EXP[Exp_BackgroundArtwork_IsHidden] | [!$EXP[Exp_InfoDialogs] + !String.IsEmpty(Window(Home).Property(Background.ShowOverlay))] | [$EXP[Exp_InfoDialogs] + Skin.String(InfoDialog.Layout,Blur) + String.IsEqual(ListItem.Property(tmdb_type),person)] | [$EXP[Exp_InfoDialogs] + Skin.String(InfoDialog.Layout,Poster) + String.IsEmpty(Window(movieinformation).Property(DetailsView)) + ![Control.HasFocus(513) | Control.HasFocus(555) | Window.IsVisible(1121) | Window.IsVisible(1122)]]]</expression>
     
     <expression name="Exp_MediaFilter_IsActive">[!String.IsEmpty(Window.Property(MediaFilterBase))]</expression>
     

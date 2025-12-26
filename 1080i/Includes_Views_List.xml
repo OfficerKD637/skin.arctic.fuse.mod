@@ -7,7 +7,7 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">831</param>
+            <param name="right">871</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_PosterLandscape</include>
         </include>
@@ -15,7 +15,7 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">590</param>
+            <param name="right">630</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_Landscape</include>
         </include>
@@ -23,7 +23,7 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">920</param>
+            <param name="right">961</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_SquareLandscape</include>
         </include>
@@ -31,7 +31,7 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">590</param>
+            <param name="right">630</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_Landscape</include>
         </include>
@@ -66,7 +66,7 @@
             <param name="viewtype_label">List BigLandscape</param>
             <param name="visible">$EXP[Exp_View_519]</param>
             <param name="top">180</param>
-            <param name="right">1010</param>
+            <param name="right">1050</param>
             <param name="overlay">true</param>
             <include>View_MediaList_BigLandscape</include>
         </include>
@@ -76,7 +76,7 @@
             <param name="viewtype_label">List BigLandscape</param>
             <param name="visible">$EXP[Exp_View_519]</param>
             <param name="top">180</param>
-            <param name="right">1010</param>
+            <param name="right">1050</param>
             <param name="overlay">true</param>
             <include>View_MediaList_BigLandscape</include>
         </include>
@@ -390,7 +390,6 @@
     
     <include name="View_MediaList_Landscape">
         <control type="group">
-            <right>-40</right>
             
             <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
@@ -420,7 +419,6 @@
 
     <include name="View_MediaList_BigPoster">
         <control type="group">
-            <right>-40</right>
             
             <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
@@ -431,7 +429,7 @@
                 <width>520</width>
                 <bottom>0</bottom>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="Skin.String(InfoDialog.Layout,Blur)" reversible="false">Hidden</animation>
+                <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)" reversible="false">Hidden</animation>
                 <control type="group">
                     <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))]</visible>
                     <include content="Widget_Standard_Animation">
@@ -479,7 +477,6 @@
     
     <include name="View_MediaList_BigLandscape">
         <control type="group">
-            <right>-40</right>
             
             <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
@@ -511,21 +508,20 @@
     </include>
 
     <include name="View_MediaList_PosterLandscape">
-        <param name="visible">!$EXP[Exp_InfoDialogs]</param>
         <definition>
             <control type="group">
-                <right>-40</right>
                 
                 <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                 <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                 
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="String.IsEmpty(Skin.String(InfoDialog.Layout))" reversible="false">Hidden</animation>
                 <bottom>0</bottom>
                 <height>view_poster_itemlayout_h</height>
                 <control type="group">
                     <right>0</right>
                     <height>view_poster_itemlayout_h</height>
                     <width>view_board_itemlayout_w</width>
-                    <visible>$PARAM[visible]</visible>
                     <include content="Widget_Standard_Animation">
                         <param name="visible_delay">120</param>
                         <param name="hidden_delay">240</param>
@@ -544,7 +540,6 @@
                     <right>view_board_itemlayout_w</right>
                     <height>view_poster_itemlayout_h</height>
                     <width>view_poster_itemlayout_w</width>
-                    <visible>$PARAM[visible]</visible>
                     <include content="Widget_Standard_Animation">
                         <param name="visible_delay">80</param>
                         <param name="hidden_delay">280</param>
@@ -562,18 +557,18 @@
 
     <include name="View_MediaList_SquareLandscape">
         <control type="group">
-            <right>-40</right>
             
             <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
             
+            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="String.IsEmpty(Skin.String(InfoDialog.Layout)) | " reversible="false">Hidden</animation>
             <bottom>0</bottom>
             <height>view_poster_itemlayout_h</height>
             <control type="group">
                 <right>0</right>
                 <height>view_poster_itemlayout_h</height>
                 <width>view_board_itemlayout_w</width>
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include content="Widget_Standard_Animation">
                     <param name="visible_delay">120</param>
                     <param name="hidden_delay">240</param>
@@ -592,7 +587,6 @@
                 <right>view_board_itemlayout_w</right>
                 <height>view_poster_itemlayout_h</height>
                 <width>view_poster_itemlayout_h</width>
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include content="Widget_Standard_Animation">
                     <param name="visible_delay">80</param>
                     <param name="hidden_delay">280</param>
