@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1140">
+    <zorder>0</zorder>
     <defaultcontrol always="true">7000</defaultcontrol>
     <onload>CancelAlarm(osd_timeout,true)</onload>
     <onload condition="VideoPlayer.Content(episodes)">RunPlugin(plugin://script.skinvariables/?info=get_number_sum&amp;expression=0$INFO[VideoPlayer.Episode,+,]+-1&amp;window_prop=7000EpisodeIndex&amp;window_id=1140)</onload>
@@ -15,10 +16,14 @@
             <visible>!Window.IsActive(pvrosdchannels)</visible>
             <visible>!Window.IsActive(videobookmarks)</visible>
             <visible>!Window.IsActive(1141)</visible>
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
+            
             <include>Animation_OSD_Dialog_VisibleChange</include>
             <control type="group">
                 <include>OSD_Info_Dimensions</include>
+                
+                <include content="OSD_Info_Viewline">
+                    <param name="label">$LOCALIZE[559]</param>
+                </include>
 
                 <!-- Episodes List -->
                 <include content="List_Landscape_Row">
@@ -43,38 +48,20 @@
                 </include>
 
                 <!-- Playing Icon and Details -->
-                <control type="group">
-                    <height>60</height>
-                    <centerbottom>20</centerbottom>
-                    <left>view_side</left>
-                    <right>view_pad</right>
-                    <include content="Object_InfoCircle_Horizontal">
-                        <param name="icon">$VAR[Image_OSD_7000_Poster]</param>
-                        <param name="role">$VAR[Label_OSD_7000_Title]</param>
-                        <param name="name">$VAR[Label_OSD_7000_SubLabel]</param>
-                        <param name="max">360</param>
-                        <param name="top_label_left">80</param>
-                        <param name="bottom_label_left">80</param>
-                    </include>
-                    <!-- Info Box -->
-                    <control type="textbox">
-                        <top>-2</top>
-                        <left>480</left>
-                        <right>0</right>
-                        <label>$INFO[Container(7000).ListItem.Plot]</label>
-                        <font>font_mini</font>
-                        <textcolor>panel_fg_70</textcolor>
-                    </control>
-                </control>
+                <include content="OSD_Info_Tray">
+                    <param name="icon">$VAR[Image_OSD_7000_Poster]</param>
+                    <param name="role">$VAR[Label_OSD_7000_Title]</param>
+                    <param name="name">$VAR[Label_OSD_7000_SubLabel]</param>
+                    <param name="text">$INFO[Container(7000).ListItem..Plot]</param>
+                </include>
                 
                 <include content="Widget_Busy">
                     <param name="label">$LOCALIZE[31023]...</param>
                     <param name="visible">Container(7000).IsUpdating</param>
                     <param name="include">List_Landscape_Row</param>
-                    <height>divider_bottom</height>
-                    <bottom>-40</bottom>
-                    <left>200</left>
-                    <visible>Container(7000).IsUpdating + Integer.IsEqual(Container(7000).NumItems,0)</visible>
+                    <left>view_pad</left>
+                    <top>-150</top>
+                    <visible>Integer.IsEqual(Container(7000).NumItems,0)</visible>
                 </include>
 
             </control>

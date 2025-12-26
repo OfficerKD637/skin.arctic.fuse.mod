@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1152">
     <zorder>0</zorder>
+    <visible>$EXP[Exp_OSD_QuickInfo]</visible>
     <visible>Window.IsActive(VideoFullScreen.xml)</visible>
-    <visible>Window.IsActive(DialogSeekbar.xml)</visible>
+    <visible>!Window.IsActive(videoosd)</visible>
+    <visible>!Window.IsActive(DialogSubtitles.xml)</visible>
+    <animation effect="fade" start="0" end="100" time="300" delay="400" condition="Window.IsVisible(videoosd)">WindowOpen</animation>
+    <animation effect="fade" start="0" end="100" time="300" condition="!Window.IsVisible(videoosd)">WindowOpen</animation>
     <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
     <controls>
 
@@ -11,7 +15,11 @@
             <include content="Animation_ConditionalFade">
                 <param name="condition">![Window.IsActive(VideoFullScreen.xml) | Window.IsActive(MusicVisualisation.xml)]</param>
             </include>
-            <include>OSD_QuickInfo</include>
+            <include content="OSD_QuickInfo">
+                <param name="portrait_visible">String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Portrait)</param>
+                <param name="landscape_visible">String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Landscape)</param>
+                <param name="plot_visible">!Skin.HasSetting(OSD.InfoOverlay.DisablePlotRatingsOnInfo)</param>
+            </include>
         </control>
 
     </controls>

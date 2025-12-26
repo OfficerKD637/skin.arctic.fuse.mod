@@ -7,35 +7,28 @@
     <include name="View_Row_Header">
         <definition>
             <control type="group">
-                <include condition="!Skin.HasSetting(Furniture.DisableLeftHeader)" content="Animation_ConditionalFade">
+                <include condition="Skin.HasSetting(Furniture.EnableLeftHeader)" content="Animation_ConditionalFade">
                     <param name="condition">$EXP[Exp_InfoDialogs]</param>
                 </include>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include>Animation_Transition_InfoPanel_Hide</include>
                 <visible>!Window.IsVisible(DialogAddonSettings.xml)</visible>
                 <visible>!Window.IsVisible(DialogGameControllers.xml)</visible>
-                <visible>!Window.IsVisible(DialogPVRChannelManager.xml)</visible>
-                <visible>!Window.IsVisible(DialogPVRGroupManager.xml)</visible>
                 <control type="group">
-                    <visible allowhiddenfocus="true">![String.IsEmpty(Window.Property(MediaFilterBase)) + [Control.HasFocus(19) | ControlGroup(9090).HasFocus() | Control.HasFocus(9992) | Control.HasFocus(9993)]]</visible>
                     <control type="group">
                         <include content="Animation_Fade_Out">
-                            <param name="condition">[[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</param>
+                            <param name="condition">[[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</param>
                         </include>
                         <include content="Animation_Fade_In">
-                            <param name="condition">![[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</param>
+                            <param name="condition">![[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</param>
                         </include>
-                        <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                        <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                             <param name="label">$PARAM[label]</param>
                         </include>
                     </control>
                     <control type="group">
-                        <visible>[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)]| $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]</visible>
-                        <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                        <visible>[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]</visible>
+                        <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
                             <param name="label">$PARAM[label]</param>
                             <param name="include_left_datelabel">false</param>
                         </include>
@@ -44,32 +37,9 @@
                         <include content="Animation_View_SlideOver_Invert">
                             <param name="time">400</param>
                         </include>
-                        <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
-                        <!-- Custom Shutdown Timer -->
-                        <control type="group">
-                            <include condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]]">Furniture_Right_SlidingFade</include>
-                            <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
-                                <param name="top">80</param>
-                            </include>
-                            <include content="Furniture_Busy">
-                                <param name="hasprogress">false</param>
-                                <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                                <param name="icon">special://skin/extras/icons/timer.png</param>
-                                <param name="mainlabel">$INFO[System.AlarmPos(shutdowntimer)]</param>
-                                <param name="minilabel">[CAPITALIZE]$LOCALIZE[20144][/CAPITALIZE]</param>
-                                <param name="haslabel">True</param>
-                                <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                                <param name="visible">System.HasAlarm(shutdowntimer)</param>
-                                <param name="flipspinner">false</param>
-                            </include>
-                        </control>
+                        <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">Furniture_DateLabel_TopRight</include>
+                        <include>CustomShutdownTimer_Furniture_Top_Right</include>
                     </control>
-                </control>
-                <control type="group">
-                    <visible allowhiddenfocus="true">String.IsEmpty(Window.Property(MediaFilterBase)) + [Control.HasFocus(19) | ControlGroup(9090).HasFocus() | Control.HasFocus(9992) | Control.HasFocus(9993)] + ![[[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</visible>
-                    <include content="Search_View_Edit">
-                        <param name="editid">19</param>
-                    </include>
                 </control>
             </control>
         </definition>
@@ -123,14 +93,8 @@
             </control>
         </definition>
     </include>
-
+    
     <include name="View_Hidden_Buttons">
-        <!-- Filter Action -->
-        <include content="Object_Hidden_Button">
-            <param name="id">68</param>
-            <onfocus>SetFocus($VAR[Action_View_ContentID])</onfocus>
-            <onfocus>ClearProperty(MediaFilterBase)</onfocus>
-        </include>
         <!-- Dummy for bouncing focus back to view on back -->
         <include content="Object_Hidden_Button">
             <param name="id">62</param>
@@ -139,10 +103,6 @@
         <include content="Object_Hidden_Button">
             <param name="id">63</param>
             <onfocus>SetFocus(50)</onfocus>
-        </include>
-        <include content="Object_Hidden_Button">
-            <param name="id">64</param>
-            <onfocus>$VAR[Action_Var_ToMediaFilter]</onfocus>
         </include>
         <include content="Object_Hidden_Button">
             <param name="id">67</param>
@@ -154,35 +114,77 @@
             <param name="id">610</param>
             <onup>50</onup>
             <onback>50</onback>
-
-            <onleft condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(50)</onleft>
-            <onleft condition="$EXP[Exp_IsAlphabetStrip]">Action(PrevLetter)</onleft>
-            <onleft condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</onleft>
-            <onleft condition="$EXP[Exp_IsAlphabetStrip] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">PageUp(60)</onleft>
+            <onleft>SetFocus(50)</onleft>
+            <onleft>Action(PrevLetter)</onleft>
+            <onleft condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">PageUp(60)</onleft>
             <onleft>SetFocus(610)</onleft>
-
-            <onright condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(50)</onright>
-            <onright condition="$EXP[Exp_IsAlphabetStrip]">Action(NextLetter)</onright>
-            <onright condition="$EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</onright>
-            <onright condition="$EXP[Exp_IsAlphabetStrip] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">PageDown(60)</onright>
+            <onright>SetFocus(50)</onright>
+            <onright>Action(NextLetter)</onright>
+            <onright condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">PageDown(60)</onright>
             <onright>SetFocus(610)</onright>
-
-            <onfocus condition="!$EXP[Exp_IsAlphabetStrip]">SetFocus(60)</onfocus>
+            
+            <onfocus condition="!$EXP[Exp_View_CombinedMode] + !$EXP[Exp_IsAlphabetStrip] + !Integer.IsEqual(Container.NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(502) + !Integer.IsEqual(Container(503).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(512) + !Integer.IsEqual(Container(513).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(522) + !Integer.IsEqual(Container(523).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(542) + !Integer.IsEqual(Container(543).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(552) + !Integer.IsEqual(Container(553).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(572) + !Integer.IsEqual(Container(573).NumPages,1)">SetFocus(60)</onfocus>
             
             <!-- Explore -->
+            <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</ondown>
             
             <!-- Filter -->
-            <ondown condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</ondown>
+            <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Filter) + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Filter) + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+            
+            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            
+            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+            
+            <ondown condition="[Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(19)</ondown>
+            <ondown condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(19)</ondown>
             
             <!-- Options -->
+            <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</ondown>
             
             <!-- Bump -->
+            <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
-
+            
             <!-- Wall -->
-            <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + ![Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetFocus(64)</ondown>
+            <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Wall)">SetFocus(19)</onfocus>
+            <ondown condition="!$EXP[Exp_View_CombinedMode] + Skin.String(Navigation.Global.OnDown,Wall) + ![Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetFocus(19)</ondown>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + [Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetProperty(FurnitureWallMode,$INFO[Container.FolderPath])</ondown>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(50)">SetFocus(5060)</ondown>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(51)">SetFocus(5160)</ondown>
@@ -208,137 +210,403 @@
             <onfocus condition="!Integer.IsEqual(Container.NumPages,1) + $EXP[Exp_View_Scrollbar_Maxi_V]">SetFocus(66)</onfocus>
             
             <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
-            <onfocus condition="Integer.IsEqual(Container.NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(64)</onfocus>
+            <onfocus condition="Integer.IsEqual(Container.NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="Integer.IsEqual(Container.NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
             <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <onfocus condition="Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
         </include>
     </include>
     
-    <include name="View_Alphabet_Scroll">
-        <control type="fixedlist" id="613">
-            <orientation>horizontal</orientation>
-            <height>47</height>
-            <focusposition>5</focusposition>
-            <movement>5</movement>
-            <width>462</width>
-            <centerleft>50%</centerleft>
-            <visible>$EXP[Exp_IsAlphabetStrip] + !$EXP[Exp_View_WallMode] + !$EXP[Exp_View_FurnitureWall]</visible>
+    <include name="View_Alphabet_Filter">
+        <param name="id">600</param>
+        <param name="editid">19</param>
+        <param name="autocompleteid">601</param>
+        <definition>
+            <control type="group">
+                <height>80</height>
+                <centertop>50%</centertop>
 
-            <onup>50</onup>
-            <onback>50</onback>
+                <visible allowhiddenfocus="true">ControlGroup(9090).HasFocus() | Control.HasFocus($PARAM[editid]) | Control.HasFocus($PARAM[id]) | Control.HasFocus($PARAM[autocompleteid])</visible>
 
-            <itemlayout width="42">
-                <control type="label">
-                    <font>font_main</font>
-                    <label>$INFO[ListItem.Label]</label>
-                    <textcolor>dialog_fg_70</textcolor>
-                    <align>center</align>
-                    <visible>Control.HasFocus(610)</visible>
+                <control type="group">
+                    <height>80</height>
+                    <top>0</top>
+                    <control type="grouplist">
+                        <orientation>horizontal</orientation>
+                        <centerright>50%</centerright>
+                        <width>640</width>
+                        <control type="label">
+                            <label>$LOCALIZE[587]</label>
+                            <width>auto</width>
+                            <textcolor>main_fg_90</textcolor>
+                            <font>font_main_bold</font>
+                            <top>-40</top>
+                        </control>
+                        <control type="image">
+                            <top>-40</top>
+                            <width>40</width>
+                            <aspectratio>keep</aspectratio>
+                            <texture colordiffuse="main_fg_30">special://skin/extras/icons/angle-right.png</texture>
+                            <visible>[!String.IsEmpty(Control.GetLabel($PARAM[editid]).index(1)) | [Control.HasFocus($PARAM[editid]) + !Window.IsVisible(DialogKeyboard.xml)]]</visible>
+                        </control>
+                        <control type="edit" id="$PARAM[editid]">
+                            <texturefocus />
+                            <texturenofocus />
+                            <description>Search</description>
+                            <font>font_main</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <focusedcolor>main_fg_90</focusedcolor>
+                            <align>left</align>
+                            <textoffsetx>0</textoffsetx>
+                            <width max="560">auto</width>
+                            <height>40</height>
+                            <top>0</top>
+                            <onup>50</onup>
+                            <ondown>$PARAM[id]</ondown>
+                            <onback>50</onback>
+                        </control>
+                    </control>
+
+                    <control type="group">
+                        <width>660</width>
+                        <centerright>50%</centerright>
+                        
+                        <control type="grouplist" id="9090">
+                            <orientation>horizontal</orientation>
+                            <onup>$PARAM[editid]</onup>
+                            <top>20</top>
+                            <height>85</height>
+                            <control type="group">
+                                <width>480</width>
+                                <control type="fixedlist" id="$PARAM[id]">
+                                    <orientation>horizontal</orientation>
+                                    <focusposition>2</focusposition>
+                                    <movement>9</movement>
+                                    <onup>$PARAM[editid]</onup>
+                                    <ondown>$PARAM[autocompleteid]</ondown>
+                                    <onleft>9092</onleft>
+                                    <onright>9093</onright>
+                                    <onback>50</onback>
+
+                                    <itemlayout width="40">
+                                        <control type="label">
+                                            <font>font_main</font>
+                                            <label>$INFO[ListItem.Label]</label>
+                                            <textcolor>main_fg_30</textcolor>
+                                            <align>center</align>
+                                        </control>
+                                    </itemlayout>
+
+                                    <focusedlayout width="40">
+                                        <control type="label">
+                                            <font>font_main</font>
+                                            <label>$INFO[ListItem.Label]</label>
+                                            <textcolor>main_fg_30</textcolor>
+                                            <align>center</align>
+                                            <visible>!Control.HasFocus($PARAM[id])</visible>
+                                        </control>
+
+                                        <control type="group">
+                                            <visible>Control.HasFocus($PARAM[id])</visible>
+                                            <control type="label">
+                                                <font>font_main_bold</font>
+                                                <label>$INFO[ListItem.Label]</label>
+                                                <textcolor>main_fg_90</textcolor>
+                                                <align>center</align>
+                                            </control>
+                                            <control type="image">
+                                                <height>scrollbar_w</height>
+                                                <top>60</top>
+                                                <include>Texture_Highlight_Scrollbar_H</include>
+                                                <width>75%</width>
+                                                <centerleft>50%</centerleft>
+                                            </control>
+                                        </control>
+                                    </focusedlayout>
+
+                                    <content>
+                                        <item>
+                                            <label>A</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_a</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>B</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_b</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>C</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_c</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>D</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_d</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>E</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_e</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>F</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_f</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>G</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_g</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>H</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_h</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>I</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_i</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>J</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_j</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>K</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_k</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>L</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_l</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>M</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_m</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>N</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_n</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>O</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_o</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>P</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_p</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>Q</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_q</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>R</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_r</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>S</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_s</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>T</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_t</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>U</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_u</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>V</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_v</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>W</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_w</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>X</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_x</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>Y</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_y</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>Z</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click_z</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                        <item>
+                                            <label>_</label>
+                                            <onclick>SetFocus($PARAM[editid])</onclick>
+                                            <include>Object_SearchLetter_Click__</include>
+                                            <onclick>SetFocus($PARAM[id])</onclick>
+                                        </item>
+                                    </content>
+                                </control>
+                            </control>
+
+                            <control type="group">
+                                <width>50</width>
+                                <control type="button" id="9093">
+                                    <description>Backspace</description>
+                                    <label>&#xf55a;</label>
+                                    <include>Search_View_Alphabet_Iconic_Def</include>
+                                    <onclick>SetFocus($PARAM[editid])</onclick>
+                                    <include>Object_SearchLetter_Click_&lt;</include>
+                                    <onclick>SetFocus(9093)</onclick>
+                                    <onup>$PARAM[editid]</onup>
+                                    <ondown>$PARAM[autocompleteid]</ondown>
+                                    <onright>9091</onright>
+                                    <onleft>SetFocus($PARAM[id],9999,absolute)</onleft>
+                                </control>
+                            </control>
+                            
+                            <control type="group">
+                                <width>50</width>
+                                <control type="button" id="9091">
+                                    <description>Keyboard</description>
+                                    <label>&#xf11c;</label>
+                                    <include>Search_View_Alphabet_Iconic_Def</include>
+                                    <onclick>SetFocus($PARAM[editid])</onclick>
+                                    <onclick>Action(Select)</onclick>
+                                    <onclick>SetFocus(9091)</onclick>
+                                    <onup>$PARAM[editid]</onup>
+                                    <ondown>$PARAM[autocompleteid]</ondown>
+                                    <onleft>9093</onleft>
+                                    <onright>9092</onright>
+                                </control>
+                            </control>
+
+                            <control type="group">
+                                <width>50</width>
+                                <control type="button" id="9092">
+                                    <description>Clear</description>
+                                    <label>&#xf071;</label>
+                                    <include>Search_View_Alphabet_Iconic_Def</include>
+                                    <onclick>SetFocus($PARAM[editid])</onclick>
+                                    <onclick>RunScript(script.skinvariables,set_editcontrol=$PARAM[editid],window_id=$PARAM[windowid],setfocus=$PARAM[returnid])</onclick>
+                                    <onup>$PARAM[editid]</onup>
+                                    <ondown>$PARAM[autocompleteid]</ondown>
+                                    <onleft>9091</onleft>
+                                    <onright>SetFocus($PARAM[id],0,absolute)</onright>
+                                </control>
+                            </control>
+                        </control>
+                    </control>
+
+                    <control type="fixedlist" id="$PARAM[autocompleteid]">
+                        <orientation>horizontal</orientation>
+                        <top>60</top>
+                        <height>80</height>
+                        <focusposition>1</focusposition>
+                        <movement>1</movement>
+                        <width>960</width>
+
+                        <onup>$PARAM[id]</onup>
+                        <onback>50</onback>
+                        <ondown>SetFocus(8000)</ondown>
+
+                        <centerleft>50%</centerleft>
+
+                        <visible>!String.IsEmpty(Control.GetLabel($PARAM[editid]).index(1))</visible>
+                        <visible>Integer.IsGreater(Container.NumPages,1)</visible>
+
+                        <onclick>Setfocus($PARAM[autocompleteid],0,absolute)</onclick>
+                        <onclick>SetFocus($PARAM[editid])</onclick>
+                        <onclick>RunScript(script.skinvariables,set_editcontrol=$PARAM[editid],setfocus=$PARAM[id],text=$INFO[Container($PARAM[autocompleteid]).ListItem.Label])</onclick>
+
+                        <itemlayout width="320">
+                            <control type="label">
+                                <font>font_main</font>
+                                <label>$INFO[ListItem.Label]</label>
+                                <textcolor>main_fg_30</textcolor>
+                                <align>center</align>
+                                <left>20</left>
+                                <right>20</right>
+                            </control>
+                        </itemlayout>
+
+                        <focusedlayout width="320">
+                            <control type="label">
+                                <font>font_main</font>
+                                <label>$INFO[ListItem.Label]</label>
+                                <textcolor>main_fg_30</textcolor>
+                                <align>center</align>
+                                <visible>!Control.HasFocus($PARAM[autocompleteid])</visible>
+                                <left>20</left>
+                                <right>20</right>
+                            </control>
+
+                            <control type="group">
+                                <visible>Control.HasFocus($PARAM[autocompleteid])</visible>
+                                <control type="label">
+                                    <font>font_main_bold</font>
+                                    <label>$INFO[ListItem.Label]</label>
+                                    <textcolor>main_fg_90</textcolor>
+                                    <align>center</align>
+                                    <left>20</left>
+                                    <right>20</right>
+                                </control>
+                                <control type="image">
+                                    <height>scrollbar_w</height>
+                                    <bottom>12</bottom>
+                                    <include>Texture_Highlight_Scrollbar_H</include>
+                                    <width>75%</width>
+                                    <centerleft>50%</centerleft>
+                                </control>
+                            </control>
+                        </focusedlayout>
+                        <content limit="9">$VAR[Path_Search_Autocomplete]</content>
+                    </control>
                 </control>
-            </itemlayout>
-
-            <focusedlayout width="42">
-                <control type="label">
-                    <font>font_main_bold</font>
-                    <label>$INFO[ListItem.Label]</label>
-                    <textcolor>ffffffff</textcolor>
-                    <align>center</align>
-                    <visible>Control.HasFocus(610)</visible>
-                </control>
-                <control type="image">
-                    <height>scrollbar_w</height>
-                    <top>37.5</top>
-                    <include>Texture_Highlight_Scrollbar_H</include>
-                    <width>30</width>
-                    <centerleft>50%</centerleft>
-                    <visible>Control.HasFocus(610)</visible>
-                </control>
-            </focusedlayout>
-
-            <content>
-                <item>
-                    <label>#</label>
-                </item>
-                <item>
-                    <label>A</label>
-                </item>
-                <item>
-                    <label>B</label>
-                </item>
-                <item>
-                    <label>C</label>
-                </item>
-                <item>
-                    <label>D</label>
-                </item>
-                <item>
-                    <label>E</label>
-                </item>
-                <item>
-                    <label>F</label>
-                </item>
-                <item>
-                    <label>G</label>
-                </item>
-                <item>
-                    <label>H</label>
-                </item>
-                <item>
-                    <label>I</label>
-                </item>
-                <item>
-                    <label>J</label>
-                </item>
-                <item>
-                    <label>K</label>
-                </item>
-                <item>
-                    <label>L</label>
-                </item>
-                <item>
-                    <label>M</label>
-                </item>
-                <item>
-                    <label>N</label>
-                </item>
-                <item>
-                    <label>O</label>
-                </item>
-                <item>
-                    <label>P</label>
-                </item>
-                <item>
-                    <label>Q</label>
-                </item>
-                <item>
-                    <label>R</label>
-                </item>
-                <item>
-                    <label>S</label>
-                </item>
-                <item>
-                    <label>T</label>
-                </item>
-                <item>
-                    <label>U</label>
-                </item>
-                <item>
-                    <label>V</label>
-                </item>
-                <item>
-                    <label>W</label>
-                </item>
-                <item>
-                    <label>X</label>
-                </item>
-                <item>
-                    <label>Y</label>
-                </item>
-                <item>
-                    <label>Z</label>
-                </item>
-            </content>
-        </control>
+            </control>
+        </definition>
     </include>
 
     <include name="View_Row_Info">
@@ -353,10 +621,10 @@
                 <include content="Info_Panel">
                     <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
                     <param name="details">![Control.IsVisible(519) | Control.IsVisible(520)]</param>
-                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                        <param name="top">view_top</param>    
                     </include>
-                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="top">view_pad</param>    
                     </include>
                     <width>info_panel_w</width>
@@ -368,10 +636,10 @@
                     <param name="grouplistid">99953</param>
                     <param name="details">Control.IsVisible(56) | [Control.IsVisible(517) + !Skin.HasSetting(Disable.ListBigPosterDetailedView)]</param>
                     <param name="plotwidth">1040</param>
-                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="top">view_top</param>    
                     </include>
-                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="top">view_pad</param>    
                     </include>
                     <width>info_panel_w</width>
@@ -387,7 +655,7 @@
                     <param name="plotautoheight">false</param>
                     <height>560.7</height>
                     <width>940</width>
-                    <right>view_pad</right>
+                    <right>120</right>
                     <bottom>-160</bottom>
                     <visible>Control.IsVisible(519)</visible>
                     <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
@@ -401,10 +669,10 @@
                     <param name="details">![Skin.HasSetting(Disable.ComboListDetailedView)]</param>
                     <param name="container">Container(524).</param>
                     <param name="plotbox_scroll">[!Skin.HasSetting(Textboxes.DisableAutoscroll) + Control.HasFocus(524)]</param>
-                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="top">view_top</param>    
                     </include>
-                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="top">view_pad</param>    
                     </include>
                     <visible>Control.IsVisible(524)</visible>
@@ -419,43 +687,6 @@
                 <include content="View_Combined_Info" condition="$EXP[Exp_View_572_Include]"><param name="id">57</param></include>
             </control>
         </control>
-        
-        <control type="group">
-            <visible>$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)</visible>
-            <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="$EXP[Exp_View_FurnitureWall]">Conditional</animation>
-            <control type="group">
-                <animation effect="fade" start="100" end="0" delay="600" reversible="false" time="1" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
-                <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="top">view_top</param>    
-                </include>
-                <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="top">view_pad</param>    
-                </include>
-                <left>view_side</left>
-                <right>view_pad</right>
-                <bottom>view_top</bottom>
-                <include content="Info_Panel">
-                    <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer))</param>
-                    <param name="grouplistid">99956</param>
-                    <param name="title">true</param>
-                    <width>info_panel_w</width>
-                </include>
-            </control>
-            <control type="group">
-                <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="200" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
-                <animation effect="fade" start="0" end="100" delay="200" reversible="false" time="200" condition="!$EXP[Exp_InfoDialogs]">Conditional</animation>
-                <left>view_side</left>
-                <top>520</top>
-                <width>679</width>
-                <height>405</height>
-                <control type="group">
-                    <include content="Object_BigPoster">
-                        <param name="icon">$VAR[Image_Landscape]</param>
-                        <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
-                    </include>
-                </control>
-            </control>
-        </control>
     </include>
 
     <include name="View_Row_Items_ViewLine">
@@ -464,27 +695,22 @@
             <include>Animation_Transition_InfoPanel_Hide</include>
             <control type="group">                
                 <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]">
-                    <effect type="slide" end="0,-350" start="0" />
+                    <effect type="slide" end="0,-360" start="0" />
                 </animation>
                 <animation type="Conditional" reversible="false" condition="![$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]">
-                    <effect type="slide" start="0,-350" end="0" />
+                    <effect type="slide" start="0,-360" end="0" />
                 </animation>
                 <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_ListMode_Standard] | [Control.IsVisible(524) + Skin.HasSetting(Disable.ComboListDetailedView)]]">
                     <effect type="slide" end="0,-223" start="0" />
                 </animation>
-                <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="[[$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)] | [[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]]">Conditional</animation>                
-                
-                <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                
+                <animation effect="fade" start="100" end="0" delay="0" reversible="false" time="200" condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)">Conditional</animation>                
+
                 <include>Animation_Trailer_Dim</include>
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Animation_Widgets_Topbar_SlideUp_Filter</include>
+                <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>
                 
                 <include content="Info_Viewline">
                     <param name="item_condition">true</param>
                     <param name="library_condition">true</param>
-                    <param name="top_padding">true</param>
                 </include>
             </control>
         </control>
@@ -583,8 +809,7 @@
         <control type="group">
             <include>Dimension_Bottombar</include>
             <visible>$EXP[Exp_FurnitureFooter_Left_IsVisible]</visible>
-            <visible>!Skin.String(Furniture.BottomLeft.Enable,Library)</visible>
-            <visible>!Skin.String(Furniture.BottomLeft.Enable,Always)</visible>
+            <visible>[[!Skin.String(Furniture.BottomLeft.Enable,Library) + !Skin.String(Furniture.BottomLeft.Enable,Always)] | [[Skin.String(Furniture.BottomLeft.Enable,Library) | Skin.String(Furniture.BottomLeft.Enable,Always)] + $EXP[Exp_View_ScrollFilterHorz_HasFocus]]]</visible>
             <animation effect="fade" start="100" end="30" condition="true">Conditional</animation>
             <control type="group">
                 <height>35</height>
@@ -603,28 +828,25 @@
     <include name="View_Furniture_Bottom_Group_Content">
         <control type="group">
             <visible>$EXP[Exp_FurnitureFooter_Left_IsVisible]</visible>
+            <visible>!$EXP[Exp_View_ScrollFilterHorz_HasFocus]</visible>
             <include condition="Skin.String(Furniture.BottomLeft.Enable,Library) | Skin.String(Furniture.BottomLeft.Enable,Always)">Furniture_Bottom_Left</include>
             <animation effect="slide" start="0" end="0,40" time="150" tween="sine" easing="in" condition="$EXP[Exp_InfoDialogs]" reversible="true">Conditional</animation>
-            <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
         </control>
     </include>
 
     <include name="View_Furniture_Bottom_Group">
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs] | !$EXP[Exp_Footer_BottomLeft_IsVisible]</visible>
+            <visible>![$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]]</visible>
             <include condition="!$EXP[Exp_Footer_BottomLeft_IsVisible]">Widget_Lower_Visibility</include>
             <include condition="$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Hide</include>
-            <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
-            <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Animation_Widgets_Topbar_SlideUp_Fade_Filter</include>
+            <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
             <control type="group">
                 <visible>!Window.IsVisible(1171)</visible>
                 <control type="group">
                     <visible>![[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible] + !$EXP[Exp_View_ScrollFilter_HasFocus]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
                     <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="true">Hidden</animation>
                     <animation effect="fade" start="0" end="100" delay="400" time="1" reversible="false">Visible</animation>
-                    <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                     <include>$PARAM[include]</include>
                 </control>
             </control>
@@ -724,14 +946,12 @@
             
             <control type="group">
                 <visible>!Window.IsVisible(1171)</visible>
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Animation_Widgets_Topbar_SlideUp_Fade_Filter</include>
+                <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <control type="group">
                     <visible>[[Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible] + !$EXP[Exp_View_ScrollFilter_HasFocus]] | !String.IsEmpty(Window.Property(MediaFilterBase))]</visible>
+                    <visible>![$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]]</visible>
                     <animation effect="fade" start="0" end="100" delay="400" time="1" reversible="true">Visible</animation>
                     <animation effect="fade" start="100" end="0" delay="400" time="1" reversible="false">Hidden</animation>
-                    <animation effect="slide" start="0" end="60" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="60" end="0" time="400" tween="cubic" easing="out" condition="$EXP[Exp_View_WallVert] + [[$EXP[Exp_View_WallMode] + !Skin.HasSetting(View.SwitchWallStyle)] | $EXP[Exp_View_FurnitureWall]] + !String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
                     <height>40</height>
                     <centerbottom>100</centerbottom>
                     <left>view_side</left>
@@ -748,12 +968,18 @@
                 <control type="group">
                     <include>Dimension_Furniture_Gutters</include>                    
                     <include>View_Scrollbar_Strip</include>
+                    <include>View_Alphabet_Filter</include>
+                    <include>View_Sorting_Buttons</include>
                     <control type="group">
                         <top>10</top>
                         <height>40</height>
+                        <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                            <param name="right">90</param>
+                        </include>
                         <left>10</left>
                         <right>10</right>
                         <visible>$EXP[Exp_View_ScrollFilter_HasFocus]</visible>
+                        <visible>![$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]]</visible>
                         <animation effect="fade" start="100" end="30" condition="true">Conditional</animation>
                         <control type="label">
                             <label>[COLOR=main_fg_90]$VAR[Label_RightFooter_ScrollbarOnFocus][/COLOR]</label>
@@ -765,10 +991,282 @@
                             <height>35</height>
                         </control>
                     </control>
-                    <include>View_Alphabet_Scroll</include>
                 </control>
             </control>            
         </control>
+    </include>
+    
+    <include name="View_Sorting_Buttons">
+        <param name="itemgap">-40</param>
+        <param name="include_customwidth">true</param>
+        <param name="include_hintlabel">true</param>
+        <definition>
+            <control type="grouplist" id="8000">
+                <orientation>horizontal</orientation>
+                <height>160</height>
+                <centertop>50%</centertop>
+                <align>center</align>
+                <right>0</right>
+                <onup>50</onup>
+                <onback>50</onback>
+                <ondown>SetProperty(List.ViewContainer,8000)</ondown>
+                <ondown>SetFocus(330)</ondown>
+
+                <hitrect x="0" y="0" w="0" h="0" />
+
+                <visible allowhiddenfocus="true">$EXP[Exp_View_SortModeButtons_HasFocus]</visible>
+
+                <!-- View -->
+                <include content="DialogInfo_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8001</param>
+                    <param name="groupid">8101</param>
+                    <param name="sliceid">8201</param>
+                    <param name="label">$LOCALIZE[31319]</param>
+                    <param name="icon">special://skin/extras/icons/table.png</param>
+                    <param name="itemgap">0</param>
+                    <param name="visible">true</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>Runscript(script.skinvariables,action=buildviews,contentid=$VAR[Items_ViewMode_Switch],pluginname=$INFO[Container.PluginName])</onclick>
+                </include>
+
+                <!-- Sort -->
+                <include content="DialogInfo_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8003</param>
+                    <param name="groupid">8103</param>
+                    <param name="sliceid">8203</param>
+                    <param name="label">$VAR[Label_SortMethod]</param>
+                    <param name="icon">special://skin/extras/icons/list-ul.png</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">true</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>SetProperty(DialogSelectType,Menu,Home)</onclick>
+                    <onclick condition="![String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))]">SendClick(3)</onclick>
+                    <onclick condition="String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">RunScript(script.skinvariables,run_dialog=select,heading=$LOCALIZE[581],separator=||,list=title||genre||year||rating||playcount||director||originaltitle||lastplayed||writer||studio||mpaa||country||premiered||top250||votes,"executebuiltin=SetProperty(MediaFilter.SortBy,{v})||route=run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-mediafilter.json&amp;use_rules=True")</onclick>
+                </include>
+
+                <!-- Order -->
+                <include content="DialogInfo_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8002</param>
+                    <param name="groupid">8102</param>
+                    <param name="sliceid">8202</param>
+                    <param name="label">$LOCALIZE[31015]</param>
+                    <param name="icon">$VAR[Image_SortDirection]</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">true</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>SetProperty(DialogSelectType,Menu,Home)</onclick>
+                    <onclick condition="![String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))]">SendClick(4)</onclick>
+
+                    <onclick condition="!String.IsEqual(Window.Property(MediaFilter.SortHow),desc) + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">SetProperty(MediaFilter.SortHow,desc)</onclick>
+                    <onclick condition="String.IsEqual(Window.Property(MediaFilter.SortHow),desc) + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">ClearProperty(MediaFilter.SortHow)</onclick>
+
+                    <onclick condition="String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">RunScript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-mediafilter.json",use_rules)</onclick>
+                </include>
+
+                <!-- Watched -->
+                <include content="DialogInfo_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8004</param>
+                    <param name="groupid">8104</param>
+                    <param name="sliceid">8204</param>
+                    <param name="label">$VAR[Label_Watched]</param>
+                    <param name="icon">$VAR[Image_Watched]</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">true</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>SendClick(14)</onclick>
+                </include>
+
+                <!-- Filter -->
+                <include content="DialogInfo_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8005</param>
+                    <param name="groupid">8105</param>
+                    <param name="sliceid">8205</param>
+                    <param name="label">$LOCALIZE[587]</param>
+                    <param name="icon">$VAR[Image_Filtered]</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">Container.CanFilterAdvanced</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>Filter</onclick>
+                </include>
+                
+                <!-- Search -->
+                <include content="DialogInfo_Button">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8006</param>
+                    <param name="groupid">8106</param>
+                    <param name="sliceid">8206</param>
+                    <param name="label">$LOCALIZE[137]</param>
+                    <param name="icon">special://skin/extras/icons/search.png</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">!Container.Content(addons) + String.IsEmpty(Container.PluginName) + [Window.IsVisible(videos) | Window.IsVisible(music)]</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>SendClick($VAR[Action_CurrentMediaWindow],8)</onclick>
+                </include>
+
+                <!-- Update Library -->
+                <include content="DialogInfo_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8007</param>
+                    <param name="groupid">8107</param>
+                    <param name="sliceid">8207</param>
+                    <param name="label">$VAR[Label_UpdateLibrary]</param>
+                    <param name="icon">$VAR[Image_UpdateLibrary]</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">!Container.Content(addons) + String.IsEmpty(Container.PluginName) + [Window.IsVisible(videos) | Window.IsVisible(music)]</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>SetFocus(50)</onclick>
+                    <onclick condition="Window.IsVisible(videos)">UpdateLibrary(video)</onclick>
+                    <onclick condition="Window.IsVisible(music)">UpdateLibrary(music)</onclick>
+                </include>
+
+                <!-- Addon Settings -->
+                <include content="DialogInfo_Button" condition="!Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8008</param>
+                    <param name="groupid">8108</param>
+                    <param name="sliceid">8208</param>
+                    <param name="label">$LOCALIZE[5]</param>
+                    <param name="icon">special://skin/extras/icons/settings.png</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">!String.IsEmpty(Container.PluginName)</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>Addon.OpenSettings($INFO[Container.PluginName])</onclick>
+                </include>
+
+                <!-- Shuffle -->
+                <include content="DialogInfo_Button"  condition="Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">20</param>
+                    <param name="groupid">8120</param>
+                    <param name="sliceid">8220</param>
+                    <param name="label">$LOCALIZE[191]</param>
+                    <param name="icon">$VAR[Image_OSD_Shuffle]</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                </include>
+
+                <!-- Repeat -->
+                <include content="DialogInfo_Button"  condition="Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">26</param>
+                    <param name="groupid">8126</param>
+                    <param name="sliceid">8226</param>
+                    <param name="label">$LOCALIZE[486]</param>
+                    <param name="icon">$VAR[Image_OSD_Repeat]</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                </include>
+
+                <!-- Save -->
+                <include content="DialogInfo_Button"  condition="Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">21</param>
+                    <param name="groupid">8121</param>
+                    <param name="sliceid">8221</param>
+                    <param name="label">$LOCALIZE[190]</param>
+                    <param name="icon">special://skin/extras/icons/floppy-disk.png</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                </include>
+
+                <!-- Clear -->
+                <include content="DialogInfo_Button"  condition="Window.IsVisible(MyPlaylist.xml)">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">22</param>
+                    <param name="groupid">8122</param>
+                    <param name="sliceid">8222</param>
+                    <param name="label">$LOCALIZE[192]</param>
+                    <param name="icon">special://skin/extras/icons/triangle-exclamation.png</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                </include>
+
+                <!-- Fullscreen -->
+                <include content="DialogInfo_Button">
+                    <param name="vertical">false</param>
+                    <param name="width">300</param>
+                    <param name="slice">100</param>
+                    <param name="label_pad">-15</param>
+                    <param name="id">8009</param>
+                    <param name="groupid">8109</param>
+                    <param name="sliceid">8209</param>
+                    <param name="label">$LOCALIZE[35232]</param>
+                    <param name="icon">special://skin/extras/icons/fullscreen.png</param>
+                    <param name="itemgap">$PARAM[itemgap]</param>
+                    <param name="visible">Player.HasMedia</param>
+                    <param name="include_hintlabel">$PARAM[include_hintlabel]</param>
+                    <param name="include_customwidth">$PARAM[include_customwidth]</param>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <onclick>Dialog.Close(all,true)</onclick>
+                    <onclick>Fullscreen</onclick>
+                </include>
+            </control>
+        </definition>
     </include>
 
     <variable name="Label_RightFooter_ScrollbarOnFocus">
@@ -842,7 +1340,7 @@
             <visible>String.IsEmpty(Window.Property(MediaFilterBase))</visible>
             <visible>![$EXP[Exp_View_Scrollbar_Mini_V] + $EXP[Exp_View_Scrollbar_Midi_V] + $EXP[Exp_View_Scrollbar_Maxi_V]]</visible>
             <include content="Animation_ConditionalFade">
-                <param name="condition">[$EXP[Exp_IsAlphabetStrip] + !$EXP[Exp_View_WallMode] + !$EXP[Exp_View_FurnitureWall]] | Window.IsVisible(1171)</param>
+                <param name="condition">Window.IsVisible(1171)</param>
             </include>
             <control type="scrollbar" id="60">
                 <orientation>horizontal</orientation>
@@ -851,12 +1349,12 @@
                 <include>Texture_Scrollbar_H</include>
                 <onup>50</onup>
                 <onback>50</onback>
-                
                 <!-- Explore -->
                 <ondown condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</ondown>
                 
                 <!-- Filter -->
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(64)</ondown>
+                <ondown condition="!$EXP[Exp_View_CombinedMode] + Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(19)</ondown>
+                <ondown condition="$EXP[Exp_View_CombinedMode] + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</ondown>
                 
                 <!-- Options -->
                 <ondown condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</ondown>
@@ -865,15 +1363,15 @@
                 <ondown condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
 
                 <!-- Wall -->
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + ![Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetFocus(64)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + [Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetProperty(FurnitureWallMode,$INFO[Container.FolderPath])</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(50)">SetFocus(5060)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(51)">SetFocus(5160)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(52)">SetFocus(5260)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(500)">SetFocus(50060)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(533)">SetFocus(53360)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(531)">SetFocus(53160)</ondown>
-                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + Control.IsVisible(530)">SetFocus(53060)</ondown>
+                <ondown condition="!$EXP[Exp_View_CombinedMode] + Skin.String(Navigation.Global.OnDown,Wall) + ![Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetFocus(19)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + [Control.IsVisible(50) | Control.IsVisible(51) | Control.IsVisible(52) | Control.IsVisible(500) | Control.IsVisible(533) | Control.IsVisible(531) | Control.IsVisible(530)]">SetProperty(FurnitureWallMode,$INFO[Container.FolderPath])</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(50)">SetFocus(5060)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(51)">SetFocus(5160)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(52)">SetFocus(5260)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(500)">SetFocus(50060)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(533)">SetFocus(53360)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(531)">SetFocus(53160)</ondown>
+                <ondown condition="Skin.String(Navigation.Global.OnDown,Wall) + Control.IsVisible(530)">SetFocus(53060)</ondown>
             </control>
         </control>
     </include>
@@ -897,7 +1395,8 @@
                 <onleft condition="!Control.IsVisible(524)">50</onleft>
                 <onleft condition="Control.IsVisible(524)">526</onleft>
                 <onright condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onright>
-                <onright condition="[Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(64)</onright>
+                <onright condition="Control.IsVisible(524) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onright>
+                <onright condition="!Control.IsVisible(524) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(19)</onright>
                 <onright condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onright>
                 <onright condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onright>
                 <onback condition="!Control.IsVisible(524)">50</onback>
@@ -916,9 +1415,15 @@
                 <control type="group">
                     <animation effect="slide" start="0" end="230" condition="Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
                     <animation effect="slide" start="0" end="-95" condition="!Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
-                    <include content="View_Furniture_Scrollbar_V">
+                    <include content="View_Furniture_Scrollbar_V" condition="!Skin.String(Home.SideMenuCollapse,Never)">
                         <param name="id">70</param>
-                        <param name="centerright">820</param>
+                        <param name="centerright">940</param>
+                        <param name="height">view_poster_item_h</param>
+                        <param name="visible">$EXP[Exp_View_Scrollbar_Mini_V]</param>
+                    </include>
+                    <include content="View_Furniture_Scrollbar_V" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="id">70</param>
+                        <param name="centerright">860</param>
                         <param name="height">view_poster_item_h</param>
                         <param name="visible">$EXP[Exp_View_Scrollbar_Mini_V]</param>
                     </include>
@@ -931,7 +1436,7 @@
                 </include>
                 <control type="group">
                     <animation effect="slide" start="0" end="-540" condition="Control.IsVisible(517) | Window.IsVisible(MyPlaylist.xml)" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="0" end="-1020" condition="Control.IsVisible(519)" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="0" end="-1000" condition="Control.IsVisible(519)" reversible="false">Conditional</animation>
                     <animation effect="slide" start="0" end="-420" condition="Control.IsVisible(520)" reversible="false">Conditional</animation>
                     <include content="View_Furniture_Scrollbar_V">
                         <param name="id">66</param>
@@ -956,22 +1461,15 @@
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
-            <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
-            <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Animation_Widgets_Topbar_SlideUp_Fade_Filter</include>
+            <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <control type="group">
                     <visible>!$EXP[Exp_View_ScrollFilter_HasFocus]</visible>
+                    <visible>![$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]]</visible>
                     <include>Furniture_Bottom_Right</include>
                 </control>           
         </control>
         <include content="Home_Menu_Media">
             <param name="onlist">50</param>
-        </include>
-        <include condition="!String.IsEqual(Skin.String(Navigation.Global.OnDown,Bump))">MediaFilter_Node</include>
-    </include>
-
-    <include name="View_Dialog_VideoPIP">
-        <include content="Dialog_VideoPIP" condition="Skin.HasSetting(Background.DisableVideo)">
-            <param name="visible">[!$EXP[Exp_InfoDialogs] + String.IsEmpty(Window.Property(MediaFilterBase))]</param>
         </include>
     </include>
 
@@ -987,8 +1485,7 @@
 
             <control type="group">
                 <include>Animation_Trailer_Dim</include>
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>    
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Animation_Widgets_Topbar_SlideUp_Filter</include>
+                <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>    
             
                 <include>Animation_Group_Bumper</include>
                 <include>Animation_View_SlideOver</include>
@@ -998,8 +1495,13 @@
             </control>
 
             <include>View_Furniture_Edges</include>
-            <include>View_Dialog_VideoPIP</include>
             <include>View_Dialog_Plot</include>
+            
+            <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + Skin.HasSetting(Startup.WaitForLoad.EnableForLibrary)">
+                <param name="condition">Window.IsVisible(DialogBusy.xml) + Integer.IsEqual(Container.NumItems,0)</param>
+                <param name="label">$LOCALIZE[31023] [LOWERCASE]$LOCALIZE[31324][/LOWERCASE]</param>
+                <param name="busyspinner">false</param>
+            </include>
         </definition>
     </include>
 </includes>

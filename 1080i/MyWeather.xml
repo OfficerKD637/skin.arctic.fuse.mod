@@ -18,194 +18,107 @@
                 <orientation>vertical</orientation>
                 <autoscroll delay="0" time="20000" repeat="0">true</autoscroll>
                 <onclick>Weather.LocationNext</onclick>
-                <onleft>303</onleft>
+                <onleft>ActivateWindow(1161)</onleft>
                 <onright>ActivateWindow(1161)</onright>
                 <itemlayout />
                 <focusedlayout />
                 <include>Items_Weather_Screenshots</include>
                 <include>Action_View_SlideOver_OnFocus</include>
             </control>
-
-            <include content="Info_Viewline">
-                <param name="label">$INFO[System.AddonTitle(Weather.Plugin)]</param>
-            </include>
-
-            <include content="Weather_InfoPanel">
-                <left>view_side</left>
-                <top>view_top</top>
-            </include>
-
+            
             <control type="group">
-                <bottom>view_top</bottom>
-                <left>view_side</left>
-                <height>view_poster_item_h</height>
-                <width>view_board_item_w</width>
-                <include>Weather_Fanart_HighLow</include>
-            </control>
-
-            <control type="group">
-                <left>760</left>
-                <top>160</top>
-                <bottom>160</bottom>
-                <right>view_pad</right>
-
+                <include>Dimension_Info</include>
                 <control type="group">
-                    <animation effect="fade" start="0" end="100" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                    <animation effect="fade" start="100" end="0" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                    <include>Dialog_Outline_Box</include>
-                </control>
-                <control type="group">
-                    <right>120</right>
-                    <animation effect="fade" start="0" end="100" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                    <animation effect="fade" start="100" end="0" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                    <include>Dialog_Outline_Box</include>
-                </control>
-
-                <control type="group">
-                    <include content="Dimension_Padding">
-                        <param name="pad">20</param>
-                    </include>
+                    <right>-40</right>
                     <control type="group">
-                        <width>640</width>
-                        <include content="Weather_Detail_Forecast">
-                            <param name="height">200</param>
-                            <height>200</height>
-                        </include>
+                        <left>0%</left>
+                        <height>viewlist_poster_h</height>
+                        <centertop>50%</centertop>
+                        <width>20%</width>
                         <control type="group">
-                            <top>200</top>
-                            <height>200</height>
-                            <left>20</left>
-                            <right>20</right>
-                            <control type="grouplist">
-                                <centertop>50%</centertop>
-                                <height>160</height>
-                                <orientation>horizontal</orientation>
-                                <align>left</align>
-                                <itemgap>40</itemgap>
-                                <!-- UV -->
-                                <include content="Weather_Dialog_Details">
-                                    <param name="top_label">UV</param>
-                                    <param name="sub_label">$INFO[Window(Weather).Property(Current.UVIndex)]</param>
-                                    <include content="Dialog_Outline_Box">
-                                        <top>-20</top>
-                                        <bottom>-20</bottom>
-                                    </include>
-                                    <height>120</height>
-                                    <centertop>50%</centertop>
-                                    <width>173.33</width>
-                                    <visible>!String.IsEmpty(Window(Weather).Property(Current.UVIndex))</visible>
-                                </include>
-                                <!-- UV -->
-                                <include content="Weather_Dialog_Details">
-                                    <param name="top_label">$INFO[Window(Weather).Property(Current.FeelsLike), ,°]</param>
-                                    <param name="sub_label">[CAPITALIZE]$LOCALIZE[402][/CAPITALIZE]</param>
-                                    <include content="Dialog_Outline_Box">
-                                        <top>-20</top>
-                                        <bottom>-20</bottom>
-                                    </include>
-                                    <height>120</height>
-                                    <centertop>50%</centertop>
-                                    <width>173.33</width>
-                                    <visible>!String.IsEmpty(Window(Weather).Property(Current.FeelsLike))</visible>
-                                </include>
-                                <!-- Chance Rain -->
-                                <include content="Weather_Dialog_Details">
-                                    <param name="sub_label">[CAPITALIZE]$LOCALIZE[31465][/CAPITALIZE]</param>
-                                    <param name="top_label">$INFO[Window(Weather).Property(Current.ChancePrecipitation)]</param>
-                                    <include content="Dialog_Outline_Box">
-                                        <top>-20</top>
-                                        <bottom>-20</bottom>
-                                    </include>
-                                    <height>120</height>
-                                    <centertop>50%</centertop>
-                                    <width>173.33</width>
-                                    <visible>!String.IsEmpty(Window(Weather).Property(Current.ChancePrecipitation))</visible>
-                                </include>
-                            </control>
+                            <right>40</right>
+                            <include content="Weather_Details_HighLow">
+                                <param name="diffuse">diffuse/tall_w320_h720.png</param>
+                                <param name="day">Day0</param>
+                            </include>
                         </control>
-                        <include content="Weather_Detail_SunriseSunset">
-                            <bottom>0</bottom>
-                            <right>0</right>
-                        </include>
-                        <include content="Weather_Detail_WindRain">
-                            <bottom>0</bottom>
-                        </include>
                     </control>
                     <control type="group">
-                        <left>640</left>
-                        <animation effect="fade" start="0" end="100" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <animation effect="fade" start="100" end="0" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <include content="Weather_Detail_Weekly_Simple">
-                            <param name="height">120</param>
-                        </include>
+                        <left>20%</left>
+                        <height>viewlist_poster_h</height>
+                        <centertop>50%</centertop>
+                        <width>20%</width>
+                        <control type="group">
+                            <right>40</right>
+                            <include content="Weather_Details_HighLow">
+                                <param name="diffuse">diffuse/tall_w320_h720.png</param>
+                                <param name="day">Day1</param>
+                            </include>
+                        </control>
                     </control>
                     <control type="group">
-                        <left>640</left>
-                        <right>120</right>
-                        <animation effect="fade" start="0" end="100" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <animation effect="fade" start="100" end="0" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                        <include content="Weather_Detail_Weekly_Simple">
-                            <param name="height">120</param>
-                        </include>
+                        <left>40%</left>
+                        <height>viewlist_poster_h</height>
+                        <centertop>50%</centertop>
+                        <width>20%</width>
+                        <control type="group">
+                            <right>40</right>
+                            <include content="Weather_Details_HighLow">
+                                <param name="diffuse">diffuse/tall_w320_h720.png</param>
+                                <param name="day">Day2</param>
+                            </include>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <left>60%</left>
+                        <height>viewlist_poster_h</height>
+                        <centertop>50%</centertop>
+                        <width>20%</width>
+                        <control type="group">
+                            <right>40</right>
+                            <include content="Weather_Details_HighLow">
+                                <param name="diffuse">diffuse/tall_w320_h720.png</param>
+                                <param name="day">Day3</param>
+                            </include>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <left>80%</left>
+                        <height>viewlist_poster_h</height>
+                        <centertop>50%</centertop>
+                        <width>20%</width>
+                        <control type="group">
+                            <right>40</right>
+                            <include content="Weather_Details_HighLow">
+                                <param name="diffuse">diffuse/tall_w320_h720.png</param>
+                                <param name="day">Day4</param>
+                            </include>
+                        </control>
                     </control>
                 </control>
             </control>
-
-            <control type="grouplist">
-                <hitrect x="0" y="0" w="0" h="0" />
-                <orientation>horizontal</orientation>
-                <itemgap>30</itemgap>
-                <height>80</height>
-                <centerbottom>100</centerbottom>
-                <usecontrolcoords>true</usecontrolcoords>
-                <left>120</left>
+            
+            <control type="group">
+                <include>Dimension_Bottombar</include>
                 <control type="group">
-                    <width>50</width>
-                </control>
-                <control type="group">
-                    <width>50</width>
-                    <include>Info_KodiLogo_Image</include>
-                </control>
-
-                <control type="group">
-                    <left>0</left>
-                    <include content="Object_InfoCircle_Text_Top">
-                        <width>auto</width>
-                        <label>$LOCALIZE[15225]</label>
-                    </include>
-                    <include content="Object_InfoCircle_Text_Sub">
-                        <label>$INFO[Window(Weather).Property(WeatherProvider)]</label>
-                        <width>auto</width>
+                    <include>Dimension_Furniture_Gutters</include>
+                    <include content="View_Furniture_Bottom_ViewLine">
+                        <param name="left">0</param>
+                        <param name="label">$INFO[Weather.Location]$INFO[Window(weather).Property(WeatherProvider), | ,]</param>
                     </include>
                 </control>
             </control>
+
             <include>Furniture_Bottom_Right</include>
             <include content="Furniture_Top">
-                <param name="include_left_datelabel">!Skin.HasSetting(Furniture.DisableLeftHeader)</param>
+                <param name="include_left_datelabel">Skin.HasSetting(Furniture.EnableLeftHeader)</param>
             </include>
             <control type="group">
                 <include content="Animation_View_SlideOver_Invert">
                     <param name="time">400</param>
                 </include>
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
-                <!-- Custom Shutdown Timer -->
-                <control type="group">
-                    <include condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]]">Furniture_Right_SlidingFade</include>
-                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
-                        <param name="top">80</param>
-                    </include>
-                    <include content="Furniture_Busy">
-                        <param name="hasprogress">false</param>
-                        <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                        <param name="icon">special://skin/extras/icons/timer.png</param>
-                        <param name="mainlabel">$INFO[System.AlarmPos(shutdowntimer)]</param>
-                        <param name="minilabel">[CAPITALIZE]$LOCALIZE[20144][/CAPITALIZE]</param>
-                        <param name="haslabel">True</param>
-                        <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                        <param name="visible">System.HasAlarm(shutdowntimer)</param>
-                        <param name="flipspinner">false</param>
-                    </include>
-                </control>
+                <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">Furniture_DateLabel_TopRight</include>
+                <include>CustomShutdownTimer_Furniture_Top_Right</include>
             </control>
         </control>
 
@@ -217,8 +130,8 @@
             <param name="icon">special://skin/extras/icons/kodi.png</param>
             <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
             <param name="haslabel">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-            <param name="spinnervisible">Skin.HasSetting(ToastNotifications.Tabbed) | [!Window.IsActive(DialogVolumeBar.xml) | Player.Muted]</param>
-            <param name="visible">[!Skin.HasSetting(ToastNotifications.Tabbed) | [!Window.IsActive(DialogVolumeBar.xml) | Player.Muted]] + !Weather.IsFetched</param>
+            <param name="spinnervisible">[!Window.IsActive(DialogVolumeBar.xml) | Player.Muted]</param>
+            <param name="visible">!Weather.IsFetched</param>
         </include>
 
     </controls>

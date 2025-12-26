@@ -2,34 +2,37 @@
 <includes>
 
     <include name="NextAired_GroupList">
-        <control type="grouplist" id="5000">
-            <top>hub_recommendations_widgets_grouplist_t</top>
-            <bottom>hub_recommendations_widgets_grouplist_b</bottom>
-            <orientation>vertical</orientation>
-            <include content="Animation_Half_WindowChange">
-                <param name="windowopen_up">!$EXP[Exp_SettingsDialogs_Prev] + $EXP[Exp_ReverseTransition]</param>
-                <param name="windowopen_down">!$EXP[Exp_SettingsDialogs_Prev] + !$EXP[Exp_ReverseTransition]</param>
-                <param name="windowclose_up">!$EXP[Exp_SettingsDialogs_Next] + $EXP[Exp_ReverseTransition]</param>
-                <param name="windowclose_down">!$EXP[Exp_SettingsDialogs_Next] + !$EXP[Exp_ReverseTransition]</param>
-            </include>
-            <onup>PreviousMenu</onup>
-            <ondown>SetFocus(330)</ondown>
-            <control type="group" id="5999">
-                <height>widget_tbump_h</height>
-            </control>
-            <nested />
-            <control type="group" id="5099">
-                <height>0</height>
-                <control type="group">
-                    <visible>!Integer.IsEqual(Container(5000).NumItems,0)</visible>
-                    <visible>!Integer.IsEqual(Container(5000).NumItems,1) | !Control.HasFocus(5098) | ControlGroup(5000).HasFocus()</visible>
-                    <include content="Furniture_Bottom_WidgetGroups">
-                        <param name="label">$VAR[Label_NextBump]</param>
-                        <param name="icon">special://skin/extras/icons/kodi.png</param>
-                    </include>
+        <param name="onup">SetFocus(333)</param>
+        <definition>
+            <control type="grouplist" id="5000">
+                <top>hub_recommendations_widgets_grouplist_t</top>
+                <bottom>hub_recommendations_widgets_grouplist_b</bottom>
+                <orientation>vertical</orientation>
+                <include content="Animation_Half_WindowChange">
+                    <param name="windowopen_up">!$EXP[Exp_SettingsDialogs_Prev] + $EXP[Exp_ReverseTransition]</param>
+                    <param name="windowopen_down">!$EXP[Exp_SettingsDialogs_Prev] + !$EXP[Exp_ReverseTransition]</param>
+                    <param name="windowclose_up">!$EXP[Exp_SettingsDialogs_Next] + $EXP[Exp_ReverseTransition]</param>
+                    <param name="windowclose_down">!$EXP[Exp_SettingsDialogs_Next] + !$EXP[Exp_ReverseTransition]</param>
+                </include>
+                <onup>$PARAM[onup]</onup>
+                <ondown>SetFocus(330)</ondown>
+                <control type="group" id="5999">
+                    <height>widget_tbump_h</height>
+                </control>
+                <nested />
+                <control type="group" id="5099">
+                    <height>0</height>
+                    <control type="group">
+                        <visible>!Integer.IsEqual(Container(5000).NumItems,0)</visible>
+                        <visible>!Integer.IsEqual(Container(5000).NumItems,1) | !Control.HasFocus(5098) | ControlGroup(5000).HasFocus()</visible>
+                        <include content="Furniture_Bottom_WidgetGroups">
+                            <param name="label">$VAR[Label_NextBump]</param>
+                            <param name="icon">special://skin/extras/icons/kodi.png</param>
+                        </include>
+                    </control>
                 </control>
             </control>
-        </control>
+        </definition>
     </include>
 
     <include name="NextAired_Content">
@@ -47,8 +50,7 @@
 
     <!-- TODO: Switch to new mode -->
     <include name="NextAired_Window">
-        <param name="furniture_top">!Skin.HasSetting(Furniture.DisableLeftHeader)</param>
-        <param name="furniture_top_right">Skin.HasSetting(Furniture.DisableLeftHeader)</param>
+        <param name="furniture_top">Skin.HasSetting(Furniture.EnableLeftHeader)</param>
         <definition>
             <include>Defs_Background_Loader</include>
             <include>Background</include>
@@ -63,24 +65,7 @@
             </control>
             <include>View_Bumper</include>
             <include>Home_Menu</include>
-            <!-- Custom Shutdown Timer -->
-            <control type="group">
-                <include condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]]">Furniture_Right_SlidingFade</include>
-                <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
-                    <param name="top">80</param>
-                </include>
-                <include content="Furniture_Busy">
-                    <param name="hasprogress">false</param>
-                    <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                    <param name="icon">special://skin/extras/icons/timer.png</param>
-                    <param name="mainlabel">$INFO[System.AlarmPos(shutdowntimer)]</param>
-                    <param name="minilabel">[CAPITALIZE]$LOCALIZE[20144][/CAPITALIZE]</param>
-                    <param name="haslabel">True</param>
-                    <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                    <param name="visible">System.HasAlarm(shutdowntimer)</param>
-                    <param name="flipspinner">false</param>
-                </include>
-            </control>
+            <include>CustomShutdownTimer_Furniture_Top_Right</include>
 
             <control type="group">
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
@@ -95,9 +80,8 @@
                     <param name="textcolor">main_fg_100</param>
                 </include>
             </control>
-            <include condition="$PARAM[furniture_top_right]">Furniture_DateLabel_TopRight</include>
+            <include condition="![$PARAM[furniture_top]]">Furniture_DateLabel_TopRight</include>
 
-            <include>View_Dialog_VideoPIP</include>
             <include>View_Dialog_Plot</include>
         </definition>
     </include>

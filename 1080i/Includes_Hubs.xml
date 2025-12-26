@@ -333,7 +333,7 @@
                     <include>Animation_View_SlideOver</include>
                     <include>Animation_View_WindowChange</include>
                     <include>Animation_Group_Bumper</include>
-                    <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>
+                    <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>
 
                     <include condition="$EXP[Exp_Hubs_Spotlight_IsFanart] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !$EXP[Exp_Hubs_Spotlight_IsDisabled]">Hub_Slide_Spotlight_OnFanart</include>
 
@@ -398,54 +398,36 @@
                     <include>Animation_View_WindowChange</include>
                     <include>Hub_Widgets_Group_Furniture</include>
                     <control type="group">
-                        <include condition="!Skin.HasSetting(Furniture.DisableLeftHeader)" content="Animation_ConditionalFade">
+                        <include condition="Skin.HasSetting(Furniture.EnableLeftHeader)" content="Animation_ConditionalFade">
                             <param name="condition">$EXP[Exp_InfoDialogs]</param>
                         </include>
-                        <include condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_Top</include>
+                        <include condition="Skin.HasSetting(Furniture.EnableLeftHeader)">Furniture_Top</include>
                         <control type="group">
                             <include content="Animation_View_SlideOver_Invert">
                                 <param name="time">400</param>
                             </include>
-                            <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
-                            <!-- Custom Shutdown Timer -->
-                            <control type="group">
-                                <include condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]]">Furniture_Right_SlidingFade</include>
-                                <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
-                                    <param name="top">80</param>
-                                </include>
-                                <include content="Furniture_Busy">
-                                    <param name="hasprogress">false</param>
-                                    <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                                    <param name="icon">special://skin/extras/icons/timer.png</param>
-                                    <param name="mainlabel">$INFO[System.AlarmPos(shutdowntimer)]</param>
-                                    <param name="minilabel">[CAPITALIZE]$LOCALIZE[20144][/CAPITALIZE]</param>
-                                    <param name="haslabel">True</param>
-                                    <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                                    <param name="visible">System.HasAlarm(shutdowntimer)</param>
-                                    <param name="flipspinner">false</param>
-                                </include>
-                            </control>
+                            <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">Furniture_DateLabel_TopRight</include>
+                            <include>CustomShutdownTimer_Furniture_Top_Right</include>
                         </control>
                     </control>
                 </control>
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
+                <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <include>Furniture_Bottom_Right</include>
             </control>            
 
             <!-- Plot Dialog Overlay -->
-            <include>View_Dialog_VideoPIP</include>
             <include>View_Dialog_Plot</include>
             
             <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + [$PARAM[is_homemenu]]">
                 <param name="condition">System.HasAlarm(SplashTimeOut) + [Integer.IsEqual(Container(100601).NumItems,0) | [Integer.IsEqual(Container(100601).NumItems,1) + String.IsEqual(Container(100601).ListItemAbsolute(0).Label,$LOCALIZE[31046])]] + Container(100601).IsUpdating</param>
             </include>
-            <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + ![$PARAM[is_homemenu]] + ![$PARAM[widgets_only]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)">
+            <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + !Skin.HasSetting(Startup.WaitForLoad.DisableForHubs) + ![$PARAM[is_homemenu]] + ![$PARAM[widgets_only]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)">
                 <param name="condition">System.HasAlarm(SplashTimeOut) + Integer.IsEqual(Container(301).NumItems,0) + Container(301).IsUpdating</param>
             </include>
-            <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + ![$PARAM[is_homemenu]] + ![$PARAM[widgets_only]] + Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)">
+            <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + !Skin.HasSetting(Startup.WaitForLoad.DisableForHubs) + ![$PARAM[is_homemenu]] + ![$PARAM[widgets_only]] + Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)">
                 <param name="condition">System.HasAlarm(SplashTimeOut) + Integer.IsEqual(Container(300).NumItems,0) + Container(300).IsUpdating</param>
             </include>
-            <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + ![$PARAM[is_homemenu]] + $PARAM[widgets_only]">
+            <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + !Skin.HasSetting(Startup.WaitForLoad.DisableForHubs) + ![$PARAM[is_homemenu]] + $PARAM[widgets_only]">
                 <param name="condition">System.HasAlarm(SplashTimeOut) + [Integer.IsEqual(Container(100601).NumItems,0) | [Integer.IsEqual(Container(100601).NumItems,1) + String.IsEqual(Container(100601).ListItemAbsolute(0).Label,$LOCALIZE[31046])]] + Container(100601).IsUpdating</param>
             </include>         
         </definition>
@@ -454,10 +436,10 @@
     <include name="Hub_Widgets_Only">
         <include>Background_Transition</include>
         <control type="group" id="340">
-            <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
                 <param name="top">-440</param>
             </include>
-            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+            <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
                 <param name="top">-361</param>
             </include>
             <include content="Hub_Widgets_Infopanel" condition="![Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
@@ -659,7 +641,7 @@
             <height>hub_spotlight_h</height>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
-            <include condition="Skin.HasSetting(Furniture.DisableLeftHeader) + $EXP[Exp_Hubs_Spotlight_IsSlide]">Animation_Widgets_Topbar_SlideUp_Fade</include>
+            <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $EXP[Exp_Hubs_Spotlight_IsSlide]">Animation_Widgets_Topbar_SlideUp_Fade</include>
             <include content="Animation_Fade_In">
                 <param name="condition">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_HomeHub_Spotlight_IsVisible]</param>
                 <param name="delay">200</param>
@@ -899,7 +881,7 @@
             <control type="group">
                 <width>info_panel_w</width>
                 <left>view_side</left>              
-                <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                     <param name="top">view_top</param>    
                 </include>
                 <top>view_pad</top>

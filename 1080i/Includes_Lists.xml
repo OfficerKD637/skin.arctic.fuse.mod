@@ -6,26 +6,44 @@
     <!-- ============= -->
     <!-- 9 Item: Icon -->
     <include name="List_Icon_Row_Movement">
+        <include content="Object_Movement" condition="$EXP[Exp_HomeMenu_IsStatic_Movement]">
+            <param name="movement">view_icon_movement_downsize</param>
+        </include>
         <movement>view_icon_movement</movement>
     </include>
     <!-- 7 Item: Poster, Square -->
     <include name="List_Poster_Row_Movement">
+        <include content="Object_Movement" condition="$EXP[Exp_HomeMenu_IsStatic_Movement]">
+            <param name="movement">view_poster_movement_downsize</param>
+        </include>
         <movement>view_poster_movement</movement>
     </include>
     <!-- 6 Item: Apps -->
     <include name="List_Apps_Row_Movement">
+        <include content="Object_Movement" condition="$EXP[Exp_HomeMenu_IsStatic_Movement]">
+            <param name="movement">view_apps_movement_downsize</param>
+        </include>
         <movement>view_apps_movement</movement>
     </include>
     <!-- 5 Item: Card -->
     <include name="List_Card_Row_Movement">
+        <include content="Object_Movement" condition="$EXP[Exp_HomeMenu_IsStatic_Movement]">
+            <param name="movement">view_card_movement_downsize</param>
+        </include>
         <movement>view_card_movement</movement>
     </include>
     <!-- 4 Item: Landscape -->
     <include name="List_Landscape_Row_Movement">
+        <include content="Object_Movement" condition="$EXP[Exp_HomeMenu_IsStatic_Movement]">
+            <param name="movement">view_landscape_movement_downsize</param>
+        </include>
         <movement>view_landscape_movement</movement>
     </include>
     <!-- 3 Item: Board -->
     <include name="List_Board_Row_Movement">
+        <include content="Object_Movement" condition="$EXP[Exp_HomeMenu_IsStatic_Movement] ">
+            <param name="movement">view_board_movement_downsize</param>
+        </include>
         <movement>view_board_movement</movement>
     </include>
     <!-- 1 Item: Banner -->
@@ -97,83 +115,87 @@
     </include>
 
     <include name="List_EPGGrid">
+        <param name="programheight">80</param>
+        <param name="programwidth">480</param>
         <param name="channelheight">80</param>
-        <param name="channelwidth">520</param>
+        <param name="channelwidth">420</param>
+        <param name="rulerheight">55</param>
+        <param name="rulerdateheight">105</param>
         <param name="include_channels">Layout_PVRGuide_Channels</param>
         <param name="include_programs">Layout_PVRGuide_Programs</param>
+        <param name="include_ruler">Layout_PVRGuide_Ruler</param>
+        <param name="channelbottom">0</param>
+        <param name="channelright">20</param>
+        <param name="rulerunit">6</param>
+        <param name="timeblocks">24</param>
+        <param name="programs_left">0</param>
+        <param name="programs_left_text">40</param>
+        <param name="programs_left_text_slide">70</param>
         <definition>
             <control type="epggrid" id="$PARAM[id]">
                 <nested />
                 <scrolltime tween="quadratic">300</scrolltime>
-                <timeblocks>24</timeblocks>
-                <rulerunit>6</rulerunit>
-                <rulerdatelayout height="105" />
-                <rulerlayout height="55">
-                    <control type="group">
-                        <animation effect="fade" start="30" end="100" time="200" reversible="false" condition="![[Window.IsActive(DialogExtendedProgressBar.xml) | Window.IsActive(DialogNotification.xml)] + !Skin.HasSetting(Views.UseHalfPVRGuide) + !Skin.HasSetting(ToastNotifications.Tabbed)]">Conditional</animation>
-                        <animation effect="fade" start="100" end="30" delay="200" time="200" reversible="false" condition="[Window.IsActive(DialogExtendedProgressBar.xml) | Window.IsActive(DialogNotification.xml)] + !Skin.HasSetting(Views.UseHalfPVRGuide) + !Skin.HasSetting(ToastNotifications.Tabbed)">Conditional</animation>
-
-
-                        <animation effect="slide" start="0" end="0,-15" condition="!Skin.HasSetting(Views.UseHalfPVRGuide)">Conditional</animation>
-                        <control type="label">
-                            <left>10</left>
-                            <height>20</height>
-                            <align>left</align>
-                            <aligny>center</aligny>
-                            <font>font_tiny</font>
-                            <label>$INFO[ListItem.Label]</label>
-                            <textcolor>main_fg_70</textcolor>
-                            <shadowcolor>main_bg_12</shadowcolor>
-                        </control>
-                        <control type="image">
-                            <width>1</width>
-                            <texture colordiffuse="main_fg_30">common/white.png</texture>
-                            <bottom>15</bottom>
-                            <visible>!Skin.HasSetting(Views.UseHalfPVRGuide)</visible>
-                        </control>
-                        <control type="image">
-                            <width>1</width>
-                            <texture colordiffuse="main_fg_30">common/white.png</texture>
-                            <bottom>30</bottom>
-                            <visible>Skin.HasSetting(Views.UseHalfPVRGuide)</visible>
-                        </control>
-                    </control>
+                <timeblocks>$PARAM[timeblocks]</timeblocks>
+                <rulerunit>$PARAM[rulerunit]</rulerunit>
+                <rulerdatelayout height="$PARAM[rulerdateheight]"  width="$PARAM[rulerdatewidth]" />
+                <rulerlayout height="$PARAM[rulerheight]" width="$PARAM[rulerwidth]">
+                    <include>$PARAM[include_ruler]</include>
                 </rulerlayout>
                 <channellayout height="$PARAM[channelheight]" width="$PARAM[channelwidth]">
                     <include content="$PARAM[include_channels]">
                         <param name="detailed">$PARAM[detailed]</param>
-                        <param name="item_h">$PARAM[channelheight]</param>
+                        <param name="bottom">$PARAM[channelbottom]</param>
+                        <param name="right">$PARAM[channelright]</param>
                     </include>
                 </channellayout>
                 <focusedchannellayout height="$PARAM[channelheight]" width="$PARAM[channelwidth]">
                     <include content="$PARAM[include_channels]">
                         <param name="selected">false</param>
                         <param name="detailed">$PARAM[detailed]</param>
-                        <param name="item_h">$PARAM[channelheight]</param>
+                        <param name="bottom">$PARAM[channelbottom]</param>
+                        <param name="right">$PARAM[channelright]</param>
+
                         <visible>[$EXP[Exp_PVRGuide_NoFocus]]</visible>
                     </include>
                     <include content="$PARAM[include_channels]">
                         <param name="selected">true</param>
                         <param name="detailed">$PARAM[detailed]</param>
-                        <param name="item_h">$PARAM[channelheight]</param>
+                        <param name="bottom">$PARAM[channelbottom]</param>
+                        <param name="right">$PARAM[channelright]</param>
+
                         <visible>![$EXP[Exp_PVRGuide_NoFocus]]</visible>
                     </include>
                 </focusedchannellayout>
-                <itemlayout height="$PARAM[channelheight]" width="480">
+                <itemlayout height="$PARAM[programheight]" width="$PARAM[programwidth]">
                     <include content="$PARAM[include_programs]">
                         <param name="detailed">$PARAM[detailed]</param>
+                        <param name="border">$PARAM[border]</param>
+                        <param name="border_genre">$PARAM[border_genre]</param>
+                        <param name="left">$PARAM[programs_left]</param>
+                        <param name="left_text">$PARAM[programs_left_text]</param>
+                        <param name="left_text_slide">$PARAM[programs_left_text_slide]</param>
                     </include>
                 </itemlayout>
-                <focusedlayout height="$PARAM[channelheight]" width="480">
+                <focusedlayout height="$PARAM[programheight]" width="$PARAM[programwidth]">
                     <include content="$PARAM[include_programs]">
                         <param name="selected">false</param>
                         <param name="visible">[$EXP[Exp_PVRGuide_NoFocus]]</param>
                         <param name="detailed">$PARAM[detailed]</param>
+                        <param name="border">$PARAM[border]</param>
+                        <param name="border_genre">$PARAM[border_genre]</param>
+                        <param name="left">$PARAM[programs_left]</param>
+                        <param name="left_text">$PARAM[programs_left_text]</param>
+                        <param name="left_text_slide">$PARAM[programs_left_text_slide]</param>
                     </include>
                     <include content="$PARAM[include_programs]">
                         <param name="selected">true</param>
                         <param name="visible">![$EXP[Exp_PVRGuide_NoFocus]]</param>
                         <param name="detailed">$PARAM[detailed]</param>
+                        <param name="border">$PARAM[border]</param>
+                        <param name="border_genre">$PARAM[border_genre]</param>
+                        <param name="left">$PARAM[programs_left]</param>
+                        <param name="left_text">$PARAM[programs_left_text]</param>
+                        <param name="left_text_slide">$PARAM[programs_left_text_slide]</param>
                     </include>
                 </focusedlayout>
             </control>
@@ -256,34 +278,8 @@
                 <param name="altfocus">$PARAM[altfocus]</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="misc">$PARAM[misc]</param>
-                <nested />
-            </include>
-        </definition>
-    </include>
-
-    <include name="List_PVRRecordings">
-        <param name="orientation">vertical</param>
-        <param name="control">list</param>
-        <param name="item_h">120</param>
-        <param name="itemlayout_h">120</param>
-        <param name="itemlayout_include">Layout_PVRRecordings</param>
-        <param name="detailed">true</param>
-        <definition>
-            <include content="List_Core">
-                <param name="orientation">$PARAM[orientation]</param>
-                <param name="control">$PARAM[control]</param>
-                <param name="id">$PARAM[id]</param>
-                <param name="item_h">$PARAM[item_h]</param>
-                <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
-                <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
-                <param name="misc">$PARAM[misc]</param>
-                <param name="detailed">$PARAM[detailed]</param>
-                <param name="offset_y">0</param>
-                <param name="offset_x">0</param>
                 <param name="textcolor">$PARAM[textcolor]</param>
                 <nested />
-                <movement>3</movement>
-                <focusposition>2</focusposition>
             </include>
         </definition>
     </include>
@@ -313,6 +309,7 @@
                 <param name="itemlayout_w">view_poster_itemlayout_w</param>
                 <param name="itemlayout_h">view_poster_itemlayout_h</param>
                 <param name="itemlayout_include">Layout_Poster</param>
+                <param name="icon">$VAR[Image_Poster_Combined_C553]</param>
 
                 <param name="focusedlayout_special">true</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
@@ -463,6 +460,7 @@
                 <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
                 <param name="hidden_button">$PARAM[hidden_button]</param>
                 <param name="diffuse">diffuse/banner_w560_h100.png</param>
+                <param name="diffuse_downsize">diffuse/banner_w560_h100.png</param>
                 <nested />
             </include>
         </definition>
@@ -491,6 +489,7 @@
                 <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
                 <param name="hidden_button">$PARAM[hidden_button]</param>
                 <param name="diffuse">diffuse/banner_w560_h100.png</param>
+                <param name="diffuse_downsize">diffuse/banner_w560_h100.png</param>
                 <preloaditems>$PARAM[preloaditems]</preloaditems>
                 <nested />
             </include>
@@ -512,6 +511,7 @@
                 <param name="itemlayout_include">Layout_Landscape</param>
                 <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
                 <param name="diffuse">diffuse/landscape_w200_h112.png</param>
+                <param name="diffuse_downsize">diffuse/landscape_w200_h112.png</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
                 <param name="icon">$PARAM[icon]</param>
@@ -659,6 +659,7 @@
                 <param name="itemlayout_include">Layout_Poster</param>
                 <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
+                <param name="offset_y">$PARAM[offset_y]</param>
                 <param name="icon">$PARAM[icon]</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="wall_textlabels">$PARAM[wall_textlabels]</param>
@@ -709,10 +710,11 @@
         <param name="item_w">view_poster_item_w</param>
         <param name="item_h">view_poster_item_h</param>
         <param name="itemlayout_w">view_poster_itemlayout_w</param>
-        <param name="itemlayout_h">404</param>
+        <param name="itemlayout_h">420</param>
+        <param name="itemlayout_h_downsize">404</param>
         <param name="preloaditems">0</param>
         <definition>
-            <include content="List_Core">
+            <include content="List_Core" condition="!Skin.String(Home.SideMenuCollapse,Never)">
                 <param name="orientation">$PARAM[orientation]</param>
                 <param name="control">$PARAM[control]</param>
                 <param name="id">$PARAM[id]</param>
@@ -720,6 +722,26 @@
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                <param name="itemlayout_include">Layout_Poster</param>
+                <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
+                <param name="offset_x">$PARAM[offset_x]</param>
+                <param name="offset_y">$PARAM[offset_y]</param>
+                <param name="icon">$PARAM[icon]</param>
+                <param name="detailed">$PARAM[detailed]</param>
+                <param name="wall_textlabels">$PARAM[wall_textlabels]</param>
+                <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
+                <param name="hidden_button">$PARAM[hidden_button]</param>
+                <preloaditems>$PARAM[preloaditems]</preloaditems>
+                <nested />
+            </include>
+            <include content="List_Core" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                <param name="orientation">$PARAM[orientation]</param>
+                <param name="control">$PARAM[control]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="item_h">$PARAM[item_h]</param>
+                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
+                <param name="itemlayout_h">$PARAM[itemlayout_h_downsize]</param>
                 <param name="itemlayout_include">Layout_Poster</param>
                 <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
@@ -911,7 +933,9 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
-                <param name="diffuse">diffuse/landscape_w520_h294.png</param>
+                <param name="diffuse">diffuse/landscape_w560_h310.png</param>
+                <param name="diffuse_downsize">diffuse/downsize/landscape_w520_h294.png</param>
+                <param name="aspectratio">scale</param>
                 <param name="detailed">true</param>
                 <param name="variation">false</param>
                 <param name="icon">$PARAM[icon]</param>
@@ -944,7 +968,9 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
-                <param name="diffuse">diffuse/landscape_w520_h294.png</param>
+                <param name="diffuse">diffuse/landscape_w560_h310.png</param>
+                <param name="diffuse_downsize">diffuse/downsize/landscape_w520_h294.png</param>
+                <param name="aspectratio">scale</param>
                 <param name="detailed">true</param>
                 <param name="variation">false</param>
                 <param name="icon">$PARAM[icon]</param>
@@ -977,7 +1003,9 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
-                <param name="diffuse">diffuse/landscape_w520_h294.png</param>
+                <param name="diffuse">diffuse/landscape_w560_h310.png</param>
+                <param name="diffuse_downsize">diffuse/downsize/landscape_w520_h294.png</param>
+                <param name="aspectratio">scale</param>
                 <param name="detailed">true</param>
                 <param name="variation">true</param>
                 <param name="icon">$VAR[Image_Placard_Fanart]</param>
@@ -1010,7 +1038,9 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
-                <param name="diffuse">diffuse/landscape_w520_h294.png</param>
+                <param name="diffuse">diffuse/landscape_w560_h310.png</param>
+                <param name="diffuse_downsize">diffuse/downsize/landscape_w520_h294.png</param>
+                <param name="aspectratio">scale</param>
                 <param name="detailed">true</param>
                 <param name="variation">true</param>
                 <param name="icon">$VAR[Image_Placard_Fanart]</param>
@@ -1041,7 +1071,9 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
-                <param name="diffuse">diffuse/landscape_w380_h214.png</param>
+                <param name="diffuse">diffuse/landscape_w410_h231.png</param>
+                <param name="diffuse_downsize">diffuse/downsize/landscape_w380_h214.png</param>
+                <param name="aspectratio">scale</param>
                 <param name="detailed">true</param>
                 <param name="variation">$PARAM[variation]</param>
                 <param name="icon">$PARAM[icon]</param>
@@ -1053,6 +1085,37 @@
                 <param name="hidden_button">$PARAM[hidden_button]</param>
                 <nested />
                 <include>List_Landscape_Row_Movement</include>
+            </include>
+        </definition>
+    </include>
+    
+    <include name="List_Weather_Row">
+        <param name="item_w">view_quad_item_w</param>
+        <param name="item_h">view_poster_item_h</param>
+        <param name="itemlayout_w">view_quad_itemlayout_w</param>
+        <param name="itemlayout_h">view_poster_itemlayout_h</param>
+        <param name="orientation">horizontal</param>
+        <param name="use_movement">true</param>
+        <param name="control">fixedlist</param>
+        <definition>
+            <include content="List_Core">
+                <param name="orientation">$PARAM[orientation]</param>
+                <param name="control">$PARAM[control]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="item_h">$PARAM[item_h]</param>
+                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
+                <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                <param name="offset_x">$PARAM[offset_x]</param>
+                <param name="offset_y">$PARAM[offset_y]</param>
+                <param name="variation">true</param>
+                <param name="diffuse">diffuse/square_w320_h320.png</param>
+                <param name="diffuse_downsize">diffuse/square_w294_h294.png</param>
+                <param name="itemlayout_include">Layout_Weather</param>
+                <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
+                <param name="hidden_button">$PARAM[hidden_button]</param>
+                <include condition="$PARAM[use_movement]">List_Card_Row_Movement</include>
+                <nested />
             </include>
         </definition>
     </include>
@@ -1577,6 +1640,7 @@
                             <param name="indicator">$PARAM[indicator]</param>
                             <param name="variation">$PARAM[variation]</param>
                             <param name="diffuse">$PARAM[diffuse]</param>
+                            <param name="diffuse_downsize">$PARAM[diffuse_downsize]</param>
                             <param name="icon">$PARAM[icon]</param>
                             <param name="aspectratio">$PARAM[aspectratio]</param>
                             <param name="art">$PARAM[art]</param>
@@ -1614,6 +1678,7 @@
                                 <param name="indicator">$PARAM[indicator]</param>
                                 <param name="variation">$PARAM[variation]</param>
                                 <param name="diffuse">$PARAM[diffuse]</param>
+                                <param name="diffuse_downsize">$PARAM[diffuse_downsize]</param>
                                 <param name="icon">$PARAM[icon]</param>
                                 <param name="aspectratio">$PARAM[aspectratio]</param>
                                 <param name="art">$PARAM[art]</param>
@@ -1638,6 +1703,7 @@
                                 <param name="indicator">$PARAM[indicator]</param>
                                 <param name="variation">$PARAM[variation]</param>
                                 <param name="diffuse">$PARAM[diffuse]</param>
+                                <param name="diffuse_downsize">$PARAM[diffuse_downsize]</param>
                                 <param name="icon">$PARAM[icon]</param>
                                 <param name="aspectratio">$PARAM[aspectratio]</param>
                                 <param name="art">$PARAM[art]</param>

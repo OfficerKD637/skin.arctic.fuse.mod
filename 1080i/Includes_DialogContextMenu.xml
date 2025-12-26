@@ -16,12 +16,10 @@
         <control type="group">
             <include>Dimension_Dialog_Body_Group</include>
             <include content="DialogInfo_PlotBox_Artwork">
-                <param name="poster_visible">[!String.IsEmpty(ListItem.Art(poster)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_poster))]</param>
                 <param name="poster_icon">$VAR[Image_ContextPoster]</param>
                 <param name="landscape_icon">$VAR[Image_ContextFanart]</param>
                 <param name="square_icon">$VAR[Image_ContextIcon]</param>
                 <param name="clearlogo_icon">$VAR[Image_ContextClearLogo]</param>
-                <param name="landscape_visible">[!String.IsEmpty(ListItem.Art(fanart)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_fanart))]</param>
             </include>
         </control>
     </include>
@@ -36,106 +34,9 @@
                 
                 <control type="group">
                     <include>Dimension_Dialog_Body_Group</include>
-                    <include content="Object_Control" condition="!$PARAM[include_artwork] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_fanart))">
-                        <param name="control">group</param>
-
-                        <include content="Dialog_Outline_Box">
-                            <height>120</height>
-                            <control type="image">
-                                <texture diffuse="diffuse/banner_w560_h100.png" colordiffuse="main_logo" background="true">$VAR[Image_ContextFanart]</texture>
-                                <aspectratio scalediffuse="false">scale</aspectratio>
-                            </control>
-                            <control type="group">
-                                <include content="Dimension_Padding">
-                                    <param name="pad">20</param>
-                                </include>
-                                <control type="image">
-                                    <texture background="true">$VAR[Image_ContextClearlogo]</texture>
-                                    <aspectratio>keep</aspectratio>
-                                    <left>20</left>
-                                    <right>20</right>
-                                </control>
-                            </control>
-                        </include>
-                    </include>
-                    
-                    <!-- Context Buttons -->
                     <control type="group">
-                        <include content="Object_Top" condition="!$PARAM[include_artwork]">
-                            <param name="top">160</param>
-                        </include>
-                        <top>20</top>
-                        <control type="group">
-                            <top>-30</top>
-                            <height>80</height>
-                            <left>20</left>
-                            <visible>$EXP[Exp_Context_Expanded]</visible>
-                            <visible>![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]</visible>
-                            <include content="ButtonMenu_MediaTray" condition="!$PARAM[include_artwork]">
-                                <param name="include">ButtonMenu_ContextControls</param>
-                                <onup>SetFocus(996)</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <ondown>SetFocus(996)</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                            </include>
-                            <include content="ButtonMenu_MediaTray" condition="$PARAM[include_artwork]">
-                                <param name="include">ButtonMenu_ContextControls</param>
-                                <param name="width">764</param>
-                                <param name="centerleft">32%</param>
-                                <onup>SetFocus(996)</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <onup>PageDown</onup>
-                                <ondown>SetFocus(996)</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                                <ondown>PageUp</ondown>
-                            </include>
-                        </control>
-                    </control>
-                    
-                    <control type="group">
-                        <include content="Object_Top" condition="!$PARAM[include_artwork] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_fanart)) + [![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]]">
-                            <param name="top">240</param>
-                        </include>
-                        <include content="Object_Top" condition="!$PARAM[include_artwork] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_fanart)) + [Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]">
-                            <param name="top">160</param>
-                        </include>
-                        <include content="Object_Top" condition="$PARAM[include_artwork] + $EXP[Exp_Context_Expanded] + [![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]]">
-                            <param name="top">100</param>
-                        </include>
-                        <control type="image">
-                            <top>-20</top>
-                            <left>20</left>
-                            <right>20</right>
-                            <height>1</height>
-                            <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                            <visible>!$PARAM[include_artwork]</visible>
-                        </control>
-                        <control type="image">
-                            <top>-20</top>
-                            <left>20</left>
-                            <right>496</right>
-                            <height>1</height>
-                            <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                            <visible>$PARAM[include_artwork]</visible>
-                        </control>
                         <control type="grouplist" id="996">
-                            <onup condition="$EXP[Exp_Context_Expanded]">6099</onup>
-                            <ondown condition="$EXP[Exp_Context_Expanded]">6099</ondown>
-                            <onleft>Close</onleft>
+                            <onleft>6099</onleft>
                             <onright>61</onright>
                             <pagecontrol>61</pagecontrol>
                         </control>
@@ -143,6 +44,14 @@
                         <include content="Dialog_Scrollbar">
                             <param name="id">61</param>
                             <onleft>996</onleft>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <bottom>60</bottom>
+                        <height>40</height>
+                        <right>$PARAM[lines_right]</right>
+                        <include content="Dialog_ItemPage">
+                            <param name="id">996</param>
                         </include>
                     </control>
                 </control>
@@ -165,37 +74,74 @@
     <include name="Dialog_ContextMenu">
         <param name="include_fullmenu">false</param>
         <param name="dialog_size">Dimension_DialogSideMenu</param>
-        <param name="button_width">dialog_main_button_w</param>
+        <param name="button_width">400</param>
         <param name="lines_right">0</param>
+        <param name="lines_left">120</param>
         <param name="header">$VAR[Label_ContextMenu_Title]</param>
+        <param name="has_buttons">![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]</param>
         <definition>
             <include>Defs_Background_Loader</include>
             <include>Dialog_Dim_Overlay</include>
 
             <control type="group">
-                <include>$PARAM[dialog_size]</include>
+               <include>$PARAM[dialog_size]</include>
                 <include>Animation_Right_Delay</include>
 
-                <!-- Foreground Layer -->
-                <include content="Dialog_Foreground_Side">
-                    <param name="dialog_size">$PARAM[dialog_size]</param>
-                    <param name="topline">true</param>
-                    <param name="subline">true</param>
-                    <param name="lines_right">$PARAM[lines_right]</param>
+                    <!-- Backing Layer -->
+                    <include content="Dialog_Foreground_Side" condition="$PARAM[has_buttons]">
+                        <param name="dialog_size">$PARAM[dialog_size]</param>
+                        <param name="topline">true</param>
+                        <param name="subline">false</param>
+                        <param name="lines_right">$PARAM[lines_right]</param>
+                        <param name="lines_left">$PARAM[lines_left]</param>
+                    </include>
+                    
+                    <include content="Dialog_Foreground_Side" condition="![$PARAM[has_buttons]]">
+                        <param name="dialog_size">$PARAM[dialog_size]</param>
+                        <param name="topline">true</param>
+                        <param name="subline">false</param>
+                        <param name="lines_right">$PARAM[lines_right]</param>
+                        <param name="lines_left">0</param>
+                    </include>
+                
 
                     <!-- Header -->
-                    <include content="Dialog_Head">
+                    <include content="Dialog_Head" condition="$PARAM[has_buttons]">
+                        <param name="label">$PARAM[header]</param>
+                        <param name="left">200</param>
+                    </include>
+                    
+                    <include content="Dialog_Head" condition="![$PARAM[has_buttons]]">
                         <param name="label">$PARAM[header]</param>
                     </include>
 
                     <include>Dialog_Head_CloseButton</include>
 
                     <!-- Content -->
-                    <include content="Dialog_ContextMenu_BodyContent">
-                        <param name="include_artwork">$PARAM[include_fullmenu]</param>
-                        <param name="lines_right">$PARAM[lines_right]</param>
-                    </include>
+                    <control type="group">
+                        <include content="Object_Left" condition="$PARAM[has_buttons]">
+                            <param name="left">120</param>
+                        </include>
+                        <include content="Dialog_ContextMenu_BodyContent">
+                            <param name="include_artwork">$PARAM[include_fullmenu]</param>
+                            <param name="lines_right">$PARAM[lines_right]</param>
+                        </include>
+                    </control>
 
+                
+                
+                <!-- Side Buttons -->
+                <include content="Object_Control" condition="$PARAM[has_buttons]">
+                    <param name="control">group</param>
+                    <include>Dimension_Dialog_Body</include>
+                    <include>Dialog_Side_Panel_Group_Def</include>
+                    <control type="group">
+                        <include>Dialog_Side_Grouplist_Def</include>
+                        <include content="ButtonMenu_SideTray">
+                            <param name="include">ButtonMenu_ContextControls</param>
+                            <param name="onright">996</param>
+                        </include>
+                    </control>
                 </include>
             </control>
 
@@ -203,6 +149,9 @@
                 <param name="id">1000</param>
                 <param name="control">button</param>
                 <param name="dialog">true</param>
+                <include content="Object_Width" condition="![$PARAM[has_buttons]]">
+                    <param name="width">dialog_main_button_w</param>
+                </include>
                 <width>$PARAM[button_width]</width>
             </include>
 

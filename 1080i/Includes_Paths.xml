@@ -6,6 +6,23 @@
         <value>$INFO[ListItem.SetID,videodb://movies/sets/,/]</value>
     </variable>
     
+    <variable name="Path_VideoInfo_CrewSwitcher">
+        <value condition="Control.HasFocus(556) | Control.HasFocus(513)">$INFO[Container(556).ListItem.Property(crewinfopath)]</value>
+        <value condition="Control.HasFocus(558) | Control.HasFocus(515)">$INFO[Container(558).ListItem.Property(crewinfopath)]</value>
+        <value>plugin://plugin.video.themoviedb.helper/?info=crew_in_both</value>
+    </variable>
+    
+    <variable name="Path_VideoInfo_CastSwitcher">
+        <value condition="Control.HasFocus(557) | Control.HasFocus(514)">$INFO[Container(557).ListItem.Property(castinfopath)]</value>
+        <value>plugin://plugin.video.themoviedb.helper/?info=stars_in_both</value>
+    </variable>
+    
+    <variable name="Path_Search_Autocomplete">
+        <value condition="Window.IsMedia">plugin://script.skinvariables/?info=get_container_labels$VAR[Action_View_ContainerID,&amp;containers=,]&amp;infolabel=label&amp;reload=$INFO[Container.NumItems]$INFO[Control.GetLabel(19).index(1),&amp;filter_key=label&amp;filter_value=,]</value>
+        <value condition="$EXP[Exp_AutoCompletion_IsEnabled] + $EXP[Path_SearchTerm_Exp]">plugin://plugin.program.autocompletion?info=autocomplete&amp;&amp;id=$VAR[Path_SearchTerm]</value>
+        <value>plugin://script.skinvariables/?info=get_split_string&amp;infolabel=Skin.String(SearchHistory)&amp;reload=$INFO[Skin.String(SearchHistory)]</value>
+    </variable>
+    
     <variable name="Path_HolidayMode">
         <value condition="Skin.HasSetting(HolidayMode.Australia)">summer</value>
         <value>winter</value>
@@ -133,7 +150,6 @@
         <value condition="$EXP[Exp_1125Hub_IsVisible] + !String.IsEmpty(Skin.String(Hub.1125.Spotlight.Fallback))">$INFO[Skin.String(Hub.1125.Spotlight.Fallback)]</value>
         <value condition="$EXP[Exp_1126Hub_IsVisible] + !String.IsEmpty(Skin.String(Hub.1126.Spotlight.Fallback))">$INFO[Skin.String(Hub.1126.Spotlight.Fallback)]</value>
         <value condition="$EXP[Exp_1127Hub_IsVisible] + !String.IsEmpty(Skin.String(Hub.1127.Spotlight.Fallback))">$INFO[Skin.String(Hub.1127.Spotlight.Fallback)]</value>
-        <value condition="!String.IsEmpty(Weather.FanartCode) + Weather.IsFetched">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</value>
         <value>$VAR[Image_StartUp]</value>
     </variable>
 
@@ -595,17 +611,12 @@
     </variable>
     
     <variable name="Path_VideoInfo_OnlineCast">
-        <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">special://skin/extras/playlists/Null.xsp</value>
-        <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type))">special://skin/extras/playlists/Null.xsp</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie)">plugin://plugin.video.themoviedb.helper?info=cast&amp;aggregate=true&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=movie&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]</value>
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.Season)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.Episode))">plugin://plugin.video.themoviedb.helper?info=cast&amp;aggregate=true&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]&amp;season=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.Season)]&amp;episode=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.Episode)]</value>
-
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.Season))">plugin://plugin.video.themoviedb.helper?info=cast&amp;aggregate=true&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]&amp;season=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.Season)]</value>
-
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)">plugin://plugin.video.themoviedb.helper?info=cast&amp;aggregate=true&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]</value>
-
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.Season))">plugin://plugin.video.themoviedb.helper?info=cast&amp;aggregate=true&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]</value>
-
+        <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type))">special://skin/extras/playlists/Null.xsp</value>
         <value>special://skin/extras/playlists/Null.xsp</value>
     </variable>
     

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
-    <variable name="Image_InfoDialog_Crew">
-        <value condition="!String.IsEmpty(ListItem.Icon)">$INFO[ListItem.Icon]</value>
-        <value>fallback/no-image-actor.png</value>
-    </variable>
-
     <variable name="Image_OSD_SkipPrev">
         <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,01)">special://skin/extras/icons/backward-fast.png</value>
         <value condition="Integer.IsGreater(VideoPlayer.PlaylistPosition,1) + Integer.IsGreater(VideoPlayer.PlaylistLength,1)">special://skin/extras/icons/backward-step.png</value>
@@ -21,6 +16,11 @@
     <variable name="Image_Reviews">
         <value condition="!String.IsEmpty(ListItem.Property(special_icon))">$INFO[ListItem.Property(special_icon)]</value>
         <value>special://skin/extras/icons/comment.png</value>
+    </variable>
+    
+    <variable name="Image_VolumeIcon">
+        <value condition="Player.Muted">special://skin/extras/icons/volume-xmark.png</value>
+        <value>special://skin/extras/icons/volume-low.png</value>
     </variable>
     
      <variable name="Image_SearchDiscover">
@@ -76,6 +76,13 @@
         <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10038])">special://skin/extras/icons/settings-advanced.png</value>
         <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10037])">special://skin/extras/icons/settings-standard.png</value>
         <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10036])">special://skin/extras/icons/settings-basic.png</value>
+    </variable>
+    
+    <variable name="Image_SkinSettings_Level">
+        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),3)">special://skin/extras/icons/settings-expert.png</value>
+        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),2)">special://skin/extras/icons/settings-advanced.png</value>
+        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),1)">special://skin/extras/icons/settings-standard.png</value>
+        <value>special://skin/extras/icons/settings-basic.png</value>
     </variable>
 
     <variable name="Image_SkinVariables_FilterName">
@@ -152,7 +159,7 @@
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original))">$INFO[Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original)]</value>
     </variable>
 
-    <variable name="Image_ContextClearlogo">
+    <variable name="Image_ContextClearLogo">
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_clearlogo))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_clearlogo)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage.Original))">$INFO[Window(Home).Property(TMDbHelper.ListItem.CropImage.Original)]</value>
     </variable>
@@ -402,7 +409,7 @@
     </variable>
 
     <variable name="Image_Background_Overlay">
-        <value condition="!String.ISEmpty(Window(Home).Property(TMDbHelper.ListItem.BlurImage)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/extras/backgrounds/blur/purple_blur.jpg)">background/combined_overlay.png</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.BlurImage)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.BlurImage.Original),special://skin/extras/backgrounds/blur/purple_blur.jpg)">background/combined_overlay.png</value>
         <value>background/combined_flixart.png</value>
     </variable>
 
@@ -417,6 +424,7 @@
     </variable>
 
     <variable name="Image_StartUp">
+        <value condition="Weather.IsFetched + !String.IsEmpty(Weather.FanartCode) + System.HasAddon(resource.images.weatherfanart.multi) + [String.IsEmpty(Skin.String(Startup.ImageFolder)) | Skin.String(Startup.ImageFolder,special://skin/extras/backgrounds/launch/)]">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</value>
         <value condition="!String.IsEmpty(Skin.String(Startup.ImageFolder))">$INFO[Skin.String(Startup.ImageFolder)]</value>
         <value>special://skin/extras/backgrounds/launch/</value>
     </variable>
@@ -725,7 +733,7 @@
         <value condition="!String.IsEmpty(ListItem.Property(Item.Info)) + !String.IsEmpty(ListItem.DBID) + !Skin.HasSetting(Indicator.DisableLibrary)">indicator/library.png</value>
         <value condition="ListItem.IsCollection + !Skin.HasSetting(Indicator.DisableCollection)">indicator/movieset.png</value>
         <value condition="ListItem.IsFolder">indicator/folder.png</value>
-        <value condition="!String.ISEmpty(ListItem.DBID)">indicator/library.png</value>
+        <value condition="!String.IsEmpty(ListItem.DBID)">indicator/library.png</value>
         <value>indicator/dot.png</value>
     </variable>
 

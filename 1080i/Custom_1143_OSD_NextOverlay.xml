@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1143">
 
-    <defaultcontrol always="true">6002</defaultcontrol>
+    <defaultcontrol always="true">6003</defaultcontrol>
 
     <controls>
 
         <control type="group">
             <include>OSD_HideControls</include>
-            <include>Animation_OSD_Seekbar_Expand</include>
             <control type="list" id="513">
                 <left>-1920</left>
                 <width>1</width>
@@ -37,10 +36,16 @@
                     <width>view_landscape_item_w</width>
                     <control type="group">
                         <include>Object_ItemBack</include>
-                        <control type="image">
-                            <texture background="true" diffuse="diffuse/landscape_w380_h214.png">$VAR[Image_OSD_UpNext_Playlist_Landscape]</texture>
+                        <include content="Object_Control" condition="!Skin.String(Home.SideMenuCollapse,Never)">
+                            <param name="control">image</param>
+                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$VAR[Image_OSD_UpNext_Playlist_Landscape]</texture>
                             <aspectratio scalediffuse="false">keep</aspectratio>
-                        </control>
+                        </include>
+                        <include content="Object_Control" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                            <param name="control">image</param>
+                            <texture background="true" diffuse="diffuse/downsize/landscape_w380_h214.png">$VAR[Image_OSD_UpNext_Playlist_Landscape]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                        </include>
                         <control type="group">
                             <height>34</height>
                             <visible>!String.IsEmpty(Container(513).ListItem.Property(episode_type)) + Skin.HasSetting(Indicator.EpisodeTypeBanner)</visible>
@@ -107,7 +112,7 @@
             </control>
 
             <control type="group">
-                <left>view_side</left>
+                <left>view_pad</left>
                 <right>view_pad</right>
 
                 <visible>!Window.IsActive(DialogPlayerProcessInfo.xml)</visible>
@@ -116,7 +121,7 @@
                 <include content="OSD_CustomDialog_GroupList">
                     <param name="onclick">$VAR[Action_OSD_SkipNext]</param>
                     <param name="icon">$VAR[Image_OSD_SkipNext]</param>
-                    <param name="button_2">true</param>
+                    <param name="button_3">true</param>
 
                     <param name="onup">Close</param>
                     <param name="onup_02">SetFocus(8200)</param>

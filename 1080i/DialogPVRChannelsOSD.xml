@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
+    <zorder>0</zorder>
     <defaultcontrol always="true">11</defaultcontrol>
     <onload>CancelAlarm(osd_timeout,true)</onload>
     <include>Animation_OSD_Dialog_WindowChange</include>
@@ -9,7 +10,7 @@
             <include>OSD_Info_Dimensions</include>
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <control type="group">
-                <left>view_side</left>
+                <left>view_pad</left>
                 <right>view_pad</right>
                 <width>view_landscape_item_w</width>
                 <height>view_landscape_item_h</height>
@@ -31,58 +32,49 @@
                 <param name="id">11</param>
                 <include>OSD_List_Dimensions</include>
                 <onup>PreviousMenu</onup>
-                <onleft>4000</onleft>
-                <onright>SetFocus(11,0,absolute)</onright>
-                <onright>4000</onright>
-                <onback>SetFocus(11,0,absolute)</onback>
-                <onback>4000</onback>
+                <ondown>4000</ondown>
+            </include>
+            
+            <control type="button" id="4000">
+                <top>340</top>
+                <left>60</left>
+                <height>80</height>
+                <width>440</width>
+                <onup>11</onup>
+                <texturenofocus />
+                <onclick>NextChannelGroup</onclick>
+                <onclick>SetFocus(4000)</onclick>
+                <onright>NextChannelGroup</onright>
+                <onright>SetFocus(4000)</onright>
+                <onleft>PreviousChannelGroup</onleft>
+                <onleft>SetFocus(4000)</onleft>
+            </control>
+
+            <!-- Playing Icon and Details -->
+            <include content="OSD_Info_Tray">
+                <param name="icon">$INFO[Container(11).ListItem.Icon]</param>
+                <param name="role">$INFO[Container(11).ListItem.ChannelName]</param>
+                <param name="name">$INFO[VideoPlayer.ChannelGroup,$LOCALIZE[19141]: ,]</param>
+                <param name="text">$VAR[Label_Plot_C11]</param>
+                <param name="fallback_icon">-</param>
+                <param name="textcolor_top">panel_fg_90</param>
+                <param name="textcolor_sub">panel_fg_70</param>
+                <param name="visible">!Control.HasFocus(4000)</param>
+            </include>
+            <include content="OSD_Info_Tray">
+                <param name="icon">$INFO[Container(11).ListItem.Icon]</param>
+                <param name="role">$INFO[Container(11).ListItem.ChannelName]</param>
+                <param name="name">$INFO[VideoPlayer.ChannelGroup,$LOCALIZE[19141]: ,]</param>
+                <param name="text">$VAR[Label_Plot_C11]</param>
+                <param name="fallback_icon">-</param>
+                <param name="textcolor_top">$VAR[ColorSelected]</param>
+                <param name="textcolor_sub">$VAR[ColorSelected]</param>
+                <param name="visible">Control.HasFocus(4000)</param>
             </include>
 
-            <control type="group">
-                <height>60</height>
-                <centerbottom>20</centerbottom>
-                <left>view_side</left>
-                <right>view_pad</right>
-                <include content="Object_InfoCircle_Horizontal">
-                    <param name="icon">$INFO[Container(11).ListItem.Icon]</param>
-                    <param name="role">$INFO[Container(11).ListItem.ChannelName]</param>
-                    <param name="name">$INFO[VideoPlayer.ChannelGroup,$LOCALIZE[19141]: ,]</param>
-                    <param name="max">560</param>
-                    <param name="top_label_left">80</param>
-                    <param name="bottom_label_left">80</param>
-                </include>
-                <!-- Info Box -->
-                <control type="textbox">
-                    <top>-2</top>
-                    <left>480</left>
-                    <right>0</right>
-                    <label>$VAR[Label_Plot_C11]</label>
-                    <font>font_mini</font>
-                    <textcolor>panel_fg_70</textcolor>
-                </control>
-            </control>
-
-            <control type="grouplist" id="4000">
-                <top>-20</top>
-                <itemgap>0</itemgap>
-                <orientation>vertical</orientation>
-                <width>160</width>
-                <left>view_list</left>
-
-                <onright>SetFocus(11,0,absolute)</onright>
-                <onleft>SetFocus(11,9999,absolute)</onleft>
-
-                <include content="Dialog_Side_Button">
-                    <param name="id">01</param>
-                    <param name="baseid">4</param>
-                    <param name="label">$LOCALIZE[19141]</param>
-                    <param name="icon">special://skin/extras/icons/arrow-right-arrow-left.png</param>
-                    <param name="visible">true</param>
-                    <onclick>NextChannelGroup</onclick>
-                    <onclick>SetFocus(4000)</onclick>
-                </include>
-            </control>
-
+            <include content="OSD_Info_Viewline">
+                <param name="label">$LOCALIZE[31244]</param>
+            </include>
         </control>
     </controls>
 </window>

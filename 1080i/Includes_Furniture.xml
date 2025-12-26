@@ -9,7 +9,7 @@
         <param name="textcolor_sublabel">main_fg_70</param>
         <param name="shadowcolor_sublabel">main_bg_12</param>
         <param name="include_topbar_animation">$EXP[Exp_HomeMenu_IsTopBar]</param>
-        <param name="clock">!String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft)) + !Skin.HasSetting(Furniture.DisableLeftHeader)</param>
+        <param name="clock">!String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft)) + Skin.HasSetting(Furniture.EnableLeftHeader)</param>
         <param name="include_left_datelabel">true</param>
         <definition>
             <include content="_Furniture_Top" condition="$PARAM[enabled]">
@@ -30,16 +30,16 @@
             <include condition="$PARAM[include_topbar_animation]">Animation_View_Topbar</include>
             <control type="group">
                 <include>Dimension_Furniture_Gutters</include>
-                <animation effect="slide" start="0" end="0,-15" condition="!$EXP[Exp_SettingsDialogs] + !Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | $PARAM[clock]]">Conditional</animation>
+                <animation effect="slide" start="0" end="0,-15" condition="!Skin.HasSetting(Furniture.EnableClock) + [$PARAM[clock]]">Conditional</animation>
                 <include content="Furniture_MainLabel">
                     <param name="id">$PARAM[id]</param>
                     <param name="textcolor">$PARAM[textcolor]</param>
                     <param name="label">$PARAM[label]</param>
                 </include>
-                <include content="Furniture_DateLabel" condition="$PARAM[include_left_datelabel]">
+                <include content="Furniture_DateLabel">
                     <param name="textcolor">$PARAM[textcolor_sublabel]</param>
                     <param name="shadowcolor">$PARAM[shadowcolor_sublabel]</param>
-                    <param name="visible">!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | $PARAM[clock]]</param>
+                    <param name="visible">$PARAM[include_left_datelabel] + !Skin.HasSetting(Furniture.EnableClock) + [$PARAM[clock]]</param>
                 </include>
             </control>
         </control>
@@ -104,6 +104,26 @@
         </control>
     </include>
     
+    <include name="CustomShutdownTimer_Furniture_Top_Right">
+        <control type="group">
+            <include condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">Furniture_Right_SlidingFade</include>
+            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))">
+                <param name="top">80</param>
+            </include>
+            <include content="Furniture_Busy">
+                <param name="hasprogress">false</param>
+                <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
+                <param name="icon">special://skin/extras/icons/timer.png</param>
+                <param name="mainlabel">$INFO[System.AlarmPos(shutdowntimer)]</param>
+                <param name="minilabel">[CAPITALIZE]$LOCALIZE[20144][/CAPITALIZE]</param>
+                <param name="haslabel">True</param>
+                <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
+                <param name="visible">System.HasAlarm(shutdowntimer)</param>
+                <param name="flipspinner">false</param>
+            </include>
+        </control>
+    </include>
+    
     <include name="Furniture_Bottom_WidgetGroups">
         <param name="label">$VAR[Label_NextWidget]</param>
         <param name="icon">$VAR[Image_NextWidget]</param>
@@ -145,6 +165,29 @@
                 </control>
             </control>
         </control>
+    </include>
+    
+    <include name="Furniture_Line_Divider_left">
+        <left>0</left>
+        <texture colordiffuse="main_fg_12" flipx="true">common/gradient-box.png</texture>
+    </include>
+    <include name="Furniture_Line_Divider_right">
+        <right>0</right>
+        <texture colordiffuse="main_fg_12" flipx="false">common/gradient-box.png</texture>
+    </include>
+
+    <include name="Furniture_Line_Divider">
+        <param name="align">left</param>
+        <param name="width">720</param>
+        <param name="centerbottom">25</param>
+        <definition>
+            <control type="image">
+                <height>1</height>
+                <centerbottom>$PARAM[centerbottom]</centerbottom>
+                <width>$PARAM[width]</width>
+                <include>Furniture_Line_Divider_$PARAM[align]</include>
+            </control>
+        </definition>
     </include>
 
     <include name="Furniture_NowPlaying">
@@ -199,23 +242,15 @@
             <control type="group">
                 <height>80</height>
                 <centertop>50%</centertop>
-                <include content="Furniture_NowPlaying_Text">
-                    <param name="title_w">240</param>
-                    <param name="sublabel_music_w">115</param>
-                    <param name="sublabel_video_w">62</param>
-                    <param name="visible">$EXP[Exp_ScrollbarVisible_H]</param>
-                </include>
-                <include content="Furniture_NowPlaying_Text">
-                    <param name="visible">!$EXP[Exp_ScrollbarVisible_H]</param>
-                </include>
+                <include>Furniture_NowPlaying_Text</include>
             </control>
         </control>
     </include>
 
     <include name="Furniture_NowPlaying_Text">
-        <param name="title_w">360</param>
-        <param name="sublabel_music_w">235</param>
-        <param name="sublabel_video_w">182</param>
+        <param name="title_w">720</param>
+        <param name="sublabel_music_w">720</param>
+        <param name="sublabel_video_w">720</param>
         <param name="visible">true</param>
         <definition>
             <control type="group">
@@ -232,14 +267,19 @@
                 <control type="grouplist">
                     <orientation>horizontal</orientation>
                     <align>right</align>
-                    <itemgap>7</itemgap>
+                    <itemgap>8</itemgap>
                     <visible>!Player.HasVideo</visible>
+                    <include content="Furniture_Line_Divider">
+                        <param name="align">right</param>
+                        <param name="width">320</param>
+                    </include>
                     <include content="Object_InfoCircle_Text_Sub">
-                        <param name="font">font_tiny_bold</param>
+                        <param name="font">font_hint_bold</param>
                         <label>$VAR[Label_NowPlayingSubLabel]</label>
                         <width max="$PARAM[sublabel_music_w]">auto</width>
                     </include>
                     <include content="Object_InfoCircle_Text_Sub">
+                        <param name="font">font_hint</param>
                         <label>$INFO[Player.Time(mm:ss)][COLOR=$VAR[ColorHighlight]][B] | [/B][/COLOR]$INFO[Player.Duration(mm:ss)]</label>
                         <width>auto</width>
                         <align>right</align>
@@ -248,10 +288,14 @@
                 <control type="grouplist">
                     <orientation>horizontal</orientation>
                     <align>right</align>
-                    <itemgap>7</itemgap>
+                    <itemgap>8</itemgap>
                     <visible>Player.HasVideo</visible>
+                    <include content="Furniture_Line_Divider">
+                        <param name="align">right</param>
+                        <param name="width">320</param>
+                    </include>
                     <include content="Object_InfoCircle_Text_Sub">
-                        <param name="font">font_tiny_bold</param>
+                        <param name="font">font_hint_bold</param>
                         <label>$VAR[Label_NowPlayingSubLabel]</label>
                         <width max="$PARAM[sublabel_video_w]">auto</width>
                     </include>
@@ -313,10 +357,10 @@
     </include>
     
     <include name="Furniture_DateLabel_TopRight">
-    <param name="font_top">font_mini_bold</param>
+    <param name="font_top">font_midi_bold</param>
     <param name="font_bottom">font_tiny</param>
     <param name="info_hide">false</param>
-    <param name="visible">!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
+    <param name="visible">!Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))</param>
         <definition>            
             <control type="group">
                 <top>view_pad</top>
@@ -333,9 +377,9 @@
                     <control type="label">
                         <align>right</align>
                         <width>auto</width>
-                        <font>font_main_bold</font>
+                        <font>font_midi_bold</font>
                         <label>$INFO[System.Time]</label>
-                        <textcolor>main_fg_70</textcolor>
+                        <textcolor>main_fg_90</textcolor>
                         <shadowcolor>main_bg_12</shadowcolor>
                         <centerbottom>25%</centerbottom>
                         <height>40</height>
@@ -524,6 +568,7 @@
                 </include>
                 <include content="Object_InfoCircle_Text_Sub">
                     <param name="id">$PARAM[minilabel_id]</param>
+                    <param name="font">font_hint_bold</param>
                     <label>$PARAM[minilabel]</label>
                     <textcolor>dialog_fg_70</textcolor>
                 </include>
@@ -536,20 +581,30 @@
             <control type="group">
                 <left>20</left>
                 <right>100</right>
+                <control type="grouplist">
+                    <orientation>horizontal</orientation>
+                    <align>right</align>
+                    <itemgap>8</itemgap>
+                    <include content="Furniture_Line_Divider">
+                        <param name="align">right</param>
+                        <param name="width">320</param>
+                    </include>
+                    <control type="label" id="$PARAM[minilabel_id]">
+                        <include>Dimension_Object_InfoCircle_Text_Sub</include>
+                        <font>font_hint_bold</font>
+                        <align>right</align>
+                        <label>$PARAM[minilabel]</label>
+                        <shadowcolor>main_bg_12</shadowcolor>
+                        <textcolor>main_fg_70</textcolor>
+                        <width>auto</width>
+                    </control>
+                </control>
                 <control type="label" id="$PARAM[mainlabel_id]">
                     <include>Dimension_Object_InfoCircle_Text_Top</include>
                     <font>font_mini_bold</font>
                     <align>right</align>
                     <label>$PARAM[mainlabel]</label>
                     <textcolor>main_fg_100</textcolor>
-                </control>
-                <control type="label" id="$PARAM[minilabel_id]">
-                    <include>Dimension_Object_InfoCircle_Text_Sub</include>
-                    <font>font_tiny</font>
-                    <align>right</align>
-                    <label>$PARAM[minilabel]</label>
-                    <shadowcolor>main_bg_12</shadowcolor>
-                    <textcolor>main_fg_70</textcolor>
                 </control>
             </control>
         </definition>

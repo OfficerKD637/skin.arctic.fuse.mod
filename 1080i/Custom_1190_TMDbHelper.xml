@@ -19,30 +19,13 @@
 
             <control type="group">
                 <left>-120</left>
-                <include content="Furniture_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                      <param name="include_topbar_animation">False</param>
                 </include>
             </control>        
             <control type="group">
-                <include condition="Skin.HasSetting(Furniture.DisableLeftHeader)">Furniture_DateLabel_TopRight</include>
-                <!-- Custom Shutdown Timer -->
-                <control type="group">
-                    <include condition="![Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]]">Furniture_Right_SlidingFade</include>
-                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + [!Skin.HasSetting(Furniture.EnableClock) + [Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml) | !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
-                        <param name="top">80</param>
-                    </include>
-                    <include content="Furniture_Busy">
-                        <param name="hasprogress">false</param>
-                        <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                        <param name="icon">special://skin/extras/icons/timer.png</param>
-                        <param name="mainlabel">$INFO[System.AlarmPos(shutdowntimer)]</param>
-                        <param name="minilabel">[CAPITALIZE]$LOCALIZE[20144][/CAPITALIZE]</param>
-                        <param name="haslabel">True</param>
-                        <param name="hasbackground">Skin.HasSetting(ToastNotifications.Tabbed)</param>
-                        <param name="visible">System.HasAlarm(shutdowntimer)</param>
-                        <param name="flipspinner">false</param>
-                    </include>
-                </control>
+                <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">Furniture_DateLabel_TopRight</include>
+                <include>CustomShutdownTimer_Furniture_Top_Right</include>
             </control>
             <control type="group">
                 <bottom>-40</bottom>
@@ -57,18 +40,26 @@
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
-            <top>79</top>
+            <top>80</top>
             <left>-120</left>
             <include content="Widget_Busy">
                 <param name="label">$LOCALIZE[19033]</param>
-                <param name="visible">True</param>
+                <param name="visible">String.IsEmpty(Skin.String(InfoDialog.Layout))</param>
                 <param name="include">List_Button_Row_VideoInfo</param>
                 <left>200</left>
                 <top>504</top>
             </include>
+            <control type ="group">
+                <visible>[Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]</visible>
+                <height>768</height>
+                <width>480</width>
+                <bottom>160</bottom>
+                <right>80</right>
+                <include>Object_ItemBack</include>
+            </control>
             <control type="group">
-                <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
-                    <param name="top">-79</param>    
+                <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">-80</param>    
                 </include>                
                 <include content="Info_Panel">
                     <top>view_pad</top>

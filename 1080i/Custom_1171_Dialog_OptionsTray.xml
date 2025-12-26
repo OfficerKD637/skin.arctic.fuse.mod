@@ -21,10 +21,10 @@
             <include>Animation_Group_Bumper</include>
             <include>Animation_View_SlideOver</include>
             <control type="group">
-                <left>180</left>
+                <width>720</width>
                 <height>80</height>
+                <centerleft>59%</centerleft>
                 <centerbottom>100</centerbottom>
-                <width>700</width>
                 <control type="list" id="9000">
                     <onup>Close</onup>
                     <focusposition>2</focusposition>
@@ -35,13 +35,13 @@
                     <ondown>SetFocus(330)</ondown>
 
                     <itemlayout width="100" height="80">
-                        <include content="Layout_OptionTray">
+                        <include content="Layout_OptionTray_Expanded">
                             <param name="selected">false</param>
                         </include>
                     </itemlayout>
 
                     <focusedlayout width="100" height="80">
-                        <include content="Layout_OptionTray">
+                        <include content="Layout_OptionTray_Expanded">
                             <param name="selected">true</param>
                         </include>
                     </focusedlayout>
@@ -53,22 +53,28 @@
                             <onclick>Dialog.Close(1171,true)</onclick>
                             <onclick>ActivateWindow(shutdownmenu)</onclick>
                             <visible>!Window.IsMedia</visible>
-                            <visible>!Window.IsVisible(1105)</visible>
                         </item>
                         <item>
                             <icon>special://skin/extras/icons/filter.png</icon>
                             <label>$LOCALIZE[587]</label>
                             <onclick>Dialog.Close(1171,true)</onclick>
-                            <onclick>AlarmClock(refocus,SetFocus(64),00:00,silent)</onclick>
-                            <visible>Window.IsMedia | Window.IsVisible(1105)</visible>
+                            <onclick>AlarmClock(refocus,SetFocus(19),00:00,silent)</onclick>
+                            <visible>Window.IsMedia</visible>
                         </item>
                     </content>
-
-                    <content>
-                        <include condition="[Player.HasMedia | Integer.IsGreater(Playlist.Length(video),0) | Integer.IsGreater(Playlist.Length(music),0)] + !Window.IsVisible(1170)">ButtonMenu_MediaControls</include>
-                    </content>
+                    
                     <content>
                         <include>skinvariables-options-tray-staticitems</include>
+                    </content>
+                    
+                    <content>
+                        <item>
+                            <label>$LOCALIZE[35232]</label>
+                            <icon>special://skin/extras/icons/fullscreen.png</icon>
+                            <onclick>Dialog.Close(all,true)</onclick>
+                            <onclick>Fullscreen</onclick>
+                            <visible>Player.HasMedia</visible>
+                        </item>
                     </content>
 
                 </control>

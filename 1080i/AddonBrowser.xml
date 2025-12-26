@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-    <defaultcontrol always="true">30030</defaultcontrol>
+    <defaultcontrol always="true">6000</defaultcontrol>
     <views>50</views>
     <menucontrol>30000</menucontrol>
     <include>Action_Blur_Onload</include>
@@ -29,14 +29,16 @@
                         <param name="altfocus">Control.HasFocus(50)</param>
                         <param name="width">settings_category_w</param>
                         <param name="control">fixedlist</param>
+                        <param name="textcolor">main_fg</param>
                         <focusposition>4</focusposition>
                         <movement>4</movement>
                         <onback>Action(PreviousMenu)</onback>
-                        <onleft>30000</onleft>
+
                         <onright condition="String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.FolderPath],replace)</onright>
                         <onright condition="!String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.Property(folderpath)],replace)</onright>
                         <onright>50</onright>
-                        <left>60</left>
+                        <onclick condition="String.IsEmpty(Container(6000).ListItem.Property(skipupdate))">SendClick(9)</onclick>
+                        <left>40</left>
                         <right>-100</right>
                         <top>180</top>
                         <bottom>180</bottom>
@@ -68,8 +70,16 @@
                                 <icon>DefaultScript.png</icon>
                             </item>
                             <item>
+                                <label>$LOCALIZE[31375]</label>
+                                <property name="folderpath">addons://user/</property>
+                                <property name="skipupdate">true</property>
+                                <icon>DefaultAddonsZip.png</icon>
+                                <onclick>InstallFromZip</onclick>
+                            </item>
+                            <item>
                                 <label>$LOCALIZE[137]</label>
                                 <property name="folderpath">addons://user/</property>
+                                <property name="skipupdate">true</property>
                                 <icon>DefaultAddonsSearch.png</icon>
                                 <onclick>SetFocus(50)</onclick>
                                 <onclick>Container.Update(addons://search/,replace)</onclick>
@@ -89,6 +99,7 @@
                         <param name="itemlayout_w">view_addonbrowser_itemlayout_w</param>
                         <param name="variation">true</param>
                         <param name="icon">$VAR[Image_AddonStatus]</param>
+                        <param name="textcolor">main_fg</param>
                         <onback condition="String.IsEqual(Container.FolderPath,Container(6000).ListItem.FolderPath) | String.IsEqual(Container.FolderPath,addons://user/) | String.IsEqual(Container.FolderPath,addons://)">6000</onback>
                         <onleft>6000</onleft>
                         <onright>60</onright>
@@ -103,9 +114,9 @@
 
 
                     <control type="scrollbar" id="60">
-                        <centerright>-60</centerright>
-                        <bottom>0</bottom>
-                        <top>0</top>
+                        <centerright>-20</centerright>
+                        <bottom>20</bottom>
+                        <top>20</top>
                         <width>scrollbar_w</width>
                         <orientation>vertical</orientation>
                         <texturesliderbackground colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texturesliderbackground>
@@ -114,16 +125,7 @@
                         <onleft>50</onleft>
                     </control>
                 </include>
-                <include content="Settings_InfoText">
-                    <param name="id">9091</param>
-                    <param name="dialog">true</param>
-                    <param name="left">80</param>
-                    <param name="bottom">60</param>
-                </include>
-            </include>
-
-            <include content="Settings_Changer">
-                <onup>6000</onup>
+                <include>Settings_InfoText</include>
             </include>
 
         </include>

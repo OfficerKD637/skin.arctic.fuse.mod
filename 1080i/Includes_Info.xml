@@ -76,19 +76,19 @@
     <include name="Info_Title_Logo">
         <param name="titlelargelogo">true</param>
         <definition>
-            <include content="Info_Title_Label" condition="!Skin.HasSetting(Furniture.DisableLeftHeader) + $PARAM[titlelargelogo]">
+            <include content="Info_Title_Label" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[titlelargelogo]">
                 <param name="label">$PARAM[label]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="height">120</param>
                 <param name="visible">![$PARAM[mainlogo_visible]]</param>
             </include>
-            <include content="Info_Title_Label" condition="Skin.HasSetting(Furniture.DisableLeftHeader) | [!Skin.HasSetting(Furniture.DisableLeftHeader) + !$PARAM[titlelargelogo]]">
+            <include content="Info_Title_Label" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) | [Skin.HasSetting(Furniture.EnableLeftHeader) + !$PARAM[titlelargelogo]]">
                 <param name="label">$PARAM[label]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="height">140</param>
                 <param name="visible">![$PARAM[mainlogo_visible]]</param>
             </include>
-            <include content="Object_Control" condition="!Skin.HasSetting(Furniture.DisableLeftHeader) + $PARAM[titlelargelogo]">
+            <include content="Object_Control" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[titlelargelogo]">
                 <param name="control">group</param>
                 <width>640</width>
                 <height>120</height>
@@ -100,7 +100,7 @@
                     <texture background="true">$PARAM[mainlogo_texture]</texture>
                 </control>
             </include>
-            <include content="Object_Control" condition="Skin.HasSetting(Furniture.DisableLeftHeader) | [!Skin.HasSetting(Furniture.DisableLeftHeader) + !$PARAM[titlelargelogo]]">
+            <include content="Object_Control" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) | [Skin.HasSetting(Furniture.EnableLeftHeader) + !$PARAM[titlelargelogo]]">
                 <param name="control">group</param>
                 <width>640</width>
                 <height>140</height>
@@ -124,23 +124,23 @@
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>
-                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <include content="Object_Height" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                     <param name="height">120</param>
                 </include>
-                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
                     <param name="height">140</param>
                 </include>
                 <nested />
                 <control type="group">
                     <right>80</right>
                     <!-- Title Only -->
-                    <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop) + !Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop) + Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="label">$PARAM[label]</param>
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="height">120</param>
                         <param name="visible">True</param>
                     </include>
-                    <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop) + Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Info_Title_Label" condition="!Skin.HasSetting(TMDbHelper.EnableCrop) + !Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="label">$PARAM[label]</param>
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="height">140</param>
@@ -189,7 +189,7 @@
             <nested />
         </control>
     </include>
-    
+
     <include name="Info_Line_Pillbox">
         <include content="Info_Line_Pillbox_Object" condition="![Window.IsActive(VideoFullScreen.xml) | Window.IsActive(MusicVisualisation.xml)]">
             <param name="colordiffuse">main_fg_30</param>
@@ -435,7 +435,7 @@
     </include>
 
     <include name="Info_Line_Rating">
-        <param name="font">font_mini_bold</param>
+        <param name="font">font_main_bold</param>
         <param name="iconcolor">main_fg_90</param>
         <param name="textcolor">main_fg_70</param>
         <param name="icon_w">32</param>
@@ -692,6 +692,56 @@
             </include>
         </definition>
     </include>
+    
+    <include name="Info_Line_Rating_EndTime_Item">
+        <param name="is_player">false</param>
+        <param name="visible_special">true</param>
+        <definition>
+            <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume),$LOCALIZE[31184] ,]</param>
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
+                <param name="icon_centertop">50%</param>
+                <param name="visible">$PARAM[visible_special] + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),video)] + !String.IsEqual(ListItem.Property(tmdb_type),person) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume),System.Time)</param>
+            </include>
+            <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_starttime)]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_endtime), - ,]</param>
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
+                <param name="icon_centertop">50%</param>
+                <param name="visible">$PARAM[visible_special] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_starttime)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))</param>
+            </include>
+            <include content="Info_Line_Rating" condition="$PARAM[is_player]">
+                <param name="label">$INFO[Player.FinishTime,$LOCALIZE[31184] ,]</param>
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
+                <param name="icon_centertop">50%</param>
+                <param name="visible">$PARAM[visible_special] + !String.IsEmpty(Player.FinishTime) + !VideoPlayer.Content(livetv) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]</param>
+            </include>
+            <include content="Info_Line_Rating" condition="$PARAM[is_player]">
+                <param name="label">$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime,  -  ,]</param>
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
+                <param name="icon_centertop">50%</param>
+                <param name="visible">$PARAM[visible_special] + VideoPlayer.Content(livetv) + !String.IsEmpty(VideoPlayer.StartTime)</param>
+            </include>
+        </definition>
+    </include>
+    <include name="Info_Line_Rating_EndTime">
+        <param name="is_player">false</param>
+        <param name="is_special">false</param>
+        <definition>    
+            <include content="Info_Line_Rating_EndTime_Item" condition="![$PARAM[is_special]]">
+                <param name="is_player">$PARAM[is_player]</param>
+            </include>
+            
+            <include content="Info_Line_Rating_EndTime_Item" condition="$PARAM[is_special]">
+                <param name="is_player">false</param>
+                <param name="visible_special">![[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]</param>
+            </include>
+            
+            <include content="Info_Line_Rating_EndTime_Item" condition="$PARAM[is_special]">
+                <param name="is_player">true</param>
+                <param name="visible_special">[[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]</param>
+            </include>
+        </definition>
+    </include>
 
     <include name="Info_Ratings_Items">
         <include content="Info_Line_Rating_Kodi" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],Kodi)">
@@ -757,14 +807,14 @@
         <param name="visible_tvshows">true</param>
         <definition>
             <include content="Info_Ratings_Items" condition="![$PARAM[is_player]]">
-                <param name="visible">[$PARAM[visible_movies] + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),set)] | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShowTitle)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_tvshowtitle))]]]</param>
+                <param name="visible">$PARAM[visible_movies] + [[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),set)] | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShowTitle)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_tvshowtitle))]]]</param>
                 <param name="content">Movies</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="container">$PARAM[container]</param>
                 <param name="is_player">$PARAM[is_player]</param>
             </include>
             <include content="Info_Ratings_Items" condition="![$PARAM[is_player]]">
-                <param name="visible">[$PARAM[visible_tvshows] + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode)] | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + ![String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShowTitle)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_tvshowtitle))]]]</param>
+                <param name="visible">$PARAM[visible_tvshows] + [[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season)] | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + ![String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShowTitle)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_tvshowtitle))]]]</param>
                 <param name="content">TVShows</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="container">$PARAM[container]</param>
@@ -809,6 +859,7 @@
 
     <include name="Info_Ratings">
         <param name="is_player">false</param>
+        <param name="is_special">false</param>
         <definition>
             <control type="grouplist">
 
@@ -852,6 +903,12 @@
                     <param name="is_player">$PARAM[is_player]</param>
                     <param name="visible_movies">!Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)</param>
                     <param name="visible_tvshows">Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)</param>
+                </include>
+                
+                <include content="Info_Line_Rating_EndTime">
+                    <param name="container">$PARAM[container]</param>
+                    <param name="is_player">$PARAM[is_player]</param>
+                    <param name="is_special">$PARAM[is_special]</param>
                 </include>
 
                 <include content="Info_Line_Rating_Status" condition="!Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus) | Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)">
@@ -1018,7 +1075,7 @@
     </variable>
 
     <include name="Info_Viewline">
-        <param name="label">$VAR[Label_Section_Main]</param>
+        <param name="label">$VAR[Label_Section_Main]$VAR[Label_Section_SortMethod, [COLOR=main_fg_30]&gt;[/COLOR] ,]</param>
         <param name="primary_visible">[true]</param>
         <param name="item_condition">false</param>
         <param name="item_count">$VAR[Label_Info_ViewLine_NumItems]</param>
@@ -1031,8 +1088,6 @@
         <param name="top">520</param>
         <param name="left">view_side</param>
         <param name="right">view_pad</param>
-        <param name="top_padding">false</param>
-        <param name="top_padding_info">false</param>
         <definition>
 
             <control type="group">
@@ -1051,19 +1106,10 @@
                         <param name="textcolor_base">$PARAM[textcolor_base]</param>
                         <visible>$PARAM[primary_visible]</visible>
                     </include>
-                    <include content="Info_Viewline_Icon" condition="$EXP[Exp_InfoDialogs] + !Skin.HasSetting(Info.UseLocalCast)">
-                        <param name="icon_enabled">special://skin/extras/icons/arrow-right.png</param>
-                        <param name="icon_disabled">special://skin/extras/icons/arrow-right.png</param>
-                        <param name="bordersize">-4</param>
-                        <include content="Object_Top" condition="$PARAM[top_padding_info]">
-                            <param name="top">-2</param>
-                        </include>
-                        <visible>String.IsEqual(Window.Property(DetailsView),Cast) + ![Control.HasFocus(5003) | Control.HasFocus(5504) | Control.HasFocus(514) | Control.HasFocus(515)]</visible>
-                    </include>
-                    <include content="Info_Viewline_Label" condition="$EXP[Exp_InfoDialogs] + !Skin.HasSetting(Info.UseLocalCast)">
-                        <label>$VAR[Label_Info_CastCrew]</label>
-                        <param name="textcolor_base">dialog_fg_50</param>
-                        <visible>String.IsEqual(Window.Property(DetailsView),Cast) + ![Control.HasFocus(5003) | Control.HasFocus(5504) | Control.HasFocus(514) | Control.HasFocus(515)]</visible>
+                    <include content="Info_Viewline_Label" condition="Window.IsVisible(movieinformation) + !Skin.HasSetting(Info.UseLocalCast)">
+                        <label>$LOCALIZE[206]   $LOCALIZE[31050]</label>
+                        <param name="textcolor_base">00ffffff</param>
+                        <visible>String.IsEqual(Window.Property(DetailsView),Cast) + [Control.HasFocus(5503) | Control.HasFocus(5505)]</visible>
                     </include>
                     
                     <include content="Info_Viewline_Icon" condition="$PARAM[item_condition]">
@@ -1071,29 +1117,17 @@
                         <param name="icon_disabled">special://skin/extras/icons/rotate.png</param>
                         <param name="run_spinner">true</param>
                         <param name="bordersize">-12</param>
-                        <include content="Object_Top" condition="$PARAM[top_padding]">
-                            <param name="top">-3</param>
-                        </include>
-                        <include content="Object_Top" condition="$PARAM[top_padding_info]">
-                            <param name="top">-2</param>
-                        </include>
                         <visible>$PARAM[item_updating]</visible>
                     </include>
 
                     <include content="Info_Viewline_Icon" condition="$PARAM[item_condition] + ![$PARAM[library_condition]] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
                         <param name="icon_enabled">special://skin/extras/icons/layer-group.png</param>
                         <param name="icon_disabled">special://skin/extras/icons/layer-group.png</param>
-                        <include content="Object_Top" condition="$PARAM[top_padding]">
-                            <param name="top">-3</param>
-                        </include>
                     </include>
 
                     <include content="Info_Viewline_Icon" condition="$PARAM[item_condition] + $PARAM[library_condition] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
                         <param name="icon_enabled">$VAR[Info_Viewline_ItemsIcon]</param>
                         <param name="icon_disabled">$VAR[Info_Viewline_ItemsIcon]</param>
-                        <include content="Object_Top" condition="$PARAM[top_padding]">
-                            <param name="top">-3</param>
-                        </include>
                     </include>
 
                     <include content="Info_Viewline_Label" condition="$PARAM[item_condition] + Skin.HasSetting(Furniture.EnableViewLineIcons)">
@@ -1102,24 +1136,15 @@
                         <left>-10</left>
                         <label>$PARAM[item_count]</label>
                         <param name="textcolor_base">$PARAM[textcolor_base]</param>
-                        <include content="Object_Top" condition="$PARAM[top_padding]">
-                            <param name="top">-3</param>
-                        </include>
                     </include>
 
                     <include content="Info_Viewline_Icon" condition="$PARAM[custom_icon_condition]">
                         <param name="icon_enabled">$PARAM[custom_icon]</param>
                         <param name="icon_disabled">$PARAM[custom_icon]</param>
-                        <include content="Object_Top" condition="$PARAM[top_padding]">
-                            <param name="top">-3</param>
-                        </include>
                     </include>
 
                     <include content="Info_Viewline_Label" condition="$PARAM[custom_label_condition]">
                         <label>$PARAM[custom_label]</label>
-                        <include content="Object_Top" condition="$PARAM[top_padding]">
-                            <param name="top">-3</param>
-                        </include>
                     </include>
 
                     <orientation>horizontal</orientation>
@@ -1626,7 +1651,7 @@
 
                 <!-- MPAA -->
                 <include content="Info_Line_Items">
-                    <include content="Info_Line_Visible_03" condition="Skin.HasSetting(InfoLine.EndTime)">
+                    <include content="Info_Line_Visible_03">
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">movie</param>
                         <param name="dbtype_02">tvshow</param>
@@ -1643,7 +1668,7 @@
                 </include>
 
                 <!-- Genres -->
-                <include content="Info_Line_Items" condition="!Skin.HasSetting(InfoLine.EndTime)">
+                <include content="Info_Line_Items">
                     <include content="Info_Line_Visible_03">
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">movie</param>
@@ -1718,41 +1743,23 @@
                     <param name="visible_03">String.IsEmpty($PARAM[container]ListItem.Duration) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_duration)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Duration)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration),0) + !Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Duration_H),0)</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
-
-                 <!-- End Time -->
-                <include content="Info_Line_Items" condition="Skin.HasSetting(InfoLine.EndTime)">
-                    <include content="Info_Line_Visible_05">
-                        <param name="container">$PARAM[container]</param>
-                        <param name="dbtype_01">movie</param>
-                        <param name="dbtype_02">tvshow</param>
-                        <param name="dbtype_03">season</param>
-                        <param name="dbtype_04">episode</param>
-                        <param name="dbtype_05">video</param>
-                    </include>
-                    <param name="items_03">true</param>
-                    <param name="label_01">$INFO[$PARAM[container]ListItem.EndTimeResume,$LOCALIZE[31184] ,]</param>
-                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume),$LOCALIZE[31184] ,]</param>
-                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.EndTimeResume) + !String.IsEqual($PARAM[container]ListItem.EndTimeResume,System.Time)</param>
-                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume),System.Time)</param>
-                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
-                </include>
                 
                 <!-- Number of Seasons -->
                 <include content="Info_Line_Items">
-                    <visible>![$EXP[Exp_View_WallMode] + Skin.HasSetting(View.SwitchWallStyle)]</visible>
                     <include content="Info_Line_Visible_01">
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">tvshow</param>
                     </include>
                     <param name="items_04">true</param>
                     <param name="label_01">$INFO[$PARAM[container]ListItem.Property(TotalSeasons),, $LOCALIZE[20373]]</param>
-                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.Season),, $LOCALIZE[20373]]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.TotalSeasons),, $LOCALIZE[20373]]</param>
                     <param name="label_03">$INFO[$PARAM[container]ListItem.Property(TotalSeasons),, $LOCALIZE[33054]]</param>
-                    <param name="label_04">$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.Season),, $LOCALIZE[33054]]</param>
+                    <param name="label_04">$INFO[Window(Home).Property(TMDbHelper.ListItem.TotalSeasons),, $LOCALIZE[33054]]</param>
                     <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Property(TotalSeasons)) + Integer.IsEqual($PARAM[container]ListItem.Property(TotalSeasons),1)</param>
-                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.Season)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.Season),1)</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TotalSeasons)) + Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.TotalSeasons),1)</param>
                     <param name="visible_03">!String.IsEmpty($PARAM[container]ListItem.Property(TotalSeasons)) + Integer.IsGreater($PARAM[container]ListItem.Property(TotalSeasons),1)</param>
-                    <param name="visible_04">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.Season)) + Integer.IsGreater(Window(Home).Property(TMDbHelper.ListItem.Monitor.Season),1)</param>  
+                    <param name="visible_04">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TotalSeasons)) + Integer.IsGreater(Window(Home).Property(TMDbHelper.ListItem.TotalSeasons),1)</param>  
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
                 
@@ -1825,6 +1832,24 @@
                 <include content="Info_Line_Item">
                     <param name="label">$INFO[$PARAM[container]ListItem.Size]</param>
                     <param name="visible">!String.IsEmpty($PARAM[container]ListItem.PicturePath) + !String.IsEmpty($PARAM[container]ListItem.Size)</param>
+                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                </include>
+                
+                <!-- Weather Info -->
+                <include content="Info_Line_Items">
+                    <param name="items_02">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.Property(CustomInfo01)]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_CustomInfo01)]</param>
+                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Property(CustomInfo01))</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_CustomInfo01))</param>
+                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                </include>
+                <include content="Info_Line_Items">
+                    <param name="items_02">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.Property(CustomInfo02)]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_CustomInfo02)]</param>
+                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Property(CustomInfo02))</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_CustomInfo02))</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
             </control>
@@ -3800,12 +3825,12 @@
         <definition>
             <include content="Info_Media_Content">
                 <param name="container">$PARAM[container]</param>
-                <param name="info_codecs">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.VideoCodec) | !String.IsEmpty($PARAM[container]ListItem.AudioCodec)] + Skin.HasSetting(Furniture.ProvidersCodecs) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
-                <param name="info_language">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.1)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.1))] + Skin.HasSetting(Furniture.ProvidersCodecs) + Skin.HasSetting(Furniture.LanguageFlags) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
-                <param name="info_musiccodecs">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [!String.IsEmpty($PARAM[container]ListItem.MusicChannels) | !String.IsEmpty($PARAM[container]ListItem.SampleRate)] + Skin.HasSetting(Furniture.ProvidersCodecs) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
-                <param name="info_watchedepisodes">[[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season)] + !Skin.HasSetting(Furniture.DisablePlayCounts) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
-                <param name="info_playcount">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
-                <param name="info_musicduration">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | [String.IsEqual($PARAM[container]ListItem.DBType,song) + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts)]] + !String.IsEmpty($PARAM[container]ListItem.Duration) + ![Window.IsVisible(1122) | Window.IsVisible(1121)]]</param>
+                <param name="info_codecs">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.VideoCodec) | !String.IsEmpty($PARAM[container]ListItem.AudioCodec)] + Skin.HasSetting(Furniture.ProvidersCodecs) + !Window.IsVisible(1121)]</param>
+                <param name="info_language">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.1)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.1))] + Skin.HasSetting(Furniture.ProvidersCodecs) + Skin.HasSetting(Furniture.LanguageFlags) + !Window.IsVisible(1121)]</param>
+                <param name="info_musiccodecs">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [!String.IsEmpty($PARAM[container]ListItem.MusicChannels) | !String.IsEmpty($PARAM[container]ListItem.SampleRate)] + Skin.HasSetting(Furniture.ProvidersCodecs) + !Window.IsVisible(1121)]</param>
+                <param name="info_watchedepisodes">[[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season)] + !Skin.HasSetting(Furniture.DisablePlayCounts) + !Window.IsVisible(1121)]</param>
+                <param name="info_playcount">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts) + !Window.IsVisible(1121)]</param>
+                <param name="info_musicduration">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | [String.IsEqual($PARAM[container]ListItem.DBType,song) + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts)]] + !String.IsEmpty($PARAM[container]ListItem.Duration) + !Window.IsVisible(1121)]</param>
             </include>
         </definition>
     </include>
@@ -3860,13 +3885,13 @@
         <definition>
             <control type="group">
                 <top>17</top>
-                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                <include content="Object_Height" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                     <param name="height">$PARAM[plotheight]</param>
                 </include>
-                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + ![$PARAM[plotautoheight]]">
+                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + ![$PARAM[plotautoheight]]">
                     <param name="height">$PARAM[plotheight]</param>
                 </include>
-                <include content="Object_Height" condition="Skin.HasSetting(Furniture.DisableLeftHeader) + $PARAM[plotautoheight]">
+                <include content="Object_Height" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[plotautoheight]">
                     <param name="height">163</param>
                 </include>                
                 <control type="textbox">
@@ -3891,11 +3916,11 @@
     </include>
     
      <include name="Info_Panel_Dimensions_FullSize">
-        <height>422</height>
-        <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+        <height>420</height>
+        <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
            <param name="top">view_top</param>   
         </include>
-        <include content="Object_Top" condition="Skin.HasSetting(Furniture.DisableLeftHeader)">
+        <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
             <param name="top">view_pad</param>  
         </include>
     </include>
@@ -3926,6 +3951,7 @@
         <param name="details_include">Items_Null</param>
         <param name="visible">true</param>
         <param name="is_player">false</param>
+        <param name="is_special">Player.HasVideo</param>
         <definition>
             <control type="group">
                 <nested />
@@ -3933,7 +3959,7 @@
                     <param name="condition">![$PARAM[visible]]</param>
                 </include>
                 <control type="grouplist">
-                    <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                    <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                         <param name="top">-34</param>    
                     </include>
                     <top>-20</top>
@@ -3950,6 +3976,8 @@
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="width">$PARAM[plotwidth]</param>
                         <param name="titlelargelogo">$PARAM[titlelargelogo]</param>
+                        <param name="mainlogo_visible">$PARAM[mainlogo_visible]</param>
+                        <param name="mainlogo_texture">$PARAM[mainlogo_texture]</param>
                     </include>
 
                     <!-- InfoLine -->
@@ -3975,6 +4003,7 @@
                             <include content="OSD_Info_Line" condition="!Skin.HasSetting(Info.DisableDetailsLine) + Player.HasVideo">
                                 <param name="osd_infoline_visible">[[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]</param>
                                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                                <param name="include_fakeinfo">true</param>
                             </include>    
                         </control>
                     </control>
@@ -3994,7 +4023,8 @@
                     <include content="Info_Ratings" condition="$PARAM[ratings]">
                         <param name="container">$PARAM[container]</param>
                         <param name="is_player">$PARAM[is_player]</param>
-                        <include content="Object_Top" condition="!Skin.HasSetting(Furniture.DisableLeftHeader)">
+                        <param name="is_special">$PARAM[is_special]</param>
+                        <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
                             <param name="top">4</param>
                         </include>
                         <top>10</top>

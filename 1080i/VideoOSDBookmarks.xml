@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
+    <zorder>0</zorder>
     <defaultcontrol always="true">2</defaultcontrol>
     <onload>CancelAlarm(osd_timeout,true)</onload>
     <include>Animation_OSD_Dialog_WindowChange</include>
@@ -9,46 +10,18 @@
             <include>Animation_OSD_Dialog_VisibleChange</include>
             <control type="group">
                 <include>OSD_Info_Dimensions</include>
-                <control type="group">
-                    <left>view_side</left>
-                    <right>view_pad</right>
-                    <width>view_landscape_item_w</width>
-                    <height>view_landscape_item_h</height>
-                    <visible>Integer.IsEqual(Container(11).NumItems,0)</visible>
-                    <include>Object_ItemBack</include>
-                    <control type="image">
-                        <width>128</width>
-                        <height>128</height>
-                        <centerleft>50%</centerleft>
-                        <centertop>50%</centertop>
-                        <texture colordiffuse="panel_fg_70">special://skin/extras/icons/image.png</texture>
-                    </control>
-                </control>
-
+                
+                <include content="OSD_Info_Viewline">
+                    <param name="label">$LOCALIZE[298]</param>
+                </include>
+                
                 <!-- Playing Icon and Details -->
-                <control type="group">
-                    <height>60</height>
-                    <centerbottom>20</centerbottom>
-                    <left>view_side</left>
-                    <right>view_pad</right>
-                    <include content="Object_InfoCircle_Horizontal">
-                        <param name="icon">$VAR[Image_OSD_Poster]</param>
-                        <param name="role">$VAR[Label_NowPlayingTitle]</param>
-                        <param name="name">$VAR[Label_NowPlayingSubLabel]</param>
-                        <param name="max">360</param>
-                        <param name="top_label_left">80</param>
-                        <param name="bottom_label_left">80</param>
-                    </include>
-                    <!-- Info Box -->
-                    <control type="textbox">
-                        <top>-2</top>
-                        <left>480</left>
-                        <right>0</right>
-                        <label>$INFO[VideoPlayer.Plot]</label>
-                        <font>font_mini</font>
-                        <textcolor>panel_fg_70</textcolor>
-                    </control>
-                </control>
+                <include content="OSD_Info_Tray">
+                    <param name="icon">$VAR[Image_OSD_Poster]</param>
+                    <param name="role">$VAR[Label_NowPlayingTitle]</param>
+                    <param name="name">$VAR[Label_NowPlayingSubLabel]</param>
+                    <param name="text">$INFO[VideoPlayer.Plot]</param>
+                </include>
 
                 <!-- Episodes List -->
                 <include content="List_Landscape_Row">
@@ -57,46 +30,69 @@
                     <param name="id">11</param>
                     <param name="use_label2">true</param>
                     <include>OSD_List_Dimensions</include>
-                    <onup>Close</onup>
+                    <onup>4000</onup>
                     <ondown>ActivateWindow($VAR[Action_OSD_VideoBookmarks_OnDown])</ondown>
-                    <onleft>4000</onleft>
-                    <onright>11</onright>
-                    <onright>4000</onright>
                 </include>
+                <control type="group">
+                    <visible>Integer.IsEqual(Container(11).NumItems,0)</visible>
+                    <include>OSD_List_Dimensions</include>
+                    <control type="group">
+                        <left>view_pad</left>
+                        <top>view_pad</top>
+                        <width>view_landscape_item_w</width>
+                        <height>view_landscape_item_h</height>
+                        <include>Object_ItemBack</include>
+                        <control type="image">
+                            <width>128</width>
+                            <height>128</height>
+                            <centerleft>50%</centerleft>
+                            <centertop>50%</centertop>
+                            <texture colordiffuse="panel_fg_70">special://skin/extras/icons/image.png</texture>
+                        </control>
+
+                        <include content="OSD_UpNext_Labels">
+                            <param name="top_title">$LOCALIZE[31088]</param>
+                            <param name="sub_title">$LOCALIZE[31089]</param>
+                        </include>
+                    </control>
+                </control>
 
                 <control type="grouplist" id="4000">
-                    <top>-20</top>
+                    <top>-290</top>
                     <itemgap>0</itemgap>
-                    <orientation>vertical</orientation>
-                    <width>160</width>
-                    <left>view_list</left>
+                    <orientation>horizontal</orientation>
+                    <left>30</left>
 
                     <onup>Close</onup>
-                    <ondown>ActivateWindow($VAR[Action_OSD_VideoBookmarks_OnDown])</ondown>
 
-                    <onright>11</onright>
-                    <onleft>SetFocus(11,9999,absolute)</onleft>
+                    <ondown>11</ondown>
 
-                    <include content="Dialog_Side_Button_BuiltIn">
+                    <include content="DialogInfo_Button">
+                        <param name="vertical">false</param>
                         <param name="icon">special://skin/extras/icons/plus.png</param>
                         <param name="visible">Control.IsEnabled(2)</param>
                         <param name="id">2</param>
                         <param name="groupid">9002</param>
                         <param name="label">$LOCALIZE[15019]</param>
+                        <param name="include_hintlabel">true</param>
                     </include>
-                    <include content="Dialog_Side_Button_BuiltIn">
+                    <include content="DialogInfo_Button">
+                        <param name="vertical">false</param>
                         <param name="icon">special://skin/extras/icons/triangle-exclamation.png</param>
                         <param name="visible">Control.IsEnabled(3) + !Integer.IsEqual(Container(11).NumItems,0)</param>
                         <param name="id">3</param>
                         <param name="groupid">9003</param>
                         <param name="label">$LOCALIZE[192]</param>
+                        <param name="include_hintlabel">true</param>
                     </include>
-                    <include content="Dialog_Side_Button_BuiltIn">
+                    <include content="DialogInfo_Button">
+                        <param name="vertical">false</param>
                         <param name="icon">special://skin/extras/icons/image.png</param>
                         <param name="visible">Control.IsEnabled(4)</param>
                         <param name="id">4</param>
                         <param name="groupid">9004</param>
                         <param name="label">$LOCALIZE[39123]</param>
+                        <param name="include_hintlabel">true</param>
                     </include>
                 </control>
 

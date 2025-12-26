@@ -24,34 +24,26 @@
         
         <onstop>ClearProperty(AutoTrailer,Home)</onstop>
         <onstop>ClearProperty(AutoTrailerTitle,Home)</onstop>
-        
-        <!-- MUTE CONTROLS -->
-        <onstart condition="Skin.HasSetting(Trailers.EnableMute) + Player.HasVideo + !Player.Muted">Action(Mute)</onstart> <!-- "ON" -->                    
-        <onstart condition="!Player.HasVideo + Player.Muted">Action(Mute)</onstart> <!-- "OFF" -->    
-        <onstop condition="[Control.HasFocus(303)| Control.HasFocus(308) | Control.HasFocus(309)] + Player.Muted">Action(Mute)</onstop> <!-- "OFF" -->    
     </timer>
 
     <timer>
         <name>play_spotlight_trailer</name>
         <start reset="true">!Player.HasVideo + [[Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),Skin.String(Start_Trailer)) + !Window.IsVisible(DialogVideoInfo.xml) + System.IdleTime(3)] | [Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),1) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Window.IsVisible(DialogVideoInfo.xml) + !Skin.HasSetting(Background.DisableVideo)]]</start>
         <stop>![!Player.HasVideo + [[Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),Skin.String(Start_Trailer)) + !Window.IsVisible(DialogVideoInfo.xml) + System.IdleTime(3)] | [Integer.IsGreater(Skin.TimerElapsedSecs(idle_spotlight_trailer),1) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Window.IsVisible(DialogVideoInfo.xml) + !Skin.HasSetting(Background.DisableVideo)]]]</stop>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122)">SetProperty(PlayTrailerTrigger,$VAR[Action_PlayTrailer_Trigger],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122)">SetProperty(PlayTrailerTitle,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Title)],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122)">SetProperty(PlayTrailerItems,$VAR[Path_VideoInfo_Trailers],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerDBType,$INFO[Window(Home).Property(TMDBHelper.ListItem.base_dbtype)],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerSeason,$INFO[Window(Home).Property(TMDBHelper.ListItem.Season)],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.imdb_id)],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTVIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.tvshow.imdb_id)],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + !Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$VAR[Path_IMDb_Trailers],Home)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + !Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],1)</onstart>
-        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Window.IsVisible(1122) + Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($VAR[Path_IMDb_Trailers],1)</onstart>
-        
-        <onstart condition="Skin.HasSetting(Trailers.EnableMute) + !Player.Muted">Action(Mute)</onstart> <!-- MUTE "ON" --> 
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121)">SetProperty(PlayTrailerTrigger,$VAR[Action_PlayTrailer_Trigger],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121)">SetProperty(PlayTrailerTitle,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Title)],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121)">SetProperty(PlayTrailerItems,$VAR[Path_VideoInfo_Trailers],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerDBType,$INFO[Window(Home).Property(TMDBHelper.ListItem.base_dbtype)],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerSeason,$INFO[Window(Home).Property(TMDBHelper.ListItem.Season)],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.imdb_id)],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailerTVIMDbID,$INFO[Window(Home).Property(TMDBHelper.ListItem.tvshow.imdb_id)],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + Skin.HasSetting(Trailers.Source.IMDb)">SetProperty(PlayTrailer,$VAR[Path_IMDb_Trailers],Home)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + !Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($ESCINFO[Window(Home).Property(TMDbHelper.ListItem.Trailer)],1)</onstart>
+        <onstart condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !String.IsEqual(Window(Home).Property(PlayTrailer),Window(Home).Property(TMDbHelper.ListItem.Trailer)) + !Window.IsVisible(1121) + Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($VAR[Path_IMDb_Trailers],1)</onstart>
    </timer>
     
     <!-- CUSTOM TIMERS -->
-             
     <timer>
         <name>play_fullscreen_trailer_info</name>
         <start reset="true">[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + [Player.HasVideo + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(Window(1123).Property(TrailerFullscreen),True)]]</start>
@@ -61,8 +53,6 @@
         <onstop>SetProperty(ReplaceWindow,1123,DialogVideoInfo.xml)</onstop>
         <onstop condition="!Window.IsActive(1123)">ActivateWindow(1123)</onstop>
         <onstop condition="Window.IsActive(1123)">ReplaceWindow(1197)</onstop>
-        
-        <onstop condition="Player.Muted">Action(Mute)</onstop> <!-- MUTE "OFF" --> 
     </timer>
     
     <timer>
@@ -70,8 +60,6 @@
         <start reset="true">[[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + !VideoPlayer.IsFullscreen]</start>
         <reset>![[[Skin.HasSetting(Trailers.EnableAutoFullscreen) + Skin.HasSetting(Trailers.EnableAutoPlayback) + [Skin.HasSetting(Trailers.EnableAutoPlayback.Spotlight) | Skin.HasSetting(Trailers.EnableAutoPlayback.Widgets) | Skin.HasSetting(Trailers.EnableAutoPlayback.Library)]] + [Player.HasVideo + !Skin.HasSetting(Background.DisableVideo) + String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)]] + !Window.IsVisible(DialogVideoInfo.xml) + !VideoPlayer.IsFullscreen]</reset>
         <stop>Integer.IsGreaterOrEqual(Player.Time(ss),Skin.String(Fullscreen_Trailer_Delay)) + Integer.IsGreaterOrEqual(Skin.TimerElapsedSecs(play_fullscreen_trailer_others),Skin.String(Fullscreen_Trailer_Delay)) + System.IdleTime(1)</stop>
-        <onstop>Fullscreen</onstop>    
-        
-        <onstop condition="Player.Muted">Action(Mute)</onstop> <!-- MUTE "OFF" -->    
+        <onstop>Fullscreen</onstop>
     </timer>  
 </timers>
