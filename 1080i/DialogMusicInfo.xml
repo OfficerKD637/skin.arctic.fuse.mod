@@ -4,9 +4,12 @@
         <param name="always">true</param>
         <param name="defaultcontrol">4001</param>
     </include>
-
+    <include content="Object_MenuControl" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+        <param name="menucontrol">9000</param>
+    </include>
     <menucontrol>4000</menucontrol>
-    <include>DialogInfo_Onload</include>
+    <include condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">DialogInfo_Onload</include>
+    <include condition="Skin.String(InfoDialog.NavigationStyle,Wall)">DialogInfo_Onload_Wall</include>
 
     <onload>RunPlugin("plugin://script.skinvariables/?info=get_encoded_string&amp;window_prop=Encoded.ListItem.Artist&amp;&amp;$INFO[ListItem.Artist]")</onload>
     <onload>RunPlugin("plugin://script.skinvariables/?info=get_encoded_string&amp;window_prop=Encoded.ListItem.AlbumArtist&amp;&amp;$INFO[ListItem.AlbumArtist]")</onload>
@@ -14,10 +17,24 @@
     <onload>RunPlugin("plugin://script.skinvariables/?info=get_encoded_string&amp;window_prop=Encoded.ListItem.Title&amp;&amp;$INFO[ListItem.Title]")</onload>
     <onload>RunPlugin("plugin://script.skinvariables/?info=get_encoded_string&amp;window_prop=Encoded.ListItem.Label&amp;&amp;$INFO[ListItem.Label]")</onload>
     <controls>
+    
+        <include content="Object_Hidden_Button"  condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="id">8000</param>
+            <ondown>5000</ondown>
+            <ondown>5000</ondown>
+            <onright>4001</onright>
+            <onleft>4001</onleft>
+            <onup>61</onup>
+            <onfocus>SetFocus(4001)</onfocus>
+            <onfocus>ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
+        </include>
 
         <include>Defs_Background_Loader</include>
-
-        <control type="group">
+        
+        <!-- Standard -->
+        
+        <include content="Object_Control" condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="control">group</param>
             <control type="group">
                 <include>DialogInfo_Body_Group</include>
                 <control type="group">
@@ -29,12 +46,60 @@
                 </control>
             </control>
             <include>DialogInfo_ArtworkGallery</include>
-        </control>
+        </include>
+        
+        <!-- Wall -->
+        
+        <include content="Object_Control" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="control">group</param>
+            <include>DialogInfo_Main_Group_Wall</include>
+            <control type="group">
+                <include>DialogInfo_Body_Group_Wall</include>
+                <control type="group">
+                    <include content="DialogInfo_Info_Group_Wall" condition="!Skin.String(InfoDialogWall.Layout,Flix)">
+                        <param name="extended_include">DialogInfo_MusicDetails_Wall</param>
+                        <param name="plotwidth">90%</param>
+                    </include>
+                    <include content="DialogInfo_Info_Group_Wall" condition="Skin.String(InfoDialogWall.Layout,Flix)">
+                        <param name="indent">view_pad</param>
+                        <param name="extended_include">DialogInfo_MusicDetails_Wall</param>
+                        <param name="plotwidth">info_plot_w</param>
+                    </include>
+                </control>
+            </control>
+        </include>
+        
+        <include content="Object_Control" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="control">group</param>
+            <include content="Animation_Slide_In">
+                <param name="type">WindowOpen</param>
+                <param name="posy">160</param>
+                <param name="delay">200</param>
+            </include>
+            <include content="Animation_Slide_Out">
+                <param name="type">WindowClose</param>
+                <param name="posy">160</param>
+            </include>
+            <include>DialogInfo_Widget_Group_Wall</include>
+            <control type="grouplist" id="5000">
+                <include>DialogInfo_Widget_Grouplist_Wall</include>
+
+                <onup>8000</onup>
+                <onback>8000</onback>
+
+                <include>DialogInfo_MusicWidgets_Wall</include>
+
+                <include>Widget_End_Bumper</include>
+            </control>
+        </include>
 
 
         <include>DialogInfo_Furniture</include>
         <include>TouchMode_Info_Zones</include>
-        <include>DialogInfo_PlotBox</include>
+        <include condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">DialogInfo_PlotBox</include>
+        <include content="DialogInfo_PlotBox" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="include_movement">DialogInfo_PlotBox_OnMove_Wall</param>
+        </include>
         
         <include content="Object_Hidden_Button">
             <param name="id">6</param>

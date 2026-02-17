@@ -185,6 +185,11 @@
         <value>$LOCALIZE[20021]</value>
     </variable>
     
+    <variable name="Label_InfoDialog_NavigationStyle">
+        <value condition="Skin.String(InfoDialog.NavigationStyle,Wall)">$LOCALIZE[31167]</value>
+        <value>$LOCALIZE[602]</value>
+    </variable>
+    
     <variable name="Label_InfoDialog_WidgetStyle">
         <value condition="!Skin.HasSetting(InfoDialog.WidgetsPoster)">$LOCALIZE[31045]</value>
         <value>$LOCALIZE[20021]</value>
@@ -194,6 +199,12 @@
         <value condition="String.IsEmpty(Skin.String(InfoDialog.Layout))">Flix</value>
         <value condition="Skin.String(InfoDialog.Layout,DisableArt)">$LOCALIZE[13106]</value>
         <value condition="Skin.String(InfoDialog.Layout,Poster)">$LOCALIZE[20021]</value>
+        <value>$LOCALIZE[39173]</value>
+    </variable>
+    
+    <variable name="Label_InfoDialogWall_Layout">
+        <value condition="Skin.String(InfoDialogWall.Layout,Flix)">Flix</value>
+        <value condition="Skin.String(InfoDialogWall.Layout,Flip)">Flip</value>
         <value>$LOCALIZE[39173]</value>
     </variable>
     
@@ -689,6 +700,8 @@
     </variable>
 
     <variable name="Label_VideoInfo_CastBio">
+        <value condition="Skin.String(InfoDialog.NavigationStyle,Wall) + !String.IsEmpty(ListItem.Property(biography))">$INFO[ListItem.Property(biography)]</value>
+        <value condition="Skin.String(InfoDialog.NavigationStyle,Wall) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.biography))">$INFO[Window(Home).Property(TMDbHelper.ListItem.biography)]</value>
         <value condition="!String.IsEmpty(Container(5003).ListItem.Plot) + !Skin.HasSetting(Info.UseLocalCast)">$INFO[Container(5003).ListItem.Plot]</value>
         <value condition="Container(5203).IsUpdating">$LOCALIZE[31023] [LOWERCASE]$LOCALIZE[14116][/LOWERCASE]...</value>
         <value condition="!String.IsEmpty(Container(5203).ListItem.Plot)">$INFO[Container(5203).ListItem.Plot]</value>
@@ -1212,15 +1225,20 @@
     </variable>
 
     <variable name="Label_VideoInfo_DetailsItem">
+        <value condition="!String.IsEmpty(ListItem.Property(role))">$INFO[ListItem.Property(role)]</value>
+
         <value condition="ListItem.IsCollection">$LOCALIZE[31236]</value>
+        <value condition="String.IsEqual(ListItem.DBType,episode) + !String.IsEmpty(ListItem.TvShowTitle)">$INFO[ListItem.TvShowTitle]</value>
         <value condition="[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(ListItem.Director)">$INFO[ListItem.Director]</value>
         <value condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + !String.IsEmpty(ListItem.Property(totalepisodes)) + !String.IsEmpty(ListItem.Property(watchedepisodes))">$INFO[ListItem.Property(watchedepisodes),, $LOCALIZE[1443] ]$INFO[ListItem.Property(totalepisodes),, [LOWERCASE]$LOCALIZE[16102][/LOWERCASE]]</value>
         <value condition="[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)] + !String.IsEmpty(ListItem.Episode)">$INFO[ListItem.Episode,, $LOCALIZE[20453]]</value>
+        <value condition="String.IsEqual(ListItem.DBType,song) + !String.IsEmpty(ListItem.Artist)">$INFO[ListItem.Artist]$INFO[ListItem.Album, • ,]</value>
+        <value condition="String.IsEqual(ListItem.DBType,song) + !String.IsEmpty(ListItem.AlbumArtist)">$INFO[ListItem.AlbumArtist]$INFO[ListItem.Album, • ,]</value>
         <value condition="!String.IsEmpty(ListItem.Artist) + !String.IsEqual(ListItem.DBType,artist)">$INFO[ListItem.Artist]</value>
         <value condition="!String.IsEmpty(ListItem.AlbumArtist) + !String.IsEqual(ListItem.DBType,artist)">$INFO[ListItem.AlbumArtist]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Artist_Genre))">$INFO[ListItem.Property(Artist_Genre),,]</value>
         <value condition="!String.IsEmpty(ListItem.Property(Artist_YearsActive))">$INFO[ListItem.Property(Artist_YearsActive),,]</value>
-        <value condition="!String.IsEmpty(ListItem.Property(role))">$INFO[ListItem.Property(role)]</value>
+
         <value condition="!String.IsEmpty(ListItem.Label2)">$INFO[ListItem.Label2]</value>
         <value condition="!String.IsEmpty(ListItem.DBType)">[CAPITALIZE]$INFO[ListItem.DBType][/CAPITALIZE]</value>
 
@@ -1921,15 +1939,15 @@
     </variable>
     
     <variable name="Label_Plot_TMDbHelper">
-        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
-        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
-        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
-        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
+        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
+        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
+        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
+        <value condition="!Skin.HasSetting(Infoline.SETags) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$VAR[Label_Plot_Episode_Number_TMDbHelper,,. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
         
-        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
-        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
-        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
-        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
+        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
+        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.EpisodeName)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.EpisodeName)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
+        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_plot), ~ ,]</value>
+        <value condition="[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | [String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dbtype)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Episode))]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))">[B]$VAR[Label_Plot_Episode_Type_TMDBHelper,,: ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Title)][/B]$INFO[Window(Home).Property(TMDbHelper.ListItem.Plot), ~ ,]</value>
         
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_artist_description))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_artist_description)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_album_description))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_album_description)]</value>
@@ -2461,32 +2479,6 @@
         <value condition="String.IsEqual(Window.Property(TMDbType),collection)">$LOCALIZE[20434]</value>
     </variable>
 
-    <variable name="Label_Plot_Widget_Title_Tilde">
-        <value condition="!String.IsEmpty(Container.ListItem.Property(Artist_Description))"> ~ </value>
-        <value condition="!String.IsEmpty(Container.ListItem.Property(Album_Description))"> ~ </value>
-        <value condition="!String.IsEmpty(Container.ListItem.AddonDescription)"> ~ </value>
-        <value condition="!String.IsEmpty(Container.ListItem.Plot)"> ~ </value>
-    </variable>
-    <variable name="Label_Plot_Widget_Title">
-        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle) + !String.IsEmpty(Container.ListItem.Title) + !String.IsEqual(Container.ListItem.TvShowTitle,Container.ListItem.Title) + !String.IsEqual(Container.ListItem.DBType,tvshow)">$INFO[Container.ListItem.TvShowTitle,,: ]$INFO[Container.ListItem.Title]$VAR[Label_Plot_Widget_Title_Tilde]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,episode)">$INFO[Container.ListItem.Title]$VAR[Label_Plot_Widget_Title_Tilde]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.TvShowTitle)">$INFO[Container.ListItem.TvShowTitle]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.AlbumArtist) + !String.IsEmpty(Container.ListItem.Album) + !String.IsEqual(Container.ListItem.AlbumArtist,Container.ListItem.Album)">$INFO[Container.ListItem.AlbumArtist,,: ]$INFO[Container.ListItem.Album]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Album)">$INFO[Container.ListItem.Album]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Title)">$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Year, (,)]$VAR[Label_Plot_Widget_Title_Tilde]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Label)">$INFO[Container.ListItem.Label]$VAR[Label_Plot_Widget_Title_Tilde]</value>
-    </variable>
-    <variable name="Label_Plot_Widget">
-        <value condition="!String.IsEmpty(Container.ListItem.Property(Artist_Description))">$INFO[Container.ListItem.Property(Artist_Description)]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Property(Album_Description))">$INFO[Container.ListItem.Property(Album_Description)]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.AddonDescription)">$INFO[Container.ListItem.AddonDescription]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Plot)">$INFO[Container.ListItem.Plot]</value>
-        <value condition="String.IsEqual(Container.ListItem.DBType,song)">[CR]$INFO[Container.ListItem.TrackNumber,,. ]$INFO[Container.ListItem.Title]$INFO[Container.ListItem.Duration, (,)]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Property(role))">[CR]$INFO[Container.ListItem.Property(role)]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Property(character))">[CR]$INFO[Container.ListItem.Property(character)]</value>
-        <value condition="!String.IsEmpty(Container.ListItem.Property(job))">[CR]$INFO[Container.ListItem.Property(job)]</value>
-    </variable>
-
     <variable name="Label_Critics">
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_consensus)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards))">[B][COLOR=main_fg_90]$LOCALIZE[31024][/COLOR][/B][CR]$INFO[Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_consensus),, ]$INFO[Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_reviewsfresh),$LOCALIZE[31054] , ]$INFO[Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_reviewstotal),$LOCALIZE[31055] , $LOCALIZE[31056] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards_Won),[CR][CR],]</value>
         <value condition="!String.IsEmpty(ListItem.AddonNews)">[B][COLOR=main_fg_90]$LOCALIZE[24036][/COLOR][/B][CR]$INFO[ListItem.AddonNews]</value>
@@ -2550,6 +2542,11 @@
     <variable name="Label_Overlay_PlotBox">
         <value condition="!String.IsEmpty(Window.Property(ReviewsActive))">$INFO[Container(5004).ListItem.Label,[B][COLOR=dialog_fg_90],[/COLOR][/B][CR]]$INFO[Container(5004).ListItem.Plot]$INFO[Container(5004).ListItem.Property(plotlabel)]</value>
         <value>$INFO[ListItem.Tagline,[B][COLOR=dialog_fg_90]$LOCALIZE[202][/COLOR][/B][CR],[CR][CR]]$VAR[Label_Plot,[B][COLOR=dialog_fg_90]$LOCALIZE[31028][/COLOR][/B][CR],]$VAR[Label_Overlay_Premiered,[CR][CR],]$VAR[Label_Overlay_Critics,[CR][CR],]$VAR[Label_Overlay_Directing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31038][/COLOR][/B][CR],]$VAR[Label_Overlay_Writing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31039][/COLOR][/B][CR],]$VAR[Label_Overlay_TopCast,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31076][/COLOR][/B][CR],]$VAR[Label_Overlay_Production,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31383][/COLOR][/B][CR],]$VAR[Label_Overlay_Sound,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31052][/COLOR][/B][CR],]$VAR[Label_Overlay_ArtDepartment,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31072][/COLOR][/B][CR],]$VAR[Label_Overlay_Cinematography,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31067][/COLOR][/B][CR],]$VAR[Label_Overlay_Editing,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31075][/COLOR][/B][CR],]$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards),[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[31064][/COLOR][/B][CR],]$VAR[Label_Overlay_AwardsWon]$VAR[Label_Overlay_AwardsNominated]$VAR[Label_Overlay_Providers,[CR][CR][B][COLOR=dialog_fg_90]JustWatch[/COLOR][/B][CR],]$VAR[Label_Overlay_FileDetails,[CR][CR][B][COLOR=dialog_fg_90]$LOCALIZE[561] $LOCALIZE[33029][/COLOR][/B],]</value>
+    </variable>
+    
+    <variable name="Label_Overlay_1128_PlotBox">
+        <value condition="Container(7000).IsUpdating | String.IsEmpty(Window.Property(tmdb_type)) | String.IsEmpty(Window.Property(tmdb_id)) | Integer.IsEqual(Container(7000).NumItems,0)">$INFO[Window.Property(textbox)]</value>
+        <value>$VAR[Label_PlotBox_C7000]</value>
     </variable>
 
     <variable name="Label_Overlay_Critics">

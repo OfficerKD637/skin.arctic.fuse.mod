@@ -4,10 +4,14 @@
         <param name="always">true</param>
         <param name="defaultcontrol">8000</param>
     </include>
-
+    
+    <include content="Object_MenuControl" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+        <param name="menucontrol">9000</param>
+    </include>
     <menucontrol>4000</menucontrol>
 
-    <include>DialogInfo_Onload</include>
+    <include condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">DialogInfo_Onload</include>
+    <include condition="Skin.String(InfoDialog.NavigationStyle,Wall)">DialogInfo_Onload_Wall</include>
 
     <onload>SetProperty(TMDbHelper.EnableExtendedProperties,True)</onload>
     
@@ -22,12 +26,11 @@
     <onload condition="Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Skin.HasSetting(Background.DisableVideo) + Player.HasVideo + !String.IsEmpty(ListItem.Trailer) + String.IsEqual(Window(Home).Property(AutoTrailer),Player.FileNameAndPath)">ActivateWindow(1123)</onload>
     <onload condition="Skin.HasSetting(Trailers.EnableAutoPlayback.Info) + Player.HasVideo + !VideoPlayer.IsFullScreen + !String.IsEqual(Window(Home).Property(AutoTrailer),Player.FileNameAndPath)">Stop</onload>
 
+    <onload condition="Skin.String(InfoDialog.NavigationStyle,Wall)">SetProperty(BaseID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
+    
     <controls>
-        
-        <control type="button" id="8000">
-            <texturenofocus />
-            <texturefocus />
-            <font />
+        <include content="Object_Hidden_Button"  condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="id">8000</param>
             <ondown condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">4000</ondown>
             <onfocus condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(4001)</onfocus>
             <onfocus condition="String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(5098)</onfocus>
@@ -37,13 +40,31 @@
             <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + ListItem.HasVideoVersions">SetFocus(8908)</onclick>
             <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + !ListItem.HasVideoVersions">SendClick(8)</onclick>
             <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + !ListItem.HasVideoVersions">RunScript(plugin.video.themoviedb.helper,close_dialog=1190)</onclick>
-        </control>
+        </include>
+        
+        <include content="Object_Hidden_Button"  condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="id">8000</param>
+            <ondown>5000</ondown>
+            <onfocus condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(4001)</onfocus>
+            <onright condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">4001</onright>
+            <onleft condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">4001</onleft>
+            <onleft condition="String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(61)</onleft>
+            <onright condition="String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(61)</onright>
+            <onup>61</onup>
+            <onfocus>ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
+            <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + ListItem.HasVideoVersions">SetFocus(8908)</onclick>
+            <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + !ListItem.HasVideoVersions">SendClick(8)</onclick>
+            <onclick condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + !ListItem.HasVideoVersions">RunScript(plugin.video.themoviedb.helper,close_dialog=1190)</onclick>
+        </include>
         
         <include>Defs_Background_Loader</include>
         
         <include condition="Window.IsVisible(fullscreenvideo)">OSD_VideoBackground_Dialog</include>
         
-        <control type="group">
+        <!-- Standard -->
+        
+        <include content="Object_Control" condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="control">group</param>
             <include content="Animation_ConditionalFade">
                 <param name="condition">!Control.HasFocus(513) + !Control.HasFocus(555) + !Control.HasFocus(556) + !Control.HasFocus(557) + !Control.HasFocus(558) + !Control.HasFocus(514) + !Control.HasFocus(515)</param>
             </include>
@@ -51,9 +72,10 @@
                 <texture colordiffuse="$VAR[ColorBackground]">common/white.png</texture>
             </control>
             <include>Background</include>
-        </control>
-
-        <control type="group">
+        </include>
+        
+        <include content="Object_Control" condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="control">group</param>
             <control type="group">
                 <include>DialogInfo_Body_Group</include>
                 <control type="group">
@@ -66,11 +88,63 @@
                 </control>
             </control>
             <include>DialogInfo_ArtworkGallery</include>
-        </control>
+        </include>
+        
+        <!-- Wall -->
+        
+        <include content="Object_Control" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="control">group</param>
+            <include>DialogInfo_Main_Group_Wall</include>
+            <control type="group">
+                <include>DialogInfo_Body_Group_Wall</include>
+                <control type="group">
+                    <include content="DialogInfo_Info_Group_Wall" condition="![Skin.String(InfoDialogWall.Layout,Flix) + !String.IsEqual(ListItem.Property(tmdb_type),person)]">
+                        <param name="extended_include">DialogInfo_VideoDetails_Wall</param>
+                        <param name="plotwidth">90%</param>
+                    </include>
+                    <include content="DialogInfo_Info_Group_Wall" condition="Skin.String(InfoDialogWall.Layout,Flix) + !String.IsEqual(ListItem.Property(tmdb_type),person)">
+                        <param name="indent">view_pad</param>
+                        <param name="extended_include">DialogInfo_VideoDetails_Wall</param>
+                        <param name="plotwidth">info_plot_w</param>
+                    </include>
+                </control>
+            </control>
+        </include>
+        
+        <include content="Object_Control" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="control">group</param>
+            <include content="Animation_Slide_In">
+                <param name="type">WindowOpen</param>
+                <param name="posy">160</param>
+                <param name="delay">400</param>
+            </include>
+            <include content="Animation_Slide_Out">
+                <param name="type">WindowClose</param>
+                <param name="posy">160</param>
+            </include>
+            <include>DialogInfo_Widget_Group_Wall</include>
+            <control type="grouplist" id="5000">
+                <include>DialogInfo_Widget_Grouplist_Wall</include>
+
+                <onup>8000</onup>
+                <onback>8000</onback>
+                <ondown>330</ondown>
+
+                <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoWidgets_Wall</include>
+                <include condition="String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_PersonWidgets_Wall</include>
+                <include condition="!Skin.HasSetting(VideoInfo.Widgets.DisableGallery)">DialogInfo_GalleryWidget_Wall</include>
+
+
+                <include>Widget_End_Bumper</include>
+            </control>
+        </include>
 
         <include>DialogInfo_Furniture</include>
         <include>TouchMode_Info_Zones</include>
-        <include>DialogInfo_PlotBox</include>
+        <include condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">DialogInfo_PlotBox</include>
+        <include content="DialogInfo_PlotBox" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+            <param name="include_movement">DialogInfo_PlotBox_OnMove_Wall</param>
+        </include>
         
         
         <include content="DialogSelect_VideoVersions_Main" condition="ListItem.HasVideoVersions">
