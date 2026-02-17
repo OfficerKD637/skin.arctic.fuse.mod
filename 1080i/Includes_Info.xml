@@ -701,7 +701,7 @@
                 <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume),$LOCALIZE[31184] ,]</param>
                 <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
                 <param name="icon_centertop">50%</param>
-                <param name="visible">$PARAM[visible_special] + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),video)] + !String.IsEqual(ListItem.Property(tmdb_type),person) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume),System.Time)</param>
+                <param name="visible">$PARAM[visible_special] + [[!Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)] | [!Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),video)]]] + ![String.IsEqual(ListItem.Property(tmdb_type),person) + String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_endtimeresume),System.Time)</param>
             </include>
             <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
                 <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_starttime)]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_endtime), - ,]</param>
@@ -713,7 +713,7 @@
                 <param name="label">$INFO[Player.FinishTime,$LOCALIZE[31184] ,]</param>
                 <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
                 <param name="icon_centertop">50%</param>
-                <param name="visible">$PARAM[visible_special] + !String.IsEmpty(Player.FinishTime) + !VideoPlayer.Content(livetv) + [VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)]</param>
+                <param name="visible">$PARAM[visible_special] + !String.IsEmpty(Player.FinishTime) + !VideoPlayer.Content(livetv) + [[!Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime) + VideoPlayer.Content(movies)] | [!Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime) + VideoPlayer.Content(episodes)]]</param>
             </include>
             <include content="Info_Line_Rating" condition="$PARAM[is_player]">
                 <param name="label">$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime,  -  ,]</param>
@@ -3892,7 +3892,7 @@
                     <param name="height">$PARAM[plotheight]</param>
                 </include>
                 <include content="Object_Height" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[plotautoheight]">
-                    <param name="height">163</param>
+                    <param name="height">160</param>
                 </include>                
                 <control type="textbox">
                     <visible>$PARAM[details]</visible>
@@ -3949,6 +3949,7 @@
         <param name="plotlabel">$VAR[Label_Plot_Container]</param>
         <param name="titlelabel">$VAR[Label_Title_Container]</param>
         <param name="details_include">Items_Null</param>
+        <param name="extended_include">Items_Null</param>
         <param name="visible">true</param>
         <param name="is_player">false</param>
         <param name="is_special">Player.HasVideo</param>
@@ -3960,7 +3961,7 @@
                 </include>
                 <control type="grouplist">
                     <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
-                        <param name="top">-34</param>    
+                        <param name="top">-40</param>    
                     </include>
                     <top>-20</top>
                     <hitrect x="0" y="0" w="0" h="0" />
