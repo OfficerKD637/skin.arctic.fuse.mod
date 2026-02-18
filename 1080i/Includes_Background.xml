@@ -174,64 +174,48 @@
 
     <include name="Background_Video">
         <control type="group">
+            <description>On-screen videowindow for background video</description>                
             <control type="group">
-                <visible>![$EXP[Exp_Hubs_Spotlight_IsVisible] + $EXP[Exp_Hubs_Spotlight_IsSlide] + $EXP[Exp_HomeMenu_IsTopBar]]</visible>
-                <description>On-screen videowindow for background video</description>                
-                <control type="group">
-                    <top>0</top>
+                <top>0</top>
+                <visible>![$EXP[Exp_Video_IsNotPlaying]]</visible>
+                <control type="videowindow">
+                    <right>0</right>
+                    <width>flixart_size_w</width>
                     <height>flixart_size_h</height>
-                    <visible>![$EXP[Exp_Video_IsNotPlaying]]</visible>
-                    <control type="videowindow">
-                        <right>0</right>
-                        <width>flixart_size_w</width>
-                    </control>
-                    <control type="image">
-                        <right>0</right>
-                        <width>flixart_size_w</width>
-                        <texture colordiffuse="black">diffuse/flixart/flixart_invert.png</texture>
-                    </control>
-                    <control type="image">
-                        <left>0</left>
-                        <right>flixart_size_w</right>
-                        <texture colordiffuse="black">common/white.png</texture>
-                    </control>
+                    <visible>![$EXP[Exp_Hubs_Spotlight_IsVisible] + $EXP[Exp_Hubs_Spotlight_IsSlide]]</visible>
+                </control>
+                <control type="videowindow">
+                    <centertop>540</centertop>
+                    <centerright>960</centerright>
+                    <visible>[$EXP[Exp_Hubs_Spotlight_IsVisible] + $EXP[Exp_Hubs_Spotlight_IsSlide]]</visible>
+                </control>
+                <control type="visualisation">
+                    <right>0</right>
                 </control>
                 <control type="image">
-                    <top>flixart_size_h</top>
+                    <right>0</right>
+                    <width>flixart_size_w</width>
+                    <height>flixart_size_h</height>
+                    <texture colordiffuse="black">diffuse/flixart/flixart_invert.png</texture>
+                    <visible>![Player.HasAudio + !Skin.HasSetting(Background.Visualisation.Disabled) + Visualisation.Enabled + !Player.Paused]</visible>
+                    <visible>![$EXP[Exp_Hubs_Spotlight_IsVisible] + $EXP[Exp_Hubs_Spotlight_IsSlide]]</visible>
+                </control>
+                <control type="image">
+                    <left>0</left>
+                    <right>flixart_size_w</right>
+                    <height>flixart_size_h</height>
                     <texture colordiffuse="black">common/white.png</texture>
+                    <visible>![Player.HasAudio + !Skin.HasSetting(Background.Visualisation.Disabled) + Visualisation.Enabled + !Player.Paused]</visible>
+                    <visible>![$EXP[Exp_Hubs_Spotlight_IsVisible] + $EXP[Exp_Hubs_Spotlight_IsSlide]]</visible>
                 </control>
             </control>
-            <control type="group">    
-                <visible>$EXP[Exp_Hubs_Spotlight_IsVisible] + $EXP[Exp_Hubs_Spotlight_IsSlide] + $EXP[Exp_HomeMenu_IsTopBar]</visible>
-                <description>On-screen videowindow for background video when Spotlight is set to 'Slide'</description>                
-                    <top>0</top>
-                    <aspectratio>scale</aspectratio>
-                    <height>1080</height>
-                    <visible>![$EXP[Exp_Video_IsNotPlaying]]</visible>
-                    <control type="videowindow">
-                        <centertop>540</centertop>
-                        <centerright>960</centerright>
-                        <!-- To remove black bars forcibly, use height=1461 and width=2600 -->
-                        <height>100%</height>
-                        <width>100%</width>
-                    </control>                  
-            </control>    
-        </control>
-    </include>    
-
-    <include name="Background_Transition">
-        <param name="windowopen_condition">True</param>
-        <param name="windowclose_condition">True</param>
-        <definition>
-            <!-- <control type="image">
-                <texture colordiffuse="$VAR[ColorBackground]">common/white.png</texture>
-                <animation effect="fade" start="0" end="100" time="150" tween="sine" easing="out" condition="$PARAM[windowclose_condition]">WindowClose</animation>
-                <animation effect="fade" start="100" end="0" time="150" tween="sine" easing="out" condition="$PARAM[windowopen_condition]">WindowOpen</animation>
-
-                <animation effect="fade" start="0" end="100" time="0" condition="![$PARAM[windowclose_condition]]">WindowClose</animation>
-                <animation effect="fade" start="100" end="0" time="0" condition="![$PARAM[windowopen_condition]]">WindowOpen</animation>
-            </control> -->
-        </definition>
+            <control type="image">
+                <top>flixart_size_h</top>
+                <texture colordiffuse="black">common/white.png</texture>
+                <visible>![Player.HasAudio + !Skin.HasSetting(Background.Visualisation.Disabled) + Visualisation.Enabled + !Player.Paused]</visible>
+                <visible>![$EXP[Exp_Hubs_Spotlight_IsVisible] + $EXP[Exp_Hubs_Spotlight_IsSlide]]</visible>
+            </control>
+        </control>   
     </include>
 
     <include name="Background_Main_Plain">
@@ -327,15 +311,10 @@
 
             <!-- Standard Background -->
             <include condition="!$EXP[Exp_PlainBackgroundWindows]">Background_Main</include>
-            <include condition="!$EXP[Exp_PlainBackgroundWindows]">Background_Transition</include>
 
             <!-- Plain Background -->
             <include content="Background_Main" condition="$EXP[Exp_PlainBackgroundWindows]">
                 <param name="plain_background">true</param>
-            </include>
-            <include content="Background_Transition" condition="$EXP[Exp_PlainBackgroundWindows]">
-                <param name="windowopen_condition">!$EXP[Exp_PlainBackgroundWindows_Prev]</param>
-                <param name="windowclose_condition">!$EXP[Exp_PlainBackgroundWindows_Next]</param>
             </include>
         </definition>
 
