@@ -44,15 +44,23 @@
             <left>-120</left>
             <include content="Widget_Busy">
                 <param name="label">$LOCALIZE[19033]</param>
-                <param name="visible">String.IsEmpty(Skin.String(InfoDialog.Layout)) + !String.IsEqual(ListItem.Property(tmdb_type),person)</param>
+                <param name="visible">!Skin.String(InfoDialog.NavigationStyle,Wall) + String.IsEmpty(Skin.String(InfoDialog.Layout)) + !String.IsEqual(ListItem.Property(tmdb_type),person)</param>
                 <param name="include">List_Button_Row_VideoInfo</param>
                 <left>145</left>
                 <top>450</top>
             </include>
             <control type ="group">
-                <visible>[Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster) | String.IsEqual(ListItem.Property(tmdb_type),person)]</visible>
+                <visible>[!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))] + [[!Skin.String(InfoDialog.NavigationStyle,Wall) + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster) | String.IsEqual(ListItem.Property(tmdb_type),person)]] | [Skin.String(InfoDialog.NavigationStyle,Wall) + !Skin.String(InfoDialogWall.Layout,Flip)]]</visible>
                 <height>768</height>
                 <width>480</width>
+                <bottom>160</bottom>
+                <right>80</right>
+                <include>Object_ItemBack</include>
+            </control>
+            <control type ="group">
+                <visible>![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))] + [[!Skin.String(InfoDialog.NavigationStyle,Wall) + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster) | String.IsEqual(ListItem.Property(tmdb_type),person)]] | [Skin.String(InfoDialog.NavigationStyle,Wall) + !Skin.String(InfoDialogWall.Layout,Flip)]]</visible>
+                <height>820</height>
+                <width>520</width>
                 <bottom>160</bottom>
                 <right>80</right>
                 <include>Object_ItemBack</include>
