@@ -4,6 +4,7 @@
     <onload condition="String.IsEmpty(Window(Home).Property(PlayTrailer))">Close</onload>
     <onload condition="String.IsEmpty(Window(Home).Property(PlayTrailerTitle))">SetProperty(PlayTrailerTitle,$LOCALIZE[20410],Home)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + Player.HasVideo + !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)">Action(Stop)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Skin.HasSetting(Trailers.EnableFullscreen)">SetProperty(TrailerFullscreen,True,1123)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + !Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
     <onload condition="!String.IsEmpty(Window(Home).Property(PlayTrailer)) + [!Player.HasVideo | !String.IsEqual(Window(Home).Property(PlayTrailer),Player.FileNameAndPath)] + Skin.HasSetting(Trailers.Source.IMDb)">PlayMedia($INFO[Window(Home).Property(PlayTrailer)],False,1)</onload>
     <onunload>ClearProperty(TrailerFullscreen,1123)</onunload>
@@ -11,11 +12,16 @@
     <onload>SetProperty(TMDbHelper.ContextMenu,True)</onload>
     <controls>
     
-        <include>Dialog_Dim_Overlay</include>
+        <include content="Dialog_Dim_Overlay">
+            <param name="visible">![Skin.HasSetting(Trailers.EnableFullscreen) + !Player.HasVideo + Window.IsActive(DialogBusy.xml)]</param>
+        </include>
 
         <control type="group">
             <include>Dimension_DialogMainMenu</include>
             <include>Animation_Right_Delay</include>
+            <include content="Animation_ConditionalFade" condition="Skin.HasSetting(Trailers.EnableFullscreen)">
+                <param name="condition">!Player.HasVideo + Window.IsActive(DialogBusy.xml)</param>
+            </include>
 
             <include content="Dialog_Foreground_Side">
                 <param name="dialog_size">Dimension_DialogMainMenu</param>
@@ -111,6 +117,7 @@
                         <param name="label">$LOCALIZE[31483]</param>
                         <param name="icon">special://skin/extras/icons/repeat2.png</param>
                         <param name="visible">!String.IsEmpty(Window(Home).Property(PlayTrailer))</param>
+                        <onclick condition="!Player.HasVideo + Skin.HasSetting(Trailers.EnableFullscreen) + String.IsEmpty(Window.Property(TrailerFullscreen))">SetProperty(TrailerFullscreen,True,1123)</onclick>
                         <onclick condition="String.IsEmpty(Window.Property(TrailerFullscreen))">PlayMedia($ESCINFO[Window(Home).Property(PlayTrailer)],False,1)</onclick>
                         <onclick condition="!String.IsEmpty(Window.Property(TrailerFullscreen)) + Player.HasVideo">PlayerControl(Play)</onclick>
                     </include>
