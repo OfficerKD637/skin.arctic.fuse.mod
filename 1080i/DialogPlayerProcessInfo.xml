@@ -9,7 +9,7 @@
             <texture colordiffuse="panel_bg_70">background/floor.png</texture>
         </include>
         <control type="group">
-            <left>view_side</left>
+            <left>view_pad</left>
             <control type="group">
                 <include content="OSD_Dialog_Background_Blur" condition="!VideoPlayer.Content(livetv)">
                     <param name="diffuse">diffuse/dialog_w1280_h510.png</param>
@@ -23,7 +23,9 @@
                 <include content="Object_Height" condition="VideoPlayer.Content(livetv)">
                     <param name="height">740</param>
                 </include>
-                <include>OSD_Stream_Selector_Divider</include>
+                <include content="OSD_Stream_Selector_Divider">
+                    <param name="subline">false</param>
+                </include>
                 <height>510</height>
                 <width>1280</width>
                 <left>-40</left>
@@ -32,6 +34,17 @@
                     <param name="label">[CAPITALIZE]$LOCALIZE[10116][/CAPITALIZE]</param>
                     <param name="icon">special://skin/extras/icons/bars-progress.png</param>
                 </include>
+                <control type="label">
+                    <left>40</left>
+                    <right>40</right>
+                    <centerbottom>40</centerbottom>
+                    <height>40</height>
+                    <align>left</align>
+                    <font>font_hint_bold</font>
+                    <textcolor>dialog_fg_30</textcolor>
+                    <label>$INFO[Player.FileNameAndPath]</label>
+                    <visible>!String.IsEmpty(Player.FileNameAndPath)</visible>
+                </control>
                 <control type="group">
                     <left>40</left>
                     <right>40</right>
@@ -241,15 +254,6 @@
                             <label>[B]$LOCALIZE[31256][/B][CR]$LOCALIZE[31117]: $INFO[system.memory(used)] / $INFO[system.memory(total)] - $INFO[System.Memory(used.percent)][CR]$LOCALIZE[31258]:$INFO[System.CpuFrequency, , ]$VAR[Label_System_Temp, , ]$INFO[System.CpuUsage, ,]</label>
                             <visible>!VideoPlayer.Content(livetv)</visible>
                         </control>
-                    </control>
-                    <control type="label">
-                        <bottom>-30</bottom>
-                        <height>40</height>
-                        <align>left</align>
-                        <font>font_hint_bold</font>
-                        <textcolor>dialog_fg_30</textcolor>
-                        <label>$INFO[Player.FileNameAndPath]</label>
-                        <visible>!String.IsEmpty(Player.FileNameAndPath)</visible>
                     </control>
                 </control>
             </control>
