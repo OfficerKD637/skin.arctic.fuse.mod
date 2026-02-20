@@ -2751,13 +2751,19 @@
         <param name="fade">false</param>
         <param name="selected">false</param>
         <param name="include_detailed_labels">!Skin.HasSetting(View.DisableDetailedListLabels)</param>
+        <param name="downsize_condition">Skin.String(Home.SideMenuCollapse,Never)</param>
         <param name="align">left</param>
         <param name="aligny">top</param>
         <param name="textbox_offset_y">7</param>
         <definition>
             <control type="image">
                 <texture border="20" colordiffuse="e7ffffff">common/poster_fade.png</texture>
-                <visible>$PARAM[fade]</visible>
+                <visible>$PARAM[fade] + ![$PARAM[downsize_condition]]</visible>
+                <height>$PARAM[item_h]</height>
+            </control>
+            <control type="image">
+                <texture border="20" colordiffuse="e7ffffff">common/downsize/poster_fade.png</texture>
+                <visible>$PARAM[fade] + $PARAM[downsize_condition]</visible>
                 <height>$PARAM[item_h]</height>
             </control>
 
@@ -2797,7 +2803,7 @@
 
                     <control type="group">
                         <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
-                            <label>$INFO[$PARAM[listitem].Property(role)]</label>
+                            <label>$INFO[$PARAM[listitem].Property(role)]$INFO[$PARAM[listitem].Property(episodes), (,)]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
                             <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
@@ -3487,6 +3493,7 @@
         <param name="fade">false</param>
         <param name="selected">false</param>
         <param name="include_detailed_labels">!Skin.HasSetting(View.DisableDetailedListLabels)</param>
+        <param name="downsize_condition">Skin.String(Home.SideMenuCollapse,Never)</param>
         <param name="align">left</param>
         <param name="wall_textlabels">false</param>
         <param name="use_label">false</param>
@@ -3496,7 +3503,12 @@
         <definition>
             <control type="image">
                 <texture border="20" colordiffuse="e7ffffff">common/poster_fade.png</texture>
-                <visible>$PARAM[fade]</visible>
+                <visible>$PARAM[fade] + ![$PARAM[downsize_condition]]</visible>
+                <height>$PARAM[item_h]</height>
+            </control>
+            <control type="image">
+                <texture border="20" colordiffuse="e7ffffff">common/downsize/poster_fade.png</texture>
+                <visible>$PARAM[fade] + $PARAM[downsize_condition]</visible>
                 <height>$PARAM[item_h]</height>
             </control>
 
