@@ -327,18 +327,11 @@
     <variable name="Path_VideoOSD_PersonCredits">
         <value condition="String.IsEmpty(Window.Property(TMDb_ID))">plugin://plugin.video.themoviedb.helper/</value>
         <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,crew)">plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person&amp;limit=50$INFO[Window.Property(TMDb_ID),&amp;tmdb_id=,]$VAR[Path_Param_Widget]</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,films)">plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;tmdb_type=person&amp;limit=50$INFO[Window.Property(TMDb_ID),&amp;tmdb_id=,]$VAR[Path_Param_VideoOSD_SortKey_MovieCredits]$VAR[Path_Param_Widget]</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,shows)">plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;tmdb_type=person&amp;limit=50$INFO[Window.Property(TMDb_ID),&amp;tmdb_id=,]$VAR[Path_Param_VideoOSD_SortKey_TVShowCredits]$VAR[Path_Param_Widget]</value>
+        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,films)">plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;tmdb_type=person&amp;limit=50$INFO[Window.Property(TMDb_ID),&amp;tmdb_id=,]$VAR[Path_Param_VideoOSD_SortKey]$VAR[Path_Param_Widget]</value>
+        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,shows)">plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;tmdb_type=person&amp;limit=50$INFO[Window.Property(TMDb_ID),&amp;tmdb_id=,]$VAR[Path_Param_VideoOSD_SortKey]$VAR[Path_Param_Widget]</value>
     </variable>
 
-    <variable name="Path_Param_VideoOSD_SortKey_MovieCredits">
-        <value condition="Skin.String(VideoOSD.PersonCredits.SortKey,popular)">&amp;sort_by=popularity</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.SortKey,rating)">&amp;sort_by=rating</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.SortKey,votes)">&amp;sort_by=votes</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.SortKey,date)">&amp;sort_by=premiered</value>
-    </variable>
-
-    <variable name="Path_Param_VideoOSD_SortKey_TVShowCredits">
+    <variable name="Path_Param_VideoOSD_SortKey">
         <value condition="Skin.String(VideoOSD.PersonCredits.SortKey,popular)">&amp;sort_by=popularity</value>
         <value condition="Skin.String(VideoOSD.PersonCredits.SortKey,rating)">&amp;sort_by=rating</value>
         <value condition="Skin.String(VideoOSD.PersonCredits.SortKey,votes)">&amp;sort_by=votes</value>
@@ -349,23 +342,11 @@
         <value>&amp;nextpage=false&amp;cacheonly=true&amp;length=1</value>
     </variable>
 
-    <variable name="Path_Param_SortKey_MovieCredits">
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,popular)">&amp;sort_by=popularity</value>
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,rating)">&amp;sort_by=rating</value>
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,votes)">&amp;sort_by=votes</value>
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,date)">&amp;sort_by=premiered</value>
-    </variable>
-
-    <variable name="Path_Param_SortKey_TVShowCredits">
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,popular)">&amp;sort_by=popularity</value>
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,rating)">&amp;sort_by=rating</value>
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,votes)">&amp;sort_by=votes</value>
-        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,date)">&amp;sort_by=premiered</value>
-    </variable>
-
     <variable name="Path_Param_SortKey">
-        <value condition="String.IsEqual(Window.Property(Item_Type),type=tv)">$VAR[Path_Param_SortKey_TVShowCredits]</value>
-        <value>$VAR[Path_Param_SortKey_MovieCredits]</value>
+        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,popular)">&amp;sort_by=popularity</value>
+        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,rating)">&amp;sort_by=rating</value>
+        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,votes)">&amp;sort_by=votes</value>
+        <value condition="Skin.String(VideoInfo.PersonCredits.SortKey,date)">&amp;sort_by=premiered</value>
     </variable>
 
     <variable name="Path_Param_Query">
@@ -381,11 +362,9 @@
     </variable>
 
     <variable name="Path_Param_Type">
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)">type=movie</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode)">type=tv</value>
-        <value condition="String.IsEqual(ListItem.DBType,movie)">type=movie</value>
-        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)">type=tv</value>
-        <value condition="$EXP[Exp_IsPersonInfo]">type=person</value>
+        <value condition="String.IsEqual(ListItem.DBType,movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)">type=movie</value>
+        <value condition="String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode)">type=tv</value>
+        <value condition="String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,director) | String.IsEqual(ListItem.Property(TMDb_Type),person)">type=person</value>
     </variable>
 
     <variable name="Path_Param_Number">
