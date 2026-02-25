@@ -28,7 +28,9 @@
                 <include>OSD_Progress_Labels</include>
                 <include>OSD_Progress_Bar</include>
                 
-                <control type="label" id="3099">
+                <include content="Object_Control" condition="!Skin.HasSetting(OSD.DisplayHeaderOnTop) + !Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="control">label</param>
+                    <param name="id">3099</param>
                     <label>$VAR[Label_OSD_Header]</label>
                     <font>font_midi_bold</font>
                     <textcolor>panel_fg_90</textcolor>
@@ -36,8 +38,7 @@
                     <centerbottom>260</centerbottom>
                     <left>view_pad</left>
                     <include>OSD_HideControls</include>
-                    <visible>!Skin.HasSetting(Furniture.EnableLeftHeader)</visible>
-                </control>
+                </include>
                 
             </control>
             
@@ -45,7 +46,7 @@
             <control type="group">
                 <animation effect="fade" end="0" start="100" time="300" delay="600" condition="Window.IsActive(1143)">Conditional</animation>
                 <left>-120</left>
-                <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
+                <include content="Furniture_Top" condition="Skin.HasSetting(OSD.DisplayHeaderOnTop) | Skin.HasSetting(Furniture.EnableLeftHeader)">
                     <param name="id">3099</param>
                     <param name="label">$VAR[Label_OSD_Header]</param>
                     <param name="textcolor">main_fg_100</param>
