@@ -7,7 +7,8 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">871</param>
+            <param name="right">810</param>
+            <param name="right_downsize">870</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_PosterLandscape</include>
         </include>
@@ -15,7 +16,8 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">630</param>
+            <param name="right">550</param>
+            <param name="right_downsize">630</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_Landscape</include>
         </include>
@@ -23,7 +25,8 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">961</param>
+            <param name="right">900</param>
+            <param name="right_downsize">960</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_SquareLandscape</include>
         </include>
@@ -31,7 +34,8 @@
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
-            <param name="right">630</param>
+            <param name="right">550</param>
+            <param name="right_downsize">630</param>
             <param name="scrollbar_id">70</param>
             <include>View_MediaList_Landscape</include>
         </include>
@@ -43,7 +47,8 @@
             <param name="id">517</param>
             <param name="viewtype_label">List BigPoster</param>
             <param name="visible">$EXP[Exp_View_517]</param>
-            <param name="right">590</param>
+            <param name="right">550</param>
+            <param name="right_downsize">670</param>
             <param name="overlay">true</param>
             <param name="scrollbar_id">65</param>
             <include>View_MediaList_BigPoster</include>
@@ -53,7 +58,8 @@
             <param name="viewtype_label">List BigPoster</param>
             <param name="visible">$EXP[Exp_View_517]</param>
             <param name="top">180</param>
-            <param name="right">590</param>
+            <param name="right">550</param>
+            <param name="right_downsize">670</param>
             <param name="overlay">true</param>
             <include>View_MediaList_BigPoster</include>
         </include>
@@ -66,7 +72,8 @@
             <param name="viewtype_label">List BigLandscape</param>
             <param name="visible">$EXP[Exp_View_519]</param>
             <param name="top">180</param>
-            <param name="right">1030</param>
+            <param name="right">910</param>
+            <param name="right_downsize">1030</param>
             <param name="overlay">true</param>
             <include>View_MediaList_BigLandscape</include>
         </include>
@@ -79,7 +86,8 @@
             <param name="viewtype_label">$LOCALIZE[31427]</param>
             <param name="visible">$EXP[Exp_View_520]</param>
             <param name="left">-60</param>
-            <param name="right">375</param>
+            <param name="right">390</param>
+            <param name="right_downsize">430</param>
             <param name="top">170</param>
             <param name="bottom">0</param>
             <param name="focusposition">1</param>
@@ -91,17 +99,14 @@
             <param name="diffuse">diffuse/landscape_w200_h112.png</param>
 
             <control type="group">
-                <right>-40</right>
-                
-                <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                
-                <bottom>40</bottom>
-                <height>606</height>
+                <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                    <param name="right">120</param>
+                </include>
                 <control type="group">
-                    <right>15</right>
-                    <height>606</height>
-                    <width>410</width>
+                    <bottom>40</bottom>
+                    <right>0</right>
+                    <height>600</height>
+                    <width>400</width>
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
                     <include content="Widget_Standard_Animation">
                         <param name="visible_delay">120</param>
@@ -111,9 +116,10 @@
                     <include content="Layout_Poster">
                         <param name="icon">$VAR[Image_Poster]</param>
                         <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                        <param name="downsize_condition">false</param>
                         <param name="indicator">false</param>
-                        <param name="item_w">385</param>
-                        <param name="item_h">606</param>
+                        <param name="item_w">400</param>
+                        <param name="item_h">600</param>
                     </include>
                 </control>
             </control>
@@ -153,10 +159,12 @@
                 <top>-5</top>
                 <height>80</height>
                 <control type="group">
-                    <visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
                     <left>40</left>
                     <top>20</top>
                     <height>24</height>
+                    <include content="Object_Width" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="width">24%</param>
+                    </include>
                     <width>40%</width>
                     <include content="Object_Control">
                         <param name="control">image</param>
@@ -168,47 +176,15 @@
                         <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
                     </include>
                 </control>
-                
+
                 <control type="group">
-                    <visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
-                    <left>40</left>
-                    <top>20</top>
-                    <height>24</height>
-                    <width>24%</width>
-                    <include content="Object_Control">
-                        <param name="control">image</param>
-                        <include content="Dimension_Padding">
-                            <param name="pad">-20</param>
-                        </include>
-                        <bordersize>20</bordersize>
-                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
-                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
-                    </include>
-                </control>
-                
-                <control type="group">
-                    <visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
                     <left>40</left>
                     <top>70</top>
                     <height>135</height>
+                    <include content="Object_Width" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="width">64%</param>
+                    </include>
                     <width>80%</width>
-                    <include content="Object_Control">
-                        <param name="control">image</param>
-                        <include content="Dimension_Padding">
-                            <param name="pad">-20</param>
-                        </include>
-                        <bordersize>20</bordersize>
-                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
-                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
-                    </include>
-                </control>
-                
-                <control type="group">
-                    <visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
-                    <left>40</left>
-                    <top>70</top>
-                    <height>135</height>
-                    <width>64%</width>
                     <include content="Object_Control">
                         <param name="control">image</param>
                         <include content="Dimension_Padding">
@@ -354,38 +330,13 @@
             </control>
         </definition>
     </include>
-
-    <include name="View_MediaList_Square">
-        <control type="group">
-            <right>-40</right>
-            <bottom>0</bottom>
-            <height>view_poster_itemlayout_h</height>
-            <control type="group">
-                <right>0</right>
-                <height>view_poster_itemlayout_h</height>
-                <width>view_poster_itemlayout_h</width>
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <include content="Widget_Standard_Animation">
-                    <param name="visible_delay">80</param>
-                    <param name="hidden_delay">280</param>
-                    <param name="slide_x">240</param>
-                </include>
-                <include content="Layout_Poster">
-                    <param name="indicator">false</param>
-                    <param name="diffuse">diffuse/square_w294_h294.png</param>
-                    <param name="item_w">view_poster_item_h</param>
-                    <param name="item_h">view_poster_item_h</param>
-                </include>
-            </control>
-        </control>
-    </include>
     
     <include name="View_MediaList_Landscape">
         <control type="group">
-            
-            <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            
+            <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                <param name="right">80</param>
+            </include>
+            <right>-40</right>
             <bottom>0</bottom>
             <height>view_poster_itemlayout_h</height>
             <control type="group">
@@ -393,7 +344,6 @@
                 <height>view_poster_itemlayout_h</height>
                 <width>view_board_itemlayout_w</width>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="[!Skin.String(InfoDialog.NavigationStyle,Wall) + String.IsEmpty(Skin.String(InfoDialog.Layout))]" reversible="false">Hidden</animation>
                 <include content="Widget_Standard_Animation">
                     <param name="visible_delay">120</param>
                     <param name="hidden_delay">240</param>
@@ -402,6 +352,7 @@
                 <include content="Layout_Poster">
                     <param name="icon">$VAR[Image_Landscape]</param>
                     <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
+                    <param name="downsize_condition">false</param>
                     <param name="indicator">true</param>
                     <param name="item_w">view_board_item_w</param>
                     <param name="item_h">view_poster_item_h</param>
@@ -412,33 +363,37 @@
 
     <include name="View_MediaList_BigPoster">
         <control type="group">
-            
-            <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            
+            <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                <param name="right">80</param>
+            </include>
+            <right>-40</right>
             <control type="group">
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="[[!Skin.String(InfoDialog.NavigationStyle,Wall) + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]] | Skin.String(InfoDialog.NavigationStyle,Wall) + String.IsEmpty(Skin.String(InfoDialogWall.Layout))]" reversible="false">Hidden</animation>
+                <include content="Widget_Standard_Animation">
+                    <param name="visible_delay">120</param>
+                    <param name="hidden_delay">240</param>
+                    <param name="slide_x">240</param>
+                </include>
                 <control type="group">
+                    <include content="Object_Bottom" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
+                        <param name="bottom">20</param>
+                    </include>
                     <bottom>0</bottom>
                     <right>40</right>
                     <include content="Object_Height" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
                         <param name="height">820</param>
                     </include>
                     <include content="Object_Width" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                        <param name="width">520</param>
+                        <param name="width">560</param>
                     </include>
                     <width>infodialog_bigposter_w</width>
                     <height>infodialog_bigposter_h</height>
                     <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))]</visible>
-                    <include content="Widget_Standard_Animation">
-                        <param name="visible_delay">120</param>
-                        <param name="hidden_delay">240</param>
-                        <param name="slide_x">320</param>
-                    </include>
-                    <include content="Object_BigPoster" condition="!$EXP[Exp_AspectRatio_Reduced] + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]">
+                    <include content="Object_BigPoster">
                         <param name="icon">$VAR[Image_Poster]</param>
                         <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                        <param name="diffuse_special">diffuse/poster_w560_h820.png</param>
+                        <param name="include_diffuse_special">![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
                     </include>
                 </control>
                 <control type="group">
@@ -447,11 +402,6 @@
                     <width>520</width>
                     <bottom>0</bottom>
                     <visible>String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))</visible>
-                    <include content="Widget_Standard_Animation">
-                        <param name="visible_delay">120</param>
-                        <param name="hidden_delay">240</param>
-                        <param name="slide_x">320</param>
-                    </include>
                     <control type="image">
                         <width>520</width>
                         <height>520</height>
@@ -476,16 +426,16 @@
     
     <include name="View_MediaList_BigLandscape">
         <control type="group">
-            
-            <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            
+            <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                <param name="right">80</param>
+            </include>
+            <right>-40</right>
             <bottom>20</bottom>
-            <height>520.7</height>
+            <height>540</height>
             <control type="group">
                 <right>40</right>
-                <height>520.7</height>
-                <width>940</width>
+                <height>540</height>
+                <width>920</width>
                 <include content="Object_Bottom" condition="!Skin.HasSetting(Disable.ListBigLandscapeDetailedView)">
                     <param name="bottom">231</param>
                 </include>
@@ -498,26 +448,27 @@
                 <include content="Layout_Poster">
                     <param name="icon">$VAR[Image_Landscape]</param>
                     <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
+                    <param name="downsize_condition">false</param>
                     <param name="indicator">true</param>
-                    <param name="item_w">940</param>
-                    <param name="item_h">520.7</param>
+                    <param name="item_w">920</param>
+                    <param name="item_h">540</param>
                 </include>
             </control>
         </control>
     </include>
 
     <include name="View_MediaList_PosterLandscape">
+        <param name="visible">!$EXP[Exp_InfoDialogs]</param>
         <definition>
             <control type="group">
-                
-                <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="[!Skin.String(InfoDialog.NavigationStyle,Wall) + String.IsEmpty(Skin.String(InfoDialog.Layout))]" reversible="false">Hidden</animation>
+                <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                    <param name="right">80</param>
+                </include>
+                <right>-40</right>
                 <bottom>0</bottom>
                 <height>view_poster_itemlayout_h</height>
                 <control type="group">
+                    <visible>$PARAM[visible]</visible>
                     <right>0</right>
                     <height>view_poster_itemlayout_h</height>
                     <width>view_board_itemlayout_w</width>
@@ -529,6 +480,7 @@
                     <include content="Layout_Poster">
                         <param name="icon">$VAR[Image_Landscape]</param>
                         <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
+                        <param name="downsize_condition">false</param>
                         <param name="indicator">true</param>
                         <param name="item_w">view_board_item_w</param>
                         <param name="item_h">view_poster_item_h</param>
@@ -536,6 +488,7 @@
                 </control>
 
                 <control type="group">
+                    <visible>$PARAM[visible]</visible>
                     <right>view_board_itemlayout_w</right>
                     <height>view_poster_itemlayout_h</height>
                     <width>view_poster_itemlayout_w</width>
@@ -555,50 +508,55 @@
     </include>
 
     <include name="View_MediaList_SquareLandscape">
-        <control type="group">
-            
-            <animation effect="slide" start="40" end="-80" time="400" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            <animation effect="slide" start="-80" end="40" time="400" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-            
-            <visible>!$EXP[Exp_InfoDialogs]</visible>
-            <animation effect="fade" start="100" end="0" delay="1000" time="1" condition="[!Skin.String(InfoDialog.NavigationStyle,Wall) + String.IsEmpty(Skin.String(InfoDialog.Layout))]" reversible="false">Hidden</animation>
-            <bottom>0</bottom>
-            <height>view_poster_itemlayout_h</height>
+        <param name="visible">!$EXP[Exp_InfoDialogs]</param>
+        <definition>
             <control type="group">
-                <right>0</right>
+                <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                    <param name="right">80</param>
+                </include>
+                <right>-40</right>
+                <bottom>0</bottom>
                 <height>view_poster_itemlayout_h</height>
-                <width>view_board_itemlayout_w</width>
-                <include content="Widget_Standard_Animation">
-                    <param name="visible_delay">120</param>
-                    <param name="hidden_delay">240</param>
-                    <param name="slide_x">320</param>
-                </include>
-                <include content="Layout_Poster">
-                    <param name="icon">$VAR[Image_Landscape]</param>
-                    <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
-                    <param name="indicator">true</param>
-                    <param name="item_w">view_board_item_w</param>
-                    <param name="item_h">view_poster_item_h</param>
-                </include>
-            </control>
+                <control type="group">
+                    <visible>$PARAM[visible]</visible>
+                    <right>0</right>
+                    <height>view_poster_itemlayout_h</height>
+                    <width>view_board_itemlayout_w</width>
+                    <include content="Widget_Standard_Animation">
+                        <param name="visible_delay">120</param>
+                        <param name="hidden_delay">240</param>
+                        <param name="slide_x">320</param>
+                    </include>
+                    <include content="Layout_Poster">
+                        <param name="icon">$VAR[Image_Landscape]</param>
+                        <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
+                        <param name="downsize_condition">false</param>
+                        <param name="indicator">true</param>
+                        <param name="item_w">view_board_item_w</param>
+                        <param name="item_h">view_poster_item_h</param>
+                    </include>
+                </control>
 
-            <control type="group">
-                <right>view_board_itemlayout_w</right>
-                <height>view_poster_itemlayout_h</height>
-                <width>view_poster_itemlayout_h</width>
-                <include content="Widget_Standard_Animation">
-                    <param name="visible_delay">80</param>
-                    <param name="hidden_delay">280</param>
-                    <param name="slide_x">240</param>
-                </include>
-                <include content="Layout_Poster">
-                    <param name="indicator">false</param>
-                    <param name="diffuse">diffuse/square_w294_h294.png</param>
-                    <param name="item_w">view_poster_item_h</param>
-                    <param name="item_h">view_poster_item_h</param>
-                </include>
+                <control type="group">
+                    <visible>$PARAM[visible]</visible>
+                    <right>view_board_itemlayout_w</right>
+                    <height>view_poster_itemlayout_h</height>
+                    <width>view_poster_itemlayout_h</width>
+                    <include content="Widget_Standard_Animation">
+                        <param name="visible_delay">80</param>
+                        <param name="hidden_delay">280</param>
+                        <param name="slide_x">240</param>
+                    </include>
+                    <include content="Layout_Poster">
+                        <param name="indicator">false</param>
+                        <param name="diffuse">diffuse/square_w294_h294.png</param>
+                        <param name="downsize_condition">false</param>
+                        <param name="item_w">view_poster_item_h</param>
+                        <param name="item_h">view_poster_item_h</param>
+                    </include>
+                </control>
             </control>
-        </control>
+        </definition>
     </include>
 
     <include name="View_MediaList_Include">
@@ -619,6 +577,9 @@
 
                 <control type="group">
                     <left>$PARAM[left]</left>
+                    <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="right">$PARAM[right_downsize]</param>
+                    </include>
                     <right>$PARAM[right]</right>
                     <bottom>$PARAM[bottom]</bottom>
                     <top>$PARAM[top]</top>

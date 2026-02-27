@@ -86,6 +86,25 @@
                     <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoInfo</include>
                     <include condition="String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_PersonInfo</include>
                 </control>
+                <control type="group">
+                    <top>430</top>
+                    <left>-200</left>
+                    <right>-80</right>
+                    <visible>![Window.IsActive(1121)]</visible>
+                    <control type="group">
+                        <right>40</right>
+                        <bottom>-40</bottom>
+                        <height>view_poster_itemlayout_h</height>
+                        <visible>String.IsEqual(Window.Property(DetailsView),Critics) | String.IsEmpty(Window.Property(DetailsView))</visible>
+                        <visible>![Control.HasFocus(7000) |  Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]</visible>
+                        <include content="DialogInfo_Video_SideArt">
+                            <param name="visible">![String.IsEqual(ListItem.DBType,musicvideo)]</param>
+                        </include>
+                        <include content="DialogInfo_Music_SideArt">
+                            <param name="visible">String.IsEqual(ListItem.DBType,musicvideo)</param>
+                        </include>
+                    </control>
+                </control>
             </control>
             <include>DialogInfo_ArtworkGallery</include>
         </include>
@@ -104,6 +123,7 @@
                     </include>
                     <include content="DialogInfo_Info_Group_Wall" condition="Skin.String(InfoDialogWall.Layout,Flix) + !String.IsEqual(ListItem.Property(tmdb_type),person)">
                         <param name="indent">view_pad</param>
+                        <param name="indent_large">view_pad</param>
                         <param name="extended_include">DialogInfo_VideoDetails_Wall</param>
                         <param name="plotwidth">info_plot_w</param>
                     </include>

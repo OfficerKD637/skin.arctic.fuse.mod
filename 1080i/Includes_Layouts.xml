@@ -1210,18 +1210,18 @@
                     <top>10</top>
                     <bottom>10</bottom>
                     
-                    <control type="image">
+                    <include content="Object_Control" condition="!Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="control">image</param>
                         <include>Texture_Menu_Highlight_H</include>
                         <visible>$PARAM[selected]</visible>
-                        <visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
                         <right>-40</right>
-                    </control>
-                    <control type="image">
+                    </include>
+                    <include content="Object_Control" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="control">image</param>
                         <include>Texture_Menu_Highlight_H</include>
                         <visible>$PARAM[selected]</visible>
-                        <visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
                         <right>40</right>
-                    </control>
+                    </include>
                     <control type="group">
                         <width>$PARAM[misc]</width>
                         <top>20</top>
@@ -1252,56 +1252,56 @@
                                 <right>40</right>
                                 <top>10</top>
                                 <height>80</height>
-
-                                <control type="label">
-                                    <visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                                
+                                <include content="Object_Control" condition="!Skin.String(Home.SideMenuCollapse,Never)">
+                                    <param name="control">label</param>
                                     <label>$VAR[Label_MediaList_Episode_Number_Title]</label>
                                     <font>font_main_bold</font>
                                     <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                     <textcolor>main_fg_90</textcolor>
                                     <right>240</right>
-                                </control>
+                                </include>
                                 
-                                <control type="label">
-                                    <visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                                <include content="Object_Control" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                                    <param name="control">label</param>
                                     <label>$VAR[Label_MediaList_Episode_Number_Title]</label>
                                     <font>font_main_bold</font>
                                     <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                     <textcolor>main_fg_90</textcolor>
                                     <right>360</right>
-                                </control>
+                                </include>
 
                                 <control type="group">
                                     <visible>![$EXP[Exp_IsGenre] | $EXP[Exp_IsStudio] | $EXP[Exp_IsCountry]]</visible>
-                                    
-                                    <animation effect="slide" start="40" end="-40" time="0" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                                    <animation effect="slide" start="-40" end="40" time="0" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                                    
+                                    <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                                        <param name="right">80</param>
+                                    </include>
                                     <control type="group">
                                         <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>                                    
-                                            <control type="label">
-                                                <right>150</right>
-                                                <font>font_tiny</font>
-                                                <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
-                                                <textcolor>main_fg_70</textcolor>
-                                                <label>$VAR[Label_MediaList_Details_LeftLabel]</label>
-                                                <align>right</align>
-                                            </control>
-                                            <include content="Object_Indicator_List">
-                                                <param name="affix">$PARAM[affix]</param>
-                                                <param name="listitem">$PARAM[listitem]</param>
-                                                <param name="selected">$PARAM[selected]</param>
-                                                <centertop>50%</centertop>
-                                                <centerright>100</centerright>
-                                            </include>
-                                            <control type="label">
-                                                <right>0</right>
-                                                <font>font_tiny</font>
-                                                <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
-                                                <textcolor>main_fg_70</textcolor>
-                                                <label>$VAR[Label_MediaList_Details_RightLabel]</label>
-                                                <align>right</align>
-                                            </control>
+                                        <control type="label">
+                                            <right>120</right>
+                                            <font>font_tiny</font>
+                                            <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
+                                            <textcolor>main_fg_70</textcolor>
+                                            <label>$VAR[Label_MediaList_Details_LeftLabel]</label>
+                                            <align>right</align>
+                                        </control>
+                                        <include content="Object_Indicator_List">
+                                            <param name="affix">$PARAM[affix]</param>
+                                            <param name="listitem">$PARAM[listitem]</param>
+                                            <param name="selected">$PARAM[selected]</param>
+                                            <centertop>50%</centertop>
+                                            <centerright>60</centerright>
+                                        </include>
+                                        <control type="label">
+                                            <right>-40</right>
+                                            <width>90</width>
+                                            <font>font_tiny</font>
+                                            <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
+                                            <textcolor>main_fg_70</textcolor>
+                                            <label>$VAR[Label_MediaList_Details_RightLabel]</label>
+                                            <align>right</align>
+                                        </control>
                                     </control>
 
                                     <control type="group">
@@ -1324,9 +1324,9 @@
                                     </control>
                                 </control>                                                                
                             </control>
-
-                            <control type="textbox">                                
-                                <visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                            
+                            <include content="Object_Control" condition="!Skin.String(Home.SideMenuCollapse,Never)">
+                                <param name="control">textbox</param>
                                 <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                 <label fallback="19055">$VAR[Label_Landscape_Plot]</label>
                                 <font>font_mini_plot</font>
@@ -1336,9 +1336,10 @@
                                 <right>-10</right>
                                 <left>60</left>
                                 <autoscroll delay="6000" time="3000" repeat="10000">!Skin.HasSetting(Textboxes.DisableAutoscroll) + $PARAM[selected]</autoscroll>
-                            </control>                            
-                            <control type="textbox">                                
-                                <visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                            </include>
+                            
+                            <include content="Object_Control" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                                <param name="control">textbox</param>
                                 <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                 <label fallback="19055">$VAR[Label_Landscape_Plot]</label>
                                 <font>font_mini_plot</font>
@@ -1348,7 +1349,8 @@
                                 <right>80</right>
                                 <left>60</left>
                                 <autoscroll delay="6000" time="3000" repeat="10000">!Skin.HasSetting(Textboxes.DisableAutoscroll) + $PARAM[selected]</autoscroll>
-                            </control>
+                            </include>
+
                         </control>
                     </control>
                 </control>
@@ -1435,41 +1437,40 @@
                                 <right>40</right>
                                 <top>10</top>
                                 <height>80</height>
-
-                                <control type="label">
-                                    <visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                                
+                                <include content="Object_Control" condition="!Skin.String(Home.SideMenuCollapse,Never)">
+                                    <param name="control">label</param>
                                     <label>$VAR[Label_MediaList_Episode_Number_Title]</label>
                                     <font>font_main_bold</font>
                                     <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                     <textcolor>main_fg_90</textcolor>
                                     <right>240</right>
-                                </control>
+                                </include>
                                 
-                                <control type="label">
-                                    <visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                                <include content="Object_Control" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                                    <param name="control">label</param>
                                     <label>$VAR[Label_MediaList_Episode_Number_Title]</label>
                                     <font>font_main_bold</font>
                                     <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                     <textcolor>main_fg_90</textcolor>
                                     <right>360</right>
-                                </control>
+                                </include>
 
                                 <control type="group">
                                     <visible>![$EXP[Exp_IsGenre] | $EXP[Exp_IsStudio] | $EXP[Exp_IsCountry]]</visible>
-                                    
-                                    <animation effect="slide" start="0" end="-120" time="0" tween="cubic" easing="out" condition="!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                                    <animation effect="slide" start="-120" end="0" time="0" tween="cubic" easing="out" condition="String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))" reversible="false">Conditional</animation>
-                                    
+                                    <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                                        <param name="right">120</param>
+                                    </include>
                                     <control type="group">
                                         <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)</visible>                                    
-                                            <control type="label">
-                                                <right>0</right>
-                                                <font>font_tiny</font>
-                                                <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
-                                                <textcolor>main_fg_70</textcolor>
-                                                <label>$VAR[Label_MediaList_Details_LeftLabel,,  •  ]$VAR[Label_MediaList_Details_RightLabel]</label>
-                                                <align>right</align>
-                                            </control>                                                                                
+                                        <control type="label">
+                                            <right>0</right>
+                                            <font>font_tiny</font>
+                                            <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
+                                            <textcolor>main_fg_70</textcolor>
+                                            <label>$VAR[Label_MediaList_Details_LeftLabel,,  •  ]$VAR[Label_MediaList_Details_RightLabel]</label>
+                                            <align>right</align>
+                                        </control>                                                                                
                                     </control>
 
                                     <control type="group">
@@ -1492,9 +1493,9 @@
                                     </control>
                                 </control>                                                                
                             </control>
-
-                            <control type="textbox">                                
-                                <visible>String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                            
+                            <include content="Object_Control" condition="!Skin.String(Home.SideMenuCollapse,Never)">
+                                <param name="control">textbox</param>
                                 <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                 <label fallback="19055">$VAR[Label_Landscape_Plot]</label>
                                 <font>font_mini_plot</font>
@@ -1504,9 +1505,10 @@
                                 <right>40</right>
                                 <left>60</left>
                                 <autoscroll delay="6000" time="3000" repeat="10000">!Skin.HasSetting(Textboxes.DisableAutoscroll) + $PARAM[selected]</autoscroll>
-                            </control>                            
-                            <control type="textbox">                                
-                                <visible>!String.IsEmpty(Window(Home).Property(SideMenu.HasFocus))</visible>
+                            </include>
+                            
+                            <include content="Object_Control" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                                <param name="control">textbox</param>
                                 <include condition="$PARAM[selected]">Color_SelectedText_ComboList</include>
                                 <label fallback="19055">$VAR[Label_Landscape_Plot]</label>
                                 <font>font_mini_plot</font>
@@ -1516,7 +1518,7 @@
                                 <right>160</right>
                                 <left>60</left>
                                 <autoscroll delay="6000" time="3000" repeat="10000">!Skin.HasSetting(Textboxes.DisableAutoscroll) + $PARAM[selected]</autoscroll>
-                            </control>
+                            </include>
                         </control>
                     </control>
                 </control>

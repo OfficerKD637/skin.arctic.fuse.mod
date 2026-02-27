@@ -19,7 +19,7 @@
 
             <control type="group">
                 <left>-120</left>
-                <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
+                <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + ![Skin.String(InfoDialog.NavigationStyle,Wall) + Skin.String(InfoDialogWall.Layout,Flip)]">
                      <param name="include_topbar_animation">False</param>
                 </include>
             </control>        
@@ -49,26 +49,33 @@
                 <left>145</left>
                 <top>450</top>
             </include>
-            <control type ="group">
-                <visible>[!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))] + [[!Skin.String(InfoDialog.NavigationStyle,Wall) + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster) | String.IsEqual(ListItem.Property(tmdb_type),person)]] | [Skin.String(InfoDialog.NavigationStyle,Wall) + !Skin.String(InfoDialogWall.Layout,Flip)]]</visible>
-                <height>768</height>
-                <width>480</width>
+            <control type="group">
+                <visible>[[!Skin.String(InfoDialog.NavigationStyle,Wall) + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]] | [Skin.String(InfoDialog.NavigationStyle,Wall) + !Skin.String(InfoDialogWall.Layout,Flix)] | String.IsEqual(ListItem.Property(tmdb_type),person)]</visible>
+                <include content="Object_Height" condition="[Skin.String(InfoDialog.NavigationStyle,Wall) + Skin.String(InfoDialogWall.Layout,Flip)] | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
+                    <param name="height">820</param>
+                </include>
+                <include content="Object_Width" condition="[Skin.String(InfoDialog.NavigationStyle,Wall) + Skin.String(InfoDialogWall.Layout,Flip)] | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
+                    <param name="width">560</param>
+                </include>
+                <height>infodialog_bigposter_h</height>
+                <width>infodialog_bigposter_w</width>
+                <include content="Object_Bottom" condition="[Skin.String(InfoDialog.NavigationStyle,Wall) + Skin.String(InfoDialogWall.Layout,Flip)] | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
+                    <param name="bottom">180</param>
+                </include>
                 <bottom>160</bottom>
-                <right>80</right>
-                <include>Object_ItemBack</include>
-            </control>
-            <control type ="group">
-                <visible>![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))] + [[!Skin.String(InfoDialog.NavigationStyle,Wall) + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster) | String.IsEqual(ListItem.Property(tmdb_type),person)]] | [Skin.String(InfoDialog.NavigationStyle,Wall) + !Skin.String(InfoDialogWall.Layout,Flip)]]</visible>
-                <height>820</height>
-                <width>520</width>
-                <bottom>160</bottom>
+                <include content="Object_Left" condition="Skin.String(InfoDialog.NavigationStyle,Wall) + Skin.String(InfoDialogWall.Layout,Flip)">
+                    <param name="left">200</param>
+                </include>
                 <right>80</right>
                 <include>Object_ItemBack</include>
             </control>
             <control type="group">
                 <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
                     <param name="top">-80</param>    
-                </include>                
+                </include>
+                <include content="Object_Left" condition="Skin.String(InfoDialog.NavigationStyle,Wall) + Skin.String(InfoDialogWall.Layout,Flip)">
+                    <param name="left">640</param>
+                </include>
                 <include content="Info_Panel">
                     <top>view_pad</top>
                     <width>info_panel_w</width>

@@ -19,7 +19,6 @@
         <top>430</top>
         <left>-200</left>
         <right>-80</right>
-        <include>Animation_Transition_InfoPanel_Open_Fade</include>
         <visible>![Window.IsActive(1121)]</visible>
     </include>
 
@@ -73,7 +72,7 @@
                 <param name="top">520</param>    
             </include>
             <left>0</left>
-            <include>Animation_Transition_InfoPanel_Open_Fade</include>
+            <include>DialogInfo_Main_Group_Animation</include>
             <visible>!Control.HasFocus(513) + !Control.HasFocus(555) + !Control.HasFocus(556) + !Control.HasFocus(557) + !Control.HasFocus(558) + !Control.HasFocus(514) + !Control.HasFocus(515)</visible>
             <control type="grouplist">
                 <orientation>horizontal</orientation>
@@ -149,14 +148,6 @@
                 <animation effect="fade" tween="quadratic" reversible="false" time="400" condition="Skin.String(InfoDialog.NavigationStyle,Wall) + ControlGroup(5000).HasFocus()" start="100" end="0">Conditional</animation>
                 <animation effect="fade" tween="quadratic" reversible="false" time="400" condition="Skin.String(InfoDialog.NavigationStyle,Wall) + !ControlGroup(5000).HasFocus()" end="100" start="0">Conditional</animation>
             </control>
-            <control type="group">
-                <bottom>-40</bottom>
-                <left>-120</left>
-                <visible>!Skin.String(InfoDialog.NavigationStyle,Wall) + [ControlGroup(4000).HasFocus | Control.HasFocus(61) | String.IsEmpty(System.CurrentControlID)]</visible>
-                <include condition="$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Open</include>
-                <include condition="!$EXP[Exp_Footer_BottomLeft_IsVisible]">Animation_Transition_InfoPanel_Open_Fade</include>
-                <include condition="!String.IsEmpty(Skin.String(Furniture.BottomLeft.Enable))">Furniture_Bottom_Left</include>
-            </control>
         </control>
         <control type="group">
             <visible>[Skin.String(InfoDialog.NavigationStyle,Wall) | [!Skin.String(InfoDialog.NavigationStyle,Wall) + [String.IsEmpty(Window.Property(DetailsView)) + !Control.HasFocus(7000) + !Control.HasFocus(513) + !Control.HasFocus(555) + !Control.HasFocus(556)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]]]</visible>
@@ -207,6 +198,7 @@
     </include>
 
     <include name="DialogInfo_MusicInfo">
+        <include>DialogInfo_Main_Group_Animation</include>
         <include content="DialogInfo_MusicDetails">
              <param name="visible">String.IsEmpty(Window.Property(DetailsView))</param>
         </include>
@@ -400,17 +392,6 @@
             <content target="music">musicdb://albums/?xsp={"rules":{"and":[{"field":"artist","operator":"contains","value":["$INFO[Window.Property(Encoded.ListItem.Artist)]"]}]},"type":"albums"}</content>
             <visible>String.IsEqual(Window.Property(DetailsView),Albums)</visible>
         </include>
-
-        <control type="group">
-            <right>40</right>
-            <bottom>-40</bottom>
-            <include>Animation_View_SlideOver_Invert</include>
-            <height>view_poster_itemlayout_h</height>
-            <visible>String.IsEqual(Window.Property(DetailsView),Critics) | String.IsEmpty(Window.Property(DetailsView))</visible>
-            <include content="DialogInfo_Music_SideArt">
-                <param name="visible">true</param>
-            </include>
-        </control>
 
         <include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
@@ -1232,6 +1213,7 @@
     </include>
 
     <include name="DialogInfo_VideoInfo">
+        <include>DialogInfo_Main_Group_Animation</include>
         <include content="DialogInfo_VideoDetails">
             <param name="visible">String.IsEmpty(Window.Property(DetailsView))</param>
         </include>
@@ -1543,21 +1525,6 @@
             </control>
         </control>
 
-        <control type="group">
-            <right>40</right>
-            <bottom>-40</bottom>
-            <height>view_poster_itemlayout_h</height>
-            <visible>String.IsEqual(Window.Property(DetailsView),Critics) | String.IsEmpty(Window.Property(DetailsView))</visible>
-            <visible>![Control.HasFocus(7000) |  Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]</visible>
-            <include content="DialogInfo_Video_SideArt">
-                <param name="visible">![String.IsEqual(ListItem.DBType,musicvideo)]</param>
-            </include>
-            <include content="DialogInfo_Music_SideArt">
-                <param name="visible">String.IsEqual(ListItem.DBType,musicvideo)</param>
-            </include>
-        </control>
-
-
         <include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating]</param>
@@ -1616,6 +1583,7 @@
                         <param name="plotautoheight">false</param>
                         <animation effect="fade" tween="quadratic" reversible="false" time="400" start="100" end="0" condition="[!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                         <animation effect="fade" tween="quadratic" reversible="false" time="400" end="100" start="0" condition="![!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
+                        <include>Animation_Transition_InfoPanel_Open</include>
                     </include>
                 </control>
                 <include content="DialogInfo_Recommendations_InfoPanel">
@@ -1639,15 +1607,17 @@
                             <param name="height">820</param>
                         </include>
                         <include content="Object_Width" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                            <param name="width">520</param>
+                            <param name="width">560</param>
                         </include>
                         <width>infodialog_bigposter_w</width>
                         <height>infodialog_bigposter_h</height>
                         <animation effect="fade" tween="quadratic" reversible="false" time="400" start="100" end="0" condition="[!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                         <animation effect="fade" tween="quadratic" reversible="false" time="400" end="100" start="0" condition="![!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
-                        <include content="Object_BigPoster" condition="!$EXP[Exp_AspectRatio_Reduced] + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]">
+                        <include content="Object_BigPoster">
                             <param name="icon">$VAR[Image_Poster]</param>
                             <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                            <param name="diffuse_special">diffuse/poster_w560_h820.png</param>
+                            <param name="include_diffuse_special">![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
                         </include>
                     </control>
                     
@@ -1784,6 +1754,13 @@
             <height>view_poster_itemlayout_h</height>
             <width>view_board_itemlayout_w</width>
             <bottom>40</bottom>
+            <include content="DialogInfo_Main_Group_Animation">
+                <param name="posx">320</param>
+                <param name="posy">0</param>
+                <param name="delay_slide_in">440</param>
+                <param name="delay_zoom_in">240</param>
+                <param name="delay_slide_out">240</param>
+            </include>
             <include content="Layout_Poster" condition="String.IsEmpty(Skin.String(InfoDialog.Layout))">
                 <param name="icon">$VAR[Image_DialogInfo_Landscape]</param>
                 <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
@@ -1797,6 +1774,13 @@
             <height>view_poster_itemlayout_h</height>
             <width>view_poster_itemlayout_w</width>
             <bottom>40</bottom>
+            <include content="DialogInfo_Main_Group_Animation">
+                <param name="posx">240</param>
+                <param name="posy">0</param>
+                <param name="delay_slide_in">400</param>
+                <param name="delay_zoom_in">200</param>
+                <param name="delay_slide_out">280</param>
+            </include>
             <include content="Layout_Poster" condition="!$EXP[Exp_AspectRatio_Reduced] + String.IsEmpty(Skin.String(InfoDialog.Layout))">
                 <param name="icon">$VAR[Image_DialogInfo_Poster]</param>
                 <param name="indicator">false</param>
@@ -1807,17 +1791,23 @@
         <control type="group">
             <bottom>40</bottom>
             <right>40</right>
+            <include content="DialogInfo_Main_Group_Animation">
+                <param name="posx">240</param>
+                <param name="posy">0</param>
+            </include>
             <include content="Object_Height" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
                 <param name="height">820</param>
             </include>
             <include content="Object_Width" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                <param name="width">520</param>
+                <param name="width">560</param>
             </include>
             <width>infodialog_bigposter_w</width>
             <height>infodialog_bigposter_h</height>
             <include content="Object_BigPoster" condition="!$EXP[Exp_AspectRatio_Reduced] + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]">
                 <param name="icon">$VAR[Image_DialogInfo_Poster]</param>
                 <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                <param name="diffuse_special">diffuse/poster_w560_h820.png</param>
+                <param name="include_diffuse_special">![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
             </include>
         </control>
     </include>
@@ -1830,6 +1820,13 @@
                 <bottom>40</bottom>
                 <height>view_poster_itemlayout_h</height>
                 <width>view_board_itemlayout_w</width>
+                <include content="DialogInfo_Main_Group_Animation">
+                    <param name="posx">320</param>
+                    <param name="posy">0</param>
+                    <param name="delay_slide_in">440</param>
+                    <param name="delay_zoom_in">240</param>
+                    <param name="delay_slide_out">240</param>
+                </include>
                 <include content="Layout_Poster" condition="!$EXP[Exp_AspectRatio_Reduced] + String.IsEmpty(Skin.String(InfoDialog.Layout))">
                     <param name="icon">$VAR[Image_DialogInfo_Landscape]</param>
                     <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
@@ -1846,6 +1843,13 @@
                 <bottom>40</bottom>
                 <height>view_poster_itemlayout_h</height>
                 <width>view_poster_itemlayout_h</width>
+                <include content="DialogInfo_Main_Group_Animation">
+                    <param name="posx">240</param>
+                    <param name="posy">0</param>
+                    <param name="delay_slide_in">400</param>
+                    <param name="delay_zoom_in">200</param>
+                    <param name="delay_slide_out">280</param>
+                </include>
                 <include content="Layout_Poster" condition="String.IsEmpty(Skin.String(InfoDialog.Layout))">
                     <param name="diffuse">diffuse/square_w294_h294.png</param>
                     <param name="icon">$INFO[ListItem.Icon]</param>
@@ -1859,6 +1863,10 @@
                 <height>560</height>
                 <width>560</width>
                 <bottom>23</bottom>
+                <include content="DialogInfo_Main_Group_Animation">
+                    <param name="posx">240</param>
+                    <param name="posy">0</param>
+                </include>
                 <include content="Layout_Poster" condition="!$EXP[Exp_AspectRatio_Reduced] + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]">
                     <param name="diffuse">diffuse/square_w600_h600.png</param>
                     <param name="icon">$INFO[ListItem.Icon]</param>
@@ -3156,6 +3164,17 @@
                             <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(ListItem.DBType,episode)</visible>
                         </include>
                     </control>
+                    
+                    
+                    <!-- Furniture Bottom Left -->
+                    <control type="group">
+                        <left>-200</left>
+                        <bottom>-200</bottom>
+                        <visible>!Skin.String(InfoDialog.NavigationStyle,Wall) + [ControlGroup(4000).HasFocus | Control.HasFocus(61) | String.IsEmpty(System.CurrentControlID)]</visible>
+                        <include content="Furniture_Bottom_Left">
+                            <param name="enabled">!String.IsEmpty(Skin.String(Furniture.BottomLeft.Enable))</param>
+                        </include>
+                    </control>
 
 
                     <!-- Right Details -->
@@ -3342,8 +3361,16 @@
                     <param name="colordiffuse">white</param>
                     <visible>!String.IsEmpty(ListItem.Property(Artist_Type)) | !String.IsEmpty(ListItem.Property(Album_Type))</visible>
                 </include>
-
-
+            </control>
+            
+            <!-- Furniture Bottom Left -->
+            <control type="group">
+                <left>-200</left>
+                <bottom>-200</bottom>
+                <visible>!Skin.String(InfoDialog.NavigationStyle,Wall) + [ControlGroup(4000).HasFocus | Control.HasFocus(61) | String.IsEmpty(System.CurrentControlID)]</visible>
+                <include content="Furniture_Bottom_Left">
+                    <param name="enabled">!String.IsEmpty(Skin.String(Furniture.BottomLeft.Enable))</param>
+                </include>
             </control>
 
 
@@ -4202,23 +4229,32 @@
         <visible>![ControlGroup(5000).HasFocus() | [String.IsEqual(ListItem.Property(tmdb_type),person) + ControlGroup(303).HasFocus()]]</visible>
     </include>
     
-    <include name="DialogInfo_Main_Group_Animation_Wall">
-        <include content="Animation_Slide_In">
-            <param name="type">WindowOpen</param>
-            <param name="posy">160</param>
-            <param name="delay">400</param>
-        </include>
-        <include content="Animation_Slide_Out">
-            <param name="type">WindowClose</param>
-            <param name="posy">160</param>
-        </include>
-        <include content="Animation_Zoom_Out">
-            <param name="type">Hidden</param>
-        </include>
-        <include content="Animation_Zoom_In">
-            <param name="type">Visible</param>
-            <param name="delay">200</param>
-        </include>
+    <include name="DialogInfo_Main_Group_Animation">
+        <param name="posy">160</param>
+        <param name="delay_slide_in">400</param>
+        <param name="delay_zoom_in">200</param>
+        <definition>
+            <include content="Animation_Slide_In">
+                <param name="type">WindowOpen</param>
+                <param name="posx">$PARAM[posx]</param>
+                <param name="posy">$PARAM[posy]</param>
+                <param name="delay">$PARAM[delay_slide_in]</param>
+            </include>
+            <include content="Animation_Slide_Out">
+                <param name="type">WindowClose</param>
+                <param name="posx">$PARAM[posx]</param>
+                <param name="posy">$PARAM[posy]</param>
+                <param name="delay">$PARAM[delay_slide_out]</param>
+            </include>
+            <include content="Animation_Zoom_Out">
+                <param name="type">Hidden</param>
+                <param name="delay">$PARAM[delay_zoom_out]</param>
+            </include>
+            <include content="Animation_Zoom_In">
+                <param name="type">Visible</param>
+                <param name="delay">$PARAM[delay_zoom_in]</param>
+            </include>
+        </definition>
     </include>
 
     <include name="DialogInfo_Body_Group_Wall">
@@ -4229,7 +4265,9 @@
             <include>Dimension_Info</include>
             <include content="Object_Control" condition="![Skin.String(InfoDialogWall.Layout,Flix) + !String.IsEqual(ListItem.Property(tmdb_type),person)]">
                 <param name="control">group</param>
-                <bottom>0</bottom>
+                <include content="Object_Bottom" condition="![Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
+                    <param name="bottom">0</param>
+                </include>
                 <include content="Object_Right" condition="!Skin.String(InfoDialogWall.Layout,Flip)">
                     <param name="right">0</param>
                 </include>
@@ -4240,7 +4278,7 @@
                     <param name="height">820</param>
                 </include>
                 <include content="Object_Width" condition="Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                    <param name="width">520</param>
+                    <param name="width">560</param>
                 </include>
                 <width>infodialog_bigposter_w</width>
                 <height>infodialog_bigposter_h</height>
@@ -4248,14 +4286,16 @@
                 <include content="Object_BigPoster" condition="[Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="icon">$PARAM[icon]</param>
                     <param name="diffuse">diffuse/poster_w460_h680.png</param>
+                    <param name="diffuse_special">diffuse/poster_w560_h820.png</param>
+                    <param name="include_diffuse_special">Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
                 </include>
                 <include content="Object_Control" condition="![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="control">image</param>
                     <include content="Object_Height" condition="Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                        <param name="height">520</param>
+                        <param name="height">560</param>
                     </include>
                     <include content="Object_Width" condition="Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                        <param name="width">520</param>
+                        <param name="width">560</param>
                     </include>
                     <width>infodialog_bigposter_w</width>
                     <height>infodialog_bigposter_w</height>
@@ -4272,8 +4312,10 @@
                 <include content="Object_BigPoster" condition="![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="icon">$PARAM[icon]</param>
                     <param name="diffuse">diffuse/square_w460_h460.png</param>
+                    <param name="diffuse_special">diffuse/square_w560_h560.png</param>
+                    <param name="include_diffuse_special">Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
                     <include content="Object_Height" condition="Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                        <param name="height">520</param>
+                        <param name="height">560</param>
                     </include>
                     <height>infodialog_bigposter_w</height>
                     <include content="Object_Bottom" condition="!Skin.String(InfoDialogWall.Layout,Flip)">
@@ -4283,7 +4325,14 @@
                         <param name="top">0</param>
                     </include>
                 </include>
-                <include>DialogInfo_Main_Group_Animation_Wall</include>
+                <include content="DialogInfo_Main_Group_Animation" condition="!Skin.String(InfoDialogWall.Layout,Flip)">
+                    <param name="posx">240</param>
+                    <param name="posy">0</param>
+                </include>
+                <include content="DialogInfo_Main_Group_Animation" condition="Skin.String(InfoDialogWall.Layout,Flip)">
+                    <param name="posx">-240</param>
+                    <param name="posy">0</param>
+                </include>
             </include>
         </definition>
     </include>
@@ -4292,19 +4341,23 @@
         <param name="titlelabel">$VAR[Label_Title]</param>
         <param name="plotlabel">$VAR[Label_Plot_TMDbHelper]</param>
         <param name="indent">600</param>
+        <param name="indent_large">640</param>
         <definition>
             <bottom>-40</bottom>
             <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.String(InfoDialogWall.Layout,Flip)">
                 <param name="top">80</param>    
             </include>
-            <include content="Object_Right" condition="!Skin.String(InfoDialogWall.Layout,Flip)">
+            <include content="Object_Right" condition="!Skin.String(InfoDialogWall.Layout,Flip) + [!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
                 <param name="right">$PARAM[indent]</param>
             </include>
+            <include content="Object_Right" condition="!Skin.String(InfoDialogWall.Layout,Flip) + ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
+                <param name="right">$PARAM[indent_large]</param>
+            </include>
             <include content="Object_Left" condition="Skin.String(InfoDialogWall.Layout,Flip)">
-                <param name="left">$PARAM[indent]</param>
+                <param name="left">$PARAM[indent_large]</param>
             </include>
             <control type="group">
-                <include condition="Skin.String(InfoDialogWall.Layout,Flip)">DialogInfo_Main_Group_Animation_Wall</include>
+                <include condition="Skin.String(InfoDialogWall.Layout,Flip)">DialogInfo_Main_Group_Animation</include>
                 <include condition="!Skin.String(InfoDialogWall.Layout,Flip)">Animation_Transition_InfoPanel_Open</include>
                 <include content="Info_Panel" condition="!String.IsEqual(ListItem.Property(tmdb_type),person) + ![Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(InfoDialogWall.Layout,Flip)]">
                     <param name="titlelabel">$PARAM[titlelabel]</param>
@@ -4344,7 +4397,7 @@
                 </include>
                 <top>420</top>
                 <orientation>vertical</orientation>
-                <include>DialogInfo_Main_Group_Animation_Wall</include>
+                <include>DialogInfo_Main_Group_Animation</include>
                 <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">$PARAM[extended_include]</include>
             </control>
         </definition>
