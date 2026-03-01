@@ -241,6 +241,7 @@
 
     <include name="Background_Notification_Overlay">
         <param name="colordiffuse">main_bg_70</param>
+        <param name="visible">Window.IsActive(DialogExtendedProgressBar.xml) | Window.IsActive(DialogNotification.xml)</param>
         <definition>
             <control type="image" id="$PARAM[id]">
                 <right>0</right>
@@ -248,7 +249,7 @@
                 <height>320</height>
                 <width>1920</width>
                 <texture colordiffuse="$PARAM[colordiffuse]">shadows/cornerspot.png</texture>
-                <visible>Window.IsActive(DialogExtendedProgressBar.xml) | Window.IsActive(DialogNotification.xml) | [!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</visible>
+                <visible>$PARAM[visible]</visible>
                 <include content="Animation_Fade_In">
                     <param name="type">Visible</param>
                     <param name="delay">200</param>
@@ -269,6 +270,10 @@
         </control>
         <include content="Background_Notification_Overlay" condition="!Skin.HasSetting(ToastNotifications.Tabbed)">
             <param name="colordiffuse">main_bg_70</param>
+        </include>
+        <include content="Background_Notification_Overlay">
+            <param name="colordiffuse">main_bg_70</param>
+            <param name="visible">[!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))] + !Window.IsActive(DialogExtendedProgressBar.xml) + !Window.IsActive(DialogNotification.xml) + !$EXP[Exp_BackgroundArtwork_IsSimple]</param>
         </include>
         <control type="image">
             <texture colordiffuse="$VAR[ColorBackground]">background/combined_overlay.png</texture>
