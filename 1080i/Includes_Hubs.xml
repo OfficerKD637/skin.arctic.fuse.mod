@@ -270,25 +270,23 @@
     
     <include name="Hub_Left_Bezier_Object">
         <param name="visible">[true]</param>
-        <param name="left">160</param>
-        <param name="time_in">200</param>
-        <param name="time_out">0</param>
-        <param name="fadeout_include">false</param>
+        <param name="include_slideover">[true]</param>
         <definition>
             <control type="image">
-                <left>$PARAM[left]</left>
-                <width>960</width>
+                <left>40</left>
+                <width>1080</width>
                 <height>1080</height>
                 <visible>$PARAM[visible]</visible>
                 <include content="Animation_Fade_In">
                     <param name="type">Visible</param>
-                    <param name="time">$PARAM[time_in]</param>
-                    <param name="delay">200</param>
+                    <param name="time">200</param>
                 </include>
-                <include content="Animation_Fade_Out" condition="$PARAM[fadeout_include]">
+                <include content="Animation_Fade_Out">
                     <param name="type">Hidden</param>
-                    <param name="time">$PARAM[time_out]</param>
+                    <param name="time">400</param>
+                    <param name="delay">0</param>
                 </include>
+                <include condition="$PARAM[include_slideover]">Animation_View_SlideOver</include>
                 <texture colordiffuse="$VAR[ColorBackground]">background/combined_sidemenu.png</texture>
             </control>
         </definition>
@@ -322,7 +320,7 @@
             <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Hub_Top_Bezier</include>
             
             <control type="group">
-                <include content="Hub_Left_Bezier" condition="!$EXP[Exp_HomeMenu_IsTopBar]"></include>
+                <include condition="!$EXP[Exp_HomeMenu_IsTopBar]">Hub_Left_Bezier</include>
                 <!-- Hub Widgets Group -->
                 <control type="group" id="320">
                 

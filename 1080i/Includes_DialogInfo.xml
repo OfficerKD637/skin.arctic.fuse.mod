@@ -4197,15 +4197,23 @@
         <param name="include_slideover_2">false</param>
         <definition>
         <control type="image">
-            <left>160</left>
-            <width>960</width>
+            <left>40</left>
+            <width>1080</width>
             <height>1080</height>
-            <visible>[ControlGroup(303).HasFocus()]</visible>
+            <visible>[ControlGroup(303).HasFocus()] | $EXP[Exp_HomeMenu_HasFocusBG]</visible>
             <include content="Animation_Fade_In">
                 <param name="type">Visible</param>
+                <param name="time">200</param>
+            </include>
+            <include content="Animation_Fade_Out">
+                <param name="type">Hidden</param>
                 <param name="time">400</param>
+                <param name="delay">0</param>
             </include>
             <texture colordiffuse="$VAR[ColorBackground]">background/combined_sidemenu.png</texture>
+            <include content="Animation_View_SlideOver" condition="$PARAM[include_slideover]" />
+            <animation effect="slide" start="120" end="0" time="400" tween="cubic" easing="out" condition="$PARAM[include_slideover_2] + ![ControlGroup(303).HasFocus()]" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0" end="120" time="400" tween="cubic" easing="out" condition="$PARAM[include_slideover_2] + [ControlGroup(303).HasFocus()]" reversible="false">Conditional</animation>
         </control>
         <control type="group">
             <include content="Animation_View_SlideOver" condition="$PARAM[include_slideover]" />
@@ -4215,16 +4223,24 @@
             <include>Animation_Group_Bumper</include>
             <nested />
         </control>
-        <control type="image">
+        <include content="Object_Control" condition="$PARAM[include_slideover_2]">
+            <param name="control">image</param>
             <width>160</width>
-            <left>0</left>
+            <left>-120</left>
             <visible>[ControlGroup(303).HasFocus()]</visible>
             <include content="Animation_Fade_In">
                 <param name="type">Visible</param>
-                <param name="time">400</param>
+                <param name="time">200</param>
             </include>
+            <include content="Animation_Fade_Out">
+                <param name="type">Hidden</param>
+                <param name="time">400</param>
+                <param name="delay">0</param>
+            </include>
+            <animation effect="slide" start="120" end="0" time="400" tween="cubic" easing="out" condition="![ControlGroup(303).HasFocus()]" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0" end="120" time="400" tween="cubic" easing="out" condition="[ControlGroup(303).HasFocus()]" reversible="false">Conditional</animation>
             <texture colordiffuse="$VAR[ColorBackground]">common/white.png</texture>
-        </control>
+        </include>
         </definition>
     </include>
     
