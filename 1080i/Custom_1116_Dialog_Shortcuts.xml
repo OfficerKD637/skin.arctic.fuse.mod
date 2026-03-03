@@ -63,8 +63,8 @@
                 <param name="slide_condition">True</param>
                 <param name="lines_right">640</param>
                 <param name="lines_left">120</param>
-                <param name="topline">true</param>
-                <param name="subline">true</param>
+                <param name="topline">false</param>
+                <param name="subline">false</param>
 
                 <!-- Categories Filter -->
                 <control type="group">
@@ -108,19 +108,25 @@
                 <include content="Dialog_Head">
                     <param name="label">$VAR[Label_Shortcut_TopHeader]</param>
                     <param name="left">200</param>
-                    <param name="sublabel">$VAR[Label_Shortcut_SubHeader_GroupName]$INFO[Container(22001).ListItem.Property(name), > ,]$VAR[Label_Shortcut_SubHeader_EditMode, > ,]</param>
-                    <param name="sublabel_include">true</param>
                 </include>
                 <include>Dialog_Head_CloseButton</include>
-                <control type="label">
-                    <font>font_tiny</font>
-                    <align>left</align>
-                    <textcolor>dialog_fg_30</textcolor>
-                    <label>$INFO[Window(Home).Property(Shortcuts.EditMenu)]$INFO[Window(Home).Property(Shortcuts.EditMode), — ,]$INFO[Window(Home).Property(Shortcuts.EditGUID), — ,]</label>
-                    <bottom>40</bottom>
+                <control type="group">
                     <height>40</height>
-                    <left>200</left>
-                    <right>view_pad</right>
+                    <left>160</left>
+                    <right>700</right>
+                    <top>40</top>
+                    <include content="Dialog_ItemLine">
+                        <param name="label">$VAR[Label_Shortcut_SubHeader_GroupName]$INFO[Container(22001).ListItem.Property(name), > ,]$VAR[Label_Shortcut_SubHeader_EditMode, > ,]</param>
+                    </include>
+                </control>
+                <control type="group">
+                    <height>40</height>
+                    <left>160</left>
+                    <right>700</right>
+                    <bottom>160</bottom>
+                    <include content="Dialog_ItemLine">
+                        <param name="label">$INFO[Container(22001).NumItems,, $LOCALIZE[31022]  •  ]$INFO[Window(Home).Property(Shortcuts.EditMenu)]$INFO[Window(Home).Property(Shortcuts.EditMode), — ,]$INFO[Window(Home).Property(Shortcuts.EditGUID), — ,]</param>
+                    </include>
                 </control>
 
 
@@ -140,7 +146,7 @@
                                 <param name="textcolor">dialog_fg_70</param>
                                 <param name="itemlayout_include">Layout_Shortcuts</param>
                                 <param name="altfocus">[!Control.HasFocus(23062) + !ControlGroup(9000).HasFocus()]</param>
-                                <param name="misc">120</param>
+                                <param name="misc">200</param>
                                 <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
 
                                 <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=true&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditMode),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditGUID),&amp;,]$VAR[Path_SkinVariables_FilterPath]</content>
@@ -150,7 +156,7 @@
                                 <onup>23062</onup>
                                 <ondown>23062</ondown>
                                 <onleft>9000</onleft>
-                                <onright>29012</onright>
+                                <onright>29002</onright>
                                 <onback>29999</onback>
                                 <onclick>noop</onclick>
                             </include>
@@ -159,15 +165,13 @@
                                 <orientation>horizontal</orientation>
                                 <itemgap>-16</itemgap>
 
-                                <visible>!Control.HasFocus(23062) + !ControlGroup(9000).HasFocus()</visible>
-
                                 <onup condition="!String.IsEmpty(Container(22001).ListItemNoWrap(-1).Label)">Control.Move(22001,-1)</onup>
                                 <ondown condition="!String.IsEmpty(Container(22001).ListItemNoWrap(1).Label)">Control.Move(22001,1)</ondown>
                                 <onup condition="String.IsEmpty(Container(22001).ListItemNoWrap(-1).Label)">23062</onup>
                                 <ondown condition="String.IsEmpty(Container(22001).ListItemNoWrap(1).Label)">23062</ondown>
 
                                 <onleft>9000</onleft>
-                                <onright>29012</onright>
+                                <onright>29002</onright>
                                 <onback>29999</onback>
 
                                 <animation effect="slide" start="0" end="0,100" condition="Container(22001).Position(1)">Conditional</animation>
@@ -184,7 +188,7 @@
                                 <align>right</align>
                                 <right>20</right>
                                 
-                                <control type="button" id="22903">
+                                <control type="button" id="22901">
                                     <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-arrow-up.png</texturenofocus>
                                     <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-arrow-up.png</texturefocus>
                                     <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_move&amp;&amp;move::-1&amp;&amp;window_prop::url]$INFO[Container(22001).ListItem(-1).Property(item),&amp;&amp;offset::,])</onclick>
@@ -193,10 +197,38 @@
                                     <height>64</height>
                                 </control>
 
-                                <control type="button" id="22904">
+                                <control type="button" id="22902">
                                     <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-arrow-down.png</texturenofocus>
                                     <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-arrow-down.png</texturefocus>
                                     <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_move&amp;&amp;move::1&amp;&amp;window_prop::url]$INFO[Container(22001).ListItem(1).Property(item),&amp;&amp;offset::,])</onclick>
+                                    <onback>29999</onback>
+                                    <width>64</width>
+                                    <height>64</height>
+                                </control>
+                                
+                                <control type="button" id="22903">
+                                    <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-plus.png</texturenofocus>
+                                    <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-plus.png</texturefocus>
+                                    
+                                    <onclick condition="!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">SetProperty(Shortcuts.Groupings.Links,Links,Home)</onclick>
+                                    <onclick condition="$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">ClearProperty(Shortcuts.Groupings.Links,Home)</onclick>
+                                    
+                                    <onclick>RunScript(script.skinvariables,run_dialog=yesnocustom,"heading=$LOCALIZE[31599]","message=$LOCALIZE[31598]",nolabel=$LOCALIZE[31533],yeslabel=$LOCALIZE[31600],customlabel=$LOCALIZE[222],"executebuiltin_1=RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_new]$VAR[Path_Shortcut_UseRawPath])","executebuiltin_0=ClearProperty(Shortcuts.Groupings.Links,Home)||RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_list_add&amp;&amp;item_limit::80]$VAR[Path_Shortcut_UseRawPath])")</onclick>
+                                    
+                                    <onback>29999</onback>
+                                    <width>64</width>
+                                    <height>64</height>
+                                </control>
+                                
+                                <control type="button" id="22904">
+                                    <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-xmark.png</texturenofocus>
+                                    <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-xmark.png</texturefocus>
+                                    
+                                    <onclick condition="!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">SetProperty(Shortcuts.Groupings.Links,Links,Home)</onclick>
+                                    <onclick condition="$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">ClearProperty(Shortcuts.Groupings.Links,Home)</onclick>
+                                    
+                                    <onclick>RunScript(script.skinvariables,run_dialog=yesnocustom,"heading=$LOCALIZE[31601]","message=$LOCALIZE[31602]",nolabel=$LOCALIZE[31604],yeslabel=$LOCALIZE[31603],customlabel=$LOCALIZE[222],"executebuiltin_1=RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_delete])","executebuiltin_0=ClearProperty(Shortcuts.Groupings.Links,Home)||RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_list_del]$VAR[Path_Shortcut_UseRawPath])")</onclick>
+                                    
                                     <onback>29999</onback>
                                     <width>64</width>
                                     <height>64</height>
@@ -232,18 +264,6 @@
                                         <onback>29999</onback>
                                         <onright>23001</onright>
                                         <onleft>22001</onleft>
-
-                                        <!-- Add -->
-                                        <include content="Dialog_Side_Button">
-                                            <param name="id">12</param>
-                                            <param name="baseid">29</param>
-                                            <param name="label">$LOCALIZE[35261]</param>
-                                            <param name="icon">special://skin/extras/icons/circle-plus.png</param>
-                                            <onclick condition="!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">SetProperty(Shortcuts.Groupings.Links,Links,Home)</onclick>
-                                            <onclick condition="$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">ClearProperty(Shortcuts.Groupings.Links,Home)</onclick>
-                                            <onclick>RunScript(script.skinvariables,run_dialog=yesnocustom,"heading=$LOCALIZE[31599]","message=$LOCALIZE[31598]",nolabel=$LOCALIZE[31533],yeslabel=$LOCALIZE[31600],customlabel=$LOCALIZE[222],"executebuiltin_1=RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_new]$VAR[Path_Shortcut_UseRawPath])","executebuiltin_0=ClearProperty(Shortcuts.Groupings.Links,Home)||RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_list_add&amp;&amp;item_limit::80]$VAR[Path_Shortcut_UseRawPath])")</onclick>
-                                            <onback>29999</onback>
-                                        </include>
 
                                         <!-- Shortcuts -->
                                         <include content="Dialog_Side_Button">
@@ -301,26 +321,12 @@
                                             <onclick>ActivateWindow(1117)</onclick>
                                             <onback>29999</onback>
                                         </include>
-
-                                        <!-- Delete -->
-                                        <include content="Dialog_Side_Button">
-                                            <param name="dialog">true</param>
-                                            <param name="baseid">29</param>
-                                            <param name="id">07</param>
-                                            <param name="label">$LOCALIZE[117]</param>
-                                            <param name="icon">special://skin/extras/icons/trash-can.png</param>
-                                            <param name="visible">!String.IsEqual(Container(22001).ListItem.Property(blank),True)</param>
-                                            <onclick condition="!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">SetProperty(Shortcuts.Groupings.Links,Links,Home)</onclick>
-                                            <onclick condition="$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">ClearProperty(Shortcuts.Groupings.Links,Home)</onclick>
-                                            <onclick>RunScript(script.skinvariables,run_dialog=yesnocustom,"heading=$LOCALIZE[31601]","message=$LOCALIZE[31602]",nolabel=$LOCALIZE[31604],yeslabel=$LOCALIZE[31603],customlabel=$LOCALIZE[222],"executebuiltin_1=RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_delete])","executebuiltin_0=ClearProperty(Shortcuts.Groupings.Links,Home)||RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_list_del]$VAR[Path_Shortcut_UseRawPath])")</onclick>
-                                            <onback>29999</onback>
-                                        </include>
                                     </control>
                                     <control type="grouplist" id="23000">
 
                                         <left>120</left>
 
-                                        <onleft>29012</onleft>
+                                        <onleft>29002</onleft>
                                         <onup>23003</onup>
                                         <onback>29999</onback>
                                         <pagecontrol>61</pagecontrol>
