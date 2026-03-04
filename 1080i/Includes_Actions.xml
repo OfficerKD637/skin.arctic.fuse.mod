@@ -190,7 +190,7 @@
             
             <onload>Skin.SetString(TMDbHelper.Corner.Radius,20)</onload>
 
-            <onload>Skin.SetString(TMDbHelper.UseLocalWindowIDs,10000|11101|11102|11103|11104|11105|11106|11107|11108|11109|11110|11112|11114|11121|11125|11126|11127|11130|11131|11132|11185)</onload>
+            <onload>Skin.SetString(TMDbHelper.UseLocalWindowIDs,10000|11101|11102|11103|11104|11105|11106|11107|11108|11109|11110|11112|11114|11125|11126|11127|11130|11131|11132|11185)</onload>
             
             <onload condition="$EXP[Exp_Window_IsHub_Prev]">ClearProperty(TMDbHelper.WidgetContainer.UpdateLock,1198)</onload>        
             
@@ -392,9 +392,8 @@
 
     <include name="Action_Recommendations_OnClick">
         <oninfo>Action(Select)</oninfo>
-        <onclick condition="String.IsEmpty(Window(movieinformation).Property(origin_dbid)) + String.IsEmpty(Window(1121).Property(origin_dbid))">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],origin_season=$INFO[Window.Property(origin_tmdb_season)],origin_episode=$INFO[Window.Property(origin_tmdb_episode)],return)</onclick>
-        <onclick condition="[!String.IsEmpty(Window(movieinformation).Property(origin_dbid)) | !String.IsEmpty(Window(1121).Property(origin_dbid))]">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_dbid=$INFO[Window.Property(origin_dbid)],origin_season=$INFO[Window.Property(origin_tmdb_season)],origin_episode=$INFO[Window.Property(origin_tmdb_episode)],return)</onclick>
-        <onclick>Dialog.Close(1121,true)</onclick>
+        <onclick condition="String.IsEmpty(Window(movieinformation).Property(origin_dbid))">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],origin_season=$INFO[Window.Property(origin_tmdb_season)],origin_episode=$INFO[Window.Property(origin_tmdb_episode)],return)</onclick>
+        <onclick condition="!String.IsEmpty(Window(movieinformation).Property(origin_dbid))">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container($PARAM[id]).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_dbid=$INFO[Window.Property(origin_dbid)],origin_season=$INFO[Window.Property(origin_tmdb_season)],origin_episode=$INFO[Window.Property(origin_tmdb_episode)],return)</onclick>
     </include>
 
     <variable name="Action_Recommendations_SetFocusID">
@@ -656,6 +655,21 @@
         <onfocus condition="Skin.String(InfoDialog.Layout,Blur)">ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
         <onunfocus>ClearProperty(TMDbHelper.WidgetContainer)</onunfocus>
     </include>
+    
+    <include name="Action_516_OnWidget">
+        <onup>SetFocus(516,0,absolute)</onup>
+        <onup>5005</onup>
+        <ondown>SetFocus(516,0,absolute)</ondown>
+        <ondown>5005</ondown>
+        <onleft>SetFocus(516,0,absolute)</onleft>
+        <onleft>5005</onleft>
+        <onback>SetFocus(516,0,absolute)</onback>
+        <onback>5005</onback>
+        <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
+        <onback>ClearProperty(TMDbHelper.WidgetContainer)</onback>
+        <onfocus condition="Skin.String(InfoDialog.Layout,Blur)">ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
+        <onunfocus>ClearProperty(TMDbHelper.WidgetContainer)</onunfocus>
+    </include>
 
     <include name="Action_VideoInfo_Main_OnDown">
     
@@ -694,9 +708,15 @@
         <ondown condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Item_Year,$INFO[ListItem.Year])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.Name), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.Name), / ,])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.TMDb_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.TMDb_ID), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.TMDb_ID), / ,])</ondown>
 
         <ondown condition="$PARAM[condition]">SetProperty(Episodes_Label,$VAR[Label_EpisodeCount])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Seasons_Image,$VAR[Image_FlatseasonsIcon])</ondown>
+        
+        <ondown condition="$PARAM[condition]">SetProperty(Version_Label,[B]$INFO[ListItem.VideoVersionName][/B])</ondown>
+        <ondown condition="$PARAM[condition]">SetProperty(Version_Image,$INFO[ListItem.Art(poster)])</ondown>
         
         <ondown condition="$PARAM[condition]">SetProperty(Providers_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.2.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.3.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.4.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.5.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.6.Name), • ,])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Providers_1_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.1.Name)])</ondown>
@@ -708,31 +728,6 @@
         <ondown condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</ondown>
 
         <ondown condition="$PARAM[condition]">SetFocus(7000,0,absolute)</ondown>
-    </include>
-
-    <include name="Action_Info_Recommendations_OnClick">
-        <param name="condition">true</param>
-        <definition>            
-            <onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_InfoParams_TMDbType],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(origin_season,$VAR[Path_InfoParams_Season],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(origin_season,$VAR[Path_InfoParams_Episode],1121)</onclick>
-        
-            <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Header,"$VAR[Label_Title]",1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Textbox,"$VAR[Label_Overlay_PlotBox]",1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Poster,$VAR[Image_DialogInfo_Poster],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(PlotBox_Landscape,$VAR[Image_Landscape],1121)</onclick>
-
-            <onclick condition="$PARAM[condition]">SetProperty(Item_Title,$VAR[Label_Title],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(Item_Query,$VAR[Path_Param_Query],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(Item_Type,$VAR[Path_Param_Type],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(Item_Year,$INFO[ListItem.Year],1121)</onclick>
-
-            <onclick condition="$PARAM[condition]">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.Name), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.Name), / ,],1121)</onclick>
-            <onclick condition="$PARAM[condition]">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.TMDb_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.TMDb_ID), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.TMDb_ID), / ,],1121)</onclick>
-            <onclick condition="$PARAM[condition]">ActivateWindow(1121)</onclick>
-        </definition>
     </include>
 
     <include name="Action_View_Extend_OnDown">

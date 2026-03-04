@@ -1089,11 +1089,6 @@
                         <param name="textcolor_base">$PARAM[textcolor_base]</param>
                         <visible>$PARAM[primary_visible]</visible>
                     </include>
-                    <include content="Info_Viewline_Label" condition="Window.IsVisible(movieinformation) + !Skin.HasSetting(Info.UseLocalCast)">
-                        <label>$LOCALIZE[206]   $LOCALIZE[31050]</label>
-                        <param name="textcolor_base">00ffffff</param>
-                        <visible>String.IsEqual(Window.Property(DetailsView),Cast) + [Control.HasFocus(5503) | Control.HasFocus(5505)]</visible>
-                    </include>
                     
                     <include content="Info_Viewline_Icon" condition="$PARAM[item_condition]">
                         <param name="icon">special://skin/extras/icons/rotate.png</param>
@@ -1467,7 +1462,7 @@
     <include name="Info_Line">
         <param name="colordiffuse">main_fg</param>
         <param name="container" />
-        <param name="starrating">false</param>
+        <param name="starrating">!Skin.HasSetting(Infoline.DisableStarRating)</param>
         <param name="grouplistid">99951</param>
         <definition>
 
@@ -1520,6 +1515,13 @@
                 <include content="Info_Line_StarRating" condition="$PARAM[starrating]">
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     <param name="rating">$PARAM[container]ListItem.Rating</param>
+                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.Rating) + String.IsEmpty($PARAM[container]$PARAM[listitem].UserRating)</param>
+                </include>
+                
+                <include content="Info_Line_StarRating" condition="$PARAM[starrating]">
+                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    <param name="rating">$PARAM[container]ListItem.UserRating</param>
+                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.UserRating)</param>
                 </include>
 
                 <!-- Album -->
@@ -3804,12 +3806,12 @@
         <definition>
             <include content="Info_Media_Content">
                 <param name="container">$PARAM[container]</param>
-                <param name="info_codecs">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.VideoCodec) | !String.IsEmpty($PARAM[container]ListItem.AudioCodec)] + Skin.HasSetting(Furniture.ProvidersCodecs) + !Window.IsVisible(1121)]</param>
-                <param name="info_language">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.1)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.1))] + Skin.HasSetting(Furniture.ProvidersCodecs) + Skin.HasSetting(Furniture.LanguageFlags) + !Window.IsVisible(1121)]</param>
-                <param name="info_musiccodecs">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [!String.IsEmpty($PARAM[container]ListItem.MusicChannels) | !String.IsEmpty($PARAM[container]ListItem.SampleRate)] + Skin.HasSetting(Furniture.ProvidersCodecs) + !Window.IsVisible(1121)]</param>
-                <param name="info_watchedepisodes">[[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season)] + !Skin.HasSetting(Furniture.DisablePlayCounts) + !Window.IsVisible(1121)]</param>
-                <param name="info_playcount">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts) + !Window.IsVisible(1121)]</param>
-                <param name="info_musicduration">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | [String.IsEqual($PARAM[container]ListItem.DBType,song) + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts)]] + !String.IsEmpty($PARAM[container]ListItem.Duration) + !Window.IsVisible(1121)]</param>
+                <param name="info_codecs">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.VideoCodec) | !String.IsEmpty($PARAM[container]ListItem.AudioCodec)] + Skin.HasSetting(Furniture.ProvidersCodecs)]</param>
+                <param name="info_language">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + [!String.IsEmpty($PARAM[container]ListItem.Property(AudioLanguage.1)) | !String.IsEmpty($PARAM[container]ListItem.Property(SubtitleLanguage.1))] + Skin.HasSetting(Furniture.ProvidersCodecs) + Skin.HasSetting(Furniture.LanguageFlags)]</param>
+                <param name="info_musiccodecs">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | String.IsEqual($PARAM[container]ListItem.DBType,song)] + [!String.IsEmpty($PARAM[container]ListItem.MusicChannels) | !String.IsEmpty($PARAM[container]ListItem.SampleRate)] + Skin.HasSetting(Furniture.ProvidersCodecs)]</param>
+                <param name="info_watchedepisodes">[[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season)] + !Skin.HasSetting(Furniture.DisablePlayCounts)]</param>
+                <param name="info_playcount">[[String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,musicvideo)] + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts)]</param>
+                <param name="info_musicduration">[[String.IsEqual($PARAM[container]ListItem.DBType,album) | [String.IsEqual($PARAM[container]ListItem.DBType,song) + !Skin.HasSetting(Furniture.ProvidersCodecs) + !Skin.HasSetting(Furniture.DisablePlayCounts)]] + !String.IsEmpty($PARAM[container]ListItem.Duration)]</param>
             </include>
         </definition>
     </include>

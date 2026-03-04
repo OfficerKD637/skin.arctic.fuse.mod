@@ -987,6 +987,7 @@
         <param name="basegroupid">51</param>
         <param name="backid">5000</param>
         <param name="include_movement">true</param>
+        <param name="include_noresults">false</param>
         <definition>
             <include content="_Widget_Row">
                 <param name="id">$PARAM[baseid]$PARAM[id]</param>
@@ -1020,6 +1021,11 @@
                 <onfocus condition="$PARAM[set_widgetcontainer]">SetProperty(TMDbHelper.WidgetContainer,$PARAM[baseid]$PARAM[id])</onfocus>
                 <onfocus condition="$PARAM[set_transitionstyle]">SetProperty(Transition.WidgetStyle,$PARAM[include],Home)</onfocus>
                 <onunfocus condition="$PARAM[set_transitionstyle]">ClearProperty(Transition.WidgetStyle,Home)</onunfocus>
+                
+                <include content="Widget_NoResults">
+                    <param name="id">$PARAM[baseid]$PARAM[id]</param>
+                    <param name="include_condition">$PARAM[include_noresults]</param>
+                </include>
 
                 <nested />
             </include>
@@ -1142,9 +1148,12 @@
     </include>
 
     <include name="Widget_NoResults">
-        <include content="_Widget_NoResults" condition="!Skin.HasSetting(Widgets.DisableNoResultsItem)">
-            <param name="id">$PARAM[id]</param>
-        </include>
+        <param name="include_condition">!Skin.HasSetting(Widgets.DisableNoResultsItem)</param>
+        <definition>
+            <include content="_Widget_NoResults" condition="$PARAM[include_condition]">
+                <param name="id">$PARAM[id]</param>
+            </include>
+        </definition>
     </include>
     
     <include name="Widget_Standard_Animation">

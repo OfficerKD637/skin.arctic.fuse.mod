@@ -1036,8 +1036,16 @@
             <visible>!Skin.HasSetting(Infoline.DisableSource)</visible>            
             <label> - $LOCALIZE[31137]</label>
         </include> 
-        <include content="Settings_Button" description="Episode number">            
+        <include content="Settings_Button" description="Star Rating">
             <param name="id">8003</param>
+            <param name="control">radiobutton</param>
+            <param name="dialog">true</param>
+            <onclick>Skin.ToggleSetting(Infoline.DisableStarRating)</onclick>
+            <selected>!Skin.HasSetting(Infoline.DisableStarRating)</selected>            
+            <label>$LOCALIZE[563]</label>
+        </include>
+        <include content="Settings_Button" description="Episode number">            
+            <param name="id">8004</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
             <label>$LOCALIZE[20359][LOWERCASE] $LOCALIZE[549][/LOWERCASE]</label>            
@@ -1045,7 +1053,7 @@
             <selected>Skin.HasSetting(Infoline.SETags)</selected>                                    
         </include>            
         <include content="Settings_Button" description="HDR">
-            <param name="id">8004</param>
+            <param name="id">8005</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick>Skin.ToggleSetting(Infoline.DisableHDR)</onclick>
@@ -1053,7 +1061,7 @@
             <label>HDR</label>
         </include>
         <include content="Settings_Button" description="Audio Channels">
-            <param name="id">8005</param>
+            <param name="id">8006</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick condition="Skin.HasSetting(Infoline.DisableAudioChannels)">Skin.Reset(Infoline.DisableAudioChannels)</onclick>
@@ -1063,7 +1071,7 @@
             <label>$LOCALIZE[21444]</label>
         </include>
         <include content="Settings_Button" description="Audio Channels & Codecs">
-            <param name="id">8006</param>
+            <param name="id">8007</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick condition="Skin.HasSetting(Infoline.DisableCodec) + Skin.HasSetting(Infoline.DisableAudioChannels)">Skin.Reset(Infoline.DisableAudioChannels) </onclick>
@@ -1073,7 +1081,7 @@
             <label>$LOCALIZE[292] [LOWERCASE]$LOCALIZE[31207][/LOWERCASE]</label>
         </include>
         <include content="Settings_Button" description="Versions">
-            <param name="id">8007</param>
+            <param name="id">8008</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick>Skin.ToggleSetting(Infoline.DisableVersion)</onclick>
@@ -1081,7 +1089,7 @@
             <label>$LOCALIZE[40013]</label>
         </include>
         <include content="Settings_Button" description="Collection">
-            <param name="id">8008</param>
+            <param name="id">8009</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>            
             <onclick>Skin.ToggleSetting(Infoline.DisableCollection)</onclick>
@@ -1089,16 +1097,18 @@
             <label>$LOCALIZE[31108]</label>
         </include>
         <include content="Settings_Button" description="None">
-            <param name="id">8009</param>
+            <param name="id">8010</param>
             <param name="control">button</param>
             <param name="dialog">true</param>            
             <onclick>Skin.SetBool(Infoline.DisableSource)</onclick>
+            <onclick>Skin.SetBool(Infoline.DisableStarRating)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableHDR)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableAudioChannels)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableCodec)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableVersion)</onclick>
             <onclick>Skin.SetBool(Infoline.DisableCollection)</onclick>
-            <onclick>Skin.SetBool(Infoline.Infoline.SETags, false)</onclick>
+            <onclick>Skin.SetBool(Infoline.EnableDetailedSource, false)</onclick>
+            <onclick>Skin.SetBool(Infoline.SETags, false)</onclick>
             <label>$LOCALIZE[192]</label>            
         </include>
     </include>
@@ -1911,7 +1921,7 @@
                 <param name="include_slide">true</param>
                 <param name="vertical">$PARAM[vertical]</param>
                 <param name="itemgap">$PARAM[itemgap]</param>
-                <onclick>runscript(script.wikipedia,wikipedia=$INFO[Window.Property(Item_Title)],tmdb_type=$INFO[Window.Property(Item_Type)])</onclick>
+                <onclick>runscript(script.wikipedia,wikipedia=$INFO[Window.Property(Item_Title)],tmdb_type=person)</onclick>
             </include>
             <include content="Dialog_Side_Button">
                 <param name="id">05</param>
@@ -1923,7 +1933,7 @@
                 <param name="vertical">$PARAM[vertical]</param>
                 <param name="itemgap">$PARAM[itemgap]</param>
                 <onclick condition="String.IsEmpty(Window.Property(Item_Type))">SlideShow(plugin://plugin.video.themoviedb.helper/?info=images&amp;tmdb_type=person$INFO[Window.Property(Item_Query)]$VAR[Path_Param_Widget])</onclick>
-                <onclick condition="!String.IsEmpty(Window.Property(Item_Type))">SlideShow(plugin://plugin.video.themoviedb.helper/?info=fanart$INFO[Window.Property(Item_Type),&amp;,]$INFO[Window.Property(Item_Query)]$VAR[Path_Param_Widget])</onclick>
+                <onclick condition="!String.IsEmpty(Window.Property(Item_Type))">SlideShow(plugin://plugin.video.themoviedb.helper/?info=fanart$INFO[Window.Property(Item_Type),&amp;tmdb_,]$INFO[Window.Property(Item_Query)]$VAR[Path_Param_Widget])</onclick>
             </include>
         </definition>
     </include>
@@ -1967,6 +1977,7 @@
                 </include>
                 <onfocus>SetProperty(DetailsView,Trailer)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
             
             <!-- YouTube -->
@@ -1984,6 +1995,7 @@
 
                 <onfocus>SetProperty(DetailsView,Trailer)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
             
             <!-- Versions -->
@@ -1998,7 +2010,7 @@
                 
                 <onfocus>ClearProperty(DetailsView)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
-                <onfocus>ClearProperty(DialogInfo.CastCrew)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
 
             <!-- Extras -->
@@ -2013,19 +2025,20 @@
                 
                 <onfocus>ClearProperty(DetailsView)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
-                <onfocus>ClearProperty(DialogInfo.CastCrew)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
             
-            <!-- Cast/Details -->
+            <!-- Wiki/Details -->
             <include content="DialogInfo_Button_Expansion">
                 <param name="id">4003</param>
                 <param name="groupid">4103</param>
                 <param name="sliceid">4203</param>
-                <param name="label">$LOCALIZE[33029]</param>
-                <param name="icon">special://skin/extras/icons/table-list.png</param>
+                <param name="label">Wiki</param>
+                <param name="icon">special://skin/extras/icons/globe.png</param>
                 <onfocus>SetProperty(DetailsView,Cast)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
-                <include>Action_Info_Recommendations_OnClick</include>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
+                <onclick>runscript(script.wikipedia,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
             </include>
             
             <!-- Trakt -->
@@ -2040,19 +2053,7 @@
 
                 <onfocus>SetProperty(DetailsView,Reviews)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
-            </include>
-            
-            <!-- Wiki -->
-            <include content="DialogInfo_Button_Expansion">
-                <param name="id">4005</param>
-                <param name="groupid">4105</param>
-                <param name="sliceid">4205</param>
-                <param name="label">Wiki</param>
-                <param name="icon">special://skin/extras/icons/globe.png</param>
-                <param name="visible">String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth)) | String.IsEqual(ListItem.DBType,musicvideo)</param>
-                <onclick>runscript(script.wikipedia,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
-                <onfocus>SetProperty(DetailsView,Reviews)</onfocus>
-                <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
             
             <!-- Artwork -->
@@ -2068,6 +2069,7 @@
                 <onclick condition="[String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/) + String.IsEmpty(ListItem.DBID)]">RunScript(plugin.video.themoviedb.helper,modify_artwork,tmdb_id=$VAR[Path_InfoParams_TMDbID],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
                 <onfocus>SetProperty(DetailsView,Artwork)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
             
             <!-- Rating -->
@@ -2081,6 +2083,7 @@
                 <onclick>SendClick(7)</onclick>
                 <onfocus>ClearProperty(DetailsView)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
             
             <!-- Refresh -->
@@ -2095,6 +2098,7 @@
                 <onclick condition="[String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/)]">RunScript(plugin.video.themoviedb.helper,refresh_details,tmdb_id=$VAR[Path_InfoParams_TMDbID],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
                 <onfocus>ClearProperty(DetailsView)</onfocus>
                 <onfocus>ClearProperty(ReviewsActive)</onfocus>
+                <onfocus>ClearProperty(DialogInfo.Details)</onfocus>
             </include>
         </definition>
     </include>

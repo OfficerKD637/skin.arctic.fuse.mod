@@ -885,11 +885,15 @@
     
     <variable name="Label_Setting_AdditionalTags">
         <value condition="Skin.HasSetting(Info.EnablePillboxStyle) + Skin.HasSetting(Infoline.DisableSource) + !Skin.HasSetting(Infoline.SETags) + Skin.HasSetting(Infoline.DisableHDR) + Skin.HasSetting(Infoline.DisableAudioChannels) + Skin.HasSetting(Infoline.DisableCodec) + Skin.HasSetting(Infoline.DisableVersion) + Skin.HasSetting(Infoline.DisableCollection)">$LOCALIZE[16018]</value> <!--  NONE -->
-        <value>$VAR[Label_Setting_AdditionalTags_Source,   ,]$VAR[Label_Setting_AdditionalTags_EpisodeNumber, • ,]$VAR[Label_Setting_AdditionalTags_HDR, • ,]$VAR[Label_Setting_AdditionalTags_AudioChannels, • ,]$VAR[Label_Setting_AdditionalTags_Version, • ,]$VAR[Label_Setting_AdditionalTags_Collection, • ,]</value>                                
+        <value>$VAR[Label_Setting_AdditionalTags_Source,   ,]$VAR[Label_Setting_AdditionalTags_StarRating, • ,]$VAR[Label_Setting_AdditionalTags_EpisodeNumber, • ,]$VAR[Label_Setting_AdditionalTags_HDR, • ,]$VAR[Label_Setting_AdditionalTags_AudioChannels, • ,]$VAR[Label_Setting_AdditionalTags_Version, • ,]$VAR[Label_Setting_AdditionalTags_Collection, • ,]</value>                                
     </variable>    
     
     <variable name="Label_Setting_AdditionalTags_Source">        
         <value condition="!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Info.EnablePillboxStyle)">$LOCALIZE[21870]</value>
+    </variable>
+    
+    <variable name="Label_Setting_AdditionalTags_StarRating">        
+        <value condition="!Skin.HasSetting(Infoline.DisableStarRating)">$LOCALIZE[563]</value>
     </variable>
     
     <variable name="Label_Setting_AdditionalTags_EpisodeNumber">        
@@ -1171,8 +1175,12 @@
     </variable>
 
     <variable name="Label_Info_ViewLine_Sub">
-        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + !String.IsEmpty(Window.Property(DialogInfo.CastCrew))">$LOCALIZE[31050]$VAR[Label_Info_ViewLine_CrewDepartment, (,)]</value>
-        <value condition="String.IsEqual(Window.Property(DetailsView),Cast)">$LOCALIZE[206]</value>
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + [ControlGroup(4000).HasFocus | Control.HasFocus(5503)]">$LOCALIZE[206]   [COLOR=dialog_fg_50]$LOCALIZE[31050]   $LOCALIZE[33029][/COLOR]</value>
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + Control.HasFocus(5505)">[COLOR=dialog_fg_50]$LOCALIZE[206][/COLOR]   $LOCALIZE[31050]   [COLOR=dialog_fg_50]$LOCALIZE[33029][/COLOR]</value>
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + Control.HasFocus(5508)">[COLOR=dialog_fg_50]$LOCALIZE[206]   $LOCALIZE[31050][/COLOR]   $LOCALIZE[33029]</value>
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + String.IsEqual(Window.Property(DialogInfo.Details),Crew) + ![Control.HasFocus(5503) | Control.HasFocus(5505) | Control.HasFocus(5508)]">$LOCALIZE[31050]$VAR[Label_Info_ViewLine_CrewDepartment, (,)]</value>
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + String.IsEqual(Window.Property(DialogInfo.Details),Details) + ![Control.HasFocus(5503) | Control.HasFocus(5505) | Control.HasFocus(5508)]">$LOCALIZE[33029]</value>
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + ![Control.HasFocus(5503) | Control.HasFocus(5505) | Control.HasFocus(5508)]">$LOCALIZE[206]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Reviews)">$LOCALIZE[31334]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Trailer)">$LOCALIZE[10025]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Critics)">$LOCALIZE[31030]</value>
@@ -1181,11 +1189,6 @@
         <value condition="String.IsEqual(Window.Property(DetailsView),Albums)">$LOCALIZE[132]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Songs)">$LOCALIZE[134]</value>
         <value>$LOCALIZE[31383]</value>
-    </variable>
-    
-    <variable name="Label_Info_CastCrew">
-        <value condition="String.IsEmpty(Window.Property(DialogInfo.CastCrew))">$LOCALIZE[31050]</value>
-        <value>$LOCALIZE[206]</value>
     </variable>
     
     <variable name="Label_VideoInfo_CrewSwitcher_Viewline">

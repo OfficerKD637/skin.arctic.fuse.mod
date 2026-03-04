@@ -2701,6 +2701,59 @@
         </definition>
     </include>
     
+    <include name="Layout_InfoDialog_Basic">
+        <param name="selected">false</param>
+        <param name="detailed">false</param>
+        <param name="listitem">ListItem</param>
+        <param name="art">Icon</param>
+        <param name="fallback">fallback/no-image-actor.png</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <width>$PARAM[item_w]</width>
+                <height>$PARAM[item_h]</height>
+
+                <include content="Object_Control" condition="$PARAM[selected]">
+                    <param name="control">image</param>
+                    <include>Texture_Menu_Highlight_H</include>
+                </include>
+
+                <control type="group">
+                    <height>80</height>
+                    <centertop>50%</centertop>
+                    <left>-20</left>
+                    <right>40</right>
+                    <control type="group">
+                        <include content="Object_InfoCircle" condition="!$PARAM[selected]">
+                            <param name="name">$INFO[$PARAM[listitem].Label2]</param>
+                            <param name="role">$INFO[$PARAM[listitem].Label]</param>
+                            <param name="icon_background">true</param>
+                            <param name="colordiffuse">white</param>
+                            <include content="Object_InfoCircle_Image">
+                                <param name="colordiffuse">white</param>
+                                <param name="icon">$INFO[$PARAM[listitem].$PARAM[art]]</param>
+                                <param name="fallback">$PARAM[fallback]</param>
+                            </include>
+                        </include>
+                        <include content="Object_InfoCircle" condition="$PARAM[selected]">
+                            <param name="name">$INFO[$PARAM[listitem].Label2]</param>
+                            <param name="role">$INFO[$PARAM[listitem].Label]</param>
+                            <param name="textcolor_top">$VAR[ColorSelected]</param>
+                            <param name="textcolor_sub">$VAR[ColorSelected]</param>
+                            <param name="icon_background">true</param>
+                            <param name="colordiffuse">white</param>
+                            <include content="Object_InfoCircle_Image">
+                                <param name="colordiffuse">white</param>
+                                <param name="icon">$INFO[$PARAM[listitem].$PARAM[art]]</param>
+                                <param name="fallback">$PARAM[fallback]</param>
+                            </include>
+                        </include>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+    
     <include name="Layout_InfoDialog_FakePoster">
         <param name="detailed">false</param>
         <param name="selected">false</param>
