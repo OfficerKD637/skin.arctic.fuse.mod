@@ -1220,9 +1220,9 @@
         <definition>
             <control type="image">
                 <include>Texture_Circle_Highlight_V</include>
-                <aspectratio>keep</aspectratio>
-                <width>8</width>
-                <height>8</height>
+                <aspectratio aligny="center">keep</aspectratio>
+                <width>6</width>
+                <height>6</height>
                 <centertop>$PARAM[divider_centertop]</centertop>
                 <visible>$PARAM[visible]</visible>
             </control>
@@ -1236,6 +1236,15 @@
                 <itemgap>-16</itemgap>
                 <visible>$PARAM[visible]</visible>
             </include>
+            <control type="image">
+                <include>Texture_Circle_Highlight_V</include>
+                <aspectratio aligny="center">keep</aspectratio>
+                <width>6</width>
+                <height>6</height>
+                <centertop>$PARAM[divider_centertop]</centertop>
+                <visible>$PARAM[visible]</visible>
+                <visible>Skin.HasSetting(Info.EnablePillboxStyle)</visible>
+            </control>
         </definition>
     </include>
     
@@ -1522,6 +1531,12 @@
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     <param name="rating">$PARAM[container]ListItem.UserRating</param>
                     <param name="visible">!String.IsEmpty($PARAM[container]ListItem.UserRating)</param>
+                </include>
+                
+                <include content="Info_Line_StarRating" condition="$PARAM[starrating]">
+                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    <param name="rating">Window(Home).Property(TMDbHelper.ListItem.base_rating)</param>
+                    <param name="visible">String.IsEmpty($PARAM[container]ListItem.Rating) + String.IsEmpty($PARAM[container]ListItem.UserRating) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_rating))</param>
                 </include>
 
                 <!-- Album -->
