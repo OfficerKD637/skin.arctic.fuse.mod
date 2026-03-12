@@ -1557,15 +1557,8 @@
                 
                 <onup>SetFocus(50,0,absolute)</onup>
                 <onup>4000</onup>
-                
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo)">Dialog.Close(movieinformation)</ondown>
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo)">Dialog.Close(musicinformation)</ondown>
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo)">Dialog.Close(videoosd,true)</ondown>
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo)">Dialog.Close(1140,true)</ondown>
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo)">Dialog.Close(1141,true)</ondown>
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo)">Dialog.Close(videobookmarks,true)</ondown>
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo) + String.IsEmpty(Window(movieinformation).Property(origin_dbid))">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container(50).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_tmdb_id=$INFO[Window.Property(origin_tmdb_id)],origin_season=$INFO[Window.Property(origin_season)],origin_episode=$INFO[Window.Property(origin_episode)],return)</ondown>
-                <ondown condition="!String.IsEqual(ListItem.DBType,musicvideo) + !String.IsEmpty(Window(movieinformation).Property(origin_dbid))">RunScript(plugin.video.themoviedb.helper,add_path=$INFO[Container(50).ListItem.FolderPath],call_auto=1190,origin_tmdb_type=$INFO[Window.Property(origin_tmdb_type)],origin_dbid=$INFO[Window.Property(origin_dbid)],origin_season=$INFO[Window.Property(origin_season)],origin_episode=$INFO[Window.Property(origin_episode)],return)</ondown>
+                <ondown>SetFocus(50,0,absolute)</ondown>
+                <ondown>4000</ondown>
             </include>
         </control>
     </include>
@@ -1833,12 +1826,12 @@
             <visible>String.IsEqual(Window.Property(DetailsView),Artwork) + !Control.HasFocus(7003)</visible>
         </include>
 
-        <include content="DialogInfo_Cast_Online" condition="!Skin.HasSetting(Info.UseLocalCast)">
+        <include content="DialogInfo_Cast_Online" condition="!$EXP[Exp_InfoDialogs_Cast_IsLocal]">
             <param name="visible">String.IsEqual(Window.Property(DetailsView),Cast)</param>
         </include>
 
-        <include content="DialogInfo_Cast_Local">
-            <param name="visible">String.IsEqual(Window.Property(DetailsView),Cast) + $EXP[Exp_InfoDialogs_Cast_IsLocal]</param>
+        <include content="DialogInfo_Cast_Local" condition="$EXP[Exp_InfoDialogs_Cast_IsLocal]">
+            <param name="visible">String.IsEqual(Window.Property(DetailsView),Cast)</param>
         </include>
         
         <include content="List_Reviews_Row">
@@ -1901,7 +1894,7 @@
         </include>
         <include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
-            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[String.IsEmpty(Window.Property(DialogInfo.Details)) + !Control.HasFocus(5003) + !Control.HasFocus(514) + !Control.HasFocus(557) + Container(5303).IsUpdating] | [String.IsEqual(Window.Property(DialogInfo.Details),Crew) + !Control.HasFocus(5504) + !Control.HasFocus(515) + !Control.HasFocus(558) + [Container(5504).IsUpdating | Container(5506).IsUpdating]]]]</param>
+            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[String.IsEmpty(Window.Property(DialogInfo.Details)) + !Control.HasFocus(5003) + !Control.HasFocus(514) + !Control.HasFocus(557) + Container(5303).IsUpdating] | [String.IsEqual(Window.Property(DialogInfo.Details),Crew) + !Control.HasFocus(5504) + !Control.HasFocus(515) + !Control.HasFocus(558) + [Container(5504).IsUpdating | Container(5506).IsUpdating]] | [$EXP[Exp_InfoDialogs_Cast_IsLocal] + Container(50).IsUpdating]]]</param>
             <param name="include">List_Poster_Row</param>
             <top>-5</top>
             <left>200</left>
@@ -2912,7 +2905,7 @@
                                     <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
                                         <param name="left">view_touchmode_edge_l</param>
                                     </include>
-                                    <content>$INFO[Window.Property(Studio_Query),plugin://plugin.video.themoviedb.helper/?info=discover,,&amp;sort_by=premiered]$VAR[Path_Param_Widget]</content>
+                                    <content>$INFO[Window.Property(Studio_Query),plugin://plugin.video.themoviedb.helper/?info=discover,]$VAR[Path_Param_Widget]</content>
                                     <include content="Action_Recommendations_OnClick">
                                         <param name="id">513</param>
                                     </include>
@@ -3067,7 +3060,7 @@
                                     <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
                                         <param name="left">view_touchmode_edge_l</param>
                                     </include>
-                                    <content>$INFO[Window.Property(Studio_Query),plugin://plugin.video.themoviedb.helper/?info=discover,,&amp;sort_by=premiered]$VAR[Path_Param_Widget]</content>
+                                    <content>$INFO[Window.Property(Studio_Query),plugin://plugin.video.themoviedb.helper/?info=discover,]$VAR[Path_Param_Widget]</content>
                                     <include content="Action_Recommendations_OnClick">
                                         <param name="id">513</param>
                                     </include>
@@ -4435,7 +4428,7 @@
                 <param name="transition_hidden">Control.HasFocus(5001)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;primary_release_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
+                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;primary_release_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5001</param>
                 </include>
@@ -4450,7 +4443,7 @@
                 <param name="transition_hidden">Control.HasFocus(5001)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;first_air_date_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
+                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;first_air_date_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5001</param>
                 </include>
@@ -4465,7 +4458,7 @@
                 <param name="transition_hidden">Control.HasFocus(5002)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Genre_Query)]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
+                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Genre_Query)]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5002</param>
                 </include>
@@ -4480,7 +4473,7 @@
                 <param name="transition_hidden">Control.HasFocus(5003)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=recommendations,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]</content>
+                <content target="$PARAM[target]">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=recommendations,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5003</param>
                 </include>
@@ -4497,7 +4490,7 @@
                 <param name="transition_hidden">Control.HasFocus(5001)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;primary_release_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
+                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;primary_release_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5001</param>
                 </include>
@@ -4512,7 +4505,7 @@
                 <param name="transition_hidden">Control.HasFocus(5001)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;first_air_date_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
+                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Item_Year),&amp;first_air_date_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5001</param>
                 </include>
@@ -4527,7 +4520,7 @@
                 <param name="transition_hidden">Control.HasFocus(5002)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Genre_Query)]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
+                <content target="$PARAM[target]">plugin://plugin.video.themoviedb.helper/?info=discover$INFO[Window.Property(Genre_Query)]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]&amp;vote_count.gte=10</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5002</param>
                 </include>
@@ -4542,7 +4535,7 @@
                 <param name="transition_hidden">Control.HasFocus(5003)</param>
                 <param name="widgetfade_include">true</param>
                 <param name="include_movement">false</param>
-                <content target="$PARAM[target]">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=recommendations,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Discover_Window_SortKey]$VAR[Path_Param_Widget]</content>
+                <content target="$PARAM[target]">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=recommendations,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]</content>
                 <include condition="$PARAM[include_onclick]" content="Action_Recommendations_OnClick">
                     <param name="id">5003</param>
                 </include>
