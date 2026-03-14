@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1115">
-    <defaultcontrol always="true">303</defaultcontrol>
+    <defaultcontrol always="true">30000</defaultcontrol>
     <onload>ClearProperty(url)</onload>
     <onload>ClearProperty(forced)</onload>
     <onload>ClearProperty(menu)</onload>
@@ -8,64 +8,677 @@
     <onload>ClearProperty(guid)</onload>
     <onload>ClearProperty(list_id)</onload>
     <onload>ClearProperty(widgetonly_menu)</onload>
+    <onload>ClearProperty(show_all_hubs)</onload>
     <onload>SetProperty(categories_menu,menu=homemenu)</onload>
     <onload>SetProperty(hub_prefix,Home)</onload>
+    <onload condition="Integer.IsLess(Skin.String(Skin.SettingsLevel),2)">Skin.Reset(Hub.Home.ReplaceWindow)</onload>
+    <onload condition="Integer.IsLess(Skin.String(Skin.SettingsLevel),2)">Skin.Reset(Navigation.Global.Hub.Switcher)</onload>
     <onload>SetProperty(TMDbHelper.WidgetContainer,50)</onload>
     <include>Action_Blur_Onload</include>
+    <onload>SetFocus(30000,0,absolute)</onload>
     <onunload>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onunload>
     <include>Action_BuildShortcuts_OnUnLoad</include>
     <controls>
 
-        <include>Shortcuts_Window_Hidden_Buttons</include>
         <include>Defs_Background_Loader</include>
         <include>Background</include>
 
         <include content="Settings_Dialog">
-            <include>Shortcuts_Window_Side_Buttons</include>
             <include content="Settings_Main_Group">
-                <param name="include_side_buttons">true</param>
-                <param name="label">$LOCALIZE[31496]</param>
-                <left>120</left>
-                <control type="group">
-                    <width>940</width>
-                    <include>Shortcuts_Window_Spinner_Button</include>
-                    <control type="image">
-                        <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                        <height>1</height>
-                        <left>80</left>
-                        <right>-100</right>
-                        <top>160</top>
-                    </control>
-                    <control type="image">
-                        <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                        <height>1</height>
-                        <left>80</left>
-                        <right>-100</right>
-                        <bottom>160</bottom>
-                    </control>
+                <param name="label">$LOCALIZE[31351]</param>
+                <include content="Settings_Left_Group">
                     <include content="Settings_Left_Content">
-                        <include>Shortcuts_Window_Content</include>
-                    </include>
-                </control>
-                <include content="Settings_Right_Group">
-                    <left>1080</left>
-                    <control type="group">
-                        <include content="Dimension_Padding">
-                            <param name="pad">40</param>
+                        <include content="List_DialogSelect">
+                            <param name="id">30000</param>
+                            <param name="itemlayout_include">Layout_MenuList</param>
+                            <param name="textcolor">main_fg</param>
+                            <param name="altfocus">!Control.HasFocus(20)</param>
+                            <param name="control">fixedlist</param>
+                            <focusposition>4</focusposition>
+                            <movement>5</movement>
+                            <right>40</right>
+                            <onright>340</onright>
+                            <animation effect="slide" start="0,0" end="0,-320" reversible="false" condition="Integer.IsLess(Skin.String(Skin.SettingsLevel),2) + String.IsEmpty(Window.Property(show_all_hubs))">Conditional</animation>
+                            <animation effect="slide" start="0,-320" end="0,0" reversible="false" condition="![Integer.IsLess(Skin.String(Skin.SettingsLevel),2) + String.IsEmpty(Window.Property(show_all_hubs))]">Conditional</animation>
+
+                            <onclick condition="!String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">SetProperty(show_all_hubs,True)</onclick>
+                            <onclick condition="!String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">AlarmClock(refocus,SetFocus(30000,0),00:00,silent)</onclick>
+                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">ClearProperty(Shortcuts.Position,Home)</onclick>
+                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_showhubs)) + String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(Shortcuts.EditMenu,menu=sidemenu,Home)</onclick>
+                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_showhubs)) + !$EXP[Shortcuts_Window_Exp_WidgetsOnly] + !String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu),],Home)</onclick>
+                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_showhubs)) + $EXP[Shortcuts_Window_Exp_WidgetsOnly] + !String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu),,-widgetsonly],Home)</onclick>
+                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">ClearProperty(Shortcuts.EditMode,Home)</onclick>
+                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">ClearProperty(Shortcuts.EditGUID,Home)</onclick>
+                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
+
+                            <onfocus>SetProperty(HelpHead,$LOCALIZE[31099],1115)</onfocus>
+                            <onfocus>SetProperty(HelpText,$LOCALIZE[31100],1115)</onfocus>
+
+                            <content>
+                                <item id="0">
+                                    <label>$LOCALIZE[10000]</label>
+                                    <property name="value">$VAR[Shortcuts_Window_Var_HomeItem_Property_Value]</property>
+                                    <property name="categories_menu">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Menu]</property>
+                                    <property name="hub_prefix">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Hub_Prefix]</property>
+                                    <property name="is_homemenu">true</property>
+                                </item>
+                                <item id="0">
+                                    <label>$LOCALIZE[31495]...</label>
+                                    <property name="value">$VAR[Shortcuts_Window_Var_HomeItem_Property_Value]</property>
+                                    <property name="categories_menu">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Menu]</property>
+                                    <property name="hub_prefix">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Hub_Prefix]</property>
+                                    <property name="is_homemenu">true</property>
+                                    <property name="is_showhubs">true</property>
+                                    <visible>Integer.IsLess(Skin.String(Skin.SettingsLevel),2)</visible>
+                                    <visible>String.IsEmpty(Window.Property(show_all_hubs))</visible>
+                                </item>
+                                <item id="1">
+                                    <label>$NUMBER[1101]$VAR[Label_Header_Main_1101, (,)]</label>
+                                    <property name="value">Hub.1101</property>
+                                    <property name="categories_menu">menu=1101menu</property>
+                                    <property name="hub_prefix">$NUMBER[1101]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1101)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="2">
+                                    <label>$NUMBER[1102]$VAR[Label_Header_Main_1102, (,)]</label>
+                                    <property name="value">Hub.1102</property>
+                                    <property name="categories_menu">menu=1102menu</property>
+                                    <property name="hub_prefix">$NUMBER[1102]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1102)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="3">
+                                    <label>$NUMBER[1103]$VAR[Label_Header_Main_1103, (,)]</label>
+                                    <property name="value">Hub.1103</property>
+                                    <property name="categories_menu">menu=1103menu</property>
+                                    <property name="hub_prefix">$NUMBER[1103]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1103)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="4">
+                                    <label>$NUMBER[1104]$VAR[Label_Header_Main_1104, (,)]</label>
+                                    <property name="value">Hub.1104</property>
+                                    <property name="categories_menu">menu=1104menu</property>
+                                    <property name="hub_prefix">$NUMBER[1104]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1104)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="6">
+                                    <label>$NUMBER[1106]$VAR[Label_Header_Main_1106, (,)]</label>
+                                    <property name="value">Hub.1106</property>
+                                    <property name="categories_menu">menu=1106menu</property>
+                                    <property name="hub_prefix">$NUMBER[1106]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1106)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="7">
+                                    <label>$NUMBER[1107]$VAR[Label_Header_Main_1107, (,)]</label>
+                                    <property name="value">Hub.1107</property>
+                                    <property name="categories_menu">menu=1107menu</property>
+                                    <property name="hub_prefix">$NUMBER[1107]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1107)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="8">
+                                    <label>$NUMBER[1108]$VAR[Label_Header_Main_1108, (,)]</label>
+                                    <property name="value">Hub.1108</property>
+                                    <property name="categories_menu">menu=1108menu</property>
+                                    <property name="hub_prefix">$NUMBER[1108]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1108)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="9">
+                                    <label>$NUMBER[1109]$VAR[Label_Header_Main_1109, (,)]</label>
+                                    <property name="value">Hub.1109</property>
+                                    <property name="categories_menu">menu=1109menu</property>
+                                    <property name="hub_prefix">$NUMBER[1109]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1109)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="10">
+                                    <label>$NUMBER[1110]$VAR[Label_Header_Main_1110, (,)]</label>
+                                    <property name="value">Hub.1110</property>
+                                    <property name="categories_menu">menu=1110menu</property>
+                                    <property name="hub_prefix">$NUMBER[1110]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1110)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="12">
+                                    <label>$NUMBER[1112]$VAR[Label_Header_Main_1112, (,)]</label>
+                                    <property name="value">Hub.1112</property>
+                                    <property name="categories_menu">menu=1112menu</property>
+                                    <property name="hub_prefix">$NUMBER[1112]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1112)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="14">
+                                    <label>$NUMBER[1114]$VAR[Label_Header_Main_1114, (,)]</label>
+                                    <property name="value">Hub.1114</property>
+                                    <property name="categories_menu">menu=1114menu</property>
+                                    <property name="hub_prefix">$NUMBER[1114]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1114)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="25">
+                                    <label>$NUMBER[1125]$VAR[Label_Header_Main_1125, (,)]</label>
+                                    <property name="value">Hub.1125</property>
+                                    <property name="categories_menu">menu=1125menu</property>
+                                    <property name="hub_prefix">$NUMBER[1125]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1125)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="26">
+                                    <label>$NUMBER[1126]$VAR[Label_Header_Main_1126, (,)]</label>
+                                    <property name="value">Hub.1126</property>
+                                    <property name="categories_menu">menu=1126menu</property>
+                                    <property name="hub_prefix">$NUMBER[1126]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1126)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                                <item id="27">
+                                    <label>$NUMBER[1127]$VAR[Label_Header_Main_1127, (,)]</label>
+                                    <property name="value">Hub.1127</property>
+                                    <property name="categories_menu">menu=1127menu</property>
+                                    <property name="hub_prefix">$NUMBER[1127]</property>
+                                    <visible>!Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1127)</visible>
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                </item>
+                            </content>
                         </include>
-                        <control type="label">
-                            <centertop>20</centertop>
-                            <height>40</height>
-                            <font>font_midi_bold</font>
-                            <textcolor>main_fg_90</textcolor>
-                            <label>$VAR[Label_Shortcut_HelpHead]</label>
+                    </include>
+                </include>
+                <include content="Settings_Right_Group">
+                    <control type="group">
+                        <width>60%</width>
+                        <control type="group" id="340">
+                            <include>Dimension_Dialog_Body_Group</include>
+                            <control type="grouplist" id="3000">
+                                <top>0</top>
+                                <orientation>vertical</orientation>
+                                <onleft>30000</onleft>
+                                <onright>61</onright>
+                                <ondown>305</ondown>
+                                <pagecontrol>61</pagecontrol>
+
+                                <include content="Settings_Label">
+                                    <param name="id">3390</param>
+                                    <param name="control">label</param>
+                                    <param name="dialog">false</param>
+                                    <description>Default Setting Label</description>
+                                    <label>$LOCALIZE[33063]</label>
+                                </include>
+
+                                <include content="Settings_Button">
+                                    <param name="id">3302</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE]</label>
+                                    <label2>$VAR[Shortcuts_Window_Var_HomeItem_Property_Current_Home_Hub]</label2>
+
+                                    <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Shortcuts_Window_Var_HomeItem_Property_Current_Home_Hub],heading=$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE],separator=||,list=$LOCALIZE[31143] $LOCALIZE[10000]||$NUMBER[1101]$VAR[Label_Header_Main_1101, (,)]||$NUMBER[1102]$VAR[Label_Header_Main_1102, (,)]||$NUMBER[1103]$VAR[Label_Header_Main_1103, (,)]||$NUMBER[1104]$VAR[Label_Header_Main_1104, (,)]||$NUMBER[1106]$VAR[Label_Header_Main_1106, (,)]||$NUMBER[1107]$VAR[Label_Header_Main_1107, (,)]||$NUMBER[1108]$VAR[Label_Header_Main_1108, (,)]||$NUMBER[1109]$VAR[Label_Header_Main_1109, (,)]||$NUMBER[1110]$VAR[Label_Header_Main_1110, (,)]||$NUMBER[1112]$VAR[Label_Header_Main_1112, (,)]||$NUMBER[1114]$VAR[Label_Header_Main_1114, (,)]||$NUMBER[1125]$VAR[Label_Header_Main_1125, (,)]||$NUMBER[1126]$VAR[Label_Header_Main_1126, (,)]||$NUMBER[1127]$VAR[Label_Header_Main_1127, (,)],"executebuiltin_0=Skin.Reset(Hub.Home.ReplaceWindow)||Skin.Reset(Navigation.Global.Hub.Switcher)","executebuiltin_1=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1101])||Skin.SetBool(Hub.1101.DisableSubmenu)||Skin.Reset(Hub.1101.EnableBasicWidgets)","executebuiltin_2=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1102])||Skin.SetBool(Hub.1102.DisableSubmenu)||Skin.Reset(Hub.1102.EnableBasicWidgets)","executebuiltin_3=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1103])||Skin.SetBool(Hub.1103.DisableSubmenu)||Skin.Reset(Hub.1103.EnableBasicWidgets)","executebuiltin_4=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1104])||Skin.SetBool(Hub.1104.DisableSubmenu)||Skin.Reset(Hub.1104.EnableBasicWidgets)","executebuiltin_5=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1106])||Skin.SetBool(Hub.1106.DisableSubmenu)||Skin.Reset(Hub.1106.EnableBasicWidgets)","executebuiltin_6=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1107])||Skin.SetBool(Hub.1107.DisableSubmenu)||Skin.Reset(Hub.1107.EnableBasicWidgets)","executebuiltin_7=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1108])||Skin.SetBool(Hub.1108.DisableSubmenu)||Skin.Reset(Hub.1108.EnableBasicWidgets)","executebuiltin_8=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1109])||Skin.SetBool(Hub.1109.DisableSubmenu)||Skin.Reset(Hub.1109.EnableBasicWidgets)","executebuiltin_9=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1110])||Skin.SetBool(Hub.1110.DisableSubmenu)||Skin.Reset(Hub.1110.EnableBasicWidgets)","executebuiltin_10=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1112])||Skin.SetBool(Hub.1112.DisableSubmenu)||Skin.Reset(Hub.1112.EnableBasicWidgets)","executebuiltin_11=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1114])||Skin.SetBool(Hub.1114.DisableSubmenu)||Skin.Reset(Hub.1114.EnableBasicWidgets)","executebuiltin_12=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1125])||Skin.SetBool(Hub.1125.DisableSubmenu)||Skin.Reset(Hub.1125.EnableBasicWidgets)","executebuiltin_13=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1126])||Skin.SetBool(Hub.1126.DisableSubmenu)||Skin.Reset(Hub.1126.EnableBasicWidgets)","executebuiltin_14=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1127])||Skin.SetBool(Hub.1127.DisableSubmenu)||Skin.Reset(Hub.1127.EnableBasicWidgets)")</onclick>
+
+                                    <visible>!String.IsEmpty(Container(30000).ListItem.Property(is_homemenu))</visible>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31315][CR][CR][B][COLOR=red]$LOCALIZE[14117][/COLOR][/B] — $LOCALIZE[31520][CR][CR]$LOCALIZE[31522][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31318],1115)</onfocus>
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+
+                                </include>
+
+                                <!-- Layout Mode (Basic / Classic / Complex) -->
+                                <include content="Settings_Button">
+                                    <param name="id">390</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31158]</label>
+                                    <label2>$VAR[Shortcuts_Window_Var_Label_ClassicMode]</label2>
+
+                                    <onclick>SetProperty(CustomDialogPreviewTitle,$LOCALIZE[31158]: $INFO[Container(30000).ListItem.Label],Home)</onclick>
+                                    <onclick>SetProperty(CustomDialogPreSelect,$VAR[Shortcuts_Window_Var_Label_ClassicMode_PreSelect],Home)</onclick>
+                                    <onclick>SetProperty(CustomDialogPreviewSelected,$VAR[Shortcuts_Window_Var_Label_ClassicMode],Home)</onclick>
+                                    <onclick>SetProperty(CustomDialogPreviewWindowID,$INFO[Container(30000).ListItem.Property(value)],Home)</onclick>
+                                    <onclick>ActivateWindow(1121)</onclick>
+                                    
+                                    
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31114],1115)</onfocus>
+
+                                    <onfocus condition="$EXP[Shortcuts_Window_Exp_BasicWidgets]">SetProperty(HelpText,$LOCALIZE[31095][CR][CR]$LOCALIZE[31096],1115)</onfocus>
+                                    <onfocus condition="!$EXP[Shortcuts_Window_Exp_BasicWidgets] + $EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31095][CR][CR]$LOCALIZE[31097],1115)</onfocus>
+                                    <onfocus condition="!$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31095][CR][CR]$LOCALIZE[31098],1115)</onfocus>
+                                    
+                                    <onfocus condition="$EXP[Shortcuts_Window_Exp_BasicWidgets]">SetProperty(HelpImage,special://skin/extras/screenshots/widgets/Basic.jpg,1115)</onfocus>
+                                    <onfocus condition="!$EXP[Shortcuts_Window_Exp_BasicWidgets] + $EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpImage,special://skin/extras/screenshots/widgets/Classic.jpg,1115)</onfocus>
+                                    <onfocus condition="!$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpImage,special://skin/extras/screenshots/widgets/Categories.jpg,1115)</onfocus>
+                                    
+
+                                    <onunfocus>ClearProperty(HelpImage,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+                                </include>
+
+                                <!-- Navigation Mode (Stacked / Combined) -->
+                                <include content="Settings_Button">
+                                    <param name="id">391</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31174]</label>
+                                    <label2>$VAR[Shortcuts_Window_Var_Label_WidgetSelector]</label2>
+                                    
+                                    <onclick>Skin.ToggleSetting($INFO[Container(30000).ListItem.Property(value)].WidgetSelector)</onclick>
+                                    <onclick condition="!$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Combined.jpg,1115)</onclick>
+                                    <onclick condition="$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Stacked.jpg,1115)</onclick>
+                                    <onclick condition="!$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpText,$LOCALIZE[31459][CR][CR]$LOCALIZE[31462],1115)</onclick>
+                                    <onclick condition="$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpText,$LOCALIZE[31459][CR][CR]$LOCALIZE[31463],1115)</onclick>
+
+                                    <visible>!$EXP[Shortcuts_Window_Exp_BasicWidgets]</visible>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31457],1115)</onfocus>
+                                    <onfocus condition="$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpText,$LOCALIZE[31459][CR][CR]$LOCALIZE[31462],1115)</onfocus>
+                                    <onfocus condition="!$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpText,$LOCALIZE[31459][CR][CR]$LOCALIZE[31463],1115)</onfocus>
+                                    <onfocus condition="$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Combined.jpg,1115)</onfocus>
+                                    <onfocus condition="!$EXP[Shortcuts_Window_Exp_WidgetSelector]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Stacked.jpg,1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpImage,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+                                </include>
+                                
+                                <!-- Hub Label -->
+                                <include content="Settings_Button">
+                                    <param name="id">392</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[21899]</label>
+                                    <label2>$VAR[Shortcuts_Window_Var_Label_HubName]</label2>
+                                    <onclick>Skin.SetString($INFO[Container(30000).ListItem.Property(value)].Label)</onclick>
+
+                                    <visible>!String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)</visible>
+                                    <visible>String.IsEmpty(Container(30000).ListItem.Property(is_homemenu))</visible>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[21899],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31002],1115)</onfocus>
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+                                </include>
+
+                                <include content="Settings_Label">
+                                    <param name="id">3391</param>
+                                    <param name="control">label</param>
+                                    <param name="dialog">false</param>
+                                    <description>Default Setting Label</description>
+                                    <label>$LOCALIZE[31416]</label>
+                                    <visible>String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)</visible>
+                                </include>
+                                
+                                <!-- Hub Switcher -->
+                                <include content="Settings_Button">
+                                    <param name="id">389</param>
+                                    <param name="control">radiobutton</param>
+                                    <label>$LOCALIZE[31004]</label>
+                                    <selected>Skin.HasSetting(Navigation.Global.Hub.Switcher)</selected>
+
+                                    <onclick>Skin.ToggleSetting(Navigation.Global.Hub.Switcher)</onclick>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31004],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31011][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31017],1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                    <include content="Settings_Visible_Level">
+                                        <param name="slevel">2</param>
+                                        <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
+                                    </include>
+                                    <visible>String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)</visible>
+                                    <visible>!String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))</visible>
+                                </include>
+
+                                <!-- Edit Sidemenu -->
+                                <include content="Settings_Button">
+                                    <param name="id">393</param>
+                                    <param name="control">button</param>
+                                    <label>$VAR[Label_Shortcut_Sidemenu]</label>
+
+                                    <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
+                                    <onclick>SetProperty(Shortcuts.EditMenu,menu=sidemenu,Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
+                                    <onclick>AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31416],1115)</onfocus>
+                                    
+                                    <onfocus condition="String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu) + $EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31464][CR][CR]$LOCALIZE[31474],1115)</onfocus>
+                                    <onfocus condition="String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu) + !$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31464][CR][CR]$LOCALIZE[31474][CR][CR]$LOCALIZE[31466],1115)</onfocus>
+                                    <onfocus condition="!String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(HelpText,$LOCALIZE[31464],1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                    <visible>String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)</visible>
+                                </include>
+                                
+                                <include content="Settings_Label">
+                                    <param name="id">3392</param>
+                                    <param name="control">label</param>
+                                    <param name="dialog">false</param>
+                                    <description>Default Setting Label</description>
+                                    <label>$LOCALIZE[31103]</label>
+                                    <visible>![$EXP[Shortcuts_Window_Exp_WidgetsOnly] + String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)]</visible>
+                                </include>
+                                
+                                <!-- Edit Widgets (in classic mode) -->
+                                <include content="Settings_Button">
+                                    <param name="id">395</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31328]</label>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31103],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31106],1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                    <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
+                                    <onclick>SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu),,-widgetsonly],Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
+                                    <onclick>AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
+
+                                    <visible>$EXP[Shortcuts_Window_Exp_WidgetsOnly] + !String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)</visible>
+                                </include>
+                                
+                                <!-- Edit Categories (in complex mode) -->
+                                <include content="Settings_Button">
+                                    <param name="id">394</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31379] [LOWERCASE]$LOCALIZE[1439] $LOCALIZE[31103][/LOWERCASE]</label>
+
+                                    <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
+                                    <onclick>SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu)],Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
+                                    <onclick>AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31150],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31488][CR][CR]$LOCALIZE[31489],1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                    <visible>!$EXP[Shortcuts_Window_Exp_WidgetsOnly]</visible>
+                                    <visible>!String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)</visible>
+                                </include>
+
+                                <!-- Edit Global Widgets (in complex mode) -->
+                                <include content="Settings_Button">
+                                    <param name="id">397</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31521]</label>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31514],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31101],1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                    <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
+                                    <onclick>SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu),,-globalwidgets],Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
+                                    <onclick>AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
+
+                                    <visible>!$EXP[Shortcuts_Window_Exp_WidgetsOnly]</visible>
+                                </include>
+
+                                <!-- Spotlight -->
+                                <include content="Settings_Label">
+                                    <param name="id">3301</param>
+                                    <param name="control">label</param>
+                                    <param name="dialog">false</param>
+                                    <description>Default Setting Label</description>
+                                    <label>$LOCALIZE[31105]</label>
+                                    <visible>!$EXP[Shortcuts_Window_Exp_WidgetsOnly]</visible>
+                                </include>
+                                <include content="Settings_Button">
+                                    <param name="id">301</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31525]</label>
+
+                                    <onclick>SetProperty(Options.Mode.Heading,Spotlight)</onclick>
+                                    <onclick>SetProperty(Options.Mode.Heading.Sublabel,$INFO[Container(30000).ListItem.Label])</onclick>
+                                    <onclick>SetProperty(Options.Mode,Categories.Spotlight)</onclick>
+                                    <onclick>SetFocus(33999)</onclick>
+
+                                    <visible>!$EXP[Shortcuts_Window_Exp_WidgetsOnly]</visible>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31105],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31475][CR][CR]$LOCALIZE[31476],1115)</onfocus>
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                </include>
+                                
+                                
+                                <!-- Explore -->
+                                <include content="Settings_Label">
+                                    <param name="id">3303</param>
+                                    <param name="control">label</param>
+                                    <param name="dialog">false</param>
+                                    <description>Default Setting Label</description>
+                                    <label>$LOCALIZE[31148]</label>
+                                    <visible>!Skin.String(Navigation.Global.OnDown,Explore) | [$EXP[Shortcuts_Window_Exp_ExploreEnabled] + $EXP[Shortcuts_Window_Exp_WidgetsOnly]]</visible>
+                                </include>
+
+                                <include content="Settings_Button">
+                                    <param name="id">396</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31324] > $LOCALIZE[31008]</label>
+                                    <label2>$VAR[Shortcuts_Window_Var_Label_NavigationOnDown]</label2>
+
+                                    <onclick>RunScript(script.skinvariables,run_dialog=select,heading=$LOCALIZE[31324] > $LOCALIZE[31008],separator=||,list=$LOCALIZE[571]||$LOCALIZE[31148],"executebuiltin_0=Skin.Reset(Navigation.$INFO[Container(30000).ListItem.Property(value)].OnDown)","executebuiltin_1=Skin.SetString(Navigation.$INFO[Container(30000).ListItem.Property(value)].OnDown,Explore)")</onclick>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31148],1115)</onfocus>
+                                    <onfocus>SetProperty(HelpText,$LOCALIZE[31527][CR][CR]$LOCALIZE[31523],1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+                                    <visible>!Skin.String(Navigation.Global.OnDown,Explore)</visible>
+                                </include>
+
+                                <include content="Settings_Button">
+                                    <param name="id">398</param>
+                                    <param name="control">button</param>
+                                    <label>$LOCALIZE[31436]</label>
+
+                                    <onfocus>SetProperty(HelpHead,$LOCALIZE[31392],1115)</onfocus>
+                                    <onfocus condition="!Skin.String(Navigation.Global.OnDown,Explore)">SetProperty(HelpText,$LOCALIZE[31524],1115)</onfocus>
+                                    <onfocus condition="Skin.String(Navigation.Global.OnDown,Explore)">SetProperty(HelpText,$LOCALIZE[31527][CR][CR]$LOCALIZE[31524],1115)</onfocus>
+
+                                    <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                                    <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+
+                                    <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
+                                    <onclick>SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu),,-extendedwidgets],Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
+                                    <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
+                                    <onclick>AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
+
+                                    <visible>$EXP[Shortcuts_Window_Exp_ExploreEnabled]</visible>
+                                    <visible>$EXP[Shortcuts_Window_Exp_WidgetsOnly]</visible>
+                                </include>
+
+                            </control>
                         </control>
-                        <control type="textbox">
-                            <top>80</top>
-                            <font>font_main_plot</font>
-                            <textcolor>main_fg_70</textcolor>
-                            <label>$VAR[Label_Shortcut_HelpText]</label>
+                    </control>
+
+                    <control type="group">
+                        <left>60%</left>
+                        <control type="group">
+                            <centerleft>0</centerleft>
+                            <bottom>20</bottom>
+                            <top>20</top>
+                            <width>scrollbar_w</width>
+                            <control type="image">
+                                <texture colordiffuse="main_fg_12" border="4">scrollbar/scrollv_line.png</texture>
+                            </control>
                         </control>
+                        <control type="scrollbar" id="61">
+                            <orientation>vertical</orientation>
+                            <texturesliderbackground />
+                            <texturesliderbar colordiffuse="dialog_fg_70" border="4">scrollbar/scrollv_line.png</texturesliderbar>
+                            <showonepage>false</showonepage>
+                            <include>Texture_Scrollbar_V</include>
+                            <onleft>3000</onleft>
+                            <onright>30000</onright>
+                            <centerleft>0</centerleft>
+                            <bottom>20</bottom>
+                            <top>20</top>
+                            <width>scrollbar_w</width>
+                        </control>
+                        <control type="grouplist">
+                            <orientation>vertical</orientation>
+                            <height>720</height>
+                            <itemgap>0</itemgap>
+                            <include content="Dimension_Padding">
+                                <param name="pad">40</param>
+                            </include>
+                            <control type="label">
+                                <height>40</height>
+                                <font>font_mini_bold</font>
+                                <textcolor>main_fg_90</textcolor>
+                                <label>$VAR[Label_Shortcut_HelpHead]</label>
+                            </control>
+                            <control type="group">
+                                <top>20</top>
+                                <height>280</height>
+                                <visible>!String.IsEmpty(Window(1115).Property(HelpImage))</visible>
+                                <include content="Dialog_Outline_InnerBox">
+                                    <control type="image">
+                                        <aspectratio scalediffuse="false">scale</aspectratio>
+                                        <bordersize>20</bordersize>
+                                        <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$INFO[Window(1115).Property(HelpImage)]</texture>
+                                    </control>
+                                </include>
+                            </control>
+                            <control type="textbox">
+                                <top>20</top>
+                                <height>640</height>
+                                <visible>String.IsEmpty(Window(1115).Property(HelpImage))</visible>
+                                <font>font_mini_plot</font>
+                                <textcolor>main_fg_70</textcolor>
+                                <label>$VAR[Label_Shortcut_HelpText]</label>
+                                <autoscroll delay="6000" time="3000" repeat="10000">True</autoscroll>
+                            </control>
+                            <control type="textbox">
+                                <top>20</top>
+                                <height>340</height>
+                                <visible>!String.IsEmpty(Window(1115).Property(HelpImage))</visible>
+                                <font>font_mini_plot</font>
+                                <textcolor>main_fg_70</textcolor>
+                                <label>$VAR[Label_Shortcut_HelpText]</label>
+                                <autoscroll delay="6000" time="3000" repeat="10000">True</autoscroll>
+                            </control>
+                        </control>
+                    </control>
+
+                    <control type="grouplist" id="305">
+                        <left>20</left>
+                        <centerbottom>-60</centerbottom>
+                        <itemgap>0</itemgap>
+                        <orientation>horizontal</orientation>
+                        <height>160</height>
+
+                        <onright>noop</onright>
+                        <onleft>30000</onleft>
+
+                        <onup>3000</onup>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">3302</ondown>
+                        <ondown condition="!String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">390</ondown>
+                        <include content="DialogInfo_Button">
+                            <param name="vertical">false</param>
+                            <param name="width">300</param>
+                            <param name="slice">100</param>
+                            <param name="itemgap">-40</param>
+                            <param name="label_pad">-15</param>
+                            <param name="id">9001</param>
+                            <param name="groupid">9101</param>
+                            <param name="sliceid">9201</param>
+                            <param name="include_hintlabel">true</param>
+                            <param name="include_customwidth">true</param>
+                            <param name="label">$LOCALIZE[31456]</param>
+                            <param name="icon">special://skin/extras/icons/download.png</param>
+                            <onclick>RunScript(script.skinvariables,run_dialog=select,heading=Prebuilt,separator=||,list=library-basic||tmdb-basic,"executebuiltin=route=copy_menufolder=special://skin/shortcuts/prebuilt/{v}/&amp;skin=$VAR[Path_SkinVariables_SkinFolder]")</onclick>
+
+                            <onfocus>SetProperty(HelpHead,$LOCALIZE[31102],1115)</onfocus>
+                            <onfocus>SetProperty(HelpText,$LOCALIZE[31078][CR][CR]$LOCALIZE[31079],1115)</onfocus>
+                            <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                            <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+                        </include>
+
+                        <include content="DialogInfo_Button">
+                            <param name="vertical">false</param>
+                            <param name="width">300</param>
+                            <param name="slice">100</param>
+                            <param name="itemgap">-40</param>
+                            <param name="label_pad">-15</param>
+                            <param name="id">9002</param>
+                            <param name="groupid">9102</param>
+                            <param name="sliceid">9202</param>
+                            <param name="include_hintlabel">true</param>
+                            <param name="include_customwidth">true</param>
+                            <param name="label">$LOCALIZE[31494]</param>
+                            <param name="icon">special://skin/extras/icons/code-pull-request.png</param>
+                            <onclick>RunPlugin(plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Container(30000).ListItem.Property(categories_menu),&amp;,]&amp;func=do_refresh&amp;&amp;False&amp;&amp;ActivateWindow(1115))</onclick>
+                            <onfocus>SetProperty(HelpHead,$LOCALIZE[31104],1115)</onfocus>
+                            <onfocus>SetProperty(HelpText,$LOCALIZE[31080][CR][CR]$LOCALIZE[31081],1115)</onfocus>
+                            <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
+                            <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
+                        </include>
                     </control>
                 </include>
             </include>

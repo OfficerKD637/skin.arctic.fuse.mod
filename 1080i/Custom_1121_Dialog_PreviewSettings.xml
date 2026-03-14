@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1121">
+
+    <onload condition="!String.IsEmpty(Window(Home).Property(CustomDialogPreSelect))">AlarmClock(refocus,SetFocus(8000,$INFO[Window(Home).Property(CustomDialogPreSelect)],absolute),00:00,silent)</onload>
+
+    <defaultcontrol always="true">8000</defaultcontrol>
+    <controls>
+        <include>Dialog_Dim_Overlay</include>
+        <control type="group">
+            <include>Dimension_DialogWizard</include>
+            <include content="Dialog_Background_Group">
+                <param name="include_glass">true</param>
+            </include>
+            <include>Dialog_Overlay_Tray</include>
+            <include>Animation_Right_Delay</include>
+            <control type="group">
+                <include>Dialog_Group</include>
+                <include content="Dialog_Head">
+                    <param name="top">40</param>
+                    <param name="left">40</param>
+                    <param name="label">$INFO[Window(Home).Property(CustomDialogPreviewTitle)]</param>
+                </include>
+                <control type="group">
+                    <control type="image">
+                        <top>120</top>
+                        <height>1</height>
+                        <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
+                        <left>40</left>
+                        <right>40</right>
+                    </control>
+                </control>
+                <control type="group">
+                    <include>Dimension_Dialog_Body</include>
+                    <include content="Dialog_Wizard_WrapList">
+                        <param name="items_include">Items_Preview_LayoutMode</param>
+                        <param name="id">8000</param>
+                        <param name="onback">PreviousMenu</param>
+                        <param name="checkmark_condition">String.IsEqual(Window(Home).Property(CustomDialogPreviewSelected),ListItem.Label)</param>
+                    </include>
+                </control>
+
+            </control>
+            <control type="grouplist" id="9000">
+                <height>160</height>
+                <bottom>20</bottom>
+                <left>60</left>
+                <right>60</right>
+                <align>center</align>
+                <onup>8000</onup>
+                <ondown>8000</ondown>
+                <orientation>horizontal</orientation>
+                <include content="Dialog_Button_Expanded">
+                    <param name="id">02</param>
+                    <param name="label">$LOCALIZE[15067]</param>
+                    <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+                    <onclick>PreviousMenu</onclick>
+                </include>
+            </control>
+        </control>
+
+    </controls>
+</window>

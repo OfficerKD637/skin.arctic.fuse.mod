@@ -151,13 +151,13 @@
                     <include content="Home_Menu_List_ItemLayout" condition="Skin.HasSetting(Hub.Home.DisableSubmenu)">
                         <param name="id">$PARAM[id]</param>
                         <param name="hidden_button">Home_Menu_List_HiddenButton</param>
-                        <param name="hidden_button_enabled">Window.IsVisible(Home)</param>
+                        <param name="hidden_button_enabled">[[String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + Window.IsVisible(Home)] | [Skin.HasSetting(Navigation.Global.Hub.Switcher) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + $EXP[Exp_Window_IsHub]]]</param>
                         <param name="vertical">$PARAM[vertical]</param>
                     </include>
                     <include content="Home_Menu_List_ItemLayout" condition="!Skin.HasSetting(Hub.Home.DisableSubmenu)">
                         <param name="id">$PARAM[id]</param>
                         <param name="hidden_button">Home_Menu_List_HiddenButton_Alt</param>
-                        <param name="hidden_button_enabled">Window.IsVisible(Home)</param>
+                        <param name="hidden_button_enabled">[[String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + Window.IsVisible(Home)] | [Skin.HasSetting(Navigation.Global.Hub.Switcher) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + $EXP[Exp_Window_IsHub]]]</param>
                         <param name="vertical">$PARAM[vertical]</param>
                     </include>
 
@@ -172,19 +172,22 @@
             <visible allowhiddenfocus="true">false</visible>
             <animation effect="fade" start="0" end="0" time="50" reversible="false">Focus</animation>
 
-            <onfocus condition="Window.IsVisible(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(TMDbHelper.WidgetContainer.UpdateLock,$INFO[ListItem.CurrentItem],1198)</onfocus>
+            <onfocus condition="Window.IsVisible(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(TMDbHelper.WidgetContainer.UpdateLock,$INFO[ListItem.CurrentItem],1198)</onfocus>
 
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + Skin.HasSetting(Hub.Home.WidgetSelector)">SetFocus(419,0,absolute)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !Skin.HasSetting(Hub.Home.WidgetSelector)">SetFocus($INFO[ListItem.Property(widgets_first_id)])</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetFocus($VAR[Action_Hubs_MenuID])</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + Skin.HasSetting(Hub.Home.WidgetSelector)">SetFocus(419,0,absolute)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !Skin.HasSetting(Hub.Home.WidgetSelector)">SetFocus($INFO[ListItem.Property(widgets_first_id)])</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetFocus($VAR[Action_Hubs_MenuID])</onfocus>
 
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(TMDbHelper.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(Slide.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">ClearProperty(List.ViewContainer,Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">ClearProperty(List.ViewContainer.Prev,Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(SideMenu.CurrentName,$INFO[ListItem.Label],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(TMDbHelper.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(Slide.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">ClearProperty(List.ViewContainer,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">ClearProperty(List.ViewContainer.Prev,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(SideMenu.CurrentName,$INFO[ListItem.Label],Home)</onfocus>
 
-            <onfocus condition="Window.IsActive(Home)">AlarmClock(clearupdatelock,ClearProperty(TMDbHelper.WidgetContainer.UpdateLock,1198),00:00,silent)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))">AlarmClock(clearupdatelock,ClearProperty(TMDbHelper.WidgetContainer.UpdateLock,1198),00:00,silent)</onfocus>
+            
+            <!-- Hub Switcher -->
+            <onfocus condition="Skin.HasSetting(Navigation.Global.Hub.Switcher) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !String.IsEmpty(ListItem.Property(hub_switcher_path))">$INFO[ListItem.Property(hub_switcher_path)]</onfocus>
         </control>
     </include>
 
@@ -193,31 +196,34 @@
             <visible allowhiddenfocus="true">false</visible>
             <animation effect="fade" start="0" end="0" time="50" reversible="false">Focus</animation>
 
-            <onfocus condition="Window.IsVisible(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(TMDbHelper.WidgetContainer.UpdateLock,$INFO[ListItem.CurrentItem],1198)</onfocus>
+            <onfocus condition="Window.IsVisible(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(TMDbHelper.WidgetContainer.UpdateLock,$INFO[ListItem.CurrentItem],1198)</onfocus>
 
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetFocus(300,0,absolute)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetFocus($INFO[Container(300).ListItemAbsolute(0).Property(item)]302,0,absolute)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + Skin.HasSetting(Hub.Home.WidgetSelector)">SetFocus(419,0,absolute)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetFocus(311)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetFocus($INFO[ListItem.Property(widgets_first_id)])</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetFocus(300,0,absolute)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetFocus($INFO[Container(300).ListItemAbsolute(0).Property(item)]302,0,absolute)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetFocus($VAR[Action_Hubs_MenuID])</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetFocus(300,0,absolute)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetFocus($INFO[Container(300).ListItemAbsolute(0).Property(item)]302,0,absolute)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + Skin.HasSetting(Hub.Home.WidgetSelector)">SetFocus(419,0,absolute)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetFocus(311)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetFocus($INFO[ListItem.Property(widgets_first_id)])</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetFocus(300,0,absolute)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetFocus($INFO[Container(300).ListItemAbsolute(0).Property(item)]302,0,absolute)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetFocus($VAR[Action_Hubs_MenuID])</onfocus>
 
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">ClearProperty(Slide.WidgetContainer,Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetProperty(List.ViewContainer,$VAR[Path_Spotlight_Default_ViewContainer],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + $EXP[Exp_HomeHub_Spotlight_IsVisible]">SetProperty(List.ViewContainer,$VAR[Path_Spotlight_Default_ViewContainer],Home)</onfocus>
             
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetProperty(TMDbHelper.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetProperty(Slide.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetProperty(List.ViewContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetProperty(TMDbHelper.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetProperty(Slide.WidgetContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + Integer.IsEqual(Container(300).NumItems,0)">SetProperty(List.ViewContainer,$INFO[ListItem.Property(widgets_first_id)],Home)</onfocus>
             
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">ClearProperty(Slide.WidgetContainer,Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetProperty(List.ViewContainer,300,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetProperty(TMDbHelper.WidgetContainer,301,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">ClearProperty(Slide.WidgetContainer,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem) + !$EXP[Exp_HomeHub_Spotlight_IsVisible] + !Integer.IsEqual(Container(300).NumItems,0)">SetProperty(List.ViewContainer,300,Home)</onfocus>
             
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">ClearProperty(List.ViewContainer.Prev,Home)</onfocus>
-            <onfocus condition="Window.IsActive(Home) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(SideMenu.CurrentName,$INFO[ListItem.Label],Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">ClearProperty(List.ViewContainer.Prev,Home)</onfocus>
+            <onfocus condition="Window.IsActive(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !Integer.IsEqual(Window(1198).Property(TMDbHelper.WidgetContainer.UpdateLock),ListItem.CurrentItem)">SetProperty(SideMenu.CurrentName,$INFO[ListItem.Label],Home)</onfocus>
+            
+            <!-- Hub Switcher -->
+            <onfocus condition="Skin.HasSetting(Navigation.Global.Hub.Switcher) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + !String.IsEmpty(ListItem.Property(hub_switcher_path))">$INFO[ListItem.Property(hub_switcher_path)]</onfocus>
         </control>
     </include>
 

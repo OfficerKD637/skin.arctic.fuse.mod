@@ -69,7 +69,7 @@
     <expression name="Exp_IsWindow_TVShows">[Container.Content(tvshows) | Container.Content(seasons) | Container.Content(episodes) | String.StartsWith(Container.FolderPath,videodb://tvshows/) | String.StartsWith(Container.FolderPath,library://video/tvshows/) | String.StartsWith(Container.FolderPath,plugin://plugin.video.themoviedb.helper/?info=dir_tv) | Window.IsVisible(1130) | Window.IsVisible(1131)]</expression>
     <expression name="Exp_IsWindow_Music">[Window.IsVisible(MyMusicNav.xml) | Container.Content(musicvideos)]</expression>
 
-    <expression name="Exp_HomeMenu_HasFocus">[[Control.HasFocus(303) | Control.HasFocus(306) | Control.HasFocus(307) | Control.HasFocus(308) | Control.HasFocus(309) | Control.HasFocus(331)] + !Window.IsVisible(1170)]</expression>
+    <expression name="Exp_HomeMenu_HasFocus">[$EXP[Exp_HomeMenu_HasFocusBG] + !Window.IsVisible(1170)]</expression>
     
     <expression name="Exp_HomeMenu_HasFocusBG">[Control.HasFocus(303) | Control.HasFocus(306) | Control.HasFocus(307) | Control.HasFocus(308) | Control.HasFocus(309) | Control.HasFocus(331)]</expression>
 
@@ -89,19 +89,14 @@
     <expression name="Exp_1126Hub_IsVisible">[Window.IsVisible(1126) | [Window.IsVisible(Home) + Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1126)]]</expression>
     <expression name="Exp_1127Hub_IsVisible">[Window.IsVisible(1127) | [Window.IsVisible(Home) + Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1127)]]</expression>
     
-    <expression name="Exp_HomeHub_Spotlight_IsVisible">!$EXP[Exp_Hubs_Spotlight_IsDisabled] + [!Window.IsVisible(Home) | [Window.IsVisible(Home) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))] | [Window.IsVisible(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + ![String.IsEmpty(Container(300).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(303).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(370).ListItem.Property(spotlight_path)) + [String.IsEmpty(Skin.String(Hub.Home.Spotlight.Path)) | String.IsEqual(Skin.String(Hub.Home.Spotlight.Path),noop)] + String.IsEmpty(Skin.String(Hub.Home.Spotlight.Fallback))]]]</expression>
-    
-    <expression name="Exp_HomeHub_SpotlightSubmenu_IsVisible">!$EXP[Exp_Hubs_Spotlight_IsDisabled] + [!Window.IsVisible(Home) | [Window.IsVisible(Home) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))] | [Window.IsVisible(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + ![Integer.IsEqual(Container(300).NumItems,0) + String.IsEmpty(Container(300).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(303).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(370).ListItem.Property(spotlight_path)) + [String.IsEmpty(Skin.String(Hub.Home.Spotlight.Path)) | String.IsEqual(Skin.String(Hub.Home.Spotlight.Path),noop)] + String.IsEmpty(Skin.String(Hub.Home.Spotlight.Fallback))]]]</expression>
-    
-    <expression name="Exp_HubName_IsVisible">[[Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301) + !Integer.IsEqual(Container(300).NumItems,0) + Control.IsVisible(300)] | $EXP[Exp_HomeMenu_HasFocusBG]]</expression>
-    
+    <expression name="Exp_HomeHub_Spotlight_IsVisible">!$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Skin.HasSetting(Hub.Home.DisableSpotlight) + [Window.IsVisible(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + ![String.IsEmpty(Container(300).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(303).ListItem.Property(spotlight_path)) + String.IsEmpty(Container(370).ListItem.Property(spotlight_path)) + [String.IsEmpty(Skin.String(Hub.Home.Spotlight.Path)) | String.IsEqual(Skin.String(Hub.Home.Spotlight.Path),noop)] + String.IsEmpty(Skin.String(Hub.Home.Spotlight.Fallback))]]</expression>
+
     <expression name="Exp_HomeHub_IsPrevious">[Window.Previous(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))]</expression>
     <expression name="Exp_HomeHub_IsNext">[Window.Next(Home) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))]</expression>
     
     <expression name="Exp_HomeMenu_IsTopBar">[Skin.String(Home.SideMenuCollapse,Topbar)]</expression>
 
     <expression name="Exp_Navigation_OnWrap">[$EXP[Exp_HomeMenu_IsTopBar] | $EXP[Exp_Navigation_OnMenu] | !$EXP[Exp_HomeMenu_IsExpanded]]</expression>
-    <expression name="Exp_Navigation_OnWrap2">[$EXP[Exp_HomeMenu_IsTopBar] | $EXP[Exp_Navigation_OnMenu] | $EXP[Exp_HomeMenu_IsExpanded]]</expression>
     <expression name="Exp_Navigation_OnBump">[Skin.String(Home.LeftMenu.Action,Bump) + !$EXP[Exp_Navigation_OnWrap]]</expression>
 
     <expression name="Exp_Navigation_OnMenu">[!$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Navigation.OnBack,Menu)]</expression>
@@ -132,7 +127,7 @@
 
     <expression name="Exp_Hubs_Spotlight_HasItems">[!Integer.IsEqual(Container(301).NumItems,0) | Container(301).IsUpdating]</expression>
 
-    <expression name="Exp_Hubs_Spotlight_SlideDown">[Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + String.IsEmpty(Window.Property(Slide.WidgetContainer)) + !$EXP[Exp_InfoDialogs]]</expression>
+    <expression name="Exp_Hubs_Spotlight_SlideDown">[Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + String.IsEmpty(Window.Property(Slide.WidgetContainer)) ]</expression>
 
     <expression name="Exp_Hubs_Widgets_SlideDown">[String.IsEmpty(Window.Property(Slide.WidgetContainer)) | $EXP[Exp_Hubs_Categories_HasFocus] | $EXP[Exp_Hubs_Submenu_HasFocus]]</expression>
     
@@ -142,8 +137,7 @@
     <expression name="Exp_Hubs_Submenu_HasFocus">[Integer.IsEqual(Window.Property(Slide.WidgetContainer),3002) | ControlGroup(3002).HasFocus()]</expression>
 
     <expression name="Exp_Hubs_Spotlight_IsDisabled">[Skin.HasSetting(Background.DisableSpotlight)]</expression>
-    <expression name="Exp_Hubs_Spotlight_IsFanart">[!$EXP[Exp_Hubs_Spotlight_IsDisabled] + Skin.HasSetting(Background.EnableSpotlightSlide) + $EXP[Exp_HomeMenu_IsTopBar]]</expression>
-    <expression name="Exp_Hubs_Spotlight_IsSlide">[$EXP[Exp_HomeMenu_IsTopBar] + [[!$EXP[Exp_Hubs_Spotlight_IsDisabled] + Skin.HasSetting(Background.EnableSpotlightSlide)] | $EXP[Exp_Hubs_Spotlight_IsFanart] | $EXP[Exp_Hubs_Spotlight_IsDisabled]]]</expression>
+    <expression name="Exp_Hubs_Spotlight_IsSlide">[$EXP[Exp_HomeMenu_IsTopBar] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + Skin.HasSetting(Background.EnableSpotlightSlide)]</expression>
     <expression name="Exp_Hubs_Spotlight_IsMini">[False]</expression>
 
     <!-- ============== -->
@@ -301,6 +295,9 @@
     <!-- ====== -->
     <variable name="Exp_Var_Layout_IsCategories">
         <value condition="!Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + Skin.String(Home.SideMenuCollapse,Library)">True</value>
+    </variable>
+    <variable name="Exp_Var_Layout_IsBasic">
+        <value condition="Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + Skin.String(Home.SideMenuCollapse,Always)">True</value>
     </variable>
     <variable name="Exp_Var_Layout_IsClassic">
         <value condition="Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + Skin.String(Home.SideMenuCollapse,Library)">True</value>

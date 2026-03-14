@@ -854,6 +854,188 @@
             </control>
         </definition>
     </include>
+    
+    <include name="Dialog_Wizard_WrapList">
+        <param name="items_include">Items_Wizard</param>
+        <param name="id">50</param>
+        <param name="onback">8001</param>
+        <param name="checklist">false</param>
+        <definition>
+            <control type="group">
+                <top>-40</top>
+                <width>1500</width>
+                <centerleft>50%</centerleft>
+                <control type="wraplist" id="$PARAM[id]">
+                    <ondown>9000</ondown>
+                    <focusposition>1</focusposition>
+                    <preloaditems>2</preloaditems>
+                    <orientation>horizontal</orientation>
+                    <onback>$PARAM[onback]</onback>
+                    <itemlayout width="900" height="600">
+                        <include content="Layout_Wizard">
+                            <param name="id">$PARAM[id]</param>
+                            <param name="checkmark_condition">$PARAM[checkmark_condition]</param>
+                        </include>
+                    </itemlayout>
+                    <focusedlayout width="900" height="600">
+                        <include content="Layout_Wizard">
+                            <param name="id">$PARAM[id]</param>
+                            <param name="selected">true</param>
+                            <param name="checkmark_condition">$PARAM[checkmark_condition]</param>
+                        </include>
+                    </focusedlayout>
+                    <content>
+                        <include>$PARAM[items_include]</include>
+                    </content>
+                </control>
+
+                <control type="group">
+                    <bottom>200</bottom>
+                    <height>80</height>
+                    <left>40</left>
+                    <right>40</right>
+                    <control type="image">
+                        <centerleft>0</centerleft>
+                        <centertop>50%</centertop>
+                        <width>40</width>
+                        <height>40</height>
+                        <bordersize>-12</bordersize>
+                        <texture background="true" colordiffuse="dialog_fg_90">special://skin/extras/icons/circle-arrow-left.png</texture>
+                    </control>
+                    <control type="label">
+                        <left>40</left>
+                        <aligny>center</aligny>
+                        <textcolor>dialog_fg_70</textcolor>
+                        <label>$INFO[Container($PARAM[id]).ListItem(-1).Label]</label>
+                        <font>font_mini</font>
+                        <align>left</align>
+                    </control>
+                    <control type="label">
+                        <aligny>center</aligny>
+                        <textcolor>dialog_fg_90</textcolor>
+                        <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
+                        <align>center</align>
+                        <font>font_main_bold</font>
+                    </control>
+                    <control type="label">
+                        <right>40</right>
+                        <aligny>center</aligny>
+                        <textcolor>dialog_fg_70</textcolor>
+                        <label>$INFO[Container($PARAM[id]).ListItem(1).Label]</label>
+                        <font>font_mini</font>
+                        <align>right</align>
+                    </control>
+                    <control type="image">
+                        <centerright>0</centerright>
+                        <centertop>50%</centertop>
+                        <width>40</width>
+                        <height>40</height>
+                        <bordersize>-12</bordersize>
+                        <texture background="true" colordiffuse="dialog_fg_90">special://skin/extras/icons/circle-arrow-right.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <bottom>80</bottom>
+                    <height>120</height>
+                    <left>310</left>
+                    <right>310</right>
+                    
+                    <include content="Object_Control" condition="$PARAM[checklist]">
+                        <param name="control">list</param>
+                        <width>40%</width>
+                        <left>60</left>
+                        <orientation>vertical</orientation>
+                        <itemlayout height="40">
+                            <include content="Layout_Wizard_Checklist">
+                                <param name="icon">special://skin/extras/icons/circle-check.png</param>
+                            </include>
+                        </itemlayout>
+                        <focusedlayout height="40">
+                            <include content="Layout_Wizard_Checklist">
+                                <param name="icon">special://skin/extras/icons/circle-check.png</param>
+                            </include>
+                        </focusedlayout>
+                        <content>
+                            <item>
+                                <label>$LOCALIZE[10036] [LOWERCASE]$LOCALIZE[31158][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Combined.jpg)</visible>
+                                <description>Advanced layout options / Categories</description>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[10038] [LOWERCASE]$LOCALIZE[31158][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Categories.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg)</visible>
+                                <description>Advanced layout options / Categories</description>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[31432] [LOWERCASE]$LOCALIZE[1034][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Categories.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg)</visible>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[19145] [LOWERCASE]$LOCALIZE[31103][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Combined.jpg)</visible>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[147] [LOWERCASE]$LOCALIZE[21483][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Combined.jpg)</visible>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[31105]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Categories.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg)</visible>
+                            </item>
+
+                        </content>
+                    </include>
+
+                    <include content="Object_Control" condition="$PARAM[checklist]">
+                        <param name="control">list</param>
+                        <right>0</right>
+                        <width>41%</width>
+                        <orientation>vertical</orientation>
+                        <itemlayout height="40">
+                            <include content="Layout_Wizard_Checklist">
+                                <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+                            </include>
+                        </itemlayout>
+                        <focusedlayout height="40">
+                            <include content="Layout_Wizard_Checklist">
+                                <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+                            </include>
+                        </focusedlayout>
+                        <content>
+                            <item>
+                                <label>$LOCALIZE[106] [LOWERCASE]$LOCALIZE[31105][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Combined.jpg)</visible>
+                                <description>Advanced layout options / Categories</description>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[106] [LOWERCASE]$LOCALIZE[31432] $LOCALIZE[1034][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Combined.jpg)</visible>
+                                <description>Advanced layout options / Categories</description>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[106] [LOWERCASE]$LOCALIZE[31416][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Combined.jpg)</visible>
+                                <description>Advanced layout options / Categories</description>
+                            </item>
+                            <item>
+                                <label>$LOCALIZE[106] [LOWERCASE]$LOCALIZE[19033] $LOCALIZE[31317][/LOWERCASE]</label>
+                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg)</visible>
+                            </item>
+                        </content>
+                    </include>
+                    
+                    <control type="textbox">
+                        <left>120</left>
+                        <right>120</right>
+                        <font>font_mini_plot</font>
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <label>$INFO[Container($PARAM[id]).ListItem.Property(textbox)]</label>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
 
     <include name="Dialog_Outline">
         <include content="Object_Control" condition="Skin.HasSetting(Glass.EnableBorders)">
