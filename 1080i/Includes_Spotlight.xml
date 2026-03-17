@@ -12,39 +12,16 @@
         </include>
     </include>
 
-    <include name="Spotlight_Animation">
-        <include content="Animation_Fade_In">
-            <param name="condition">$EXP[Exp_Hubs_Categories_SlideDown]</param>
-            <param name="delay">200</param>
-        </include>
-        <include content="Animation_ConditionalFade">
-            <param name="condition">!$EXP[Exp_Hubs_Categories_SlideDown]</param>
-        </include>
-    </include>
-
-    <include name="Spotlight_HideDetails">
-        <include content="Animation_ConditionalFade" condition="$EXP[Exp_Hubs_Spotlight_IsMini]">
-            <param name="condition">True</param>
-        </include>
-        <include condition="$EXP[Exp_Hubs_Spotlight_IsSlide]">Spotlight_Animation</include>
-    </include>
-
-    <include name="Spotlight_HidePanel">
-        <animation effect="fade" start="0" end="100" reversible="false" condition="$EXP[Exp_Hubs_Categories_SlideDown]">Conditional</animation>
-        <animation effect="fade" start="100" end="0" delay="399" time="1" reversible="false" condition="!$EXP[Exp_Hubs_Categories_SlideDown]">Conditional</animation>
-    </include>
-
     <include name="Spotlight_Info">
         <include content="Hub_Widgets_Infopanel">
-        <animation effect="slide" start="0" end="0,140" time="400" tween="back" easing="out" reversible="false" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $EXP[Exp_HomeMenu_HasFocusBG] + $EXP[Exp_Hubs_Spotlight_IsSlide]">Conditional</animation>
-        <animation effect="slide" end="0" start="0,140" time="400" tween="back" easing="out" reversible="false" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + $EXP[Exp_HomeMenu_HasFocusBG] + $EXP[Exp_Hubs_Spotlight_IsSlide]]">Conditional</animation>
+            <animation effect="slide" start="0" end="0,140" time="400" tween="back" easing="out" reversible="false" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $EXP[Exp_HomeMenu_HasFocusBG] + $EXP[Exp_Hubs_Spotlight_IsSlide]">Conditional</animation>
+            <animation effect="slide" end="0" start="0,140" time="400" tween="back" easing="out" reversible="false" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + $EXP[Exp_HomeMenu_HasFocusBG] + $EXP[Exp_Hubs_Spotlight_IsSlide]]">Conditional</animation>
             <include content="Info_Panel">
                 <param name="titlelabel">$VAR[Label_Title_C301]</param>
                 <param name="plotlabel">$VAR[Label_Plot_C301]</param>
                 <param name="container">Container(301).</param>
                 <param name="grouplistid">99952</param>
                 <param name="visible">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</param>
-                <param name="details_include">Spotlight_HideDetails</param>
             </include>            
         </include>
     </include>
@@ -94,19 +71,6 @@
         </definition>
     </include>
 
-    <variable name="Spotlight_FO_Color_BG">
-        <value condition="Skin.HasSetting(InvertSelectedText)">ff333333</value>
-        <value>main_fg_100</value>
-    </variable>
-    <variable name="Spotlight_NF_Color_BG">
-        <value condition="Skin.HasSetting(InvertSelectedText)">main_fg_12</value>
-        <value>main_fg_100</value>
-    </variable>
-    <variable name="Spotlight_NF_Color_FG">
-        <value condition="Skin.HasSetting(InvertSelectedText)">main_fg_100</value>
-        <value>main_bg_100</value>
-    </variable>
-
     <include name="Spotlight_Main_Button_Standard">
         <onfocus>SetProperty(TMDbHelper.WidgetContainer,301,$PARAM[property_window_id])</onfocus>
         <onfocus>ClearProperty(Slide.WidgetContainer,$PARAM[property_window_id])</onfocus>
@@ -133,7 +97,6 @@
                 <height>hub_spotlight_h</height>
 
                 <!-- Animation for Slides -->
-                <include condition="$EXP[Exp_Hubs_Spotlight_IsSlide]">Spotlight_Animation</include>
                 <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $EXP[Exp_Hubs_Spotlight_IsSlide]">Animation_Widgets_Topbar_SlideUp_Fade</include>
 
                 <include content="Animation_Fade_In">
