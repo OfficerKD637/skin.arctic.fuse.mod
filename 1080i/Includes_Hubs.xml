@@ -295,6 +295,11 @@
         <param name="is_homemenu">false</param>
         <definition>
 
+            <control type="group">
+                <description>Delay window change if dialog open</description>
+                <animation effect="fade" time="400" start="100" end="0" reversible="false" condition="Window.IsVisible(1163)">WindowClose</animation>
+            </control>
+            
             <include>Hub_Refocus_Buttons</include>
             <include>View_Bumper</include>
             <include condition="![$PARAM[widgets_only]]">Spotlight_Fallback_Slideshow</include>
@@ -316,7 +321,7 @@
                     <include>Animation_View_SlideOver</include>
                     <include>Animation_View_WindowChange</include>
                     <include>Animation_Group_Bumper</include>
-                    <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp</include>
+                    <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp</include>
                     <include condition="$EXP[Exp_Hubs_Spotlight_IsSlide] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !$EXP[Exp_Hubs_Spotlight_IsDisabled]">Hub_Slide_Spotlight_OnFanart</include>
 
                     <include content="Hub_Menu_Group" condition="![$PARAM[widgets_only]]">
@@ -397,7 +402,7 @@
                         </control>
                     </control>
                 </control>
-                <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + Skin.String(Home.SideMenuCollapse,Topbar)">Animation_Widgets_Topbar_SlideUp_Fade</include>
+                <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <include>Furniture_Bottom_Right</include>
             </control>            
 
@@ -609,7 +614,7 @@
             <visible>!$EXP[Exp_InfoDialogs]</visible>
             <visible>$EXP[Exp_Hubs_Spotlight_HasItems]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
-            <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $EXP[Exp_Hubs_Spotlight_IsSlide]">Animation_Widgets_Topbar_SlideUp_Fade</include>
+            <include condition="$EXP[Exp_Hubs_Spotlight_IsSlide]">Animation_Widgets_Topbar_SlideUp_Fade</include>
             <include content="Animation_Fade_In">
                 <param name="condition">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) | ControlGroup(310).HasFocus()</param>
                 <param name="delay">200</param>

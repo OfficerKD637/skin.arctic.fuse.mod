@@ -227,7 +227,9 @@
                                     <onclick condition="!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">SetProperty(Shortcuts.Groupings.Links,Links,Home)</onclick>
                                     <onclick condition="$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">ClearProperty(Shortcuts.Groupings.Links,Home)</onclick>
                                     
-                                    <onclick>RunScript(script.skinvariables,run_dialog=yesnocustom,"heading=$LOCALIZE[31601]","message=$LOCALIZE[31602]",nolabel=$LOCALIZE[31604],yeslabel=$LOCALIZE[31603],customlabel=$LOCALIZE[222],"executebuiltin_1=RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_delete])","executebuiltin_0=ClearProperty(Shortcuts.Groupings.Links,Home)||RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_list_del]$VAR[Path_Shortcut_UseRawPath])")</onclick>
+                                    <onclick condition="![String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=sidemenu) + String.IsEmpty(Window(Home).Property(Shortcuts.EditMode)) + String.IsEmpty(Window(Home).Property(Shortcuts.EditGUID)) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + Skin.HasSetting(Navigation.Global.Hub.Switcher)]">RunScript(script.skinvariables,run_dialog=yesnocustom,"heading=$LOCALIZE[31601]","message=$LOCALIZE[31602]",nolabel=$LOCALIZE[31604],yeslabel=$LOCALIZE[31603],customlabel=$LOCALIZE[222],"executebuiltin_1=RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_delete])","executebuiltin_0=ClearProperty(Shortcuts.Groupings.Links,Home)||RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_list_del]$VAR[Path_Shortcut_UseRawPath])")</onclick>
+                                    <onclick condition="[String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=sidemenu) + String.IsEmpty(Window(Home).Property(Shortcuts.EditMode)) + String.IsEmpty(Window(Home).Property(Shortcuts.EditGUID)) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + Skin.HasSetting(Navigation.Global.Hub.Switcher)] + ![!String.IsEmpty(Container(22001).ListItem.Property(hub_switcher_path)) + !String.IsEqual(Container(22001).ListItem.Property(item),0) + String.Contains(Skin.String(Navigation.Global.Hub.Switcher.WindowIDs),Container(22001).ListItem.Property(hub_switcher_path))]">RunScript(script.skinvariables,run_dialog=yesno,"heading=$LOCALIZE[31601]","message=$LOCALIZE[31602]",nolabel=$LOCALIZE[222],yeslabel=$LOCALIZE[31603],"executebuiltin=RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_delete])")</onclick>
+                                    <onclick condition="[String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=sidemenu) + String.IsEmpty(Window(Home).Property(Shortcuts.EditMode)) + String.IsEmpty(Window(Home).Property(Shortcuts.EditGUID)) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow)) + Skin.HasSetting(Navigation.Global.Hub.Switcher)] + !String.IsEmpty(Container(22001).ListItem.Property(hub_switcher_path)) + !String.IsEqual(Container(22001).ListItem.Property(item),0) + String.Contains(Skin.String(Navigation.Global.Hub.Switcher.WindowIDs),Container(22001).ListItem.Property(hub_switcher_path))">RunScript(script.skinvariables,run_dialog=yesno,"heading=$LOCALIZE[31601]","message=$LOCALIZE[31602]",nolabel=$LOCALIZE[222],yeslabel=$LOCALIZE[31603],"executebuiltin=RunScript(script.skinvariables,add_skinstring_history=Navigation.Global.Hub.Switcher.WindowIDs,value=$INFO[Container(22001).ListItem.Property(hub_switcher_path)],toggle)||sleep=0.4||RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_delete])")</onclick>
                                     
                                     <onback>29999</onback>
                                     <width>64</width>
@@ -981,9 +983,9 @@
                                     <!-- Hub Switcher Refocus -->
                                     <include content="Object_Hidden_Button">
                                         <param name="id">23089</param>
-                                        <onfocus condition="String.IsEmpty(Container(22001).ListItem.Property(hub_switcher_path))">AlarmClock(bounce,SetFocus(23099),00:00,silent)</onfocus>
+                                        <onfocus condition="String.IsEmpty(Container(22001).ListItem.Property(hub_switcher_path)) | !String.Contains(Skin.String(Navigation.Global.Hub.Switcher.WindowIDs),Container(22001).ListItem.Property(hub_switcher_path))">AlarmClock(hubswitcher_bounce,SetFocus(23099),00:00,silent)</onfocus>
                                         <onfocus condition="!String.IsEmpty(Container(22001).ListItem.Property(hub_switcher_path))">RunScript(script.skinvariables,add_skinstring_history=Navigation.Global.Hub.Switcher.WindowIDs,value=$INFO[Container(22001).ListItem.Property(hub_switcher_path)])</onfocus>
-                                        <onfocus condition="!String.IsEmpty(Container(22001).ListItem.Property(hub_switcher_path))">AlarmClock(hubswitcher_refocus,SetFocus(23094),00:02,silent)</onfocus>
+                                        <onfocus condition="!String.IsEmpty(Container(22001).ListItem.Property(hub_switcher_path)) + String.Contains(Skin.String(Navigation.Global.Hub.Switcher.WindowIDs),Container(22001).ListItem.Property(hub_switcher_path))">AlarmClock(hubswitcher_refocus,SetFocus(23094),00:02,silent)</onfocus>
                                     </include>
                                     <include content="Object_Hidden_Button">
                                         <param name="id">23099</param>
@@ -1100,7 +1102,7 @@
             <param name="spinnervisible">Skin.HasSetting(ToastNotifications.Tabbed) | [!Window.IsActive(DialogVolumeBar.xml) | Player.Muted]</param>
             <param name="visible_delay">1200</param>
             <param name="windowopen_condition">False</param>
-            <param name="visible">Container(22001).IsUpdating | System.HasAlarm(hubswitcher_refocus)</param>
+            <param name="visible">Container(22001).IsUpdating | System.HasAlarm(hubswitcher_bounce) | System.HasAlarm(hubswitcher_refocus)</param>
         </include>
 
     </controls>
