@@ -74,6 +74,9 @@
         <left>0</left>
         <centertop>100</centertop>
         <height>160</height>
+        <include content="Object_Width" condition="Skin.String(Hubs.Topbar.Style,Text)">
+            <param name="width">1000</param>
+        </include>
         <width>540</width>
     </include>
 
@@ -233,25 +236,25 @@
         <param name="altfocus">false</param>
         <param name="expanded">Skin.HasSetting(Navigation.OnBack.ExpandMenu) + !Skin.String(Home.SideMenuCollapse,Topbar)</param>
         <definition>
-            <itemlayout height="100" width="100">
+            <itemlayout height="100" width="100" condition="![![$PARAM[vertical]] + Skin.String(Hubs.Topbar.Style,Text)]">
                 <control type="group">
                     <width>40</width>
                     <height>40</height>
                     <centerleft>100</centerleft>
                     <centertop>40%</centertop>
-                    <visible>$PARAM[expanded] + !Window.IsVisible(1115)</visible>
+                    <visible>$PARAM[expanded]</visible>
                     <include content="Layout_Home_Menu_Label">
                         <param name="selected">False</param>
-                        <param name="label">$INFO[ListItem.Label]</param>
+                        <param name="label">$INFO[Container($PARAM[id]).ListItem.Label]</param>
                     </include>
                 </control>
                 <control type="group">
                     <left>view_menu</left>
                     <width>80</width>
-                    <include content="Object_Top" condition="Window.IsVisible(1115) | $EXP[Exp_HomeMenu_IsTopBar]">
+                    <include content="Object_Top" condition="![$PARAM[vertical]]">
                         <param name="top">40</param>
                     </include>
-                    <include content="Object_Bottom" condition="Window.IsVisible(1115) | $EXP[Exp_HomeMenu_IsTopBar]">
+                    <include content="Object_Bottom" condition="![$PARAM[vertical]]">
                         <param name="bottom">-40</param>
                     </include>
                     <include content="Layout_Home_Menu">
@@ -262,27 +265,42 @@
                     </include>
                 </control>
             </itemlayout>
-            <focusedlayout height="100" width="100" condition="![Skin.HasSetting(Topbar.EnableFocusedText) + $EXP[Exp_HomeMenu_IsTopBar]]">
+            <itemlayout height="100" width="240" condition="[![$PARAM[vertical]] + Skin.String(Hubs.Topbar.Style,Text)]">
+                <control type="group">
+                    <height>35</height>
+                    <centertop>80%</centertop>    
+                    <left>60</left>
+                    <right>-40</right>
+                    <control type="label">
+                        <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
+                        <font>font_main_bold</font>
+                        <textcolor>main_fg_30</textcolor>    
+                        <align>center</align>
+                        <width max="200">auto</width>
+                    </control>    
+                </control>
+            </itemlayout>
+            <focusedlayout height="100" width="100" condition="![![$PARAM[vertical]] + !String.IsEmpty(Skin.String(Hubs.Topbar.Style))]">
                 <include condition="$PARAM[hidden_button_enabled]">$PARAM[hidden_button]</include>
                 <control type="group">
                     <width>40</width>
                     <height>40</height>
                     <centerleft>100</centerleft>
                     <centertop>40%</centertop>
-                    <visible>$PARAM[expanded] + !Window.IsVisible(1115)</visible>
+                    <visible>$PARAM[expanded]</visible>
                     <include content="Layout_Home_Menu_Label">
                         <param name="selected">True</param>
-                        <param name="label">$INFO[ListItem.Label]</param>
+                        <param name="label">$INFO[Container($PARAM[id]).ListItem.Label]</param>
                         <param name="scroll">true</param>
                     </include>
                 </control>
                 <control type="group">
                     <left>view_menu</left>
                     <width>80</width>
-                    <include content="Object_Top" condition="Window.IsVisible(1115) | $EXP[Exp_HomeMenu_IsTopBar]">
+                    <include content="Object_Top" condition="![$PARAM[vertical]]">
                         <param name="top">40</param>
                     </include>
-                    <include content="Object_Bottom" condition="Window.IsVisible(1115) | $EXP[Exp_HomeMenu_IsTopBar]">
+                    <include content="Object_Bottom" condition="![$PARAM[vertical]]">
                         <param name="bottom">-40</param>
                     </include>
                     <control type="group">
@@ -305,7 +323,42 @@
                     </control>
                 </control>
             </focusedlayout>
-            <focusedlayout height="100" width="300" condition="[Skin.HasSetting(Topbar.EnableFocusedText) + $EXP[Exp_HomeMenu_IsTopBar] + !Window.IsVisible(1115) + ![Control.HasFocus(308) | Control.HasFocus(309)]]">
+            <focusedlayout height="100" width="240" condition="![$PARAM[vertical]] + Skin.String(Hubs.Topbar.Style,Text)">
+                <control type="group">
+                    <control type="image">
+                        <width>240</width>
+                        <include>Texture_Menu_Highlight_H</include>
+                        <height>80</height>
+                        <left>40</left>
+                        <right>-60</right>
+                        <top>40</top>
+                        <visible>[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
+                    </control>
+                    <control type="group">
+                        <height>35</height>
+                        <centertop>80%</centertop>    
+                        <left>60</left>
+                        <right>-40</right>
+                        <control type="label">
+                            <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
+                            <font>font_main_bold</font>
+                            <textcolor>$VAR[ColorSelected]</textcolor>    
+                            <align>center</align>
+                            <width max="200">auto</width>
+                            <visible>[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
+                        </control> 
+                        <control type="label">
+                            <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
+                            <font>font_main_bold</font>
+                            <textcolor>ffffffff</textcolor>    
+                            <align>center</align>
+                            <width max="200">auto</width>
+                            <visible>![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
+                        </control>    
+                    </control>           
+                </control>
+            </focusedlayout>
+            <focusedlayout height="100" width="300" condition="![$PARAM[vertical]] + Skin.String(Hubs.Topbar.Style,Both) + ![Control.HasFocus(308) | Control.HasFocus(309)]">
                 <include condition="$PARAM[hidden_button_enabled]">$PARAM[hidden_button]</include>
                 <control type="group">
                     <width>270</width>
@@ -314,8 +367,8 @@
                         <height>80</height>
                         <left>40</left>
                         <right>-60</right>
-                        <top>39</top>                            
-                    </control>                    
+                        <top>40</top>
+                    </control>
                     <control type="group">
                         <left>view_menu</left>
                         <top>40</top>
@@ -334,7 +387,7 @@
                         <left>150</left>
                         <right>-40</right>
                         <control type="label">
-                            <label>$INFO[Container(303).ListItem.Label]</label>
+                            <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
                             <font>font_mini_bold</font>
                             <textcolor>$VAR[ColorSelected]</textcolor>    
                             <align>left</align>

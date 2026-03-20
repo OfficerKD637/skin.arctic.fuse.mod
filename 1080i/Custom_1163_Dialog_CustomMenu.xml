@@ -24,7 +24,10 @@
             <orientation>horizontal</orientation>
             <itemgap>20</itemgap>
 
-            <include>DialogCustom1163_Padding_Icons</include>
+            <include condition="![$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Hubs.Topbar.Style,Text)]">DialogCustom1163_Padding_Icons</include>
+            <include content="DialogCustom1163_Padding_Icons" condition="$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Hubs.Topbar.Style,Text)">
+                <param name="width">220</param>
+            </include>
 
             <control type="group">
                 <top>100</top>
@@ -199,8 +202,9 @@
                     <animation effect="slide" start="0" end="0,680" condition="Integer.IsEqual(Window(1163).Property(Offset),15)">Conditional</animation>
                     <animation effect="slide" start="0" end="0,880" condition="Integer.IsEqual(Window(1163).Property(Offset),22)">Conditional</animation>
 
-                    <include condition="[Skin.HasSetting(Topbar.EnableFocusedText) + $EXP[Exp_HomeMenu_IsTopBar]]">DialogCustom1163_FakeLabel_FO</include>
-                    <include condition="![Skin.HasSetting(Topbar.EnableFocusedText) + $EXP[Exp_HomeMenu_IsTopBar]]">DialogCustom1163_FakeButton_FO</include>
+                    <include condition="$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Hubs.Topbar.Style,Both)">DialogCustom1163_FakeLabelDetailed_FO</include>
+                    <include condition="$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Hubs.Topbar.Style,Text)">DialogCustom1163_FakeLabel_FO</include>
+                    <include condition="![$EXP[Exp_HomeMenu_IsTopBar] + !String.IsEmpty(Skin.String(Hubs.Topbar.Style))]">DialogCustom1163_FakeButton_FO</include>
 
                 </control>
 
