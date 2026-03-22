@@ -75,41 +75,101 @@
 
     <include name="Info_Title_Logo">
         <param name="titlelargelogo">true</param>
+        <param name="listitem">ListItem</param>
         <definition>
-            <include content="Info_Title_Label" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[titlelargelogo]">
-                <param name="label">$PARAM[label]</param>
-                <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                <param name="height">120</param>
-                <param name="visible">![$PARAM[mainlogo_visible]]</param>
-            </include>
-            <include content="Info_Title_Label" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) | [Skin.HasSetting(Furniture.EnableLeftHeader) + !$PARAM[titlelargelogo]]">
-                <param name="label">$PARAM[label]</param>
-                <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                <param name="height">140</param>
-                <param name="visible">![$PARAM[mainlogo_visible]]</param>
-            </include>
+            <control type="group">
+                <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
+                <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
+                <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(artist.clearlogo))</visible>
+                <include content="Info_Title_Label" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[titlelargelogo]">
+                    <param name="label">$PARAM[label]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="height">120</param>
+                    <param name="visible">![$PARAM[mainlogo_visible]]</param>
+                </include>
+                <include content="Info_Title_Label" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) | [Skin.HasSetting(Furniture.EnableLeftHeader) + !$PARAM[titlelargelogo]]">
+                    <param name="label">$PARAM[label]</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="height">140</param>
+                    <param name="visible">![$PARAM[mainlogo_visible]]</param>
+                </include>
+            </control>
             <include content="Object_Control" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[titlelargelogo]">
                 <param name="control">group</param>
                 <width>640</width>
                 <height>120</height>
-                <visible>$PARAM[mainlogo_visible]</visible>
                 <control type="image">
                     <height>133</height>
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$PARAM[mainlogo_texture]</texture>
+                    <visible>$PARAM[mainlogo_visible]</visible>
+                </control>
+                <control type="image">
+                    <height>133</height>
+                    <aspectratio align="left" aligny="center">keep</aspectratio>
+                    <fadetime>0</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(clearlogo)]</texture>
+                    <visible>![$PARAM[mainlogo_visible]]</visible>
+                    <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
+                </control>
+                <control type="image">
+                    <height>133</height>
+                    <aspectratio align="left" aligny="center">keep</aspectratio>
+                    <fadetime>0</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo)]</texture>
+                    <visible>![$PARAM[mainlogo_visible]]</visible>
+                    <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
+                </control>
+                <control type="image">
+                    <height>133</height>
+                    <aspectratio align="left" aligny="center">keep</aspectratio>
+                    <fadetime>0</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(artist.clearlogo)]</texture>
+                    <visible>![$PARAM[mainlogo_visible]]</visible>
+                    <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
+                    <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(artist.clearlogo))</visible>
                 </control>
             </include>
             <include content="Object_Control" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) | [Skin.HasSetting(Furniture.EnableLeftHeader) + !$PARAM[titlelargelogo]]">
                 <param name="control">group</param>
                 <width>640</width>
                 <height>140</height>
-                <visible>$PARAM[mainlogo_visible]</visible>
                 <control type="image">
                     <height>155</height>
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$PARAM[mainlogo_texture]</texture>
+                    <visible>$PARAM[mainlogo_visible]</visible>
+                </control>
+                <control type="image">
+                    <height>155</height>
+                    <aspectratio align="left" aligny="center">keep</aspectratio>
+                    <fadetime>0</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(clearlogo)]</texture>
+                    <visible>![$PARAM[mainlogo_visible]]</visible>
+                    <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
+                </control>
+                <control type="image">
+                    <height>155</height>
+                    <aspectratio align="left" aligny="center">keep</aspectratio>
+                    <fadetime>0</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo)]</texture>
+                    <visible>![$PARAM[mainlogo_visible]]</visible>
+                    <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
+                </control>
+                <control type="image">
+                    <height>155</height>
+                    <aspectratio align="left" aligny="center">keep</aspectratio>
+                    <fadetime>0</fadetime>
+                    <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(artist.clearlogo)]</texture>
+                    <visible>![$PARAM[mainlogo_visible]]</visible>
+                    <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
+                    <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(artist.clearlogo))</visible>
                 </control>
             </include>
         </definition>
@@ -119,8 +179,8 @@
         <param name="colordiffuse">main_fg</param>
         <param name="container" />
         <param name="width">info_plot_w</param>
-        <param name="mainlogo_visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.CropImage)) | [!String.IsEmpty(Window(Home).Property(CropImage))]]</param>
-        <param name="mainlogo_texture">$VAR[Image_CropLogo]</param>
+        <param name="mainlogo_visible">[!String.IsEmpty(Window.Property(TMDbHelper.ListItem.CropImage))]</param>
+        <param name="mainlogo_texture">$INFO[Window.Property(TMDbHelper.ListItem.CropImage)]</param>
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>
