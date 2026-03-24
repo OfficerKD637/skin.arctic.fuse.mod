@@ -943,7 +943,7 @@
         <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal] + [ControlGroup(4000).HasFocus | Control.HasFocus(5503)]">[COLOR=00ffffff]$LOCALIZE[206]      $LOCALIZE[31050]      $LOCALIZE[33029][/COLOR]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal] + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Crew) + !Control.HasFocus(5503)">$LOCALIZE[31050]$VAR[Label_Info_ViewLine_CrewDepartment, (,)]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal] + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details) + !Control.HasFocus(5503)">$LOCALIZE[33029]</value>
-        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + !Control.HasFocus(5503)">$LOCALIZE[206]</value>
+        <value condition="String.IsEqual(Window.Property(DetailsView),Cast) + [[!$EXP[Exp_InfoDialogs_Cast_IsLocal] + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast) + !Control.HasFocus(5503)] | $EXP[Exp_InfoDialogs_Cast_IsLocal]]">$LOCALIZE[206]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Reviews)">$LOCALIZE[31334]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Trailer)">$LOCALIZE[10025]</value>
         <value condition="String.IsEqual(Window.Property(DetailsView),Critics)">$LOCALIZE[31030]</value>
@@ -2056,19 +2056,9 @@
         <value condition="!String.IsEmpty(ListItem.AddonNews)">[B][COLOR=main_fg_90]$LOCALIZE[24036][/COLOR][/B][CR]$INFO[ListItem.AddonNews]</value>
     </variable>
 
-    <variable name="Label_Overlay_LastPlayed">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_lastplayed))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_lastplayed),[CR]$LOCALIZE[568] ,]</value>
-        <value>$INFO[Window(Home).Property(TMDbHelper.ListItem.lastplayed),[CR]$LOCALIZE[568] ,]</value>
-    </variable>
-
-    <variable name="Label_Overlay_DatedAdded">
-       <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_dateadded),[CR]$LOCALIZE[31200] ,]</value>
-       <value>$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date),[CR]$LOCALIZE[31200] , (Trakt $LOCALIZE[31236])]</value>
-    </variable>
-
     <variable name="Label_Overlay_FileDetails">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_playcount))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_playcount),[CR]$LOCALIZE[16102] , $LOCALIZE[31183]. ]$VAR[Label_Overlay_LastPlayed]$VAR[Label_Overlay_DatedAdded]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_filenameandpath),[CR],]</value>
-        <value>$VAR[Label_Overlay_LastPlayed]$VAR[Label_Overlay_DatedAdded]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_filenameandpath),[CR],]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))">$INFO[Window(Home).Property(TMDbHelper.ListItem.PlayCount),[CR]$LOCALIZE[16102] , $LOCALIZE[31183]. ]$INFO[Window(Home).Property(TMDbHelper.ListItem.LastPlayed),$LOCALIZE[568] ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date),[CR]$LOCALIZE[31200] , (Trakt $LOCALIZE[31236])]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_filenameandpath),[CR],]</value>
+        <value>$INFO[Window(Home).Property(TMDbHelper.ListItem.LastPlayed),[CR]$LOCALIZE[568] ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_dateadded),[CR]$LOCALIZE[31200] ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date),[CR]$LOCALIZE[31200] , (Trakt $LOCALIZE[31236])]$INFO[Window(Home).Property(TMDbHelper.ListItem.base_filenameandpath),[CR],]</value>
     </variable>
 
     <variable name="Label_Overlay_Providers">

@@ -78,9 +78,7 @@
         <param name="listitem">ListItem</param>
         <definition>
             <control type="group">
-                <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
-                <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
-                <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(artist.clearlogo))</visible>
+                <visible>![$PARAM[mainlogo_currentwindow]] | [String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo)) + String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo)) + String.IsEmpty($PARAM[container]$PARAM[listitem].Art(artist.clearlogo))]</visible>
                 <include content="Info_Title_Label" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[titlelargelogo]">
                     <param name="label">$PARAM[label]</param>
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
@@ -110,6 +108,7 @@
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(clearlogo)]</texture>
+                    <visible>$PARAM[mainlogo_currentwindow]</visible>
                     <visible>![$PARAM[mainlogo_visible]]</visible>
                     <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
                 </control>
@@ -118,6 +117,7 @@
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo)]</texture>
+                    <visible>$PARAM[mainlogo_currentwindow]</visible>
                     <visible>![$PARAM[mainlogo_visible]]</visible>
                     <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
                     <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
@@ -127,6 +127,7 @@
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(artist.clearlogo)]</texture>
+                    <visible>$PARAM[mainlogo_currentwindow]</visible>
                     <visible>![$PARAM[mainlogo_visible]]</visible>
                     <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
                     <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
@@ -149,6 +150,7 @@
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(clearlogo)]</texture>
+                    <visible>$PARAM[mainlogo_currentwindow]</visible>
                     <visible>![$PARAM[mainlogo_visible]]</visible>
                     <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
                 </control>
@@ -157,6 +159,7 @@
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo)]</texture>
+                    <visible>$PARAM[mainlogo_currentwindow]</visible>
                     <visible>![$PARAM[mainlogo_visible]]</visible>
                     <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
                     <visible>!String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
@@ -166,6 +169,7 @@
                     <aspectratio align="left" aligny="center">keep</aspectratio>
                     <fadetime>0</fadetime>
                     <texture background="true">$INFO[$PARAM[container]$PARAM[listitem].Art(artist.clearlogo)]</texture>
+                    <visible>$PARAM[mainlogo_currentwindow]</visible>
                     <visible>![$PARAM[mainlogo_visible]]</visible>
                     <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(clearlogo))</visible>
                     <visible>String.IsEmpty($PARAM[container]$PARAM[listitem].Art(tvshow.clearlogo))</visible>
@@ -181,6 +185,7 @@
         <param name="width">info_plot_w</param>
         <param name="mainlogo_visible">[!String.IsEmpty(Window.Property(TMDbHelper.ListItem.CropImage))]</param>
         <param name="mainlogo_texture">$INFO[Window.Property(TMDbHelper.ListItem.CropImage)]</param>
+        <param name="mainlogo_currentwindow">[True]</param>
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>
@@ -212,6 +217,7 @@
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="mainlogo_visible">$PARAM[mainlogo_visible]</param>
                         <param name="mainlogo_texture">$PARAM[mainlogo_texture]</param>
+                        <param name="mainlogo_currentwindow">$PARAM[mainlogo_currentwindow]</param>
                         <param name="titlelargelogo">$PARAM[titlelargelogo]</param>
                     </include>
                 </control>
@@ -1555,7 +1561,7 @@
                     <param name="is_video">[String.IsEqual($PARAM[container]ListItem.DBType,video) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
                     <param name="is_season">[String.IsEqual($PARAM[container]ListItem.DBType,season) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
                     <param name="is_tv">[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
-                    <param name="is_pvr">![String.IsEmpty($PARAM[container]ListItem.ChannelName) | String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel)] + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)</param>
+                    <param name="is_pvr">!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)</param>
                     <param name="listitem_videoresolution">$PARAM[container]ListItem.VideoResolution</param>
                     <param name="listitem_dbtype">$PARAM[container]ListItem.DBType</param>
                     <param name="listitem_hdrtype">$PARAM[container]ListItem.HdrType</param>
@@ -1573,7 +1579,7 @@
                     <param name="is_video">[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),video) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
                     <param name="is_season">[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
                     <param name="is_tv">[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
-                    <param name="is_pvr">![String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelname)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))] + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)</param>
+                    <param name="is_pvr">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel)) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)</param>
                     <param name="listitem_videoresolution">Window(Home).Property(TMDbHelper.ListItem.base_videoresolution)</param>
                     <param name="listitem_dbtype">Window(Home).Property(TMDbHelper.ListItem.base_dbtype)</param>
                     <param name="listitem_hdrtype">Window(Home).Property(TMDbHelper.ListItem.base_hdrtype)</param>
@@ -1602,15 +1608,18 @@
                 </include>
 
                 <!-- Album -->
-                <include content="Info_Line_Item">
+                <include content="Info_Line_Items">
                     <include content="Info_Line_Visible_03">
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">album</param>
                         <param name="dbtype_02">song</param>
                         <param name="dbtype_03">musicvideo</param>
                     </include>
-                    <param name="label">$INFO[$PARAM[container]ListItem.Album]</param>
-                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.Album)</param>
+                    <param name="items_02">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.Album]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_album)]</param>
+                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Album)</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_album))</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
 
@@ -1710,6 +1719,7 @@
                 <!-- MPAA -->
                 <include content="Info_Line_Items">
                     <include content="Info_Line_Visible_03">
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">movie</param>
                         <param name="dbtype_02">tvshow</param>
@@ -1728,6 +1738,7 @@
                 <!-- Genres -->
                 <include content="Info_Line_Items">
                     <include content="Info_Line_Visible_03">
+                        <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
                         <param name="container">$PARAM[container]</param>
                         <param name="dbtype_01">movie</param>
                         <param name="dbtype_02">tvshow</param>
@@ -1820,34 +1831,16 @@
                     <param name="visible_04">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TotalSeasons)) + Integer.IsGreater(Window(Home).Property(TMDbHelper.ListItem.TotalSeasons),1)</param>  
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
-                
-                <!-- Albums / Artists -->
-                <include content="Info_Line_Item">
-                    <include content="Info_Line_Visible_01">
-                        <param name="container">$PARAM[container]</param>
-                        <param name="dbtype_01">artist</param>
-                    </include>
-                    <param name="label">$INFO[$PARAM[container]ListItem.Property(Artist_Gender)]</param>
-                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Gender))</param>
-                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
-                </include>
-                <include content="Info_Line_Item">
-                    <include content="Info_Line_Visible_01">
-                        <param name="container">$PARAM[container]</param>
-                        <param name="dbtype_01">artist</param>
-                    </include>
-                    <param name="label">$INFO[$PARAM[container]ListItem.Property(Artist_YearsActive)]</param>
-                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.Property(Artist_YearsActive))</param>
-                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
-                </include>
 
                 <!-- Person Info -->
                 <include content="Info_Line_Items">
-                    <param name="items_02">true</param>
-                    <param name="label_01">$INFO[$PARAM[container]ListItem.Property(Gender)]</param>
-                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.Gender)]</param>
-                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Property(Gender))</param>
-                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Gender))</param>
+                    <param name="items_03">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.Property(Artist_Gender)]</param>
+                    <param name="label_02">$INFO[$PARAM[container]ListItem.Property(Gender)]</param>
+                    <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.ListItem.Gender)]</param>
+                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Property(Artist_Gender))</param>
+                    <param name="visible_02">!String.IsEmpty($PARAM[container]ListItem.Property(Gender))</param>
+                    <param name="visible_03">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Gender))</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
                 <include content="Info_Line_Items">
@@ -1860,19 +1853,28 @@
                 </include>
 
                 <!-- Addon Info -->
-                <include content="Info_Line_Item">
-                    <param name="label">$INFO[$PARAM[container]ListItem.AddonType]</param>
-                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.AddonType)</param>
+                <include content="Info_Line_Items">
+                    <param name="items_02">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.AddonType]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_addontype)]</param>
+                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.AddonType)</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_addontype))</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
-                <include content="Info_Line_Item">
-                    <param name="label">$INFO[$PARAM[container]ListItem.AddonVersion,v,]</param>
-                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.AddonVersion)</param>
+                <include content="Info_Line_Items">
+                    <param name="items_02">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.AddonVersion,v,]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_addonversion),v,]</param>
+                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.AddonVersion)</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_addonversion))</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
-                <include content="Info_Line_Item">
-                    <param name="label">$INFO[$PARAM[container]ListItem.AddonLifecycleType]</param>
-                    <param name="visible">!String.IsEmpty($PARAM[container]ListItem.AddonLifecycleType) + !String.IsEqual($PARAM[container]ListItem.AddonLifecycleType,$LOCALIZE[630])</param>
+                <include content="Info_Line_Items">
+                    <param name="items_02">true</param>
+                    <param name="label_01">$INFO[$PARAM[container]ListItem.AddonLifecycleType]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_addonlifecycletype)]</param>
+                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.AddonLifecycleType) + !String.IsEqual($PARAM[container]ListItem.AddonLifecycleType,$LOCALIZE[630])</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_addonlifecycletype)) + !String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_addonlifecycletype),$LOCALIZE[630])</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
 
@@ -3163,14 +3165,14 @@
                             <label>.</label>
                             <width>auto</width>
                             <left>-6</left>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
 
                         <!-- Last Played -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[568]</label>
                             <width>auto</width>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
@@ -3181,20 +3183,20 @@
                             <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
-                            <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.lastplayed)]</label>
+                            <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.LastPlayed)]</label>
                             <width>auto</width>
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                         </include>
 
                         <!-- Date Added -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[31200]</label>
                             <width>auto</width>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
@@ -3202,8 +3204,17 @@
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                             <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Sub">
+                            <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.base_dateadded)]</label>
+                            <width>auto</width>
+                            <font>font_tiny_bold</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date)]</label>
@@ -3211,14 +3222,14 @@
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>(Trakt $LOCALIZE[31236])</label>
                             <width>auto</width>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
                     </control>
                 </control>
@@ -3273,14 +3284,14 @@
                     <label>.</label>
                     <include>Defs_Label_FooterItem</include>
                     <left>-6</left>
-                   <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                   <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                 </control>
 
                 <!-- Last Played -->
                 <control type="label">
                     <label>$LOCALIZE[568]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
@@ -3288,29 +3299,35 @@
                     <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                 </control>
                 <control type="label">
-                    <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.lastplayed)]</label>
+                    <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.LastPlayed)]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                 </control>
 
                 <!-- Date Added -->
                 <control type="label">
                     <label>$LOCALIZE[31200]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                     <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                </control>
+                <control type="label">
+                    <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.base_dateadded)]</label>
+                    <include>Defs_Label_FooterItem</include>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date),, (Trakt $LOCALIZE[31236])]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                 </control>
             </control>
         </definition>
@@ -3343,17 +3360,17 @@
                     <include content="Object_InfoCircle_Text_Top">
                         <width>auto</width>
                         <label>$LOCALIZE[16102]</label>
-                        <visible>![Integer.IsEqual($PARAM[container]ListItem.PlayCount,0) | String.IsEmpty($PARAM[container]ListItem.PlayCount)]</visible>
+                        <visible>![Integer.IsEqual($PARAM[container]ListItem.PlayCount,0) | String.IsEmpty($PARAM[container]ListItem.PlayCount) | Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.PlayCount),0) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))]</visible>
                     </include>
                     <include content="Object_InfoCircle_Text_Top">
                         <width>auto</width>
                         <label>$LOCALIZE[31090]</label>
-                        <visible>[Integer.IsEqual($PARAM[container]ListItem.PlayCount,0) | String.IsEmpty($PARAM[container]ListItem.PlayCount)] + $PARAM[container]ListItem.IsResumable</visible>
+                        <visible>[Integer.IsEqual($PARAM[container]ListItem.PlayCount,0) | String.IsEmpty($PARAM[container]ListItem.PlayCount) | Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.PlayCount),0) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))] + $PARAM[container]ListItem.IsResumable</visible>
                     </include>
                     <include content="Object_InfoCircle_Text_Top">
                         <width>auto</width>
                         <label>$LOCALIZE[16101]</label>
-                        <visible>[Integer.IsEqual($PARAM[container]ListItem.PlayCount,0) | String.IsEmpty($PARAM[container]ListItem.PlayCount)] + !$PARAM[container]ListItem.IsResumable</visible>
+                        <visible>[Integer.IsEqual($PARAM[container]ListItem.PlayCount,0) | String.IsEmpty($PARAM[container]ListItem.PlayCount) | Integer.IsEqual(Window(Home).Property(TMDbHelper.ListItem.PlayCount),0) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))] + !$PARAM[container]ListItem.IsResumable</visible>
                     </include>
 
                     <control type="grouplist">
@@ -3369,7 +3386,7 @@
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.PlayCount)</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.PlayCount) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.PlayCount]</label>
@@ -3380,6 +3397,14 @@
                             <visible>!String.IsEmpty($PARAM[container]ListItem.PlayCount)</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
+                            <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.PlayCount)]</label>
+                            <width>auto</width>
+                            <font>font_tiny_bold</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.PlayCount) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))</visible>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[31183]</label>
                             <width>auto</width>
                         </include>
@@ -3387,14 +3412,14 @@
                             <label>.</label>
                             <width>auto</width>
                             <left>-6</left>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
 
                         <!-- Last Played -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[568]</label>
                             <width>auto</width>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
@@ -3405,20 +3430,20 @@
                             <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
-                            <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.lastplayed)]</label>
+                            <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.LastPlayed)]</label>
                             <width>auto</width>
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                         </include>
 
                         <!-- Date Added -->
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$LOCALIZE[31200]</label>
                             <width>auto</width>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
@@ -3426,8 +3451,17 @@
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                             <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Sub">
+                            <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.base_dateadded)]</label>
+                            <width>auto</width>
+                            <font>font_tiny_bold</font>
+                            <textcolor>main_fg_90</textcolor>
+                            <selectedcolor>main_fg_90</selectedcolor>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date)]</label>
@@ -3435,14 +3469,14 @@
                             <font>font_tiny_bold</font>
                             <textcolor>main_fg_90</textcolor>
                             <selectedcolor>main_fg_90</selectedcolor>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
                         <include content="Object_InfoCircle_Text_Sub">
                             <label>(Trakt $LOCALIZE[31236])</label>
                             <width>auto</width>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                            <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                         </include>
                     </control>
 
@@ -3473,12 +3507,17 @@
                 <control type="label">
                     <label>$NUMBER[0]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.PlayCount)</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.PlayCount) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.PlayCount]</label>
                     <include>Defs_Label_FooterItem</include>
                     <visible>!String.IsEmpty($PARAM[container]ListItem.PlayCount)</visible>
+                </control>
+                <control type="label">
+                    <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.PlayCount)]</label>
+                    <include>Defs_Label_FooterItem</include>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.PlayCount) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.PlayCount))</visible>
                 </control>
                 <control type="label">
                     <label>$LOCALIZE[31183]</label>
@@ -3488,14 +3527,14 @@
                     <label>.</label>
                     <include>Defs_Label_FooterItem</include>
                     <left>-6</left>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed)) | !String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                 </control>
 
                 <!-- Last Played -->
                 <control type="label">
                     <label>$LOCALIZE[568]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.LastPlayed]</label>
@@ -3503,28 +3542,34 @@
                     <visible>!String.IsEmpty($PARAM[container]ListItem.LastPlayed)</visible>
                 </control>
                 <control type="label">
-                    <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.lastplayed)]</label>
+                    <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.LastPlayed)]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                 </control>
 
                 <!-- Date Added -->
                 <control type="label">
                     <label>$LOCALIZE[31200]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
-                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                    <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[$PARAM[container]ListItem.DateAdded]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                     <visible>!String.IsEmpty($PARAM[container]ListItem.DateAdded)</visible>
+                </control>
+                <control type="label">
+                    <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.base_dateadded)]</label>
+                    <include>Defs_Label_FooterItem</include>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_dateadded))</visible>
                 </control>
                 <control type="label">
                     <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date),, (Trakt $LOCALIZE[31236])]</label>
                     <include>Defs_Label_FooterItem</include>
-                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.lastplayed))</visible>
+                    <visible>String.IsEmpty($PARAM[container]ListItem.LastPlayed) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.LastPlayed))</visible>
                     <visible>String.IsEmpty($PARAM[container]ListItem.DateAdded) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.collected_date))</visible>
                 </control>
             </control>
@@ -4001,6 +4046,7 @@
                         <param name="titlelargelogo">$PARAM[titlelargelogo]</param>
                         <param name="mainlogo_visible">$PARAM[mainlogo_visible]</param>
                         <param name="mainlogo_texture">$PARAM[mainlogo_texture]</param>
+                        <param name="mainlogo_currentwindow">$PARAM[mainlogo_currentwindow]</param>
                     </include>
 
                     <!-- InfoLine -->
