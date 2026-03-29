@@ -609,6 +609,20 @@
                         <param name="visible">String.IsEmpty(VideoPlayer.Property(Genre.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name))</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
+                    
+                    <!-- Ends -->
+                    <include content="Info_Line_Item" condition="Skin.HasSetting(InfoLine.EnableEndsAtTime) + Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime) + Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime)">
+                        <param name="label">$INFO[Player.FinishTime,$LOCALIZE[31184] ,]</param>
+                        <param name="visible">!String.IsEmpty(Player.FinishTime) + !VideoPlayer.Content(livetv)</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include>
+                    
+                    <!-- Start Time - End Time (Live TV)-->
+                    <include content="Info_Line_Item" condition="Skin.HasSetting(InfoLine.EnableEndsAtTime) + Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime)">
+                        <param name="label">$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime,  -  ,]</param>
+                        <param name="visible">VideoPlayer.Content(livetv)</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include> 
                 </control>
             </control>
         </definition>
@@ -648,6 +662,7 @@
                     <colordiffuse>panel_fg_70</colordiffuse>
                     <width>info_panel_w</width>
                     <visible>![$PARAM[plot_visible]]</visible>
+                    <visible>!Skin.HasSetting(InfoLine.EnableEndsAtTime)</visible>
                     <visible>VideoPlayer.Content(episodes)</visible>
                 </control>
                 
@@ -661,6 +676,7 @@
                     <colordiffuse>panel_fg_70</colordiffuse>
                     <width>info_panel_w</width>
                     <visible>![$PARAM[plot_visible]]</visible>
+                    <visible>!Skin.HasSetting(InfoLine.EnableEndsAtTime)</visible>
                     <visible>!VideoPlayer.Content(episodes)</visible>
                 </control>
                 
@@ -673,7 +689,7 @@
                     <param name="colordiffuse">panel_fg</param>
                 </include>
                 
-                <include content="Info_Ratings" condition="!Skin.HasSetting(Info.DisableAllRatings)">
+                <include content="Info_Ratings" condition="!Skin.HasSetting(Info.DisableAllRatings) + ![Skin.HasSetting(InfoLine.EnableEndsAtTime) + !$PARAM[plot_visible]]">
                     <param name="is_player">true</param>
                     <param name="is_special">false</param>
                     <top>2</top>
@@ -1228,6 +1244,9 @@
                 <height>394</height>
                 <width>269.738</width>
                 <left>view_pad</left>
+                <include content="Object_Bottom" condition="Skin.HasSetting(InfoLine.EnableEndsAtTime) + !$PARAM[plot_visible]">
+                    <param name="bottom">90</param>
+                </include>
                 <bottom>100</bottom>
                 <include>Object_ItemBack</include>
                 <control type="image">
@@ -1252,7 +1271,9 @@
                         <visible>![Window.IsVisible(pvrosdguide) | Window.IsVisible(pvrosdchannels) | Window.IsVisible(videobookmarks) | Window.IsVisible(1140) | Window.IsVisible(1141)]</visible>
                         <include condition="$PARAM[landscape_visible] + String.IsEqual(Skin.String(OSD.InfoOverlay.EnableArtworkOnInfo),Landscape)">OSD_Landscape_Info</include>
                     </control>
-                    <include condition="$PARAM[portrait_visible]">OSD_Poster_Info</include>
+                    <include content="OSD_Poster_Info" condition="$PARAM[portrait_visible]">
+                        <param name="plot_visible">$PARAM[plot_visible]</param>
+                    </include>
                     <control type="group">
                         <animation effect="slide" end="309.738" start="0" condition="$PARAM[portrait_visible]">Conditional</animation>
                         <include content="OSD_Progress_Details">

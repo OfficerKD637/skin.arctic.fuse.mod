@@ -23,6 +23,10 @@
         <onload condition="String.IsEmpty(Skin.String(OptionsTiles.02.Target)) + !String.IsEmpty(Skin.String(OptionsTiles.02.Path))">Skin.SetString(OptionsTiles.02.Onclick,$INFO[Skin.String(OptionsTiles.02.Path)])</onload>
         <onload condition="String.IsEmpty(Skin.String(OptionsTiles.03.Target)) + !String.IsEmpty(Skin.String(OptionsTiles.03.Path))">Skin.SetString(OptionsTiles.03.Onclick,$INFO[Skin.String(OptionsTiles.03.Path)])</onload>
         <onload condition="String.IsEmpty(Skin.String(OptionsTiles.04.Target)) + !String.IsEmpty(Skin.String(OptionsTiles.04.Path))">Skin.SetString(OptionsTiles.04.Onclick,$INFO[Skin.String(OptionsTiles.04.Path)])</onload>
+        
+        <!-- Check for options tray -->
+        <onload>Skin.SetBool(Options.DisableBottomTray)</onload>
+        <include>skinvariables-options-tray-onload</include>
     </include>
 
     <variable name="Action_View_ContentID">
@@ -182,10 +186,6 @@
             <include content="Object_MenuControl">
                 <param name="menucontrol">303</param>
             </include>
-            
-            <onload>Skin.SetString(TMDbHelper.Corner.Radius,20)</onload>
-
-            <onload>Skin.SetString(TMDbHelper.UseLocalWindowIDs,10000|11101|11102|11103|11104|11105|11106|11107|11108|11109|11110|11112|11114|11125|11126|11127|11130|11131|11132|11185)</onload>
             
             <onload condition="$EXP[Exp_Window_IsHub_Prev]">ClearProperty(TMDbHelper.WidgetContainer.UpdateLock,1198)</onload>        
             
@@ -591,9 +591,9 @@
         <param name="ondown">556</param>
         <param name="ondown_condition">True</param>
         <definition>
-            <onup condition="![$PARAM[ondown_condition]]">SetFocus($PARAM[ondown],0,absolute)</onup>
+            <onup condition="![$PARAM[ondown_condition]]">$PARAM[ondown]</onup>
+            <onup condition="$PARAM[ondown_condition]">7000</onup>
             <onup>SetFocus(513,0,absolute)</onup>
-            <onup>7000</onup>
             <ondown>SetFocus(513,0,absolute)</ondown>
             <ondown condition="$PARAM[ondown_condition]">7000</ondown>
             <ondown condition="![$PARAM[ondown_condition]]">$PARAM[ondown]</ondown>
@@ -611,9 +611,8 @@
     </include>
     
     <include name="Action_514_OnWidget">
-        <onup>SetFocus(557,0,absolute)</onup>
+        <onup>557</onup>
         <onup>SetFocus(514,0,absolute)</onup>
-        <onup>5003</onup>
         <ondown>SetFocus(514,0,absolute)</ondown>
         <ondown>557</ondown>
         <onleft>SetFocus(557,0,absolute)</onleft>
@@ -629,9 +628,8 @@
     </include>
     
     <include name="Action_515_OnWidget">
-        <onup>SetFocus(558,0,absolute)</onup>
+        <onup>558</onup>
         <onup>SetFocus(515,0,absolute)</onup>
-        <onup>5504</onup>
         <ondown>SetFocus(515,0,absolute)</ondown>
         <ondown>558</ondown>
         <onleft>SetFocus(558,0,aboslute)</onleft>
@@ -712,10 +710,6 @@
         <ondown condition="$PARAM[condition]">SetProperty(Providers_1_Label,$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.1.Name)])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Providers_Image,$VAR[Image_ProvidersIcon])</ondown>
         <ondown condition="$PARAM[condition]">SetProperty(Providers_Query,$VAR[Path_FromProviders])</ondown>
-
-        <!-- Fake blur hack to preserve image -->
-        <ondown condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage,$VAR[Image_Background],Home)</ondown>
-        <ondown condition="$PARAM[condition]">SetProperty(TMDBHelper.ListItem.BlurImage.Original,$VAR[Image_Foreground],Home)</ondown>
 
         <ondown condition="$PARAM[condition]">SetFocus(7000,0,absolute)</ondown>
     </include>

@@ -37,7 +37,8 @@
     </include>
     
     <include name="Categories_Selector_Fake_Button">
-        <control type="button">
+        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
+            <param name="control">button</param>
             <width max="300">auto</width>
             <height>80</height>
             <centertop>50%</centertop>
@@ -59,8 +60,9 @@
                 <param name="mod">!</param>
             </include>
             <visible>$PARAM[visible]</visible>
-        </control>
-        <control type="button">
+        </include>
+        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
+            <param name="control">button</param>
             <width max="300">auto</width>
             <height>80</height>
             <centertop>50%</centertop>
@@ -81,11 +83,62 @@
                 <param name="mod" />
             </include>
             <visible>$PARAM[visible]</visible>
-        </control>
+        </include>
+        <include content="Object_Control" condition="$PARAM[fake_underline]">
+            <param name="control">button</param>
+            <width max="640">auto</width>
+            <height>70</height>
+            <centertop>50%</centertop>
+            <aligny>center</aligny>
+            <texturenofocus />
+            <texturefocus />
+            <font>font_main_bold</font>
+            <textcolor>00ffffff</textcolor>
+            <focusedcolor>00ffffff</focusedcolor>
+            <selectedcolor>00ffffff</selectedcolor>
+            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
+            <textoffsetx>0</textoffsetx>
+            <onclick>SetFocus($PARAM[id],$PARAM[pos])</onclick>
+            <onclick>Action(Select)</onclick>
+            <hitrect x="0" y="0" w="0" h="0" />
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod">!</param>
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <include>Texture_Highlight_Underline_H</include>
+        </include>
+        <include content="Object_Control" condition="$PARAM[fake_underline]">
+            <param name="control">button</param>
+            <width max="640">auto</width>
+            <height>70</height>
+            <centertop>50%</centertop>
+            <aligny>center</aligny>
+            <include>Texture_Highlight_Underline_FakeFocus_H</include>
+            <font>font_main_bold</font>
+            <textcolor>00ffffff</textcolor>
+            <focusedcolor>00ffffff</focusedcolor>
+            <selectedcolor>00ffffff</selectedcolor>
+            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
+            <textoffsetx>0</textoffsetx>
+            <onclick>SetFocus($PARAM[id],$PARAM[pos])</onclick>
+            <onclick>Action(Select)</onclick>
+            <hitrect x="0" y="0" w="0" h="0" />
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod" />
+            </include>
+            <visible>$PARAM[visible]</visible>
+        </include>
     </include>
 
     <include name="Categories_Selector_Fake_Label">
-        <control type="label">
+        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
+            <param name="control">label</param>
             <width max="260">auto</width>
             <height>80</height>
             <centertop>50%</centertop>
@@ -100,8 +153,9 @@
                 <param name="mod">!</param>
             </include>
             <visible>$PARAM[visible]</visible>
-        </control>
-        <control type="label">
+        </include>
+        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
+            <param name="control">label</param>
             <width max="260">auto</width>
             <height>80</height>
             <centertop>50%</centertop>
@@ -116,10 +170,69 @@
                 <param name="mod" />
             </include>
             <visible>$PARAM[visible]</visible>
-        </control>
+        </include>
+        <include content="Object_Control" condition="$PARAM[fake_underline]">
+            <param name="control">label</param>
+            <width max="640">auto</width>
+            <height>80</height>
+            <centertop>50%</centertop>
+            <aligny>center</aligny>
+            <font>font_main_bold</font>
+            <textcolor>$PARAM[color_nf]</textcolor>
+            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod">!</param>
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <visible>!Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
+        </include>
+        <include content="Object_Control" condition="$PARAM[fake_underline]">
+            <param name="control">label</param>
+            <width max="640">auto</width>
+            <height>80</height>
+            <centertop>50%</centertop>
+            <aligny>center</aligny>
+            <font>font_main_bold</font>
+            <textcolor>main_fg_90</textcolor>
+            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod">!</param>
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <visible>Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
+        </include>
+        <include content="Object_Control" condition="$PARAM[fake_underline]">
+            <param name="control">label</param>
+            <width max="640">auto</width>
+            <height>80</height>
+            <centertop>50%</centertop>
+            <aligny>center</aligny>
+            <font>font_main_bold</font>
+            <textcolor>main_fg_100</textcolor>
+            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod" />
+            </include>
+            <visible>$PARAM[visible]</visible>
+        </include>
     </include>
 
     <include name="Categories_Selector_Fake_Item_Visible">
+        <visible>$PARAM[mod][Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem) + Control.HasFocus($PARAM[id])]</visible>
+        <visible>!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
+    </include>
+    
+    <include name="Categories_Selector_Fake_Underline_Item_Visible">
+        <usealttexture>Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</usealttexture>
         <visible>$PARAM[mod][Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem) + Control.HasFocus($PARAM[id])]</visible>
         <visible>!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
     </include>
@@ -130,54 +243,63 @@
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">-4</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(2).CurrentItem)</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">-3</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(3).CurrentItem)</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">-2</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(4).CurrentItem)</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">-1</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">true</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">0</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">true</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">1</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">true</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">2</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">true</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">3</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
         <include content="$PARAM[include]">
             <param name="visible">true</param>
             <param name="color_nf">$PARAM[color_nf]</param>
             <param name="id">$PARAM[id]</param>
             <param name="pos">4</param>
+            <param name="fake_underline">$PARAM[fake_underline]</param>
         </include>
     </include>
 
@@ -185,6 +307,7 @@
         <param name="id">302</param>
         <param name="color_fo">main_fg_30</param>
         <param name="color_nf">main_fg_30</param>
+        <param name="fake_underline">[False]</param>
         <definition>
             <control type="group">
 
@@ -205,12 +328,16 @@
                             <hitrect x="0" y="0" w="0" h="0" />
                             <height>80</height>
                             <orientation>horizontal</orientation>
+                            <include content="Object_ItemGap" condition="$PARAM[fake_underline]">
+                                <param name="itemgap">40</param>
+                            </include>
                             <itemgap>20</itemgap>
                             <include content="Categories_Selector_FakeList_Items">
                                 <param name="include">Categories_Selector_Fake_Button</param>
                                 <param name="color_fo">$PARAM[color_fo]</param>
                                 <param name="color_nf">$PARAM[color_nf]</param>
                                 <param name="id">$PARAM[id]</param>
+                                <param name="fake_underline">$PARAM[fake_underline]</param>
                             </include>
                         </control>
 
@@ -224,6 +351,7 @@
                                 <param name="color_fo">$PARAM[color_fo]</param>
                                 <param name="color_nf">$PARAM[color_nf]</param>
                                 <param name="id">$PARAM[id]</param>
+                                <param name="fake_underline">$PARAM[fake_underline]</param>
                             </include>
                         </control>
                     </control>
@@ -287,11 +415,11 @@
         <param name="hitrect_h">0</param>
         <param name="itemlayout_w">240</param>
         <param name="scrolltime">400</param>
-
+        <param name="fake_underline">[False]</param>
         <param name="small">False</param>
         <param name="large">False</param>
         <definition>
-            <include content="List_ButtonMenu_Row" condition="Skin.HasSetting(Views.UseAltCombined)">
+            <include content="List_ButtonMenu_Row" condition="Skin.HasSetting(Views.UseAltCombined) + ![$PARAM[fake_underline]]">
                 <param name="id">$PARAM[id]</param>
                 <param name="color_fo">$PARAM[color_fo]</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
@@ -316,7 +444,7 @@
                 <onfocus condition="$PARAM[slide]">SetProperty(Slide.WidgetContainer,$PARAM[slide_id],$PARAM[property_window_id])</onfocus>
                 <onfocus condition="![$PARAM[slide]]">ClearProperty(Slide.WidgetContainer,$PARAM[property_window_id])</onfocus>
             </include>
-            <include content="List_ButtonMenu_Row" condition="!Skin.HasSetting(Views.UseAltCombined)">
+            <include content="List_ButtonMenu_Row" condition="!Skin.HasSetting(Views.UseAltCombined) | [$PARAM[fake_underline]]">
                 <param name="id">$PARAM[id]</param>
                 <param name="color_fo">$PARAM[color_fo]</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
@@ -345,10 +473,11 @@
                 <onfocus condition="![$PARAM[slide]]">ClearProperty(Slide.WidgetContainer,$PARAM[property_window_id])</onfocus>
             </include>
             
-            <include content="Categories_Selector_FakeList" condition="!Skin.HasSetting(Views.UseAltCombined)">
+            <include content="Categories_Selector_FakeList" condition="!Skin.HasSetting(Views.UseAltCombined) | [$PARAM[fake_underline]]">
                 <param name="id">$PARAM[id]</param>
                 <param name="color_fo">$PARAM[color_fo]</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
+                <param name="fake_underline">$PARAM[fake_underline]</param>
                 <nested />
             </include>
 
