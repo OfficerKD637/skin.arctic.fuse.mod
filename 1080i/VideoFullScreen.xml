@@ -8,8 +8,9 @@
     <onunload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt)">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_episode_trakt_stats.json)</onunload>
     <controls>
         <!-- HDR Pop Up Logo -->
-        <control type="image" id="2">
-            <visible>[!String.IsEmpty(System.SupportedHDRTypes) + !String.IsEmpty(VideoPlayer.Hdrtype) + !String.IsEmpty(Skin.String(Enable.OSD.HDRPopUp))]</visible>
+        <include content="Object_Control" condition="!String.IsEmpty(System.SupportedHDRTypes) + !String.IsEmpty(VideoPlayer.Hdrtype) + Skin.HasSetting(OSD.EnableHDRPopUp)">
+            <param name="control">image</param>
+            <param name="id">2</param>
             <texture>$VAR[Image_OSD_HDRPopUp]</texture>    
             <aspectratio>keep</aspectratio>    
             <width>150</width>
@@ -20,7 +21,7 @@
                 <effect type="fade" start="0" end="100" time="500" delay="3000" reversible="false"/>
                 <effect type="fade" start="100" end="0" time="500" delay="7000" reversible="false"/>
             </animation>
-        </control>
+        </include>
         <include>OSD_Background_Dim</include>
         <control type="grouplist" id="0">
             <orientation>vertical</orientation>
