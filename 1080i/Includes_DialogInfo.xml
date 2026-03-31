@@ -841,6 +841,7 @@
                     <focusposition>1</focusposition>
                     <movement>1</movement>
                     
+                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                     <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
                     
                     <onclick>Dialog.Close(movieinformation)</onclick>
@@ -1033,6 +1034,7 @@
                     <focusposition>1</focusposition>
                     <movement>1</movement>
 
+                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                     <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
 
                     <onclick>Dialog.Close(movieinformation)</onclick>
@@ -3159,6 +3161,7 @@
                                 <param name="itemlayout_w">600</param>
                                 <param name="itemlayout_include">Layout_InfoDialog_Details</param>
                                 
+                                <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                                 <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
 
                                 <onup>SetFocus(4000)</onup>
@@ -3380,7 +3383,7 @@
                     
                         <include content="Object_InfoCircle">
                             <param name="role">$LOCALIZE[19114]</param>
-                            <param name="name">[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$VAR[Label_Video_Info, • ][/UPPERCASE]</param>
+                            <param name="name">[B]$INFO[ListItem.VideoVersionName][/B][UPPERCASE]$INFO[ListItem.VideoResolution,, • ]$INFO[ListItem.VideoCodec]$INFO[ListItem.VideoAspect, • ,:1]$VAR[Label_ListItem_AudioCodec, • ,]$VAR[Label_ListItem_AudioChannels, • ,][/UPPERCASE]</param>
                             <param name="icon_background">true</param>
                             <param name="colordiffuse">white</param>
                             <include content="Object_InfoCircle_Image">
@@ -3424,7 +3427,7 @@
                     <control type="group">
                         <left>-200</left>
                         <bottom>-200</bottom>
-                        <visible>!Skin.String(InfoDialog.NavigationStyle,Wall) + [ControlGroup(4000).HasFocus | Control.HasFocus(61) | String.IsEmpty(System.CurrentControlID)]</visible>
+                        <visible>String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))</visible>
                         <include content="Furniture_Bottom_Left">
                             <param name="enabled">!String.IsEmpty(Skin.String(Furniture.BottomLeft.Enable))</param>
                         </include>

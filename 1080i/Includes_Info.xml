@@ -2539,15 +2539,15 @@
                 <left>$PARAM[itemgap]</left>
                 <label> • Atmos</label>
                 <include>Defs_Label_FooterItem</include>
-                <visible>String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,atmos)</visible>
+                <visible>String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,eac3_ddp_atmos) | String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,truehd_atmos)</visible>
                 <visible>$PARAM[visible]</visible>
             </control>
             <control type="label">
                 <textcolor>$PARAM[top_textcolor]</textcolor>
                 <left>$PARAM[itemgap]</left>
-                <label> • dts-x</label>
+                <label> • DTS-X</label>
                 <include>Defs_Label_FooterItem</include>
-                <visible>!String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,atmos) + [String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,dtsx) | String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,dts-x)]</visible>
+                <visible>String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,dtshd_ma_x) | String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,dtshd_ma_x_imax)</visible>
                 <visible>$PARAM[visible]</visible>
             </control>
             <control type="label">
@@ -2724,15 +2724,15 @@
                 <left>$PARAM[itemgap]</left>
                 <label> • Atmos</label>
                 <width>auto</width>
-                <visible>String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,atmos)</visible>
+                <visible>String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,eac3_ddp_atmos) | String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,truehd_atmos)</visible>
                 <visible>$PARAM[visible]</visible>
             </include>
             <include content="Object_InfoCircle_Text_Sub">
                 <textcolor>$PARAM[sub_textcolor]</textcolor>
                 <left>$PARAM[itemgap]</left>
-                <label> • dts-x</label>
+                <label> • DTS-X</label>
                 <width>auto</width>
-                <visible>!String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,atmos) + [String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,dtsx) | String.Contains($PARAM[container]$PARAM[listitem].FileNameAndPath,dts-x)]</visible>
+                <visible>String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,dtshd_ma_x) | String.IsEqual($PARAM[container]$PARAM[listitem].FileNameAndPath,dtshd_ma_x_imax)</visible>
                 <visible>$PARAM[visible]</visible>
             </include>
             <include content="Object_InfoCircle_Text_Sub">
@@ -2836,24 +2836,14 @@
             </include>
 
             <!-- AUDIO CODEC -->
-            <!-- Atmos -->
+            <!-- AAC -->
             <include content="Info_Codecs_MonoIcon">
-                <param name="icon">audio/atmos.png</param>
+                <param name="icon">audio/aac.png</param>
                 <param name="width">80</param>
                 <param name="iconwidth">94</param>
                 <param name="iconheight">48</param>
                 <param name="left">-10</param>
-                <param name="visible">$PARAM[visible] + [String.Contains($PARAM[container]ListItem.FileNameAndPath,atmos) | String.Contains($PARAM[container]ListItem.AudioCodec,atmos)]</param>
-            </include>
-
-            <!-- DTSX -->
-            <include content="Info_Codecs_MonoIcon">
-                <param name="icon">audio/dtsx.png</param>
-                <param name="width">80</param>
-                <param name="iconwidth">94</param>
-                <param name="iconheight">48</param>
-                <param name="left">-10</param>
-                <param name="visible">$PARAM[visible] + [![String.Contains($PARAM[container]ListItem.FileNameAndPath,atmos) | String.Contains($PARAM[container]ListItem.AudioCodec,atmos)] + [String.Contains($PARAM[container]ListItem.FileNameAndPath,dtsx) | String.Contains($PARAM[container]ListItem.FileNameAndPath,dts-x) | String.Contains($PARAM[container]ListItem.AudioCodec,dtshd_ma_x)]]</param>
+                <param name="visible">$PARAM[visible] + [String.IsEqual($PARAM[container]ListItem.AudioCodec,aac) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_lc) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_ssr) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_ltp) | String.IsEqual($PARAM[container]ListItem.AudioCodec,he_aac) | String.IsEqual($PARAM[container]ListItem.AudioCodec,he_aac_v2) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_latm)]</param>
             </include>
 
             <!-- Other -->
@@ -2863,7 +2853,7 @@
                 <param name="iconwidth">94</param>
                 <param name="iconheight">48</param>
                 <param name="left">-10</param>
-                <param name="visible">$PARAM[visible] + [!String.IsEmpty($PARAM[container]ListItem.AudioCodec) + ![String.Contains($PARAM[container]ListItem.FileNameAndPath,atmos) | String.Contains($PARAM[container]ListItem.AudioCodec,atmos)] + ![String.Contains($PARAM[container]ListItem.FileNameAndPath,dtsx) | String.Contains($PARAM[container]ListItem.FileNameAndPath,dts-x) | String.Contains($PARAM[container]ListItem.AudioCodec,dtshd_ma_x)]]</param>
+                <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[container]ListItem.AudioCodec) + ![String.IsEqual($PARAM[container]ListItem.AudioCodec,aac) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_lc) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_ssr) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_ltp) | String.IsEqual($PARAM[container]ListItem.AudioCodec,he_aac) | String.IsEqual($PARAM[container]ListItem.AudioCodec,he_aac_v2) | String.IsEqual($PARAM[container]ListItem.AudioCodec,aac_latm)]</param>
             </include>
 
             <!-- HDRType -->
