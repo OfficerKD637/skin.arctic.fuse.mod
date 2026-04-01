@@ -1316,7 +1316,7 @@
         </definition>
     </include>
     
-     <include name="Info_Line_VideoQuality_Object">
+    <include name="Info_Line_VideoQuality_Object">
         <param name="width">auto</param>
         <definition>
             <control type="button">
@@ -1454,6 +1454,11 @@
             </include>
             <include content="Info_Line_VideoQuality_Object">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">HDR10+</param>
+                <param name="visible">$PARAM[visible] + $PARAM[is_hdr10plus]</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="label">HDR10</param>
                 <param name="visible">$PARAM[visible] + $PARAM[is_hdr]</param>
             </include>
@@ -1469,15 +1474,325 @@
         <definition>
             <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                <param name="label">$VAR[Label_AudioChannel_Switch]</param>
-                <param name="visible">$PARAM[visible]</param>
+                <param name="label">9.1</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],10)</param>
             </include>
-            <include content="Info_Line_VideoQuality_Object" condition="!Skin.HasSetting(Infoline.DisableCodec)">
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                <param name="label">$VAR[Label_AudioCodec_Switch]$VAR[Label_AudioChannel_Switch, ,]</param>
+                <param name="label">8.1</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],9)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">7.1</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],8)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">6.1</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],7)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">5.1</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],6)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">4.1</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],5)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">4.0</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],4)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">2.1</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],3)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">2.0</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],2)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">1.0</param>
+                <param name="visible">$PARAM[visible] + Integer.IsEqual($PARAM[listitem_audiochannels],1)</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">$INFO[$PARAM[listitem_audiochannels],,.0]</param>
+                <param name="visible">$PARAM[visible] + ![Integer.IsEqual($PARAM[listitem_audiochannels],1) | Integer.IsEqual($PARAM[listitem_audiochannels],2) | Integer.IsEqual($PARAM[listitem_audiochannels],3) | Integer.IsEqual($PARAM[listitem_audiochannels],4) | Integer.IsEqual($PARAM[listitem_audiochannels],5) | Integer.IsEqual($PARAM[listitem_audiochannels],6) | Integer.IsEqual($PARAM[listitem_audiochannels],7) | Integer.IsEqual($PARAM[listitem_audiochannels],8) | Integer.IsEqual($PARAM[listitem_audiochannels],9) | Integer.IsEqual($PARAM[listitem_audiochannels],10)]</param>
+            </include>
+            
+            <include content="Info_Line_AudioCodecsChannels" condition="!Skin.HasSetting(Infoline.DisableCodec)">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+                <param name="listitem_audiochannels">$PARAM[listitem_audiochannels]</param>
                 <param name="visible">$PARAM[visible] + !String.IsEmpty($PARAM[listitem_audiocodec])</param>
             </include>
         </definition>
+    </include>
+    
+    <include name="Info_Line_AudioCodecsChannels">
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">9.1</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],10)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">8.1</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],9)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">7.1</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],8)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">6.1</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],7)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">5.1</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],6)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">4.1</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],5)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">4.0</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],4)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">2.1</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],3)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">2.0</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],2)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">1.0</param>
+            <param name="visible_audiochannel">Integer.IsEqual($PARAM[listitem_audiochannels],1)</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+        <include content="Info_Line_AudioCodecs">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label_audiochannel">$INFO[$PARAM[listitem_audiochannels],,.0]</param>
+            <param name="visible_audiochannel">!String.IsEmpty($PARAM[listitem_audiochannels]) + ![Integer.IsEqual($PARAM[listitem_audiochannels],1) | Integer.IsEqual($PARAM[listitem_audiochannels],2) | Integer.IsEqual($PARAM[listitem_audiochannels],3) | Integer.IsEqual($PARAM[listitem_audiochannels],4) | Integer.IsEqual($PARAM[listitem_audiochannels],5) | Integer.IsEqual($PARAM[listitem_audiochannels],6) | Integer.IsEqual($PARAM[listitem_audiochannels],7) | Integer.IsEqual($PARAM[listitem_audiochannels],8) | Integer.IsEqual($PARAM[listitem_audiochannels],9) | Integer.IsEqual($PARAM[listitem_audiochannels],10)]</param>
+            <param name="listitem_audiocodec">$PARAM[listitem_audiocodec]</param>
+            <param name="visible">$PARAM[visible]</param>
+        </include>
+    </include>
+    
+    <include name="Info_Line_AudioCodecs">
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">AAC $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + [String.IsEqual($PARAM[listitem_audiocodec],aac) | String.IsEqual($PARAM[listitem_audiocodec],aac_latm)]</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">AAC-LC $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],aac_lc)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">AAC-SSR $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],aac_ssr)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">AAC-LTP $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],aac_ltp)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">HE-AACv2 $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],he_aac_v2)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">HE-AAC $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],he_aac)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DD $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + [String.IsEqual($PARAM[listitem_audiocodec],ac3) | String.IsEqual($PARAM[listitem_audiocodec],dolbydigital)]</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">AIFF $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + [String.IsEqual($PARAM[listitem_audiocodec],aif) | String.IsEqual($PARAM[listitem_audiocodec],aifc) | String.IsEqual($PARAM[listitem_audiocodec],aiff)]</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">ALAC $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],alac)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">APE $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],ape)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">AVC $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],avc)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">CDDA $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],cdda)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DTS $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + [String.IsEqual($PARAM[listitem_audiocodec],dca) | String.IsEqual($PARAM[listitem_audiocodec],dts)]</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DTS-HD $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],dtshd)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DTS-HD MA $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],dtshd_ma)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DTS-HD HRA $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],dtshd_hra)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DTS-X MA $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],dtshd_ma_x)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DTS-X MA (IMAX) $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],dtshd_ma_x_imax)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DD+ $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],eac3)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">DOLBY ATMOS $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],eac3_ddp_atmos)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">FLAC $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],flac)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">MP1 $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],mp1)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">MP1 $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],mp2)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">MP3 $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + [String.IsEqual($PARAM[listitem_audiocodec],mp3) | String.IsEqual($PARAM[listitem_audiocodec],mp3float)]</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">OGG $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],ogg)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">OPUS $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],opus)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">PCM $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + [String.IsEqual($PARAM[listitem_audiocodec],pcm) | String.IsEqual($PARAM[listitem_audiocodec],pcm_bluray) | String.IsEqual($PARAM[listitem_audiocodec],pcm_s16le) | String.IsEqual($PARAM[listitem_audiocodec],pcm_s24le)]</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">TRUEHD $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],truehd)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">TRUEHD ATMOS $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],truehd_atmos)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">VORBIS $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],vorbis)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">WAV $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],wav)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">WAVP $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],wavpack)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">WMA-PRO $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],wmapro)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">WMA $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + String.IsEqual($PARAM[listitem_audiocodec],wmav2)</param>
+        </include>
+        <include content="Info_Line_VideoQuality_Object">
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="label">$INFO[$PARAM[listitem_audiocodec]] $PARAM[label_audiochannel]</param>
+            <param name="visible">$PARAM[visible] + $PARAM[visible_audiochannel] + ![String.IsEqual($PARAM[listitem_audiocodec],aac) | String.IsEqual($PARAM[listitem_audiocodec],aac_latm) | String.IsEqual($PARAM[listitem_audiocodec],aac_lc) | String.IsEqual($PARAM[listitem_audiocodec],aac_ssr) | String.IsEqual($PARAM[listitem_audiocodec],aac_ltp) | String.IsEqual($PARAM[listitem_audiocodec],he_aac_v2) | String.IsEqual($PARAM[listitem_audiocodec],he_aac) | String.IsEqual($PARAM[listitem_audiocodec],ac3) | String.IsEqual($PARAM[listitem_audiocodec],dolbydigital) | String.IsEqual($PARAM[listitem_audiocodec],aif) | String.IsEqual($PARAM[listitem_audiocodec],aifc) | String.IsEqual($PARAM[listitem_audiocodec],aiff) | String.IsEqual($PARAM[listitem_audiocodec],alac) | String.IsEqual($PARAM[listitem_audiocodec],ape) | String.IsEqual($PARAM[listitem_audiocodec],avc) | String.IsEqual($PARAM[listitem_audiocodec],cdda) | String.IsEqual($PARAM[listitem_audiocodec],dca) | String.IsEqual($PARAM[listitem_audiocodec],dts) | String.IsEqual($PARAM[listitem_audiocodec],dtshd) | String.IsEqual($PARAM[listitem_audiocodec],dtshd_ma) | String.IsEqual($PARAM[listitem_audiocodec],dtshd_hra) | String.IsEqual($PARAM[listitem_audiocodec],dtshd_ma_x) | String.IsEqual($PARAM[listitem_audiocodec],dtshd_ma_x_imax) | String.IsEqual($PARAM[listitem_audiocodec],eac3) | String.IsEqual($PARAM[listitem_audiocodec],eac3_ddp_atmos) | String.IsEqual($PARAM[listitem_audiocodec],flac) | String.IsEqual($PARAM[listitem_audiocodec],mp1) | String.IsEqual($PARAM[listitem_audiocodec],mp2) | String.IsEqual($PARAM[listitem_audiocodec],mp3) | String.IsEqual($PARAM[listitem_audiocodec],mp3float) | String.IsEqual($PARAM[listitem_audiocodec],ogg) | String.IsEqual($PARAM[listitem_audiocodec],opus) | String.IsEqual($PARAM[listitem_audiocodec],pcm) | String.IsEqual($PARAM[listitem_audiocodec],pcm_bluray) | String.IsEqual($PARAM[listitem_audiocodec],pcm_s16le) | String.IsEqual($PARAM[listitem_audiocodec],pcm_s24le) | String.IsEqual($PARAM[listitem_audiocodec],truehd) | String.IsEqual($PARAM[listitem_audiocodec],truehd_atmos) | String.IsEqual($PARAM[listitem_audiocodec],vorbis) | String.IsEqual($PARAM[listitem_audiocodec],wav) | String.IsEqual($PARAM[listitem_audiocodec],wavpack) | String.IsEqual($PARAM[listitem_audiocodec],wmapro) | String.IsEqual($PARAM[listitem_audiocodec],wmav2)]</param>
+        </include>
     </include>
     
     <include name="Info_Line_VideoQuality">
@@ -1512,6 +1827,7 @@
                 <param name="visible">$PARAM[visible]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="is_dolbyvision">[String.IsEqual($PARAM[listitem_hdrtype],dolbyvision)]</param>
+                <param name="is_hdr10plus">[String.IsEqual($PARAM[listitem_hdrtype],hdr10plus)]</param>
                 <param name="is_hdr">[String.IsEqual($PARAM[listitem_hdrtype],hdr10)]</param>
                 <param name="is_hlg">[String.IsEqual($PARAM[listitem_hdrtype],hlg)]</param>
             </include>
