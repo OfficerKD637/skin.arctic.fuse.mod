@@ -4,7 +4,7 @@
         <param name="always">true</param>
         <param name="defaultcontrol">8000</param>
     </include>
-    
+
     <include content="Object_MenuControl" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
         <param name="menucontrol">9000</param>
     </include>
@@ -61,6 +61,8 @@
         
         <include condition="Window.IsVisible(fullscreenvideo)">OSD_VideoBackground_Dialog</include>
         
+        <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoButtons</include>
+        
         <!-- Standard -->
         
         <include content="Object_Control" condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">
@@ -96,7 +98,7 @@
                         <bottom>-40</bottom>
                         <height>view_poster_itemlayout_h</height>
                         <visible>String.IsEqual(Window.Property(DetailsView),Critics) | String.IsEmpty(Window.Property(DetailsView))</visible>
-                        <visible>![Control.HasFocus(7000) |  Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556)] | [Control.HasFocus(7000) + [[String.IsEmpty(Window.Property(Director_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339])]] | [String.IsEmpty(Window.Property(Writer_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]] | [String.IsEmpty(Window.Property(Creator_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31065])]] | [String.IsEmpty(Window.Property(Studio_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[572])]] | [String.IsEmpty(Window.Property(Set_Query)) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[31236])]]]]</visible>
+                        <visible>![Control.HasFocus(7000) |  Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556)] | [Control.HasFocus(7000) + String.IsEmpty(Container(7000).ListItem.Property(widgetpath)) + !String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]</visible>
                         <include content="DialogInfo_Video_SideArt">
                             <param name="visible">![String.IsEqual(ListItem.DBType,musicvideo)]</param>
                         </include>
@@ -110,8 +112,6 @@
         </include>
         
         <!-- Wall -->
-        
-        <include condition="Skin.String(InfoDialog.NavigationStyle,Wall) + !String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoButtons</include>
 
         <include content="Object_Control" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
             <param name="control">group</param>

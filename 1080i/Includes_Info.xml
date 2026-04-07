@@ -2060,13 +2060,11 @@
                         <param name="dbtype_02">tvshow</param>
                         <param name="dbtype_03">season</param>
                     </include>
-                    <param name="items_03">true</param>
-                    <param name="label_01">$INFO[$PARAM[container]ListItem.Property(Genre.1.Name)]</param>
-                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_genre)]</param>
-                    <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]</param>
-                    <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.Property(Genre.1.Name))</param>
-                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_genre))</param>
-                    <param name="visible_03">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name))</param>
+                    <param name="items_02">true</param>
+                    <param name="label_01">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_genre)]</param>
+                    <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]</param>
+                    <param name="visible_01">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_genre))</param>
+                    <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name))</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
 
@@ -4265,7 +4263,284 @@
             </include>
         </control>
     </include>  
-    
+
+    <include name="Info_Panel_Label">
+        <param name="is_player">false</param>
+        <definition>
+            <!-- Tagline -->
+            <include content="Object_Control" condition="![$PARAM[is_player]] + Skin.String(PlotLine.Optional,Tagline)">
+                <param name="control">label</param>
+                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                <label>$INFO[$PARAM[container]ListItem.Tagline]</label>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <height>40</height>
+                <font>font_main_bold</font>
+                <width>$PARAM[plotwidth]</width>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <include content="Info_Line_Visible_02">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">tvshow</param>
+                    <param name="condition">[!String.IsEmpty($PARAM[container]ListItem.Tagline)]</param>
+                </include>
+            </include>
+            <include content="Object_Control" condition="![$PARAM[is_player]] + Skin.String(PlotLine.Optional,Tagline)">
+                <param name="control">label</param>
+                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Tagline)]</label>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <height>40</height>
+                <font>font_main_bold</font>
+                <width>$PARAM[plotwidth]</width>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <include content="Info_Line_Visible_02">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">tvshow</param>
+                    <param name="condition">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Tagline)) + String.IsEmpty($PARAM[container]ListItem.Tagline)]</param>
+                </include>
+            </include>
+            <include content="Object_Control" condition="$PARAM[is_player] + Skin.String(PlotLine.Optional,Tagline)">
+                <param name="control">label</param>
+                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                <label>$INFO[VideoPlayer.Tagline]</label>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <height>40</height>
+                <font>font_main_bold</font>
+                <width>$PARAM[plotwidth]</width>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <visible>!String.IsEmpty(VideoPlayer.Tagline)</visible>
+                <visible>!VideoPlayer.Content(episodes)</visible>
+            </include>
+
+            <!-- Director -->
+            <include content="Object_Control" condition="![$PARAM[is_player]] + Skin.String(PlotLine.Optional,Director)">
+                <param name="control">label</param>
+                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                <label>$INFO[$PARAM[container]ListItem.Director]</label>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <height>40</height>
+                <font>font_main_bold</font>
+                <width>$PARAM[plotwidth]</width>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <include content="Info_Line_Visible_02">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">episode</param>
+                    <param name="condition">[!String.IsEmpty($PARAM[container]ListItem.Director)]</param>
+                </include>
+            </include>
+            <include content="Object_Control" condition="![$PARAM[is_player]] + Skin.String(PlotLine.Optional,Director)">
+                <param name="control">label</param>
+                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                <label>$INFO[Window(Home).Property(TMDbHelper.ListItem.Director)]</label>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <height>40</height>
+                <font>font_main_bold</font>
+                <width>$PARAM[plotwidth]</width>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <include content="Info_Line_Visible_02">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">episode</param>
+                    <param name="condition">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director)) + String.IsEmpty($PARAM[container]ListItem.Director)]</param>
+                </include>
+            </include>
+            <include content="Object_Control" condition="$PARAM[is_player] + Skin.String(PlotLine.Optional,Director)">
+                <param name="control">label</param>
+                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                <label>$INFO[VideoPlayer.Director]</label>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <height>40</height>
+                <font>font_main_bold</font>
+                <width>$PARAM[plotwidth]</width>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <visible>!String.IsEmpty(VideoPlayer.Director)</visible>
+            </include>
+            <include content="Object_Control" condition="$PARAM[is_player] + Skin.String(PlotLine.Optional,Director)">
+                <param name="control">label</param>
+                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                <label>$INFO[Window(Home).Property(TMDbHelper.Player.Director)]</label>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <height>40</height>
+                <font>font_main_bold</font>
+                <width>$PARAM[plotwidth]</width>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Director)) + String.IsEmpty(VideoPlayer.Director)</visible>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_Panel_Textbox_Item">
+        <definition>
+            <include content="Object_Control" condition="![$PARAM[is_player]] + !String.IsEmpty(Skin.String(PlotLine.Optional))">
+                <param name="control">textbox</param>
+                <include content="Info_Line_Visible_02" condition="Skin.String(PlotLine.Optional,Tagline)">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">tvshow</param>
+                    <param name="condition">[!String.IsEmpty($PARAM[container]ListItem.Tagline) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Tagline))]</param>
+                </include>
+                <include content="Info_Line_Visible_02" condition="Skin.String(PlotLine.Optional,Director)">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">episode</param>
+                    <param name="condition">[!String.IsEmpty($PARAM[container]ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))]</param>
+                </include>
+                <visible>$PARAM[details]</visible>
+                <visible>$PARAM[visible]</visible>
+                <width>$PARAM[plotwidth]</width>
+                <label>$PARAM[plotlabel]</label>
+                <aligny>top</aligny>
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <font>font_main_plot</font>
+                <autoscroll delay="6000" time="3000" repeat="10000">$PARAM[plotbox_scroll]</autoscroll>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">0</param>
+                </include>
+                <include content="Object_Bottom" condition="Skin.HasSetting(Info.DisableAllRatings)">
+                    <param name="bottom">-40</param>
+                </include>
+                <top>40</top>
+                <bottom>0</bottom>
+                <include>$PARAM[details_include]</include> 
+            </include>
+
+            <include content="Object_Control" condition="![$PARAM[is_player]] + !String.IsEmpty(Skin.String(PlotLine.Optional))">
+                <param name="control">textbox</param>
+                <include content="Info_Line_Visible_02" condition="Skin.String(PlotLine.Optional,Tagline)">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">tvshow</param>
+                    <param name="condition">[!String.IsEmpty($PARAM[container]ListItem.Tagline) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Tagline))]</param>
+                    <param name="mod">!</param>
+                </include>
+                <include content="Info_Line_Visible_02" condition="Skin.String(PlotLine.Optional,Director)">
+                    <param name="altvisible">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_channelnumberlabel))]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="dbtype_01">movie</param>
+                    <param name="dbtype_02">episode</param>
+                    <param name="condition">[!String.IsEmpty($PARAM[container]ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))]</param>
+                    <param name="mod">!</param>
+                </include>
+                <visible>$PARAM[visible]</visible>
+                <visible>$PARAM[details]</visible>
+                <width>$PARAM[plotwidth]</width>
+                <label>$PARAM[plotlabel]</label>
+                <aligny>top</aligny>
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <font>font_main_plot</font>
+                <autoscroll delay="6000" time="3000" repeat="10000">$PARAM[plotbox_scroll]</autoscroll>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <include content="Object_Bottom" condition="Skin.HasSetting(Info.DisableAllRatings)">
+                    <param name="bottom">-40</param>
+                </include>
+                <include>$PARAM[details_include]</include> 
+            </include>
+
+            <include content="Object_Control" condition="$PARAM[is_player] + !String.IsEmpty(Skin.String(PlotLine.Optional))">
+                <param name="control">textbox</param>
+                <include content="Object_Visible" condition="Skin.String(PlotLine.Optional,Tagline)">
+                    <param name="visible">[!String.IsEmpty(VideoPlayer.Tagline) + !VideoPlayer.Content(episodes)]</param>
+                </include>
+                <include content="Object_Visible" condition="Skin.String(PlotLine.Optional,Director)">
+                    <param name="visible">[!String.IsEmpty(VideoPlayer.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Director))]</param>
+                </include>
+                <visible>$PARAM[details]</visible>
+                <width>$PARAM[plotwidth]</width>
+                <label>$PARAM[plotlabel]</label>
+                <aligny>top</aligny>
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <font>font_main_plot</font>
+                <visible>$PARAM[visible]</visible>
+                <autoscroll delay="6000" time="3000" repeat="10000">$PARAM[plotbox_scroll]</autoscroll>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">0</param>
+                </include>
+                <include content="Object_Bottom" condition="Skin.HasSetting(Info.DisableAllRatings)">
+                    <param name="bottom">-40</param>
+                </include>
+                <top>40</top>
+                <bottom>0</bottom>
+                <include>$PARAM[details_include]</include> 
+            </include>
+
+            <include content="Object_Control" condition="$PARAM[is_player] + !String.IsEmpty(Skin.String(PlotLine.Optional))">
+                <param name="control">textbox</param>
+                <include content="Object_Visible" condition="Skin.String(PlotLine.Optional,Tagline)">
+                    <param name="visible">![!String.IsEmpty(VideoPlayer.Tagline) + !VideoPlayer.Content(episodes)]</param>
+                </include>
+                <include content="Object_Visible" condition="Skin.String(PlotLine.Optional,Director)">
+                    <param name="visible">![!String.IsEmpty(VideoPlayer.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Director))]</param>
+                </include>                
+                <visible>$PARAM[details]</visible>
+                <width>$PARAM[plotwidth]</width>
+                <label>$PARAM[plotlabel]</label>
+                <aligny>top</aligny>
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <font>font_main_plot</font>
+                <visible>$PARAM[visible]</visible>
+                <autoscroll delay="6000" time="3000" repeat="10000">$PARAM[plotbox_scroll]</autoscroll>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <include content="Object_Bottom" condition="Skin.HasSetting(Info.DisableAllRatings)">
+                    <param name="bottom">-40</param>
+                </include>
+                <include>$PARAM[details_include]</include> 
+            </include>
+
+            <include content="Object_Control" condition="String.IsEmpty(Skin.String(PlotLine.Optional))">
+                <param name="control">textbox</param>
+                <visible>$PARAM[details]</visible>
+                <width>$PARAM[plotwidth]</width>
+                <label>$PARAM[plotlabel]</label>
+                <aligny>top</aligny>
+                <textcolor>$PARAM[colordiffuse]_70</textcolor>
+                <font>font_main_plot</font>
+                <visible>$PARAM[visible]</visible>
+                <autoscroll delay="6000" time="3000" repeat="10000">$PARAM[plotbox_scroll]</autoscroll>
+                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                    <param name="top">-40</param>
+                </include>
+                <include content="Object_Bottom" condition="Skin.HasSetting(Info.DisableAllRatings)">
+                    <param name="bottom">-40</param>
+                </include>
+                <include>$PARAM[details_include]</include> 
+            </include>
+        </definition>
+    </include>
+
     <include name="Info_Panel_Textbox">
         <param name="colordiffuse">main_fg</param>
         <param name="details">true</param>
@@ -4273,6 +4548,8 @@
         <param name="visible">true</param>
         <param name="plotbox_scroll">!Skin.HasSetting(Textboxes.DisableAutoscroll)</param>
         <param name="plotautoheight">true</param>
+        <param name="listitem">ListItem</param>
+        <param name="is_player">False</param>
         <definition>
             <control type="group">
                 <top>17</top>
@@ -4285,23 +4562,25 @@
                 <include content="Object_Height" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[plotautoheight]">
                     <param name="height">160</param>
                 </include>
-                <control type="textbox">
-                    <visible>$PARAM[details]</visible>
-                    <width>$PARAM[plotwidth]</width>
-                    <label>$PARAM[plotlabel]</label>
-                    <aligny>top</aligny>
-                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                    <font>font_main_plot</font>
-                    <visible>$PARAM[visible]</visible>
-                    <autoscroll delay="6000" time="3000" repeat="10000">$PARAM[plotbox_scroll]</autoscroll>
-                    <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
-                        <param name="top">-40</param>
-                    </include>
-                    <include content="Object_Bottom" condition="Skin.HasSetting(Info.DisableAllRatings)">
-                        <param name="bottom">-40</param>
-                    </include>
-                    <include>$PARAM[details_include]</include>                    
-                </control>
+                <include content="Info_Panel_Label" condition="!String.IsEmpty(Skin.String(PlotLine.Optional))">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="details">$PARAM[details]</param>
+                    <param name="visible">$PARAM[visible]</param>
+                    <param name="plotwidth">$PARAM[plotwidth]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="is_player">$PARAM[is_player]</param>
+                </include>
+                <include content="Info_Panel_Textbox_Item">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="details">$PARAM[details]</param>
+                    <param name="visible">$PARAM[visible]</param>
+                    <param name="plotwidth">$PARAM[plotwidth]</param>
+                    <param name="plotlabel">$PARAM[plotlabel]</param>
+                    <param name="plotbox_scroll">$PARAM[plotbox_scroll]</param>
+                    <param name="container">$PARAM[container]</param>
+                    <param name="is_player">$PARAM[is_player]</param>
+                    <param name="details_include">$PARAM[details_include]</param>
+                </include>
             </control>
         </definition>
     </include>
@@ -4409,6 +4688,7 @@
                         <param name="details">$PARAM[details]</param>
                         <param name="details_include">$PARAM[details_include]</param>
                         <param name="container">$PARAM[container]</param>
+                        <param name="is_player">$PARAM[is_player]</param>
                         <param name="plotbox_scroll">$PARAM[plotbox_scroll]</param>
                     </include>
 

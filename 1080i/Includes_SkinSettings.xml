@@ -402,6 +402,7 @@
             <textwidth>680</textwidth>
             <label>$LOCALIZE[31564]</label>
             <label2>$VAR[Label_Setting_AdditionalTags]</label2>
+            <visible>!Skin.HasSetting(Info.DisableDetailsLine)</visible>
             <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_InfolineAdditionalTags,Home)</onclick>
             <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31564],Home)</onclick>
             <onclick>ActivateWindow(1118)</onclick>
@@ -413,6 +414,7 @@
             <param name="id">004</param>
             <param name="control">button</param>
             <visible>Skin.HasSetting(InfoLine.EnableEndsAtTime)</visible>
+            <visible>!Skin.HasSetting(Info.DisableDetailsLine)</visible>
             <label>$LOCALIZE[31191]</label>
             <label2>$VAR[Label_Setting_OptionalInfoLine]</label2>
             <onclick condition="String.IsEmpty(Skin.String(InfoLine.Optional))">Skin.SetString(InfoLine.Optional,Genre)</onclick>
@@ -429,12 +431,32 @@
             <onclick>Skin.ToggleSetting(Info.UseS1E1StyleNumbers)</onclick>
             <selected>Skin.HasSetting(Info.UseS1E1StyleNumbers)</selected>
         </include>
-        
+
+        <include content="Settings_Label" description="Plot">
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">006</param>
+            <label>$LOCALIZE[207]</label>
+        </include>
+
+        <include content="Settings_Button" description="Plot Optional Details">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">007</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[207] [LOWERCASE]$LOCALIZE[20170][/LOWERCASE]</label>
+            <label2>$VAR[Label_Setting_OptionalPlotLine]</label2>
+            <onclick condition="String.IsEmpty(Skin.String(PlotLine.Optional))">Skin.SetString(PlotLine.Optional,Tagline)</onclick>
+            <onclick condition="Skin.String(PlotLine.Optional,Tagline)">Skin.SetString(PlotLine.Optional,Director)</onclick>
+            <onclick condition="Skin.String(PlotLine.Optional,Director)">Skin.Reset(PlotLine.Optional)</onclick>
+        </include>
+
         <include content="Settings_Button" description="Show watched stats as plot fallback">
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">006</param>
+            <param name="id">008</param>
             <param name="control">button</param>
             <label>$LOCALIZE[31597]</label> 
             <label2>$VAR[Label_Settings_PlotDetailsFallback]</label2> 
@@ -443,31 +465,30 @@
             <onclick condition="Skin.String(Enable.PlotDetails.Fallback,Local) + !String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth))">Skin.SetString(Enable.PlotDetails.Fallback,Trakt)</onclick>
             <onclick condition="Skin.String(Enable.PlotDetails.Fallback,Trakt)">Skin.Reset(Enable.PlotDetails.Fallback)</onclick>
         </include>
+
+        <include content="Settings_Label" description="Ratings">
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">009</param>
+            <label>$LOCALIZE[31202]</label>
+        </include>
         
         <include content="Settings_Button" description="Infoline Ratings">
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">007</param>
+            <param name="id">010</param>
             <param name="control">radiobutton</param>
             <label>$LOCALIZE[31202]</label> 
             <onclick>Skin.ToggleSetting(Info.DisableAllRatings)</onclick>
             <selected>!Skin.HasSetting(Info.DisableAllRatings)</selected>
         </include>
 
-        <include content="Settings_Label" description="Ratings">
-            <param name="window">skinsettings</param>
-            <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">008</param>
-            <label>$LOCALIZE[31202]</label>
-            <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
-        </include>
-
         <include content="Settings_Button" description="CustomDialog Movie  Ratings">
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">009</param>
+            <param name="id">011</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <label>$LOCALIZE[31203] [LOWERCASE]$LOCALIZE[31202][/LOWERCASE] > $LOCALIZE[342]</label>
             <onclick>SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31202]: $LOCALIZE[342][/CAPITALIZE],Home)</onclick>
@@ -479,7 +500,7 @@
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">010</param>
+            <param name="id">012</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <label>$LOCALIZE[31203] [LOWERCASE]$LOCALIZE[31202][/LOWERCASE] > [CAPITALIZE]$LOCALIZE[20343][/CAPITALIZE]</label>
             <onclick>SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31202]: $LOCALIZE[20343][/CAPITALIZE],Home)</onclick>
@@ -491,7 +512,7 @@
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">011</param>
+            <param name="id">013</param>
             <param name="control">button</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <label>$LOCALIZE[126]</label>
