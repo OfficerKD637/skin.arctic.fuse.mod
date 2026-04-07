@@ -1107,21 +1107,22 @@
 
     <include name="DialogInfo_Details_Action_Wall">
         <param name="set_path">true</param>
+        <param name="condition">true</param>
         <definition>
-            <onclick condition="$PARAM[set_path]">SetProperty(path,$PARAM[path],1128)</onclick>
-            <onclick condition="![$PARAM[set_path]]">ClearProperty(path,1128)</onclick>
+            <onclick condition="$PARAM[set_path] + $PARAM[condition]">SetProperty(path,$PARAM[path],1128)</onclick>
+            <onclick condition="![$PARAM[set_path]] + $PARAM[condition]">ClearProperty(path,1128)</onclick>
 
-            <onclick>SetProperty(header,$PARAM[header],1128)</onclick>
-            <onclick>SetProperty(poster,$PARAM[poster],1128)</onclick>
-            <onclick>SetProperty(tmdb_id,$PARAM[tmdb_id],1128)</onclick>
-            <onclick>SetProperty(tmdb_type,$PARAM[tmdb_type],1128)</onclick>
-            <onclick>SetProperty(dbtype,$PARAM[dbtype],1128)</onclick>
-            <onclick>SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID],1128)</onclick>
-            <onclick>SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1128)</onclick>
-            <onclick>SetProperty(origin_tmdb_type,$VAR[Path_InfoParams_TMDbType],1128)</onclick>
-            <onclick>SetProperty(origin_season,$VAR[Path_InfoParams_Season],1128)</onclick>
-            <onclick>SetProperty(origin_episode,$VAR[Path_InfoParams_Episode],1128)</onclick>
-            <onclick>ActivateWindow(1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(header,$PARAM[header],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(poster,$PARAM[poster],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(tmdb_id,$PARAM[tmdb_id],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(tmdb_type,$PARAM[tmdb_type],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(dbtype,$PARAM[dbtype],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(origin_tmdb_type,$VAR[Path_InfoParams_TMDbType],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(origin_season,$VAR[Path_InfoParams_Season],1128)</onclick>
+            <onclick condition="$PARAM[condition]">SetProperty(origin_episode,$VAR[Path_InfoParams_Episode],1128)</onclick>
+            <onclick condition="$PARAM[condition]">ActivateWindow(1128)</onclick>
         </definition>
     </include>
 
@@ -1269,6 +1270,7 @@
     </include>
 
     <include name="DialogInfo_Onload_Wall">
+        <include>DialogInfo_FileProperties_Onload</include>
         <onload condition="String.IsEmpty(Skin.String(VideoInfo.PersonCredits.SortKey))">Skin.SetString(VideoInfo.PersonCredits.SortKey,popular)</onload>
 
         <onload>ClearProperty(TMDbHelper.WidgetContainer)</onload>
@@ -1316,7 +1318,7 @@
                         <param name="icon">$VAR[Image_DialogInfo_PlayButton]</param>
                         <onfocus>ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
                         <onclick condition="!Player.HasVideo | [Player.HasVideo + !$EXP[Exp_InfoDialogs_ResumeMedia]]">$VAR[Action_DialogInfo_PlayMedia]</onclick>
-                        
+
                         <!-- Resume controls -->
                         <onclick condition="Player.HasVideo + $EXP[Exp_InfoDialogs_ResumeMedia]">Dialog.Close(movieinformation,true)</onclick>
                         <onclick condition="Player.HasVideo + Window.IsVisible(1190) + $EXP[Exp_InfoDialogs_ResumeMedia]">Dialog.Close(1190,true)</onclick>
@@ -1324,7 +1326,68 @@
                         <onclick condition="Player.HasVideo + !VideoPlayer.IsFullScreen + $EXP[Exp_InfoDialogs_ResumeMedia]">Fullscreen</onclick>
                     </include>
 
-                    <include>Items_DialogVideoInfo_MenuBar_Wall</include>
+                    <!-- Button 0 -->
+                    <include content="DialogInfo_Button_Expansion">
+                        <param name="id">4002</param>
+                        <param name="groupid">4102</param>
+                        <param name="sliceid">4202</param>
+                        <param name="label">$INFO[Container(4900).ListItemAbsolute(0).Label]</param>
+                        <param name="icon">$INFO[Container(4900).ListItemAbsolute(0).Icon]</param>
+                        <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(0).Label)</param>
+                        <onclick>SetFocus(4900,0,absolute)</onclick>
+                        <onclick>Action(select)</onclick>
+                        <onclick condition="!String.IsEqual(Container(4900).ListItemAbsolute(0).Label,$LOCALIZE[207])">SetFocus(4002)</onclick>
+                    </include>
+
+                    <!-- Button 1 -->
+                    <include content="DialogInfo_Button_Expansion">
+                        <param name="id">4003</param>
+                        <param name="groupid">4103</param>
+                        <param name="sliceid">4203</param>
+                        <param name="label">$INFO[Container(4900).ListItemAbsolute(1).Label]</param>
+                        <param name="icon">$INFO[Container(4900).ListItemAbsolute(1).Icon]</param>
+                        <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(1).Label)</param>
+                        <onclick>SetFocus(4900,1,absolute)</onclick>
+                        <onclick>Action(select)</onclick>
+                        <onclick condition="!String.IsEqual(Container(4900).ListItemAbsolute(1).Label,$LOCALIZE[207])">SetFocus(4003)</onclick>
+                    </include>
+
+                    <!-- Button 2 -->
+                    <include content="DialogInfo_Button_Expansion">
+                        <param name="id">4004</param>
+                        <param name="groupid">4104</param>
+                        <param name="sliceid">4204</param>
+                        <param name="label">$INFO[Container(4900).ListItemAbsolute(2).Label]</param>
+                        <param name="icon">$INFO[Container(4900).ListItemAbsolute(2).Icon]</param>
+                        <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(2).Label)</param>
+                        <onclick>SetFocus(4900,2,absolute)</onclick>
+                        <onclick>Action(select)</onclick>
+                        <onclick condition="!String.IsEqual(Container(4900).ListItemAbsolute(2).Label,$LOCALIZE[207])">SetFocus(4004)</onclick>
+                    </include>
+                    
+                    <!-- Button 3 -->
+                    <include content="DialogInfo_Button_Expansion">
+                        <param name="id">4005</param>
+                        <param name="groupid">4105</param>
+                        <param name="sliceid">4205</param>
+                        <param name="label">$INFO[Container(4900).ListItemAbsolute(3).Label]</param>
+                        <param name="icon">$INFO[Container(4900).ListItemAbsolute(3).Icon]</param>
+                        <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(3).Label)</param>
+                        <onclick>SetFocus(4900,3,absolute)</onclick>
+                        <onclick>Action(select)</onclick>
+                        <onclick condition="!String.IsEqual(Container(4900).ListItemAbsolute(3).Label,$LOCALIZE[207])">SetFocus(4005)</onclick>
+                    </include>
+
+                    <!-- Options -->
+                    <include content="DialogInfo_Button_Expansion">
+                        <param name="id">4006</param>
+                        <param name="groupid">4106</param>
+                        <param name="sliceid">4206</param>
+                        <param name="label">$LOCALIZE[33063]</param>
+                        <param name="icon">special://skin/extras/icons/bars.png</param>
+                        <onclick>SetProperty(Dialog.1172.DBTYPE,$INFO[ListItem.DBType],Home)</onclick>
+                        <onclick>ActivateWindow(1172)</onclick>
+                    </include>
                 </control>
             </control>
 
@@ -1371,10 +1434,32 @@
                         <onclick>ActivateWindow(1129)</onclick>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer)) | !String.IsEmpty(ListItem.Writer)</visible>
                     </include>
+                    
+                    <!-- Creator -->
+                    <include content="Object_InfoCircle_Button">
+                        <param name="id">03</param>
+                        <param name="name">$VAR[Label_FromCreator]</param>
+                        <param name="role">$LOCALIZE[31065]</param>
+                        <param name="icon">special://skin/extras/icons/person.png</param>
+                        <param name="shot">$VAR[Image_CreatorIcon]</param>
+                        <param name="tmdb_type">person</param>
+                        <param name="tmdb_id">$VAR[Path_FromCreator]</param>
+                        <include content="DialogInfo_Details_Action_Wall">
+                            <param name="header">$$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.1.Name)]</param>
+                            <param name="poster">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.1.Thumb)]</param>
+                            <param name="path">plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=person&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.1.TMDb_ID)]</param>
+                            <param name="tmdb_id">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.1.TMDb_ID)]</param>
+                            <param name="tmdb_type">person</param>
+                            <param name="condition">String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.2.Name))</param>
+                        </include>
+                        <onclick condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.2.Name))">SetProperty(type,Creator,1129)</onclick>
+                        <onclick condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.2.Name))">ActivateWindow(1129)</onclick>
+                        <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator))</visible>
+                    </include>
 
                     <!-- Studio -->
                     <include content="Object_InfoCircle_Detail">
-                        <param name="id">03</param>
+                        <param name="id">04</param>
                         <param name="name">$VAR[Label_Studio]</param>
                         <param name="role">$LOCALIZE[572]</param>
                         <param name="icon">special://skin/extras/icons/director.png</param>
@@ -1385,7 +1470,7 @@
 
                     <!-- Episodes -->
                     <include content="Object_InfoCircle_Detail">
-                        <param name="id">04</param>
+                        <param name="id">05</param>
                         <param name="name">$INFO[ListItem.Property(watchedepisodes),$LOCALIZE[16102] , $LOCALIZE[1443] ]$INFO[ListItem.Property(totalepisodes)] $LOCALIZE[20453]</param>
                         <param name="role">$LOCALIZE[20360]</param>
                         <param name="icon">special://skin/extras/icons/photo-film.png</param>
@@ -1395,8 +1480,8 @@
 
                     <!-- Codecs -->
                     <include content="Object_InfoCircle_Detail">
-                        <param name="id">05</param>
-                        <param name="name">[UPPERCASE]$INFO[ListItem.VideoResolution,, • ]$INFO[ListItem.VideoCodec]$INFO[ListItem.VideoAspect, • ,:1]$VAR[Label_ListItem_AudioCodec, • ,]$VAR[Label_ListItem_AudioChannels, • ,][/UPPERCASE]</param>
+                        <param name="id">06</param>
+                        <param name="name">[UPPERCASE]$INFO[ListItem.VideoResolution,, • ]$INFO[ListItem.VideoCodec]$INFO[ListItem.VideoAspect, • ,]$VAR[Label_ListItem_AudioCodec, • ,]$VAR[Label_ListItem_AudioChannels, • ,][/UPPERCASE]</param>
                         <param name="role">$INFO[ListItem.VideoVersionName]</param>
                         <param name="icon">special://skin/extras/icons/photo-film.png</param>
                         <param name="fallback_role">$LOCALIZE[31207]</param>
@@ -1406,7 +1491,7 @@
 
                     <!-- Providers -->
                     <include content="Object_InfoCircle_Detail">
-                        <param name="id">06</param>
+                        <param name="id">07</param>
                         <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.2.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.3.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.4.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.5.Name), • ,]</param>
                         <param name="role">JustWatch</param>
                         <param name="icon">special://skin/extras/icons/photo-film.png</param>
@@ -1874,6 +1959,175 @@
                 </control>
             </control>
         </definition>
+    </include>
+    
+    <include name="DialogInfo_VideoButtons_Trailer">
+        <item>
+            <icon>special://skin/extras/icons/video.png</icon>
+            <label>$LOCALIZE[20410]</label>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <include content="Action_PlayTrailer_OnClick">
+                <param name="trailer">ListItem.Trailer</param>
+                <param name="trailer_fallback">Window(Home).Property(TMDbHelper.ListItem.Trailer)</param>
+                <param name="title">$VAR[Label_Title]</param>
+                <param name="items">$VAR[Path_VideoInfo_Trailers]</param>
+            </include>
+            <visible>!String.IsEmpty(ListItem.Trailer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer))</visible>
+        </item>
+        <item>
+            <icon>special://skin/extras/icons/youtube.png</icon>
+            <label>YouTube</label>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>Dialog.Close(musicinformation)</onclick>
+            <onclick>Dialog.Close(songinformation)</onclick>
+            <onclick>Dialog.Close(movieinformation)</onclick>
+            <onclick>AlarmClock(openyoutubepath,ActivateWindow(videos,$VAR[Path_Youtube_Query,plugin://plugin.video.youtube/kodion/search/query/?q=,],return),00:01,silent)</onclick>
+            <visible>String.IsEmpty(ListItem.Trailer) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer))</visible>
+        </item>
+    </include>
+
+    <include name="DialogInfo_VideoButtons_Trakt">
+        <item>
+            <label>Trakt</label>
+            <icon>special://skin/extras/icons/trakt.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>$VAR[Action_Trakt_Sync]</onclick>
+            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth)) + !String.IsEqual(ListItem.DBType,musicvideo) + ![String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEmpty(ListItem.Property(tvshow.tmdb_id)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tvshow.tmdb_id))]</visible>
+        </item>
+    </include>
+
+    <include name="DialogInfo_VideoButtons_Wikipedia">
+        <item>
+            <label>Wikipedia</label>
+            <icon>special://skin/extras/icons/globe.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>runscript(script.wikipedia,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
+        </item>
+    </include>
+
+    <include name="DialogInfo_VideoButtons_Plot">
+        <item>
+            <label>$LOCALIZE[207]</label>
+            <icon>special://skin/extras/icons/quote.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>SetFocus(61)</onclick>
+        </item>
+    </include>
+    <include name="DialogInfo_VideoButtons_Artwork">
+        <item>
+            <label>$LOCALIZE[39123]</label>
+            <icon>special://skin/extras/icons/image.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick condition="![String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/) + String.IsEmpty(ListItem.DBID)]">SendClick(10)</onclick>
+            <onclick condition="[String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/) + String.IsEmpty(ListItem.DBID)]">RunScript(plugin.video.themoviedb.helper,modify_artwork,tmdb_id=$VAR[Path_InfoParams_TMDbID],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
+        </item>
+    </include>
+    <include name="DialogInfo_VideoButtons_UserRating">
+        <item>
+            <label>$LOCALIZE[31061]$INFO[ListItem.UserRating, (,)]</label>
+            <icon>special://skin/extras/icons/star.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>SendClick(7)</onclick>
+        </item>
+    </include>
+    <include name="DialogInfo_VideoButtons_Versions">
+        <item>
+            <label>$LOCALIZE[40000]</label>
+            <icon>special://skin/extras/icons/bookmarks.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>SendClick(14)</onclick>
+        </item>
+    </include>
+    <include name="DialogInfo_VideoButtons_Extras">
+        <item>
+            <label>$LOCALIZE[40211]</label>
+            <icon>special://skin/extras/icons/director.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>SendClick(15)</onclick>
+        </item>
+    </include>
+    <include name="DialogInfo_VideoButtons_Refresh">
+        <item>
+            <label>$LOCALIZE[184]</label>
+            <icon>special://skin/extras/icons/arrows-rotate.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick condition="![String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/)]">SendClick(6)</onclick>
+            <onclick condition="[String.StartsWith(ListItem.FolderPath,plugin://plugin.video.themoviedb.helper/)]">RunScript(plugin.video.themoviedb.helper,refresh_details,tmdb_id=$VAR[Path_InfoParams_TMDbID],tmdb_type=$VAR[Path_ContextParams_TMDbType])</onclick>
+        </item>
+    </include>
+    <include name="DialogInfo_VideoButtons_FileInfo">
+        <item>
+            <label>$LOCALIZE[20331] [LOWERCASE]$LOCALIZE[33029][/LOWERCASE]</label>
+            <icon>special://skin/extras/icons/file.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>ActivateWindow(1133)</onclick>
+        </item>
+    </include>
+
+    <include name="DialogInfo_VideoButtons_Position">
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Trailer)">DialogInfo_VideoButtons_Trailer</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Trakt)">DialogInfo_VideoButtons_Trakt</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Wikipedia)">DialogInfo_VideoButtons_Wikipedia</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Plot)">DialogInfo_VideoButtons_Plot</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Artwork)">DialogInfo_VideoButtons_Artwork</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],UserRating)">DialogInfo_VideoButtons_UserRating</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Versions)">DialogInfo_VideoButtons_Versions</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Extras)">DialogInfo_VideoButtons_Extras</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Refresh)">DialogInfo_VideoButtons_Refresh</include>
+        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],FileInfo)">DialogInfo_VideoButtons_FileInfo</include>
+    </include>
+
+    <include name="DialogInfo_VideoButtons_Overflow">
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Trailer) + !Skin.String(DialogInfo.$PARAM[type].item02,Trailer) + !Skin.String(DialogInfo.$PARAM[type].item03,Trailer) + !Skin.String(DialogInfo.$PARAM[type].item04,Trailer)">DialogInfo_VideoButtons_Trailer</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Trakt) + !Skin.String(DialogInfo.$PARAM[type].item02,Trakt) + !Skin.String(DialogInfo.$PARAM[type].item03,Trakt) + !Skin.String(DialogInfo.$PARAM[type].item04,Trakt)">DialogInfo_VideoButtons_Trakt</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Wikipedia) + !Skin.String(DialogInfo.$PARAM[type].item02,Wikipedia) + !Skin.String(DialogInfo.$PARAM[type].item03,Wikipedia) + !Skin.String(DialogInfo.$PARAM[type].item04,Wikipedia)">DialogInfo_VideoButtons_Wikipedia</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Plot) + !Skin.String(DialogInfo.$PARAM[type].item02,Plot) + !Skin.String(DialogInfo.$PARAM[type].item03,Plot) + !Skin.String(DialogInfo.$PARAM[type].item04,Plot)">DialogInfo_VideoButtons_Plot</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Artwork) + !Skin.String(DialogInfo.$PARAM[type].item02,Artwork) + !Skin.String(DialogInfo.$PARAM[type].item03,Artwork) + !Skin.String(DialogInfo.$PARAM[type].item04,Artwork)">DialogInfo_VideoButtons_Artwork</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,UserRating) + !Skin.String(DialogInfo.$PARAM[type].item02,UserRating) + !Skin.String(DialogInfo.$PARAM[type].item03,UserRating) + !Skin.String(DialogInfo.$PARAM[type].item04,UserRating)">DialogInfo_VideoButtons_UserRating</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Versions) + !Skin.String(DialogInfo.$PARAM[type].item02,Versions) + !Skin.String(DialogInfo.$PARAM[type].item03,Versions) + !Skin.String(DialogInfo.$PARAM[type].item04,Versions)">DialogInfo_VideoButtons_Versions</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Extras) + !Skin.String(DialogInfo.$PARAM[type].item02,Extras) + !Skin.String(DialogInfo.$PARAM[type].item03,Extras) + !Skin.String(DialogInfo.$PARAM[type].item04,Extras)">DialogInfo_VideoButtons_Extras</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,FileInfo) + !Skin.String(DialogInfo.$PARAM[type].item02,FileInfo) + !Skin.String(DialogInfo.$PARAM[type].item03,FileInfo) + !Skin.String(DialogInfo.$PARAM[type].item04,FileInfo)">DialogInfo_VideoButtons_FileInfo</include>
+        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Refresh) + !Skin.String(DialogInfo.$PARAM[type].item02,Refresh) + !Skin.String(DialogInfo.$PARAM[type].item03,Refresh) + !Skin.String(DialogInfo.$PARAM[type].item04,Refresh)">DialogInfo_VideoButtons_Refresh</include>
+    </include>
+
+    <include name="DialogInfo_VideoButtons">
+        <include content="Object_Hidden_List">
+            <param name="id">4900</param>
+            <content>
+                <include content="DialogInfo_VideoButtons_Position" condition="String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">movies</param>
+                    <param name="item">item01</param>
+                </include>
+                <include content="DialogInfo_VideoButtons_Position" condition="String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">movies</param>
+                    <param name="item">item02</param>
+                </include>
+                <include content="DialogInfo_VideoButtons_Position" condition="String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">movies</param>
+                    <param name="item">item03</param>
+                </include>
+                <include content="DialogInfo_VideoButtons_Position" condition="String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">movies</param>
+                    <param name="item">item04</param>
+                </include>
+                <include content="DialogInfo_VideoButtons_Position" condition="!String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">others</param>
+                    <param name="item">item01</param>
+                </include>
+                <include content="DialogInfo_VideoButtons_Position" condition="!String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">others</param>
+                    <param name="item">item02</param>
+                </include>
+                <include content="DialogInfo_VideoButtons_Position" condition="!String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">others</param>
+                    <param name="item">item03</param>
+                </include>
+                <include content="DialogInfo_VideoButtons_Position" condition="!String.IsEqual(ListItem.DBType,movie)">
+                    <param name="type">others</param>
+                    <param name="item">item04</param>
+                </include>
+            </content>
+        </include>
     </include>
 
 </includes>
