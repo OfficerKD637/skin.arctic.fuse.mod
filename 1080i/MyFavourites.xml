@@ -8,23 +8,56 @@
     </include>
     <controls>
 
+        <include>View_Bumper</include>
         <include>Defs_Background_Loader</include>
-
-
-        <include content="View_Bumper">
-            <param name="groupid">50</param>
-        </include>
-
         <include>Background</include>
 
         <control type="group">
             <include>Animation_Group_Bumper</include>
             <include>Animation_View_WindowChange</include>
-            <include content="View_Row_Items">
-                <param name="include_combinedviews">Items_Null</param>
-                <param name="include_standardviews">View_Row_Items_FavouritesViews</param>
+            <include>Animation_View_SlideOver</include>
+            <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp</include>
+            <include content="View_MediaList_Include">
+                <param name="id">50</param>
+                <param name="viewtype_label">$LOCALIZE[31120]</param>
+                <param name="right">550</param>
+                <param name="right_downsize">670</param>
+                <param name="overlay">true</param>
+                <param name="scrollbar_id">65</param>
+                <control type="group">
+                    <height>520</height>
+                    <width>520</width>
+                    <bottom>0</bottom>
+                    <right>0</right>
+                    <control type="image">
+                        <include>Texture_Shadow_40</include>
+                        <texture colordiffuse="main_fg_12" border="20">common/box.png</texture>
+                    </control>
+                    <control type="image">
+                        <texture diffuse="diffuse/square_w600_h600.png" background="true">$VAR[Image_Poster]</texture>
+                        <fadetime>background_fadetime</fadetime>
+                        <aspectratio scalediffuse="false">keep</aspectratio>
+                    </control>
+                </control>
             </include>
-            <include>View_Row_Info</include>
+            <include content="View_Furniture_Scrollbar_V">
+                <param name="id">65</param>
+                <param name="height">600</param>
+                <param name="visible">true</param>
+            </include>
+            <control type="group">
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <include>Animation_Transition_InfoPanel_Hide</include>
+                <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">-79</param>
+                </include> 
+                <include content="Info_Panel">
+                    <param name="details">false</param>
+                    <top>view_top</top>
+                    <width>info_panel_w</width>
+                    <left>view_side</left>
+                </include>
+            </control>
         </control>
         <include>View_Furniture_Edges</include>
         <include>View_Dialog_Plot</include>
