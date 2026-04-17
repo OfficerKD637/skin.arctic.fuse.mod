@@ -361,6 +361,7 @@
                     </include>
                     <include content="Hub_Widgets_Only" condition="$PARAM[widgets_only]">
                         <param name="window_id">$PARAM[window_id]</param>
+                        <param name="categories">$PARAM[categories]</param>
                         <param name="property_window_id">$PARAM[property_window_id]</param>
                         <param name="widgets_include">skinvariables-$PARAM[categories]-widgets</param>
                     </include>
@@ -435,9 +436,7 @@
                 <param name="top">-361</param>
             </include>
             <include content="Hub_Widgets_Infopanel" condition="![Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
-                <include content="Info_Panel">
-                    <param name="container">Container.</param>
-                </include>
+                <include>skinvariables-$PARAM[categories]-standard-info</include>
             </include>
             <include>$PARAM[widgets_include]</include>
             <include content="Hub_Menu_Group">
@@ -478,11 +477,11 @@
         </control>
 
         <include content="Hub_Widgets_Infopanel">
-            <include content="Info_Panel">
-                <param name="container">Container.</param>
-                <param name="visible">!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</param>
-                <param name="details_include">Hub_Standard_SubmenuInfo_HideDetails</param>
-            </include>
+            <control type="group">
+                <visible>!Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301)</visible>
+                <include>skinvariables-$PARAM[categories]-standard-info</include>
+                <include>Hub_Standard_SubmenuInfo_HideDetails</include>
+            </control>
         </include>
     </include>
 
@@ -645,6 +644,7 @@
             <animation effect="fade" start="100" end="0" reversible="false" condition="$EXP[Exp_Hubs_Categories_SlideDown]">Conditional</animation>
             <animation effect="fade" start="0" end="100" delay="399" time="1" reversible="false" condition="!$EXP[Exp_Hubs_Categories_SlideDown]">Conditional</animation>
             <include content="Info_Title_Label">
+                <param name="override">true</param>
                 <param name="label">$INFO[Container(303).ListItem.Label]</param>
                 <param name="wrapmultiline">false</param>
                 <param name="visible">true</param>
@@ -866,6 +866,15 @@
                 <nested />
             </control>
         </definition>
+    </include>
+
+    <include name="Hub_Info_Panel_Standard">
+        <control type="group">
+            <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
+                <param name="container">Container($PARAM[id]).</param>
+            </include>
+        </control>
     </include>
 
     <include name="Hub_Widgets_Grouplist__Def_Layout_Expanded">

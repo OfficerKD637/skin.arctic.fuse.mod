@@ -470,46 +470,23 @@
         <param name="visible">true</param>
         <param name="flipx">false</param>
         <param name="icon_colordiffuse">panel_fg_70</param>
-        <param name="vertical">false</param>
-        <param name="grouplist">true</param>
-        <param name="center">false</param>
         <param name="iconoffset_condition">false</param>
+        <param name="itemgap_mod">-</param>
+        <param name="centertop">false</param>
         <definition>
-
             <control type="group" id="$PARAM[groupid]">
-                <include content="Object_CenterTop" condition="![$PARAM[vertical]] + $PARAM[center]">
+                <include content="Object_CenterTop" condition="$PARAM[centertop]">
                     <param name="centertop">50%</param>
                 </include>
-                <include content="Object_Height" condition="![$PARAM[vertical]] + $PARAM[center]">
+                <include content="Object_Height" condition="$PARAM[centertop]">
                     <param name="height">$PARAM[size]</param>
                 </include>
-                <include content="Object_CenterLeft" condition="[$PARAM[vertical]] + $PARAM[center]">
-                    <param name="centerleft">50%</param>
-                </include>
-                <include content="Object_Width" condition="[$PARAM[vertical]] + $PARAM[center]">
-                    <param name="width">$PARAM[size]</param>
-                </include>
                 <animation effect="fade" start="100" end="30" condition="!Control.IsEnabled($PARAM[id])" reversible="false">Conditional</animation>
-                <include content="Object_Left" condition="!$PARAM[vertical] + $PARAM[grouplist]">
-                    <param name="left">-$PARAM[itemgap]</param>
-                </include>
-                <include content="Object_Width" condition="!$PARAM[vertical] + $PARAM[grouplist]">
-                    <param name="width">0</param>
-                </include>
-                <include content="Object_Top" condition="$PARAM[vertical] + $PARAM[grouplist]">
-                    <param name="top">-$PARAM[itemgap]</param>
-                </include>
-                <include content="Object_Height" condition="$PARAM[vertical] + $PARAM[grouplist]">
-                    <param name="height">0</param>
-                </include>
+                <left>$PARAM[itemgap_mod]$PARAM[itemgap]</left>
+                <width>0</width>
                 <control type="group">
-                    <animation effect="slide" start="0" end="0,-10" condition="$PARAM[iconoffset_condition]">Conditional</animation>
-                    <include content="Object_Left" condition="!$PARAM[vertical] + $PARAM[grouplist]">
-                        <param name="left">-$PARAM[size]</param>
-                    </include>
-                    <include content="Object_Top" condition="$PARAM[vertical] + $PARAM[grouplist]">
-                        <param name="top">-$PARAM[size]</param>
-                    </include>
+                    <animation effect="slide" start="0" end="0,-8" condition="$PARAM[iconoffset_condition]">Conditional</animation>
+                    <left>-$PARAM[size]</left>
                     <visible>$PARAM[visible]</visible>
                     <control type="image">
                         <bordersize>$PARAM[bordersize]</bordersize>
@@ -565,14 +542,12 @@
                     </include>       
 
                     <!-- Year / Premiered -->
-                    <include content="Info_Line_Item">
-                        <param name="label">$INFO[VideoPlayer.Year]</param>
-                        <param name="visible">!String.IsEmpty(VideoPlayer.Year) + String.IsEmpty(VideoPlayer.Premiered)</param>
-                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
-                    </include>
-                    <include content="Info_Line_Item">
-                        <param name="label">$INFO[VideoPlayer.Premiered]</param>
-                        <param name="visible">!String.IsEmpty(VideoPlayer.Premiered)</param>
+                    <include content="Info_Line_Items">
+                        <param name="items_02">true</param>
+                        <param name="label_01">$INFO[VideoPlayer.Premiered]</param>
+                        <param name="label_02">$INFO[VideoPlayer.Year]</param>
+                        <param name="visible_01">!String.IsEmpty(VideoPlayer.Premiered)</param>
+                        <param name="visible_02">!String.IsEmpty(VideoPlayer.Year)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
                     
@@ -590,9 +565,9 @@
                     </include>
                     
                      <!-- Episode Number -->
-                    <include content="Info_Line_Item">
+                    <include content="Info_Line_Item" condition="Skin.HasSetting(Infoline.SETags)">
                         <param name="label">$VAR[Label_OSD_Infoline_Plot_Episode_Number]</param>
-                        <param name="visible">Skin.HasSetting(Infoline.SETags) + !String.IsEmpty(VideoPlayer.Episode)</param>
+                        <param name="visible">!String.IsEmpty(VideoPlayer.Episode)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
 
@@ -606,7 +581,7 @@
                     <!-- Genres -->
                     <include content="Info_Line_Item">
                         <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
-                        <param name="visible">String.IsEmpty(VideoPlayer.Property(Genre.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name))</param>
+                        <param name="visible">String.IsEmpty(VideoPlayer.Property(Genre.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies)]</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
                     
@@ -640,6 +615,9 @@
 
                 <include content="Info_Title">
                     <param name="colordiffuse">panel_fg</param>
+                    <param name="container" />
+                    <param name="listitem">VideoPlayer</param>
+                    <param name="override">true</param>
                     <param name="label">$VAR[Label_OSD_Title]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.CropImage))</param>
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.Player.CropImage)]</param>
@@ -656,7 +634,7 @@
                 </control>
                 
                 <control type="label">
-                    <label>$VAR[Label_Player_EpisodeTitle]</label>
+                    <label>$VAR[Label_Plot_Episode_Type_TMDBHelperPlayer,,: ]$VAR[Label_OSD_Plot_Episode_Number,,. ]$INFO[VideoPlayer.Title]</label>
                     <height>90</height>
                     <font>font_main_plot</font>
                     <colordiffuse>panel_fg_70</colordiffuse>
@@ -681,13 +659,13 @@
                 </control>
                 
                 <include content="Info_Panel_Textbox" condition="$PARAM[plot_visible]">
-                    <param name="plotlabel">$VAR[Label_Player_Plot]</param>
                     <param name="plotwidth">1080</param>
                     <param name="plotautoheight">false</param>
                     <param name="plotheight">info_plot_h</param>
                     <param name="visible">!String.IsEmpty(VideoPlayer.Plot)</param>
                     <param name="colordiffuse">panel_fg</param>
                     <param name="is_player">true</param>
+                    <param name="listitem">VideoPlayer</param>
                 </include>
                 
                 <include content="Info_Ratings" condition="!Skin.HasSetting(Info.DisableAllRatings) + ![Skin.HasSetting(InfoLine.EnableEndsAtTime) + !$PARAM[plot_visible]]">

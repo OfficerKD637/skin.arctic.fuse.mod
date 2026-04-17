@@ -1,0 +1,127 @@
+<contents>
+    <template>generator/data/parts/basic_include.xmltemplate</template>
+    <value name="comments">Info Panels</value>
+    <value name="includes_name">skinvariables-{item}-standard-info</value>
+    <value name="includes_part">
+        <template>generator/data/parts/widgets_standard_info_group.xmltemplate</template>
+        <value name="all_standard_info_panel">
+            <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+            <items menu="{item}">
+                <item>
+                    <template>generator/data/parts/basic_template.xmltemplate</template>
+                    <value name="comments">Adaptive Info Panel for Category {item_menu} {item_x} {item_label}</value>
+                    <value name="grouplist_item_x">{item_x}</value>
+                    <value name="includes_part">
+                        <template>generator/data/parts/widgets_standard_info.xmltemplate</template>
+                        <datafile>generator/data/setup/widgets_row.xml</datafile>
+                        <datafile>generator/data/setup/widgets_adaptive.xml</datafile>
+                        <condition>{item_use_as_widget}==True</condition>
+                        <enumitem name="enum_x">widget_{item_menu}_{item_x}</enumitem>
+                    </value>
+                    <condition>{item_disabled}!=True</condition>
+                    <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
+                    <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
+                </item>
+                <item>
+                    <condition>{item_disabled}!=True</condition>
+                    <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
+                    <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
+                    <items menu="{item_menu}" item="{item_x}" mode="submenu">
+                        <item>
+                            <template>generator/data/parts/basic_template.xmltemplate</template>
+                            <value name="comments">Submenu Info Panel for Category {item_menu} {parent_item_x}.{item_x} {parent_item_label} {item_label}</value>
+                            <value name="grouplist_item_x">{parent_item_x}</value>
+                            <value name="includes_part">
+                                <items menu="{parent_item_menu}" item="{parent_item_x}.{item_x}" mode="widgets">
+                                    <item>
+                                        <template>generator/data/parts/widgets_standard_info.xmltemplate</template>
+                                        <datafile>generator/data/setup/widgets_row.xml</datafile>
+                                        <condition>{item_path}!=</condition>
+                                        <condition>{item_disabled}!=True</condition>
+                                        <enumitem name="enum_x">widget_{parent_parent_item_menu}_{parent_parent_parent_item_x}</enumitem>
+                                    </item>
+                                </items>
+                            </value>
+                        </item>
+                    </items>
+                </item>
+                <item>
+                    <condition>{item_disabled}!=True</condition>
+                    <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
+                    <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
+                    <template>generator/data/parts/basic_template.xmltemplate</template>
+                    <value name="comments">Standard Info Panel for Category {item_menu} {item_x} {item_label}</value>
+                    <value name="grouplist_item_x">{item_x}</value>
+                    <value name="includes_part">
+                        <items menu="{item_menu}" item="{item_x}" mode="widgets">
+                            <item>
+                                <template>generator/data/parts/widgets_standard_info.xmltemplate</template>
+                                <datafile>generator/data/setup/widgets_row.xml</datafile>
+                                <condition>{item_path}!=</condition>
+                                <condition>{item_disabled}!=True</condition>
+                                <enumitem name="enum_x">widget_{parent_item_menu}_{parent_parent_item_x}</enumitem>
+                            </item>
+                        </items>
+                    </value>
+                </item>
+            </items>
+        </value>
+        <value name="all_sidemenu_info_panel">
+            <items menu="sidemenu">
+                <item>
+                    <value name="comments">Sidemenu Info Panel for {item} {item_x} {item_label}</value>
+                    <condition>{item}==homemenu</condition>
+                    <template>generator/data/parts/basic_template.xmltemplate</template>
+                    <value name="grouplist_item_x">$MATH[{item_x} + 100]</value>
+                    <value name="includes_part">
+                        <items mode="widgets" item="{item_x}" menu="{item_menu}">
+                            <item>
+                                <template>generator/data/parts/widgets_standard_info.xmltemplate</template>
+                                <datafile>generator/data/setup/widgets_row.xml</datafile>
+                                <condition>{item_path}!=</condition>
+                                <condition>{item_disabled}!=True</condition>
+                                <enumitem name="enum_x">widget_{parent_parent_item_menu}_{parent_item_x}</enumitem>
+                            </item>
+                        </items>
+                    </value>
+                </item>
+            </items>
+        </value>
+        
+        <value name="all_hubsmenu_info_panel">
+            <condition>Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+            <value name="comments">Classic Info Panel for {item}</value>
+            <template>generator/data/parts/basic_template.xmltemplate</template>
+            <value name="grouplist_item_x">100</value>
+            <value name="includes_part">
+                <items menu="{item}-widgetsonly">
+                    <item>
+                        <template>generator/data/parts/widgets_standard_info.xmltemplate</template>
+                        <datafile>generator/data/setup/widgets_row.xml</datafile>
+                        <condition>{item_path}!=</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <enumitem name="enum_x">widget_{item_menu}_widgetsonly</enumitem>
+                    </item>
+                </items>
+            </value>
+        </value>
+
+        <value name="all_constant_info_panel">
+            <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+            <value name="comments">Global Info Panel for {item}</value>
+            <template>generator/data/parts/basic_template.xmltemplate</template>
+            <value name="grouplist_item_x">200</value>
+            <value name="includes_part">
+                <items menu="{item}-globalwidgets">
+                    <item>
+                        <template>generator/data/parts/widgets_standard_info.xmltemplate</template>
+                        <datafile>generator/data/setup/widgets_row.xml</datafile>
+                        <condition>{item_path}!=</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <enumitem name="enum_x">widget_{item_menu}_globalwidgets</enumitem>
+                    </item>
+                </items>
+            </value>
+        </value>
+    </value>
+</contents>
