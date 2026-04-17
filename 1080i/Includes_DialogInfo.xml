@@ -558,7 +558,7 @@
                 <include content="DialogInfo_VideoInfo_CastSpotlight">
                     <param name="icon">$INFO[Container(7000).ListItem.Icon]</param>
                     <param name="plot">$VAR[Label_VideoInfo_ProductionBio]</param>
-                    <param name="label">$INFO[Container(7000).ListItem.Label2]</param>
+                    <param name="label">$INFO[Container(7000).ListItem.Property(personlabel)]</param>
                     <param name="label2">$VAR[Label_VideoInfo_ProductionAge,   ,]</param>
                 </include>
                 <include content="Animation_Slide_In">
@@ -2825,6 +2825,7 @@
                                         <property name="query">$INFO[Window.Property(Director_Query)]</property>
                                         <property name="widgetunderlinelabel">$LOCALIZE[20339] $INFO[Window.Property(Director_Label_Widget),(,)]</property>
                                         <property name="widgetpath">$VAR[Path_VideoInfo_CrewSwitcher]$INFO[Window.Property(Director_Query),&amp;tmdb_type=person&amp;filter_key=job&amp;filter_value=Director&amp;sort_by=premiered,]$VAR[Path_Param_Widget]$VAR[Path_Param_Local_Standard_Exclude]</property>
+                                        <property name="personlabel">$INFO[Window.Property(Director_Label_Widget)]</property> 
                                         <onclick>SetProperty(type,Director,1129)</onclick>
                                         <onclick>ActivateWindow(1129)</onclick>
                                         <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director)) + String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))] | !String.IsEmpty(Window.Property(Director_Label))</visible>
@@ -2837,6 +2838,7 @@
                                         <property name="query">$INFO[Window.Property(Writer_Query)]</property>
                                         <property name="widgetunderlinelabel">$LOCALIZE[20417] $INFO[Window.Property(Writer_Label_Widget),(,)]</property>
                                         <property name="widgetpath">$VAR[Path_VideoInfo_CrewSwitcher]$INFO[Window.Property(Writer_Query),&amp;tmdb_type=person&amp;filter_key=department&amp;filter_value=Writing&amp;sort_by=premiered,]$VAR[Path_Param_Widget]$VAR[Path_Param_Local_Standard_Exclude]</property>
+                                        <property name="personlabel">$INFO[Window.Property(Writer_Label_Widget)]</property>
                                         <onclick>SetProperty(type,Writer,1129)</onclick>
                                         <onclick>ActivateWindow(1129)</onclick>
                                         <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer)) + String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))] | !String.IsEmpty(Window.Property(Writer_Label))</visible>
@@ -2847,8 +2849,9 @@
                                         <icon>$INFO[Window.Property(Creator_Image)]</icon>
                                         <property name="icon">special://skin/extras/icons/person.png</property>
                                         <property name="query">$INFO[Window.Property(Creator_Query)]</property>
-                                        <property name="widgetlabel">$LOCALIZE[31065] $INFO[Window.Property(Creator_Label),(,)]</property>
+                                        <property name="widgetlabel">$LOCALIZE[31065] $INFO[Window.Property(Creator_Label_Widget),(,)]</property>
                                         <property name="widgetpath">$INFO[Window.Property(Creator_Query),plugin://plugin.video.themoviedb.helper/?info=crew_in_tvshows&amp;tmdb_type=person&amp;filter_key=department&amp;filter_value=Creator&amp;sort_by=premiered,]$VAR[Path_Param_Widget]$VAR[Path_Param_Local_Standard_Exclude]</property>
+                                        <property name="personlabel">$INFO[Window.Property(Creator_Label_Widget)]</property>
                                         <include content="DialogInfo_Details_Action_Wall">
                                             <param name="header">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.1.Name)]</param>
                                             <param name="poster">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator.1.Thumb)]</param>
@@ -2965,7 +2968,7 @@
 
                         <include content="Object_InfoCircle">
                             <param name="role">$LOCALIZE[31065]</param>
-                            <param name="name">$VAR[Label_FromCreator]</param>
+                            <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Creator)]</param>
                             <param name="icon_background">true</param>                    
                             <param name="colordiffuse">white</param>
                             <include content="Object_InfoCircle_Image">
