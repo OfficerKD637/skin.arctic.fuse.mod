@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Google TV Home Screen Layout - Arctic Fuse Double Mod
+    Activate via: Skin.SetString(Hub.Home.ReplaceWindow,1190)
+
+    Screen layout (1920x1080):
+      y=0-80    Top navigation bar (overlays hero)
+      y=0-620   Hero spotlight area (fanart bg + info overlay)
+      y=620-930 "Top picks for you" row
+      y=930-1080 "Your apps" row
+-->
+<includes>
+
+    <include name="GTV_Home_Layout">
+        <definition>
+
+            <!-- ──────────────────────────────────────────────────
+                 BACKGROUNDS
+                 ────────────────────────────────────────────────── -->
+
+            <!-- Solid near-black fallback (shows when no fanart loads) -->
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <width>1920</width>
+                <height>1080</height>
+                <texture>special://skin/media/white.png</texture>
+                <colordiffuse>ff0d0d0d</colordiffuse>
+            </control>
+
+            <!-- Hero fanart, full-width, dimmed slightly -->
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <width>1920</width>
+                <height>640</height>
+                <texture>$INFO[Container(19010).ListItem.Fanart]</texture>
+                <aspectratio>scale</aspectratio>
+                <fadetime>800</fadetime>
+            </control>
+
+            <!-- Top vignette - keeps nav bar readable over any fanart -->
+            <control type="image">
+                <left>0</left>
+                <top>0</top>
+                <width>1920</width>
+                <height>120</height>
+                <texture>special://skin/media/white.png</texture>
+                <colordiffuse>b3000000</colordiffuse>
+            </control>
+
+            <!-- Stepped gradient: hero fades to dark at the bottom -->
+            <control type="image">
+                <left>0</left>
+                <top>280</top>
+                <width>1920</width>
+                <height>100</height>
+                <texture>special://skin/media/white.png</texture>
+                <colordiffuse>26000000</colordiffuse>
+            </control>
+            <control type="image">
+                <left>0</left>
+                <top>380</top>
+                <width>1920</width>
+                <height>80</height>
+                <texture>special://skin/media/white.png</texture>
+                <colordiffuse>59000000</colordiffuse>
+            </control>
+            <control type="image">
+                <left>0</left>
+                <top>460</top>
+                <width>1920</width>
+                <height>80</height>
+                <texture>special://skin/media/white.png</texture>
+                <colordiffuse>99000000</colordiffuse>
+            </control>
+            <control type="image">
+                <left>0</left>
+                <top>540</top>
+                <width>1920</width>
+                <height>80</height>
+                <texture>special://skin/media/white.png</texture>
+                <colordiffuse>cc000000</colordiffuse>
+            </control>
+
+            <!-- Solid dark background for content rows area -->
+            <control type="image">
+                <left>0</left>
+                <top>620</top>
+                <width>1920</width>
+                <height>460</height>
+                <texture>special://skin/media/white.png</texture>
+                <colordiffuse>ff0d0d0d</colordiffuse>
+            </control>
+
+            <!-- ──────────────────────────────────────────────────
+                 HERO SPOTLIGHT PANEL (Container 19010)
+                 Loads TMDbHelper popular movies. Items are
+                 transparent; only drives bg image + info overlays.
+                 Left/right cycles featured title; auto-scrolls.
+                 ────────────────────────────────────────────────── -->
+            <control type="panel" id="19010">
+                <left>0</left>
+                <top>80</top>
+                <width>1920</width>
+                <height>540</height>
+                <orient>horizontal</orient>
+                <scrolltime>600</scrolltime>
+                <preloaditems>3</preloaditems>
+                <autoscroll>6000</autoscroll>
+                <onup>19001</onup>
+                <ondown>19020</ondown>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,19010,Home)</onfocus>
+                <itemlayout width="1920" height="540">
+                    <!-- Transparent hit-area keeps navigation working -->
+                    <control type="image">
+                        <left>0</left>
+                        <top>0</top>
+                        <width>1920</width>
+                        <height>540</height>
+                        <texture>special://skin/media/white.png</texture>
+                        <colordiffuse>00000000</colordiffuse>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="1920" height="540">
+                    <control type="image">
+                        <left>0</left>
+                        <top>0</top>
+                        <width>1920</width>
+                        <height>540</height>
+                        <texture>special://skin/media/white.png</texture>
+                        <colordiffuse>00000000</colordiffuse>
+                    </control>
+                </focusedlayout>
+                <content>plugin://plugin.video.themoviedb.helper/?info=discover_movie&amp;type=movie&amp;sort_by=popularity.desc&amp;limit=20</content>
+            </control>
+
+            <!-- ──────────────────────────────────────────────────
+                 HERO INFO OVERLAY
+                 Shows the focused hero item's metadata.
+                 Positioned at the lower-left of the hero area.
+                 ────────────────────────────────────────────────── -->
+            <control type="group">
+                <left>60</left>
+                <top>388</top>
+                <width>1040</width>
+                <height>224</height>
+
+                <!-- Genre tag line (e.g. "Action · Adventure") -->
+                <control type="label">
+                    <left>0</left>
+                    <top>0</top>
+                    <width>700</width>
+                    <height>36</height>
+                    <label>$INFO[Container(19010).ListItem.Genre]</label>
+                    <font>font_mini_bold</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <wrap>false</wrap>
+                </control>
+
+                <!-- Featured title -->
+                <control type="label">
+                    <left>0</left>
+                    <top>36</top>
+                    <width>1040</width>
+                    <height>84</height>
+                    <label>$INFO[Container(19010).ListItem.Label]</label>
+                    <font>font_huge_bold</font>
+                    <textcolor>main_fg_100</textcolor>
+                    <shadowcolor>shadow_full</shadowcolor>
+                    <wrap>false</wrap>
+                </control>
+
+                <!-- "Trending | Plot description" subtitle -->
+                <control type="label">
+                    <left>0</left>
+                    <top>126</top>
+                    <width>1040</width>
+                    <height>50</height>
+                    <label>$LOCALIZE[31128] [COLOR=main_fg_50]|[/COLOR] $INFO[Container(19010).ListItem.Plot]</label>
+                    <font>font_mini</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <scrolling>true</scrolling>
+                    <wrap>false</wrap>
+                </control>
+
+                <!-- Year · Rating secondary line -->
+                <control type="label">
+                    <left>0</left>
+                    <top>180</top>
+                    <width>600</width>
+                    <height>36</height>
+                    <label>$INFO[Container(19010).ListItem.Year] [COLOR=main_fg_30]·[/COLOR] $INFO[Container(19010).ListItem.Rating,$LOCALIZE[563] ][COLOR=main_fg_30]·[/COLOR] $INFO[Container(19010).ListItem.Duration,,h $INFO[Container(19010).ListItem.DurationAndSeconds, mins]]</label>
+                    <font>font_tiny</font>
+                    <textcolor>main_fg_50</textcolor>
+                    <wrap>false</wrap>
+                </control>
+            </control>
+
+            <!-- ──────────────────────────────────────────────────
+                 "TOP PICKS FOR YOU" ROW
+                 Landscape thumbnails from the user's movie library.
+                 ────────────────────────────────────────────────── -->
+            <control type="label">
+                <left>60</left>
+                <top>628</top>
+                <width>600</width>
+                <height>40</height>
+                <label>Top picks for you</label>
+                <font>font_main_bold</font>
+                <textcolor>main_fg_100</textcolor>
+            </control>
+
+            <control type="panel" id="19020">
+                <left>40</left>
+                <top>672</top>
+                <width>1880</width>
+                <height>255</height>
+                <orient>horizontal</orient>
+                <scrolltime>300</scrolltime>
+                <preloaditems>4</preloaditems>
+                <onup>19010</onup>
+                <ondown>19030</ondown>
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,19020,Home)</onfocus>
+                <!-- Non-focused item: dimmed thumbnail + label -->
+                <itemlayout width="450" height="255">
+                    <control type="image">
+                        <left>20</left>
+                        <top>0</top>
+                        <width>410</width>
+                        <height>230</height>
+                        <texture>$INFO[ListItem.Thumb]</texture>
+                        <aspectratio>scale</aspectratio>
+                        <colordiffuse>b3ffffff</colordiffuse>
+                    </control>
+                    <control type="label">
+                        <left>20</left>
+                        <top>234</top>
+                        <width>410</width>
+                        <height>20</height>
+                        <label>$INFO[ListItem.Label]</label>
+                        <font>font_tiny</font>
+                        <textcolor>main_fg_50</textcolor>
+                        <wrap>false</wrap>
+                    </control>
+                </itemlayout>
+                <!-- Focused item: full-bright, scale up, white border -->
+                <focusedlayout width="450" height="255">
+                    <control type="image">
+                        <left>13</left>
+                        <top>-7</top>
+                        <width>424</width>
+                        <height>244</height>
+                        <texture>$INFO[ListItem.Thumb]</texture>
+                        <aspectratio>scale</aspectratio>
+                    </control>
+                    <control type="image">
+                        <left>10</left>
+                        <top>-10</top>
+                        <width>430</width>
+                        <height>250</height>
+                        <texture>special://skin/media/white.png</texture>
+                        <colordiffuse>00000000</colordiffuse>
+                        <bordertexture>special://skin/media/white.png</bordertexture>
+                        <bordersize>3</bordersize>
+                        <colorborderdiffuse>ffffffff</colorborderdiffuse>
+                    </control>
+                    <!-- Streaming service badge bottom-left -->
+                    <control type="image">
+                        <left>20</left>
+                        <top>170</top>
+                        <width>100</width>
+                        <height>50</height>
+                        <texture>$INFO[ListItem.Property(ChannelLogo)]</texture>
+                        <aspectratio>keep</aspectratio>
+                    </control>
+                    <control type="label">
+                        <left>20</left>
+                        <top>234</top>
+                        <width>410</width>
+                        <height>20</height>
+                        <label>$INFO[ListItem.Label]</label>
+                        <font>font_tiny</font>
+                        <textcolor>main_fg_100</textcolor>
+                        <wrap>false</wrap>
+                    </control>
+                </focusedlayout>
+                <content>videodb://movies/titles/?sort_method=dateadded&amp;sort_order=descending</content>
+            </control>
+
+            <!-- ──────────────────────────────────────────────────
+                 "YOUR APPS" ROW
+                 Video add-on sources shown as circular icons.
+                 ────────────────────────────────────────────────── -->
+            <control type="label">
+                <left>60</left>
+                <top>938</top>
+                <width>400</width>
+                <height>40</height>
+                <label>Your apps</label>
+                <font>font_main_bold</font>
+                <textcolor>main_fg_100</textcolor>
+            </control>
+
+            <control type="panel" id="19030">
+                <left>40</left>
+                <top>982</top>
+                <width>1880</width>
+                <height>136</height>
+                <orient>horizontal</orient>
+                <scrolltime>300</scrolltime>
+                <preloaditems>6</preloaditems>
+                <onup>19020</onup>
+                <ondown>19001</ondown>
+                <itemlayout width="160" height="136">
+                    <control type="image">
+                        <left>20</left>
+                        <top>0</top>
+                        <width>120</width>
+                        <height>120</height>
+                        <texture>$INFO[ListItem.Icon]</texture>
+                        <aspectratio>scale</aspectratio>
+                        <colordiffuse>b3ffffff</colordiffuse>
+                    </control>
+                    <control type="label">
+                        <left>0</left>
+                        <top>122</top>
+                        <width>160</width>
+                        <height>18</height>
+                        <label>$INFO[ListItem.Label]</label>
+                        <font>font_tiny</font>
+                        <textcolor>main_fg_50</textcolor>
+                        <align>center</align>
+                        <wrap>false</wrap>
+                    </control>
+                </itemlayout>
+                <focusedlayout width="160" height="136">
+                    <control type="image">
+                        <left>13</left>
+                        <top>-6</top>
+                        <width>134</width>
+                        <height>134</height>
+                        <texture>$INFO[ListItem.Icon]</texture>
+                        <aspectratio>scale</aspectratio>
+                    </control>
+                    <control type="label">
+                        <left>0</left>
+                        <top>122</top>
+                        <width>160</width>
+                        <height>18</height>
+                        <label>$INFO[ListItem.Label]</label>
+                        <font>font_tiny</font>
+                        <textcolor>main_fg_100</textcolor>
+                        <align>center</align>
+                        <wrap>false</wrap>
+                    </control>
+                </focusedlayout>
+                <content>addons://sources/video/</content>
+            </control>
+
+            <!-- ──────────────────────────────────────────────────
+                 TOP NAVIGATION BAR
+                 Drawn last so it renders on top of all layers.
+                 Tabs navigate to hub windows; search/settings
+                 buttons on the right. "Google TV" brand label.
+                 ────────────────────────────────────────────────── -->
+            <control type="group">
+                <left>0</left>
+                <top>0</top>
+                <width>1920</width>
+                <height>80</height>
+
+                <!-- Semi-transparent dark tint behind nav bar -->
+                <control type="image">
+                    <left>0</left>
+                    <top>0</top>
+                    <width>1920</width>
+                    <height>80</height>
+                    <texture>special://skin/media/white.png</texture>
+                    <colordiffuse>40000000</colordiffuse>
+                </control>
+
+                <!-- Profile / avatar button -->
+                <control type="button" id="19000">
+                    <left>32</left>
+                    <top>16</top>
+                    <width>48</width>
+                    <height>48</height>
+                    <texturefocus>special://skin/extras/icons/circle-user.png</texturefocus>
+                    <texturenofocus>special://skin/extras/icons/circle-user.png</texturenofocus>
+                    <colordiffuse>b3ffffff</colordiffuse>
+                    <colorfocuseddiffuse>ffffffff</colorfocuseddiffuse>
+                    <onclick>ActivateWindow(profiles)</onclick>
+                    <onright>19001</onright>
+                    <ondown>19010</ondown>
+                </control>
+
+                <!-- ── Navigation tabs ── -->
+
+                <!-- "For You" tab (active on this window; white underline) -->
+                <control type="button" id="19001">
+                    <left>104</left>
+                    <top>14</top>
+                    <width>180</width>
+                    <height>52</height>
+                    <label>For You</label>
+                    <font>font_main_bold</font>
+                    <textcolor>main_fg_100</textcolor>
+                    <focusedcolor>main_fg_100</focusedcolor>
+                    <texturefocus />
+                    <texturenofocus />
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <onclick>ActivateWindow(Home)</onclick>
+                    <onleft>19000</onleft>
+                    <onright>19002</onright>
+                    <ondown>19010</ondown>
+                </control>
+                <!-- Active-tab underline for "For You" -->
+                <control type="image">
+                    <left>124</left>
+                    <top>71</top>
+                    <width>140</width>
+                    <height>3</height>
+                    <texture>special://skin/media/white.png</texture>
+                    <colordiffuse>ffffffff</colordiffuse>
+                </control>
+
+                <control type="button" id="19002">
+                    <left>300</left>
+                    <top>14</top>
+                    <width>160</width>
+                    <height>52</height>
+                    <label>Movies</label>
+                    <font>font_main</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <focusedcolor>main_fg_100</focusedcolor>
+                    <texturefocus />
+                    <texturenofocus />
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <onclick>ActivateWindow(1101)</onclick>
+                    <onleft>19001</onleft>
+                    <onright>19003</onright>
+                    <ondown>19010</ondown>
+                </control>
+
+                <control type="button" id="19003">
+                    <left>470</left>
+                    <top>14</top>
+                    <width>140</width>
+                    <height>52</height>
+                    <label>Shows</label>
+                    <font>font_main</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <focusedcolor>main_fg_100</focusedcolor>
+                    <texturefocus />
+                    <texturenofocus />
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <onclick>ActivateWindow(1102)</onclick>
+                    <onleft>19002</onleft>
+                    <onright>19004</onright>
+                    <ondown>19010</ondown>
+                </control>
+
+                <control type="button" id="19004">
+                    <left>620</left>
+                    <top>14</top>
+                    <width>120</width>
+                    <height>52</height>
+                    <label>Apps</label>
+                    <font>font_main</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <focusedcolor>main_fg_100</focusedcolor>
+                    <texturefocus />
+                    <texturenofocus />
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <onclick>ActivateWindow(programs)</onclick>
+                    <onleft>19003</onleft>
+                    <onright>19005</onright>
+                    <ondown>19010</ondown>
+                </control>
+
+                <control type="button" id="19005">
+                    <left>750</left>
+                    <top>14</top>
+                    <width>140</width>
+                    <height>52</height>
+                    <label>Library</label>
+                    <font>font_main</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <focusedcolor>main_fg_100</focusedcolor>
+                    <texturefocus />
+                    <texturenofocus />
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <onclick>ActivateWindow(videos)</onclick>
+                    <onleft>19004</onleft>
+                    <onright>19006</onright>
+                    <ondown>19010</ondown>
+                </control>
+
+                <!-- ── Right-side icons ── -->
+
+                <!-- Search -->
+                <control type="button" id="19006">
+                    <left>1596</left>
+                    <top>18</top>
+                    <width>44</width>
+                    <height>44</height>
+                    <texturefocus>special://skin/extras/icons/search.png</texturefocus>
+                    <texturenofocus>special://skin/extras/icons/search.png</texturenofocus>
+                    <colordiffuse>b3ffffff</colordiffuse>
+                    <colorfocuseddiffuse>ffffffff</colorfocuseddiffuse>
+                    <onclick>ActivateWindow(1105)</onclick>
+                    <onleft>19005</onleft>
+                    <onright>19007</onright>
+                    <ondown>19010</ondown>
+                </control>
+
+                <!-- Settings -->
+                <control type="button" id="19007">
+                    <left>1652</left>
+                    <top>18</top>
+                    <width>44</width>
+                    <height>44</height>
+                    <texturefocus>special://skin/extras/icons/gear.png</texturefocus>
+                    <texturenofocus>special://skin/extras/icons/gear.png</texturenofocus>
+                    <colordiffuse>b3ffffff</colordiffuse>
+                    <colorfocuseddiffuse>ffffffff</colorfocuseddiffuse>
+                    <onclick>ActivateWindow(settings)</onclick>
+                    <onleft>19006</onleft>
+                    <onright>19005</onright>
+                    <ondown>19010</ondown>
+                </control>
+
+                <!-- Skin name label (right side) -->
+                <control type="label">
+                    <left>1712</left>
+                    <top>26</top>
+                    <width>176</width>
+                    <height>32</height>
+                    <label>Google TV</label>
+                    <font>font_main_bold</font>
+                    <textcolor>main_fg_70</textcolor>
+                    <align>right</align>
+                </control>
+
+            </control>
+            <!-- End Top Navigation Bar -->
+
+        </definition>
+    </include>
+
+</includes>

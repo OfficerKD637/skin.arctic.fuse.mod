@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Google TV Home Screen - Arctic Fuse Double Mod
+    Window ID: 1190
+
+    This window can be opened directly (ActivateWindow(1190)) or set
+    as the home replacement via:
+      Skin.SetString(Hub.Home.ReplaceWindow,1190)
+
+    Default focus lands on the "For You" nav tab (id 19001).
+    Navigation flow:
+      Nav bar (19001-19007) → DOWN → Hero panel (19010)
+      Hero panel            → DOWN → Top picks (19020)
+      Top picks             → DOWN → Apps row (19030)
+      Apps row              → DOWN → Nav bar (19001, wraps)
+-->
+<window type="window" id="1190">
+
+    <defaultcontrol always="false">19001</defaultcontrol>
+
+    <animation type="WindowOpen">
+        <effect type="fade" start="0" end="100" time="400" />
+    </animation>
+    <animation type="WindowClose">
+        <effect type="fade" start="100" end="0" time="200" />
+    </animation>
+
+    <!-- Redirect to Home if this window is set as the replacement -->
+    <onload condition="Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),1190)">ReplaceWindow(Home)</onload>
+
+    <!-- Point TMDbHelper at the hero spotlight container -->
+    <onload>SetProperty(TMDbHelper.WidgetContainer,19010,Home)</onload>
+
+    <controls>
+        <include>GTV_Home_Layout</include>
+    </controls>
+
+</window>
