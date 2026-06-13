@@ -18,7 +18,7 @@
             <top>view_pad</top>
             <left>view_pad</left>
             <include>Dimension_Info</include>
-            <include content="Object_Control" condition="![Skin.String(InfoDialogWall.Layout,Flix) + !String.IsEqual(ListItem.Property(tmdb_type),person)]">
+            <include content="Object_Control" condition="![Skin.String(InfoDialogWall.Layout,DisableArt) + !String.IsEqual(ListItem.Property(tmdb_type),person)]">
                 <param name="control">group</param>
                 <include content="Object_Bottom" condition="![Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]]">
                     <param name="bottom">0</param>
@@ -38,13 +38,80 @@
                 <width>infodialog_bigposter_w</width>
                 <height>infodialog_bigposter_h</height>
 
-                <include content="Object_BigPoster" condition="[Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
+                <include content="Object_Control" condition="Skin.String(InfoDialogWall.Layout,Flix) + [Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
+                    <param name="control">group</param>
+                    <right>-40</right>
+                    <control type="group">
+                        <right>0</right>
+                        <height>view_poster_itemlayout_h</height>
+                        <width>view_board_itemlayout_w</width>
+                        <bottom>40</bottom>
+                        <include content="Layout_Poster">
+                            <param name="icon">$VAR[Image_DialogInfo_Landscape]</param>
+                            <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
+                            <param name="downsize_condition">false</param>
+                            <param name="indicator">true</param>
+                            <param name="item_w">view_board_item_w</param>
+                            <param name="item_h">view_poster_item_h</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <right>view_board_itemlayout_w</right>
+                        <height>view_poster_itemlayout_h</height>
+                        <width>view_poster_itemlayout_w</width>
+                        <bottom>40</bottom>
+                        <include content="Layout_Poster" condition="!$EXP[Exp_AspectRatio_Reduced]">
+                            <param name="icon">$VAR[Image_DialogInfo_Poster]</param>
+                            <param name="indicator">false</param>
+                            <param name="item_w">view_poster_item_w</param>
+                            <param name="item_h">view_poster_item_h</param>
+                        </include>
+                    </control>
+                </include>
+                
+                <include content="Object_Control" condition="Skin.String(InfoDialogWall.Layout,Flix) + ![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
+                    <param name="control">group</param>
+                    <right>-40</right>
+                    <control type="group">
+                        <right>0</right>
+                        <bottom>40</bottom>
+                        <height>view_poster_itemlayout_h</height>
+                        <width>view_board_itemlayout_w</width>
+                        <include content="Layout_Poster" condition="!$EXP[Exp_AspectRatio_Reduced]">
+                            <param name="icon">$VAR[Image_DialogInfo_Landscape]</param>
+                            <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
+                            <param name="downsize_condition">false</param>
+                            <param name="indicator">true</param>
+                            <param name="item_w">view_board_item_w</param>
+                            <param name="item_h">view_poster_item_h</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <include content="Object_Right" condition="!$EXP[Exp_AspectRatio_Reduced]">
+                            <param name="right">view_board_itemlayout_w</param>
+                        </include>
+                        <right>0</right>
+                        <bottom>40</bottom>
+                        <height>view_poster_itemlayout_h</height>
+                        <width>view_poster_itemlayout_h</width>
+                        <include content="Layout_Poster">
+                            <param name="diffuse">diffuse/square_w294_h294.png</param>
+                            <param name="downsize_condition">false</param>
+                            <param name="icon">$INFO[ListItem.Icon]</param>
+                            <param name="indicator">false</param>
+                            <param name="item_w">view_poster_item_h</param>
+                            <param name="item_h">view_poster_item_h</param>
+                        </include>
+                    </control>
+                </include>
+
+                <include content="Object_BigPoster" condition="!Skin.String(InfoDialogWall.Layout,Flix) + [Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="icon">$PARAM[icon]</param>
                     <param name="diffuse">diffuse/poster_w460_h680.png</param>
                     <param name="diffuse_special">diffuse/poster_w560_h820.png</param>
                     <param name="include_diffuse_special">Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
                 </include>
-                <include content="Object_Control" condition="![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
+                <include content="Object_Control" condition="!Skin.String(InfoDialogWall.Layout,Flix) + ![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="control">image</param>
                     <include content="Object_Height" condition="Skin.String(InfoDialogWall.Layout,Flip) | ![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
                         <param name="height">560</param>
@@ -64,7 +131,7 @@
                     <bordersize>20</bordersize>
                     <animation effect="rotate" condition="true" start="0" end="-360" loop="true" time="30000" center="auto" reversible="false">Conditional</animation>
                 </include>
-                <include content="Object_BigPoster" condition="![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
+                <include content="Object_BigPoster" condition="!Skin.String(InfoDialogWall.Layout,Flix) + ![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="icon">$PARAM[icon]</param>
                     <param name="diffuse">diffuse/square_w460_h460.png</param>
                     <param name="diffuse_special">diffuse/square_w560_h560.png</param>

@@ -41,12 +41,19 @@
             <include>Animation_Transition_InfoPanel_Hide</include>
             <top>80</top>
             <left>-120</left>
-            <include content="Widget_Busy">
+            <include content="Widget_Busy" condition="!Skin.String(InfoDialog.NavigationStyle,Wall)">
                 <param name="label">$LOCALIZE[19033]</param>
-                <param name="visible">!Skin.String(InfoDialog.NavigationStyle,Wall) + String.IsEmpty(Skin.String(InfoDialog.Layout)) + !String.IsEqual(ListItem.Property(tmdb_type),person)</param>
+                <param name="visible">String.IsEmpty(Skin.String(InfoDialog.Layout)) + !String.IsEqual(ListItem.Property(tmdb_type),person)</param>
                 <param name="include">List_Button_Row_VideoInfo</param>
                 <left>200</left>
                 <top>450</top>
+            </include>
+            <include content="Widget_Busy" condition="Skin.String(InfoDialog.NavigationStyle,Wall)">
+                <param name="label">$LOCALIZE[19033]</param>
+                <param name="visible">Skin.String(InfoDialogWall.Layout,Flix) + !String.IsEqual(ListItem.Property(tmdb_type),person)</param>
+                <param name="include">List_Button_Row_VideoInfo</param>
+                <left>200</left>
+                <top>410</top>
             </include>
             <control type="group">
                 <visible>[[!Skin.String(InfoDialog.NavigationStyle,Wall) + [Skin.String(InfoDialog.Layout,Blur) | Skin.String(InfoDialog.Layout,Poster)]] | [Skin.String(InfoDialog.NavigationStyle,Wall) + !Skin.String(InfoDialogWall.Layout,Flix)] | String.IsEqual(ListItem.Property(tmdb_type),person)]</visible>
