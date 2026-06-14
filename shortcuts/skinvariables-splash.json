@@ -1,0 +1,100 @@
+{
+    "infolabels": {
+        "ReplaceHomeWindow": "Skin.String(Hub.Home.ReplaceWindow)"
+    },
+    "localize": {
+        "LocalizeLoading": "31023"
+    },
+    "values": {
+        "WidgetsOnly": [
+            {
+                "rules": [
+                    "{ReplaceHomeWindow}==",
+                    "Skin.HasSetting(Hub.Home.DisableSubmenu)"
+                ],
+                "value": "True"
+            },
+            {
+                "rules": [
+                    "{ReplaceHomeWindow}!=",
+                    "Skin.HasSetting(Hub.{ReplaceHomeWindow}.DisableSubmenu)"
+                ],
+                "value": "True"
+            },
+            ""
+        ],
+        "301Updating": [
+            {
+                "rules": [
+                    "Container(301).IsUpdating",
+                    "[Integer.IsEqual(Container(301).NumItems,0) | [Integer.IsEqual(Container(301).NumItems,1) + String.IsEqual(Container(301).ListItemAbsolute(0).Label,$LOCALIZE[31046])]]"
+                ],
+                "value": "True"
+            },
+            ""
+        ],
+        "601Updating": [
+            {
+                "rules": [
+                    "Container(601).IsUpdating",
+                    "[Integer.IsEqual(Container(601).NumItems,0) | [Integer.IsEqual(Container(601).NumItems,1) + String.IsEqual(Container(601).ListItemAbsolute(0).Label,$LOCALIZE[31046])]]"
+                ],
+                "value": "True"
+            },
+            ""
+        ],
+        "100601Updating": [
+            {
+                "rules": [
+                    "Container(100601).IsUpdating",
+                    "[Integer.IsEqual(Container(100601).NumItems,0) | [Integer.IsEqual(Container(100601).NumItems,1) + String.IsEqual(Container(100601).ListItemAbsolute(0).Label,$LOCALIZE[31046])]]"
+                ],
+                "value": "True"
+            },
+            ""
+        ],
+        "200601Updating": [
+            {
+                "rules": [
+                    "Container(200601).IsUpdating",
+                    "[Integer.IsEqual(Container(200601).NumItems,0) | [Integer.IsEqual(Container(200601).NumItems,1) + String.IsEqual(Container(200601).ListItemAbsolute(0).Label,$LOCALIZE[31046])]]"
+                ],
+                "value": "True"
+            },
+            ""
+        ]
+    },
+    "actions": [
+        {
+            "rules": [
+                "Skin.HasSetting(Startup.WaitForLoad)",
+                "{WidgetsOnly}!=",
+                "{100601Updating}!=",
+                "System.HasAlarm(SplashTimeOut)"
+            ],
+            "value": [
+                "SetProperty(SplashIsVisible,True,1198)",
+                "SetProperty(InitStatus,{LocalizeLoading},1198)",
+                "sleep=0.5",
+                "route=run_executebuiltin=special://skin/shortcuts/skinvariables-splash.json&use_rules=True"
+            ]
+        },
+        {
+            "rules": [
+                "Skin.HasSetting(Startup.WaitForLoad)",
+                "{WidgetsOnly}==",
+                "{301Updating}!=||{601Updating}!=||{100601Updating}!=||{200601Updating}!=",
+                "System.HasAlarm(SplashTimeOut)"
+            ],
+            "value": [
+                "SetProperty(SplashIsVisible,True,1198)",
+                "SetProperty(InitStatus,{LocalizeLoading},1198)",
+                "sleep=0.5",
+                "route=run_executebuiltin=special://skin/shortcuts/skinvariables-splash.json&use_rules=True"
+            ]
+        },
+        "sleep=0.5",
+        "ClearProperty(SplashIsVisible,1198)",
+        "CancelAlarm(SplashTimeOut,silent)"
+    ]
+}
