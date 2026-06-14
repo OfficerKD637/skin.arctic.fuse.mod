@@ -3,67 +3,74 @@
     <defaultcontrol always="true">5000</defaultcontrol>
     <onload condition="String.IsEmpty(Window(1132).TMDbHelper.WidgetContainer)">SetProperty(TMDbHelper.WidgetContainer,5001,1132)</onload>
     <controls>
-            
+
         <include content="NextAired_Window">
             <include content="Hub_Widgets_Infopanel">                
-                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5001)</param>
                 <include content="Info_Panel">
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5001)</param>
                     <param name="container">Container(5001).</param>
                     <param name="ratings">False</param>
                 </include>
             </include>
             <include content="Hub_Widgets_Infopanel">                
-                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5002)</param>
                 <include content="Info_Panel">
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5002)</param>
                     <param name="container">Container(5002).</param>
                     <param name="ratings">False</param>
                 </include>
             </include>
             <include content="Hub_Widgets_Infopanel">                
-                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5003)</param>
                 <include content="Info_Panel">
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5003)</param>
                     <param name="container">Container(5003).</param>
                     <param name="ratings">False</param>
                 </include>
             </include>
             <include content="Hub_Widgets_Infopanel">                
-                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5004)</param>
                 <include content="Info_Panel">
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5004)</param>
                     <param name="container">Container(5004).</param>
                     <param name="ratings">False</param>
                 </include>
             </include>
-            
+
             <control type="group">
                 <include content="NextAired_GroupList">
-                    <include content="NextAired_Widget">
+                    <param name="visible">true</param>
+                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableVideo)">
                         <param name="id">01</param>
                         <param name="label">$LOCALIZE[1037]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
                         <content target="videos" sortby="lastused" sortorder="descending">addons://sources/video/</content>
                     </include>
-                    <include content="NextAired_Widget">
+                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableMusic)">
                         <param name="id">02</param>
                         <param name="label">$LOCALIZE[1038]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
                         <content target="music" sortby="lastused" sortorder="descending">addons://sources/audio/</content>
                     </include>
-                    <include content="NextAired_Widget">
+                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableProgram)">
                         <param name="id">03</param>
                         <param name="label">$LOCALIZE[1043]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
                         <content target="programs" sortby="lastused" sortorder="descending">addons://sources/executable/</content>
                     </include>
-                    <include content="NextAired_Widget">
+                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisablePicture)">
                         <param name="id">04</param>
                         <param name="label">$LOCALIZE[1]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
-                        <content target="pictures">sources://pictures/</content>
                         <content target="pictures" sortby="lastused" sortorder="descending">addons://sources/image/</content>
+                    </include>
+                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableGame)">
+                        <param name="id">05</param>
+                        <param name="label">$LOCALIZE[10821]</param>
+                        <param name="visible">true</param>
+                        <param name="include">List_Square_Row</param>
+                        <content target="programs" sortby="lastused" sortorder="descending">addons://sources/game/</content>
                     </include>
                 </include>
             </control>

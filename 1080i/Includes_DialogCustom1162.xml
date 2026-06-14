@@ -8,27 +8,73 @@
         <value condition="ListItem.IsFolder">ActivateWindow($INFO[Window.Property(Target)],$INFO[ListItem.FolderPath],return)</value>
         <value>PlayMedia($INFO[ListItem.FolderPath])</value>
     </variable>
-    
+
+    <include name="DialogCustom1162_Animation">
+        <param name="condition">![Container(450).IsUpdating | Integer.IsEqual(Container(450).NumItems,0)]</param>
+        <param name="vertical">!Skin.String(Home.SideMenuCollapse,Topbar)</param>
+        <definition>
+            <include content="Animation_Slide_In" condition="$PARAM[vertical]">
+                <param name="type">WindowOpen</param>
+                <param name="delay">400</param>
+                <param name="posx">-48</param>
+                <param name="condition">$PARAM[condition]</param>
+            </include>
+            <include content="Animation_Slide_In" condition="$PARAM[vertical]">
+                <param name="type">Conditional</param>
+                <param name="delay">400</param>
+                <param name="posx">-48</param>
+                <param name="condition">$PARAM[condition]</param>
+            </include>
+            <include content="Animation_Slide_Out" condition="$PARAM[vertical]">
+                <param name="type">Conditional</param>
+                <param name="posx">-48</param>
+                <param name="condition">![$PARAM[condition]]</param>
+            </include>
+            <include content="Animation_Slide_Out" condition="$PARAM[vertical]">
+                <param name="type">WindowClose</param>
+                <param name="posx">-48</param>
+            </include>
+
+            <include content="Animation_Slide_In" condition="![$PARAM[vertical]]">
+                <param name="type">WindowOpen</param>
+                <param name="delay">400</param>
+                <param name="posy">-48</param>
+                <param name="condition">$PARAM[condition]</param>
+            </include>
+            <include content="Animation_Slide_In" condition="![$PARAM[vertical]]">
+                <param name="type">Conditional</param>
+                <param name="delay">400</param>
+                <param name="posy">-48</param>
+                <param name="condition">$PARAM[condition]</param>
+            </include>
+            <include content="Animation_Slide_Out" condition="![$PARAM[vertical]]">
+                <param name="type">Conditional</param>
+                <param name="posy">-48</param>
+                <param name="condition">![$PARAM[condition]]</param>
+            </include>
+            <include content="Animation_Slide_Out" condition="![$PARAM[vertical]]">
+                <param name="type">WindowClose</param>
+                <param name="posy">-48</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="DialogCustom1162_Plotbox">
         <param name="landscape_icon">$VAR[Image_Landscape_C450]</param>
         <param name="textbox_label">$VAR[Label_Plot_C450]</param>
         <definition>
-            <include content="Dialog_Outline_InnerBox">
-                <width>800</width>
+            <control type="group">
+                <include>Size_Group_Body</include>
+                <left>20</left>
                 <right>20</right>
-                <top>-20</top>
-                <bottom>-20</bottom>
                 <control type="grouplist">
                     <orientation>vertical</orientation>
-                    <itemgap>40</itemgap>
-                    <control type="group">
-                        <height>0</height>
-                    </control>
+                    <itemgap>20</itemgap>
                     <control type="group">
                         <left>40</left>
                         <right>40</right>
-                        <height>405</height>
-                        <include content="Dialog_Outline_InnerBox">
+                        <height>480</height>
+                        <include content="Dialog_Outline_Box">
                             <control type="image">
                                 <aspectratio scalediffuse="false">scale</aspectratio>
                                 <texture background="true" diffuse="diffuse/landscape_w720_h405.png">$PARAM[landscape_icon]</texture>
@@ -38,117 +84,128 @@
                     <control type="textbox">
                         <left>40</left>
                         <right>40</right>
-                        <height max="320">auto</height>
+                        <height max="160">auto</height>
                         <font>font_main_plot</font>
                         <textcolor>dialog_fg_70</textcolor>
                         <label>$PARAM[textbox_label]</label>
                     </control>
                 </control>
-            </include>
+            </control>
         </definition>
     </include>
 
     <include name="DialogCustom1162_Main">
-        <param name="dialog_size">Dimension_DialogHugeMenu</param>
-        <param name="lines_right">476</param>
+        <param name="dialog_size">Dimension_DialogLargeMenu</param>
+        <param name="lines_right">860</param>
         <param name="include_artwork">true</param>
         <param name="include_plotbox">false</param>
+        <param name="flip">Skin.HasSetting(ContextMenu.FlipMenu)</param>
         <definition>
             <include content="Dialog_Dim_Overlay">
                 <param name="visible">!$EXP[Exp_InfoDialogs] + ![Container(450).IsUpdating | Integer.IsEqual(Container(450).NumItems,0)]</param>
             </include>
             <control type="group">
-                <include>$PARAM[dialog_size]</include>
-                <include>Animation_Right_Delay</include>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
-                <include content="Animation_Slide_In">
-                    <param name="type">Conditional</param>
-                    <param name="delay">400</param>
-                    <param name="posx">320</param>
-                    <param name="condition">![Container(450).IsUpdating | Integer.IsEqual(Container(450).NumItems,0)]</param>
-                </include>
-                <include content="Animation_Slide_Out">
-                    <param name="type">Conditional</param>
-                    <param name="posx">320</param>
-                    <param name="condition">[Container(450).IsUpdating | Integer.IsEqual(Container(450).NumItems,0)]</param>
-                </include>
-                <include content="Dialog_Foreground_Side">
+                <include>DialogCustom1162_Animation</include>
+                <include content="Dialog_Backing">
                     <param name="dialog_size">$PARAM[dialog_size]</param>
-                    <param name="slide_animation">False</param>
-                    <param name="topline">true</param>
-                    <param name="subline">false</param>
-                    <param name="lines_right">$PARAM[lines_right]</param>
+                </include>
+                
+                <!-- Content -->
+                <control type="group">
+                    <include>Size_Dialog_Pad</include>
 
-                    <!-- Header -->
-                    <include content="Dialog_Head">
-                        <param name="label">$INFO[Window.Property(Header)]</param>
-                    </include>
-                    <include>Dialog_Head_CloseButton</include>
-
-                    <!-- Content -->
+                    <!-- Right -->
                     <control type="group">
-                        <include>Dimension_Dialog_Body</include>
+                        <include content="Object_Left" condition="!$PARAM[flip]">
+                           <param name="left">$PARAM[lines_right]</param>
+                        </include>
+                        <include content="Object_Right" condition="$PARAM[flip]">
+                           <param name="right">$PARAM[lines_right]</param>
+                        </include>
+                        <include condition="!$PARAM[flip] + $PARAM[include_artwork]">Dialog_Panel</include>
+                        <include content="DialogPlot_Artwork" condition="$PARAM[include_artwork] + ![$PARAM[include_plotbox]]">
+                            <param name="poster_icon">$VAR[Image_Poster_C450]</param>
+                            <param name="hidden_icon">true</param>
+                        </include>
+                        <include condition="$PARAM[include_artwork] + $PARAM[include_plotbox]">DialogCustom1162_Plotbox</include>
+                    </control>
+
+                    <!-- Left -->
+                    <control type="group">
+                        <include content="Object_Left" condition="!$PARAM[flip]">
+                           <param name="left">0</param>
+                        </include>
+                        <include content="Object_Right" condition="$PARAM[flip]">
+                           <param name="right">0</param>
+                        </include>
+                        <include content="Object_Width" condition="$PARAM[include_artwork]">
+                            <param name="width">$PARAM[lines_right]</param>
+                        </include>
+                        <include condition="$PARAM[flip] + $PARAM[include_artwork]">Dialog_Panel</include>
                         <control type="group">
-                            <include>Dimension_Dialog_Body_Group</include>
-                            <include content="DialogInfo_PlotBox_Artwork" condition="$PARAM[include_artwork] + ![$PARAM[include_plotbox]]">
-                                <param name="poster_icon">$VAR[Image_Poster_C450]</param>
-                                <param name="square_icon">$INFO[Container(450).ListItem.Art(icon)]</param>
-                                <param name="landscape_icon">$VAR[Image_Landscape_C450]</param>
-                                <param name="clearlogo_icon">$VAR[Image_Clearlogo_C450]</param>
+                            <include>Size_Group_Head</include>
+                            <include content="Dialog_Head">
+                                <param name="label">$INFO[Window.Property(Header)]</param>
                             </include>
-                            <include condition="$PARAM[include_artwork] + $PARAM[include_plotbox]">DialogCustom1162_Plotbox</include>
+                            <include>Dialog_Head_CloseButton</include>
+                        </control>
+                        
+                        <control type="group">
+                            <include>Size_Group_Body</include>
+
                             <control type="group">
-                                <right>$PARAM[lines_right]</right>
-                                <include content="List_DialogSelect" condition="![$PARAM[include_artwork]]">
-                                    <param name="id">450</param>
-                                    <param name="textcolor">dialog_fg</param>
-                                    <param name="itemlayout_include">Layout_MenuList_Custom</param>
-                                    <pagecontrol>61</pagecontrol>
+                                <control type="group">
+                                    <top>-120</top>
+                                    <height>40</height>
+                                    <include content="Dialog_ItemPage">
+                                        <param name="id">450</param>
+                                    </include>
+                                </control>
+                                <control type="group">
+                                    <include>Size_Grouplist_Pad</include>
+                                    <include content="List_DialogSelect" condition="![$PARAM[include_artwork]]">
+                                        <param name="id">450</param>
+                                        <param name="textcolor">dialog_fg</param>
+                                        <param name="itemlayout_include">Layout_MenuList_Custom</param>
+                                        <pagecontrol>61</pagecontrol>
 
-                                    <onright>61</onright>
-                                    <onleft>Close</onleft>
-                                    <onclick>Close</onclick>
-                                    <onclick condition="ListItem.IsFolder">ActivateWindow($INFO[Window.Property(Target)],$INFO[ListItem.FolderPath],return)</onclick>
-                                    <onclick condition="!ListItem.IsFolder">PlayMedia($INFO[ListItem.FolderPath])</onclick>
-                                    <content>$INFO[Window.Property(Path)]</content>
+                                        <onright>61</onright>
+                                        <onleft>Close</onleft>
+                                        <onclick>Close</onclick>
+                                        <onclick condition="ListItem.IsFolder">ActivateWindow($INFO[Window.Property(Target)],$INFO[ListItem.FolderPath],return)</onclick>
+                                        <onclick condition="!ListItem.IsFolder">PlayMedia($INFO[ListItem.FolderPath])</onclick>
+                                        <content>$INFO[Window.Property(Path)]</content>
+                                    </include>
 
-                                </include>
+                                    <include content="List_DialogSelect" condition="$PARAM[include_artwork]">
+                                        <param name="id">450</param>
+                                        <param name="detailed">True</param>
+                                        <param name="item_height">105</param>
+                                        <param name="textcolor">dialog_fg</param>
+                                        <param name="itemlayout_include">Layout_MediaList</param>
+                                        <param name="misc">10</param>
+                                        <right>-20</right>
+                                        <pagecontrol>61</pagecontrol>
 
-                                <include content="List_DialogSelect" condition="$PARAM[include_artwork]">
-                                    <param name="id">450</param>
-                                    <param name="detailed">True</param>
-                                    <param name="item_height">100</param>
-                                    <param name="textcolor">dialog_fg</param>
-                                    <param name="itemlayout_include">Layout_MediaList</param>
-                                    <param name="misc">10</param>
-                                    <right>-20</right>
-                                    <pagecontrol>61</pagecontrol>
-
-                                    <onright>61</onright>
-                                    <onleft>Close</onleft>
-                                    <onclick>Close</onclick>
-                                    <onclick condition="ListItem.IsFolder">ActivateWindow($INFO[Window.Property(Target)],$INFO[ListItem.FolderPath],return)</onclick>
-                                    <onclick condition="!ListItem.IsFolder">PlayMedia($INFO[ListItem.FolderPath])</onclick>
-                                    <content>$INFO[Window.Property(Path)]</content>
-
-                                </include>
-                            </control>
-                            <control type="group">
-                                <bottom>60</bottom>
-                                <height>40</height>
-                                <right>$PARAM[lines_right]</right>
-                                <include content="Dialog_ItemPage">
-                                    <param name="id">450</param>
+                                        <onright>61</onright>
+                                        <onleft>Close</onleft>
+                                        <onclick>Close</onclick>
+                                        <onclick condition="ListItem.IsFolder">ActivateWindow($INFO[Window.Property(Target)],$INFO[ListItem.FolderPath],return)</onclick>
+                                        <onclick condition="!ListItem.IsFolder">PlayMedia($INFO[ListItem.FolderPath])</onclick>
+                                        <content>$INFO[Window.Property(Path)]</content>
+                                    </include>
+                                </control>
+                                <include content="Dialog_Scrollbar">
+                                    <param name="id">61</param>
+                                    <centerright>0</centerright>
+                                    <onleft>450</onleft>
+                                    <top>20</top>
                                 </include>
                             </control>
                         </control>
-                        <include content="Dialog_Scrollbar">
-                            <param name="id">61</param>
-                            <onleft>450</onleft>
-                            <right>0</right>
-                        </include>
                     </control>
-                </include>
+                </control>
             </control>
         </definition>
     </include>

@@ -96,7 +96,7 @@
     
     <expression name="Exp_HomeMenu_IsTopBar">[Skin.String(Home.SideMenuCollapse,Topbar)]</expression>
 
-    <expression name="Exp_Navigation_OnWrap">[$EXP[Exp_HomeMenu_IsTopBar] | $EXP[Exp_Navigation_OnMenu] | !$EXP[Exp_HomeMenu_IsExpanded]]</expression>
+    <expression name="Exp_Navigation_OnWrap">[$EXP[Exp_HomeMenu_IsTopBar] | $EXP[Exp_Navigation_OnMenu] | !$EXP[Exp_HomeMenu_IsExpanded] | Skin.HasSetting(SideMenu.FocusWidgetsFirst) | $EXP[Exp_InfoDialogs]]</expression>
     <expression name="Exp_Navigation_OnBump">[Skin.String(Home.LeftMenu.Action,Bump) + !$EXP[Exp_Navigation_OnWrap]]</expression>
 
     <expression name="Exp_Navigation_OnMenu">[[!$EXP[Exp_HomeMenu_IsTopBar] + Skin.String(Navigation.OnBack,Menu)] | Window.IsVisible(1185) | Window.IsVisible(1105) | $EXP[Exp_InfoDialogs]]</expression>
@@ -143,6 +143,7 @@
     <!-- Standard Views -->
     <!-- ============== -->
 
+    <expression name="Exp_View_IsMedia">[Window.IsVisible(videos) | Window.IsVisible(music) | Window.IsVisible(programs) | Window.IsVisible(pictures) | Window.IsVisible(games) | $EXP[Exp_PVRWindows]]</expression>
     <expression name="Exp_InfoDialogs_WidgetsGroup_HasFocus">[ControlGroup(5000).HasFocus()]</expression>
     <expression name="Exp_IsAlphabetStrip">[!Skin.HasSetting(Navigation.DisableAlphabetJump) + !Window.IsVisible(MyPlaylist.xml) + [String.IsEqual(Container.SortMethod,$LOCALIZE[20376]) | String.IsEqual(Container.SortMethod,$LOCALIZE[556]) | String.IsEqual(Container.SortMethod,$LOCALIZE[551]) | String.IsEqual(Container.SortMethod,$LOCALIZE[21899]) | String.IsEqual(Container.SortMethod,$LOCALIZE[557]) | String.IsEqual(Container.SortMethod,$LOCALIZE[558]) | String.IsEqual(Container.SortMethod,$LOCALIZE[578])]]</expression>
     <expression name="Exp_PVRGuide_NoFocus">[Control.HasFocus(28) | Control.HasFocus(11) | $EXP[Exp_HomeMenu_HasFocus]]</expression>
@@ -206,6 +207,8 @@
 
     <expression name="Exp_InfoDialogs">[Window.IsVisible(DialogVideoInfo.xml) | Window.IsVisible(DialogMusicInfo.xml)]</expression>
 
+    <expression name="Exp_AllowExpandedContextMenu">[!$EXP[Exp_InfoDialogs] + !Window.IsVisible(1160)]</expression>
+
     <expression name="Exp_SettingsDialogs">[Window.IsVisible(settings) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(SettingsCategory.xml) | Window.IsVisible(SkinSettings.xml) | Window.IsVisible(1115) | Window.IsVisible(SettingsProfile.xml) | Window.IsVisible(SettingsSystemInfo.xml) | Window.IsVisible(EventLog.xml) | Window.IsVisible(1180)]</expression>
     
     <expression name="Exp_SettingsDialogs_Next">[Window.Next(settings) | Window.Next(filemanager) | Window.Next(addonbrowser) | Window.Next(SettingsCategory.xml) | Window.Next(SkinSettings.xml) | Window.Next(1115) | Window.Next(SettingsProfile.xml) | Window.Next(SettingsSystemInfo.xml) | Window.Next(EventLog.xml) | Window.Next(1197)]</expression>
@@ -235,7 +238,7 @@
     <!-- =============== -->
     <!-- ListItem Status -->
     <!-- =============== -->
-    <expression name="Exp_IsFolder">[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListITem.DBType,artist)]</expression>
+    <expression name="Exp_IsFolder">[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,artist)]</expression>
 
     <expression name="Exp_IsFolder_C301">[String.IsEqual(Container(301).ListItem.DBType,tvshow) | String.IsEqual(Container(301).ListItem.DBType,season) | String.IsEqual(Container(301).ListItem.DBType,set) | String.IsEqual(Container(301).ListItem.DBType,artist)]</expression>
 
@@ -273,6 +276,8 @@
     <!-- ==== -->
     <!-- Misc -->
     <!-- ==== -->
+    <expression name="Exp_FileBrowser_Conditional_Buttons">[True]</expression>
+    
     <expression name="Exp_AutoCompletion_IsEnabled">[System.HasAddon(plugin.program.autocompletion) + System.AddonIsEnabled(plugin.program.autocompletion) + !Skin.HasSetting(Keyboard.DisableAutoCompletion)]</expression>
 
     <expression name="Exp_Video_IsNotPlaying">[![Player.HasVideo | [Player.HasAudio + !Skin.HasSetting(Background.Visualisation.Disabled) + Visualisation.Enabled]] | Player.Paused | Skin.HasSetting(Background.DisableVideo) | Window.IsVisible(1123)]</expression>

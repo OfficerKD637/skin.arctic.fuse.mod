@@ -172,28 +172,6 @@
         </definition>
     </include>
     
-    <include name="Settings_Side_Button">
-        <param name="textcolor">dialog_fg</param>
-        <definition>
-            <include content="Dialog_Side_Button">
-                <param name="vertical">$PARAM[vertical]</param>
-                <param name="itemgap">$PARAM[itemgap]</param>
-                <param name="id">$PARAM[id]</param>
-                <param name="label">$PARAM[label]</param>
-                <param name="icon">$PARAM[icon]</param>
-                <param name="textcolor">$PARAM[textcolor]</param>
-                <param name="visible">$PARAM[visible]</param>
-                <param name="baseid">$PARAM[baseid]</param>
-                <param name="groupid">$PARAM[groupid]</param>
-                <param name="control">$PARAM[control]</param>
-                <param name="radioround">$PARAM[radioround]</param>
-                <param name="radiocross">$PARAM[radiocross]</param>
-                <param name="radiocheck">$PARAM[radiocheck]</param>
-                <nested />
-            </include>
-        </definition>
-    </include>
-    
     <include name="Settings_Button_">
         <description>None</description>
     </include>
@@ -369,17 +347,33 @@
     <include name="Settings_ButtonImage">
         <param name="control">button</param>
         <param name="dialog">false</param>
+        <param name="left">30</param>
+        <param name="flipped">false</param>
         <definition>
-            <include content="Settings_Button">
+            <include content="Settings_Button" condition="$PARAM[flipped]">
                 <param name="id">$PARAM[id]</param>
                 <param name="control">$PARAM[control]</param>
                 <param name="dialog">$PARAM[dialog]</param>
                 <nested />
             </include>
-            <include content="Settings_Image">
+            <include content="Settings_Image" condition="$PARAM[flipped]">
                 <param name="id">$PARAM[groupid]</param>
                 <param name="buttonid">$PARAM[id]</param>
                 <param name="icon">$PARAM[icon]</param>
+            </include>
+            <include content="Button_Dialog" condition="![$PARAM[flipped]]">
+                <param name="id">$PARAM[id]</param>
+                <param name="groupid">$PARAM[groupid]</param>
+                <param name="control">$PARAM[control]</param>
+                <param name="dialog">$PARAM[dialog]</param>
+                <param name="icon">$PARAM[icon]</param>
+                <param name="font">font_main</param>
+                <param name="top">-80</param>
+                <param name="left">$PARAM[left]</param>
+                <param name="has_label2">$PARAM[has_label2]</param>
+                <param name="label2">$PARAM[label2]</param>
+                <texturenofocus />
+                <nested />
             </include>
         </definition>
     </include>
@@ -465,7 +459,7 @@
                 <param name="fallback">$INFO[System.BuildVersion,Kodi ,]$INFO[System.AddonVersion(skin.arctic.fuse.mod), • AFMod v,]</param>
                 <param name="colordiffuse">main_fg_30</param>
                 <param name="centerbottom">100</param>
-                <param name="left">500</param>
+                <param name="left">440</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="include_hintlabel">false</param>
             </include>

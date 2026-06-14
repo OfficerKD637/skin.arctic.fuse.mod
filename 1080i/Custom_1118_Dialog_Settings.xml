@@ -4,48 +4,12 @@
     <onload>SetProperty(TMDbHelper.ContextMenu,True)</onload>
     <controls>
 
-        <include>Dialog_Dim_Overlay</include>
-        
-        <control type="group">
-            <include condition="![String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)]">Dimension_DialogWideMenu</include>
-            <include condition="[String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)]">Dimension_DialogSideMenu</include>
-            <include>Animation_Right_Delay</include>
-
-            <include content="Dialog_Foreground_Side" condition="![String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)]">
-                <param name="dialog_size">Dimension_DialogWideMenu</param>
-                <param name="topline">true</param>
-                <param name="subline">true</param>
-            </include>
-            <include content="Dialog_Foreground_Side" condition="[String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_InfolineAdditionalTags) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_AutoTrailers)]">
-                <param name="dialog_size">Dimension_DialogSideMenu</param>
-                <param name="topline">true</param>
-                <param name="subline">true</param>
-            </include>
-
-            <!-- Header -->
-            <include content="Dialog_Head">
-                <param name="id">7000</param>
-                <param name="label">$INFO[Window(Home).Property(CustomDialogSettingsTitle)]</param>
-            </include>
-            <include>Dialog_Head_CloseButton</include>
-
-            <!-- Content -->
-            <control type="group">
-                <include>Dimension_Dialog_Body</include>
-                <control type="grouplist" id="8000">
-                    <pagecontrol>61</pagecontrol>
-                    <onleft>Close</onleft>
-                    <onright>61</onright>
-                    <include>Items_Settings_CustomDialogSettings</include>
-                    <include>Dimension_Dialog_Body_Group</include>
-                </control>
-
-                <include content="Dialog_Scrollbar">
-                    <param name="id">61</param>
-                    <onleft>8000</onleft>
-                </include>
-            </control>
-
-        </control>
+        <include content="DialogCustom_Favourites">
+            <param name="id">8000</param>
+            <param name="header">$INFO[Window(Home).Property(CustomDialogSettingsTitle)]</param>
+            <param name="include_content">Items_Settings_CustomDialogSettings</param>
+            <param name="include_list">DialogCustom_Settings_Grouplist</param>
+            <param name="resize">![String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_PowerMenuConfigure) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_BackgroundStyle) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_Indicators) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoOSD) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_VideoInfo) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_SideMenuBehavior) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseWidgets) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_CustomiseViewtypes) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_LeftFooter) | String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_RightFooter)]</param>
+        </include>
     </controls>
 </window>

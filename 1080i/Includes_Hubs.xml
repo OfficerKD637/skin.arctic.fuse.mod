@@ -97,9 +97,8 @@
                 <width>1700</width>
                 <movement>4</movement>
                 <left>-20</left>
-                <include content="Hub_Categories_Spotlight_Slide" condition="$EXP[Exp_Hubs_Spotlight_IsDisabled]">
-                    <param name="top">35</param>
-                    <param name="y">-40</param>
+                <include content="Object_Top" condition="$EXP[Exp_Hubs_Spotlight_IsDisabled]">
+                    <param name="top">-40</param>
                 </include>
                 <top>10</top>
                 <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
@@ -130,10 +129,6 @@
                     <param name="property_window_id">$PARAM[property_window_id]</param>
                     <param name="id">$PARAM[id]</param>
                 </include>
-                <include content="Hub_Categories_Spotlight_Slide" condition="$EXP[Exp_Hubs_Spotlight_IsDisabled]">
-                    <param name="top">80</param>
-                    <param name="y">-20</param>
-                </include>
                 <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
                 <onfocus>ClearProperty(Background.HideArtwork)</onfocus>
                 <nested />
@@ -143,14 +138,17 @@
                 <include content="Object_Top" condition="!Skin.HasSetting(Views.UseAltCombined)">
                     <param name="top">10</param>
                 </include>
-                <top>60</top>
+                <include content="Object_Top" condition="Skin.HasSetting(Views.UseAltCombined) + $EXP[Exp_Hubs_Spotlight_IsDisabled]">
+                    <param name="top">30</param>
+                </include>
+                <top>70</top>
             </include>
         </definition>
     </include>
 
     <include name="Hub_Submenu_Group">
         <control type="grouplist" id="3002">
-            <include>Widget_Lower_Visibility</include>
+            <include>Widget_List_Visibility</include>
             <top>hub_submenuwidget_t</top>
             <height>hub_submenuwidget_h</height>
             <left>180</left>
@@ -407,9 +405,6 @@
                 <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp_Fade</include>
                 <include>Furniture_Bottom_Right</include>
             </control>            
-
-            <!-- Plot Dialog Overlay -->
-            <include>View_Dialog_Plot</include>
             
             <include content="Hub_Widget_Splash" condition="Skin.HasSetting(Startup.WaitForLoad) + [$PARAM[is_homemenu]]">
                 <param name="condition">System.HasAlarm(SplashTimeOut) + [Integer.IsEqual(Container(100601).NumItems,0) | [Integer.IsEqual(Container(100601).NumItems,1) + String.IsEqual(Container(100601).ListItemAbsolute(0).Label,$LOCALIZE[31046])]] + Container(100601).IsUpdating</param>
@@ -432,12 +427,15 @@
                 <param name="top">-440</param>
             </include>
             <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
-                <param name="top">-361</param>
+                <param name="top">-360</param>
             </include>
             <include content="Hub_Widgets_Infopanel" condition="![Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
                 <include>skinvariables-$PARAM[categories]-standard-info</include>
             </include>
-            <include>$PARAM[widgets_include]</include>
+            <control type="group">
+                <include>Widget_List_Visibility</include>
+                <include>$PARAM[widgets_include]</include>
+            </control>
             <include content="Hub_Menu_Group">
                 <top>hub_widgets_grouplist_t</top>
                 <bottom>-20</bottom>
@@ -472,6 +470,7 @@
         <include condition="!$EXP[Exp_HomeHub_IsVisible]">skinvariables-$PARAM[categories]-spotlight</include>
 
         <control type="group" id="340">
+            <include>Widget_List_Visibility</include>
             <include>skinvariables-$PARAM[categories]-widgets</include>
         </control>
 
@@ -538,9 +537,9 @@
         <include content="Action_Widget_Top" condition="!$EXP[Exp_HomeMenu_IsTopBar] + $EXP[Exp_Hubs_Spotlight_IsDisabled]">
             <param name="id">300</param>
         </include>
-        <onup condition="!Integer.IsEqual(Container(301).NumItems,0)">311</onup>
-        <onup condition="$EXP[Exp_HomeMenu_IsTopBar] + Integer.IsEqual(Container(301).NumItems,0)">303</onup>
-        <onup condition="!$EXP[Exp_HomeMenu_IsTopBar] + Integer.IsEqual(Container(301).NumItems,0)">333</onup>
+        <onup condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(301).NumItems,0)">311</onup>
+        <onup condition="$EXP[Exp_HomeMenu_IsTopBar] + [Integer.IsEqual(Container(301).NumItems,0) | $EXP[Exp_Hubs_Spotlight_IsDisabled]]">303</onup>
+        <onup condition="!$EXP[Exp_HomeMenu_IsTopBar] + [Integer.IsEqual(Container(301).NumItems,0) | $EXP[Exp_Hubs_Spotlight_IsDisabled]]">333</onup>
 
         <ondown>3002</ondown>
 
@@ -658,7 +657,7 @@
         <control type="group">
             <include condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled]">Hub_Categories_Spotlight_Viewline</include>
             <control type="group">
-                <include>Widget_Lower_Visibility</include>
+                <include>Widget_List_Visibility</include>
                 <control type="group">
                     <visible>$EXP[Exp_Hubs_Spotlight_HasItems]</visible>
                     <include content="Animation_Fade_In">
@@ -679,12 +678,14 @@
                     <left>180</left>
                     <height>hub_categorieswidget_h</height>
                     <top>hub_categorieswidget_t</top>
-                    
+
+                    <!-- Disable Spotlight Offset -->
+                    <animation effect="slide" start="0" end="0,-80" time="400" delay="0" tween="back" easing="out" condition="$EXP[Exp_Hubs_Spotlight_IsDisabled] | !$EXP[Exp_Hubs_Spotlight_HasItems]" reversible="false">Conditional</animation>
+
                     <!-- Slide Spotlight Offset -->
                     <animation effect="slide" start="0" end="0,80" time="400" delay="0" tween="back" easing="out" condition="[$EXP[Exp_Hubs_Spotlight_IsSlide] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
                     <animation effect="slide" start="0,80" end="0" time="400" delay="0" tween="back" easing="out" condition="![$EXP[Exp_Hubs_Spotlight_IsSlide] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
 
-                    <include condition="$EXP[Exp_Hubs_Spotlight_IsDisabled]">Hub_Categories_Header</include>
                     <include content="Hub_Categories_Definition">
                         <param name="window_id">$PARAM[window_id]</param>
                         <param name="property_window_id">$PARAM[property_window_id]</param>
@@ -877,11 +878,11 @@
     </include>
 
     <include name="Hub_Widgets_Grouplist__Def_Layout_Expanded">
-        <onup condition="Integer.IsEqual(Container(301).NumItems,0) + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">300</onup>
-        <onup condition="!Integer.IsEqual(Container(301).NumItems,0) + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">311</onup>
+        <onup condition="[$EXP[Exp_Hubs_Spotlight_IsDisabled] | Integer.IsEqual(Container(301).NumItems,0)] + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">303</onup>
+        <onup condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(301).NumItems,0) + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">311</onup>
         <onup condition="!Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">300</onup>
         <onup condition="!Integer.IsEqual(Container(3002).NumItems,0)">3002</onup>
-        <include content="Hub_Slide_Spotlight_OnWidgets" condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled]">
+        <include content="Hub_Slide_Spotlight_OnWidgets">
             <param name="condition">[[[$EXP[Exp_HomeHub_IsVisible] + String.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301)] | String.IsEmpty(Window.Property(Slide.WidgetContainer)) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),300) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),3002)] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)]</param>
         </include>
         <!-- Slide Spotlight Offset -->

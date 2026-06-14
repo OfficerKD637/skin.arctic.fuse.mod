@@ -9,138 +9,95 @@
         <include>Dialog_Dim_Overlay</include>
         
         <control type="group">
-            <include>Dimension_DialogMainMenu</include>
-            <include>Animation_Right_Delay</include>
-
-            <include content="Dialog_Foreground_Side">
-                <param name="dialog_size">Dimension_DialogMainMenu</param>
-                <param name="slide_condition">True</param>
-                <param name="lines_right">0</param>
-                <param name="lines_left">120</param>
+            <include>Dimension_DialogFullMenu</include>
+            <include>Animation_BounceIn_Dialog</include>
+            <include content="Dialog_Background_Panel">
+                <param name="dialog_size">Dimension_DialogFullMenu</param>
                 <param name="topline">false</param>
                 <param name="subline">false</param>
+            </include>
 
-                <!-- Header -->
-                <include content="Dialog_Head">
-                    <param name="id">9901</param>
-                    <param name="left">200</param>
-                    <param name="sublabel">Wikipedia</param>
-                    <param name="sublabel_include">true</param>
-                </include>
-                <include>Dialog_Head_CloseButton</include>
+            <!-- Content -->
+            <control type="group" id="8000">
+                <include>Size_Dialog_Pad</include>
 
-                <!-- Content -->
+                <!-- Left -->
                 <control type="group">
-                    <include>Dimension_Dialog_Body</include>
-
+                    <width>380</width>
                     <control type="group">
-                        <left>140</left>
-                        <include>Dimension_Dialog_Body_Group</include>
+                        <include>Size_Group_Head</include>
+                        <include content="Dialog_Head">
+                            <param name="id">9999</param>
+                            <param name="label">Wikipedia</param>
+                            <param name="right">constant_dialog_pad</param>
+                        </include>
+                        <include content="Dialog_ItemPage">
+                            <param name="id">9902</param>
+                            <param name="items_label">$LOCALIZE[31150]</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <include>Size_Group_Body</include>
                         <include content="List_DialogSelect">
                             <param name="id">9902</param>
-                            <onleft>9000</onleft>
+                            <param name="textcolor">dialog_fg</param>
+                            <param name="control">list</param>
+                            <param name="itemlayout_include">Layout_DialogSimple</param>
+                            <param name="detailed">true</param>
                             <onright>61</onright>
-                            <width>480</width>
+                            <include>Size_Grouplist_Pad</include>
                         </include>
+                    </control>
+                </control>
 
-                        <control type="group">
-                            <width>480</width>
-                            <control type="group">
-                                <top>-20</top>
-                                <bottom>-20</bottom>
-                                <left>20</left>
-                                <right>20</right>
-                                <control type="image">
-                                    <height>1</height>
-                                    <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                                </control>
-                                <control type="image">
-                                    <bottom>0</bottom>
-                                    <height>1</height>
-                                    <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                                </control>
-                            </control>
-                        </control>
-
-                        <control type="group">
-                            <left>480</left>
-                            <include content="Dialog_Outline_InnerBox">
-                                <top>-20</top>
-                                <bottom>-20</bottom>
-                                <left>20</left>
-                                <right>20</right>
-                                <control type="group">
-                                    <bottom>120</bottom>
-                                    <include content="Dimension_Padding">
-                                        <param name="pad">40</param>
-                                    </include>
-                                    <control type="textbox" id="9903">
-                                        <align>left</align>
-                                        <textcolor>main_fg_70</textcolor>
-                                        <font>font_main_plot</font>
-                                        <pagecontrol>61</pagecontrol>
-                                        <autoscroll delay="8000" time="4000" repeat="12000">!Control.HasFocus(61)</autoscroll>
-                                        <right>360</right>
-                                    </control>
-
-                                    <control type="group">
-                                        <right>0</right>
-                                        <width>280</width>
-                                        <top>0</top>
-                                        <visible>!String.IsEmpty(Window.Property(Image))</visible>
-                                        <control type="image">
-                                            <aspectratio align="center" aligny="top">keep</aspectratio>
-                                            <texture background="true">$INFO[Window.Property(Image)]</texture>
-                                            <bottom>160</bottom>
-                                        </control>
-                                        <control type="textbox">
-                                            <aligny>center</aligny>
-                                            <align>center</align>
-                                            <height>110</height>
-                                            <bottom>0</bottom>
-                                            <textcolor>main_fg_70</textcolor>
-                                            <font>font_tiny</font>
-                                            <label>$INFO[Window.Property(ImageText)]</label>
-                                        </control>
-                                    </control>
-                                </control>
-                                <control type="group">
-                                    <bottom>40</bottom>
-                                    <left>40</left>
-                                    <right>40</right>
-                                     <include content="Dialog_InfoText">
-                                        <param name="label">$INFO[Control.GetLabel(9904)]</param>
-                                        <param name="include_hintlabel">false</param>
-                                    </include>
-                                    <control type="image" id="9905">
-                                        <width>200</width>
-                                        <height>40</height>
-                                        <bottom>0</bottom>
-                                        <right>0</right>
-                                        <aspectratio align="right">keep</aspectratio>
-                                    </control>
-                                </control>
-                            </include>
+                <control type="group">
+                    <left>380</left>
+                    <include>Dialog_Panel</include>
+                    <control type="group">
+                        <include>Size_Group_Head</include>
+                        <include content="Dialog_Head">
+                            <param name="id">9901</param>
+                        </include>
+                        <include>Dialog_Head_CloseButton</include>
+                        <control type="image">
+                            <centerbottom>0</centerbottom>
+                            <height>1</height>
+                            <left>40</left>
+                            <right>40</right>
+                            <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                         </control>
                     </control>
-
-                    <include content="Dialog_Scrollbar">
-                        <param name="id">61</param>
-                        <onleft>9902</onleft>
-                        <param name="inset">true</param>
-                    </include>
-                </control>
-            </include>
-            
-            <!-- Side Buttons -->
-            <control type="group">
-                <include>Dimension_Dialog_Body</include>
-                <include>Dialog_Side_Panel_Group_Def</include>
-                <control type="grouplist" id="9000">
-                    <include>Dialog_Side_Grouplist_Def</include>
-                    <onleft>Close</onleft>
-                    <onright>9902</onright>
-                    <include>Items_Wikipedia_MenuBar</include>
+                    <control type="group">
+                        <include>Size_Group_Body</include>
+                        <control type="group">
+                            <bottom>120</bottom>
+                            <include content="Dialog_PlotText">
+                                <param name="id">9903</param>
+                            </include>
+                            <include content="Dialog_Scrollbar_Max">
+                                <param name="id">61</param>
+                                <param name="inset">false</param>
+                                <onleft>9902</onleft>
+                                <onright condition="!String.IsEmpty(Window.Property(Image))">9061</onright>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <height>120</height>
+                            <bottom>0</bottom>
+                            <include content="Dialog_InfoText">
+                                <param name="label">$INFO[Control.GetLabel(9904)]</param>
+                                <param name="include_hintlabel">false</param>
+                                <param name="centerbottom">50%</param>
+                            </include>
+                            <control type="image" id="9905">
+                                <width>200</width>
+                                <right>40</right>
+                                <bottom>40</bottom>
+                                <height>40</height>
+                                <aspectratio align="right">keep</aspectratio>
+                            </control>
+                        </control>
+                    </control>
                 </control>
             </control>
         </control>
@@ -149,6 +106,15 @@
         <include content="Object_Hidden_Button">
             <param name="id">9904</param>
             <param name="control">textbox</param>
+        </include>
+
+        <include content="Object_Hidden_Button">
+            <param name="id">9061</param>
+            <onleft>61</onleft>
+            <onup>61</onup>
+            <ondown>61</ondown>
+            <onback>61</onback>
+            <onclick>SetFocus(61)</onclick>
         </include>
 
     </controls>

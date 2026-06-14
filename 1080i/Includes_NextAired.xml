@@ -3,6 +3,7 @@
 
     <include name="NextAired_GroupList">
         <param name="onup">SetFocus(333)</param>
+        <param name="visible">!Integer.IsEqual(Container(5000).NumItems,0) + [!Integer.IsEqual(Container(5000).NumItems,1) | !Control.HasFocus(5098) | ControlGroup(5000).HasFocus()]</param>
         <definition>
             <control type="grouplist" id="5000">
                 <top>hub_recommendations_widgets_grouplist_t</top>
@@ -17,8 +18,7 @@
                 <control type="group" id="5099">
                     <height>0</height>
                     <control type="group">
-                        <visible>!Integer.IsEqual(Container(5000).NumItems,0)</visible>
-                        <visible>!Integer.IsEqual(Container(5000).NumItems,1) | !Control.HasFocus(5098) | ControlGroup(5000).HasFocus()</visible>
+                        <visible>$PARAM[visible]</visible>
                         <include content="Furniture_Bottom_WidgetGroups">
                             <param name="label">$VAR[Label_NextBump]</param>
                             <param name="icon">special://skin/extras/icons/kodi.png</param>
@@ -31,50 +31,50 @@
 
     <include name="NextAired_Content">
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5001)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5001)</param>
                 <param name="container">Container(5001).</param>
             </include>
         </include>
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5002)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5002)</param>
                 <param name="container">Container(5002).</param>
             </include>
         </include>
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5003)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5003)</param>
                 <param name="container">Container(5003).</param>
             </include>
         </include>
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5004)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5004)</param>
                 <param name="container">Container(5004).</param>
             </include>
         </include>
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5005)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5005)</param>
                 <param name="container">Container(5005).</param>
             </include>
         </include>
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5006)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5006)</param>
                 <param name="container">Container(5006).</param>
             </include>
         </include>
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5007)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5007)</param>
                 <param name="container">Container(5007).</param>
             </include>
         </include>
         <include content="Hub_Widgets_Infopanel">                
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5008)</param>
             <include content="Info_Panel">
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5008)</param>
                 <param name="container">Container(5008).</param>
             </include>
         </include>
@@ -118,8 +118,6 @@
                 </include>
             </control>
             <include condition="![$PARAM[furniture_top]]">Furniture_DateLabel_TopRight</include>
-
-            <include>View_Dialog_Plot</include>
         </definition>
     </include>
 
@@ -130,10 +128,10 @@
                 <param name="id">$PARAM[id]</param>
                 <param name="label">$PARAM[label]</param>
                 <param name="include">$PARAM[include]</param>
+                <param name="visible">$PARAM[visible]</param>
                 <param name="altvisible">$PARAM[altvisible]</param>
-                <param name="transition_include">true</param>
-                <param name="transition_hidden">Control.HasFocus(50$PARAM[id])</param>
                 <param name="widgetfade_include">true</param>
+                <include>Widget_List_Visibility</include>
                 <nested />
             </include>
         </definition>

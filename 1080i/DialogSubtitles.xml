@@ -7,183 +7,93 @@
     </include>
     <controls>
 
-        <include>Dialog_Dim_Overlay</include>
-        
+        <include content="Object_Hidden_List">
+            <param name="id">150</param>
+            <onright>120</onright>
+            <onleft>120</onleft>
+            <onup>120</onup>
+            <ondown>120</ondown>
+        </include>
+        <control type="image" id="110" description="Service Logo">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="130" description="Textbox">
+            <visible>false</visible>
+        </control>
+        <control type="label" id="140" description="Textbox">
+            <visible>false</visible>
+        </control>
+
+        <include content="Dialog_Dim_Overlay">
+            <param name="visible">!Window.IsVisible(DialogSlider.xml)</param>
+        </include>
         <control type="group">
-            <include>Dimension_DialogMainMenu</include>
-            <include>Animation_Right_Delay</include>
-
-            <include content="Dialog_Foreground_Side">
-                <param name="dialog_size">Dimension_DialogMainMenu</param>
-                <param name="slide_condition">True</param>
-                <param name="lines_right">0</param>
-                <param name="lines_left">120</param>
-                <param name="topline">false</param>
-                <param name="subline">false</param>
-
-                <!-- Header -->
-                <include content="Dialog_Head">
-                    <param name="id">100</param>
-                    <param name="left">200</param>
-                </include>
-                <include>Dialog_Head_CloseButton</include>
-
+            <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+            <include>Dimension_DialogFullMenu</include>
+            <include>Animation_BounceIn_Dialog</include>
+            <include content="Dialog_Background_Panel">
+                <param name="dialog_size">Dimension_DialogFullMenu</param>
+            </include>
+            <control type="group">
                 <!-- Content -->
-                <control type="group">
-                    <left>160</left>
-                    <include>Dimension_Dialog_Body</include>
+                <control type="group" id="8000">
+                    <include>Size_Dialog_Pad</include>
+                    <!-- Left -->
                     <control type="group">
-                        <left>settings_category_w</left>
-                        <include content="Dialog_Outline_InnerBox">
-                            <left>40</left>
-                            <right>40</right>
+                        <include>Size_LeftGroup_Main</include>
+                        <control type="group">
+                            <include>Size_Group_Head</include>
+                            <include content="Dialog_Head">
+                                <param name="id">100</param>
+                            </include>
+                            <include content="Dialog_ItemPage">
+                                <param name="id">120</param>
+                                <param name="items_label">$LOCALIZE[287]</param>
+                            </include>
+                            <include>Dialog_Head_CloseButton</include>
+                        </control>
+                        <control type="group">
+                            <include>Size_Group_Body</include>
                             <control type="group">
-                                <include>Dimension_Dialog_Body_Group</include>
+                                <bottom>70</bottom>
                                 <include content="List_DialogSelect">
                                     <param name="id">120</param>
                                     <param name="itemlayout_include">Layout_DialogSubtitles</param>
-                                    <param name="item_height">100</param>
+                                    <param name="item_height">140</param>
                                     <param name="textcolor">dialog_fg</param>
-                                    <onleft>150</onleft>
                                     <onright>61</onright>
                                     <pagecontrol>61</pagecontrol>
+                                    <include>Size_Grouplist_Pad</include>
+                                </include>
+                                <include content="Dialog_Scrollbar_Max">
+                                    <param name="id">61</param>
+                                    <param name="inset">false</param>
+                                    <onleft>120</onleft>
+                                    <onright>9000</onright>
                                 </include>
                             </control>
-                        </include>
-                    </control>
-
-                    <control type="group">
-                        <include>Dimension_Dialog_Body_Group</include>
-
-                        <control type="group">
-                            <width>settings_category_w</width>
-
                             <control type="group">
-                                <right>20</right>
-                                <left>20</left>
-                                <top>-20</top>
-                                <bottom>-20</bottom>
-                                <control type="image">
-                                    <top>0</top>
-                                    <height>1</height>
-                                    <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                                    <right>$PARAM[lines_right]</right>
-                                </control>
-                            </control>
-
-                            <control type="button" id="160">
                                 <height>80</height>
-                                <onup>SetFocus(150,9999,absolute)</onup>
-                                <ondown>150</ondown>
-                                <onright>120</onright>
-                                <onleft>9000</onleft>
-                                <label>$LOCALIZE[137]</label>
-                                <texturenofocus />
-                                <align>left</align>
-                                <font>font_main</font>
-                                <textoffsetx>40</textoffsetx>
-                                <include>defs_dialog_button</include>
-                            </control>
-                            
-                            <control type="image">
-                                <height>60</height>
-                                <right>-275</right>
-                                <top>10</top>
-                                <texture colordiffuse="main_fg_30">special://skin/extras/icons/search.png</texture>
-                                <aspectratio>keep</aspectratio>
-                                <visible>!Control.HasFocus(160)</visible>
-                            </control>
-                            <control type="image">
-                                <height>60</height>
-                                <right>-275</right>
-                                <top>10</top>
-                                <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/search.png</texture>
-                                <aspectratio>keep</aspectratio>
-                                <visible>Control.HasFocus(160)</visible>
-                            </control>
-
-                            <include content="List_DialogSelect">
-                                <param name="id">150</param>
-                                <param name="textcolor">dialog_fg</param>
-                                <onright>120</onright>
-                                <onleft>9000</onleft>
-                                <top>80</top>
-                                <onup>160</onup>
-                                <ondown>160</ondown>
-                            </include>
-
-                            <control type="image" id="110" description="Service Logo">
-                                <height>dialog_button_w</height>
-                                <bottom>20</bottom>
-                                <aspectratio aligny="bottom">keep</aspectratio>
-                            </control>
-
-                            <control type="label" id="130" description="Textbox">
-                                <height>40</height>
-                                <font>font_tiny</font>
-                                <align>center</align>
-                                <top>-40</top>
-                                <textcolor>dialog_fg_70</textcolor>
-                            </control>
-                            
-                            <control type="group">
-                                <height>40</height>
-                                <bottom>60</bottom>
-                                <include content="Dialog_ItemPage">
-                                     <param name="id">120</param>
-                                     <param name="items_label">$LOCALIZE[287]</param>
+                                <bottom>0</bottom>
+                                <include content="Dialog_InfoText">
+                                    <param name="include_hintlabel">false</param>
+                                    <param name="centerbottom">50%</param>
+                                    <param name="label">$INFO[Player.FileName]</param>
+                                    <param name="label2">$INFO[Control.GetLabel(140)]$INFO[Control.GetLabel(130), - ,]</param>
+                                    <param name="subline">true</param>
+                                    <param name="scroll">true</param>
                                 </include>
                             </control>
+
                         </control>
                     </control>
-
-                    <control type="group">
-
-                        <height>40</height>
-                        <bottom>-40</bottom>
-                        <left>60</left>
-                        <right>40</right>
-                        
-                        <control type="label" id="140" description="Textbox">
-                            <font>font_hint_bold</font>
-                            <right>20</right>
-                            <align>right</align>
-                            <textcolor>dialog_fg_30</textcolor>
-                        </control>
-
-                        <control type="label" description="Filename">
-                            <font>font_hint_bold</font>
-                            <align>left</align>
-                            <label>$INFO[Player.FileName]</label>
-                            <textcolor>dialog_fg_30</textcolor>
-                        </control>
-                    </control>
-
-                    <include content="Dialog_Scrollbar">
-                        <param name="id">61</param>
-                        <onleft>120</onleft>
-                    </include>
-                </control>
-            </include>
-            
-            <!-- Side Buttons -->
-            <control type="group">
-                <include>Dimension_Dialog_Body</include>
-                <include>Dialog_Side_Panel_Group_Def</include>
-                <control type="grouplist" id="9000">
-                    <include>Dialog_Side_Grouplist_Def</include>
-                    <onright>150</onright>
-                    <onleft>Close</onleft>
-                    <include content="Dialog_Side_Button">
-                        <param name="id">01</param>
-                        <param name="label">$LOCALIZE[15067]</param>
-                        <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
-                        <onclick>Close</onclick>
+                    <!-- Right -->
+                    <include content="Dialog_Button_Grouplist">
+                        <param name="onleft">61</param>
+                        <param name="items">Items_DialogSubtitles</param>
                     </include>
                 </control>
             </control>
-
         </control>
-
     </controls>
 </window>

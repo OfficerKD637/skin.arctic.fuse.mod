@@ -12,148 +12,157 @@
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie)"> film</value>
     </variable>
 
-    <include name="Dialog_ContextMenu_BodyContent_Artwork">
-        <control type="group">
-            <include>Dimension_Dialog_Body_Group</include>
-            <include content="DialogInfo_PlotBox_Artwork">
-                <param name="poster_icon">$VAR[Image_ContextPoster]</param>
-                <param name="landscape_icon">$VAR[Image_ContextFanart]</param>
-                <param name="square_icon">$VAR[Image_ContextIcon]</param>
-                <param name="clearlogo_icon">$VAR[Image_ContextClearLogo]</param>
-            </include>
-        </control>
-    </include>
+    <variable name="DialogContextMenu_HeaderLabel">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_label)) + $EXP[Exp_AllowExpandedContextMenu]">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_label)]</value>
+        <value>$LOCALIZE[10106]</value>
+    </variable>
 
-    <include name="Dialog_ContextMenu_BodyContent">
-        <param name="include_artwork">true</param>
-        <definition>
-            <control type="group">
-                <include>Dimension_Dialog_Body</include>
-
-                <include condition="$PARAM[include_artwork]">Dialog_ContextMenu_BodyContent_Artwork</include>
-                
-                <control type="group">
-                    <include>Dimension_Dialog_Body_Group</include>
-                    <control type="group">
-                        <control type="grouplist" id="996">
-                            <onleft>6099</onleft>
-                            <onright>61</onright>
-                            <pagecontrol>61</pagecontrol>
-                        </control>
-                    </control>
-                    <control type="group">
-                        <bottom>60</bottom>
-                        <height>40</height>
-                        <right>$PARAM[lines_right]</right>
-                        <include content="Dialog_ItemPage">
-                            <param name="id">996</param>
-                        </include>
-                    </control>
-                </control>
-                <include content="Dialog_Scrollbar">
-                    <param name="id">61</param>
-                    <onleft>996</onleft>
-                </include>
-            </control>
-        </definition>
-    </include>
-    
-    <include name="Dialog_Dim_Overlay">
-        <param name="visible">true</param>
-        <definition>
-            <control type="image">
-                <visible>$PARAM[visible]</visible>
-                <include>Animation_FadeIn</include>
-                <include>Animation_FadeOut</include>
-                <texture colordiffuse="shadow_hard">common/white.png</texture>
-            </control>
-        </definition>
-    </include>
+    <expression name="DialogContextMenu_HasArtwork">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_poster)) + $EXP[Exp_AllowExpandedContextMenu] + !Skin.HasSetting(ContextMenu.DisableArtwork)]</expression>
 
     <include name="Dialog_ContextMenu">
-        <param name="include_fullmenu">false</param>
-        <param name="dialog_size">Dimension_DialogSideMenu</param>
-        <param name="button_width">400</param>
-        <param name="lines_right">0</param>
-        <param name="lines_left">120</param>
-        <param name="header">$LOCALIZE[10106]</param>
-        <param name="has_buttons">![Window.IsVisible(1160) | Window.IsVisible(favouritesbrowser) | Window.IsVisible(filemanager) | Window.IsVisible(addonbrowser) | Window.IsVisible(Custom_1132_Window_Addons.xml) | !String.IsEmpty(ListItem.AddonName)]</param>
+        <param name="has_artwork">$EXP[DialogContextMenu_HasArtwork]</param>
+        <param name="has_template">true</param>
+        <param name="has_menu">[!Skin.HasSetting(ContextMenu.DisableOptionsTray) + $EXP[Exp_AllowExpandedContextMenu]]</param>
+        <param name="include_tray">ButtonMenu_ContextControls</param>
+        <param name="hidden_icon">true</param>
+        <param name="scrollbar_id">61</param>
+        <param name="visible">true</param>
+        <param name="flip">Skin.HasSetting(ContextMenu.FlipMenu)</param>
         <definition>
             <include>Defs_Background_Loader</include>
             <include>Dialog_Dim_Overlay</include>
-
             <control type="group">
-               <include>$PARAM[dialog_size]</include>
-                <include>Animation_Right_Delay</include>
-
-                    <!-- Backing Layer -->
-                    <include content="Dialog_Foreground_Side" condition="$PARAM[has_buttons]">
-                        <param name="dialog_size">$PARAM[dialog_size]</param>
-                        <param name="topline">true</param>
-                        <param name="subline">false</param>
-                        <param name="lines_right">$PARAM[lines_right]</param>
-                        <param name="lines_left">$PARAM[lines_left]</param>
-                    </include>
-                    
-                    <include content="Dialog_Foreground_Side" condition="![$PARAM[has_buttons]]">
-                        <param name="dialog_size">$PARAM[dialog_size]</param>
-                        <param name="topline">true</param>
-                        <param name="subline">false</param>
-                        <param name="lines_right">$PARAM[lines_right]</param>
-                        <param name="lines_left">0</param>
-                    </include>
-                
-
-                    <!-- Header -->
-                    <include content="Dialog_Head" condition="$PARAM[has_buttons]">
-                        <param name="label">$PARAM[header]</param>
-                        <param name="left">200</param>
-                    </include>
-                    
-                    <include content="Dialog_Head" condition="![$PARAM[has_buttons]]">
-                        <param name="label">$PARAM[header]</param>
-                    </include>
-
-                    <include>Dialog_Head_CloseButton</include>
-
-                    <!-- Content -->
-                    <control type="group">
-                        <include content="Object_Left" condition="$PARAM[has_buttons]">
-                            <param name="left">120</param>
-                        </include>
-                        <include content="Dialog_ContextMenu_BodyContent">
-                            <param name="include_artwork">$PARAM[include_fullmenu]</param>
-                            <param name="lines_right">$PARAM[lines_right]</param>
-                        </include>
-                    </control>
-
-                
-                
-                <!-- Side Buttons -->
-                <include content="Object_Control" condition="$PARAM[has_buttons]">
-                    <param name="control">group</param>
-                    <include>Dimension_Dialog_Body</include>
-                    <include>Dialog_Side_Panel_Group_Def</include>
-                    <control type="group">
-                        <include>Dialog_Side_Grouplist_Def</include>
-                        <include content="ButtonMenu_SideTray">
-                            <param name="include">ButtonMenu_ContextControls</param>
-                            <param name="onright">996</param>
-                        </include>
-                    </control>
+                <visible>$PARAM[visible]</visible>
+                <include content="Dialog_Backing" condition="$PARAM[has_artwork]">
+                    <param name="dialog_size">Dimension_DialogFlipMenu</param>
                 </include>
-            </control>
+                <include content="Dialog_Backing" condition="!$PARAM[has_artwork]">
+                    <param name="dialog_size">Dimension_DialogMiniMenu</param>
+                </include>
 
-            <include content="Settings_Button">
+                <!-- Content -->
+                <control type="group" id="8000">
+                    <include>Size_Dialog_Pad</include>
+
+                    <!-- Right -->
+                    <control type="group">
+                        <include condition="!$PARAM[flip] + $PARAM[has_artwork]">Dialog_Panel</include>
+                        <include condition="!$PARAM[flip] + $PARAM[has_artwork]">Size_RightGroup_Large</include>
+                        <include condition="$PARAM[flip] + $PARAM[has_artwork]">Size_LeftGroup_Large</include>
+                        <include content="DialogPlot_Artwork" condition="$PARAM[has_artwork]">
+                            <param name="poster_icon">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_poster)]</param>
+                            <param name="hidden_icon">$PARAM[hidden_icon]</param>
+                        </include>
+                    </control>
+
+                    <!-- Left -->
+                    <control type="group">
+                        <include condition="!$PARAM[flip] + $PARAM[has_artwork]">Size_LeftGroup_Large</include>
+                        <include condition="$PARAM[flip] + $PARAM[has_artwork]">Size_RightGroup_Large</include>
+                        <include condition="$PARAM[flip] + $PARAM[has_artwork]">Dialog_Panel</include>
+                        <control type="group">
+                            <include>Size_Group_Head</include>
+                            <include content="Dialog_Head" condition="!$PARAM[flip] + $PARAM[has_menu]">
+                                <param name="label">$VAR[DialogContextMenu_HeaderLabel]</param>
+                                <param name="left">constant_dialog_header_right</param>
+                                <param name="right">constant_dialog_pad</param>
+                            </include>
+                            <include content="Dialog_Head" condition="![!$PARAM[flip] + $PARAM[has_menu]]">
+                                <param name="label">$VAR[DialogContextMenu_HeaderLabel]</param>
+                            </include>
+                            <include content="Dialog_Head_CloseButton">
+                                <param name="flipped">!$PARAM[flip] + $PARAM[has_menu]</param>
+                            </include>
+                        </control>
+
+                        <control type="group">
+                            <include>Size_Group_Body</include>
+
+                            <!-- Plot Buttons -->
+                            <include content="Object_Control" condition="$PARAM[has_menu]">
+                                <param name="control">group</param>
+                                <control type="list" id="6000">
+                                    <top>20</top>
+                                    <include content="Object_CenterLeft" condition="!$PARAM[flip]">
+                                        <param name="centerleft">70</param>
+                                    </include>
+                                    <include content="Object_CenterRight" condition="$PARAM[flip]">
+                                        <param name="centerright">50</param>
+                                    </include>
+                                    <orientation>vertical</orientation>
+                                    <height>700</height>
+                                    <width>100</width>
+                                    <onright condition="!$PARAM[flip]">996</onright>
+                                    <onleft condition="$PARAM[flip]">$PARAM[scrollbar_id]</onleft>
+                                    <include content="ButtonMenu_Tray_Layout">
+                                        <param name="id">6000</param>
+                                        <param name="slide">false</param>
+                                    </include>
+                                    <content>
+                                        <include>$PARAM[include_tray]</include>
+                                    </content>
+                                </control>
+                                <control type="group">
+                                    <include content="Object_CenterLeft" condition="!$PARAM[flip]">
+                                        <param name="centerleft">60</param>
+                                    </include>
+                                    <include content="Object_Right" condition="$PARAM[flip]">
+                                        <param name="right">120</param>
+                                    </include>
+                                    <include>Dialog_Line_Vert</include>
+                                </control>
+                            </include>
+                            <control type="group">
+                                <control type="group">
+                                    <top>-120</top>
+                                    <height>40</height>
+                                    <include content="Dialog_ItemPage" condition="!$PARAM[flip] + $PARAM[has_menu]">
+                                        <param name="align">right</param>
+                                        <param name="flipped">true</param>
+                                        <param name="id">996</param>
+                                    </include>
+                                    <include content="Dialog_ItemPage" condition="![!$PARAM[flip] + $PARAM[has_menu]]">
+                                        <param name="id">996</param>
+                                    </include>
+                                </control>
+                                <control type="grouplist" id="996">
+                                    <pagecontrol>$PARAM[scrollbar_id]</pagecontrol>
+                                    <onright>$PARAM[scrollbar_id]</onright>
+                                    <onleft condition="!$PARAM[flip]">6000</onleft>
+                                    <include content="Object_Left" condition="!$PARAM[flip] + $PARAM[has_menu]">
+                                       <param name="left">140</param>
+                                    </include>
+                                    <include>Size_Grouplist_Pad</include>
+                                </control>
+                            </control>
+                            <control type="group">
+                                <include content="Dialog_Scrollbar">
+                                    <param name="id">$PARAM[scrollbar_id]</param>
+                                    <include content="Object_CenterRight" condition="!$PARAM[flip]">
+                                        <param name="centerright">0</param>
+                                    </include>
+                                    <include content="Object_CenterRight" condition="$PARAM[flip] + $PARAM[has_menu]">
+                                        <param name="centerright">120</param>
+                                    </include>
+                                    <onleft>996</onleft>
+                                    <onright condition="$PARAM[flip]">6000</onright>
+                                    <top>20</top>
+                                </include>
+                            </control>
+                        </control>
+                    </control>
+
+                </control>
+            </control>
+            <include content="Settings_Button" condition="$PARAM[has_template]">
                 <param name="id">1000</param>
                 <param name="control">button</param>
                 <param name="dialog">true</param>
-                <include content="Object_Width" condition="![$PARAM[has_buttons]]">
-                    <param name="width">dialog_main_button_w</param>
+                <include content="Object_Width" condition="$PARAM[has_menu]">
+                    <param name="width">400</param>
                 </include>
-                <width>$PARAM[button_width]</width>
+                <width>dialog_main_button_w</width>
             </include>
-
         </definition>
     </include>
 

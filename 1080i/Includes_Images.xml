@@ -19,7 +19,7 @@
     </variable>
     
     <variable name="Image_1128_Poster">
-        <value condition="Control.HasFocus(7001) + String.IsEqual(Container(7001).ListITem.Property(tmdb_type),person)">$INFO[Container(7001).ListItem.Art(thumb)]</value>
+        <value condition="Control.HasFocus(7001) + String.IsEqual(Container(7001).ListItem.Property(tmdb_type),person)">$INFO[Container(7001).ListItem.Art(thumb)]</value>
         <value condition="Control.HasFocus(7001)">$INFO[Container(7001).ListItem.Art(poster)]</value>
         <value>$INFO[Window.Property(poster)]</value>
     </variable>
@@ -143,22 +143,11 @@
         <value>special://skin/extras/icons/window-maximize-regular.png</value>
     </variable>
 
-    <variable name="Image_VideoVersion_Fanart">
-        <value condition="Control.HasFocus(51) + !String.IsEmpty(Container(51).ListItem.Art(landscape))">$INFO[Container(51).ListItem.Art(landscape)]</value>
-        <value condition="Control.HasFocus(51) + !String.IsEmpty(Container(51).ListItem.Art(fanart))">$INFO[Container(51).ListItem.Art(fanart)]</value>
-        <value condition="Control.HasFocus(51) + !String.IsEmpty(Container(51).ListItem.Art(thumb))">$INFO[Container(51).ListItem.Art(thumb)]</value>
-        <value condition="!String.IsEmpty(Container(50).ListItem.Art(landscape))">$INFO[Container(50).ListItem.Art(landscape)]</value>
-        <value condition="!String.IsEmpty(Container(50).ListItem.Art(fanart))">$INFO[Container(50).ListItem.Art(fanart)]</value>
-        <value condition="!String.IsEmpty(Container(50).ListItem.Art(thumb))">$INFO[Container(50).ListItem.Art(thumb)]</value>
-        <value condition="!String.IsEmpty(ListItem.Art(landscape))">$INFO[ListItem.Art(landscape)]</value>
-        <value condition="!String.IsEmpty(ListItem.Art(fanart))">$INFO[ListItem.Art(fanart)]</value>
-        <value condition="!String.IsEmpty(ListItem.Art(thumb))">$INFO[ListItem.Art(thumb)]</value>
-    </variable>
-
     <variable name="Image_VideoVersion_Poster">
-        <value condition="Control.HasFocus(51) + !String.IsEmpty(Container(51).ListItem.Art(poster))">$INFO[Container(51).ListItem.Art(poster)]</value>
-        <value condition="!String.IsEmpty(Container(50).ListItem.Art(poster))">$INFO[Container(50).ListItem.Art(poster)]</value>
+        <value condition="Control.IsVisible(50) + !String.IsEmpty(Container(50).ListItem.Art(poster))">$INFO[Container(50).ListItem.Art(poster)]</value>
+        <value condition="Control.IsVisible(6) + !String.IsEmpty(Container(6).ListItem.Art(poster))">$INFO[Container(6).ListItem.Art(poster)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(poster))">$INFO[ListItem.Art(poster)]</value>
+        <value condition="!String.IsEmpty(Window.Property(poster))">$INFO[Window.Property(poster)]</value>
     </variable>
 
     <variable name="Image_ContextPoster">        
@@ -237,6 +226,11 @@
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Poster))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Poster)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Season.Poster))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Season.Poster)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShow.Poster))">$INFO[Window(Home).Property(TMDbHelper.ListItem.TVShow.Poster)]</value>
+    </variable>
+
+    <variable name="Image_Overlay_Poster">
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_icon)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.tmdb_type),person)">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_icon)]</value>
+        <value>$INFO[Window(Home).Property(TMDbHelper.ListItem.Base_Poster)]</value>
     </variable>
 
     <variable name="Image_DialogInfo_Landscape">
@@ -396,11 +390,6 @@
         <value>special://skin/extras/backgrounds/blur/purple_blur.jpg</value>
     </variable>
 
-    <variable name="Image_CropLogo">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListIem.Current.CropImage))">$INFO[Window(Home).Property(TMDBHelper.ListItem.Current.CropImage)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.CropImage))">$INFO[Window(Home).Property(TMDBHelper.ListItem.CropImage)]</value>
-    </variable>
-
     <variable name="Image_OSD_Poster">
         <value condition="!String.IsEmpty(VideoPlayer.Art(poster))">$INFO[VideoPlayer.Art(poster)]</value>
         <value condition="!String.IsEmpty(VideoPlayer.Art(tvshow.poster))">$INFO[VideoPlayer.Art(tvshow.poster)]</value>
@@ -537,8 +526,7 @@
     </variable>
 
     <variable name="Image_CombinedStudio">
-        <value condition="!String.IsEmpty(Container.ListItem.Studio)">$INFO[Container.ListItem.Studio,resource://resource.images.studios.coloured/,.png]</value>
-        <value condition="!String.IsEmpty(ListItem.Studio)">$INFO[ListItem.Studio,resource://resource.images.studios.coloured/,.png]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_studio))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_studio),resource://resource.images.studios.coloured/,.png]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Network.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Network.1.Name),resource://resource.images.studios.coloured/,.png]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name),resource://resource.images.studios.coloured/,.png]</value>
     </variable>
@@ -589,6 +577,7 @@
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Fanart)]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShow.Fanart))">$INFO[Window(Home).Property(TMDbHelper.ListItem.TVShow.Fanart)]</value>
+        <value>$INFO[ListItem.Icon]</value>
     </variable>
 
     <variable name="Image_Card_Fanart">
