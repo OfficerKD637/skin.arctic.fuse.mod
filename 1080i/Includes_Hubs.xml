@@ -877,6 +877,90 @@
         </control>
     </include>
 
+    <include name="Hub_Info_Panel_Combined">
+        <control type="group">
+            <control type="group">
+                <animation effect="slide" start="0,-260" end="0" time="400" tween="cubic" easing="out" reversible="false" condition="![$PARAM[slide]]">Conditional</animation>
+                <animation effect="slide" end="0,-260" start="0" delay="100" time="400" tween="cubic" easing="out" reversible="false" condition="[$PARAM[slide]]">Conditional</animation>
+                <include>Info_Panel_Dimensions</include>
+                <control type="group">
+                    <top>260</top>
+                    <include content="Info_Panel">
+                        <param name="visible">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])</param>
+                        <param name="title">true</param>
+                        <param name="details">false</param>
+                        <param name="container">Container($PARAM[id]).</param>
+                    </include>
+                </control>
+            </control>
+            <control type="group">
+                <animation effect="fade" start="0" end="100" time="400" delay="200" tween="cubic" easing="in">Visible</animation>
+                <visible>[$PARAM[slide]]</visible>
+                <include>Info_Panel_Dimensions</include>
+                <include content="Info_Panel">
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])</param>
+                    <param name="title">false</param>
+                    <param name="title_spacer">true</param>
+                    <param name="details">true</param>
+                    <param name="container">Container($PARAM[id]).</param>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <include name="Hub_Widget_Combined">
+        <param name="target">videos</param>
+        <param name="include">List_Poster_Row</param>
+        <param name="visible">true</param>
+        <param name="allowhiddenfocus">false</param>
+        <param name="autoscroll">false</param>
+        <definition>
+            <include content="$PARAM[include]">
+                <param name="id">$PARAM[id]</param>
+                <top>510</top>
+                <bottom>-40</bottom>
+                <onup>$PARAM[menuid]</onup>
+                <ondown>$PARAM[menuid]</ondown>
+                <include content="Action_View_Movement_OnLeft">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="menuid">$PARAM[menuid]</param>
+                    <param name="onwrap">[False]</param>
+                </include>
+                <include content="Action_View_Movement_OnRight">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="menuid">$PARAM[menuid]</param>
+                    <param name="onwrap">[False]</param>
+                    <param name="onbump">[True]</param>
+                </include>
+                <include content="Action_View_Movement_OnBack">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="backid">$PARAM[backid]</param>
+                    <param name="menuid">$PARAM[menuid]</param>
+                    <param name="onback">[Integer.IsEqual(Container($PARAM[id]).CurrentItem,1)]</param>
+                </include>
+
+                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+                <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
+                <nested />
+                <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]" limit="$PARAM[limit]" browse="$VAR[Defs_BrowseLimitedLists]">$PARAM[content]</content>
+
+                <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+
+                <include content="Defs_AutoScroll" condition="$PARAM[autoscroll]">
+                    <param name="condition">[!Control.HasFocus($PARAM[id]) | System.IdleTime(3)]</param>
+                </include>
+
+            </include>
+            <include content="Widget_Busy">
+                <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</param>
+                <param name="include">$PARAM[include]</param>
+                <top>510</top>
+                <left>view_pad</left>
+                <visible>$PARAM[visible]</visible>
+            </include>
+        </definition>
+    </include>
+
     <include name="Hub_Widgets_Grouplist__Def_Layout_Expanded">
         <onup condition="[$EXP[Exp_Hubs_Spotlight_IsDisabled] | Integer.IsEqual(Container(301).NumItems,0)] + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">303</onup>
         <onup condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(301).NumItems,0) + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">311</onup>
