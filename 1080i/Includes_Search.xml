@@ -3,6 +3,8 @@
 
     <expression name="Exp_Search_Slide_Info">[[[Window.IsVisible(1185) + !String.IsEmpty(Control.GetLabel(9099).index(1))] | Window.IsVisible(1105)] + [!String.IsEmpty(Window.Property(Searchbar.IsHidden)) | Control.HasFocus(5099) | Control.HasFocus(330) | Control.HasFocus(332) | Control.HasFocus(333)]]</expression>
 
+    <expression name="Exp_Search_Slide_Keyboard">[Window.IsVisible(1185) + [[String.IsEmpty(Skin.String(SearchHistory)) + Integer.IsEqual(Container(9993).NumItems,0)] | [Container(9993).IsUpdating + Integer.IsEqual(Container(9993).NumItems,0)]]]</expression>
+
     <include name="Search_Term_DoubleEncoder">
         <include content="Object_Hidden_List">
             <param name="id">99099</param>
@@ -81,6 +83,7 @@
             <include content="Categories_Selector">
                 <param name="id">5099</param>
                 <param name="font">font_mini_bold</param>
+                <param name="hidden_button">List_ButtonMenu_Row_HiddenButton_Search_Row</param>
                 <param name="hitrect_x">0</param>
                 <param name="hitrect_y">0</param>
                 <param name="hitrect_w">1080</param>
@@ -95,7 +98,6 @@
                 <onup>9994</onup>
                 <onup>ClearProperty(Searchbar.IsHidden)</onup>
                 <onfocus>SetProperty(Searchbar.IsHidden,True)</onfocus>
-                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$INFO[ListItem.Property(widget_id)])</onfocus>
                 <ondown>SetProperty(TMDbHelper.WidgetContainer,$INFO[ListItem.Property(widget_id)])</ondown>
                 <ondown>SetProperty(Searchbar.IsHidden,True)</ondown>
                 <ondown>SetFocus($INFO[ListItem.Property(widget_id)],0,absolute)</ondown>
@@ -312,6 +314,9 @@
             <centerleft>50%</centerleft>           
             
             <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
+
+            <animation effect="slide" start="0" end="0,-60" time="200" tween="sine" condition="$EXP[Exp_Search_Slide_Keyboard]" reversible="false">Conditional</animation>
+            <animation effect="slide" start="0,-60" end="0" time="200" tween="sine" condition="![$EXP[Exp_Search_Slide_Keyboard]]" reversible="false">Conditional</animation>
 
             <itemlayout width="40" height="60">
                 <control type="label">
@@ -761,6 +766,8 @@
                 
                 <control type="group">
                     <top>330</top>
+                    <animation effect="slide" start="0" end="0,-60" time="200" tween="sine" condition="$EXP[Exp_Search_Slide_Keyboard]" reversible="false">Conditional</animation>
+                    <animation effect="slide" start="0,-60" end="0" time="200" tween="sine" condition="![$EXP[Exp_Search_Slide_Keyboard]]" reversible="false">Conditional</animation>
                     <include>Search_Panel_Keyboard_Iconic</include>
                 </control>
 
@@ -769,6 +776,12 @@
                     <top>-740</top>
                     <left>40</left>
                     <right>40</right>
+                    <include content="Animation_Fade_In">
+                        <param name="condition">![$EXP[Exp_Search_Slide_Keyboard]]</param>
+                    </include>
+                    <include content="Animation_Fade_Out">
+                        <param name="condition">$EXP[Exp_Search_Slide_Keyboard]</param>
+                    </include>
                     <include content="Categories_Selector_FakeList">
                         <param name="id">9993</param>
                         <param name="color_fo">main_fg_100</param>
