@@ -174,7 +174,9 @@
 
     <include name="Action_Hubs_Onload">
         <param name="is_homemenu">false</param>
+        <param name="splash">Skin.HasSetting(Startup.WaitForLoad) + !Skin.HasSetting(Startup.WaitForLoad.DisableForHubs)</param>
         <definition>
+            <onload condition="$PARAM[splash] + !Integer.IsEqual(Skin.String(Hub.Home.ReplaceWindow),$PARAM[window_id])">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/skinvariables-splash.json,use_rules=True,window_id=$PARAM[window_id])</onload>
             <include content="Generator_BuildViewTypes_Onload">
                 <param name="params">,no_reload</param>
             </include>

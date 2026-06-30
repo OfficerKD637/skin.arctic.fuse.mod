@@ -6,6 +6,8 @@
         "LocalizeLoading": "31023"
     },
     "values": {
+        "WindowIsHub": "[Window.IsVisible(1101) | Window.IsVisible(1102) | Window.IsVisible(1103) | Window.IsVisible(1104) | Window.IsVisible(1106) | Window.IsVisible(1107) | Window.IsVisible(1108) | Window.IsVisible(1109) | Window.IsVisible(1110) | Window.IsVisible(1112) | Window.IsVisible(1114) | Window.IsVisible(1125) | Window.IsVisible(1126) | Window.IsVisible(1127)]",
+            
         "WidgetsOnly": [
             {
                 "rules": [
@@ -67,6 +69,7 @@
     "actions": [
         {
             "rules": [
+                "Window.IsVisible(Home)",
                 "Skin.HasSetting(Startup.WaitForLoad)",
                 "{WidgetsOnly}!=",
                 "{100601Updating}!=",
@@ -81,8 +84,41 @@
         },
         {
             "rules": [
+                "Window.IsVisible(Home)",
                 "Skin.HasSetting(Startup.WaitForLoad)",
                 "{WidgetsOnly}==",
+                "{301Updating}!=||{601Updating}!=||{100601Updating}!=||{200601Updating}!=",
+                "System.HasAlarm(SplashTimeOut)"
+            ],
+            "value": [
+                "SetProperty(SplashIsVisible,True,1198)",
+                "SetProperty(InitStatus,{LocalizeLoading},1198)",
+                "sleep=0.5",
+                "route=run_executebuiltin=special://skin/shortcuts/skinvariables-splash.json&use_rules=True"
+            ]
+        },
+        {
+            "rules": [
+                "{WindowIsHub}",
+                "Skin.HasSetting(Startup.WaitForLoad)",
+                "!Skin.HasSetting(Startup.WaitForLoad.DisableForHubs)",
+                "Skin.HasSetting(Hub.{window_id}.DisableSubmenu)",
+                "{100601Updating}!=",
+                "System.HasAlarm(SplashTimeOut)"
+            ],
+            "value": [
+                "SetProperty(SplashIsVisible,True,1198)",
+                "SetProperty(InitStatus,{LocalizeLoading},1198)",
+                "sleep=0.5",
+                "route=run_executebuiltin=special://skin/shortcuts/skinvariables-splash.json&use_rules=True"
+            ]
+        },
+        {
+            "rules": [
+                "{WindowIsHub}",
+                "Skin.HasSetting(Startup.WaitForLoad)",
+                "!Skin.HasSetting(Startup.WaitForLoad.DisableForHubs)",
+                "!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)",
                 "{301Updating}!=||{601Updating}!=||{100601Updating}!=||{200601Updating}!=",
                 "System.HasAlarm(SplashTimeOut)"
             ],
