@@ -1314,13 +1314,13 @@
             </control>
         </control>
     </include>
-    
+
     <variable name="DialogInfo_Origin_TMDbPath">
         <value condition="[String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]$INFO[Window.Property(origin_tmdb_season),&amp;season=,]$INFO[Window.Property(origin_tmdb_episode),&amp;episode=,]</value>
         <value condition="[String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),season) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)]">$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]$INFO[Window.Property(origin_tmdb_season),&amp;season=,]</value>
         <value>$INFO[Window.Property(origin_tmdb_type),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_type=,]$INFO[Window.Property(origin_tmdb_id),&amp;tmdb_id=,]</value>
     </variable>
-    
+
     <include name="DialogInfo_Cast_Local">
         <control type="group">
             <visible>$PARAM[visible]</visible>
@@ -1699,7 +1699,7 @@
             <left>200</left>
         </include>        
     </include>
-    
+
     <include name="DialogInfo_PersonInfo">
         <control type="group">
             <top>-590</top>
@@ -1736,7 +1736,7 @@
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDBHelper.ListItem.Current.CropImage)]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Current.CropImage))</param>
                     <param name="container">Container(5001).</param>
-                    <visible>Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5001)</visible>
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5001)</param>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" start="0" end="100" condition="[!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" end="0" start="100" condition="![!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                 </include>
@@ -1745,7 +1745,7 @@
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDBHelper.ListItem.Current.CropImage)]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Current.CropImage))</param>
                     <param name="container">Container(5002).</param>
-                    <visible>Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5002)</visible>
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5002)</param>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" start="0" end="100" condition="[!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" end="0" start="100" condition="![!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                 </include>
@@ -1754,7 +1754,7 @@
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDBHelper.ListItem.Current.CropImage)]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Current.CropImage))</param>
                     <param name="container">Container(5004).</param>
-                    <visible>Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5004)</visible>
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5004)</param>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" start="0" end="100" condition="[!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" end="0" start="100" condition="![!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                 </include>
@@ -1994,15 +1994,9 @@
         <param name="visible">true</param>
         <definition>
             <control type="grouplist" id="$PARAM[id]">
-                <include content="Object_Orientation" condition="$PARAM[vertical]">
-                    <param name="orientation">vertical</param>
-                </include>
-                <include content="Object_Orientation" condition="![$PARAM[vertical]]">
-                    <param name="orientation">horizontal</param>
-                </include>
-
-                <include condition="$PARAM[vertical]">DialogInfo_ButtonGroup_Vert</include>
-                <include condition="![$PARAM[vertical]]">DialogInfo_ButtonGroup_Horz</include>
+                <top>250</top>
+                <width>160</width>
+                <left>view_list</left>
 
                 <itemgap>0</itemgap>
                 <orientation>vertical</orientation>
@@ -2012,7 +2006,10 @@
                     <param name="itemgap">$PARAM[itemgap]</param>
                 </include>
 
-                <include>$PARAM[include_def]</include>
+                <onleft>ActivateWindow(1113)</onleft>
+                <onright>5000</onright>
+                <onup>ActivateWindow(1113)</onup>
+                <ondown>ActivateWindow(1113)</ondown>
                 <visible>$PARAM[visible]</visible>
             </control>
         </definition>
@@ -2024,29 +2021,8 @@
                 <param name="include">Items_PersonCredits</param>
                 <param name="vertical">true</param>
                 <param name="id">303</param>
-                <param name="include_def">DialogInfo_ButtonGroup_Basic__Def_Recommendations_Vert</param>
             </include>
         </control>
-    </include>
-    <include name="DialogInfo_ButtonGroup_Basic__Def_Recommendations_Vert">
-        <onleft>ActivateWindow(1113)</onleft>
-        <onright>5000</onright>
-        <onup condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">ActivateWindow(1113)</onup>
-        <ondown condition="Skin.HasSetting(SideMenu.EnableSearchAndOptions)">ActivateWindow(1113)</ondown>
-    </include>
-    <include name="DialogInfo_ButtonGroup_Basic__Def_Recommendations_Horz">
-        <onup>333</onup>
-        <ondown>5000</ondown>
-    </include>
-    <include name="DialogInfo_ButtonGroup_Basic__Def_1183_Person">
-        <onup>ActivateWindow(1113)</onup>
-        <ondown>ActivateWindow(1113)</ondown>
-        <include content="Action_HomeMenu_OnRightLeft">
-            <param name="onlist">5000</param>
-        </include>
-    </include>
-    <include name="DialogInfo_ButtonGroup_Basic__Def_MyMusicPlaylistEdit">
-        <onright>50</onright>
     </include>
 
     <include name="DialogInfo_ButtonGroup_OnDown">
@@ -2080,18 +2056,6 @@
         
         <!-- Artwork -->
         <ondown condition="[String.IsEqual(Window.Property(DetailsView),Artwork) + !Integer.IsEqual(Container(5010).NumItems,0)]">SetFocus(5010,0,absolute)</ondown>
-    </include>
-
-    <!-- Button Group for DialogInfo -->
-    <include name="DialogInfo_ButtonGroup_Vert">
-        <top>250</top>
-        <width>160</width>
-        <left>view_list</left>
-    </include>
-    <include name="DialogInfo_ButtonGroup_Horz">
-        <top>20</top>
-        <height>160</height>
-        <left>20</left>
     </include>
     
     <include name="DialogInfo_VideoVersions_Content">
@@ -3864,6 +3828,7 @@
                 <param name="mainlogo_visible">$PARAM[mainlogo_visible]</param>
                 <param name="mainlogo_texture">$PARAM[mainlogo_texture]</param>
                 <param name="container">$PARAM[container]</param>
+                <param name="visible">$PARAM[visible]</param>
                 <width>info_panel_w</width>
                 <animation effect="slide" start="0" end="0,-80" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + $PARAM[include_slideup]" reversible="false">Conditional</animation>
             </include>
