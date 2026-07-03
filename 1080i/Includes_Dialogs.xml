@@ -1143,6 +1143,7 @@
         <param name="dimension_min">Dimension_DialogWideMenu</param>
         <param name="dimension_max">Dimension_DialogHugeMenu</param>
         <param name="dimension_special">Dimension_DialogMainMenu</param>
+        <param name="include_special">false</param>
         <param name="special_visible">false</param>
         <param name="onleft">61</param>
         <param name="items" />
@@ -1157,7 +1158,9 @@
                 </include>
             </control>
             <control type="group">
-                <visible>![$PARAM[special_visible]]</visible>
+                <include content="Object_Visible" condition="$PARAM[include_special]">
+                    <param name="visible">![$PARAM[special_visible]]</param>
+                </include>
                 <visible>$PARAM[visible]</visible>
                 <include>$PARAM[dimension_max]</include>
                 <include content="Dialog_Background_Panel">
@@ -1176,7 +1179,8 @@
                     </include>
                 </control>
             </control>
-            <control type="group">
+            <include content="Object_Control" condition="$PARAM[include_special]">
+                <param name="control">group</param>
                 <visible>$PARAM[special_visible]</visible>
                 <visible>$PARAM[visible]</visible>
                 <include>$PARAM[dimension_special]</include>
@@ -1195,7 +1199,7 @@
                         <param name="items">$PARAM[items]</param>
                     </include>
                 </control>
-            </control>
+            </include>
         </definition>
     </include>
 
