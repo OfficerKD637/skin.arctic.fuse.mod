@@ -691,13 +691,13 @@
                 <param name="icon_centertop">50%</param>
                 <param name="visible">[[[$PARAM[visible_movies] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | String.IsEqual($PARAM[container]ListItem.DBType,set) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + String.IsEmpty($PARAM[container]ListItem.TVShowTitle)]]] | [$PARAM[visible_tvshows] + [String.IsEqual($PARAM[container]ListItem.DBType,tvshow) | String.IsEqual($PARAM[container]ListItem.DBType,season) | String.IsEqual($PARAM[container]ListItem.DBType,episode) | [!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEmpty($PARAM[container]ListItem.TVShowTitle)]]]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Status))]</param>
             </include>
-            <include content="Info_Line_Rating" condition="$PARAM[is_player] + Skin.String(CustomStatus.DateStyle,Long)">
+            <include content="Info_Line_Rating" condition="$PARAM[is_player] + !Skin.String(CustomStatus.DateStyle,Long)">
                 <param name="label">$VAR[Label_Player_Status]$VAR[Label_Player_StatusDate_Short, ,]</param>
                 <param name="icon">$VAR[Image_Player_Status]</param>
                 <param name="icon_centertop">50%</param>
                 <param name="visible">[[[$PARAM[visible_movies] + [VideoPlayer.Content(movies)]] | [$PARAM[visible_tvshows] + [VideoPlayer.Content(episodes)]]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Status))]</param>
             </include>
-            <include content="Info_Line_Rating" condition="$PARAM[is_player] + !Skin.String(CustomStatus.DateStyle,Long)">
+            <include content="Info_Line_Rating" condition="$PARAM[is_player] + Skin.String(CustomStatus.DateStyle,Long)">
                 <param name="label">$VAR[Label_Player_Status]$VAR[Label_Player_StatusDate_Long, ,]</param>
                 <param name="icon">$VAR[Image_Player_Status]</param>
                 <param name="icon_centertop">50%</param>
@@ -4071,11 +4071,96 @@
                     <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
                         <param name="top">-40</param>
                     </include>
+                    <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                        <param name="scroll">true</param>
+                    </include>
                     <height>40</height>
                     <font>font_main_bold</font>
                     <width>$PARAM[plotwidth]</width>
                     <visible>$PARAM[details]</visible>
                     <visible>$PARAM[visible]</visible>
+                </control>
+                <include content="Info_Panel_Textbox_Item">
+                    <param name="top">40</param>
+                    <param name="bottom">0</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="details">$PARAM[details]</param>
+                    <param name="visible">$PARAM[visible]</param>
+                    <param name="plotwidth">$PARAM[plotwidth]</param>
+                    <param name="plotlabel">$INFO[$PARAM[container]$PARAM[listitem].Plot]</param>
+                    <param name="plotbox_scroll">$PARAM[plotbox_scroll]</param>
+                    <param name="details_include">$PARAM[details_include]</param>
+                </include>
+            </control>
+
+            <control type="group">
+                <visible>![$PARAM[plotline_visible]]</visible>
+                <include content="Info_Panel_Textbox_Item">
+                    <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                    <param name="details">$PARAM[details]</param>
+                    <param name="visible">$PARAM[visible]</param>
+                    <param name="plotwidth">$PARAM[plotwidth]</param>
+                    <param name="plotlabel">$INFO[$PARAM[container]$PARAM[listitem].Plot]</param>
+                    <param name="plotbox_scroll">$PARAM[plotbox_scroll]</param>
+                    <param name="details_include">$PARAM[details_include]</param>
+                </include>
+            </control>
+        </definition>
+    </include>
+    
+    <include name="Info_Panel_Plotline_3_Item">
+        <definition>
+            <control type="group">
+                <visible>$PARAM[plotline_visible]</visible>
+                <control type="label">
+                    <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                    <label>$PARAM[label_1]</label>
+                    <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                        <param name="top">-40</param>
+                    </include>
+                    <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                        <param name="scroll">true</param>
+                    </include>
+                    <height>40</height>
+                    <font>font_main_bold</font>
+                    <width>$PARAM[plotwidth]</width>
+                    <visible>$PARAM[details]</visible>
+                    <visible>$PARAM[visible]</visible>
+                    <visible>$PARAM[label_1_visible]</visible>
+                </control>
+                <control type="label">
+                    <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                    <label>$PARAM[label_2]</label>
+                    <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                        <param name="top">-40</param>
+                    </include>
+                    <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                        <param name="scroll">true</param>
+                    </include>
+                    <height>40</height>
+                    <font>font_main_bold</font>
+                    <width>$PARAM[plotwidth]</width>
+                    <visible>$PARAM[details]</visible>
+                    <visible>$PARAM[visible]</visible>
+                    <visible>!$PARAM[label_1_visible]</visible>
+                    <visible>$PARAM[label_2_visible]</visible>
+                </control>
+                <control type="label">
+                    <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                    <label>$PARAM[label_3]</label>
+                    <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                        <param name="top">-40</param>
+                    </include>
+                    <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                        <param name="scroll">true</param>
+                    </include>
+                    <height>40</height>
+                    <font>font_main_bold</font>
+                    <width>$PARAM[plotwidth]</width>
+                    <visible>$PARAM[details]</visible>
+                    <visible>$PARAM[visible]</visible>
+                    <visible>!$PARAM[label_1_visible]</visible>
+                    <visible>!$PARAM[label_2_visible]</visible>
                 </control>
                 <include content="Info_Panel_Textbox_Item">
                     <param name="top">40</param>
@@ -4211,9 +4296,13 @@
             <!-- Watched Episodes -->
             <include content="Object_Control" condition="Skin.String(PlotLine.$PARAM[dbtype],Episodes)">
                 <param name="control">group</param>
-                <include content="Info_Panel_Plotline_Item">
+                <include content="Info_Panel_Plotline_3_Item">
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                    <param name="label">$INFO[ListItem.Property(watchedepisodes),$LOCALIZE[16102] , $LOCALIZE[1443] ]$INFO[ListItem.Property(totalepisodes)] $LOCALIZE[20453]</param>
+                    <param name="label_1">$INFO[$PARAM[container]ListItem.Property(watchedepisodes),$LOCALIZE[16102] , $LOCALIZE[1443] ]$INFO[$PARAM[container]ListItem.Property(totalepisodes)] $LOCALIZE[20453]</param>
+                    <param name="label_2">$INFO[$PARAM[container]ListItem.Property(totalseasons),, $LOCALIZE[20373]] • $INFO[$PARAM[container]ListItem.Property(totalepisodes)] $LOCALIZE[20453]</param>
+                    <param name="label_3">$INFO[$PARAM[container]ListItem.Property(totalseasons),, $LOCALIZE[33054]] • $INFO[$PARAM[container]ListItem.Property(totalepisodes)] $LOCALIZE[20453]</param>
+                    <param name="label_1_visible">!Integer.IsEqual($PARAM[container]ListItem.Property(watchedepisodes),0)</param>
+                    <param name="label_2_visible">!Integer.IsGreater($PARAM[container]ListItem.Property(totalseasons),1)</param>
                     <param name="container">$PARAM[container]</param>
                     <param name="listitem">$PARAM[listitem]</param>
                     <param name="plotwidth">$PARAM[plotwidth]</param>
