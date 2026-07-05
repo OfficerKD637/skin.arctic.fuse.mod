@@ -76,6 +76,18 @@
                 <include>Furniture_Bottom_Right</include>
             </control>
         </control>
+        <include content="DialogCustom_Favourites">
+            <param name="id">8000</param>
+            <param name="header">$LOCALIZE[137] $LOCALIZE[31103]</param>
+            <param name="include_list">Search_View_Custom_List</param>
+            <param name="include_content">Search_View_Custom_Content</param>
+            <param name="resize">true</param>
+            <param name="visible">!String.IsEmpty(Window(1185).Property(EditSearchWidgets))</param>
+            <param name="include_onback">true</param>
+            <param name="onback_1">ClearProperty(EditSearchWidgets,1185)</param>
+            <param name="onback_2">9994</param>
+            <param name="closebutton_onclick">RunScript(script.skinvariables,run_executebuiltin=ClearProperty(EditSearchWidgets,1185)||sleep=0.1||SetFocus(9994,1,absolute))</param>
+        </include>
     </include>
 
     <include name="Search_View_Selector">
@@ -115,6 +127,37 @@
             </control>
         </control>
     </include>    
+
+    <include name="Search_View_Custom_Content">
+        <onback>ClearProperty(EditSearchWidgets,1185)</onback>
+        <onback>9994</onback>
+        <content>
+            <item>
+                <label>$LOCALIZE[593]</label>
+                <icon>special://skin/extras/icons/shapes.png</icon>
+                <property name="reset_widgets">True</property>
+                <onclick>Skin.Reset(Search.Custom.Widgets)</onclick>
+            </item>
+            <include>skinvariables-searchmenu-items-list</include>
+        </content>
+    </include>
+
+    <include name="Search_View_Custom_List">
+        <param name="scrollbarid">61</param>
+        <param name="misc">!String.Contains(Skin.String(Search.Custom.Widgets),ListItem.Property(guid))</param>
+        <definition>
+            <include content="List_DialogSelect">
+                <param name="id">$PARAM[id]</param>
+                <param name="itemlayout_include">Layout_ShortcutCategories</param>
+                <param name="misc">$PARAM[misc]</param>
+                <param name="variation">String.IsEmpty(ListItem.Property(reset_widgets))</param>
+                <pagecontrol>$PARAM[scrollbarid]</pagecontrol>
+                <onright>$PARAM[scrollbarid]</onright>
+                <include>Size_Grouplist_Pad</include>
+                <include>$PARAM[include_content]</include>
+            </include>
+        </definition>
+    </include>
 
     <include name="Search_View_Discover">
         <include>Background</include>
@@ -237,14 +280,15 @@
         <onload condition="$EXP[Exp_FullPanelWindows_Prev] + String.IsEmpty(Window(Home).Property(CustomSearchTerm)) + ![Window.Previous(1185) | Window.Previous(1105)]">SetFocus(9099)</onload>
         <onload condition="$EXP[Exp_FullPanelWindows_Prev] + String.IsEmpty(Window(Home).Property(CustomSearchTerm)) + [Window.Previous(1185) | Window.Previous(1105)]">SetFocus(9994,0,absolute)</onload>
 
-
         <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm))">SetFocus(9099)</onload>
         <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm)) + Window.IsVisible(1105)">AlarmClock(refocus,RunScript(script.skinvariables,set_editcontrol=9099,window_id=1105,setfocus=9992,text=$INFO[Window(Home).Property(CustomSearchTerm)]),00:01,silent)</onload>
         <onload condition="!String.IsEmpty(Window(Home).Property(CustomSearchTerm)) + Window.IsVisible(1185)">AlarmClock(refocus,RunScript(script.skinvariables,set_editcontrol=9099,window_id=1185,setfocus=9992,text=$INFO[Window(Home).Property(CustomSearchTerm)]),00:01,silent)</onload>
         <onload>ClearProperty(CustomSearchTerm,Home)</onload>
         <onload>ClearProperty(Searchbar.IsHidden)</onload>
+        <onload>ClearProperty(EditSearchWidgets,1185)</onload>
 
         <onunload>ClearProperty(Searchbar.IsHidden)</onunload>
+        <onunload>ClearProperty(EditSearchWidgets,1185)</onunload>
         <onunload condition="!String.IsEmpty(Control.GetLabel(9099).index(1))">RunScript(script.skinvariables,add_skinstring_history=SearchHistory,value=$VAR[Path_SearchTerm])</onunload>
     </include>
 
@@ -302,21 +346,34 @@
         <onclick>AlarmClock(DelUpdateSearchRows,ClearProperty(UpdateSearchRows,Home),00:02,silent)</onclick>
     </include>
 
-    <include name="Search_Panel_Keyboard_Letters">
-        <control type="panel" id="9992">
-            <orientation>vertical</orientation>
-
-            <onright condition="String.IsEqual(Container(9992).ListItem.Label,_)">SetFocus(9994,0,absolute)</onright>
-            <onleft condition="String.IsEqual(Container(9992).ListItem.Label,R)">SetFocus(9994,9999,absolute)</onleft>
-
+    <include name="Search_Panel_Keyboard_Letters_Row_1">
+        <control type="list" id="9992">
+            <orientation>horizontal</orientation>
             <width>680</width>
-            <height>120</height>
-            <centerleft>50%</centerleft>           
-            
-            <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
+            <height>60</height>
+            <centerleft>50%</centerleft>
 
-            <animation effect="slide" start="0" end="0,-60" time="200" tween="sine" condition="$EXP[Exp_Search_Slide_Keyboard]" reversible="false">Conditional</animation>
-            <animation effect="slide" start="0,-60" end="0" time="200" tween="sine" condition="![$EXP[Exp_Search_Slide_Keyboard]]" reversible="false">Conditional</animation>
+            <onup condition="EXP[Exp_Search_Slide_Keyboard]">9099</onup>
+            <onup condition="!EXP[Exp_Search_Slide_Keyboard]">9993</onup>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,A)">SetFocus(9996,0,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,B)">SetFocus(9996,1,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,C)">SetFocus(9996,2,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,D)">SetFocus(9996,3,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,E)">SetFocus(9996,4,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,F)">SetFocus(9996,5,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,G)">SetFocus(9996,6,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,H)">SetFocus(9996,7,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,I)">SetFocus(9996,8,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,J)">SetFocus(9996,9,absolute)</ondown>
+
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,K) | String.IsEqual(Container(9992).ListItem.Label,L)">SetFocus(9994,0,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,M)">SetFocus(9994,1,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,N) | String.IsEqual(Container(9992).ListItem.Label,O)">SetFocus(9994,2,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,P)">SetFocus(9994,3,absolute)</ondown>
+            <ondown condition="String.IsEqual(Container(9992).ListItem.Label,Q)">SetFocus(9994,4,absolute)</ondown>
+
+            <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
+            <onfocus>ClearProperty(Searchbar.IsHidden)</onfocus>
 
             <itemlayout width="40" height="60">
                 <control type="label">
@@ -477,74 +534,152 @@
                     <onclick>SetFocus(9992)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
+            </content>
+        </control>
+    </include>
+    
+    <include name="Search_Panel_Keyboard_Letters_Row_2">
+        <control type="list" id="9996">
+            <orientation>horizontal</orientation>
+
+            <width>680</width>
+            <height>60</height>
+            <centerleft>50%</centerleft>
+            
+            <ondown condition="Window.IsVisible(1105) + [String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">9099</ondown>
+            <ondown condition="Window.IsVisible(1185) + [String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">9099</ondown>
+
+            <ondown condition="Window.IsVisible(1105) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">RunScript(script.skinvariables,add_skinstring_history=SearchHistory,value=$VAR[Path_SearchTerm])</ondown>
+            <ondown condition="Window.IsVisible(1185) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">RunScript(script.skinvariables,add_skinstring_history=SearchHistory,value=$VAR[Path_SearchTerm])</ondown>
+
+            <ondown condition="Window.IsVisible(1105) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">5000</ondown>
+            <ondown condition="Window.IsVisible(1185) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">5099</ondown>
+
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,R)">SetFocus(9992,0,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,S)">SetFocus(9992,1,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,T)">SetFocus(9992,2,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,U)">SetFocus(9992,3,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,V)">SetFocus(9992,4,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,W)">SetFocus(9992,5,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,X)">SetFocus(9992,6,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,Y)">SetFocus(9992,7,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,Z)">SetFocus(9992,8,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9996).ListItem.Label,_)">SetFocus(9992,9,absolute)</onup>
+
+            <onright condition="String.IsEqual(Container(9996).ListItem.Label,_)">SetFocus(9994,0,absolute)</onright>
+            <onleft condition="String.IsEqual(Container(9996).ListItem.Label,R)">SetFocus(9994,9999,absolute)</onleft>
+
+            <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
+            <onfocus>ClearProperty(Searchbar.IsHidden)</onfocus>
+
+            <itemlayout width="40" height="60">
+                <control type="label">
+                    <font>font_main</font>
+                    <label>$INFO[ListItem.Label]</label>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <align>center</align>
+                    <height>35</height>
+                </control>
+            </itemlayout>
+
+            <focusedlayout width="40" height="60">
+                <control type="label">
+                    <visible>!Control.HasFocus(9996)</visible>
+                    <font>font_main</font>
+                    <label>$INFO[ListItem.Label]</label>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <align>center</align>
+                    <height>35</height>
+                </control>
+
+                <control type="group">
+                    <visible>Control.HasFocus(9996)</visible>
+                    <control type="label">
+                        <font>font_main_bold</font>
+                        <label>$INFO[ListItem.Label]</label>
+                        <textcolor>dialog_fg_100</textcolor>
+                        <align>center</align>
+                        <height>35</height>
+                    </control>
+                    <control type="image">
+                        <include>Texture_Highlight_Scrollbar_H</include>
+                        <height>scrollbar_w</height>
+                        <bottom>10</bottom>
+                        <width>75%</width>
+                        <centerleft>50%</centerleft>
+                    </control>
+                </control>
+            </focusedlayout>
+
+            <content>
                 <item>
                     <label>R</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_r</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>S</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_s</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>T</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_t</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>U</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_u</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>V</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_v</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>W</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_w</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>X</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_x</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>Y</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_y</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>Z</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click_z</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
                     <label>_</label>
                     <onclick>SetFocus(9099)</onclick>
                     <include>Object_SearchLetter_Click__</include>
-                    <onclick>SetFocus(9992)</onclick>
+                    <onclick>SetFocus(9996)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
             </content>
@@ -552,9 +687,8 @@
     </include>
     
     <include name="Search_Panel_Keyboard_Iconic">
-        <control type="panel" id="9994">
+        <control type="list" id="9994">
             <orientation>horizontal</orientation>
-            <onfocus>ClearProperty(Searchbar.IsHidden)</onfocus>
 
             <ondown condition="Window.IsVisible(1105) + [String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">9099</ondown>
             <ondown condition="Window.IsVisible(1185) + [String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">9099</ondown>
@@ -565,22 +699,21 @@
             <ondown condition="Window.IsVisible(1105) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">5000</ondown>
             <ondown condition="Window.IsVisible(1185) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">5099</ondown>
 
-            <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf0b0;)">SetFocus(9992,11,absolute)</onup>
-            <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf002;)">SetFocus(9992,10,absolute)</onup>
-            <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf304;)">SetFocus(9992,12,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf0b0;) | String.IsEqual(Container(9994).ListItem.Label,&#xf002;)">SetFocus(9992,10,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf304;) | String.IsEqual(Container(9994).ListItem.Label,&#xf61f;)">SetFocus(9992,12,absolute)</onup>
             <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf11c;)">SetFocus(9992,13,absolute)</onup>
-            <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf55a;)">SetFocus(9992,14,absolute)</onup>
+            <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf55a;)">SetFocus(9992,15,absolute)</onup>
             <onup condition="String.IsEqual(Container(9994).ListItem.Label,&#xf071;)">SetFocus(9992,16,absolute)</onup>
             
-            <onleft condition="String.IsEqual(Container(9994).ListItem.Label,&#xf0b0;) | String.IsEqual(Container(9994).ListItem.Label,&#xf002;)">SetFocus(9992,26,absolute)</onleft>
-            <onright condition="String.IsEqual(Container(9994).ListItem.Label,&#xf071;)">SetFocus(9992,17,absolute)</onright>
+            <onleft condition="String.IsEqual(Container(9994).ListItem.Label,&#xf0b0;) | String.IsEqual(Container(9994).ListItem.Label,&#xf002;)">SetFocus(9996,9999,absolute)</onleft>
+            <onright condition="String.IsEqual(Container(9994).ListItem.Label,&#xf071;)">SetFocus(9996,0,absolute)</onright>
 
             <top>-70</top>
             <width>300</width>
             <height>60</height>
             <right>40</right>
             <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
-            <animation effect="slide" start="0" end="30" condition="Window.IsVisible(1185)" reversible="false">Conditional</animation>
+            <onfocus>ClearProperty(Searchbar.IsHidden)</onfocus>
 
             <itemlayout width="60" height="60">
                 <control type="label">
@@ -592,8 +725,15 @@
             </itemlayout>
 
             <focusedlayout width="60" height="60">
-
+                <control type="label">
+                    <visible>!Control.HasFocus(9994)</visible>
+                    <font>font_mini_iconic</font>
+                    <label>$INFO[ListItem.Label]</label>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <align>center</align>
+                </control>
                 <control type="group">
+                    <visible>Control.HasFocus(9994)</visible>
                     <control type="label">
                         <font>font_mini_iconic</font>
                         <label>$INFO[ListItem.Label]</label>
@@ -625,6 +765,14 @@
                     <onclick>SetProperty(CustomSearchTerm,$INFO[Control.GetLabel(9099).index(1)],Home)</onclick>
                     <onclick>ReplaceWindow(1185)</onclick>
                     <visible>Window.IsVisible(1105)</visible>
+                    <include>Search_Panel_UpdateSearchRows_Onclick</include>
+                </item>
+                <item>
+                    <description>Edit Widgets</description>
+                    <label>&#xf61f;</label>
+                    <visible>Window.IsVisible(1185)</visible>
+                    <onclick>SetProperty(EditSearchWidgets,True)</onclick>
+                    <onclick>SetFocus(8000,0,absolute)</onclick>
                     <include>Search_Panel_UpdateSearchRows_Onclick</include>
                 </item>
                 <item>
@@ -749,26 +897,22 @@
                 <control type="grouplist" id="9090">
                     <top>180</top>
                     <onup>9099</onup>
-                    <onfocus>ClearProperty(Searchbar.IsHidden)</onfocus>
-                    <ondown condition="Window.IsVisible(1105) + [String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">9099</ondown>
-                    <ondown condition="Window.IsVisible(1185) + [String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">9099</ondown>
-
-                    <ondown condition="Window.IsVisible(1105) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">RunScript(script.skinvariables,add_skinstring_history=SearchHistory,value=$VAR[Path_SearchTerm])</ondown>
-                    <ondown condition="Window.IsVisible(1185) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">RunScript(script.skinvariables,add_skinstring_history=SearchHistory,value=$VAR[Path_SearchTerm])</ondown>
-
-                    <ondown condition="Window.IsVisible(1105) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) + Integer.IsEqual(Container(5000).NumItems,0)]">5000</ondown>
-                    <ondown condition="Window.IsVisible(1185) + ![String.IsEmpty(Control.GetLabel(9099).index(1)) | Integer.IsEqual(Container(5099).ListItem.Property(widget_numitems),0)]">5099</ondown>
-
+                    <ondown>9992</ondown>
                     <include condition="Window.IsVisible(1185)">Search_Panel_Autocomplete</include>
                     <include condition="Window.IsVisible(1105)">Search_Panel_DiscoverFilter</include>
-                    <include>Search_Panel_Keyboard_Letters</include>
-                </control>
-                
-                <control type="group">
-                    <top>330</top>
-                    <animation effect="slide" start="0" end="0,-60" time="200" tween="sine" condition="$EXP[Exp_Search_Slide_Keyboard]" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="0,-60" end="0" time="200" tween="sine" condition="![$EXP[Exp_Search_Slide_Keyboard]]" reversible="false">Conditional</animation>
-                    <include>Search_Panel_Keyboard_Iconic</include>
+                    <control type="group" id="9997">
+                        <animation effect="slide" start="0" end="0,-60" time="200" tween="sine" condition="$EXP[Exp_Search_Slide_Keyboard]" reversible="false">Conditional</animation>
+                        <animation effect="slide" start="0,-60" end="0" time="200" tween="sine" condition="![$EXP[Exp_Search_Slide_Keyboard]]" reversible="false">Conditional</animation>
+                        <include>Search_Panel_Keyboard_Letters_Row_1</include>
+                        <control type="group">
+                            <top>60</top>
+                            <include>Search_Panel_Keyboard_Letters_Row_2</include>
+                        </control>
+                        <control type="group">
+                            <top>120</top>
+                            <include>Search_Panel_Keyboard_Iconic</include>
+                        </control>
+                    </control>
                 </control>
 
                 <!-- Autocomplete -->

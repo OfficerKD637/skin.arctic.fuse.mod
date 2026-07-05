@@ -1,15 +1,62 @@
 <contents>
-    <value name="comments">Search Selector</value>
-    <template>generator/data/parts/basic_include.xmltemplate</template>
-    <value name="includes_name">skinvariables-searchmenu-selector</value>
-    <value name="includes_part">
-        <items menu="searchmenu">
-            <item>
-                <template>generator/data/parts/search_item.xmltemplate</template>
-                <condition>{item_path}!=</condition>
-                <condition>{item_disabled}!=True</condition>
-                <value name="widget_id">$MATH[5000 + {item_x} + 1]</value>
-            </item>
-        </items>
-    </value>
+    <lists>
+        <list name="searchmenu">
+        </list>
+    </lists>
+    <items>
+        <item>
+            <value name="comments">Search Selector</value>
+            <template>generator/data/parts/basic_include.xmltemplate</template>
+            <value name="includes_name">skinvariables-searchmenu-selector</value>
+            <value name="includes_part">
+                <items menu="searchmenu">
+                    <item>
+                        <template>generator/data/parts/search_item.xmltemplate</template>
+                        <condition>{item_path}!=</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <value name="widget_id">$MATH[5000 + {item_x} + 1]</value>
+                        <value name="search_item_standard">
+                            <template>
+                                <![CDATA[
+                                    <property name="unhide_artwork">true</property>
+                                    <property name="widget_numitems">$INFO[Container({widget_id}).NumItems]</property>
+                                    ]]>
+                            </template>
+                        </value>
+                        <value name="search_item_visible">
+                            <template>
+                                <![CDATA[
+                                    <visible>!Integer.IsEqual(Container({widget_id}).NumItems,0)</visible>
+                                    <visible>!String.IsEmpty(Control.GetLabel(9099).index(1))</visible>
+                                    <visible>!String.Contains(Skin.String(Search.Custom.Widgets),{item_guid})</visible>
+                                    ]]>
+                            </template>
+                        </value>
+                    </item>
+                </items>
+            </value>
+        </item>
+        <item>
+            <value name="comments">Search Items List</value>
+            <template>generator/data/parts/basic_include.xmltemplate</template>
+            <value name="includes_name">skinvariables-searchmenu-items-list</value>
+            <value name="includes_part">
+                <items menu="searchmenu">
+                    <item>
+                        <template>generator/data/parts/search_item.xmltemplate</template>
+                        <condition>{item_path}!=</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <value name="widget_id">$MATH[5000 + {item_x} + 1]</value>
+                        <value name="search_item_additional">
+                            <template>
+                                <![CDATA[
+                                <onclick>RunScript(script.skinvariables,add_skinstring_history=Search.Custom.Widgets,value={item_guid},toggle)</onclick>
+                                ]]>
+                            </template>
+                        </value>
+                    </item>
+                </items>
+            </value>
+        </item>
+    </items>
 </contents>
