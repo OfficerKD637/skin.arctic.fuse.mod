@@ -369,51 +369,157 @@
         </control>
     </include>
 
+    <include name="Shortcuts_ShortcutList_FakeButton">
+        <definition>
+            <control type="group">
+                <nested />
+                <width>64</width>
+                <height>64</height>
+                <control type="image">
+                    <texture colordiffuse="$VAR[ColorSelected_30]">$PARAM[icon]</texture>
+                    <visible>!Control.HasFocus($PARAM[id])</visible>
+                </control>
+                <control type="image">
+                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Shortcuts_ShortcutList_FakeButtons">
+        <control type="group">
+            <right>20</right>
+            <height>64</height>
+            <centertop>50%</centertop>
+            <include content="Shortcuts_ShortcutList_FakeButton">
+                <param name="id">22901</param>
+                <param name="icon">special://skin/extras/icons/circle-arrow-up.png</param>
+                <right>156</right>
+            </include>
+            <include content="Shortcuts_ShortcutList_FakeButton">
+                <param name="id">22902</param>
+                <param name="icon">special://skin/extras/icons/circle-arrow-down.png</param>
+                <right>104</right>
+            </include>
+            <include content="Shortcuts_ShortcutList_FakeButton">
+                <param name="id">22903</param>
+                <param name="icon">special://skin/extras/icons/circle-plus.png</param>
+                <right>52</right>
+            </include>
+            <include content="Shortcuts_ShortcutList_FakeButton">
+                <param name="id">22904</param>
+                <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+                <right>0</right>
+            </include>
+        </control>
+    </include>
+
     <include name="Shortcuts_ShortcutList">
         <control type="group">
-            <include content="List_DialogSelect">
-                <param name="id">22001</param>
-                <param name="item_height">120</param>
-                <param name="textcolor">dialog_fg_70</param>
-                <param name="itemlayout_include">Layout_Shortcuts</param>
-                <param name="altfocus">[!Control.HasFocus(23062)]</param>
-                <param name="misc">200</param>
-                <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
-                <visible>!Control.IsVisible(23062)</visible>
+            <control type="list" id="22001">
+                <orientation>vertical</orientation>
+                <preloaditems>2</preloaditems>
                 <pagecontrol>62</pagecontrol>
-
+                <scrolltime tween="quadratic">400</scrolltime>
+                <visible>!Control.IsVisible(23062)</visible>
+                <itemlayout height="120">
+                    <control type="group">
+                        <include content="Layout_Shortcuts">
+                            <param name="selected">false</param>
+                            <param name="item_h">120</param>
+                            <param name="misc">200</param>
+                            <param name="id">22001</param>
+                            <param name="textcolor">dialog_fg_70</param>
+                            <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
+                        </include>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="120">
+                    <control type="group">
+                        <animation effect="fade" start="100" end="0" condition="[Control.HasFocus(22001) | !Control.HasFocus(23062)]">Conditional</animation>
+                        <include content="Layout_Shortcuts">
+                            <param name="selected">false</param>
+                            <param name="item_h">120</param>
+                            <param name="misc">200</param>
+                            <param name="id">22001</param>
+                            <param name="textcolor">dialog_fg_70</param>
+                            <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <animation effect="fade" start="100" end="0" condition="![Control.HasFocus(22001) | !Control.HasFocus(23062)]">Conditional</animation>
+                        <include content="Layout_Shortcuts">
+                            <param name="selected">true</param>
+                            <param name="item_h">120</param>
+                            <param name="misc">200</param>
+                            <param name="id">22001</param>
+                            <param name="textcolor">dialog_fg_70</param>
+                            <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
+                        </include>
+                        <include>Shortcuts_ShortcutList_FakeButtons</include>
+                    </control>
+                </focusedlayout>
                 <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=true&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditMode),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditGUID),&amp;,]$VAR[Path_SkinVariables_FilterPath]</content>
-
                 <onfocus>SetFocus(22900)</onfocus>
-
                 <onup>23062</onup>
                 <ondown>23062</ondown>
                 <onright>62</onright>
                 <onback>29999</onback>
                 <onclick>noop</onclick>
-            </include>
-            <include content="List_DialogSelect">
-                <param name="id">22001</param>
-                <param name="item_height">120</param>
-                <param name="textcolor">dialog_fg_70</param>
-                <param name="itemlayout_include">Layout_Shortcuts</param>
-                <param name="altfocus">[!Control.HasFocus(23062)]</param>
-                <param name="misc">200</param>
-                <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
+            </control>
+            <control type="list" id="22001">
+                <orientation>vertical</orientation>
+                <preloaditems>2</preloaditems>
+                <pagecontrol>62</pagecontrol>
+                <scrolltime tween="quadratic">400</scrolltime>
                 <visible>Control.IsVisible(23062)</visible>
                 <top>100</top>
-                <pagecontrol>62</pagecontrol>
-
+                <itemlayout height="120">
+                    <control type="group">
+                        <include content="Layout_Shortcuts">
+                            <param name="selected">false</param>
+                            <param name="item_h">120</param>
+                            <param name="misc">200</param>
+                            <param name="id">22001</param>
+                            <param name="textcolor">dialog_fg_70</param>
+                            <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
+                        </include>
+                    </control>
+                </itemlayout>
+                <focusedlayout height="120">
+                    <control type="group">
+                        <animation effect="fade" start="100" end="0" condition="[Control.HasFocus(22001) | !Control.HasFocus(23062)]">Conditional</animation>
+                        <include content="Layout_Shortcuts">
+                            <param name="selected">false</param>
+                            <param name="item_h">120</param>
+                            <param name="misc">200</param>
+                            <param name="id">22001</param>
+                            <param name="textcolor">dialog_fg_70</param>
+                            <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <animation effect="fade" start="100" end="0" condition="![Control.HasFocus(22001) | !Control.HasFocus(23062)]">Conditional</animation>
+                        <include content="Layout_Shortcuts">
+                            <param name="selected">true</param>
+                            <param name="item_h">120</param>
+                            <param name="misc">200</param>
+                            <param name="id">22001</param>
+                            <param name="textcolor">dialog_fg_70</param>
+                            <param name="detailed">$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]</param>
+                        </include>
+                        <include>Shortcuts_ShortcutList_FakeButtons</include>
+                    </control>
+                </focusedlayout>
                 <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=true&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditMode),&amp;,]$INFO[Window(Home).Property(Shortcuts.EditGUID),&amp;,]$VAR[Path_SkinVariables_FilterPath]</content>
-
                 <onfocus>SetFocus(22900)</onfocus>
-
                 <onup>23062</onup>
                 <ondown>23062</ondown>
                 <onright>62</onright>
                 <onback>29999</onback>
                 <onclick>noop</onclick>
-            </include>
+            </control>
 
             <control type="group">
                 <visible allowhiddenfocus="true">!Control.HasFocus(23062)</visible>
@@ -447,8 +553,8 @@
                     <right>20</right>
 
                     <control type="button" id="22901">
-                        <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-arrow-up.png</texturenofocus>
-                        <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-arrow-up.png</texturefocus>
+                        <texturenofocus />
+                        <texturefocus />
                         <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_move&amp;&amp;move::-1&amp;&amp;window_prop::url]$INFO[Container(22001).ListItem(-1).Property(item),&amp;&amp;offset::,])</onclick>
                         <onback>29999</onback>
                         <width>64</width>
@@ -456,8 +562,8 @@
                     </control>
 
                     <control type="button" id="22902">
-                        <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-arrow-down.png</texturenofocus>
-                        <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-arrow-down.png</texturefocus>
+                        <texturenofocus />
+                        <texturefocus />
                         <onclick>RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_move&amp;&amp;move::1&amp;&amp;window_prop::url]$INFO[Container(22001).ListItem(1).Property(item),&amp;&amp;offset::,])</onclick>
                         <onback>29999</onback>
                         <width>64</width>
@@ -465,8 +571,8 @@
                     </control>
 
                     <control type="button" id="22903">
-                        <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-plus.png</texturenofocus>
-                        <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-plus.png</texturefocus>
+                        <texturenofocus />
+                        <texturefocus />
 
                         <onclick condition="!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">SetProperty(Shortcuts.Groupings.Links,Links,Home)</onclick>
                         <onclick condition="$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">ClearProperty(Shortcuts.Groupings.Links,Home)</onclick>
@@ -479,8 +585,8 @@
                     </control>
 
                     <control type="button" id="22904">
-                        <texturenofocus colordiffuse="$VAR[ColorSelected_30]">special://skin/extras/icons/circle-xmark.png</texturenofocus>
-                        <texturefocus colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/circle-xmark.png</texturefocus>
+                        <texturenofocus />
+                        <texturefocus />
 
                         <onclick condition="!$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">SetProperty(Shortcuts.Groupings.Links,Links,Home)</onclick>
                         <onclick condition="$EXP[Shortcuts_Dialog_Exp_IsWidgetMode]">ClearProperty(Shortcuts.Groupings.Links,Home)</onclick>
