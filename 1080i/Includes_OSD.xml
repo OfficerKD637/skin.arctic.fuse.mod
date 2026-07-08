@@ -134,6 +134,38 @@
         </definition>
     </include>
 
+    <include name="OSD_CastInfo_HintText_DirectionLabel">
+        <control type="label">
+            <textcolor>main_fg_30</textcolor>
+            <width>auto</width>
+            <font>font_tiny_bold</font>
+            <label>$PARAM[label]:  </label>
+            <include content="Object_Visible" condition="$PARAM[include_arrow_visible]">
+                <param name="visible">!String.IsEmpty(Control.GetLabel($PARAM[label_id]))</param>
+            </include>
+        </control>
+    </include>
+
+    <include name="OSD_CastInfo_HintText_DirectionLabel_down">
+        <param name="include_arrow_visible">false</param>
+        <definition>
+            <include content="OSD_CastInfo_HintText_DirectionLabel">
+                <param name="label">$LOCALIZE[31288]</param>
+                <param name="include_arrow_visible">$PARAM[include_arrow_visible]</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="OSD_CastInfo_HintText_DirectionLabel_right">
+        <param name="include_arrow_visible">false</param>
+        <definition>
+            <include content="OSD_CastInfo_HintText_DirectionLabel">
+                <param name="label">$LOCALIZE[31281]</param>
+                <param name="include_arrow_visible">$PARAM[include_arrow_visible]</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="OSD_CastInfo_HintText">
         <param name="visible">true</param>
         <param name="colordiffuse">main_fg_30</param>
@@ -142,6 +174,7 @@
         <param name="fade_in">true</param>
         <param name="fade_out">true</param>
         <param name="arrow_direction">down</param>
+        <param name="include_arrow_visible">false</param>
         <definition>
             <control type="group">
                 <visible>$PARAM[visible]</visible>
@@ -154,19 +187,39 @@
                 <left>$PARAM[left]</left>
                 <centerbottom>$PARAM[centerbottom]</centerbottom>
                 <height>40</height>
-                <control type="image">
-                    <centerleft>10</centerleft>
-                    <width>40</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <texture colordiffuse="$PARAM[colordiffuse]">special://skin/extras/icons/arrow-$PARAM[arrow_direction].png</texture>
-                </control>
-                <control type="label">
-                    <textcolor>$PARAM[colordiffuse]</textcolor>
-                    <left>40</left>
-                    <font>font_tiny</font>
+                <control type="grouplist">
+                    <left>-10</left>
+                    <orientation>horizontal</orientation>
                     <align>left</align>
-                    <label>$PARAM[label]</label>
+                    <control type="image">
+                        <height>40</height>
+                        <width>40</width>
+                        <aspectratio>keep</aspectratio>
+                        <include content="Object_Visible" condition="$PARAM[include_arrow_visible]">
+                            <param name="visible">!String.IsEmpty(Control.GetLabel($PARAM[label_id]))</param>
+                        </include>
+                        <texture colordiffuse="$PARAM[colordiffuse]">special://skin/extras/icons/arrow-$PARAM[arrow_direction].png</texture>
+                    </control>
+                    <control type="label">
+                        <top>-2</top>
+                        <textcolor>main_fg_30</textcolor>
+                        <width>auto</width>
+                        <font>font_tiny</font>
+                        <label>$LOCALIZE[31273] </label>
+                        <include content="Object_Visible" condition="$PARAM[include_arrow_visible]">
+                            <param name="visible">!String.IsEmpty(Control.GetLabel($PARAM[label_id]))</param>
+                        </include>
+                    </control>
+                    <include content="OSD_CastInfo_HintText_DirectionLabel_$PARAM[arrow_direction]">
+                        <param name="include_arrow_visible">$PARAM[include_arrow_visible]</param>
+                    </include>
+                    <control type="label" id="$PARAM[label_id]">
+                        <top>-2</top>
+                        <textcolor>main_fg_30</textcolor>
+                        <width>auto</width>
+                        <font>font_tiny</font>
+                        <label>$PARAM[label]</label>
+                    </control>
                 </control>
             </control>
         </definition>
