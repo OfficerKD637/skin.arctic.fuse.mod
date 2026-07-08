@@ -1197,11 +1197,15 @@
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
             <param name="id">024</param>
-            <param name="control">radiobutton</param>
             <param name="slevel">2</param>
             <label>PVR $LOCALIZE[31435]</label>
-            <onclick>Skin.ToggleSetting(TMDbHelper.DisablePVR)</onclick>
-            <selected>!Skin.HasSetting(TMDbHelper.DisablePVR)</selected>
+            <label2>$VAR[Label_Setting_PVRTMDbHelperLookup]</label2>
+            <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.TMDb_ID,Home)</onclick>
+            <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.TMDb_Type,Home)</onclick>
+            <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.CropImage,Home)</onclick>
+            <onclick condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">Skin.SetString(TMDbHelper.EnablePVR,Basic)</onclick>
+            <onclick condition="Skin.String(TMDbHelper.EnablePVR,Basic)">Skin.SetString(TMDbHelper.EnablePVR,Detailed)</onclick>
+            <onclick condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">Skin.Reset(TMDbHelper.EnablePVR)</onclick>
         </include>
 
     </include>

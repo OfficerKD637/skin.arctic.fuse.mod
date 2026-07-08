@@ -565,7 +565,7 @@
                     </include>       
 
                     <!-- Year / Premiered -->
-                    <include content="Info_Line_Items">
+                    <include content="Info_Line_Items" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
                         <param name="items_02">true</param>
                         <param name="label_01">$INFO[VideoPlayer.Premiered]</param>
                         <param name="label_02">$INFO[VideoPlayer.Year]</param>
@@ -573,7 +573,23 @@
                         <param name="visible_02">!String.IsEmpty(VideoPlayer.Year)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-                    
+                    <include content="Info_Line_Items" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="items_06">true</param>
+                        <param name="label_01">$INFO[VideoPlayer.Premiered]</param>
+                        <param name="label_02">$INFO[VideoPlayer.Year]</param>
+                        <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered)]</param>
+                        <param name="label_04">$INFO[Window(Home).Property(TMDbHelper.ListItem.Premiered)]</param>
+                        <param name="label_05">$INFO[Window(Home).Property(TMDbHelper.Player.Year)]</param>
+                        <param name="label_06">$INFO[Window(Home).Property(TMDbHelper.ListItem.Year)]</param>
+                        <param name="visible_01">!String.IsEmpty(VideoPlayer.Premiered)</param>
+                        <param name="visible_02">!String.IsEmpty(VideoPlayer.Year)</param>
+                        <param name="visible_03">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered))</param>
+                        <param name="visible_04">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Premiered))</param>
+                        <param name="visible_05">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Year))</param>
+                        <param name="visible_06">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Year))</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include>
+
                     <!-- Duration -->
                     <include content="Info_Line_Items" condition="$PARAM[include_fakeinfo]">
                         <param name="items_03">true</param>
@@ -595,26 +611,46 @@
                     </include>
 
                     <!-- MPAA -->
-                    <include content="Info_Line_Item">
+                    <include content="Info_Line_Item" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
                         <param name="label">$INFO[VideoPlayer.MPAA]</param>
                         <param name="visible">!String.IsEmpty(VideoPlayer.MPAA)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-
-                    <!-- Genres -->
-                    <include content="Info_Line_Item">
-                        <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
-                        <param name="visible">String.IsEmpty(VideoPlayer.Property(Genre.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies)]</param>
+                    <include content="Info_Line_Items" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="items_03">true</param>
+                        <param name="label_01">$INFO[VideoPlayer.MPAA]</param>
+                        <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.Player.MPAA)]</param>
+                        <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.ListItem.MPAA)]</param>
+                        <param name="visible_01">!String.IsEmpty(VideoPlayer.MPAA)</param>
+                        <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.MPAA))</param>
+                        <param name="visible_03">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MPAA))</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-                    
+
+                    <!-- Genres -->
+                    <include content="Info_Line_Item" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
+                        <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies)]</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include>
+                    <include content="Info_Line_Items" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="items_02">true</param>
+                        <param name="label_01">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
+                        <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_genre)]</param>
+                        <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]</param>
+                        <param name="visible_01">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies)]</param>
+                        <param name="visible_02">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_genre)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.Season) + String.IsEmpty(VideoPlayer.Episode)]</param>
+                        <param name="visible_03">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.Season) + String.IsEmpty(VideoPlayer.Episode)]</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include>
+
                     <!-- Ends -->
                     <include content="Info_Line_Item" condition="Skin.HasSetting(InfoLine.EnableEndsAtTime) + Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime) + Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime)">
                         <param name="label">$INFO[Player.FinishTime,$LOCALIZE[31184] ,]</param>
                         <param name="visible">!String.IsEmpty(Player.FinishTime) + !VideoPlayer.Content(livetv)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-                    
+
                     <!-- Start Time - End Time (Live TV)-->
                     <include content="Info_Line_Item" condition="Skin.HasSetting(InfoLine.EnableEndsAtTime) + Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime)">
                         <param name="label">$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime,  -  ,]</param>
@@ -645,8 +681,18 @@
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.CropImage))</param>
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.Player.CropImage)]</param>
                     <param name="titlelargelogo">false</param>
+                    <visible>![Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))]</visible>
                 </include>
-                
+                <include content="Info_Title" condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">
+                    <param name="colordiffuse">panel_fg</param>
+                    <param name="container">Container(3300).</param>
+                    <param name="override">true</param>
+                    <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.CropImage))</param>
+                    <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.PVR.Player.CropImage)]</param>
+                    <param name="titlelargelogo">false</param>
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</visible>
+                </include>
+
                 <control type="group" description="Avoid grouplist chop with spacer">
                     <height>20</height>
                 </control>
@@ -668,8 +714,15 @@
                 </control>
                 
                 <control type="label">
+                    <include content="Object_Label" condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">
+                        <param name="label">$INFO[VideoPlayer.Tagline]</param>
+                        <param name="fallback">$INFO[Window(Home).Property(TMDbHelper.ListItem.Tagline)]</param>
+                    </include>
                     <label>$INFO[VideoPlayer.Tagline]</label>
-                    <include content="Object_Height" condition="String.IsEmpty(VideoPlayer.Tagline)">
+                    <include content="Object_Height" condition="!Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEmpty(VideoPlayer.Tagline)">
+                        <param name="height">45</param>
+                    </include>
+                    <include content="Object_Height" condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEmpty(VideoPlayer.Tagline) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Tagline))">
                         <param name="height">45</param>
                     </include>
                     <height>90</height>
@@ -680,8 +733,8 @@
                     <visible>!Skin.HasSetting(InfoLine.EnableEndsAtTime)</visible>
                     <visible>!VideoPlayer.Content(episodes)</visible>
                 </control>
-                
-                <include content="Info_Panel_Textbox" condition="$PARAM[plot_visible]">
+
+                <include content="Info_Panel_Textbox" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $PARAM[plot_visible]">
                     <param name="plotwidth">1080</param>
                     <param name="plotautoheight">false</param>
                     <param name="plotheight">info_plot_h</param>
@@ -690,7 +743,28 @@
                     <param name="is_player">true</param>
                     <param name="listitem">VideoPlayer</param>
                 </include>
-                
+                <include content="Info_Panel_Textbox" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $PARAM[plot_visible]">
+                    <param name="plotwidth">1080</param>
+                    <param name="plotautoheight">false</param>
+                    <param name="plotheight">info_plot_h</param>
+                    <param name="visible">!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Plot))</param>
+                    <param name="colordiffuse">panel_fg</param>
+                    <param name="is_player">true</param>
+                    <param name="listitem">VideoPlayer</param>
+                    <param name="service">Player</param>
+                    <param name="visible_override">String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
+                </include>
+                <include content="Info_Panel_Textbox" condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + $PARAM[plot_visible]">
+                    <param name="plotwidth">1080</param>
+                    <param name="plotautoheight">false</param>
+                    <param name="plotheight">info_plot_h</param>
+                    <param name="visible">!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Plot)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))</param>
+                    <param name="colordiffuse">panel_fg</param>
+                    <param name="is_player">true</param>
+                    <param name="service">ListItem</param>
+                    <param name="visible_override">!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
+                </include>
+
                 <include content="Info_Ratings" condition="!Skin.HasSetting(Info.DisableAllRatings) + ![Skin.HasSetting(InfoLine.EnableEndsAtTime) + !$PARAM[plot_visible]]">
                     <param name="is_player">true</param>
                     <param name="is_special">false</param>

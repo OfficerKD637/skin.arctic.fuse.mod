@@ -272,6 +272,7 @@
     <variable name="Path_VideoOSD_TMDbType">
         <value condition="VideoPlayer.Content(movies)">movie</value>
         <value condition="VideoPlayer.Content(episodes)">tv</value>
+        <value condition="![VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)] + Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type))">$INFO[Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type)]</value>
     </variable>
 
     <variable name="Path_VideoOSD_TMDbQuery">
@@ -280,6 +281,8 @@
         <value condition="VideoPlayer.Content(movies)">$INFO[Window(Home).Property(TMDbHelper.Player.TMDb_ID),&amp;tmdb_id=,]$INFO[Player.Title,&amp;query=,]$INFO[VideoPlayer.Year,&amp;year=,]</value>
 
         <value condition="VideoPlayer.Content(episodes)">$INFO[Window(Home).Property(TMDbHelper.Player.TVShow.TMDb_ID),&amp;tmdb_id=,]$INFO[VideoPlayer.TVShowTitle,&amp;query=,]$INFO[VideoPlayer.Season,&amp;season=,]$INFO[VideoPlayer.Episode,&amp;episode=,]$INFO[VideoPlayer.Year,&amp;episode_year=,]</value>
+        
+        <value condition="![VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)] + Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">$INFO[Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),&amp;tmdb_id=,]$INFO[Player.Title,&amp;query=,]$INFO[VideoPlayer.Year,&amp;year=,]</value>
     </variable>
 
     <variable name="Path_OSD_Cast">
@@ -288,6 +291,8 @@
         <value condition="VideoPlayer.Content(movies)">plugin://plugin.video.themoviedb.helper/?info=$INFO[Skin.String(VideoOSD.PersonCredits.CastCrew)]&amp;tmdb_type=movie$INFO[Window(Home).Property(TMDbHelper.Player.TMDb_ID),&amp;tmdb_id=,]$INFO[Player.Title,&amp;query=,]$INFO[VideoPlayer.Year,&amp;year=,]</value>
 
         <value condition="VideoPlayer.Content(episodes)">plugin://plugin.video.themoviedb.helper/?info=$INFO[Skin.String(VideoOSD.PersonCredits.CastCrew)]&amp;tmdb_type=tv$INFO[Window(Home).Property(TMDbHelper.Player.TVShow.TMDb_ID),&amp;tmdb_id=,]$INFO[VideoPlayer.TVShowTitle,&amp;query=,]$INFO[VideoPlayer.Season,&amp;season=,]$INFO[VideoPlayer.Episode,&amp;episode=,]$INFO[VideoPlayer.Year,&amp;episode_year=,]</value>
+        
+        <value condition="![VideoPlayer.Content(movies) | VideoPlayer.Content(episodes)] + Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">plugin://plugin.video.themoviedb.helper/?info=$INFO[Skin.String(VideoOSD.PersonCredits.CastCrew)]&amp;tmdb_type=movie$INFO[Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),&amp;tmdb_id=,]$INFO[Player.Title,&amp;query=,]$INFO[VideoPlayer.Year,&amp;year=,]</value>
     </variable>
 
     <variable name="Path_OSD_NextRecommendation">

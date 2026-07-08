@@ -276,13 +276,15 @@
     <!-- ==== -->
     <!-- Misc -->
     <!-- ==== -->
+    <expression name="Exp_PVR_HiddenButton_Enabled">[Skin.String(TMDbHelper.EnablePVR,Detailed) + Window.IsVisible(MyPVRRecordings.xml)]</expression>
+
     <expression name="Exp_FileBrowser_Conditional_Buttons">[True]</expression>
     
     <expression name="Exp_AutoCompletion_IsEnabled">[System.HasAddon(plugin.program.autocompletion) + System.AddonIsEnabled(plugin.program.autocompletion) + !Skin.HasSetting(Keyboard.DisableAutoCompletion)]</expression>
 
     <expression name="Exp_Video_IsNotPlaying">[![Player.HasVideo | [Player.HasAudio + !Skin.HasSetting(Background.Visualisation.Disabled) + Visualisation.Enabled]] | Player.Paused | Skin.HasSetting(Background.DisableVideo) | Window.IsVisible(1123)]</expression>
 
-    <expression name="Exp_Furniture_PVR">[[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml)] + !Window.IsVisible(DialogPVRInfo.xml)]</expression>
+    <expression name="Exp_Furniture_PVR">[[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml)] + !Skin.String(TMDbHelper.EnablePVR,Detailed) + !Window.IsVisible(DialogPVRInfo.xml)]</expression>
 
     <expression name="Exp_Christmas_Theme">[System.Date(12-01,01-07) + Skin.HasSetting(EnableHolidayTheme) + [[!Window.IsVisible(visualisation) + !VideoPlayer.IsFullscreen] | Window.IsActive(fullscreeninfo)]]</expression>
 
@@ -290,9 +292,9 @@
     
     <expression name="Exp_Context_Expanded">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_title)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))]</expression>
 
-    <expression name="Exp_InfoDialogs_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
+    <expression name="Exp_InfoDialogs_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
 
-    <expression name="Exp_Spotlight_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,Container(301).ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
+    <expression name="Exp_Spotlight_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDBHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,Container(301).ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
 
     <!-- ====== -->
     <!-- Wizard -->

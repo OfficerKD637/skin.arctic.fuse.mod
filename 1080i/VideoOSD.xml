@@ -6,13 +6,18 @@
     <animation effect="fade" end="0" start="100" time="300">WindowClose</animation>
     <onload>SetProperty(UID,$ESCINFO[Player.Title]$INFO[Player.Time(ss)],1146)</onload>
     <onload>SetProperty(UID,$ESCINFO[Player.Title]$INFO[Player.Time(ss)],1147)</onload>
+    <onload condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onload>
     <onunload>CancelAlarm(osd_timeout,true)</onunload>
     <controls>
 
+        <include content="Object_Hidden_List" condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">
+            <param name="id">3300</param>
+            <content limit="1">$INFO[Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),plugin://plugin.video.themoviedb.helper/?info=details&amp;tmdb_id=,]$INFO[Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type),&amp;tmdb_type=,]</content>
+        </include>
         <control type="group">
             <include>Animation_OSD_HideForInfoDialog</include>
             <include>OSD_HideControls</include>
-            
+
             <control type="group">
                 <visible>!Window.IsActive(DialogPlayerProcessInfo.xml)</visible>
                 <visible>!Window.IsVisible(DialogSlider.xml)</visible>
@@ -38,6 +43,7 @@
                             <onfocus condition="Player.Forwarding | Player.Rewinding">PlayerControl(Play)</onfocus>
                             <onunfocus condition="Player.Forwarding | Player.Rewinding">PlayerControl(Play)</onunfocus>
                             <onup>8200</onup>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                         </control>
                         <include content="OSD_Button_Icon_Overlay">
                             <param name="icon">$VAR[Image_OSD_PlayPause]</param>
@@ -54,6 +60,7 @@
                             <onclick condition="VideoPlayer.Content(livetv)">ActivateWindow(TVGuide)</onclick>
                             <onclick condition="!VideoPlayer.Content(livetv)">$VAR[Action_OSD_SkipPrev]</onclick>
                             <onup>8200</onup>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                         </control>
                         <include content="OSD_Button_Icon_Overlay" condition="!VideoPlayer.Content(livetv)">
                             <param name="icon">$VAR[Image_OSD_SkipPrev]</param>
@@ -76,6 +83,7 @@
                             <onclick condition="!VideoPlayer.Content(livetv)">$VAR[Action_OSD_SkipNext]</onclick>
                             <onfocus condition="!VideoPlayer.Content(livetv) + Integer.IsLess(Player.TimeRemaining(mins),10)">ActivateWindow(1143)</onfocus>
                             <onup>8200</onup>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                             <enable>PVR.CanRecordPlayingChannel | !VideoPlayer.Content(livetv)</enable>
                             <label>$VAR[Label_OSD_PVR_Recording]</label>
                         </control>
@@ -99,6 +107,7 @@
                             <onclick>CancelAlarm(osd_timeout,true)</onclick>
                             <onclick>PlayerControl(Stop)</onclick>
                             <onup>8200</onup>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                         </control>
                         <include content="OSD_Button_Icon_Overlay">
                             <param name="icon">special://skin/extras/icons/stop.png</param>
@@ -126,6 +135,7 @@
                             <onclick>CancelAlarm(osd_timeout,true)</onclick>
                             <onclick>$VAR[Action_OSD_WikiInfo]</onclick>
                             <onclick condition="!Player.Paused">Pause</onclick>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                         </control>
                         <include content="OSD_Button_Icon_Overlay">
                             <param name="icon">special://skin/extras/icons/info2.png</param>
@@ -142,6 +152,7 @@
                             <onclick>ActivateWindow(osdaudiosettings)</onclick>
                             <onup>ActivateWindow(1146)</onup>
                             <onfocus>ActivateWindow(1146)</onfocus>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                         </control>
                         <include content="OSD_Button_Icon_Overlay">
                             <param name="icon">special://skin/extras/icons/volume.png</param>
@@ -159,6 +170,7 @@
                             <onclick>ActivateWindow(osdsubtitlesettings)</onclick>
                             <onup>ActivateWindow(1147)</onup>
                             <onfocus>ActivateWindow(1147)</onfocus>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                         </control>
                         <include content="OSD_Button_Icon_Overlay">
                             <param name="icon">special://skin/extras/icons/quote.png</param>
@@ -175,6 +187,7 @@
                             <onclick>ActivateWindow(osdvideosettings)</onclick>
                             <onup>ActivateWindow(1148)</onup>
                             <onfocus>ActivateWindow(1148)</onfocus>
+                            <onfocus condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))">SetProperty(TMDbHelper.WidgetContainer,3300)</onfocus>
                         </control>
                         <include content="OSD_Button_Icon_Overlay">
                             <param name="icon">special://skin/extras/icons/video.png</param>

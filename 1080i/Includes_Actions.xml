@@ -910,10 +910,10 @@
     </include>
     
     <variable name="Action_OSD_WikiInfo">
-        <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) | VideoPlayer.Content(livetv)">runscript(script.wikipedia,wikipedia=$INFO[VideoPlayer.Title])</value>
+        <value condition="[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) + ![Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))]] | VideoPlayer.Content(livetv)">runscript(script.wikipedia,wikipedia=$INFO[VideoPlayer.Title])</value>
         <value>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-closeosd.json,use_rules=True,"command=ActivateWindow(1193)")</value>
     </variable>
-    
+
     <include name="Action_OSD_SuspendAutoClose">
         <onload condition="System.HasAlarm(osd_timeout)">SetProperty(osd_timeout_$PARAM[window],true,home)</onload>
         <onload condition="System.HasAlarm(osd_timeout)">CancelAlarm(osd_timeout,true)</onload>
