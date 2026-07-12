@@ -326,7 +326,8 @@
     <include name="Action_View_Movement_OnUp">
         <param name="id">50</param>
         <definition>
-            <onup>SetFocus(8000)</onup>
+            <onup condition="!Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(8000)</onup>
+            <onup condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(333)</onup>
         </definition>
     </include>
     
@@ -910,10 +911,10 @@
     </include>
     
     <variable name="Action_OSD_WikiInfo">
-        <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) | VideoPlayer.Content(livetv)">runscript(script.wikipedia,wikipedia=$INFO[VideoPlayer.Title])</value>
+        <value condition="[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) + ![Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))]] | VideoPlayer.Content(livetv)">runscript(script.wikipedia,wikipedia=$INFO[VideoPlayer.Title])</value>
         <value>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-closeosd.json,use_rules=True,"command=ActivateWindow(1193)")</value>
     </variable>
-    
+
     <include name="Action_OSD_SuspendAutoClose">
         <onload condition="System.HasAlarm(osd_timeout)">SetProperty(osd_timeout_$PARAM[window],true,home)</onload>
         <onload condition="System.HasAlarm(osd_timeout)">CancelAlarm(osd_timeout,true)</onload>
@@ -1087,6 +1088,18 @@
         <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Coal)</onclick>
         <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/coal_blur.jpg)</onclick>
+        <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
+        <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
+    </include>
+
+    <include name="Action_Scheme_Onclick_Obsidian">
+        <onclick>Skin.SetString(focuscolor.name,ff818589)</onclick>
+        <onclick>Skin.SetString(gradientcolor.name,ffe5e4e2)</onclick>
+        <onclick>Skin.Reset(EnableMonochromeHighlight)</onclick>
+        <onclick>Skin.SetBool(InvertSelectedText)</onclick>
+        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Obsidian)</onclick>
+        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/obsidian_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
     </include>

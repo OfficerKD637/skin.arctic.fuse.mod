@@ -134,6 +134,38 @@
         </definition>
     </include>
 
+    <include name="OSD_CastInfo_HintText_DirectionLabel">
+        <control type="label">
+            <textcolor>main_fg_30</textcolor>
+            <width>auto</width>
+            <font>font_tiny_bold</font>
+            <label>$PARAM[label]:  </label>
+            <include content="Object_Visible" condition="$PARAM[include_arrow_visible]">
+                <param name="visible">!String.IsEmpty(Control.GetLabel($PARAM[label_id]))</param>
+            </include>
+        </control>
+    </include>
+
+    <include name="OSD_CastInfo_HintText_DirectionLabel_down">
+        <param name="include_arrow_visible">false</param>
+        <definition>
+            <include content="OSD_CastInfo_HintText_DirectionLabel">
+                <param name="label">$LOCALIZE[31288]</param>
+                <param name="include_arrow_visible">$PARAM[include_arrow_visible]</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="OSD_CastInfo_HintText_DirectionLabel_right">
+        <param name="include_arrow_visible">false</param>
+        <definition>
+            <include content="OSD_CastInfo_HintText_DirectionLabel">
+                <param name="label">$LOCALIZE[31281]</param>
+                <param name="include_arrow_visible">$PARAM[include_arrow_visible]</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="OSD_CastInfo_HintText">
         <param name="visible">true</param>
         <param name="colordiffuse">main_fg_30</param>
@@ -142,6 +174,7 @@
         <param name="fade_in">true</param>
         <param name="fade_out">true</param>
         <param name="arrow_direction">down</param>
+        <param name="include_arrow_visible">false</param>
         <definition>
             <control type="group">
                 <visible>$PARAM[visible]</visible>
@@ -154,19 +187,39 @@
                 <left>$PARAM[left]</left>
                 <centerbottom>$PARAM[centerbottom]</centerbottom>
                 <height>40</height>
-                <control type="image">
-                    <centerleft>10</centerleft>
-                    <width>40</width>
-                    <height>40</height>
-                    <centertop>50%</centertop>
-                    <texture colordiffuse="$PARAM[colordiffuse]">special://skin/extras/icons/arrow-$PARAM[arrow_direction].png</texture>
-                </control>
-                <control type="label">
-                    <textcolor>$PARAM[colordiffuse]</textcolor>
-                    <left>40</left>
-                    <font>font_tiny</font>
+                <control type="grouplist">
+                    <left>-10</left>
+                    <orientation>horizontal</orientation>
                     <align>left</align>
-                    <label>$PARAM[label]</label>
+                    <control type="image">
+                        <height>40</height>
+                        <width>40</width>
+                        <aspectratio>keep</aspectratio>
+                        <include content="Object_Visible" condition="$PARAM[include_arrow_visible]">
+                            <param name="visible">!String.IsEmpty(Control.GetLabel($PARAM[label_id]))</param>
+                        </include>
+                        <texture colordiffuse="$PARAM[colordiffuse]">special://skin/extras/icons/arrow-$PARAM[arrow_direction].png</texture>
+                    </control>
+                    <control type="label">
+                        <top>-2</top>
+                        <textcolor>main_fg_30</textcolor>
+                        <width>auto</width>
+                        <font>font_tiny</font>
+                        <label>$LOCALIZE[31273] </label>
+                        <include content="Object_Visible" condition="$PARAM[include_arrow_visible]">
+                            <param name="visible">!String.IsEmpty(Control.GetLabel($PARAM[label_id]))</param>
+                        </include>
+                    </control>
+                    <include content="OSD_CastInfo_HintText_DirectionLabel_$PARAM[arrow_direction]">
+                        <param name="include_arrow_visible">$PARAM[include_arrow_visible]</param>
+                    </include>
+                    <control type="label" id="$PARAM[label_id]">
+                        <top>-2</top>
+                        <textcolor>main_fg_30</textcolor>
+                        <width>auto</width>
+                        <font>font_tiny</font>
+                        <label>$PARAM[label]</label>
+                    </control>
                 </control>
             </control>
         </definition>
@@ -565,7 +618,7 @@
                     </include>       
 
                     <!-- Year / Premiered -->
-                    <include content="Info_Line_Items">
+                    <include content="Info_Line_Items" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
                         <param name="items_02">true</param>
                         <param name="label_01">$INFO[VideoPlayer.Premiered]</param>
                         <param name="label_02">$INFO[VideoPlayer.Year]</param>
@@ -573,7 +626,23 @@
                         <param name="visible_02">!String.IsEmpty(VideoPlayer.Year)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-                    
+                    <include content="Info_Line_Items" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="items_06">true</param>
+                        <param name="label_01">$INFO[VideoPlayer.Premiered]</param>
+                        <param name="label_02">$INFO[VideoPlayer.Year]</param>
+                        <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.Player.Premiered)]</param>
+                        <param name="label_04">$INFO[Window(Home).Property(TMDbHelper.ListItem.Premiered)]</param>
+                        <param name="label_05">$INFO[Window(Home).Property(TMDbHelper.Player.Year)]</param>
+                        <param name="label_06">$INFO[Window(Home).Property(TMDbHelper.ListItem.Year)]</param>
+                        <param name="visible_01">!String.IsEmpty(VideoPlayer.Premiered)</param>
+                        <param name="visible_02">!String.IsEmpty(VideoPlayer.Year)</param>
+                        <param name="visible_03">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Premiered))</param>
+                        <param name="visible_04">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Premiered))</param>
+                        <param name="visible_05">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Year))</param>
+                        <param name="visible_06">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Year))</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include>
+
                     <!-- Duration -->
                     <include content="Info_Line_Items" condition="$PARAM[include_fakeinfo]">
                         <param name="items_03">true</param>
@@ -595,26 +664,46 @@
                     </include>
 
                     <!-- MPAA -->
-                    <include content="Info_Line_Item">
+                    <include content="Info_Line_Item" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
                         <param name="label">$INFO[VideoPlayer.MPAA]</param>
                         <param name="visible">!String.IsEmpty(VideoPlayer.MPAA)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-
-                    <!-- Genres -->
-                    <include content="Info_Line_Item">
-                        <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
-                        <param name="visible">String.IsEmpty(VideoPlayer.Property(Genre.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies)]</param>
+                    <include content="Info_Line_Items" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="items_03">true</param>
+                        <param name="label_01">$INFO[VideoPlayer.MPAA]</param>
+                        <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.Player.MPAA)]</param>
+                        <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.ListItem.MPAA)]</param>
+                        <param name="visible_01">!String.IsEmpty(VideoPlayer.MPAA)</param>
+                        <param name="visible_02">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.MPAA))</param>
+                        <param name="visible_03">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MPAA))</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-                    
+
+                    <!-- Genres -->
+                    <include content="Info_Line_Item" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
+                        <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies)]</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include>
+                    <include content="Info_Line_Items" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                        <param name="items_02">true</param>
+                        <param name="label_01">$INFO[Window(Home).Property(TMDbHelper.Player.Genre.1.Name)]</param>
+                        <param name="label_02">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_genre)]</param>
+                        <param name="label_03">$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]</param>
+                        <param name="visible_01">!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies)]</param>
+                        <param name="visible_02">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_genre)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.Season) + String.IsEmpty(VideoPlayer.Episode)]</param>
+                        <param name="visible_03">Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)) + ![Skin.String(PlotLine.Movie,Genre) + VideoPlayer.Content(movies) + String.IsEmpty(VideoPlayer.Season) + String.IsEmpty(VideoPlayer.Episode)]</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    </include>
+
                     <!-- Ends -->
                     <include content="Info_Line_Item" condition="Skin.HasSetting(InfoLine.EnableEndsAtTime) + Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime) + Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime)">
                         <param name="label">$INFO[Player.FinishTime,$LOCALIZE[31184] ,]</param>
                         <param name="visible">!String.IsEmpty(Player.FinishTime) + !VideoPlayer.Content(livetv)</param>
                         <param name="textcolor">$PARAM[colordiffuse]_70</param>
                     </include>
-                    
+
                     <!-- Start Time - End Time (Live TV)-->
                     <include content="Info_Line_Item" condition="Skin.HasSetting(InfoLine.EnableEndsAtTime) + Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime)">
                         <param name="label">$INFO[VideoPlayer.StartTime]$INFO[VideoPlayer.EndTime,  -  ,]</param>
@@ -645,8 +734,18 @@
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDBHelper.Player.CropImage))</param>
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.Player.CropImage)]</param>
                     <param name="titlelargelogo">false</param>
+                    <visible>![Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))]</visible>
                 </include>
-                
+                <include content="Info_Title" condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">
+                    <param name="colordiffuse">panel_fg</param>
+                    <param name="container">Container(3300).</param>
+                    <param name="override">true</param>
+                    <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.CropImage))</param>
+                    <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.PVR.Player.CropImage)]</param>
+                    <param name="titlelargelogo">false</param>
+                    <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</visible>
+                </include>
+
                 <control type="group" description="Avoid grouplist chop with spacer">
                     <height>20</height>
                 </control>
@@ -655,7 +754,7 @@
                     <height>50</height>
                     <include condition="!Skin.HasSetting(Info.DisableDetailsLine)">OSD_Info_Line</include>
                 </control>
-                
+
                 <control type="label">
                     <label>$VAR[Label_Plot_Episode_Type_TMDBHelperPlayer,,: ]$VAR[Label_OSD_Plot_Episode_Number,,. ]$INFO[VideoPlayer.Title]</label>
                     <height>90</height>
@@ -666,10 +765,17 @@
                     <visible>!Skin.HasSetting(InfoLine.EnableEndsAtTime)</visible>
                     <visible>VideoPlayer.Content(episodes)</visible>
                 </control>
-                
+
                 <control type="label">
+                    <include content="Object_Label" condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">
+                        <param name="label">$INFO[VideoPlayer.Tagline]</param>
+                        <param name="fallback">$INFO[Window(Home).Property(TMDbHelper.ListItem.Tagline)]</param>
+                    </include>
                     <label>$INFO[VideoPlayer.Tagline]</label>
-                    <include content="Object_Height" condition="String.IsEmpty(VideoPlayer.Tagline)">
+                    <include content="Object_Height" condition="!Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEmpty(VideoPlayer.Tagline)">
+                        <param name="height">45</param>
+                    </include>
+                    <include content="Object_Height" condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEmpty(VideoPlayer.Tagline) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Tagline))">
                         <param name="height">45</param>
                     </include>
                     <height>90</height>
@@ -680,8 +786,8 @@
                     <visible>!Skin.HasSetting(InfoLine.EnableEndsAtTime)</visible>
                     <visible>!VideoPlayer.Content(episodes)</visible>
                 </control>
-                
-                <include content="Info_Panel_Textbox" condition="$PARAM[plot_visible]">
+
+                <include content="Info_Panel_Textbox" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $PARAM[plot_visible]">
                     <param name="plotwidth">1080</param>
                     <param name="plotautoheight">false</param>
                     <param name="plotheight">info_plot_h</param>
@@ -690,18 +796,39 @@
                     <param name="is_player">true</param>
                     <param name="listitem">VideoPlayer</param>
                 </include>
-                
+                <include content="Info_Panel_Textbox" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $PARAM[plot_visible]">
+                    <param name="plotwidth">1080</param>
+                    <param name="plotautoheight">false</param>
+                    <param name="plotheight">info_plot_h</param>
+                    <param name="visible">!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Plot))</param>
+                    <param name="colordiffuse">panel_fg</param>
+                    <param name="is_player">true</param>
+                    <param name="listitem">VideoPlayer</param>
+                    <param name="service">Player</param>
+                    <param name="visible_override">String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
+                </include>
+                <include content="Info_Panel_Textbox" condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + $PARAM[plot_visible]">
+                    <param name="plotwidth">1080</param>
+                    <param name="plotautoheight">false</param>
+                    <param name="plotheight">info_plot_h</param>
+                    <param name="visible">!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Plot)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))</param>
+                    <param name="colordiffuse">panel_fg</param>
+                    <param name="is_player">true</param>
+                    <param name="service">ListItem</param>
+                    <param name="visible_override">!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
+                </include>
+
                 <include content="Info_Ratings" condition="!Skin.HasSetting(Info.DisableAllRatings) + ![Skin.HasSetting(InfoLine.EnableEndsAtTime) + !$PARAM[plot_visible]]">
                     <param name="is_player">true</param>
                     <param name="is_special">false</param>
                     <top>2</top>
                     <left>0</left>
                 </include>
-                
+
                 <control type="group" description="Avoid grouplist chop with spacer">
                     <height>20</height>
                 </control>
-                
+
             </control>
         </definition>    
     </include>
@@ -804,7 +931,14 @@
             <height>12</height>
             <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
             <righttexture colordiffuse="panel_fg_50">progress/marker.png</righttexture>
-            <info>Player.CutList</info>
+            <info>Player.EditList</info>
+        </control>
+        <control type="ranges">
+            <width>100%</width>
+            <height>12</height>
+            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
+            <righttexture colordiffuse="panel_fg_50">progress/marker.png</righttexture>
+            <info>Player.Cuts</info>
         </control>
         <control type="ranges">
             <width>100%</width>
@@ -812,6 +946,20 @@
             <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
             <righttexture colordiffuse="panel_fg_50">progress/marker.png</righttexture>
             <info>Player.Chapters</info>
+        </control>
+        <control type="ranges">
+            <width>100%</width>
+            <height>12</height>
+            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
+            <righttexture colordiffuse="panel_fg_50">progress/marker.png</righttexture>
+            <info>Player.SceneMarkers</info>
+        </control>
+        <control type="ranges">
+            <width>100%</width>
+            <height>12</height>
+            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
+            <righttexture colordiffuse="panel_fg_50">progress/marker.png</righttexture>
+            <info>Player.Bookmarks</info>
         </control>
 
         <!-- Seek Nib -->

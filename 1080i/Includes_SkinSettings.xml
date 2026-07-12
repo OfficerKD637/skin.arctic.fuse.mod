@@ -269,7 +269,7 @@
             <param name="id">012</param>
             <param name="control">button</param>
             <label>$LOCALIZE[25000]</label>
-            <label2>$VAR[Label_Settings_NotificationStyle]</label2>
+            <label2>$VAR[Label_Setting_NotificationStyle]</label2>
             <onclick>Skin.ToggleSetting(ToastNotifications.Tabbed)</onclick> 
         </include>
         <include content="Settings_Button" description="Left Header">
@@ -291,7 +291,7 @@
             <param name="control">button</param>
             <param name="reload">Skin.HasSetting(Furniture.EnableClock)</param>
             <label>$LOCALIZE[31042]</label>
-            <label2>$VAR[Label_Settings_Furniture_ClockTopLeft]</label2>
+            <label2>$VAR[Label_Setting_Furniture_ClockTopLeft]</label2>
             <onclick condition="String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft)) + Skin.HasSetting(Furniture.EnableLeftHeader)">Skin.SetString(Furniture.EnableClock.TopLeft,Date)</onclick>
             <onclick condition="!String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft)) + Skin.HasSetting(Furniture.EnableLeftHeader)">Skin.Reset(Furniture.EnableClock.TopLeft)</onclick>
             
@@ -315,7 +315,7 @@
             <param name="id">016</param>
             <param name="control">button</param>
             <label>$LOCALIZE[31127]</label>
-            <label2>$VAR[Label_Settings_LeftFooterVisibility]</label2>
+            <label2>$VAR[Label_Setting_LeftFooterVisibility]</label2>
             <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_LeftFooter,Home)</onclick>
             <onclick>SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31127],Home)</onclick>
             <onclick>ActivateWindow(1118)</onclick>
@@ -479,7 +479,7 @@
             <param name="id">009</param>
             <param name="control">button</param>
             <label>$LOCALIZE[31597]</label> 
-            <label2>$VAR[Label_Settings_PlotDetailsFallback]</label2> 
+            <label2>$VAR[Label_Setting_PlotDetailsFallback]</label2> 
             <onclick condition="String.IsEmpty(Skin.String(Enable.PlotDetails.Fallback))">Skin.SetString(Enable.PlotDetails.Fallback,Local)</onclick>
             <onclick condition="Skin.String(Enable.PlotDetails.Fallback,Local) + String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth))">Skin.Reset(Enable.PlotDetails.Fallback)</onclick>
             <onclick condition="Skin.String(Enable.PlotDetails.Fallback,Local) + !String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth))">Skin.SetString(Enable.PlotDetails.Fallback,Trakt)</onclick>
@@ -693,7 +693,7 @@
             <param name="control">button</param>
             <param name="slevel">2</param>
             <label>$LOCALIZE[31324] > $LOCALIZE[31166]</label>
-            <label2>$VAR[Label_Settings_NavigationOnBack]</label2>
+            <label2>$VAR[Label_Setting_NavigationOnBack]</label2>
             <onclick condition="$EXP[Exp_Navigation_OnMenu]">Skin.SetString(Navigation.OnBack,Previous)</onclick>
             <onclick condition="$EXP[Exp_Navigation_OnPrevious]">Skin.SetString(Navigation.OnBack,Parent)</onclick>
             <onclick condition="$EXP[Exp_Navigation_OnParent] + !$EXP[Exp_HomeMenu_IsTopBar]">Skin.SetString(Navigation.OnBack,Menu)</onclick>
@@ -708,7 +708,7 @@
             <param name="control">button</param>
             <param name="slevel">2</param>
             <label>$LOCALIZE[31324] > $LOCALIZE[31008]</label>
-            <label2>$VAR[Label_Settings_NavigationOnDown]</label2>
+            <label2>$VAR[Label_Setting_NavigationOnDown]</label2>
             <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Path_PreSelect_Nav_OnDown],heading=$LOCALIZE[31324] > $LOCALIZE[31008],separator=||,list=$LOCALIZE[33063]||$LOCALIZE[31148]||$LOCALIZE[587] ($LOCALIZE[14022])||$LOCALIZE[31167]||$LOCALIZE[31446],"executebuiltin_0=Skin.SetString(Navigation.Global.OnDown,Options)","executebuiltin_1=Skin.SetString(Navigation.Global.OnDown,Explore)","executebuiltin_2=Skin.SetString(Navigation.Global.OnDown,Filter)","executebuiltin_3=Skin.SetString(Navigation.Global.OnDown,Wall)","executebuiltin_4=Skin.SetString(Navigation.Global.OnDown,Bump)")</onclick>
         </include>
 
@@ -720,7 +720,7 @@
             <param name="control">button</param>
             <param name="slevel">2</param>
             <label>$LOCALIZE[31324] > $LOCALIZE[31450]</label>
-            <label2>$VAR[Label_Settings_NavigationOnScroll]</label2>
+            <label2>$VAR[Label_Setting_NavigationOnScroll]</label2>
             <onclick>Skin.ToggleSetting(Navigation.DisableAlphabetJump)</onclick>
         </include>
 
@@ -1014,7 +1014,7 @@
             <param name="id">002</param>
             <param name="control">button</param>
             <label>$LOCALIZE[31171]</label>
-            <label2>$VAR[Label_Settings_KeyboardSize]</label2>
+            <label2>$VAR[Label_Setting_KeyboardSize]</label2>
             <onclick>Skin.ToggleSetting(Keyboard.FullSized)</onclick>
         </include>
         <include content="Settings_Button" description="Mouse pointer size">
@@ -1197,11 +1197,15 @@
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
             <param name="id">024</param>
-            <param name="control">radiobutton</param>
             <param name="slevel">2</param>
             <label>PVR $LOCALIZE[31435]</label>
-            <onclick>Skin.ToggleSetting(TMDbHelper.DisablePVR)</onclick>
-            <selected>!Skin.HasSetting(TMDbHelper.DisablePVR)</selected>
+            <label2>$VAR[Label_Setting_PVRTMDbHelperLookup]</label2>
+            <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.TMDb_ID,Home)</onclick>
+            <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.TMDb_Type,Home)</onclick>
+            <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.CropImage,Home)</onclick>
+            <onclick condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">Skin.SetString(TMDbHelper.EnablePVR,Basic)</onclick>
+            <onclick condition="Skin.String(TMDbHelper.EnablePVR,Basic)">Skin.SetString(TMDbHelper.EnablePVR,Detailed)</onclick>
+            <onclick condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">Skin.Reset(TMDbHelper.EnablePVR)</onclick>
         </include>
 
     </include>

@@ -1637,6 +1637,29 @@
         </definition>
     </include>
 
+    <include name="List_PVR_Row_HiddenButton">
+        <control type="button">
+            <visible allowhiddenfocus="true">false</visible>
+            <animation effect="fade" start="0" end="0" time="400" reversible="false">Focus</animation>
+            <include content="List_PVR_Row_HiddenButton_OnFocus">
+                <param name="container">$PARAM[container]</param>
+            </include>
+        </control>
+    </include>
+
+    <include name="List_PVR_Row_HiddenButton_OnFocus">
+        <definition>
+            <onfocus condition="String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEmpty($PARAM[container]ListItem.ChannelName) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID))">SetProperty(TMDbHelper.PVR.Player.TMDb_ID,$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)],Home)</onfocus>
+            <onfocus condition="String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEmpty($PARAM[container]ListItem.ChannelName) + String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID))">ClearProperty(TMDbHelper.PVR.Player.TMDb_ID,Home)</onfocus>
+
+            <onfocus condition="String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEmpty($PARAM[container]ListItem.ChannelName) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_Type))">SetProperty(TMDbHelper.PVR.Player.TMDb_Type,$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_Type)],Home)</onfocus>
+            <onfocus condition="String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEmpty($PARAM[container]ListItem.ChannelName) + String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_Type))">ClearProperty(TMDbHelper.PVR.Player.TMDb_Type,Home)</onfocus>
+
+            <onfocus condition="String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEmpty($PARAM[container]ListItem.ChannelName) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Current.CropImage))">SetProperty(TMDbHelper.PVR.Player.CropImage,$INFO[Window(Home).Property(TMDBHelper.ListItem.Current.CropImage)],Home)</onfocus>
+            <onfocus condition="String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) + !String.IsEmpty($PARAM[container]ListItem.ChannelName) + [String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Current.CropImage))]">ClearProperty(TMDbHelper.PVR.Player.CropImage,Home)</onfocus>
+        </definition>
+    </include>
+
     <include name="List_Core">
         <param name="orientation">horizontal</param>
         <param name="control">list</param>
@@ -1667,6 +1690,9 @@
                     <param name="prefix">$PARAM[hidden_button_prefix]</param>
                     <param name="container">Container($PARAM[id]).</param>
                     <param name="id">$PARAM[id]</param>
+                </include>
+                <include content="List_PVR_Row_HiddenButton_OnFocus" condition="$EXP[Exp_PVR_HiddenButton_Enabled]">
+                    <param name="container">Container($PARAM[id]).</param>
                 </include>
                 <orientation>$PARAM[orientation]</orientation>
                 <preloaditems>$PARAM[preloaditems]</preloaditems>
@@ -1706,6 +1732,9 @@
                     <include condition="$PARAM[hidden_button_enabled]" content="$PARAM[hidden_button]">
                         <param name="id">$PARAM[id]</param>
                         <param name="prefix">$PARAM[hidden_button_prefix]</param>
+                    </include>
+                    <include content="List_PVR_Row_HiddenButton" condition="$EXP[Exp_PVR_HiddenButton_Enabled]">
+                        <param name="container">Container($PARAM[id]).</param>
                     </include>
                     <control type="group">
                         <left>$PARAM[offset_x]</left>
