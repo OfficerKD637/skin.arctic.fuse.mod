@@ -736,6 +736,12 @@
                 <param name="icon_centertop">50%</param>
                 <param name="visible">$PARAM[visible_special] + [[$PARAM[visible_movies] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | [!String.IsEmpty($PARAM[container]ListItem.ChannelName) + String.IsEmpty($PARAM[Container]ListItem.TVShowTitle)]]] | [$PARAM[visible_tvshows] + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | [!String.IsEmpty($PARAM[container]ListItem.ChannelName) + !String.IsEmpty($PARAM[container]ListItem.TVShowTitle)]]]] + !String.IsEmpty($PARAM[container]ListItem.EndTimeResume) + !String.IsEqual($PARAM[container]ListItem.EndTimeResume,System.Time)</param>
             </include>
+            <include content="Info_Line_Rating" condition="![$PARAM[is_player]] + $EXP[Exp_PVR_HiddenButton_Enabled]">
+                <param name="label">$INFO[Container(3400).ListItem.EndTimeResume,$LOCALIZE[31184] $LOCALIZE[19107] ,]</param>
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
+                <param name="icon_centertop">50%</param>
+                <param name="visible">$PARAM[visible_special] + [[$PARAM[visible_movies] + [String.IsEqual($PARAM[container]ListItem.DBType,movie) | [!String.IsEmpty($PARAM[container]ListItem.ChannelName) + String.IsEmpty($PARAM[Container]ListItem.TVShowTitle)]]] | [$PARAM[visible_tvshows] + [String.IsEqual($PARAM[container]ListItem.DBType,episode) | String.IsEqual($PARAM[container]ListItem.DBType,video) | [!String.IsEmpty($PARAM[container]ListItem.ChannelName) + !String.IsEmpty($PARAM[container]ListItem.TVShowTitle)]]]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type)) + !String.IsEmpty(Container(3400).ListItem.EndTimeResume) + !String.IsEqual(Container(3400).ListItem.EndTimeResume,$PARAM[container]ListItem.EndTimeResume) + !String.IsEqual(Container(3400).ListItem.EndTimeResume,System.Time)</param>
+            </include>
             <include content="Info_Line_Rating" condition="![$PARAM[is_player]] + String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
                 <param name="label">$INFO[$PARAM[container]ListItem.StartTime]$INFO[$PARAM[container]ListItem.EndTime, - ,]</param>
                 <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/ends.png</param>
@@ -2110,11 +2116,13 @@
 
                 <include content="Info_Line_Items" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + Skin.HasSetting(InfoLine.EnableEndsAtTime) + Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime) + Skin.HasSetting(CustomRating.TVShows.DisableEndsAtTime)">
                     <visible>!String.IsEmpty($PARAM[container]ListItem.ChannelName) + [String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel)]</visible>
-                    <param name="items_02">true</param>
+                    <param name="items_03">true</param>
                     <param name="label_01">$INFO[$PARAM[container]ListItem.EndTimeResume,$LOCALIZE[31184] ,]</param>
-                    <param name="label_02">$INFO[$PARAM[container]ListItem.StartTime]$INFO[$PARAM[container]ListItem.EndTime, - ,]</param>
+                    <param name="label_02">$INFO[Container(3400).ListItem.EndTimeResume,$LOCALIZE[31184] ,]</param>
+                    <param name="label_03">$INFO[$PARAM[container]ListItem.StartTime]$INFO[$PARAM[container]ListItem.EndTime, - ,]</param>
                     <param name="visible_01">!String.IsEmpty($PARAM[container]ListItem.EndTimeResume) + !String.IsEqual($PARAM[container]ListItem.EndTimeResume,System.Time)</param>
-                    <param name="visible_02">!String.IsEmpty($PARAM[container]ListItem.StartTime)</param>
+                    <param name="visible_02">$EXP[Exp_PVR_HiddenButton_Enabled] + !String.IsEmpty(Container(3400).ListItem.EndTimeResume) + !String.IsEqual(Container(3400).ListItem.EndTimeResume,System.Time)</param>
+                    <param name="visible_03">!String.IsEmpty($PARAM[container]ListItem.StartTime)</param>
                     <param name="textcolor">$PARAM[colordiffuse]_70</param>
                 </include>
 
