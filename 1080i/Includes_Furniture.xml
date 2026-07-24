@@ -305,7 +305,12 @@
         <animation effect="fade" start="100" end="0" time="200" reversible="false" condition="[Window.IsVisible(DialogNotification.xml) | Window.IsActive(DialogExtendedProgressBar.xml)]">Conditional</animation>
         <animation effect="fade" start="0" end="100" time="200" delay="200" reversible="false" condition="![Window.IsVisible(DialogNotification.xml) | Window.IsActive(DialogExtendedProgressBar.xml)]">Conditional</animation>
     </include>
-    
+
+    <variable name="Furniture_TimeWeatherLabel_TopRight">
+        <value condition="!String.StartsWith(Weather.Temperature,$LOCALIZE[503])">$INFO[System.Time,, • ]</value>
+        <value>$INFO[System.Time]</value>
+    </variable>
+
     <include name="Furniture_DateLabel_TopRight">
         <param name="font_top">font_midi_bold</param>
         <param name="font_bottom">font_tiny</param>
@@ -354,7 +359,7 @@
                             <aligny>center</aligny>
                             <width>auto</width>
                             <font>$PARAM[font_top]</font>
-                            <label>$INFO[System.Time,, • ]</label>
+                            <label>$VAR[Furniture_TimeWeatherLabel_TopRight]</label>
                             <textcolor>main_fg_90</textcolor>
                             <shadowcolor>main_bg_12</shadowcolor>
                         </control>
@@ -363,6 +368,7 @@
                             <bordersize>0</bordersize>
                             <aspectratio>keep</aspectratio>
                             <texture colordiffuse="main_fg_90">$INFO[Weather.FanartCode,resource://resource.images.weathericons.white/,.png]</texture>
+                            <visible>!String.StartsWith(Weather.Temperature,$LOCALIZE[503])</visible>
                         </control>
                         <control type="label">
                             <align>right</align>
@@ -372,6 +378,7 @@
                             <label>$INFO[Weather.Temperature]</label>
                             <textcolor>main_fg_90</textcolor>
                             <shadowcolor>main_bg_12</shadowcolor>
+                            <visible>!String.StartsWith(Weather.Temperature,$LOCALIZE[503])</visible>
                         </control>
                     </control>
                     <control type="label">
