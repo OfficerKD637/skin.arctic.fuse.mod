@@ -2,18 +2,33 @@
 <window type="dialog" id="1121">
     <defaultcontrol always="true">3</defaultcontrol>
 
-    <onload condition="!String.IsEmpty(Window(1121).Property(CustomDialogPreSelect))">AlarmClock(refocus,SetFocus(3,$INFO[Window(1121).Property(CustomDialogPreSelect)],absolute),00:00,silent)</onload>
-    <onunload>ClearProperty(CustomDialogPreSelect)</onunload>
-    <onunload>ClearProperty(CustomDialogPreviewSelected)</onunload>
-    <onunload>ClearProperty(CustomDialogPreviewWindowID)</onunload>
-    <onunload>ClearProperty(resize)</onunload>
+    <onload condition="!String.IsEmpty(Window(1121).Property(CustomDialogPreviewPreSelect))">AlarmClock(refocus,SetFocus(3,$INFO[Window(1121).Property(CustomDialogPreviewPreSelect)],absolute),00:00,silent)</onload>
+    <onunload>ClearProperty(CustomDialogPreviewItems,1121)</onunload>
+    <onunload>ClearProperty(CustomDialogPreviewPreSelect,1121)</onunload>
+    <onunload>ClearProperty(CustomDialogPreviewSelected,1121)</onunload>
+    <onunload>ClearProperty(CustomDialogPreviewWindowID,1121)</onunload>
+    <onunload>ClearProperty(resize,1121)</onunload>
     <controls>
-        <include content="DialogSelect_Viewtypes">
+        <include content="DialogSelect_Viewtypes" condition="String.IsEmpty(Window(1121).Property(CustomDialogPreviewItems))">
             <param name="header">$INFO[Window(1121).Property(CustomDialogPreviewTitle)]</param>
             <param name="include_content">Items_Preview_LayoutMode</param>
             <param name="icon">$INFO[Container(3).ListItem.Icon]</param>
             <param name="current">String.IsEqual(Window(1121).Property(CustomDialogPreviewSelected),ListItem.Label)</param>
             <param name="resize">!String.IsEmpty(Window(1121).Property(resize))</param>
+        </include>
+        <include content="DialogSelect_Viewtypes" condition="String.IsEqual(Window(1121).Property(CustomDialogPreviewItems),Items_Settings_ColourPresets)">
+            <param name="header">$INFO[Window(1121).Property(CustomDialogPreviewTitle)]</param>
+            <param name="include_content">Items_Settings_ColourPresets</param>
+            <param name="icon">$INFO[Container(3).ListItem.Icon]</param>
+            <param name="current">!String.IsEmpty(Container(3).ListItem.Property(selected))</param>
+            <param name="resize">true</param>
+        </include>
+        <include content="DialogSelect_Viewtypes" condition="String.IsEqual(Window(1121).Property(CustomDialogPreviewItems),Items_Settings_BackgroundImage)">
+            <param name="header">$INFO[Window(1121).Property(CustomDialogPreviewTitle)]</param>
+            <param name="include_content">Items_Settings_BackgroundImage</param>
+            <param name="icon">$INFO[Container(3).ListItem.Icon]</param>
+            <param name="current">!String.IsEmpty(Container(3).ListItem.Property(selected))</param>
+            <param name="resize">false</param>
         </include>
 
     </controls>

@@ -60,6 +60,42 @@
         </definition>
     </include>
 
+    <include name="Dialog_Background_Blur_1118_BackgroundDialogImage">
+        <param name="shadow">true</param>
+        <param name="transparency">false</param>
+        <definition>
+            <control type="group">
+                <include condition="$PARAM[transparency]">Dialog_Background_Transparency</include>
+
+                <!-- Standard Dialog Preview -->
+                <control type="image">
+                    <texture border="20">$VAR[Image_1118_BackgroundDialogImage]</texture>
+                    <include condition="$PARAM[shadow]">Texture_Shadow_80</include>
+                    <visible>!Control.HasFocus(8011) | [!$EXP[Exp_DialogTheme_IsAdaptive] + [Control.HasFocus(61) | Control.HasFocus(90001) | String.IsEmpty(System.CurrentControl)]]</visible>
+                </control>
+                <control type="image">
+                    <visible>!Skin.String(Background.DialogImage,Obsidian)</visible>
+                    <texture colordiffuse="dialog_overlay" border="20">common/dialog.png</texture>
+                    <visible>!Control.HasFocus(8011) | [!$EXP[Exp_DialogTheme_IsAdaptive] + [Control.HasFocus(61) | Control.HasFocus(90001) | String.IsEmpty(System.CurrentControl)]]</visible>
+                </control>
+
+                <!-- Adaptive Dialog Preview -->
+                <control type="image">
+                    <texture colordiffuse="dialog_bg_100" border="20">common/dialog.png</texture>
+                    <include condition="$PARAM[shadow]">Texture_Shadow_80</include>
+                    <visible>Control.HasFocus(8011) | [$EXP[Exp_DialogTheme_IsAdaptive] + [Control.HasFocus(61) | Control.HasFocus(90001) | String.IsEmpty(System.CurrentControl)]]</visible>
+                </control>
+                <control type="image">
+                    <fadetime>background_fadetime</fadetime>
+                    <texture border="40" colordiffuse="overlay_hard">$VAR[Image_1118_BackgroundDialogImage]</texture>
+                    <visible>Control.HasFocus(8011) | [$EXP[Exp_DialogTheme_IsAdaptive] + [Control.HasFocus(61) | Control.HasFocus(90001) | String.IsEmpty(System.CurrentControl)]]</visible>
+                </control>
+                <include condition="Skin.HasSetting(Glass.DarkPanels)">Dialog_Background_Glass_Panel</include>
+            </control>
+            <include>Dialog_Background_Glass_Border</include>
+        </definition>
+    </include>
+
     <include name="Dialog_Background_Blur">        
         <include content="Dialog_Background_Blur_Standard" condition="!$EXP[Exp_DialogTheme_IsAdaptive]">
             <param name="shadow">$PARAM[shadow]</param>
@@ -172,11 +208,15 @@
                     <param name="pad">40</param>
                 </include>
                 <control type="group">
-                    <include content="Dialog_Background_Blur" condition="$EXP[Exp_DialogTheme_IsAdaptive]">
+                    <include content="Dialog_Background_Blur" condition="$EXP[Exp_DialogTheme_IsAdaptive] + ![Window.IsVisible(1118) + String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_BackgroundDialogImage)]">
                         <param name="shadow">$PARAM[shadow]</param>
                         <param name="transparency">$PARAM[transparency]</param>
                     </include>
-                    <include content="Dialog_Background_Blur_Standard" condition="!$EXP[Exp_DialogTheme_IsAdaptive]">
+                    <include content="Dialog_Background_Blur_Standard" condition="!$EXP[Exp_DialogTheme_IsAdaptive] + ![Window.IsVisible(1118) + String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_BackgroundDialogImage)]">
+                        <param name="shadow">$PARAM[shadow]</param>
+                        <param name="transparency">$PARAM[transparency]</param>
+                    </include>
+                    <include content="Dialog_Background_Blur_1118_BackgroundDialogImage" condition="[Window.IsVisible(1118) + String.IsEqual(Window(Home).Property(CustomDialogSettingsItems),Items_Settings_BackgroundDialogImage)]">
                         <param name="shadow">$PARAM[shadow]</param>
                         <param name="transparency">$PARAM[transparency]</param>
                     </include>
