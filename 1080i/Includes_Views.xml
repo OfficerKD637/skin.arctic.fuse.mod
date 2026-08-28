@@ -575,6 +575,7 @@
 
     <include name="View_Row_Info">
         <control type="group">
+            <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
             <visible>![$EXP[Exp_InfoDialogs]]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
 
@@ -659,7 +660,6 @@
 
     <include name="View_Row_Items_ViewLine">
         <control type="group">
-            <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
             <visible>!$EXP[Exp_View_CombinedMode]</visible>
             <visible>![[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</visible>
             <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">
@@ -879,7 +879,7 @@
             
             <control type="group">
                 <visible>!Window.IsVisible(1171)</visible>
-                <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp_Fade</include>
+                <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
                 <control type="group">
                     <height>40</height>
                     <centerbottom>100</centerbottom>
@@ -1343,60 +1343,63 @@
             <include>Animation_View_SlideOver</include>
             <include>Animation_View_WindowChange</include>
             <control type="group">
-                <control type="group">
-                    <animation effect="slide" start="0" end="260" condition="!Skin.String(Home.SideMenuCollapse,Never) + Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="0" end="240" condition="Skin.String(Home.SideMenuCollapse,Never) + Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="0" end="-95" condition="!Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
-                    <include content="View_Furniture_Scrollbar_V" condition="!Skin.String(Home.SideMenuCollapse,Never)">
-                        <param name="id">70</param>
-                        <param name="centerright">920</param>
-                        <param name="height">view_poster_item_h</param>
-                        <param name="visible">$EXP[Exp_View_Scrollbar_Mini_V]</param>
-                    </include>
-                    <include content="View_Furniture_Scrollbar_V" condition="Skin.String(Home.SideMenuCollapse,Never)">
-                        <param name="id">70</param>
-                        <param name="centerright">860</param>
-                        <param name="height">view_poster_item_h</param>
-                        <param name="visible">$EXP[Exp_View_Scrollbar_Mini_V]</param>
-                    </include>
-                </control>
-                <include content="View_Furniture_Scrollbar_V">
-                    <param name="id">65</param>
-                    <param name="centerright">660</param>
+                <animation effect="slide" start="0" end="260" condition="!Skin.String(Home.SideMenuCollapse,Never) + Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0" end="240" condition="Skin.String(Home.SideMenuCollapse,Never) + Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0" end="-95" condition="!Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)" reversible="false">Conditional</animation>
+                <include content="View_Furniture_Scrollbar_V" condition="!Skin.String(Home.SideMenuCollapse,Never)">
+                    <param name="id">70</param>
+                    <param name="centerright">920</param>
                     <param name="height">view_poster_item_h</param>
-                    <param name="visible">$EXP[Exp_View_Scrollbar_Midi_V]</param>
+                    <param name="visible">$EXP[Exp_View_Scrollbar_Mini_V]</param>
                 </include>
-                <control type="group">
-                    <animation effect="slide" start="0" end="-620" condition="Control.IsVisible(517) | Window.IsVisible(MyPlaylist.xml)" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="0" end="-980" condition="Control.IsVisible(519)" reversible="false">Conditional</animation>
-                    <animation effect="slide" start="0" end="-460" condition="Control.IsVisible(520)" reversible="false">Conditional</animation>
-                    <include content="View_Furniture_Scrollbar_V">
-                        <param name="id">66</param>
-                        <param name="centerright">40</param>
-                        <param name="height">500</param>
-                        <param name="visible">$EXP[Exp_View_Scrollbar_Maxi_V]</param>
-                    </include>
-                </control>
+                <include content="View_Furniture_Scrollbar_V" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                    <param name="id">70</param>
+                    <param name="centerright">860</param>
+                    <param name="height">view_poster_item_h</param>
+                    <param name="visible">$EXP[Exp_View_Scrollbar_Mini_V]</param>
+                </include>
+            </control>
+            <include content="View_Furniture_Scrollbar_V">
+                <param name="id">65</param>
+                <param name="centerright">660</param>
+                <param name="height">view_poster_item_h</param>
+                <param name="visible">$EXP[Exp_View_Scrollbar_Midi_V]</param>
+            </include>
+            <control type="group">
+                <animation effect="slide" start="0" end="-620" condition="Control.IsVisible(517) | Window.IsVisible(MyPlaylist.xml)" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0" end="-980" condition="Control.IsVisible(519)" reversible="false">Conditional</animation>
+                <animation effect="slide" start="0" end="-460" condition="Control.IsVisible(520)" reversible="false">Conditional</animation>
+                <include content="View_Furniture_Scrollbar_V">
+                    <param name="id">66</param>
+                    <param name="centerright">40</param>
+                    <param name="height">500</param>
+                    <param name="visible">$EXP[Exp_View_Scrollbar_Maxi_V]</param>
+                </include>
             </control>
             <control type="group">
-                <control type="group">
-                    <include>View_Row_Items_KeyboardSlide</include>
-                    <include>View_Row_Items_ViewLine</include>
-                    <include>View_Combined_Row_Horz_Selector</include>
-                </control>
+                <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
+                <include>View_Row_Header</include>
+                <include>View_Row_Items_KeyboardSlide</include>
+                <include>View_Row_Items_ViewLine</include>
             </control>
-            <include>View_Furniture_Bottom</include>
-            <include>View_Row_Header</include>
             <include>View_Hidden_Buttons</include>
+            <control type="group">
+                <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp</include>
+                <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp_Fade</include>
+                <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="400" condition="$EXP[Exp_FilterItems_Keyboard]">Conditional</animation>
+                <include>View_Combined_Row_Horz_Selector</include>
+                <include>View_Furniture_Bottom</include>
+            </control>
         </control>
         <control type="group">
             <visible>!$EXP[Exp_InfoDialogs]</visible>
+            <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
+            <visible>![[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !$EXP[Exp_View_ScrollFilter_HasFocus]]</visible>
             <include>Animation_Transition_InfoPanel_Hide</include>
+            <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="400" condition="$EXP[Exp_FilterItems_Keyboard]">Conditional</animation>
+            <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp</include>
             <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp_Fade</include>
-            <control type="group">
-                <visible>![[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + !$EXP[Exp_View_ScrollFilter_HasFocus]]</visible>
-                <include>Furniture_Bottom_Right</include>
-            </control>
+            <include>Furniture_Bottom_Right</include>
         </control>
         <include content="Home_Menu_Media">
             <param name="onlist">50</param>
