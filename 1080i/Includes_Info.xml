@@ -649,6 +649,26 @@
         </definition>
     </include>
 
+    <include name="Info_Line_Rating_MyAnimeList">
+        <param name="is_player">false</param>
+        <definition>
+            <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mal.png</param>
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MyAnimeList_Rating)]</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MyAnimeList_Rating))</param>
+                <param name="icon_w">52</param>
+                <param name="icon_centertop">55%</param>
+            </include>
+            <include content="Info_Line_Rating" condition="$PARAM[is_player]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mal.png</param>
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.MyAnimeList_Rating)]</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.MyAnimeList_Rating))</param>
+                <param name="icon_w">52</param>
+                <param name="icon_centertop">55%</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="Info_Line_Rating_Awards">
         <param name="is_player">false</param>
         <definition>
@@ -846,6 +866,11 @@
             <param name="is_player">$PARAM[is_player]</param>
         </include>
         <include content="Info_Line_Rating_Letterboxd" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],Letterboxd)">
+            <param name="visible">$PARAM[visible]</param>
+            <param name="container">$PARAM[container]</param>
+            <param name="is_player">$PARAM[is_player]</param>
+        </include>
+        <include content="Info_Line_Rating_MyAnimeList" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],MyAnimeList)">
             <param name="visible">$PARAM[visible]</param>
             <param name="container">$PARAM[container]</param>
             <param name="is_player">$PARAM[is_player]</param>
