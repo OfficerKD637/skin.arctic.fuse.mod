@@ -83,7 +83,37 @@
         <value condition="Integer.IsEqual(Container(5099).ListItem.Property(listid),51)">51</value>
         <value>52</value>
     </variable>
-    
+
+    <variable name="Action_Letter_Position">
+        <value condition="String.IsEqual(ListItem.SortLetter,A)">1</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,B)">2</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,C)">3</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,D)">4</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,E)">5</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,F)">6</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,G)">7</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,H)">8</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,I)">9</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,J)">10</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,K)">11</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,L)">12</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,M)">13</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,N)">14</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,O)">15</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,P)">16</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,Q)">17</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,R)">18</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,S)">19</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,T)">20</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,U)">21</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,V)">22</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,W)">23</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,X)">24</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,Y)">25</value>
+        <value condition="String.IsEqual(ListItem.SortLetter,Z)">26</value>
+        <value>0</value>
+    </variable>
+
     <variable name="Action_Spotlight_PlayMedia">
         <value condition="!$EXP[Exp_Hubs_Spotlight_HasItems] + Weather.IsFetched">ActivateWindow(weather)</value>
         <value condition="!$EXP[Exp_Hubs_Spotlight_HasItems]">SlideShow($VAR[Path_Spotlight_SlideShow_Content],beginslide=$ESCINFO[Container(99971).ListItem.PicturePath])</value>
@@ -838,25 +868,30 @@
         <param name="container">Container.</param>
         <definition>
             <!-- Explore -->
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual($PARAM[container]NumPages,1) + !$EXP[Exp_IsAlphabetStrip]">SetFocus(610)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(67)</ondown>
 
             <!-- Filter -->
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + !Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + !Integer.IsEqual($PARAM[container]NumPages,1) + !$EXP[Exp_IsAlphabetStrip]">SetFocus(610)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + Integer.IsEqual($PARAM[container]NumPages,1) + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + Integer.IsEqual($PARAM[container]NumPages,1) + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</ondown>
 
             <!-- Options -->
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options) + !Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options) + !Integer.IsEqual($PARAM[container]NumPages,1) + !$EXP[Exp_IsAlphabetStrip]">SetFocus(610)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Options) + Integer.IsEqual($PARAM[container]NumPages,1)">ActivateWindow(1171)</ondown>
 
             <!-- Bump -->
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump)">SetProperty(List.ViewContainer,$INFO[System.CurrentControlId])</ondown>
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump) + !Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump) + !Integer.IsEqual($PARAM[container]NumPages,1) + !$EXP[Exp_IsAlphabetStrip]">SetFocus(610)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Bump) + Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(330)</ondown>
             
             <!-- Wall -->
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(610)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual($PARAM[container]NumPages,1) + !$EXP[Exp_IsAlphabetStrip]">SetFocus(610)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual($PARAM[container]NumPages,1) + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual($PARAM[container]NumPages,1) + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</ondown>
         </definition>
