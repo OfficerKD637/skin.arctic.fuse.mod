@@ -1,91 +1,219 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
-    <include name="_Categories_Selector_PreItemFade">
-        <animation effect="fade" start="100" end="0" delay="100" time="300" tween="quadratic" reversible="false" condition="!Container($PARAM[id]).OnNext">Conditional</animation>
+
+    <include name="Categories_Selector_Fake_Image">
+        <param name="image_h">50</param>
+        <param name="image_w">50</param>
+        <param name="bordersize">2</param>
+        <definition>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="white" fallback="$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster)]" background="true">$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)]</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="white" background="true">$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)]</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="white" fallback="$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon)]" background="true">$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon]</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" background="true">special://skin/extras/icons/tag.png</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>![[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))]</visible>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,tag)</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" background="true">special://skin/extras/icons/clapperboard.png</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>![[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))]</visible>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,director)</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" background="true">special://skin/extras/icons/folder.png</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>![[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))]</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,tag) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,director)]</visible>
+                <visible>String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultFolder.png)</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" background="true">special://skin/extras/icons/list-check.png</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>![[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))]</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,tag) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,director)]</visible>
+                <visible>[String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultPlaylist.png) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultPartyMode.png)]</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" background="true">special://skin/extras/icons/file-circle-plus.png</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>![[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))]</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,tag) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,director)]</visible>
+                <visible>[String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultAddSource.png) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultFile.png)]</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" background="true">$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon]</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>![[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))]</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,tag) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,director)]</visible>
+                <visible>!String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultFolder.png)</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultPlaylist.png) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultPartyMode.png)]</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultAddSource.png) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultFile.png)]</visible>
+                <visible>[String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) | String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)]</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" background="true">special://skin/extras/icons/folder.png</texture>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster))]</visible>
+                <visible>![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)]</visible>
+                <visible>![[!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)] | !String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(icon))]</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,tag) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,director)]</visible>
+                <visible>!String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultFolder.png)</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultPlaylist.png) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultPartyMode.png)]</visible>
+                <visible>![String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultAddSource.png) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,DefaultFile.png)]</visible>
+                <visible>![String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) | String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)]</visible>
+                <visible>String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(poster)) + String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(tvshow.poster)) + ![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb)) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Art(thumb),special://skin/extras/icons/)] + ![!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,Default) + !String.StartsWith(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Icon,special://skin/extras/icons/)]</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" fallback="folder.png" background="true">$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label,genres/,.png]</texture>
+                <visible>[String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,genre) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),genre)]</visible>
+                <visible>System.HasAddon(resource.images.moviegenreicons.transparent)</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" fallback="special://skin/extras/icons/folder.png" background="true">$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label,resource://resource.images.studios.white/,.png]</texture>
+                <visible>[String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,studio) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),studio)]</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+            <control type="image">
+                <centertop>50%</centertop>
+                <height>$PARAM[image_h]</height>
+                <width>$PARAM[image_w]</width>
+                <bordersize>$PARAM[bordersize]</bordersize>
+                <aspectratio scalediffuse="false">scale</aspectratio>
+                <bordertexture colordiffuse="white">diffuse/circle/circle_50.png</bordertexture>
+                <texture diffuse="diffuse/circle/circle_50.png" colordiffuse="main_bg_90" fallback="special://skin/extras/icons/folder.png" background="true">$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label,resource://resource.images.moviecountryicons.maps/,.png]</texture>
+                <visible>[String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).DBType,country) | String.IsEqual(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Property(dbtype),country)]</visible>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+            </control>
+        </definition>
     </include>
 
-    <include name="Categories_Selector_Movement_BasicMenu">
-        <focusposition>0</focusposition>
-        <movement>4</movement>
-        <width>1240</width>
-    </include>
-    <include name="Categories_Selector_Movement_LargeMenu">
-        <focusposition>0</focusposition>
-        <movement>2</movement>
-        <width>1000</width>
-    </include>
-    <include name="Categories_Selector_Movement_SmallMenu">
-        <focusposition>0</focusposition>
-        <movement>2</movement>
-        <width>760</width>
-    </include>
-
-    <include name="Categories_Selector_Movement_Iconic_BasicMenu">
-        <focusposition>0</focusposition>
-        <movement>3</movement>
-        <width>1384</width>
-    </include>
-    <include name="Categories_Selector_Movement_Iconic_LargeMenu">
-        <focusposition>0</focusposition>
-        <movement>2</movement>
-        <width>1048</width>
-    </include>
-    <include name="Categories_Selector_Movement_Iconic_SmallMenu">
-        <focusposition>0</focusposition>
-        <movement>2</movement>
-        <width>1048</width>
-    </include>
-    
     <include name="Categories_Selector_Fake_Button">
-        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
-            <param name="control">button</param>
-            <width max="300">auto</width>
-            <height>80</height>
-            <centertop>50%</centertop>
-            <aligny>center</aligny>
-            <texturenofocus />
-            <texturefocus />
-            <font>font_main_bold</font>
-            <textcolor>00ffffff</textcolor>
-            <focusedcolor>00ffffff</focusedcolor>
-            <selectedcolor>00ffffff</selectedcolor>
-            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
-            <textoffsetx>20</textoffsetx>
-            <onclick>SetFocus($PARAM[id],$PARAM[pos])</onclick>
-            <onclick>Action(Select)</onclick>
-            <hitrect x="0" y="0" w="0" h="0" />
-            <include content="Categories_Selector_Fake_Item_Visible">
-                <param name="id">$PARAM[id]</param>
-                <param name="pos">$PARAM[pos]</param>
-                <param name="mod">!</param>
-            </include>
-            <visible>$PARAM[visible]</visible>
-        </include>
-        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
-            <param name="control">button</param>
-            <width max="300">auto</width>
-            <height>80</height>
-            <centertop>50%</centertop>
-            <aligny>center</aligny>
-            <include>Texture_Highlight_Button_FakeFocus_V</include>
-            <font>font_main_bold</font>
-            <textcolor>00ffffff</textcolor>
-            <focusedcolor>00ffffff</focusedcolor>
-            <selectedcolor>00ffffff</selectedcolor>
-            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
-            <textoffsetx>20</textoffsetx>
-            <onclick>SetFocus($PARAM[id],$PARAM[pos])</onclick>
-            <onclick>Action(Select)</onclick>
-            <hitrect x="0" y="0" w="0" h="0" />
-            <include content="Categories_Selector_Fake_Item_Visible">
-                <param name="id">$PARAM[id]</param>
-                <param name="pos">$PARAM[pos]</param>
-                <param name="mod" />
-            </include>
-            <visible>$PARAM[visible]</visible>
-        </include>
-        <include content="Object_Control" condition="$PARAM[fake_underline]">
-            <param name="control">button</param>
+        <control type="button">
             <include content="Object_Width" condition="![$PARAM[extended]]">
                 <param name="max">200</param>
                 <param name="width">auto</param>
@@ -100,6 +228,9 @@
             <textcolor>00ffffff</textcolor>
             <focusedcolor>00ffffff</focusedcolor>
             <selectedcolor>00ffffff</selectedcolor>
+            <include content="Object_TextOffsetX" condition="$PARAM[include_image]">
+                <param name="textoffsetx">45</param>
+            </include>
             <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
             <textoffsetx>0</textoffsetx>
             <onclick>SetFocus($PARAM[id],$PARAM[pos])</onclick>
@@ -113,9 +244,8 @@
             </include>
             <visible>$PARAM[visible]</visible>
             <include>Texture_Highlight_Underline_H</include>
-        </include>
-        <include content="Object_Control" condition="$PARAM[fake_underline]">
-            <param name="control">button</param>
+        </control>
+        <control type="button">
             <include content="Object_Width" condition="![$PARAM[extended]]">
                 <param name="max">200</param>
                 <param name="width">auto</param>
@@ -129,6 +259,9 @@
             <textcolor>00ffffff</textcolor>
             <focusedcolor>00ffffff</focusedcolor>
             <selectedcolor>00ffffff</selectedcolor>
+            <include content="Object_TextOffsetX" condition="$PARAM[include_image]">
+                <param name="textoffsetx">45</param>
+            </include>
             <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
             <textoffsetx>0</textoffsetx>
             <onclick>SetFocus($PARAM[id],$PARAM[pos])</onclick>
@@ -141,46 +274,23 @@
                 <param name="mod" />
             </include>
             <visible>$PARAM[visible]</visible>
-        </include>
+        </control>
     </include>
 
     <include name="Categories_Selector_Fake_Label">
-        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
-            <param name="control">label</param>
-            <width max="260">auto</width>
-            <height>80</height>
-            <centertop>50%</centertop>
-            <aligny>center</aligny>
-            <font>font_main_bold</font>
-            <textcolor>$PARAM[color_nf]</textcolor>
-            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
-            <left>20</left>
-            <include content="Categories_Selector_Fake_Item_Visible">
+        <include content="Categories_Selector_Fake_Image" condition="$PARAM[include_image]">
+            <param name="id">$PARAM[id]</param>
+            <param name="pos">$PARAM[pos]</param>
+            <param name="visible">$PARAM[visible]</param>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
                 <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
                 <param name="pos">$PARAM[pos]</param>
                 <param name="mod">!</param>
             </include>
-            <visible>$PARAM[visible]</visible>
+            <visible>!Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
         </include>
-        <include content="Object_Control" condition="![$PARAM[fake_underline]]">
-            <param name="control">label</param>
-            <width max="260">auto</width>
-            <height>80</height>
-            <centertop>50%</centertop>
-            <aligny>center</aligny>
-            <font>font_main_bold</font>
-            <textcolor>$VAR[ColorSelected]</textcolor>
-            <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
-            <left>20</left>
-            <include content="Categories_Selector_Fake_Item_Visible">
-                <param name="id">$PARAM[id]</param>
-                <param name="pos">$PARAM[pos]</param>
-                <param name="mod" />
-            </include>
-            <visible>$PARAM[visible]</visible>
-        </include>
-        <include content="Object_Control" condition="$PARAM[fake_underline]">
-            <param name="control">label</param>
+        <control type="label">
             <include content="Object_Width" condition="![$PARAM[extended]]">
                 <param name="max">200</param>
                 <param name="width">auto</param>
@@ -203,9 +313,32 @@
             </include>
             <visible>$PARAM[visible]</visible>
             <visible>!Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
+        </control>
+        <include content="Object_Control" condition="$PARAM[include_image]">
+            <param name="control">group</param>
+            <width>25</width>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod">!</param>
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <visible>!Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
         </include>
-        <include content="Object_Control" condition="$PARAM[fake_underline]">
-            <param name="control">label</param>
+        <include content="Categories_Selector_Fake_Image" condition="$PARAM[include_image]">
+            <param name="id">$PARAM[id]</param>
+            <param name="pos">$PARAM[pos]</param>
+            <param name="visible">$PARAM[visible]</param>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod">!</param>
+            </include>
+            <visible>Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
+        </include>
+        <control type="label">
             <include content="Object_Width" condition="![$PARAM[extended]]">
                 <param name="max">200</param>
                 <param name="width">auto</param>
@@ -228,9 +361,31 @@
             </include>
             <visible>$PARAM[visible]</visible>
             <visible>Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
+        </control>
+        <include content="Object_Control" condition="$PARAM[include_image]">
+            <param name="control">group</param>
+            <width>25</width>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod">!</param>
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <visible>Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
         </include>
-        <include content="Object_Control" condition="$PARAM[fake_underline]">
-            <param name="control">label</param>
+        <include content="Categories_Selector_Fake_Image" condition="$PARAM[include_image]">
+            <param name="id">$PARAM[id]</param>
+            <param name="pos">$PARAM[pos]</param>
+            <param name="visible">$PARAM[visible]</param>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod" />
+            </include>
+        </include>
+        <control type="label">
             <include content="Object_Width" condition="![$PARAM[extended]]">
                 <param name="max">200</param>
                 <param name="width">auto</param>
@@ -255,14 +410,20 @@
                 <param name="scroll">True</param>
             </include>
             <visible>$PARAM[visible]</visible>
+        </control>
+        <include content="Object_Control" condition="$PARAM[include_image]">
+            <param name="control">group</param>
+            <width>25</width>
+            <include content="Categories_Selector_Fake_Underline_Item_Visible">
+                <param name="id">$PARAM[id]</param>
+                <param name="altfocusid">$PARAM[altfocusid]</param>
+                <param name="pos">$PARAM[pos]</param>
+                <param name="mod" />
+            </include>
+            <visible>$PARAM[visible]</visible>
         </include>
     </include>
 
-    <include name="Categories_Selector_Fake_Item_Visible">
-        <visible>$PARAM[mod][Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem) + Control.HasFocus($PARAM[id])]</visible>
-        <visible>!String.IsEmpty(Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</visible>
-    </include>
-    
     <include name="Categories_Selector_Fake_Underline_Item_Visible">
         <usealttexture>Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem)</usealttexture>
         <visible>$PARAM[mod][Integer.IsEqual(Container($PARAM[id]).ListItem.CurrentItem,Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).CurrentItem) + Control.HasFocus($PARAM[id])]</visible>
@@ -271,62 +432,91 @@
 
     <include name="Categories_Selector_FakeList_Items">
         <param name="extended">true</param>
+        <param name="expanded">false</param>
+        <param name="override">false</param>
         <param name="include_busy">false</param>
         <param name="busy_visible">false</param>
         <param name="busy_offset">false</param>
         <definition>
-            <include content="$PARAM[include]" condition="$PARAM[extended]">
+            <include content="$PARAM[include]" condition="$PARAM[expanded] + $PARAM[extended] + ![$PARAM[override]]">
                 <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(1).CurrentItem)</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">-4</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
-            <include content="$PARAM[include]" condition="$PARAM[extended]">
+            <include content="$PARAM[include]" condition="$PARAM[expanded] + $PARAM[extended] + ![$PARAM[override]]">
                 <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(2).CurrentItem)</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">-3</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
-            <include content="$PARAM[include]" condition="$PARAM[extended]">
+            <include content="$PARAM[include]" condition="$PARAM[expanded] + $PARAM[extended] + ![$PARAM[override]]">
                 <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(3).CurrentItem)</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">-2</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
-            <include content="$PARAM[include]" condition="$PARAM[extended]">
+            <include content="$PARAM[include]" condition="$PARAM[expanded] + $PARAM[extended] + ![$PARAM[override]]">
                 <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(4).CurrentItem)</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">-1</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
-            <include content="$PARAM[include]" condition="![$PARAM[extended]]">
+            <include content="$PARAM[include]" condition="![$PARAM[expanded]] + $PARAM[extended] + ![$PARAM[override]]">
+                <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(1).CurrentItem)</param>
+                <param name="color_nf">$PARAM[color_nf]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="extended">$PARAM[extended]</param>
+                <param name="pos">-3</param>
+                <param name="include_image">$PARAM[include_image]</param>
+                <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
+            </include>
+            <include content="$PARAM[include]" condition="![$PARAM[expanded]] + $PARAM[extended] + ![$PARAM[override]]">
+                <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(2).CurrentItem)</param>
+                <param name="color_nf">$PARAM[color_nf]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="extended">$PARAM[extended]</param>
+                <param name="pos">-2</param>
+                <param name="include_image">$PARAM[include_image]</param>
+                <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
+            </include>
+            <include content="$PARAM[include]" condition="![$PARAM[expanded]] + $PARAM[extended] + ![$PARAM[override]]">
+                <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(3).CurrentItem)</param>
+                <param name="color_nf">$PARAM[color_nf]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="extended">$PARAM[extended]</param>
+                <param name="pos">-1</param>
+                <param name="include_image">$PARAM[include_image]</param>
+                <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
+            </include>
+            <include content="$PARAM[include]" condition="![$PARAM[extended]] | $PARAM[override]">
                 <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(1).CurrentItem)</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">-2</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
-            <include content="$PARAM[include]" condition="![$PARAM[extended]]">
+            <include content="$PARAM[include]" condition="![$PARAM[extended]] | $PARAM[override]">
                 <param name="visible">String.IsEmpty(Container($PARAM[id]).ListItemNoWrap(2).CurrentItem)</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">-1</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
             <include content="$PARAM[include]">
@@ -335,7 +525,7 @@
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">0</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
             <include content="$PARAM[include]">
@@ -344,7 +534,7 @@
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">1</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
             <include content="$PARAM[include]">
@@ -353,25 +543,25 @@
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">2</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
-            <include content="$PARAM[include]" condition="$PARAM[extended]">
+            <include content="$PARAM[include]" condition="$PARAM[extended] + ![$PARAM[override]]">
                 <param name="visible">true</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">3</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
-            <include content="$PARAM[include]" condition="$PARAM[extended]">
+            <include content="$PARAM[include]" condition="$PARAM[expanded] + $PARAM[extended] + ![$PARAM[override]]">
                 <param name="visible">true</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
                 <param name="id">$PARAM[id]</param>
                 <param name="extended">$PARAM[extended]</param>
                 <param name="pos">4</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
             </include>
             <include content="Info_Viewline_Icon" condition="$PARAM[include_busy]">
@@ -389,9 +579,11 @@
         <param name="id">302</param>
         <param name="color_fo">main_fg_30</param>
         <param name="color_nf">main_fg_30</param>
-        <param name="fake_underline">[False]</param>
+        <param name="include_image">[False]</param>
         <param name="fake_underline_textcolor">[False]</param>
         <param name="extended">true</param>
+        <param name="expanded">false</param>
+        <param name="override">false</param>
         <param name="include_busy">false</param>
         <param name="busy_visible">false</param>
         <param name="busy_offset">false</param>
@@ -414,22 +606,24 @@
                         <control type="grouplist">
                             <hitrect x="0" y="0" w="0" h="0" />
                             <height>80</height>
-                            <orientation>horizontal</orientation>
-                            <include content="Object_ItemGap" condition="$PARAM[fake_underline]">
-                                <param name="itemgap">40</param>
+                            <include content="Object_Top" condition="$PARAM[include_image]">
+                                <param name="top">5</param>
                             </include>
-                            <itemgap>20</itemgap>
+                            <orientation>horizontal</orientation>
+                            <itemgap>40</itemgap>
                             <include content="Categories_Selector_FakeList_Items">
                                 <param name="include">Categories_Selector_Fake_Button</param>
                                 <param name="color_fo">$PARAM[color_fo]</param>
                                 <param name="color_nf">$PARAM[color_nf]</param>
                                 <param name="id">$PARAM[id]</param>
-                                <param name="fake_underline">$PARAM[fake_underline]</param>
+                                <param name="include_image">$PARAM[include_image]</param>
                                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
                                 <param name="extended">$PARAM[extended]</param>
-                                <param name="include_busy">$PARAM[include_busy]</param>
-                                <param name="busy_visible">$PARAM[busy_visible]</param>
-                                <param name="busy_offset">$PARAM[busy_offset]</param>
+                                <param name="expanded">$PARAM[expanded]</param>
+                                <param name="override">$PARAM[override]</param>
+                                <param name="include_busy">[false]</param>
+                                <param name="busy_visible">[false]</param>
+                                <param name="busy_offset">[false]</param>
                             </include>
                         </control>
 
@@ -437,15 +631,20 @@
                             <hitrect x="0" y="0" w="0" h="0" />
                             <height>80</height>
                             <orientation>horizontal</orientation>
+                            <include content="Object_ItemGap" condition="$PARAM[include_image]">
+                                <param name="itemgap">20</param>
+                            </include>
                             <itemgap>40</itemgap>
                             <include content="Categories_Selector_FakeList_Items">
                                 <param name="include">Categories_Selector_Fake_Label</param>
                                 <param name="color_fo">$PARAM[color_fo]</param>
                                 <param name="color_nf">$PARAM[color_nf]</param>
                                 <param name="id">$PARAM[id]</param>
-                                <param name="fake_underline">$PARAM[fake_underline]</param>
+                                <param name="include_image">$PARAM[include_image]</param>
                                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
                                 <param name="extended">$PARAM[extended]</param>
+                                <param name="expanded">$PARAM[expanded]</param>
+                                <param name="override">$PARAM[override]</param>
                                 <param name="include_busy">$PARAM[include_busy]</param>
                                 <param name="busy_visible">$PARAM[busy_visible]</param>
                                 <param name="busy_offset">$PARAM[busy_offset]</param>
@@ -484,8 +683,8 @@
                 <preloaditems>0</preloaditems>
                 <hitrect x="40" y="80" w="1360" h="80" />
                 <nested />
-                <width>1364</width>
-                <movement>3</movement>
+                <width>1060</width>
+                <movement>2</movement>
                 <include>Action_View_SlideOver_OnFocus</include>
                 <onfocus condition="$PARAM[slide]">SetProperty(Slide.WidgetContainer,$PARAM[slide_id],$PARAM[property_window_id])</onfocus>
                 <onfocus condition="![$PARAM[slide]]">ClearProperty(Slide.WidgetContainer,$PARAM[property_window_id])</onfocus>
@@ -512,41 +711,18 @@
         <param name="hitrect_h">0</param>
         <param name="itemlayout_w">240</param>
         <param name="scrolltime">400</param>
-        <param name="fake_underline">[False]</param>
+        <param name="include_image">[False]</param>
         <param name="fake_underline_textcolor">[False]</param>
         <param name="small">False</param>
         <param name="large">False</param>
         <param name="extended">true</param>
+        <param name="expanded">false</param>
+        <param name="override">false</param>
         <param name="include_busy">false</param>
         <param name="busy_visible">false</param>
         <param name="busy_offset">false</param>
         <definition>
-            <include content="List_ButtonMenu_Row" condition="Skin.HasSetting(Views.UseAltCombined) + ![$PARAM[fake_underline]]">
-                <param name="id">$PARAM[id]</param>
-                <param name="color_fo">$PARAM[color_fo]</param>
-                <param name="color_nf">$PARAM[color_nf]</param>
-                <param name="itemlayout_w">336</param>
-                <param name="offset_x">view_button_offset_x</param>
-                <param name="control">fixedlist</param>
-                <param name="font">$PARAM[font]</param>
-                <param name="backing">true</param>
-                <param name="hidden_button">$PARAM[hidden_button]</param>
-                <param name="hidden_button_prefix">$PARAM[hidden_button_prefix]</param>
-                <preloaditems>0</preloaditems>
-                <scrolltime tween="quadratic">$PARAM[scrolltime]</scrolltime>
-                <hitrect x="$PARAM[hitrect_x]" y="$PARAM[hitrect_y]" w="$PARAM[hitrect_w]" h="$PARAM[hitrect_h]" />
-                <height>120</height>
-
-                <include condition="$PARAM[small]">Categories_Selector_Movement_Iconic_SmallMenu</include>
-                <include condition="$PARAM[large]">Categories_Selector_Movement_Iconic_LargeMenu</include>
-                <include>Categories_Selector_Movement_Iconic_BasicMenu</include>
-
-                <nested />
-                <include>Action_View_SlideOver_OnFocus</include>
-                <onfocus condition="$PARAM[slide]">SetProperty(Slide.WidgetContainer,$PARAM[slide_id],$PARAM[property_window_id])</onfocus>
-                <onfocus condition="![$PARAM[slide]]">ClearProperty(Slide.WidgetContainer,$PARAM[property_window_id])</onfocus>
-            </include>
-            <include content="List_ButtonMenu_Row" condition="!Skin.HasSetting(Views.UseAltCombined) | [$PARAM[fake_underline]]">
+            <include content="List_ButtonMenu_Row">
                 <param name="id">$PARAM[id]</param>
                 <param name="color_fo">$PARAM[color_fo]</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
@@ -574,13 +750,15 @@
                 <onfocus condition="![$PARAM[slide]]">ClearProperty(Slide.WidgetContainer,$PARAM[property_window_id])</onfocus>
             </include>
             
-            <include content="Categories_Selector_FakeList" condition="!Skin.HasSetting(Views.UseAltCombined) | [$PARAM[fake_underline]]">
+            <include content="Categories_Selector_FakeList">
                 <param name="id">$PARAM[id]</param>
                 <param name="color_fo">$PARAM[color_fo]</param>
                 <param name="color_nf">$PARAM[color_nf]</param>
-                <param name="fake_underline">$PARAM[fake_underline]</param>
+                <param name="include_image">$PARAM[include_image]</param>
                 <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
                 <param name="extended">$PARAM[extended]</param>
+                <param name="expanded">$PARAM[expanded]</param>
+                <param name="override">$PARAM[override]</param>
                 <param name="include_busy">$PARAM[include_busy]</param>
                 <param name="busy_visible">$PARAM[busy_visible]</param>
                 <param name="busy_offset">$PARAM[busy_offset]</param>

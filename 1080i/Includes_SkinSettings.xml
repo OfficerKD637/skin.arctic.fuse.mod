@@ -58,9 +58,10 @@
             <param name="id">003</param>
             <label>$LOCALIZE[31241]</label>
             <label2>$VAR[Label_Setting_ColourPreset]</label2>
-            <onclick>SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31241][/CAPITALIZE],Home)</onclick>
-            <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_ColourPresets,Home)</onclick>
-            <onclick>ActivateWindow(1118)</onclick>
+            <onclick>SetProperty(CustomDialogPreviewTitle,[CAPITALIZE]$LOCALIZE[31197][/CAPITALIZE],1121)</onclick>
+            <onclick>SetProperty(CustomDialogPreviewItems,Items_Settings_ColourPresets,1121)</onclick>
+            <onclick>SetProperty(CustomDialogPreviewPreSelect,$VAR[Label_Setting_ColourPreset_PreSelect],1121)</onclick>
+            <onclick>ActivateWindow(1121)</onclick>
         </include>
         <include content="Settings_Button" description="Color Selector">
             <param name="dialog">false</param>
@@ -71,6 +72,7 @@
             <label2>$VAR[Label_Setting_ColourScheme]</label2>
             <onclick>SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[14078][/CAPITALIZE],Home)</onclick>
             <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_ColourHighlights,Home)</onclick>
+            <onclick>SetProperty(CustomDialogSettingsPreSelect,$VAR[Label_Setting_ColourScheme_PreSelect],1118)</onclick>
             <onclick>ActivateWindow(1118)</onclick>
         </include>
         <include content="Settings_Button" description="Customise Window Background">
@@ -80,9 +82,10 @@
             <param name="id">005</param>
             <label> - $LOCALIZE[31300]</label>
             <label2>$VAR[Label_Setting_ColourBackground]</label2>
-            <onclick>SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[33068][/CAPITALIZE],Home)</onclick>
-            <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundImage,Home)</onclick>
-            <onclick>ActivateWindow(1118)</onclick>
+            <onclick>SetProperty(CustomDialogPreviewTitle,[CAPITALIZE]$LOCALIZE[33068][/CAPITALIZE],1121)</onclick>
+            <onclick>SetProperty(CustomDialogPreviewItems,Items_Settings_BackgroundImage,1121)</onclick>
+            <onclick>SetProperty(CustomDialogPreviewPreSelect,$VAR[Label_Setting_ColourBackground_PreSelect],1121)</onclick>
+            <onclick>ActivateWindow(1121)</onclick>
         </include>
         <include content="Settings_Button" description="Customise Dialog Background">
             <param name="dialog">false</param>
@@ -93,6 +96,7 @@
             <label2>$VAR[Label_Setting_ColourDialog]</label2>
             <onclick>SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home)</onclick>
             <onclick>SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home)</onclick>
+            <onclick>SetProperty(CustomDialogSettingsPreSelect,$VAR[Label_Setting_ColourDialog_PreSelect],1118)</onclick>
             <onclick>ActivateWindow(1118)</onclick>
         </include>
         <include content="Settings_Button" description="Customise Fanart Fallback Folder">
@@ -528,11 +532,23 @@
             <onclick>ActivateWindow(1118)</onclick>
         </include>
 
-        <include content="Settings_Button" description="Status">
+        <include content="Settings_Button" description="Show all ratings in plot dialog">
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
             <param name="id">014</param>
+            <param name="control">radiobutton</param>
+            <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
+            <onclick>Skin.ToggleSetting(Info.EnableAllPlotRatings)</onclick>
+            <selected>Skin.HasSetting(Info.EnableAllPlotRatings)</selected>
+            <label>$LOCALIZE[31123]</label>
+        </include>
+
+        <include content="Settings_Button" description="Status">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">015</param>
             <param name="control">button</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <label>$LOCALIZE[126]</label>
@@ -546,7 +562,7 @@
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">015</param>
+            <param name="id">016</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <param name="control">button</param>
             <label>$LOCALIZE[31192]</label>
@@ -1204,8 +1220,10 @@
             <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.TMDb_Type,Home)</onclick>
             <onclick condition="!Skin.String(TMDbHelper.EnablePVR,Basic)">ClearProperty(TMDbHelper.PVR.Player.CropImage,Home)</onclick>
             <onclick condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">Skin.SetString(TMDbHelper.EnablePVR,Basic)</onclick>
+            <onclick condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">Skin.SetBool(TMDbHelper.DisablePVR, false)</onclick>
             <onclick condition="Skin.String(TMDbHelper.EnablePVR,Basic)">Skin.SetString(TMDbHelper.EnablePVR,Detailed)</onclick>
             <onclick condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">Skin.Reset(TMDbHelper.EnablePVR)</onclick>
+            <onclick condition="Skin.String(TMDbHelper.EnablePVR,Detailed)">Skin.SetBool(TMDbHelper.DisablePVR, true)</onclick>
         </include>
 
     </include>

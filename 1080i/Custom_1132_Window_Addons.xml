@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1132">
-    <defaultcontrol always="true">5000</defaultcontrol>
+    <include content="Object_DefaultControl" condition="!String.IsEmpty(Skin.String(Hub.1132.WidgetMode))">
+        <param name="defaultcontrol">419</param>
+        <param name="always">true</param>
+    </include>
+    <include content="Object_DefaultControl" condition="String.IsEmpty(Skin.String(Hub.1132.WidgetMode))">
+        <param name="defaultcontrol">5000</param>
+        <param name="always">true</param>
+    </include>
     <menucontrol>303</menucontrol>
-    <onload condition="String.IsEmpty(Window(1132).TMDbHelper.WidgetContainer)">SetProperty(TMDbHelper.WidgetContainer,5001,1132)</onload>
+    <onload condition="String.IsEmpty(Window(1132).TMDbHelper.WidgetContainer)">SetProperty(TMDbHelper.WidgetContainer,$VAR[Addons_WidgetContainer],1132)</onload>
+    <onload condition="String.IsEmpty(Skin.String(Hub.1132.WidgetMode))">AlarmClock(refocus,SetFocus(5000),00:00,silent)</onload>
+    <onload condition="!String.IsEmpty(Skin.String(Hub.1132.WidgetMode))">AlarmClock(refocus,SetFocus(419),00:00,silent)</onload>
+    <onload condition="!$EXP[Exp_HomeMenu_IsStatic]">ClearProperty(SideMenu.HasFocus,Home)</onload>
+    <onload condition="$EXP[Exp_HomeMenu_IsStatic]">SetProperty(SideMenu.HasFocus,True,Home)</onload>
     <controls>
 
         <include content="NextAired_Window">
@@ -10,6 +21,7 @@
                 <include content="Info_Panel">
                     <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5001)</param>
                     <param name="container">Container(5001).</param>
+                    <param name="details">!Skin.String(Hub.1132.WidgetMode,Wall)</param>
                     <param name="ratings">False</param>
                 </include>
             </include>
@@ -17,6 +29,7 @@
                 <include content="Info_Panel">
                     <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5002)</param>
                     <param name="container">Container(5002).</param>
+                    <param name="details">!Skin.String(Hub.1132.WidgetMode,Wall)</param>
                     <param name="ratings">False</param>
                 </include>
             </include>
@@ -24,6 +37,7 @@
                 <include content="Info_Panel">
                     <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5003)</param>
                     <param name="container">Container(5003).</param>
+                    <param name="details">!Skin.String(Hub.1132.WidgetMode,Wall)</param>
                     <param name="ratings">False</param>
                 </include>
             </include>
@@ -31,47 +45,138 @@
                 <include content="Info_Panel">
                     <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),5004)</param>
                     <param name="container">Container(5004).</param>
+                    <param name="details">!Skin.String(Hub.1132.WidgetMode,Wall)</param>
                     <param name="ratings">False</param>
                 </include>
+            </include>
+
+            <include content="Object_Control" condition="!String.IsEmpty(Skin.String(Hub.1132.WidgetMode))">
+                <param name="control">group</param>
+                <include content="Object_Top" condition="Skin.String(Hub.1132.WidgetMode,Wall) + Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">177.5</param>
+                </include>
+                <include content="Object_Top" condition="Skin.String(Hub.1132.WidgetMode,Wall) + !Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">197.5</param>
+                </include>
+                <include content="Object_Left" condition="![Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)]">
+                    <param name="left">-120</param>
+                </include>
+                <include content="NetAired_Widget_EndRow_Selector">
+                    <param name="busy_visible">[[Control.IsVisible(5001) + Container(5001).IsUpdating] | [Control.IsVisible(5002) + Container(5002).IsUpdating] | [Control.IsVisible(5003) + Container(5003).IsUpdating] | [Control.IsVisible(5004) + Container(5004).IsUpdating] | [Control.IsVisible(5005) + Container(5005).IsUpdating]]</param>
+                    <include>Addons_Widget_EndRow_Selector_Items</include>
+                </include>
+                <top>hub_spotlight_t</top>
             </include>
 
             <control type="group">
                 <include content="NextAired_GroupList">
                     <param name="visible">true</param>
+                    <param name="override_combined">Skin.String(Hub.1132.WidgetMode,Combined)</param>
+                    <param name="override_wall">Skin.String(Hub.1132.WidgetMode,Wall)</param>
                     <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableVideo)">
                         <param name="id">01</param>
                         <param name="label">$LOCALIZE[1037]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
-                        <content target="videos" sortby="lastused" sortorder="descending">addons://sources/video/</content>
+                        <param name="override_combined">Skin.String(Hub.1132.WidgetMode,Combined)</param>
+                        <param name="override_wall">Skin.String(Hub.1132.WidgetMode,Wall)</param>
+                        <param name="endrow_category">videos</param>
+                        <param name="sortby">lastused</param>
+                        <param name="sortorder">descending</param>
+                        <param name="target">videos</param>
+                        <param name="limit" />
+                        <param name="browse" />
+                        <param name="content">addons://sources/video/</param>
+                        <include content="Object_ContentDynamic" condition="!Skin.String(Hub.1132.WidgetMode,Wall)">
+                            <param name="sortby">lastused</param>
+                            <param name="sortorder">descending</param>
+                            <param name="target">videos</param>
+                            <param name="content">addons://sources/video/</param>
+                        </include>
                     </include>
                     <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableMusic)">
                         <param name="id">02</param>
                         <param name="label">$LOCALIZE[1038]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
-                        <content target="music" sortby="lastused" sortorder="descending">addons://sources/audio/</content>
+                        <param name="override_combined">Skin.String(Hub.1132.WidgetMode,Combined)</param>
+                        <param name="override_wall">Skin.String(Hub.1132.WidgetMode,Wall)</param>
+                        <param name="endrow_category">music</param>
+                        <param name="sortby">lastused</param>
+                        <param name="sortorder">descending</param>
+                        <param name="target">music</param>
+                        <param name="limit" />
+                        <param name="browse" />
+                        <param name="content">addons://sources/audio/</param>
+                        <include content="Object_ContentDynamic" condition="!Skin.String(Hub.1132.WidgetMode,Wall)">
+                            <param name="sortby">lastused</param>
+                            <param name="sortorder">descending</param>
+                            <param name="target">music</param>
+                            <param name="content">addons://sources/audio/</param>
+                        </include>
                     </include>
                     <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableProgram)">
                         <param name="id">03</param>
                         <param name="label">$LOCALIZE[1043]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
-                        <content target="programs" sortby="lastused" sortorder="descending">addons://sources/executable/</content>
+                        <param name="override_combined">Skin.String(Hub.1132.WidgetMode,Combined)</param>
+                        <param name="override_wall">Skin.String(Hub.1132.WidgetMode,Wall)</param>
+                        <param name="endrow_category">programs</param>
+                        <param name="sortby">lastused</param>
+                        <param name="sortorder">descending</param>
+                        <param name="target">programs</param>
+                        <param name="limit" />
+                        <param name="browse" />
+                        <param name="content">addons://sources/executable/</param>
+                        <include content="Object_ContentDynamic" condition="!Skin.String(Hub.1132.WidgetMode,Wall)">
+                            <param name="sortby">lastused</param>
+                            <param name="sortorder">descending</param>
+                            <param name="target">programs</param>
+                            <param name="content">addons://sources/executable/</param>
+                        </include>
                     </include>
                     <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisablePicture)">
                         <param name="id">04</param>
                         <param name="label">$LOCALIZE[1]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
-                        <content target="pictures" sortby="lastused" sortorder="descending">addons://sources/image/</content>
+                        <param name="override_combined">Skin.String(Hub.1132.WidgetMode,Combined)</param>
+                        <param name="override_wall">Skin.String(Hub.1132.WidgetMode,Wall)</param>
+                        <param name="endrow_category">pictures</param>
+                        <param name="sortby">lastused</param>
+                        <param name="sortorder">descending</param>
+                        <param name="target">pictures</param>
+                        <param name="limit" />
+                        <param name="browse" />
+                        <param name="content">addons://sources/image/</param>
+                        <include content="Object_ContentDynamic" condition="!Skin.String(Hub.1132.WidgetMode,Wall)">
+                            <param name="sortby">lastused</param>
+                            <param name="sortorder">descending</param>
+                            <param name="target">pictures</param>
+                            <param name="content">addons://sources/image/</param>
+                        </include>
                     </include>
                     <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableGame)">
                         <param name="id">05</param>
                         <param name="label">$LOCALIZE[10821]</param>
                         <param name="visible">true</param>
                         <param name="include">List_Square_Row</param>
-                        <content target="programs" sortby="lastused" sortorder="descending">addons://sources/game/</content>
+                        <param name="override_combined">Skin.String(Hub.1132.WidgetMode,Combined)</param>
+                        <param name="override_wall">Skin.String(Hub.1132.WidgetMode,Wall)</param>
+                        <param name="endrow_category">games</param>
+                        <param name="sortby">lastused</param>
+                        <param name="sortorder">descending</param>
+                        <param name="target">programs</param>
+                        <param name="limit" />
+                        <param name="browse" />
+                        <param name="content">addons://sources/game/</param>
+                        <include content="Object_ContentDynamic" condition="!Skin.String(Hub.1132.WidgetMode,Wall)">
+                            <param name="sortby">lastused</param>
+                            <param name="sortorder">descending</param>
+                            <param name="target">programs</param>
+                            <param name="content">addons://sources/game/</param>
+                        </include>
                     </include>
                 </include>
             </control>

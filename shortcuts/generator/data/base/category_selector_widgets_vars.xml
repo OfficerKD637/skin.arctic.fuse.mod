@@ -1,0 +1,124 @@
+<contents>
+    <template>generator/data/parts/basic_template.xmltemplate</template>
+    <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
+    <value name="comments">Variables for {window_id} Selector Widgets Loading</value>
+    <value name="includes_part">
+        <template>generator/data/parts/widgets_standard_parts.xmltemplate</template>
+        <value name="all_standard_parts">
+            <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+            <template>generator/data/parts/basic_variable.xmltemplate</template>
+            <value name="comments">Variables for Standard Selector Widget Loading</value>
+            <value name="variables_name">skinvariables-endrow-standard-widgets-loading-{window_id}</value>
+            <value name="variables_part">
+                <items menu="{item}">
+                    <item>
+                        <condition>{item_disabled}!=True</condition>
+                        <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
+                        <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
+                        <template>generator/data/parts/basic_template.xmltemplate</template>
+                        <value name="comments">Submenu Selector Widget Loading for {item_menu} {parent_item_x}.{item_x} {parent_item_label} {item_label}</value>
+                        <value name="grouplist_item_x">$MATH[{item_x} + 300]</value>
+                        <value name="includes_part">
+                            <items menu="{item_menu}" item="{item_x}" mode="submenu">
+                                <item>
+                                    <items mode="widgets" item="{parent_item_x}.{item_x}" menu="{parent_item_menu}">
+                                        <item>
+                                            <value name="widget_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x}]</value>
+                                            <condition>{item_path}!=</condition>
+                                            <condition>{item_disabled}!=True</condition>
+                                            <template><![CDATA[<value condition="String.IsEqual(Container(419).ListItem.Property(guid),{item_guid}) + Container({widget_id}).IsUpdating">True</value>]]></template>
+                                        </item>
+                                    </items>
+                                </item>
+                            </items>
+                        </value>
+                    </item>
+                    <item>
+                        <condition>{item_disabled}!=True</condition>
+                        <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
+                        <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
+                        <template>generator/data/parts/basic_template.xmltemplate</template>
+                        <value name="comments">Standard Selector Widget Loading for {item_menu} {item_x} {item_label}</value>
+                        <value name="grouplist_item_x">$MATH[{item_x} + 400]</value>
+                        <value name="includes_part">
+                            <items mode="widgets" item="{item_x}" menu="{item_menu}">
+                                <item>
+                                    <value name="widget_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x}]</value>
+                                    <condition>{item_path}!=</condition>
+                                    <condition>{item_disabled}!=True</condition>
+                                    <template><![CDATA[<value condition="String.IsEqual(Container(419).ListItem.Property(guid),{item_guid}) + Container({widget_id}).IsUpdating">True</value>]]></template>
+                                </item>
+                            </items>
+                        </value>
+                    </item>
+                </items>
+            </value>
+            <value name="variables_misc"><![CDATA[<value />]]></value>
+        </value>
+        <value name="all_sidemenu_parts">
+            <condition>{item}==homemenu</condition>
+            <template>generator/data/parts/basic_variable.xmltemplate</template>
+            <value name="comments">Variables for Sidemenu Selector Widget Loading</value>
+            <value name="variables_name">skinvariables-endrow-sidemenu-widgets-loading-{window_id}</value>
+            <value name="variables_part">
+                <items menu="sidemenu">
+                    <item>
+                        <template>generator/data/parts/basic_template.xmltemplate</template>
+                        <value name="comments">{item} {item_x} {item_label}</value>
+                        <value name="grouplist_item_x">$MATH[{item_x} + 100]</value>
+                        <value name="includes_part">
+                            <items mode="widgets" item="{item_x}" menu="{item_menu}">
+                                <item>
+                                    <value name="widget_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x}]</value>
+                                    <condition>{item_path}!=</condition>
+                                    <condition>{item_disabled}!=True</condition>
+                                    <template><![CDATA[<value condition="String.IsEqual(Container(419).ListItem.Property(guid),{item_guid}) + Container({widget_id}).IsUpdating">True</value>]]></template>
+                                </item>
+                            </items>
+                        </value>
+                    </item>
+                </items>
+            </value>
+            <value name="variables_misc"><![CDATA[<value />]]></value>
+        </value>
+        <value name="all_hubsmenu_parts">
+            <condition>Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+            <value name="comments">Variables for {window_id} Classic Endrow Widget Loading for</value>
+            <template>generator/data/parts/basic_variable.xmltemplate</template>
+            <value name="widget_category_visible">True</value>
+            <value name="grouplist_item_x">100</value>
+            <value name="variables_name">skinvariables-endrow-classic-widgets-loading-{window_id}</value>
+            <value name="variables_part">
+                <items mode="widgets" item="{item_x}" menu="{item}-widgetsonly">
+                    <item>
+                        <value name="widget_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x}]</value>
+                        <condition>{item_path}!=</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <template><![CDATA[<value condition="String.IsEqual(Container(419).ListItem.Property(guid),{item_guid}) + Container({widget_id}).IsUpdating">True</value>]]></template>
+                    </item>
+                </items>
+            </value>
+            <value name="variables_misc"><![CDATA[<value />]]></value>
+        </value>
+        <value name="all_constant_parts">
+            <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+            <value name="comments">Variables for {window_id} Global Selector Widget Loading</value>
+            <template>generator/data/parts/basic_variable.xmltemplate</template>
+            <value name="widget_category_visible">True</value>
+            <value name="grouplist_item_x">200</value>
+            <value name="variables_name">skinvariables-endrow-global-widgets-loading-{window_id}</value>
+            <value name="variables_part">
+                <items mode="widgets" item="{item_x}" menu="{item}-globalwidgets">
+                    <item>
+                        <value name="widget_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x}]</value>
+                        <condition>{item_path}!=</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <template><![CDATA[<value condition="String.IsEqual(Container(419).ListItem.Property(guid),{item_guid}) + Container({widget_id}).IsUpdating">True</value>]]></template>
+                    </item>
+                </items>
+            </value>
+            <value name="variables_misc"><![CDATA[<value />]]></value>
+        </value>
+    </value>
+
+</contents>

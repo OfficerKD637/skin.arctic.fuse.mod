@@ -24,15 +24,29 @@
                     <value>$VAR[Action_Hubs_Classic_SetFocus]</value>
                 </rule>
             </rules>
+            <rules name="navigation_widget_mode">
+                <rule>
+                    <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                    <value>Wall </value>
+                </rule>
+                <rule>
+                    <condition>Skin.String(Hub.{window_id}.WidgetMode,Combined)</condition>
+                    <value>Combined </value>
+                </rule>
+                <rule>
+                    <condition>True</condition>
+                    <value></value>
+                </rule>
+            </rules>
             <value name="grouplist_widgets_only">Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</value>
             <value name="grouplist_visible">True</value>
             <value name="grouplist_furniture_widget_id">499</value>
             <value name="grouplist_id">400</value>
             <value name="grouplist_widgets_bump_id">401</value>
-            <value name="grouplist_endrow_selector">Skin.HasSetting(Hub.{window_id}.WidgetSelector)</value>
+            <value name="grouplist_endrow_selector">!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</value>
             <value name="grouplist_endrow_selector_id">419</value>
 			<value name="is_homemenu">false</value>
-            <value name="all_standard_widgets">
+            <value name="all_adaptive_widgets">
                 <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
                 <items menu="{item}">
                     <item>
@@ -40,31 +54,139 @@
                         <value name="comments">Adaptive Widgets for Category {item_menu} {item_x} {item_label}</value>
                         <value name="grouplist_item_x">{item_x}</value>
                         <value name="widget_category_visible">String.IsEqual(Container(300).ListItem.Property(guid),{item_guid})</value>
+                        <rules name="widget_custom_onfocus">
+                            <rule>
+                                <condition>Skin.String(Hub.{window_id}.WidgetMode,Combined)</condition>
+                                <value><![CDATA[
+                                    <onfocus>SetProperty(AdaptiveWidgets.HasFocus,{item_guid},{window_id})</onfocus>
+                                ]]></value>
+                            </rule>
+                        </rules>
                         <value name="includes_part">
                             <template>generator/data/parts/widgets_row.xmltemplate</template>
                             <datafile>generator/data/setup/widgets_row.xml</datafile>
                             <datafile>generator/data/setup/widgets_adaptive.xml</datafile>
                             <condition>{item_use_as_widget}==True</condition>
+                            <value name="widget_labelvisible">True</value>
                             <value name="widget_visible">!Integer.IsEqual(Container(306).NumItems,0) | Container(306).IsUpdating</value>
                         </value>
                         <condition>{item_disabled}!=True</condition>
                         <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
                         <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
                     </item>
+                </items>
+            </value>
+            <value name="all_endrow_selector">
+                <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
+                <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+                <template>generator/data/parts/basic_template.xmltemplate</template>
+                <value name="comments">Category Widgets Selector</value>
+                <value name="includes_part"><![CDATA[
+                    <include content="Hub_Widgets_Combined_Selector">
+                        <param name="window_include">{item}</param>
+                        <param name="window_id">{window_id}</param>
+                        <param name="groupid">$MATH[100 * 1000 + 419]</param>
+                    </include>
+                ]]></value>
+            </value>
+            <value name="all_standard_widgets">
+                <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+                <items menu="{item}">
                     <item>
+                        <condition>!Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
                         <condition>{item_disabled}!=True</condition>
                         <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
                         <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
                         <items menu="{item_menu}" item="{item_x}" mode="submenu">
                             <item>
                                 <template>generator/data/parts/basic_template.xmltemplate</template>
-                                <value name="comments">Submenu Widgets for Category {item_menu} {parent_item_x}.{item_x} {parent_item_label} {item_label}</value>
-                                <value name="grouplist_item_x">$MATH[{item_x} + 1]</value>
+                                <value name="comments">Submenu {navigation_widget_mode}Widgets for Category {item_menu} {parent_item_x}.{item_x} {parent_item_label} {item_label}</value>
+                                <value name="grouplist_item_x">$MATH[{item_x} + 300]</value>
                                 <value name="widget_category_visible">String.IsEqual(Container(300).ListItem.Property(guid),{parent_item_guid}) + String.IsEqual(Container({parent_item_x}302).ListItem.Property(guid),{item_guid})</value>
+                                <rules name="widget_custom_onfocus">
+                                    <rule>
+                                        <condition>Skin.String(Hub.{window_id}.WidgetMode,Combined)</condition>
+                                        <value><![CDATA[
+                                            <onfocus>ClearProperty(AdaptiveWidgets.HasFocus,{window_id})</onfocus>
+                                        ]]></value>
+                                    </rule>
+                                </rules>
                                 <value name="includes_part">
                                     <items menu="{parent_item_menu}" item="{parent_item_x}.{item_x}" mode="widgets">
                                         <item>
                                             <template>generator/data/parts/widgets_row.xmltemplate</template>
+                                            <datafile>generator/data/setup/widgets_row.xml</datafile>
+                                            <rules name="widget_labelvisible">
+                                                <rule>
+                                                    <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
+                                                    <value>False</value>
+                                                </rule>
+                                                <rule>
+                                                    <condition>True</condition>
+                                                    <value>True</value>
+                                                </rule>
+                                            </rules>
+                                            <condition>{item_path}!=</condition>
+                                            <condition>{item_disabled}!=True</condition>
+                                        </item>
+                                    </items>
+                                </value>
+                            </item>
+                        </items>
+                    </item>
+                    <item>
+                        <condition>!Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
+                        <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
+                        <template>generator/data/parts/basic_template.xmltemplate</template>
+                        <value name="comments">Standard {navigation_widget_mode}Widgets for Category {item_menu} {item_x} {item_label}</value>
+                        <value name="grouplist_item_x">$MATH[{item_x} + 400]</value>
+                        <value name="widget_category_visible">String.IsEqual(Container(300).ListItem.Property(guid),{item_guid})</value>
+                        <rules name="widget_custom_onfocus">
+                            <rule>
+                                <condition>Skin.String(Hub.{window_id}.WidgetMode,Combined)</condition>
+                                <value><![CDATA[
+                                    <onfocus>ClearProperty(AdaptiveWidgets.HasFocus,{window_id})</onfocus>
+                                ]]></value>
+                            </rule>
+                        </rules>
+                        <value name="includes_part">
+                            <items menu="{item_menu}" item="{item_x}" mode="widgets">
+                                <item>
+                                    <template>generator/data/parts/widgets_row.xmltemplate</template>
+                                    <datafile>generator/data/setup/widgets_row.xml</datafile>
+                                    <rules name="widget_labelvisible">
+                                        <rule>
+                                            <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
+                                            <value>False</value>
+                                        </rule>
+                                        <rule>
+                                            <condition>True</condition>
+                                            <value>True</value>
+                                        </rule>
+                                    </rules>
+                                    <condition>{item_path}!=</condition>
+                                    <condition>{item_disabled}!=True</condition>
+                                </item>
+                            </items>
+                        </value>
+                    </item>
+                    <item>
+                        <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                        <condition>{item_disabled}!=True</condition>
+                        <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
+                        <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
+                        <items menu="{item_menu}" item="{item_x}" mode="submenu">
+                            <item>
+                                <template>generator/data/parts/basic_template.xmltemplate</template>
+                                <value name="comments">Submenu Wall Widgets for Category {item_menu} {parent_item_x}.{item_x} {parent_item_label} {item_label}</value>
+                                <value name="grouplist_item_x">$MATH[{item_x} + 300]</value>
+                                <value name="widget_category_visible">String.IsEqual(Container(300).ListItem.Property(guid),{parent_item_guid}) + String.IsEqual(Container({parent_item_x}302).ListItem.Property(guid),{item_guid})</value>
+                                <value name="includes_part">
+                                    <items menu="{parent_item_menu}" item="{parent_item_x}.{item_x}" mode="widgets">
+                                        <item>
+                                            <template>generator/data/parts/widgets_wall.xmltemplate</template>
                                             <datafile>generator/data/setup/widgets_row.xml</datafile>
                                             <condition>{item_path}!=</condition>
                                             <condition>{item_disabled}!=True</condition>
@@ -75,17 +197,18 @@
                         </items>
                     </item>
                     <item>
+                        <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
                         <condition>{item_disabled}!=True</condition>
                         <condition>$LOOKUP[disabled?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=True</condition>
                         <condition>{window_id}!=Home||{item_sidemenu_guid}==||$LOOKUP[guid?menu=sidemenu&amp;filter_guid={item_sidemenu_guid}]!=</condition>
                         <template>generator/data/parts/basic_template.xmltemplate</template>
-                        <value name="comments">Standard Widgets for Category {item_menu} {item_x} {item_label}</value>
-                        <value name="grouplist_item_x">$MATH[{item_x} + 2]</value>
+                        <value name="comments">Standard Wall Widgets for Category {item_menu} {item_x} {item_label}</value>
+                        <value name="grouplist_item_x">$MATH[{item_x} + 400]</value>
                         <value name="widget_category_visible">String.IsEqual(Container(300).ListItem.Property(guid),{item_guid})</value>
                         <value name="includes_part">
                             <items menu="{item_menu}" item="{item_x}" mode="widgets">
                                 <item>
-                                    <template>generator/data/parts/widgets_row.xmltemplate</template>
+                                    <template>generator/data/parts/widgets_wall.xmltemplate</template>
                                     <datafile>generator/data/setup/widgets_row.xml</datafile>
                                     <condition>{item_path}!=</condition>
                                     <condition>{item_disabled}!=True</condition>
@@ -95,14 +218,48 @@
                     </item>
                 </items>
             </value>
-
             <value name="all_sidemenu_widgets">
                 <items menu="sidemenu">
                     <item>
-                        <value name="comments">Sidemenu Widgets for {item} {item_x} {item_label}</value>
+                        <value name="comments">Sidemenu {navigation_widget_mode}Widgets for {item} {item_x} {item_label}</value>
+                        <condition>!Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
                         <condition>{item}==homemenu</condition>
                         <template>generator/data/parts/basic_template.xmltemplate</template>
-                        <value name="widget_category_visible">String.IsEqual(Container({sidemenu_id}).ListItem.Property(guid),{item_guid}) | [Skin.HasSetting(Hub.Home.DisableSubmenu) + !Skin.HasSetting(Hub.Home.WidgetSelector) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)]</value>
+                        <value name="widget_category_visible">String.IsEqual(Container({sidemenu_id}).ListItem.Property(guid),{item_guid}) | [Skin.HasSetting(Hub.Home.DisableSubmenu) + String.IsEmpty(Skin.String(Hub.Home.WidgetMode)) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)]</value>
+                        <value name="grouplist_item_x">$MATH[{item_x} + 100]</value>
+                        <value name="widget_custom_onfocus"><![CDATA[
+                            <onfocus>SetProperty(SideMenu.CurrentGUID,{item_guid},{window_id})</onfocus>
+                            <onfocus>SetProperty(SideMenu.CurrentName,{item_label},{window_id})</onfocus>
+                            <onfocus>SetProperty(SideMenu.CurrentItem,{item_x},{window_id})</onfocus>
+                            <onfocus condition="!Skin.HasSetting(Hub.{window_id}.DisableSubmenu) + Skin.String(Hub.{window_id}.WidgetMode,Combined)">ClearProperty(AdaptiveWidgets.HasFocus,{window_id})</onfocus>
+                        ]]></value>
+                        <value name="includes_part">
+                            <items mode="widgets" item="{item_x}" menu="{item_menu}">
+                                <item>
+                                    <template>generator/data/parts/widgets_row.xmltemplate</template>
+                                    <datafile>generator/data/setup/widgets_row.xml</datafile>
+                                    <rules name="widget_labelvisible">
+                                        <rule>
+                                            <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
+                                            <value>False</value>
+                                        </rule>
+                                        <rule>
+                                            <condition>True</condition>
+                                            <value>True</value>
+                                        </rule>
+                                    </rules>
+                                    <condition>{item_path}!=</condition>
+                                    <condition>{item_disabled}!=True</condition>
+                                </item>
+                            </items>
+                        </value>
+                    </item>
+                    <item>
+                        <value name="comments">Sidemenu Wall Widgets for {item} {item_x} {item_label}</value>
+                        <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                        <condition>{item}==homemenu</condition>
+                        <template>generator/data/parts/basic_template.xmltemplate</template>
+                        <value name="widget_category_visible">String.IsEqual(Container({sidemenu_id}).ListItem.Property(guid),{item_guid}) | [Skin.HasSetting(Hub.Home.DisableSubmenu) + String.IsEmpty(Skin.String(Hub.Home.WidgetMode)) + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)]</value>
                         <value name="grouplist_item_x">$MATH[{item_x} + 100]</value>
                         <value name="widget_custom_onfocus"><![CDATA[
                             <onfocus>SetProperty(SideMenu.CurrentGUID,{item_guid},{window_id})</onfocus>
@@ -112,7 +269,7 @@
                         <value name="includes_part">
                             <items mode="widgets" item="{item_x}" menu="{item_menu}">
                                 <item>
-                                    <template>generator/data/parts/widgets_row.xmltemplate</template>
+                                    <template>generator/data/parts/widgets_wall.xmltemplate</template>
                                     <datafile>generator/data/setup/widgets_row.xml</datafile>
                                     <condition>{item_path}!=</condition>
                                     <condition>{item_disabled}!=True</condition>
@@ -122,35 +279,42 @@
                     </item>
                 </items>
             </value>
-
             <value name="all_hubsmenu_widgets">
                 <condition>Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
-                <value name="comments">Classic Widgets for {item}</value>
+                <value name="comments">Classic {navigation_widget_mode}Widgets for {item}</value>
                 <template>generator/data/parts/basic_template.xmltemplate</template>
                 <value name="widget_category_visible">True</value>
                 <value name="grouplist_item_x">100</value>
+                <rules name="widget_custom_onfocus">
+                    <rule>
+                        <condition>Skin.String(Hub.{window_id}.WidgetMode,Combined)</condition>
+                        <value><![CDATA[
+                            <onfocus>ClearProperty(AdaptiveWidgets.HasFocus,{window_id})</onfocus>
+                        ]]></value>
+                    </rule>
+                </rules>
                 <value name="includes_part">
                     <items menu="{item}-widgetsonly">
                         <item>
                             <template>generator/data/parts/widgets_row.xmltemplate</template>
                             <datafile>generator/data/setup/widgets_row.xml</datafile>
+                            <condition>!Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                            <rules name="widget_labelvisible">
+                                <rule>
+                                    <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
+                                    <value>False</value>
+                                </rule>
+                                <rule>
+                                    <condition>True</condition>
+                                    <value>True</value>
+                                </rule>
+                            </rules>
                             <condition>{item_path}!=</condition>
                             <condition>{item_disabled}!=True</condition>
                         </item>
-                    </items>
-                </value>
-            </value>
-
-            <value name="all_constant_widgets">
-                <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
-                <value name="comments">Global Widgets for {item}</value>
-                <template>generator/data/parts/basic_template.xmltemplate</template>
-                <value name="widget_category_visible">True</value>
-                <value name="grouplist_item_x">200</value>
-                <value name="includes_part">
-                    <items menu="{item}-globalwidgets">
                         <item>
-                            <template>generator/data/parts/widgets_row.xmltemplate</template>
+                            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                            <template>generator/data/parts/widgets_wall.xmltemplate</template>
                             <datafile>generator/data/setup/widgets_row.xml</datafile>
                             <condition>{item_path}!=</condition>
                             <condition>{item_disabled}!=True</condition>
@@ -158,7 +322,49 @@
                     </items>
                 </value>
             </value>
-
+            <value name="all_constant_widgets">
+                <condition>!Skin.HasSetting(Hub.{window_id}.DisableSubmenu)</condition>
+                <value name="comments">Global {navigation_widget_mode}Widgets for {item}</value>
+                <template>generator/data/parts/basic_template.xmltemplate</template>
+                <value name="widget_category_visible">True</value>
+                <value name="grouplist_item_x">200</value>
+                <rules name="widget_custom_onfocus">
+                    <rule>
+                        <condition>Skin.String(Hub.{window_id}.WidgetMode,Combined)</condition>
+                        <value><![CDATA[
+                            <onfocus>ClearProperty(AdaptiveWidgets.HasFocus,{window_id})</onfocus>
+                        ]]></value>
+                    </rule>
+                </rules>
+                <value name="includes_part">
+                    <items menu="{item}-globalwidgets">
+                        <item>
+                            <condition>!Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                            <template>generator/data/parts/widgets_row.xmltemplate</template>
+                            <datafile>generator/data/setup/widgets_row.xml</datafile>
+                            <rules name="widget_labelvisible">
+                                <rule>
+                                    <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
+                                    <value>False</value>
+                                </rule>
+                                <rule>
+                                    <condition>True</condition>
+                                    <value>True</value>
+                                </rule>
+                            </rules>
+                            <condition>{item_path}!=</condition>
+                            <condition>{item_disabled}!=True</condition>
+                        </item>
+                        <item>
+                            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+                            <template>generator/data/parts/widgets_wall.xmltemplate</template>
+                            <datafile>generator/data/setup/widgets_row.xml</datafile>
+                            <condition>{item_path}!=</condition>
+                            <condition>{item_disabled}!=True</condition>
+                        </item>
+                    </items>
+                </value>
+            </value>
         </value>
     </value>
 

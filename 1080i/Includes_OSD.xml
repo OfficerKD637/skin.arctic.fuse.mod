@@ -171,7 +171,7 @@
     <include name="OSD_CastInfo_HintText">
         <param name="visible">true</param>
         <param name="colordiffuse">main_fg_30</param>
-        <param name="centerbottom">25</param>
+        <param name="centerbottom">30</param>
         <param name="left">view_side</param>
         <param name="fade_in">true</param>
         <param name="fade_out">true</param>
@@ -1032,6 +1032,10 @@
                 </control>
                 <include content="OSD_Codecs_Icon" condition="[Skin.String(Furniture.CodecStyle,Colour) | Skin.String(Furniture.CodecStyle,Monochrome)]">
                     <param name="include_fps">$PARAM[include_fps]</param>
+                    <param name="topcolor_resolution">$PARAM[topcolor_resolution]</param>
+                    <param name="topcolor_codec">$PARAM[topcolor_codec]</param>
+                    <param name="topcolor_framerate">$PARAM[topcolor_framerate]</param>
+                    <param name="topcolor_audiochannels">$PARAM[topcolor_audiochannels]</param>
                     <param name="topcolor">$PARAM[top_textcolor]</param>
                     <param name="bottomcolor">$PARAM[sub_textcolor]</param>
                     <param name="anchor">$PARAM[anchor]</param>
@@ -1058,6 +1062,10 @@
     <include name="OSD_Codecs_Icon">
         <param name="anchor">true</param>
         <param name="include_fps">true</param>
+        <param name="topcolor_resolution">$VAR[Info_Codecs_Resolution_Color_dialog_fg_90]</param>
+        <param name="topcolor_codec">$VAR[Info_Codecs_Codec_Color_dialog_fg_90]</param>
+        <param name="topcolor_framerate">$VAR[Info_Codecs_FrameRate_Color_dialog_fg_90]</param>
+        <param name="topcolor_audiochannels">$VAR[Info_Codecs_AudioChannels_Color_dialog_fg_90]</param>
         <param name="topcolor">panel_fg_90</param>
         <param name="bottomcolor">panel_fg_70</param>
         <definition>
@@ -1069,7 +1077,7 @@
             </control>
 
             <include content="Info_Codecs_StackedText">
-                <param name="topcolor">$PARAM[topcolor]</param>
+                <param name="topcolor">$PARAM[topcolor_resolution]</param>
                 <param name="bottomcolor">$PARAM[bottomcolor]</param>
                 <param name="toplabel">$VAR[Label_OSD_VideoQuality]</param>
                 <param name="bottomlabel">$VAR[Label_OSD_VideoResolution]</param>
@@ -1080,30 +1088,33 @@
 
             <!-- Codec / Aspect -->
             <include content="Info_Codecs_StackedText">
-                <param name="topcolor">$PARAM[topcolor]</param>
+                <param name="topcolor">$PARAM[topcolor_codec]</param>
                 <param name="bottomcolor">$PARAM[bottomcolor]</param>
-                <param name="bottomlabel">[UPPERCASE]$INFO[VideoPlayer.VideoCodec][/UPPERCASE]</param>
-                <param name="toplabel">$INFO[VideoPlayer.VideoAspect]</param>
+                <param name="bottomlabel">$INFO[VideoPlayer.VideoAspect]</param>
+                <param name="toplabel">[UPPERCASE]$INFO[VideoPlayer.VideoCodec][/UPPERCASE]</param>
                 <param name="visible">!String.IsEmpty(VideoPlayer.VideoCodec) + !String.IsEmpty(VideoPlayer.VideoAspect)</param>
                 <param name="left">-10</param>
             </include>
 
             <!-- FPS -->
-            <include content="OSD_Codecs_FPS" condition="$PARAM[include_fps]">
-                <param name="topcolor">$PARAM[topcolor]</param>
+            <include content="Info_Codecs_StackedText">
+                <param name="topcolor">$PARAM[topcolor_framerate]</param>
                 <param name="bottomcolor">$PARAM[bottomcolor]</param>
-                <param name="directory">$VAR[Info_Codecs_FlagType_Path]</param>
+                <param name="bottomlabel">$LOCALIZE[31259]</param>
+                <param name="toplabel">$INFO[Player.Process(VideoFPS)]</param>
+                <param name="visible">!String.IsEmpty(Player.Process(VideoFPS)) + Integer.IsGreater(Player.Process(VideoFPS),0)</param>
+                <param name="left">-10</param>
             </include>
 
-            <!-- 3d Stereoscopic -->
-            <include content="Info_Codecs_MonoIcon">
-                <param name="icon">other/3D.png</param>
+            <!-- HDRType -->
+            <include content="Info_Codecs_MonoIcon" condition="$PARAM[anchor]">
+                <param name="icon">$INFO[VideoPlayer.HdrType,hdr/,.png]</param>
                 <param name="colordiffuse">$PARAM[topcolor]</param>
-                <param name="width">48</param>
-                <param name="iconwidth">64</param>
-                <param name="iconheight">56</param>
+                <param name="width">96</param>
+                <param name="iconwidth">96</param>
+                <param name="iconheight">48</param>
                 <param name="left">-10</param>
-                <param name="visible">VideoPlayer.IsStereoscopic</param>
+                <param name="visible">!String.IsEmpty(VideoPlayer.HdrType)</param>
             </include>
 
             <!-- Audio Channels -->
@@ -1111,38 +1122,38 @@
                 <param name="type">VideoPlayer</param>
                 <param name="channelscolor">$PARAM[topcolor]</param>
                 <param name="iconcolor">$PARAM[topcolor]</param>
-                <param name="imagecolor">$PARAM[topcolor]</param>
+                <param name="imagecolor">$PARAM[topcolor_audiochannels]</param>
                 <param name="left">-10</param>
             </include>
 
             <!-- AudioCodec -->
             <include content="Info_Codecs_MonoIcon">
-                <param name="icon">$VAR[Image_OSD_AudioCodec]</param>
+                <param name="icon">$VAR[Image_VideoPlayer_AudioCodec]</param>
                 <param name="colordiffuse">$PARAM[topcolor]</param>
-                <param name="width">80</param>
-                <param name="iconwidth">94</param>
+                <param name="width">96</param>
+                <param name="iconwidth">96</param>
                 <param name="iconheight">48</param>
                 <param name="left">-10</param>
                 <param name="visible">!String.IsEmpty(VideoPlayer.AudioCodec)</param>
             </include>
 
-            <!-- HDRType -->
-            <include content="Info_Codecs_MonoIcon" condition="$PARAM[anchor]">
-                <param name="icon">$INFO[VideoPlayer.HdrType,hdr/,.png]</param>
+            <!-- 3d Stereoscopic -->
+            <include content="Info_Codecs_MonoIcon">
+                <param name="icon">version/3D.png</param>
                 <param name="colordiffuse">$PARAM[topcolor]</param>
-                <param name="width">80</param>
-                <param name="iconwidth">64</param>
-                <param name="iconheight">64</param>
+                <param name="width">96</param>
+                <param name="iconwidth">96</param>
+                <param name="iconheight">48</param>
                 <param name="left">-10</param>
-                <param name="visible">!String.IsEmpty(VideoPlayer.HdrType)</param>
+                <param name="visible">VideoPlayer.IsStereoscopic</param>
             </include>
 
             <!-- Other -->
             <include content="Info_Codecs_MonoIcon" condition="$PARAM[anchor]">
                 <param name="icon">$INFO[VideoPlayer.VideoVersionName,version/,.png]</param>
                 <param name="colordiffuse">$PARAM[topcolor]</param>
-                <param name="width">80</param>
-                <param name="iconwidth">48</param>
+                <param name="width">96</param>
+                <param name="iconwidth">96</param>
                 <param name="iconheight">48</param>
                 <param name="left">-22</param>
                 <param name="visible">!String.IsEmpty(VideoPlayer.VideoVersionName)</param>
@@ -1515,7 +1526,9 @@
         <include content="Object_Left" condition="Skin.HasSetting(Views.DisableItemPeek)">
             <param name="left">40</param>
         </include>
-        <left>-120</left>
+        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never)">
+            <param name="left">-120</param>
+        </include>
     </include>
 
     <include name="OSD_Info_Viewline">

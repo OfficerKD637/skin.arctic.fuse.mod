@@ -23,6 +23,12 @@
                 <right>-40</right>
                 <bottom>220</bottom>
                 <width>520</width>
+                <include content="Object_Height" condition="Player.HasResolutions + Player.HasPrograms">
+                    <param name="height">640</param>
+                </include>
+                <include content="Object_Height" condition="Player.HasResolutions | Player.HasPrograms">
+                    <param name="height">560</param>
+                </include>
                 <height>480</height>
                 <include content="Object_MenuHeader">
                     <param name="label">$LOCALIZE[157]</param>
@@ -66,11 +72,33 @@
                                 <visible>Control.HasFocus(6805)</visible>
                                 <include content="OSD_Codecs">
                                     <param name="anchor">false</param>
+                                    <param name="topcolor_resolution">$VAR[ColorSelected]</param>
+                                    <param name="topcolor_codec">$VAR[ColorSelected]</param>
+                                    <param name="topcolor_framerate">$VAR[ColorSelected]</param>
+                                    <param name="topcolor_audiochannels">$VAR[ColorSelected]</param>
                                     <param name="top_textcolor">$VAR[ColorSelected]</param>
                                     <param name="sub_textcolor">$VAR[ColorSelected]</param>
                                 </include>
                             </control>
                         </control>
+                        <include content="Settings_ButtonImage">
+                            <param name="id">6806</param>
+                            <param name="groupid">6906</param>
+                            <param name="control">button</param>
+                            <param name="icon">special://skin/extras/icons/resolution.png</param>
+                            <label>$LOCALIZE[424] [LOWERCASE]$LOCALIZE[169][/LOWERCASE]</label>
+                            <visible>Player.HasResolutions</visible>
+                            <onclick>PlayerResolutionSelect</onclick>
+                        </include>
+                        <include content="Settings_ButtonImage">
+                            <param name="id">6807</param>
+                            <param name="groupid">6907</param>
+                            <param name="control">button</param>
+                            <param name="icon">special://skin/extras/icons/livetv.png</param>
+                            <label>$LOCALIZE[424] [LOWERCASE]$LOCALIZE[29908][/LOWERCASE]</label>
+                            <visible>Player.HasPrograms</visible>
+                            <onclick>PlayerProgramSelect</onclick>
+                        </include>
                     </control>
                     <control type="group">
                         <bottom>20</bottom>
@@ -91,7 +119,9 @@
                             <param name="groupid">7890</param>
                             <param name="control">button</param>
                             <param name="icon" />
-                            <onup>6805</onup>
+                            <onup condition="![Control.IsVisible(6806) | Control.IsVisible(6807)]">6805</onup>
+                            <onup condition="!Control.IsVisible(6807) + Control.IsVisible(6806)">6806</onup>
+                            <onup condition="Control.IsVisible(6807)">6807</onup>
                             <ondown>6008</ondown>
                             <height>160</height>
                             <onleft condition="Player.Paused">PlayerControl(Play)</onleft>

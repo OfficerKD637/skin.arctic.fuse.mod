@@ -91,7 +91,6 @@
                     <param name="hitrect_w">1080</param>
                     <param name="hitrect_h">120</param>
                     <param name="detailed">true</param>
-                    <param name="fake_underline">true</param>
                     <content>
                         <item>
                             <label>$LOCALIZE[206]</label>
@@ -128,7 +127,9 @@
                 </include>
             </control>
             <control type="group">
-                <left>-120</left>
+                <include content="Object_Left" condition="[Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)]">
+                    <param name="left">-120</param>
+                </include>
                 <animation effect="slide" start="120" end="0" time="400" tween="cubic" easing="out" condition="String.IsEqual(ListItem.Property(tmdb_type),person) + ![ControlGroup(303).HasFocus()]" reversible="false">Conditional</animation>
                 <animation effect="slide" start="0" end="120" time="400" tween="cubic" easing="out" condition="String.IsEqual(ListItem.Property(tmdb_type),person) + [ControlGroup(303).HasFocus()]" reversible="false">Conditional</animation>
                 <include content="Furniture_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + ![Skin.String(InfoDialog.NavigationStyle,Wall) + Skin.String(InfoDialogWall.Layout,Flip)]">
@@ -146,40 +147,39 @@
     </include>
 
     <include name="DialogInfo_FileProperties_Onload">
-        <onload>SetProperty(Icon,$VAR[Image_Landscape],1133)</onload>
+        <onload>SetProperty(Icon,$VAR[Image_Poster],1133)</onload>
         <onload>SetProperty(Header,$INFO[ListItem.Label],1133)</onload>
         <onload>SetProperty(Itemline,$INFO[ListItem.FileName],1133)</onload>
 
-        <onload>SetProperty(Data01.Label,$LOCALIZE[19076],1133)</onload>
-        <onload>SetProperty(Data01.Label2,$INFO[ListItem.FolderName],1133)</onload>
-        <onload>SetProperty(Data02.Label,$LOCALIZE[573],1133)</onload>
-        <onload>SetProperty(Data02.Label2,$INFO[ListItem.Path],1133)</onload>
+        <onload>SetProperty(Data01.Label,$LOCALIZE[291],1133)</onload>
+        <onload>SetProperty(Data01.Label2,$VAR[Label_ListItem_VideoQuality]$VAR[Label_ListItemHDRCodec,[UPPERCASE] • ,[/UPPERCASE]]$INFO[ListItem.VideoCodec,[UPPERCASE] • ,[/UPPERCASE]]$INFO[ListItem.VideoAspect, • ,],1133)</onload>
+        <onload>SetProperty(Data02.Label,$LOCALIZE[292],1133)</onload>
+        <onload>SetProperty(Data02.Label2,$VAR[Label_ListItem_AudioCodec]$VAR[Label_ListItem_AudioChannels, • ,],1133)</onload>
         <onload>SetProperty(Data03.Label,$LOCALIZE[31301],1133)</onload>
         <onload>SetProperty(Data03.Label2,$INFO[ListItem.FileExtension],1133)</onload>
+        <onload>SetProperty(Data04.Label,$LOCALIZE[19076],1133)</onload>
+        <onload>SetProperty(Data04.Label2,$INFO[ListItem.FolderName],1133)</onload>
+        <onload>SetProperty(Data05.Label,$LOCALIZE[573],1133)</onload>
+        <onload>SetProperty(Data05.Label2,$INFO[ListItem.FileNameAndPath],1133)</onload>
+        <onload>SetProperty(Data06.Label,$LOCALIZE[570],1133)</onload>
+        <onload>SetProperty(Data06.Label2,$INFO[ListItem.DateAdded]$INFO[Window(Home).Property(TMDbHelper.ListItem.collected_date), • , (Trakt $LOCALIZE[31236])],1133)</onload>
+        <onload>SetProperty(Data07.Label,$LOCALIZE[568],1133)</onload>
+        <onload>SetProperty(Data07.Label2,$INFO[ListItem.LastPlayed]$INFO[ListItem.Playcount,$COMMA , $LOCALIZE[31096]],1133)</onload>
 
-        <onload>SetProperty(Data04.Label,$LOCALIZE[570],1133)</onload>
-        <onload>SetProperty(Data04.Label2,$INFO[ListItem.DateAdded],1133)</onload>
-        <onload>SetProperty(Data05.Label,$LOCALIZE[568],1133)</onload>
-        <onload>SetProperty(Data05.Label2,$INFO[ListItem.LastPlayed]$INFO[ListItem.Playcount,$COMMA , $LOCALIZE[31096]],1133)</onload>
-        <onload>SetProperty(Data06.Label,$LOCALIZE[31207],1133)</onload>
-        <onload>SetProperty(Data06.Label2,$VAR[Label_ListItem_VideoQuality]$INFO[ListItem.VideoCodec, • ,]$INFO[ListItem.HdrType, • ,]$INFO[ListItem.VideoAspect, • ,]$VAR[Label_ListItem_AudioCodec, • ,]$VAR[Label_ListItem_AudioChannels, • ,],1133)</onload>
-
-        <onload>SetProperty(Data11.Label,DBID,1133)</onload>
-        <onload>SetProperty(Data11.Label2,$INFO[ListItem.DBID],1133)</onload>
-        <onload>SetProperty(Data12.Label,$LOCALIZE[20141] DBID,1133)</onload>
-        <onload>SetProperty(Data12.Label2,$INFO[ListItem.SetID],1133)</onload>
-        <onload>SetProperty(Data13.Label,[CAPITALIZE]$LOCALIZE[20364][/CAPITALIZE] DBID,1133)</onload>
-        <onload>SetProperty(Data13.Label2,$INFO[ListItem.TVShowDBID],1133)</onload>
-
-        <onload>SetProperty(Data14.Label,TMDb ID,1133)</onload>
-        <onload>SetProperty(Data14.Label2,$INFO[ListItem.UniqueID(tmdb)],1133)</onload>
-        <onload>SetProperty(Data15.Label,IMDb ID,1133)</onload>
-        <onload>SetProperty(Data15.Label2,$INFO[ListItem.UniqueID(imdb)],1133)</onload>
-        <onload>SetProperty(Data16.Label,TVDb ID,1133)</onload>
-        <onload>SetProperty(Data16.Label2,$INFO[ListItem.UniqueID(tvdb)],1133)</onload>
-
-        <onload>SetProperty(Data19.Label,URI,1133)</onload>
-        <onload>SetProperty(Data19.Label2,$INFO[ListItem.FolderPath],1133)</onload>
+        <onload>SetProperty(Data08.Label,DBID,1133)</onload>
+        <onload>SetProperty(Data08.Label2,$INFO[ListItem.DBID],1133)</onload>
+        <onload>SetProperty(Data09.Label,$LOCALIZE[20141] DBID,1133)</onload>
+        <onload>SetProperty(Data09.Label2,$INFO[ListItem.SetID],1133)</onload>
+        <onload>SetProperty(Data10.Label,[CAPITALIZE]$LOCALIZE[20364][/CAPITALIZE] DBID,1133)</onload>
+        <onload>SetProperty(Data10.Label2,$INFO[ListItem.TVShowDBID],1133)</onload>
+        <onload>SetProperty(Data11.Label,TMDb ID,1133)</onload>
+        <onload>SetProperty(Data11.Label2,$INFO[ListItem.UniqueID(tmdb)],1133)</onload>
+        <onload>SetProperty(Data12.Label,IMDb ID,1133)</onload>
+        <onload>SetProperty(Data12.Label2,$INFO[ListItem.UniqueID(imdb)],1133)</onload>
+        <onload>SetProperty(Data13.Label,TVDb ID,1133)</onload>
+        <onload>SetProperty(Data13.Label2,$INFO[ListItem.UniqueID(tvdb)],1133)</onload>
+        <onload>SetProperty(Data14.Label,URI,1133)</onload>
+        <onload>SetProperty(Data14.Label2,$INFO[ListItem.FolderPath],1133)</onload>
     </include>
 
     <include name="DialogInfo_Onload">
@@ -225,6 +225,9 @@
             <ondown condition="$PARAM[ondown_condition]">4000</ondown>
             <onback condition="$PARAM[onback_condition]">SetFocus($PARAM[id],0,absolute)</onback>
             <onback condition="$PARAM[onback_condition]">4000</onback>
+            <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                <param name="left">120</param>
+            </include>
         </definition>
     </include>
 
@@ -327,6 +330,9 @@
             <param name="id">5010</param>
             <height>divider_bottom</height>
 
+            <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                <param name="left">120</param>
+            </include>
             <bottom>-200</bottom>
 
             <onup>SetFocus(5010,0,absolute)</onup>
@@ -754,6 +760,9 @@
             <!-- Widgets -->
             <control type="group">
                 <visible>Control.HasFocus(5003) | Control.HasFocus(514) | Control.HasFocus(557)</visible>
+                <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                    <param name="left">120</param>
+                </include>
                 <include content="Animation_Slide_In">
                     <param name="condition">Control.HasFocus(5003) | Control.HasFocus(514) | Control.HasFocus(557)</param>
                     <param name="posy">320</param>
@@ -778,8 +787,11 @@
                         <param name="labeltop">0</param>
                         <param name="include_movement">false</param>
                         <param name="include_noresults">true</param>
-                        <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                             <param name="left">view_touchmode_edge_l</param>
+                        </include>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">40</param>
                         </include>
                         <content>$VAR[Path_VideoInfo_CastSwitcher]$INFO[Container(5003).ListItem.UniqueID(tmdb),&amp;tmdb_type=person&amp;sort_by=premiered&amp;tmdb_id=,&amp;nextpage=false&amp;limit=250&amp;cacheonly=true&amp;length=1&amp;exclude_key=genre&amp;exclude_value=Documentary / News / Talk]$VAR[Path_Param_Local_Standard_Filter]</content>
                         <include content="Action_Recommendations_OnClick">
@@ -788,6 +800,9 @@
                         <include>Action_514_OnWidget</include>
                     </include>
                     <control type="group">
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">60</param>
+                        </include>
                         <left>180</left>
                         <top>-265</top>
                         <include content="Categories_Selector">
@@ -798,7 +813,6 @@
                             <param name="hitrect_w">1080</param>
                             <param name="hitrect_h">120</param>
                             <param name="detailed">true</param>
-                            <param name="fake_underline">true</param>
                             <param name="fake_underline_textcolor">true</param>
                             <content>
                                 <item>
@@ -922,6 +936,9 @@
             <!-- Widgets -->
             <control type="group">
                 <visible>Control.HasFocus(5504) | Control.HasFocus(515) | Control.HasFocus(558)</visible>
+                <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                    <param name="left">120</param>
+                </include>
                 <include content="Animation_Slide_In">
                     <param name="condition">Control.HasFocus(5504) | Control.HasFocus(515) | Control.HasFocus(558)</param>
                     <param name="posy">320</param>
@@ -946,8 +963,11 @@
                         <param name="labeltop">0</param>
                         <param name="include_movement">false</param>
                         <param name="include_noresults">true</param>
-                        <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                             <param name="left">view_touchmode_edge_l</param>
+                        </include>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">40</param>
                         </include>
                         <content>$VAR[Path_VideoInfo_CrewSwitcher]$INFO[Container(5504).ListItem.Property(tmdb_id),&amp;tmdb_type=person&amp;sort_by=premiered&amp;tmdb_id=,&amp;nextpage=false&amp;limit=250&amp;cacheonly=true&amp;length=1]$VAR[Path_Param_Local_Standard_Exclude]</content>
                         <include content="Action_Recommendations_OnClick">
@@ -956,6 +976,9 @@
                         <include>Action_515_OnWidget</include>
                     </include>
                     <control type="group">
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">60</param>
+                        </include>
                         <left>180</left>
                         <top>-265</top>
                         <include content="Categories_Selector">
@@ -966,7 +989,6 @@
                             <param name="hitrect_w">1080</param>
                             <param name="hitrect_h">120</param>
                             <param name="detailed">true</param>
-                            <param name="fake_underline">true</param>
                             <param name="fake_underline_textcolor">true</param>
                             <content>
                                 <item>
@@ -1126,6 +1148,9 @@
             <!-- Widgets -->
             <control type="group">
                 <visible>String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details) | Control.HasFocus(5005) | Control.HasFocus(516)</visible>
+                <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                    <param name="left">120</param>
+                </include>
                 <control type="group">
                     <top>-10</top>
                     <animation effect="slide" start="490" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(516)">Conditional</animation>
@@ -1142,8 +1167,11 @@
                         <param name="altvisible">!String.IsEmpty(Window.Property(Item_Year)) + [String.IsEqual(Container(5005).ListItem.Property(property),Year) | [Control.HasFocus(5503) + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details)]] + String.IsEqual(Window.Property(Item_Type),type=movie)</param>
                         <param name="include_movement">false</param>
                         <param name="include_noresults">true</param>
-                        <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                             <param name="left">view_touchmode_edge_l</param>
+                        </include>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">40</param>
                         </include>
                         <content target="videos">$INFO[Window.Property(Item_Year),plugin://plugin.video.themoviedb.helper/?info=discover&amp;primary_release_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Year_SortKey]$VAR[Path_Param_Widget,,&amp;vote_count.gte=10]$VAR[Path_Param_Local_Discover]</content>
                         <include content="Action_Recommendations_OnClick">
@@ -1163,8 +1191,11 @@
                         <param name="altvisible">!String.IsEmpty(Window.Property(Item_Year)) + [String.IsEqual(Container(5005).ListItem.Property(property),Year) | [Control.HasFocus(5503) + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details)]] + String.IsEqual(Window.Property(Item_Type),type=tv)</param>
                         <param name="include_movement">false</param>
                         <param name="include_noresults">true</param>
-                        <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                             <param name="left">view_touchmode_edge_l</param>
+                        </include>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">40</param>
                         </include>
                         <content target="videos">$INFO[Window.Property(Item_Year),plugin://plugin.video.themoviedb.helper/?info=discover&amp;first_air_date_year=,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Year_SortKey]$VAR[Path_Param_Widget,,&amp;vote_count.gte=10]$VAR[Path_Param_Local_Discover]</content>
                         <include content="Action_Recommendations_OnClick">
@@ -1184,8 +1215,11 @@
                         <param name="altvisible">!String.IsEmpty(Window.Property(Genre_Query)) + String.IsEqual(Container(5005).ListItem.Property(property),Genre) + ![Control.HasFocus(5503) + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details)]</param>
                         <param name="include_movement">false</param>
                         <param name="include_noresults">true</param>
-                        <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                             <param name="left">view_touchmode_edge_l</param>
+                        </include>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">40</param>
                         </include>
                         <content target="videos">$INFO[Window.Property(Genre_Query),plugin://plugin.video.themoviedb.helper/?info=discover,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Genre_SortKey]$VAR[Path_Param_Widget,,&amp;vote_count.gte=10]$VAR[Path_Param_Local_Discover]</content>
                         <include content="Action_Recommendations_OnClick">
@@ -1205,8 +1239,11 @@
                         <param name="altvisible">!String.IsEmpty(Window.Property(Item_Query)) + String.IsEqual(Container(5005).ListItem.Property(property),Recommendations) + ![Control.HasFocus(5503) + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details)]</param>
                         <param name="include_movement">false</param>
                         <param name="include_noresults">true</param>
-                        <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                             <param name="left">view_touchmode_edge_l</param>
+                        </include>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">40</param>
                         </include>
                         <content target="videos">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=recommendations,]$INFO[Window.Property(Item_Type),&amp;tmdb_,]$VAR[Path_Param_Widget]$VAR[Path_Param_Local_Standard_Exclude]</content>
                         <include content="Action_Recommendations_OnClick">
@@ -1225,8 +1262,11 @@
                         <param name="altvisible">!String.IsEmpty(Window.Property(Item_Query)) + String.IsEqual(Container(5005).ListItem.Property(property),Related) + ![Control.HasFocus(5503) + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details)]</param>
                         <param name="include_movement">false</param>
                         <param name="include_noresults">true</param>
-                        <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                             <param name="left">view_touchmode_edge_l</param>
+                        </include>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">40</param>
                         </include>
                         <content target="videos">$INFO[Window.Property(Item_Query),plugin://plugin.video.themoviedb.helper/?info=trakt_related,]$INFO[Window.Property(Item_Type),&amp;tmdb_,&amp;nextpage=false&amp;cacheonly=false&amp;length=1]$VAR[Path_Param_Local_Standard_Exclude]</content>
                         <include content="Action_Recommendations_OnClick">
@@ -1393,6 +1433,9 @@
             <param name="id">5010</param>
             <height>divider_bottom</height>
 
+            <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                <param name="left">120</param>
+            </include>
             <bottom>-200</bottom>
             <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
 
@@ -1627,7 +1670,9 @@
             <include content="DialogInfo_List_Movement">
                 <param name="id">5004</param>
             </include>
-            <onclick>ActivateWindow(1113)</onclick>
+            <onclick>SetProperty(header,$INFO[ListItem.Label]$INFO[ListItem.Label2, - ,],1128)</onclick>
+            <onclick>SetProperty(textbox,$ESCINFO[Container(5004).ListItem.Plot]$ESCINFO[Container(5004).ListItem.Property(plotlabel)],1128)</onclick>
+            <onclick>ActivateWindow(1128)</onclick>
             <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
 
 
@@ -1646,29 +1691,6 @@
             <animation effect="fade" start="100" end="0" condition="Container(5004).IsUpdating">Conditional</animation>
             <onfocus>SetProperty(ReviewsActive,1)</onfocus>
         </include>
-
-        <control type="group">
-            <left>200</left>
-            <right>880</right>
-            <visible>String.IsEqual(Window.Property(DetailsView),Critics)</visible>
-
-            <include content="Object_InfoCircle">
-                <param name="icon">special://skin/extras/icons/trophy.png</param>
-                <param name="role">$LOCALIZE[31064]</param>
-                <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]</param>
-                <left>0</left>
-                <top>-15</top>
-            </include>
-            <control type="textbox">
-                <font>font_mini_plot</font>
-                <textcolor>main_fg_70</textcolor>
-                <label>$VAR[Label_Critics]</label>
-                <aligny>top</aligny>
-                <top>70</top>
-                <autoscroll>false</autoscroll>
-                <bottom>-5</bottom>
-            </control>
-        </control>
 
         <include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
@@ -2611,6 +2633,9 @@
                         <!-- Widgets -->
                         <control type="group">
                             <visible>Control.HasFocus(7000) | Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556)</visible>
+                            <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                                <param name="left">120</param>
+                            </include>
                             <animation effect="slide" start="490" end="0" tween="quadratic" easing="out" time="400" reversible="false" condition="Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556)">Conditional</animation>
                             <animation effect="slide" start="0" end="490" tween="quadratic" easing="out" time="400" reversible="false" condition="![Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556)]">Conditional</animation>
                             <control type="group">
@@ -2628,8 +2653,11 @@
                                     <param name="labeltop">0</param>
                                     <param name="include_movement">false</param>
                                     <param name="include_noresults">true</param>
-                                    <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                                    <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                                         <param name="left">view_touchmode_edge_l</param>
+                                    </include>
+                                    <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                                        <param name="left">40</param>
                                     </include>
                                     <content sortby="$INFO[Container(7000).ListItem.Property(widgetsortby)]" sortorder="$INFO[Container(7000).ListItem.Property(widgetsortorder)]">$INFO[Container(7000).ListItem.Property(widgetpath)]</content>
                                     <include content="Action_Recommendations_OnClick">
@@ -2643,7 +2671,7 @@
                                     <param name="baseid">51</param>
                                     <param name="basegroupid">52</param>
                                     <param name="id">3</param>
-                                    <param name="label">[COLOR=00ffffff]$INFO[Container(555).ListItemAbsolute(0).Label]$INFO[Container(555).ListItemAbsolute(1).Label,      ,]$INFO[Container(555).ListItemAbsolute(2).Label,      ,]$INFO[Container(555).ListItemAbsolute(3).Label,      ,]$INFO[Container(555).ListItemAbsolute(4).Label,      ,][/COLOR]</param>
+                                    <param name="labelvisible">[False]</param>
                                     <param name="include">List_Landscape_Row</param>
                                     <param name="offset_x">40</param>
                                     <param name="visible">[String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</param>
@@ -2651,8 +2679,11 @@
                                     <param name="labeltop">0</param>
                                     <param name="include_movement">false</param>
                                     <param name="include_noresults">true</param>
-                                    <include content="Object_Left" condition="!Skin.HasSetting(Views.DisableItemPeek)">
+                                    <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                                         <param name="left">view_touchmode_edge_l</param>
+                                    </include>
+                                    <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                                        <param name="left">40</param>
                                     </include>
                                     <content target="videos">$INFO[Container(555).ListItem.FolderPath]</content>
                                     <onclick>Dialog.Close(all,true)</onclick>
@@ -2663,6 +2694,9 @@
                                     </include>
                                 </include>
                                 <control type="group">
+                                    <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                                        <param name="left">60</param>
+                                    </include>
                                     <left>180</left>
                                     <top>-265</top>
                                     <!-- Movies / TV Shows -->
@@ -2675,7 +2709,6 @@
                                             <param name="hitrect_w">1080</param>
                                             <param name="hitrect_h">120</param>
                                             <param name="detailed">true</param>
-                                            <param name="fake_underline">[True]</param>
                                             <param name="fake_underline_textcolor">[True]</param>
                                             <content>
                                                 <item>
@@ -2704,11 +2737,11 @@
                                             <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
                                         </include>
                                     </control>
-                                    
+
                                     <!-- Seasons -->
                                     <control type="group">
                                         <visible>[String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>
-                                        <include content="Categories_Selector">
+                                        <include content="Categories_Selector" condition="!Skin.HasSetting(Views.UseAltCombined.Detailed)">
                                             <param name="id">555</param>
                                             <param name="font">font_mini_bold</param>
                                             <param name="hitrect_x">0</param>
@@ -2716,7 +2749,10 @@
                                             <param name="hitrect_w">1080</param>
                                             <param name="hitrect_h">120</param>
                                             <param name="detailed">true</param>
-                                            <param name="fake_underline">[True]</param>
+                                            <param name="include_image">Skin.HasSetting(Views.UseAltCombined)</param>
+                                            <param name="include_busy">true</param>
+                                            <param name="busy_visible">Container(513).IsUpdating</param>
+                                            <param name="busy_offset">true</param>
                                             <content>$VAR[Path_VideoInfo_OnlineSeasons]</content>
                                             <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(555).ListItem.FolderPath])</onclick>                                        
                                             <onfocus>SetProperty(TMDbHelper.WidgetContainer,513)</onfocus>
@@ -2727,6 +2763,31 @@
                                             <onup>7000</onup>
                                             <onleft>7000</onleft>
                                             <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
+                                        </include>
+                                        <include content="Categories_Iconic_Selector" condition="Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                                            <param name="id">555</param>
+                                            <param name="font">font_mini_bold</param>
+                                            <param name="hitrect_x">0</param>
+                                            <param name="hitrect_y">0</param>
+                                            <param name="hitrect_w">1080</param>
+                                            <param name="hitrect_h">120</param>
+                                            <param name="detailed">true</param>
+                                            <param name="include_image">[True]</param>
+                                            <param name="include_busy">true</param>
+                                            <param name="busy_visible">Container(513).IsUpdating</param>
+                                            <param name="busy_offset">true</param>
+                                            <content>$VAR[Path_VideoInfo_OnlineSeasons]</content>
+                                            <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(555).ListItem.FolderPath])</onclick>                                        
+                                            <onfocus>SetProperty(TMDbHelper.WidgetContainer,513)</onfocus>
+                                            <ondown>513</ondown>
+                                            <onback>SetFocus(555,0,absolute)</onback>
+                                            <onback>7000</onback>
+                                            <onup>SetFocus(555,0,absolute)</onup>
+                                            <onup>7000</onup>
+                                            <onleft>7000</onleft>
+                                            <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
+                                            <top>185</top>
+                                            <left>-40</left>
                                         </include>
                                     </control>
                                 </control>
@@ -2743,6 +2804,9 @@
                         <!-- Details List -->
                         <control type="group">                    
                             <top>420</top>
+                            <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                                <param name="left">120</param>
+                            </include>
                             <include content="List_Button_Row">
                                 <param name="id">7000</param>
                                 <param name="control">list</param>
@@ -3008,7 +3072,10 @@
                     
                     <!-- Furniture Bottom Left -->
                     <control type="group">
-                        <left>-200</left>
+                        <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">-200</param>
+                        </include>
+                        <left>-80</left>
                         <bottom>-200</bottom>
                         <visible>String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))</visible>
                         <include content="Furniture_Bottom_Left">
@@ -3205,7 +3272,10 @@
             
             <!-- Furniture Bottom Left -->
             <control type="group">
-                <left>-200</left>
+                <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)">
+                    <param name="left">-200</param>
+                </include>
+                <left>-80</left>
                 <bottom>-200</bottom>
                 <visible>!Skin.String(InfoDialog.NavigationStyle,Wall) + [ControlGroup(4000).HasFocus | Window.IsVisible(1113) | String.IsEmpty(System.CurrentControlID)]</visible>
                 <include content="Furniture_Bottom_Left">
@@ -3271,6 +3341,7 @@
         <param name="include_divider">true</param>
         <param name="include_top">false</param>
         <param name="include_closebutton">true</param>
+        <param name="include_ratings">false</param>
         <definition>
             <control type="group">
                 <include>Size_Group_Head</include>
@@ -3282,10 +3353,136 @@
                 <include condition="$PARAM[include_closebutton]">Dialog_Head_CloseButton</include>
             </control>
             <control type="group">
+                <bottom>160</bottom>
+                <include condition="$PARAM[include_ratings]">Dialog_Line</include>
+            </control>
+            <control type="group">
                 <include>Size_Group_Body</include>
+                <include content="Object_Control" condition="$PARAM[include_ratings]">
+                    <param name="control">grouplist</param>
+                    <orientation>vertical</orientation>
+                    <height>160</height>
+                    <bottom>-20</bottom>
+                    <left>40</left>
+                    <!-- Line 1 -->
+                    <control type="grouplist">
+                        <orientation>horizontal</orientation>
+                        <height>40</height>
+                        <itemgap>12</itemgap>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/kodi.png</param>
+                            <param name="label">$INFO[ListItem.Rating]</param>
+                            <param name="visible">!String.IsEmpty(ListItem.Rating)</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/user.png</param>
+                            <param name="label">$INFO[ListItem.UserRating,,.0]</param>
+                            <param name="visible">!String.IsEmpty(ListItem.UserRating)</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/tmdb.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.TMDb_Rating)]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TMDb_Rating))</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/trakt.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Trakt_Rating)]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trakt_Rating))</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/imdb.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.IMDb_Rating),,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Top250),  #,]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.IMDb_Rating))</param>
+                            <param name="icon_w">52</param>
+                            <param name="icon_centertop">55%</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacritic.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating),,%]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating))</param>
+                        </include>
+
+                        <!-- Fallbacks -->
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RottenTomatoes]</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating),,%]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_RT_Rating]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RottenTomatoes_UserMeter]</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter),,%]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_RT_UserMeter]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mdblist.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MDBList_Rating),,%]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_MDBList]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/letterboxd.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Letterboxd_Rating)]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_Letterboxd]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/oscars.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins),x,]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_Oscars]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/emmys.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Emmy_Wins),x,]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_Emmys]</param>
+                        </include>
+                    </control>
+
+                    <!-- Spacer -->
+                    <control type="group">
+                        <height>20</height>
+                    </control>
+
+                    <!-- Line 2 -->
+                    <control type="grouplist">
+                        <orientation>horizontal</orientation>
+                        <height>40</height>
+                        <itemgap>12</itemgap>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RottenTomatoes]</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating),,%]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + ![$EXP[Exp_Ratings_Fill_RT_Rating]]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RottenTomatoes_UserMeter]</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter),,%]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_UserMeter)) + ![$EXP[Exp_Ratings_Fill_RT_UserMeter]]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mdblist.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MDBList_Rating),,%]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MDBList_Rating)) + ![$EXP[Exp_Ratings_Fill_MDBList]]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/letterboxd.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Letterboxd_Rating)]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Letterboxd_Rating)) + ![$EXP[Exp_Ratings_Fill_Letterboxd]]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/oscars.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins),x,]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins)) + ![$EXP[Exp_Ratings_Fill_Oscars]]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/emmys.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Emmy_Wins),x,]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Emmy_Wins)) + ![$EXP[Exp_Ratings_Fill_Emmys]]</param>
+                        </include>
+                    </control>
+                </include>
                 <control type="group">
                     <include content="Object_Top" condition="$PARAM[include_top]">
                         <param name="top">60</param>
+                    </include>
+                    <include content="Object_Bottom" condition="$PARAM[include_ratings]">
+                        <param name="bottom">160</param>
                     </include>
                     <include content="Dialog_PlotText">
                         <param name="id">$PARAM[text_id]</param>
@@ -3369,6 +3566,7 @@
     <include name="Dialog_Plot">
         <param name="include_movement">DialogPlot_OnMove</param>
         <param name="flip">Skin.HasSetting(ContextMenu.FlipMenu)</param>
+        <param name="include_ratings">Window.IsVisible(movieinformation) + !String.IsEqual(ListItem.Property(tmdb_type),person) + Skin.HasSetting(Info.EnableAllPlotRatings)</param>
         <definition>
             <include>Dialog_Dim_Overlay</include>
 
@@ -3403,6 +3601,7 @@
                             <param name="header">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_label)]</param>
                             <param name="textbox">$VAR[Label_Overlay_PlotBox]</param>
                             <param name="include_movement">$PARAM[include_movement]</param>
+                            <param name="include_ratings">$PARAM[include_ratings]</param>
                         </include>
                     </control>
                 </control>

@@ -96,11 +96,11 @@
                             <param name="h">view_poster_item_h</param>
                         </include>
 
-                        <ondown>SetFocus($PARAM[id]3,0,absolute)</ondown>
-                        <ondown>$PARAM[id]2</ondown>
+                        <onup>SetFocus($PARAM[id]3,0,absolute)</onup>
+                        <onup>$PARAM[id]2</onup>
 
-                        <include content="Action_View_Movement_OnUp">
-                            <param name="id">$PARAM[id]3</param>
+                        <include content="Action_View_Movement_OnDown">
+                            <param name="container">Container($PARAM[id]3)</param>
                         </include>
 
                         <animation type="Conditional" reversible="false" condition="Container($PARAM[id]3).IsUpdating">
@@ -123,6 +123,9 @@
                         <param name="include">$PARAM[include]</param>
                         <height>divider_bottom</height>
                         <bottom>40</bottom>
+                        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                            <param name="left">80</param>
+                        </include>
                         <left>200</left>
                     </include>
                 </control>
@@ -139,13 +142,15 @@
         </include>
         <onleft>$PARAM[id]2</onleft>
         <onright>$PARAM[id]2</onright>
-        <left>160</left>
-        <centerbottom>100</centerbottom>
-        <onup>$PARAM[id]3</onup>
-        <pagecontrol>65</pagecontrol>
-        <include content="Action_View_Movement_OnDown">
-            <param name="container">Container($PARAM[id]3)</param>
+        <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+            <param name="left">60</param>
         </include>
+        <left>180</left>
+        <include content="Action_View_Movement_OnUp">
+            <param name="id">$PARAM[id]2</param>
+        </include>
+        <ondown>$PARAM[id]3</ondown>
+        <pagecontrol>65</pagecontrol>
         <include>Action_View_SlideOver_OnFocus</include>
         <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
         <onfocus>ClearProperty(SpecialFolderPath)</onfocus>
@@ -156,10 +161,12 @@
 
     <include name="View_Combined_List_Horz">
         <control type="group">
-            <visible allowhiddenfocus="true">![$EXP[Exp_View_ScrollFilter_HasFocus] | $EXP[Exp_View_AlphabetFilter_HasFocus] | Window.IsVisible(1171) | $EXP[Exp_MediaFilter_IsActive] | [Container.Scrolling + $EXP[Exp_FurnitureFooter_Left_IsVisible]]]</visible>
             <control type="group">
                 <visible>$PARAM[visible]</visible>
-                <animation effect="fade" start="100" end="0" delay="400" reversible="false" time="200" condition="$EXP[Exp_InfoDialogs]">Conditional</animation>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <include content="Animation_Fade_Out">
+                    <param name="type">Hidden</param>
+                </include>
                 <include content="Categories_Selector" condition="!Skin.HasSetting(Views.UseAltCombined.Detailed)">
                     <param name="id">$PARAM[id]2</param>
                     <param name="font">font_mini_bold</param>
@@ -167,7 +174,12 @@
                     <param name="hitrect_y">0</param>
                     <param name="hitrect_w">1080</param>
                     <param name="hitrect_h">120</param>
-                    <param name="detailed">true</param>
+                    <param name="override">Skin.HasSetting(Views.UseAltCombined)</param>
+                    <param name="include_image">Skin.HasSetting(Views.UseAltCombined)</param>
+                    <param name="include_busy">true</param>
+                    <param name="busy_visible">[[$EXP[Exp_View_502] + Container(503).IsUpdating] | [$EXP[Exp_View_512] + Container(513).IsUpdating] | [$EXP[Exp_View_522] + Container(523).IsUpdating] | [$EXP[Exp_View_542] + Container(543).IsUpdating] | [$EXP[Exp_View_552] + Container(553).IsUpdating] | [$EXP[Exp_View_572] + Container(573).IsUpdating]]</param>
+                    <param name="busy_offset">true</param>
+                    <top>-5</top>
                     <include content="View_Combined_List_Horz_Selector_Content">
                         <param name="id">$PARAM[id]</param>
                         <param name="visible">$PARAM[visible]</param>
@@ -181,6 +193,10 @@
                     <param name="hitrect_y">0</param>
                     <param name="hitrect_w">1080</param>
                     <param name="hitrect_h">120</param>
+                    <top>420</top>
+                    <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
+                        <param name="left">20</param>
+                    </include>
                     <left>140</left>
                     <include content="View_Combined_List_Horz_Selector_Content">
                         <param name="id">$PARAM[id]</param>

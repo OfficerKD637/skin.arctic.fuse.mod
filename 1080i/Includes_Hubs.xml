@@ -5,13 +5,39 @@
         <animation effect="slide" time="400" end="0" start="0,$PARAM[posy]" tween="quadratic" easing="out" reversible="false" condition="$PARAM[condition]">Conditional</animation>
         <animation effect="slide" time="400" end="0,$PARAM[posy]" start="0" tween="quadratic" easing="out" reversible="false" condition="!$PARAM[condition]">Conditional</animation>
     </include>
-    
+
+    <include name="Hub_Categories_Detailed_Offset">
+        <animation effect="slide" end="0,20" reversible="false" condition="$PARAM[condition] + Skin.HasSetting(Views.UseAltCombined.Detailed)">Conditional</animation>
+        <animation effect="slide" end="0" reversible="false" condition="!$PARAM[condition] + Skin.HasSetting(Views.UseAltCombined.Detailed)">Conditional</animation>
+
+        <animation effect="slide" end="0,10" reversible="false" condition="$PARAM[condition] + Skin.HasSetting(Views.UseAltCombined)">Conditional</animation>
+        <animation effect="slide" end="0" reversible="false" condition="!$PARAM[condition] + Skin.HasSetting(Views.UseAltCombined)">Conditional</animation>
+    </include>
+
     <include name="Hub_Slide_Spotlight_OnWidgets">
-        <animation effect="slide" time="400" end="0,-40" start="0,hub_group_widgetup_s" tween="quadratic" easing="out" reversible="false" condition="$PARAM[condition]">Conditional</animation>
-        <animation effect="slide" time="400" end="0,hub_group_widgetup_s" start="0,-40" tween="quadratic" easing="out" reversible="false" condition="!$PARAM[condition]">Conditional</animation>
-        
+        <animation effect="slide" time="400" end="0,-60" start="0,hub_group_widgetup_s" tween="quadratic" easing="out" reversible="false" condition="$PARAM[condition]">Conditional</animation>
+        <animation effect="slide" time="400" end="0,hub_group_widgetup_s" start="0,-60" tween="quadratic" easing="out" reversible="false" condition="!$PARAM[condition]">Conditional</animation>
+
         <animation effect="slide" time="400" end="0,-80" start="0" tween="sine" easing="inout" reversible="true" condition="$PARAM[condition] + Integer.IsEqual(Container(300).NumItems,0)">Conditional</animation>
         <animation effect="slide" time="400" end="0,-60" start="0" tween="sine" easing="inout" reversible="true" condition="$PARAM[condition] + Integer.IsEqual(Container(3002).NumItems,0)">Conditional</animation>
+
+        <!-- Detailed Category Offset -->
+        <include content="Hub_Categories_Detailed_Offset" condition="Skin.HasSetting(Views.UseAltCombined) | Skin.HasSetting(Views.UseAltCombined.Detailed)">
+            <param name="condition">$PARAM[condition]</param>
+        </include>
+    </include>
+
+    <include name="Hub_Wall_Slide_Spotlight_OnWidgets">
+        <animation effect="slide" time="400" end="0,580" start="0" tween="quadratic" easing="out" reversible="false" condition="$PARAM[condition]">Conditional</animation>
+        <animation effect="slide" time="400" end="0" start="0,580" tween="quadratic" easing="out" reversible="false" condition="!$PARAM[condition]">Conditional</animation>
+
+        <animation effect="slide" time="400" end="0,-80" start="0" tween="sine" easing="inout" reversible="true" condition="$PARAM[condition] + Integer.IsEqual(Container(300).NumItems,0)">Conditional</animation>
+        <animation effect="slide" time="400" end="0,-60" start="0" tween="sine" easing="inout" reversible="true" condition="$PARAM[condition] + Integer.IsEqual(Container(3002).NumItems,0)">Conditional</animation>
+
+        <!-- Detailed Category Offset -->
+        <include content="Hub_Categories_Detailed_Offset" condition="Skin.HasSetting(Views.UseAltCombined) | Skin.HasSetting(Views.UseAltCombined.Detailed)">
+            <param name="condition">$PARAM[condition]</param>
+        </include>
     </include>
 
     <include name="Hub_Slide_Spotlight_OnFanart">
@@ -121,7 +147,8 @@
                 <param name="hitrect_y">70</param>
                 <param name="hitrect_w">1080</param>
                 <param name="hitrect_h">100</param>
-                <param name="large">$EXP[Exp_Hubs_Spotlight_IsSlide]</param>
+                <param name="include_image">Skin.HasSetting(Views.UseAltCombined)</param>
+                <param name="expanded">true</param>
                 <include content="Hub_Submenu_List_Definition_Content">
                     <param name="submenu_widget_highlight">$PARAM[submenu_widget_highlight]</param>
                     <param name="submenu_widget_id">$PARAM[submenu_widget_id]</param>
@@ -132,16 +159,10 @@
                 <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
                 <onfocus>ClearProperty(Background.HideArtwork)</onfocus>
                 <nested />
-                <include content="Object_Right" condition="!Skin.HasSetting(Views.UseAltCombined)">
-                    <param name="right">0</param>
-                </include>
                 <include content="Object_Top" condition="!Skin.HasSetting(Views.UseAltCombined)">
-                    <param name="top">10</param>
+                    <param name="top">-10</param>
                 </include>
-                <include content="Object_Top" condition="Skin.HasSetting(Views.UseAltCombined) + $EXP[Exp_Hubs_Spotlight_IsDisabled]">
-                    <param name="top">30</param>
-                </include>
-                <top>70</top>
+                <right>0</right>
             </include>
         </definition>
     </include>
@@ -151,7 +172,10 @@
             <include>Widget_List_Visibility</include>
             <top>hub_submenuwidget_t</top>
             <height>hub_submenuwidget_h</height>
-            <left>180</left>
+            <include content="Object_Left" condition="[Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)]">
+                <param name="left">180</param>
+            </include>
+            <left>60</left>
             <orientation>horizontal</orientation>
             <onup>300</onup>
             <ondown>400</ondown>
@@ -310,7 +334,7 @@
             <include condition="![![$PARAM[widgets_only]] + $EXP[Exp_Hubs_Spotlight_IsSlide] + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)]">Background_Main</include>
 
             <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Hub_Top_Bezier</include>
-            
+
             <control type="group">
                 <include condition="!$EXP[Exp_HomeMenu_IsTopBar]">Hub_Left_Bezier</include>
                 <!-- Hub Widgets Group -->
@@ -320,6 +344,7 @@
                     <include>Animation_View_SlideOver</include>
                     <include>Animation_View_WindowChange</include>
                     <include>Animation_Group_Bumper</include>
+                    <include>View_SideMenu_Focus_Reset_Hack</include>
                     <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp</include>
                     <include condition="$EXP[Exp_Hubs_Spotlight_IsSlide] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !$EXP[Exp_Hubs_Spotlight_IsDisabled]">Hub_Slide_Spotlight_OnFanart</include>
 
@@ -347,15 +372,6 @@
                         <param name="window_id">$PARAM[window_id]</param>
                         <param name="property_window_id">$PARAM[property_window_id]</param>
                     </include>
-                    <include content="Object_Control" condition="![$PARAM[widgets_only]]">
-                        <param name="control">group</param>
-                        <top>hub_widgets_grouplist_t</top>
-                        <bottom>-380</bottom>
-                        <include content="Hub_Slide_Spotlight_OnWidgets" condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled]">
-                            <param name="condition">[[[$EXP[Exp_HomeHub_IsVisible] + String.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301)] | String.IsEmpty(Window.Property(Slide.WidgetContainer)) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),300) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),3002)] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)]</param>
-                        </include>
-                        <include condition="Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)">skinvariables-$PARAM[categories]-widgets-selector</include>
-                    </include>
                     <include content="Hub_Widgets_Only" condition="$PARAM[widgets_only]">
                         <param name="window_id">$PARAM[window_id]</param>
                         <param name="categories">$PARAM[categories]</param>
@@ -364,7 +380,7 @@
                     </include>
                     <include condition="![$PARAM[widgets_only]] + !$EXP[Exp_Hubs_Spotlight_IsDisabled]">Spotlight_Info</include>
                 </control>
-                
+
                 <!-- SideMenu -->
                 <control type="group">
                     <include content="Home_Menu_Media" condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
@@ -403,20 +419,26 @@
                     </control>
                 </control>
                 <include condition="$EXP[Exp_HomeMenu_IsTopBar]">Animation_Widgets_Topbar_SlideUp_Fade</include>
-                <include>Furniture_Bottom_Right</include>
+                <include condition="![Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)]" >Furniture_Bottom_Right</include>
             </control>       
         </definition>
     </include>
 
     <include name="Hub_Widgets_Only">
         <control type="group" id="340">
-            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)]">
                 <param name="top">-440</param>
             </include>
-            <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+            <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)]">
                 <param name="top">-360</param>
             </include>
-            <include content="Hub_Widgets_Infopanel" condition="![Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + !Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)]">
+            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)]">
+                <param name="top">-180</param>
+            </include>
+            <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + [Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)]">
+                <param name="top">-100</param>
+            </include>
+            <include content="Hub_Widgets_Infopanel" condition="![Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)]">
                 <include>skinvariables-$PARAM[categories]-standard-info</include>
             </include>
             <control type="group">
@@ -424,9 +446,18 @@
                 <include>$PARAM[widgets_include]</include>
             </control>
             <include content="Hub_Menu_Group">
-                <top>hub_widgets_grouplist_t</top>
-                <bottom>-20</bottom>
-                <include condition="Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)">$PARAM[widgets_include]-selector</include>
+                <include content="Object_Top" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall) + Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">177.5</param>
+                </include>
+                <include content="Object_Top" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall) + !Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">197.5</param>
+                </include>
+                <include content="Object_Left" condition="![Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)]">
+                    <param name="left">-120</param>
+                </include>
+                <animation effect="slide" start="0" end="0,-40" reversible="false" condition="Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + Skin.HasSetting(Views.UseAltCombined.Detailed)">Conditional</animation>
+                <top>457.5</top>
+                <include condition="!String.IsEmpty(Skin.String(Hub.$PARAM[window_id].WidgetMode))">$PARAM[widgets_include]-selector</include>
             </include>
         </control>
     </include>
@@ -528,7 +559,8 @@
         <onup condition="$EXP[Exp_HomeMenu_IsTopBar] + [Integer.IsEqual(Container(301).NumItems,0) | $EXP[Exp_Hubs_Spotlight_IsDisabled]]">303</onup>
         <onup condition="!$EXP[Exp_HomeMenu_IsTopBar] + [Integer.IsEqual(Container(301).NumItems,0) | $EXP[Exp_Hubs_Spotlight_IsDisabled]]">333</onup>
 
-        <ondown>3002</ondown>
+        <ondown condition="!String.IsEmpty(Skin.String(Hub.$PARAM[window_id].WidgetMode)) + Integer.IsEqual(Container(3002).NumItems,0)">419</ondown>
+        <ondown condition="![!String.IsEmpty(Skin.String(Hub.$PARAM[window_id].WidgetMode)) + Integer.IsEqual(Container(3002).NumItems,0)]">3002</ondown>
 
         <onfocus condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight) + !$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(301).NumItems,0)">SetProperty(TMDbHelper.WidgetContainer,301,$PARAM[property_window_id])</onfocus>
         <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
@@ -573,10 +605,11 @@
             <param name="hitrect_y">50</param>
             <param name="hitrect_w">1080</param>
             <param name="hitrect_h">100</param>
-            <param name="large">True</param>
             <param name="hidden_button_prefix">$INFO[Container(300).ListItem.Property(item)]302</param>
             <param name="hidden_button">List_ButtonMenu_Row_HiddenButton_Home_Categories</param>
             <param name="slide">True</param>
+            <param name="include_image">Skin.HasSetting(Views.UseAltCombined)</param>
+            <param name="expanded">true</param>
             <include content="Hub_Categories_Definition_Content">
                 <param name="window_id">$PARAM[window_id]</param>
                 <param name="property_window_id">$PARAM[property_window_id]</param>
@@ -586,10 +619,7 @@
                 <param name="top">100</param>
                 <param name="y">-20</param>
             </include>
-            <include content="Object_Top" condition="!Skin.HasSetting(Views.UseAltCombined)">
-                <param name="top">-60</param>
-            </include>
-            <top>70</top>
+            <top>-60</top>
         </include>
     </include>
 
@@ -662,7 +692,10 @@
                 </control>
                 <control type="group">
                     <include>Hub_Categories_FadeIn</include>
-                    <left>180</left>
+                    <include content="Object_Left" condition="[Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)]">
+                        <param name="left">180</param>
+                    </include>
+                    <left>60</left>
                     <height>hub_categorieswidget_h</height>
                     <top>hub_categorieswidget_t</top>
 
@@ -690,7 +723,7 @@
                 <param name="delay">0</param>
             </include>
             <include content="Animation_ConditionalFade">
-                <param name="condition">![[Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301) | $EXP[Exp_Hubs_Categories_HasFocus] | $EXP[Exp_Hubs_Submenu_HasFocus]]]</param>
+                <param name="condition">![Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301) | $EXP[Exp_Hubs_Categories_HasFocus] | $EXP[Exp_Hubs_Submenu_HasFocus]] | Control.HasFocus(419) | Integer.IsGreater(Window.Property(TMDbHelper.WidgetContainer),100600)</param>
             </include>
         </definition>
     </include>
@@ -775,24 +808,32 @@
         <param name="endrow_selector_id">419</param>
         <definition>
             <control type="grouplist" id="$PARAM[id]">
+                <include content="Object_Top" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall) + Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">200</param>
+                </include>
+                <include content="Object_Top" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall) + !Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">220</param>
+                </include>
                 <top>hub_widgets_grouplist_t</top>
                 <bottom>hub_widgets_grouplist_b</bottom>
 
-                <include condition="![$PARAM[widgets_only]]" content="Hub_Widgets_Grouplist__Def_Layout_Expanded">
+                <include content="Hub_Widgets_Grouplist__Def_Layout_Expanded" condition="![$PARAM[widgets_only]]">
                     <param name="window_id">$PARAM[window_id]</param>
                     <param name="property_window_id">$PARAM[property_window_id]</param>
                 </include>
 
-                <include condition="$PARAM[widgets_only]" content="Hub_Widgets_Grouplist__Def_Layout_Basic">
+                <include content="Hub_Widgets_Grouplist__Def_Layout_Basic" condition="$PARAM[widgets_only]">
                     <param name="id">$PARAM[id]</param>
+                    <param name="endrow_selector">$PARAM[endrow_selector]</param>
+                    <param name="endrow_selector_id">$PARAM[endrow_selector_id]</param>
                 </include>
 
-                <include content="Action_Widget_End" condition="![$PARAM[endrow_selector]]">
+                <onup condition="![$PARAM[endrow_selector]] + [[!Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + [Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight) | $EXP[Exp_Hubs_Spotlight_IsDisabled] | !$EXP[Exp_Hubs_Spotlight_HasItems]]] | Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)] + !$EXP[Exp_HomeMenu_IsTopBar]">$VAR[Action_Window_SearchDiscover_OnUp]</onup>
+
+                <include content="Action_Widget_End">
                     <param name="id">$PARAM[id]</param>
                     <param name="window_id">$PARAM[window_id]</param>
                 </include>
-
-                <ondown condition="$PARAM[endrow_selector]">$PARAM[endrow_selector_id]</ondown>
 
                 <visible>$PARAM[visible]</visible>
 
@@ -806,7 +847,7 @@
 
                 <nested />
 
-                <include content="Hubs_Widgets_Grouplist_FurnitureRow" condition="!Skin.HasSetting(Hub.$PARAM[window_id].WidgetSelector)">
+                <include content="Hubs_Widgets_Grouplist_FurnitureRow" condition="String.IsEmpty(Skin.String(Hub.$PARAM[window_id].WidgetMode))">
                     <param name="id">$PARAM[id]</param>
                     <param name="furnitureid">$PARAM[furnitureid]</param>
                 </include>
@@ -856,12 +897,16 @@
     </include>
 
     <include name="Hub_Info_Panel_Standard">
-        <control type="group">
-            <include content="Info_Panel">
-                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
-                <param name="container">Container($PARAM[id]).</param>
-            </include>
-        </control>
+        <param name="details">True</param>
+        <definition>
+            <control type="group">
+                <include content="Info_Panel">
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
+                    <param name="container">Container($PARAM[id]).</param>
+                    <param name="details">$PARAM[details]</param>
+                </include>
+            </control>
+        </definition>
     </include>
 
     <include name="Hub_Info_Panel_Combined">
@@ -891,6 +936,32 @@
                     <param name="details">true</param>
                     <param name="container">Container($PARAM[id]).</param>
                 </include>
+            </control>
+        </control>
+    </include>
+
+    <include name="Hub_Widgets_Combined_Selector">
+        <control type="group" id="$PARAM[groupid]">
+            <include>Widget_List_Visibility</include>
+            <include content="Object_Top" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall) + Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                <param name="top">-62.5</param>
+            </include>
+            <include content="Object_Top" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall) + !Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                <param name="top">-22.5</param>
+            </include>
+            <include content="Object_Top" condition="Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                <param name="top">-222.5</param>
+            </include>
+            <include content="Object_Left" condition="![Skin.String(Home.SideMenuCollapse,Never) | Skin.HasSetting(Views.DisableItemPeek)]">
+                <param name="left">-120</param>
+            </include>
+            <top>-182.5</top>
+            <control type="group">
+                <include content="Object_Top" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)">
+                    <param name="top">widget_label_t</param>
+                </include>
+                <height>widget_items_h</height>
+                <include>skinvariables-$PARAM[window_include]-widgets-selector</include>
             </control>
         </control>
     </include>
@@ -948,13 +1019,181 @@
         </definition>
     </include>
 
+    <include name="Hub_Widget_Wall">
+        <param name="target">videos</param>
+        <param name="browse">$VAR[Defs_BrowseLimitedLists]</param>
+        <param name="include">List_Poster_Row</param>
+        <param name="visible">true</param>
+        <param name="allowhiddenfocus">false</param>
+        <param name="autoscroll">false</param>
+        <param name="shortstack_enabled">false</param>
+        <param name="wall_textlabels_offset">false</param>
+        <param name="custom_content">false</param>
+        <param name="dimension_override">false</param>
+        <definition>
+            <control type="group">
+                <height>1080</height>
+                <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+                <include content="$PARAM[include]" condition="$EXP[Exp_View_WallVert]">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="control">panel</param>
+                    <param name="orientation">vertical</param>
+                    <param name="offset_y">20</param>
+                    <param name="hidden_button_enabled">true</param>
+                    <preloaditems>0</preloaditems>
+                    <include content="Object_Top" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+                        <param name="top">-50</param>
+                    </include>
+                    <include content="Object_Bottom" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+                        <param name="bottom">300</param>
+                    </include>
+                    <include content="Object_Bottom" condition="![$PARAM[dimension_override]] + Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets)">
+                        <param name="bottom">-240</param>
+                    </include>
+                    <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="right">180</param>
+                    </include>
+                    <top>306</top>
+                    <bottom>-40</bottom>
+                    <onup>$PARAM[menuid]</onup>
+                    <onback condition="$PARAM[dimension_override]">$PARAM[backid]</onback>
+                    <include content="Action_View_Movement_OnLeft">
+                        <param name="id">$PARAM[id]</param>
+                    </include>
+                    <include content="Action_View_Movement_OnRight">
+                        <param name="id">$PARAM[id]</param>
+                    </include>
+                    <include content="Action_View_Movement_OnBack" condition="![$PARAM[dimension_override]]">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="backid">$PARAM[backid]</param>
+                        <param name="menuid">$PARAM[menuid]</param>
+                        <param name="onback">[Integer.IsEqual(Container($PARAM[id]).CurrentItem,1)]</param>
+                    </include>
+
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+                    <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                    <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
+                    <include>Action_View_SlideOver_OnFocus</include>
+                    <nested />
+                    <include content="Object_ContentDynamic" condition="![$PARAM[custom_content]]">
+                        <param name="sortby">$PARAM[sortby]</param>
+                        <param name="sortorder">$PARAM[sortorder]</param>
+                        <param name="target">$PARAM[target]</param>
+                        <param name="limit">$PARAM[limit]</param>
+                        <param name="browse">$PARAM[browse]</param>
+                        <param name="content">$PARAM[content]</param>
+                    </include>
+                    <include condition="$PARAM[custom_content]">Weather_Details_HighLow_Items</include>
+
+                    <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+
+                    <include content="Defs_AutoScroll" condition="$PARAM[autoscroll]">
+                        <param name="condition">[!Control.HasFocus($PARAM[id]) | System.IdleTime(3)]</param>
+                    </include>
+
+                </include>
+                <include content="$PARAM[include]" condition="!$EXP[Exp_View_WallVert]">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="control">panel</param>
+                    <param name="orientation">horizontal</param>
+                    <param name="offset_y">20</param>
+                    <param name="hidden_button_enabled">true</param>
+                    <preloaditems>0</preloaditems>
+                    <include content="Object_Top" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+                        <param name="top">-50</param>
+                    </include>
+                    <include content="Object_Bottom" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+                        <param name="bottom">300</param>
+                    </include>
+                    <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="right">180</param>
+                    </include>
+                    <top>306</top>
+                    <bottom>-40</bottom>
+                    <onup>$PARAM[menuid]</onup>
+                    <onback condition="$PARAM[dimension_override]">$PARAM[backid]</onback>
+                    <include content="Action_View_Movement_OnLeft">
+                        <param name="id">$PARAM[id]</param>
+                    </include>
+                    <include content="Action_View_Movement_OnRight">
+                        <param name="id">$PARAM[id]</param>
+                    </include>
+                    <include content="Action_View_Movement_OnBack" condition="![$PARAM[dimension_override]]">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="backid">$PARAM[backid]</param>
+                        <param name="menuid">$PARAM[menuid]</param>
+                        <param name="onback">[Integer.IsEqual(Container($PARAM[id]).CurrentItem,1)]</param>
+                    </include>
+
+                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+                    <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                    <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
+                    <include>Action_View_SlideOver_OnFocus</include>
+                    <nested />
+                    <include content="Object_ContentDynamic" condition="![$PARAM[custom_content]]">
+                        <param name="sortby">$PARAM[sortby]</param>
+                        <param name="sortorder">$PARAM[sortorder]</param>
+                        <param name="target">$PARAM[target]</param>
+                        <param name="limit">$PARAM[limit]</param>
+                        <param name="browse">$PARAM[browse]</param>
+                        <param name="content">$PARAM[content]</param>
+                    </include>
+                    <include condition="$PARAM[custom_content]">Weather_Details_HighLow_Items</include>
+
+                    <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+
+                    <include content="Defs_AutoScroll" condition="$PARAM[autoscroll]">
+                        <param name="condition">[!Control.HasFocus($PARAM[id]) | System.IdleTime(3)]</param>
+                    </include>
+
+                </include>
+                <include content="Widget_Busy">
+                    <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</param>
+                    <param name="include">$PARAM[include]</param>
+                    <include content="Object_Top" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+                        <param name="top">-106</param>
+                    </include>
+                    <top>246</top>
+                    <left>view_side</left>
+                    <visible>$PARAM[visible]</visible>
+                </include>
+                <include content="Widget_Busy">
+                    <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</param>
+                    <param name="include">$PARAM[include]</param>
+                    <include content="Object_Top" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
+                        <param name="top">236</param>
+                    </include>
+                    <top>596</top>
+                    <left>view_side</left>
+                    <visible>$PARAM[visible]</visible>
+                    <animation effect="slide" end="0,70" condition="$PARAM[wall_textlabels_offset] + Skin.HasSetting(Enable.WallDetailedLabels) + $EXP[Exp_View_WallVert]">Conditional</animation>
+                    <animation effect="slide" end="0,-16" condition="Skin.String(Home.SideMenuCollapse,Never)">Conditional</animation>
+                </include>
+                <include content="Widget_Busy" condition="![$PARAM[dimension_override]] + Skin.HasSetting(Hub.$PARAM[window_id].EnableBasicWidgets) + $EXP[Exp_View_WallVert]">
+                    <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</param>
+                    <param name="include">$PARAM[include]</param>
+                    <top>946</top>
+                    <left>view_side</left>
+                    <visible>$PARAM[visible]</visible>
+                    <animation effect="slide" end="0,140" condition="$PARAM[wall_textlabels_offset] + Skin.HasSetting(Enable.WallDetailedLabels) + $EXP[Exp_View_WallVert]">Conditional</animation>
+                    <animation effect="slide" end="0,-32" condition="Skin.String(Home.SideMenuCollapse,Never)">Conditional</animation>
+                </include>
+            </control>
+        </definition>
+    </include>
+
     <include name="Hub_Widgets_Grouplist__Def_Layout_Expanded">
         <onup condition="[$EXP[Exp_Hubs_Spotlight_IsDisabled] | Integer.IsEqual(Container(301).NumItems,0)] + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">303</onup>
         <onup condition="!$EXP[Exp_Hubs_Spotlight_IsDisabled] + !Integer.IsEqual(Container(301).NumItems,0) + Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">311</onup>
         <onup condition="!Integer.IsEqual(Container(300).NumItems,0) + Integer.IsEqual(Container(3002).NumItems,0)">300</onup>
         <onup condition="!Integer.IsEqual(Container(3002).NumItems,0)">3002</onup>
-        <include content="Hub_Slide_Spotlight_OnWidgets">
-            <param name="condition">[[[$EXP[Exp_HomeHub_IsVisible] + String.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301)] | String.IsEmpty(Window.Property(Slide.WidgetContainer)) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),300) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),3002)] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight)]</param>
+        <include content="Hub_Slide_Spotlight_OnWidgets" condition="!Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)">
+            <param name="condition">[[[$EXP[Exp_HomeHub_IsVisible] + String.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301)] | String.IsEmpty(Window.Property(Slide.WidgetContainer)) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),300) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),3002)] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight) + String.IsEmpty(Window.Property(EndRow.HasFocus))]</param>
+            <param name="window_id">$PARAM[window_id]</param>
+        </include>
+        <include content="Hub_Wall_Slide_Spotlight_OnWidgets" condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)">
+            <param name="condition">[[[$EXP[Exp_HomeHub_IsVisible] + String.IsEqual(Window.Property(TMDbHelper.WidgetContainer),301)] | String.IsEmpty(Window.Property(Slide.WidgetContainer)) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),300) | Integer.IsEqual(Window.Property(Slide.WidgetContainer),3002)] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSpotlight) + String.IsEmpty(Window.Property(EndRow.HasFocus))]</param>
+            <param name="window_id">$PARAM[window_id]</param>
         </include>
         <!-- Slide Spotlight Offset -->
         <animation effect="slide" start="0" end="0,80" time="400" delay="0" tween="back" easing="out" condition="[$EXP[Exp_Hubs_Spotlight_IsSlide] + $EXP[Exp_Hubs_Spotlight_IsVisible]]" reversible="false">Conditional</animation>
@@ -962,9 +1201,10 @@
     </include>
 
     <include name="Hub_Widgets_Grouplist__Def_Layout_Basic">
-        <include content="Action_Widget_Top" condition="![Window.IsVisible(Home) + $EXP[Exp_HomeMenu_IsTopBar]]">
+        <include content="Action_Widget_Top" condition="![$PARAM[endrow_selector]] + ![Window.IsVisible(Home) + $EXP[Exp_HomeMenu_IsTopBar]]">
             <param name="id">$PARAM[id]</param>
         </include>
-        <onup condition="Window.IsVisible(Home) + $EXP[Exp_HomeMenu_IsTopBar]">SetFocus(303)</onup>
+        <onup condition="$PARAM[endrow_selector]">SetProperty(List.ViewContainer,$NUMBER[$PARAM[id]])</onup>
+        <onup condition="$PARAM[endrow_selector]">$PARAM[endrow_selector_id]</onup>
     </include>
 </includes>

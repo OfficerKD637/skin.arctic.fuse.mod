@@ -17,7 +17,7 @@
     <value name="widget_next_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x} + 1]</value>
     <value name="widget_nextnext_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x} + 2]</value>
     <value name="widget_nextnextnext_id">$MATH[{grouplist_item_x} * 1000 + 601 + {item_x} + 3]</value>
-    <value name="widget_widgetfade_include">!Skin.HasSetting(Hub.{window_id}.WidgetSelector)</value>
+    <value name="widget_widgetfade_include">String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</value>
     <rules name="widget_label">
         <rule>
             <condition>{item_path}==Stacked_Folder</condition>
@@ -67,11 +67,11 @@
         </rule>
         <rule>
             <condition>{item_path}==Stacked_Movie_Recommendations</condition>
-            <value>plugin://plugin.video.themoviedb.helper/?info=recommendations&amp;amp;tmdb_type=movie&amp;amp;query=$INFO[Window.Property(WidgetMeta.{widget_prev_id}.Title)]$VAR[Path_Param_Widget]</value>
+            <value>plugin://plugin.video.themoviedb.helper/?info=recommendations&amp;amp;tmdb_type=movie&amp;amp;query=$INFO[Window.Property(WidgetMeta.{widget_prev_id}.Title)]$INFO[Window.Property(WidgetMeta.{widget_prev_id}.TMDb_ID),&amp;amp;tmdb_id=,]$VAR[Path_Param_Widget]</value>
         </rule>
         <rule>
             <condition>{item_path}==Stacked_TVShows_Recommendations</condition>
-            <value>plugin://plugin.video.themoviedb.helper/?info=recommendations&amp;amp;tmdb_type=tv&amp;amp;query=$INFO[Window.Property(WidgetMeta.{widget_prev_id}.TvShowTitle)]$VAR[Path_Param_Widget]</value>
+            <value>plugin://plugin.video.themoviedb.helper/?info=recommendations&amp;amp;tmdb_type=tv&amp;amp;query=$INFO[Window.Property(WidgetMeta.{widget_prev_id}.TvShowTitle)]$INFO[Window.Property(WidgetMeta.{widget_prev_id}.TMDb_ID),&amp;amp;tmdb_id=,]$VAR[Path_Param_Widget]</value>
         </rule>
         <rule>
             <condition>{item_path}==Stacked_Movie_Year</condition>
@@ -142,7 +142,7 @@
     </rules>
     <rules name="widget_visible">
         <rule>
-            <condition>Skin.HasSetting(Hub.{window_id}.WidgetSelector)</condition>
+            <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
             <value>String.IsEqual(Container({widget_selector_id}).ListItem.Property(guid),{item_guid})</value>
         </rule>
         <rule>
@@ -156,7 +156,7 @@
     </rules>
     <rules name="widget_altvisible">
         <rule>
-            <condition>Skin.HasSetting(Hub.{window_id}.WidgetSelector)</condition>
+            <condition>!String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))</condition>
             <value>String.IsEqual(Container({widget_selector_id}).ListItem.Property(guid),{item_guid})</value>
         </rule>
         <rule>
@@ -182,68 +182,68 @@
     <rules name="widget_shortstack">
         <rule>
             <condition>{item_widget_style}==Apps</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Icon</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Text</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==RealText</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Sign</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Ring</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==</condition>
             <condition>{parent_item_widget_style}==Apps</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==</condition>
             <condition>{parent_item_widget_style}==Icon</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==</condition>
             <condition>{parent_item_widget_style}==Text</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==</condition>
             <condition>{parent_item_widget_style}==RealText</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==</condition>
             <condition>{parent_item_widget_style}==Sign</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==</condition>
             <condition>{parent_item_widget_style}==Ring</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>True</value>
         </rule>
         <rule>
@@ -257,8 +257,18 @@
             <value>List_Weather_Row</value>
         </rule>
         <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{item_widget_style}==Landscape</condition>
+            <value>List_Landscape_Row_Wall</value>
+        </rule>
+        <rule>
             <condition>{item_widget_style}==Landscape</condition>
             <value>List_Landscape_Row</value>
+        </rule>
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{item_widget_style}==Poster</condition>
+            <value>List_Poster_Row_Wall</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Poster</condition>
@@ -273,6 +283,11 @@
             <value>List_Circle_Row</value>
         </rule>
         <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{item_widget_style}==Card</condition>
+            <value>List_Poster_Row_Wall</value>
+        </rule>
+        <rule>
             <condition>{item_widget_style}==Card</condition>
             <value>List_Card_Row</value>
         </rule>
@@ -283,6 +298,11 @@
         <rule>
             <condition>{item_widget_style}==Placard</condition>
             <value>List_Placard_Row</value>
+        </rule>
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{item_widget_style}==Corflute</condition>
+            <value>List_Poster_Row_Wall</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Corflute</condition>
@@ -302,32 +322,38 @@
         </rule>
         <rule>
             <condition>{item_widget_style}==Apps</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Apps_Row</value>
         </rule>
         <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
             <condition>{item_widget_style}==Apps</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
+            <value>List_Landscape_Row_Wall</value>
+        </rule>
+        <rule>
+            <condition>{item_widget_style}==Apps</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Landscape_Row</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Icon</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Icon_Row</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Icon</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Square_Row</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Text</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Text_Row</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Text</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Overview_Row</value>
         </rule>
         <rule>
@@ -336,27 +362,37 @@
         </rule>
         <rule>
             <condition>{item_widget_style}==Sign</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Sign_Row</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Sign</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Board_Row</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Ring</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Ring_Row</value>
         </rule>
         <rule>
             <condition>{item_widget_style}==Ring</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Circle_Row</value>
+        </rule>
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{parent_item_widget_style}==Landscape</condition>
+            <value>List_Landscape_Row_Wall</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Landscape</condition>
             <value>List_Landscape_Row</value>
+        </rule>
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{parent_item_widget_style}==Poster</condition>
+            <value>List_Poster_Row_Wall</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Poster</condition>
@@ -371,6 +407,11 @@
             <value>List_Circle_Row</value>
         </rule>
         <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{parent_item_widget_style}==Card</condition>
+            <value>List_Poster_Row_Wall</value>
+        </rule>
+        <rule>
             <condition>{parent_item_widget_style}==Card</condition>
             <value>List_Card_Row</value>
         </rule>
@@ -381,6 +422,11 @@
         <rule>
             <condition>{parent_item_widget_style}==Placard</condition>
             <value>List_Placard_Row</value>
+        </rule>
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{parent_item_widget_style}==Corflute</condition>
+            <value>List_Poster_Row_Wall</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Corflute</condition>
@@ -400,32 +446,38 @@
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Apps</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Apps_Row</value>
         </rule>
         <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
             <condition>{parent_item_widget_style}==Apps</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
+            <value>List_Landscape_Row_Wall</value>
+        </rule>
+        <rule>
+            <condition>{parent_item_widget_style}==Apps</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Landscape_Row</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Icon</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Icon_Row</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Icon</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Square_Row</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Text</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Text_Row</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Text</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Overview_Row</value>
         </rule>
         <rule>
@@ -434,23 +486,28 @@
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Sign</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Sign_Row</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Sign</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Board_Row</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Ring</condition>
-            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>![Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Ring_Row</value>
         </rule>
         <rule>
             <condition>{parent_item_widget_style}==Ring</condition>
-            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | Skin.HasSetting(Hub.{window_id}.WidgetSelector)]</condition>
+            <condition>[Skin.String(Furniture.BottomLeft.Enable,Always) | !String.IsEmpty(Skin.String(Hub.{window_id}.WidgetMode))]</condition>
             <value>List_Circle_Row</value>
+        </rule>
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>True</condition>
+            <value>List_Landscape_Row_Wall</value>
         </rule>
         <rule>
             <condition>True</condition>
@@ -459,6 +516,15 @@
     </rules>
     <value name="widget_detailed">False</value>
     <rules name="widget_custom_content">
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{item_path}==Weather</condition>
+            <value>True</value>
+        </rule>
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <value>False</value>
+        </rule>
         <rule>
             <condition>{item_path}==Weather</condition>
             <value><![CDATA[<include>Weather_Details_HighLow_Items</include>]]></value>
@@ -517,6 +583,17 @@
         </rule>
         <rule>
             <condition>{item_path}&lt;&lt;plugin://script.skinvariables/?info=get_params_file</condition>
+            <value>True</value>
+        </rule>
+        <rule>
+            <condition>True</condition>
+            <value>False</value>
+        </rule>
+    </rules>
+    <rules name="widget_wall_textlabels_offset">
+        <rule>
+            <condition>Skin.String(Hub.{window_id}.WidgetMode,Wall)</condition>
+            <condition>{item_widget_style}==Poster||{parent_item_widget_style}==Poster</condition>
             <value>True</value>
         </rule>
         <rule>

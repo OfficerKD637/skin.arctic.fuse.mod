@@ -9,7 +9,7 @@
                 <right>40</right>
                 <control type="group">
                     <centertop>50%</centertop>
-                    <height>50</height>
+                    <height>82</height>
                     <control type="image">
                         <centerleft>-20</centerleft>
                         <centertop>50%</centertop>
@@ -18,21 +18,25 @@
                         <texture border="4" colordiffuse="$VAR[ColorHighlight]">common/scrollv.png</texture>
                         <visible>$PARAM[selected]</visible>
                     </control>
-                    <control type="label">
-                        <top>0</top>
-                        <height>20</height>
-                        <font>font_main_bold</font>
-                        <label>$INFO[ListItem.Label]</label>
-                        <textcolor>dialog_fg_90</textcolor>
+                    <control type="group">
+                        <animation effect="slide" end="0,12" condition="String.IsEmpty(ListItem.Property(progress))">Conditional</animation>
+                        <control type="label">
+                            <top>0</top>
+                            <height>20</height>
+                            <font>font_main_bold</font>
+                            <label>$INFO[ListItem.Label]</label>
+                            <textcolor>dialog_fg_90</textcolor>
+                        </control>
+                        <control type="label">
+                            <top>40</top>
+                            <height>20</height>
+                            <font>font_mini</font>
+                            <textcolor>dialog_fg_70</textcolor>
+                            <label>$INFO[ListItem.Label2]</label>
+                            <haspath>true</haspath>
+                        </control>
                     </control>
-                    <control type="label">
-                        <bottom>0</bottom>
-                        <height>20</height>
-                        <font>font_mini</font>
-                        <textcolor>dialog_fg_70</textcolor>
-                        <label>$INFO[ListItem.Label2]</label>
-                        <haspath>true</haspath>
-                    </control>
+                    <include>Items_DialogCustom_ProcessInfo_Progress</include>
                 </control>
                 <control type="group">
                     <left>-40</left>
@@ -2808,6 +2812,25 @@
                         <textcolor>$PARAM[textcolor]_90</textcolor>
                         <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
                         <align>$PARAM[align]</align>
+                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">![String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
+                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">![[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
+                    </include>
+                    <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels] + Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+                        <label fallback="$INFO[$PARAM[listitem].Label]">$INFO[$PARAM[listitem].Season,S,]$INFO[$PARAM[listitem].Episode,E,. ]$INFO[$PARAM[listitem].Title]</label>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <textcolor>$PARAM[textcolor]_90</textcolor>
+                        <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
+                        <align>$PARAM[align]</align>
+                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
+                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">[[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
                     </include>
 
                     <control type="group">
@@ -3279,8 +3302,12 @@
 
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control">image</param>
-                    <include>Texture_Menu_Highlight_H</include>
-                    <right>-20</right>
+                    <include>Texture_Highlight_Scrollbar_H</include>
+                    <top>70</top>
+                    <height>10</height>
+                    <width>286</width>
+                    <left>20</left>
+                    <right>20</right>
                 </include>
 
                 <control type="group">
@@ -3305,8 +3332,8 @@
                             <param name="name">$VAR[Label_VideoInfo_DetailsItem_Prefix_Selected,, ]$PARAM[misc]</param>
                             <param name="role">$INFO[ListItem.Label]</param>
                             <param name="include_labels">$PARAM[detailed]</param>
-                            <param name="textcolor_top">$VAR[ColorSelected]</param>
-                            <param name="textcolor_sub">$VAR[ColorSelected]</param>
+                            <param name="textcolor_top">white</param>
+                            <param name="textcolor_sub">white</param>
                             <include content="Object_InfoCircle_Image">
                                 <param name="colordiffuse">white</param>
                                 <param name="icon">$VAR[Image_Info_CombinedThumb]</param>
@@ -3334,8 +3361,8 @@
                             <param name="name">$PARAM[misc]</param>
                             <param name="role">$INFO[ListItem.Label]</param>
                             <param name="include_labels">$PARAM[detailed]</param>
-                            <param name="textcolor_top">$VAR[ColorSelected]</param>
-                            <param name="textcolor_sub">$VAR[ColorSelected]</param>
+                            <param name="textcolor_top">white</param>
+                            <param name="textcolor_sub">white</param>
                             <param name="aspectratio">keep</param>
                         </include>
                     </control>
@@ -3357,8 +3384,8 @@
                             <param name="name">$PARAM[misc]</param>
                             <param name="role">$INFO[ListItem.Label]</param>
                             <param name="include_labels">$PARAM[detailed]</param>
-                            <param name="textcolor_top">$VAR[ColorSelected]</param>
-                            <param name="textcolor_sub">$VAR[ColorSelected]</param>
+                            <param name="textcolor_top">white</param>
+                            <param name="textcolor_sub">white</param>
                             <param name="aspectratio">keep</param>
                         </include>
                     </control>
@@ -3366,7 +3393,12 @@
                         <left>120</left>
                         <height>72</height>
                         <centertop>50%</centertop>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <include content="Object_TextColor" condition="$PARAM[selected]">
+                            <param name="textcolor">white</param>
+                        </include>
+                        <include content="Object_SelectedColor" condition="$PARAM[selected]">
+                            <param name="selectedcolor">white</param>
+                        </include>
                         <label>$INFO[ListItem.Label]</label>
 
                         <font>font_mini</font>
@@ -3455,6 +3487,25 @@
                         <textcolor>$PARAM[textcolor]_90</textcolor>
                         <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
                         <align>$PARAM[align]</align>
+                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">![String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
+                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">![[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
+                    </include>
+                    <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels] + Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+                        <label fallback="$INFO[$PARAM[listitem].Label]">$INFO[$PARAM[listitem].Season,S,]$INFO[$PARAM[listitem].Episode,E,. ]$INFO[$PARAM[listitem].Title]</label>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <textcolor>$PARAM[textcolor]_90</textcolor>
+                        <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
+                        <align>$PARAM[align]</align>
+                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
+                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR))">
+                            <param name="visible">[[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
+                        </include>
                     </include>
 
                     <control type="group">
