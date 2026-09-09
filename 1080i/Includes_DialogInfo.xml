@@ -3399,12 +3399,23 @@
                             <param name="icon_centertop">55%</param>
                         </include>
                         <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mustsee.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating),,%]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Image))</param>
+                            <param name="bordersize">-2</param>
+                        </include>
+                        <include content="Info_Line_Rating">
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacritic.png</param>
                             <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating),,%]</param>
-                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating))</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Image))</param>
                         </include>
 
                         <!-- Fallbacks -->
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacriticuser.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCriticUser_Rating)]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_MetaCriticUser]</param>
+                        </include>
                         <include content="Info_Line_Rating">
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RottenTomatoes]</param>
                             <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating),,%]</param>
@@ -3424,6 +3435,11 @@
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/letterboxd.png</param>
                             <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Letterboxd_Rating)]</param>
                             <param name="visible">$EXP[Exp_Ratings_Fill_Letterboxd]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RogerEbert]</param>
+                            <param name="label">$VAR[Label_ListItem_RogerEbert]</param>
+                            <param name="visible">$EXP[Exp_Ratings_Fill_RogerEbert]</param>
                         </include>
                         <include content="Info_Line_Rating">
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mal.png</param>
@@ -3455,6 +3471,11 @@
                         <height>40</height>
                         <itemgap>12</itemgap>
                         <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacriticuser.png</param>
+                            <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCriticUser_Rating)]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCriticUser_Rating)) + ![$EXP[Exp_Ratings_Fill_MetaCriticUser]]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RottenTomatoes]</param>
                             <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating),,%]</param>
                             <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RottenTomatoes_Rating)) + ![$EXP[Exp_Ratings_Fill_RT_Rating]]</param>
@@ -3475,6 +3496,11 @@
                             <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Letterboxd_Rating)) + ![$EXP[Exp_Ratings_Fill_Letterboxd]]</param>
                         </include>
                         <include content="Info_Line_Rating">
+                            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RogerEbert]</param>
+                            <param name="label">$VAR[Label_ListItem_RogerEbert]</param>
+                            <param name="visible">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RogerEbert_Image)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RogerEbert_Rating))] + ![$EXP[Exp_Ratings_Fill_RogerEbert]]</param>
+                        </include>
+                        <include content="Info_Line_Rating">
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mal.png</param>
                             <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MyAnimeList_Rating)]</param>
                             <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MyAnimeList_Rating)) + ![$EXP[Exp_Ratings_Fill_MyAnimeList]]</param>
@@ -3484,12 +3510,12 @@
                         <include content="Info_Line_Rating">
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/oscars.png</param>
                             <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins),x,]</param>
-                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins)) + ![$EXP[Exp_Ratings_Fill_Oscars]]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Oscar_Wins)) + ![$EXP[Exp_Ratings_Fill_Oscars]] + $EXP[Exp_Ratings_Empty_Fallback]</param>
                         </include>
                         <include content="Info_Line_Rating">
                             <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/emmys.png</param>
                             <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.Emmy_Wins),x,]</param>
-                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Emmy_Wins)) + ![$EXP[Exp_Ratings_Fill_Emmys]]</param>
+                            <param name="visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Emmy_Wins)) + ![$EXP[Exp_Ratings_Fill_Emmys]] + $EXP[Exp_Ratings_Empty_Fallback]</param>
                         </include>
                     </control>
                 </include>

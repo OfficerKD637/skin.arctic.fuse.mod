@@ -509,14 +509,42 @@
         <param name="is_player">false</param>
         <definition>
             <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mustsee.png</param>
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating),,%]</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Image))</param>
+                <param name="bordersize">-2</param>
+            </include>
+            <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
                 <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacritic.png</param>
                 <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating),,%]</param>
-                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating))</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Rating)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Image))</param>
+            </include>
+            <include content="Info_Line_Rating" condition="$PARAM[is_player]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mustsee.png</param>
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.MetaCritic_Rating),,%]</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.MetaCritic_Rating)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Image))</param>
+                <param name="bordersize">-2</param>
             </include>
             <include content="Info_Line_Rating" condition="$PARAM[is_player]">
                 <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacritic.png</param>
                 <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.MetaCritic_Rating),,%]</param>
-                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.MetaCritic_Rating))</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.MetaCritic_Rating)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCritic_Image))</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_Line_Rating_MetacriticUser">
+        <param name="is_player">false</param>
+        <definition>
+            <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacriticuser.png</param>
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.ListItem.MetaCriticUser_Rating)]</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.MetaCriticUser_Rating))</param>
+            </include>
+            <include content="Info_Line_Rating" condition="$PARAM[is_player]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacriticuser.png</param>
+                <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.MetaCriticUser_Rating)]</param>
+                <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.MetaCriticUser_Rating))</param>
             </include>
         </definition>
     </include>
@@ -645,6 +673,22 @@
                 <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/letterboxd.png</param>
                 <param name="label">$INFO[Window(Home).Property(TMDbHelper.Player.Letterboxd_Rating)]</param>
                 <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Letterboxd_Rating))</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_Line_Rating_RogerEbert">
+        <param name="is_player">false</param>
+        <definition>
+            <include content="Info_Line_Rating" condition="![$PARAM[is_player]]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_ListItem_RogerEbert]</param>
+                <param name="label">$VAR[Label_ListItem_RogerEbert]</param>
+                <param name="visible">[$PARAM[visible]] + [!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RogerEbert_Rating)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.RogerEbert_Image))]</param>
+            </include>
+            <include content="Info_Line_Rating" condition="$PARAM[is_player]">
+                <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_Player_RogerEbert]</param>
+                <param name="label">$VAR[Label_Player_RogerEbert]</param>
+                <param name="visible">[$PARAM[visible]] + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.RogerEbert_Rating)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.RogerEbert_Image))]</param>
             </include>
         </definition>
     </include>
@@ -850,6 +894,11 @@
             <param name="container">$PARAM[container]</param>
             <param name="is_player">$PARAM[is_player]</param>
         </include>
+        <include content="Info_Line_Rating_MetacriticUser" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],MetacriticUser)">
+            <param name="visible">$PARAM[visible]</param>
+            <param name="container">$PARAM[container]</param>
+            <param name="is_player">$PARAM[is_player]</param>
+        </include>
         <include content="Info_Line_Rating_RottenTomatoesCritic" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],RottenTomatoesCritic)">
             <param name="visible">$PARAM[visible]</param>
             <param name="container">$PARAM[container]</param>
@@ -866,6 +915,11 @@
             <param name="is_player">$PARAM[is_player]</param>
         </include>
         <include content="Info_Line_Rating_Letterboxd" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],Letterboxd)">
+            <param name="visible">$PARAM[visible]</param>
+            <param name="container">$PARAM[container]</param>
+            <param name="is_player">$PARAM[is_player]</param>
+        </include>
+        <include content="Info_Line_Rating_RogerEbert" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],RogerEbert)">
             <param name="visible">$PARAM[visible]</param>
             <param name="container">$PARAM[container]</param>
             <param name="is_player">$PARAM[is_player]</param>
