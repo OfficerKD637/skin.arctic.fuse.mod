@@ -560,6 +560,18 @@
         <value>plugin://plugin.video.themoviedb.helper?info=collection&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=collection&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID)]</value>
     </variable>
 
+    <variable name="Path_Episodes_TVShowRatings">
+        <value condition="!String.IsEmpty(Skin.String(InfoDialog.EpisodeRatings.Provider)) + !Integer.IsEqual(Container(8001).NumItems,0) + !Container(8001).IsUpdating">plugin://script.skinvariables/?info=get_panel_labels&amp;containers=8001&amp;infolabel=Season&amp;length=10&amp;infoproperties=Season;Season;;Episode;Episode;;Rating;Rating;;IMDb_Rating;Property(IMDb_Rating);;Trakt_Rating;Property(Trakt_Rating)&amp;reload=$INFO[Container(8001).NumItems]$INFO[Container(8001).ListItem.UniqueID(tmdb)]</value>
+        <value condition="!Integer.IsEqual(Container(8001).NumItems,0) + !Container(8001).IsUpdating">plugin://script.skinvariables/?info=get_panel_labels&amp;containers=8001&amp;infolabel=Season&amp;length=10&amp;infoproperties=Season;Season;;Episode;Episode;;Rating;Rating&amp;reload=$INFO[Container(8001).NumItems]$INFO[Container(8001).ListItem.UniqueID(tmdb)]</value>
+    </variable>
+
+    <variable name="Path_Seasons_TVShowRatings">
+        <value condition="!String.IsEmpty(Skin.String(InfoDialog.EpisodeRatings.Provider)) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.Season))">plugin://plugin.video.themoviedb.helper/?info=episodes&amp;tmdb_id=$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)]&amp;tmdb_type=tv&amp;season=$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.Season)]&amp;ratings=true</value>
+        <value condition="!String.IsEmpty(Skin.String(InfoDialog.EpisodeRatings.Provider)) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID))">plugin://plugin.video.themoviedb.helper/?info=flatseasons&amp;tmdb_id=$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)]&amp;tmdb_type=tv&amp;exclude_key=season&amp;exclude_value=0&amp;ratings=true</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)) + !String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.Season))">plugin://plugin.video.themoviedb.helper/?info=episodes&amp;tmdb_id=$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)]&amp;tmdb_type=tv&amp;season=$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.Season)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID))">plugin://plugin.video.themoviedb.helper/?info=flatseasons&amp;tmdb_id=$INFO[Window(Home).Property(TMDBHelper.ListItem.Monitor.TMDb_ID)]&amp;tmdb_type=tv&amp;exclude_key=season&amp;exclude_value=0</value>
+    </variable>
+
     <variable name="Path_MusicInfo_ArtistFolder">
         <value condition="String.IsEmpty(ListItem.DBID)">$ESCINFO[ListItem.FolderPath]</value>
         <value condition="!String.IsEmpty(ListItem.DBID)">musicdb://artists/$INFO[ListItem.DBID]/?albumartistsonly=true</value>

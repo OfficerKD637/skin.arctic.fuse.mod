@@ -2546,6 +2546,7 @@
     <include name="Items_Dialog_ViewInfo">
         <include>DialogInfo_VideoButtons_Plot</include>
         <include>DialogInfo_VideoButtons_UserRating</include>
+        <include>DialogInfo_VideoButtons_TVShowRatings</include>
         <include>DialogInfo_VideoButtons_Versions</include>
         <include>DialogInfo_VideoButtons_Extras</include>
         <include>DialogInfo_VideoButtons_FileInfo</include>
@@ -2738,6 +2739,383 @@
             <param name="header_label_right">$LOCALIZE[33029]</param>
             <param name="include_items_left">Items_Dialog_PictureInfo_VideoInfo_Left</param>
             <param name="include_items_right">Items_Dialog_PictureInfo_VideoInfo_Right</param>
+        </include>
+    </include>
+
+    <include name="Items_Rating_Layout">
+        <param name="rating">ListItem.Property(Rating)</param>
+        <definition>
+            <control type="group">
+                <visible>!String.IsEmpty(ListItem.Label)</visible>
+                <right>10</right>
+                <bottom>10</bottom>
+
+                <control type="group">
+                    <width>80</width>
+                    <visible>!String.IsEmpty(ListItem.Property(group_start))</visible>
+                    <control type="label">
+                        <font>font_mini_bold</font>
+                        <aligny>top</aligny>
+                        <align>center</align>
+                        <textcolor>dialog_fg_90</textcolor>
+                        <label>$INFO[ListItem.Property(Season),S,]</label>
+                    </control>
+                </control>
+                <control type="group">
+                    <left>80</left>
+                    <right>-80</right>
+                    <control type="image">
+                        <colordiffuse>rating_9.5</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>String.IsEqual($PARAM[rating],9.5) | String.IsEqual($PARAM[rating],9.6) | String.IsEqual($PARAM[rating],9.7) | String.IsEqual($PARAM[rating],9.8) | String.IsEqual($PARAM[rating],9.9) | String.IsEqual($PARAM[rating],10.0)</visible>
+                    </control>
+                    <control type="image">
+                        <colordiffuse>rating_9</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>![String.IsEqual($PARAM[rating],9.5) | String.IsEqual($PARAM[rating],9.6) | String.IsEqual($PARAM[rating],9.7) | String.IsEqual($PARAM[rating],9.8) | String.IsEqual($PARAM[rating],9.9) | String.IsEqual($PARAM[rating],10.0)]</visible>
+                        <visible>!Integer.IsLess($PARAM[rating],9)</visible>
+                    </control>
+                    <control type="image">
+                        <colordiffuse>rating_8</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>Integer.IsLess($PARAM[rating],9)</visible>
+                        <visible>!Integer.IsLess($PARAM[rating],8)</visible>
+                    </control>
+                    <control type="image">
+                        <colordiffuse>rating_7</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>Integer.IsLess($PARAM[rating],8)</visible>
+                        <visible>!Integer.IsLess($PARAM[rating],7)</visible>
+                    </control>
+                    <control type="image">
+                        <colordiffuse>rating_6</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>Integer.IsLess($PARAM[rating],7)</visible>
+                        <visible>!Integer.IsLess($PARAM[rating],6)</visible>
+                    </control>
+                    <control type="image">
+                        <colordiffuse>rating_5</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>Integer.IsLess($PARAM[rating],6)</visible>
+                        <visible>!Integer.IsLess($PARAM[rating],5)</visible>
+                    </control>
+                    <control type="image">
+                        <colordiffuse>rating_4</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>Integer.IsLess($PARAM[rating],5)</visible>
+                        <visible>!String.IsEmpty($PARAM[rating])</visible>
+                    </control>
+                    <control type="image">
+                        <colordiffuse>dialog_fg_30</colordiffuse>
+                        <texture border="20">common/dialog.png</texture>
+                        <visible>String.IsEmpty($PARAM[rating])</visible>
+                    </control>
+
+                    <control type="group">
+                        <visible>[String.IsEqual($PARAM[rating],10.0) | Integer.IsGreater($PARAM[rating],8) | Integer.IsLess($PARAM[rating],6)]</visible>
+                        <control type="label">
+                            <font>font_hint</font>
+                            <textcolor>dialog_fg_90</textcolor>
+                            <label>$INFO[ListItem.Property(Season),S,]$INFO[ListItem.Property(Episode),E,]</label>
+                            <align>left</align>
+                            <top>10</top>
+                            <left>10</left>
+                            <height>10</height>
+                        </control>
+                        <control type="group">
+                            <left>10</left>
+                            <height>20</height>
+                            <bottom>10</bottom>
+                            <right>10</right>
+                            <control type="label">
+                                <font>font_midi_bold</font>
+                                <textcolor>dialog_fg_90</textcolor>
+                                <label fallback="‒.‒">$INFO[$PARAM[rating]]</label>
+                                <align>right</align>
+                            </control>
+                        </control>
+                    </control>
+                    <control type="group">
+                        <visible>![String.IsEqual($PARAM[rating],10.0) | Integer.IsGreater($PARAM[rating],8) | Integer.IsLess($PARAM[rating],6)]</visible>
+                        <control type="label">
+                            <font>font_hint</font>
+                            <textcolor>dialog_bg_90</textcolor>
+                            <label>$INFO[ListItem.Property(Season),S,]$INFO[ListItem.Property(Episode),E,]</label>
+                            <align>left</align>
+                            <top>10</top>
+                            <left>10</left>
+                            <height>10</height>
+                        </control>
+                        <control type="group">
+                            <left>10</left>
+                            <height>20</height>
+                            <bottom>10</bottom>
+                            <right>10</right>
+                            <control type="label">
+                                <font>font_midi_bold</font>
+                                <textcolor>dialog_bg_90</textcolor>
+                                <label fallback="‒.‒">$INFO[$PARAM[rating]]</label>
+                                <align>right</align>
+                            </control>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Item_Ratings_Legend_TVShowRatings">
+        <control type="image">
+            <aspectratio>keep</aspectratio>
+            <width>20</width>
+            <texture colordiffuse="$PARAM[color]">common/dialog.png</texture>
+        </control>
+        <control type="label">
+            <font>font_tiny_bold</font>
+            <label>$PARAM[label]</label>
+            <width max="360">auto</width>
+            <left>-10</left>
+            <textcolor>dialog_fg_90</textcolor>
+        </control>
+    </include>
+
+    <include name="Items_Dialog_PictureInfo_TVShowRatings">
+        <control type="group">
+            <left>40</left>
+            <right>40</right>
+            <include content="Object_Hidden_List">
+                <param name="id">8001</param>
+                <content>$VAR[Path_Seasons_TVShowRatings]</content>
+            </include>
+
+            <control type="group">
+                <control type="group">
+                    <include>Size_Group_Body</include>
+                    <control type="group">
+                        <include>Size_Dialog_Pad</include>
+                        <control type="group">
+                            <visible>Integer.IsEqual(Container(8001).NumItems,0) | Container(8001).IsUpdating</visible>
+                            <control type="panel">
+                                <orientation>vertical</orientation>
+                                <width>80</width>
+                                <top>-20</top>
+                                <bottom>40</bottom>
+                                <left>-80</left>
+                                <itemlayout width="80" height="80">
+                                    <control type="image">
+                                        <visible>!String.IsEmpty(ListItem.Label)</visible>
+                                        <centerleft>50%</centerleft>
+                                        <aspectratio>keep</aspectratio>
+                                        <top>0</top>
+                                        <width>30</width>
+                                        <texture colordiffuse="dialog_fg_12">common/dialog.png</texture>
+                                    </control>
+                                </itemlayout>
+                                <focusedlayout width="80" height="80" />
+                                <content>
+                                    <item><label>-</label></item>
+                                    <item><label></label></item>
+                                    <item><label>-</label></item>
+                                    <item><label></label></item>
+                                    <item><label>-</label></item>
+                                    <item><label></label></item>
+                                    <item><label>-</label></item>
+                                </content>
+                            </control>
+                            <control type="panel">
+                                <orientation>vertical</orientation>
+                                <right>-10</right>
+                                <bottom>40</bottom>
+                                <itemlayout width="113" height="80">
+                                    <control type="image">
+                                        <visible>!String.IsEmpty(ListItem.Label)</visible>
+                                        <right>10</right>
+                                        <bottom>10</bottom>
+                                        <texture colordiffuse="dialog_fg_12" border="20">common/dialog.png</texture>
+                                    </control>
+                                </itemlayout>
+                                <focusedlayout width="113" height="80" />
+                                <content>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label>-</label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                    <item><label></label></item>
+                                </content>
+                            </control>
+                        </control>
+                        <control type="panel">
+                            <orientation>vertical</orientation>
+                            <left>-80</left>
+                            <right>-10</right>
+                            <bottom>40</bottom>
+                            <itemlayout width="113" height="80">
+                                <include condition="String.IsEmpty(Skin.String(InfoDialog.EpisodeRatings.Provider))">Items_Rating_Layout</include>
+                                <include content="Items_Rating_Layout" condition="Skin.String(InfoDialog.EpisodeRatings.Provider,IMDb)">
+                                    <param name="rating">ListItem.Property(IMDb_Rating)</param>
+                                </include>
+                                <include content="Items_Rating_Layout" condition="Skin.String(InfoDialog.EpisodeRatings.Provider,Trakt)">
+                                    <param name="rating">ListItem.Property(trakt_rating)</param>
+                                </include>
+                            </itemlayout>
+
+                            <focusedlayout width="113" height="80">
+                                <include condition="String.IsEmpty(Skin.String(InfoDialog.EpisodeRatings.Provider))">Items_Rating_Layout</include>
+                                <include content="Items_Rating_Layout" condition="Skin.String(InfoDialog.EpisodeRatings.Provider,IMDb)">
+                                    <param name="rating">ListItem.Property(IMDb_Rating)</param>
+                                </include>
+                                <include content="Items_Rating_Layout" condition="Skin.String(InfoDialog.EpisodeRatings.Provider,Trakt)">
+                                    <param name="rating">ListItem.Property(trakt_rating)</param>
+                                </include>
+                            </focusedlayout>
+                            <content>$VAR[Path_Episodes_TVShowRatings]</content>
+                            <pagecontrol>61</pagecontrol>
+                            <visible>![Integer.IsEqual(Container(8001).NumItems,0) | Container(8001).IsUpdating]</visible>
+                        </control>
+                    </control>
+                </control>
+            </control>
+            <!-- Rating Legends -->
+            <control type="grouplist">
+                <orientation>horizontal</orientation>
+                <itemgap>20</itemgap>
+                <height>40</height>
+                <left>40</left>
+                <bottom>30</bottom>
+                <align>left</align>
+                <include content="Item_Ratings_Legend_TVShowRatings">
+                    <param name="color">rating_9.5</param>
+                    <param name="label">$LOCALIZE[31193]</param>
+                </include>
+                <include content="Item_Ratings_Legend_TVShowRatings">
+                    <param name="color">rating_9</param>
+                    <param name="label">$LOCALIZE[31190]</param>
+                </include>
+                <include content="Item_Ratings_Legend_TVShowRatings">
+                    <param name="color">rating_8</param>
+                    <param name="label">$LOCALIZE[31182]</param>
+                </include>
+                <include content="Item_Ratings_Legend_TVShowRatings">
+                    <param name="color">rating_7</param>
+                    <param name="label">$LOCALIZE[31181]</param>
+                </include>
+                <include content="Item_Ratings_Legend_TVShowRatings">
+                    <param name="color">rating_6</param>
+                    <param name="label">$LOCALIZE[31093]</param>
+                </include>
+                <include content="Item_Ratings_Legend_TVShowRatings">
+                    <param name="color">rating_5</param>
+                    <param name="label">$LOCALIZE[31092]</param>
+                </include>
+                <include content="Item_Ratings_Legend_TVShowRatings">
+                    <param name="color">rating_4</param>
+                    <param name="label">$LOCALIZE[31089]</param>
+                </include>
+            </control>
+            <!-- Rating -->
+            <control type="grouplist">
+                <height>40</height>
+                <bottom>30</bottom>
+                <orientation>horizontal</orientation>
+                <itemgap>12</itemgap>
+                <right>40</right>
+                <align>right</align>
+                <control type="image">
+                    <width>32</width>
+                    <height>32</height>
+                    <aspectratio>keep</aspectratio>
+                    <centertop>52%</centertop>
+                    <texture colordiffuse="dialog_fg_90">$VAR[Image_Ratings_Provider_TVShowRatings]</texture>
+                    <visible>!Skin.String(InfoDialog.EpisodeRatings.Provider,IMDb)</visible>
+                </control>
+                <control type="image">
+                    <width>52</width>
+                    <height>32</height>
+                    <aspectratio>keep</aspectratio>
+                    <centertop>55%</centertop>
+                    <texture colordiffuse="dialog_fg_90">$VAR[Image_Ratings_Provider_TVShowRatings]</texture>
+                    <visible>Skin.String(InfoDialog.EpisodeRatings.Provider,IMDb)</visible>
+                </control>
+                <control type="label">
+                    <aligny>center</aligny>
+                    <label>$VAR[Label_Ratings_Provider_TVShowRatings]</label>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <font>font_main_bold</font>
+                    <width>auto</width>
+                    <textoffsetx>0</textoffsetx>
+                </control>
+            </control>
+        </control>
+        <include content="Dialog_Scrollbar_Max">
+            <param name="id">61</param>
+            <param name="inset">false</param>
+            <top>160</top>
+            <bottom>80</bottom>
         </include>
     </include>
 

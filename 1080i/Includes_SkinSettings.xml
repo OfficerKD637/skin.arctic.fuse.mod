@@ -532,11 +532,23 @@
             <onclick>ActivateWindow(1118)</onclick>
         </include>
 
-        <include content="Settings_Button" description="Show all ratings in plot dialog">
+        <include content="Settings_Button" description="CustomDialog Episode Ratings">
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
             <param name="id">014</param>
+            <onclick condition="String.IsEmpty(Skin.String(InfoDialog.EpisodeRatings.Provider))">Skin.SetString(InfoDialog.EpisodeRatings.Provider,IMDb)</onclick>
+            <onclick condition="Skin.String(InfoDialog.EpisodeRatings.Provider,IMDb)">Skin.SetString(InfoDialog.EpisodeRatings.Provider,Trakt)</onclick>
+            <onclick condition="Skin.String(InfoDialog.EpisodeRatings.Provider,Trakt)">Skin.Reset(InfoDialog.EpisodeRatings.Provider)</onclick>
+            <label>$LOCALIZE[31203] [LOWERCASE]$LOCALIZE[31202][/LOWERCASE] > $LOCALIZE[20359] $LOCALIZE[31202] $LOCALIZE[31486]</label>
+            <label2>$VAR[Label_Setting_EpisodeRating]</label2>
+        </include>
+
+        <include content="Settings_Button" description="Show all ratings in plot dialog">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">015</param>
             <param name="control">radiobutton</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <onclick>Skin.ToggleSetting(Info.EnableAllPlotRatings)</onclick>
@@ -548,7 +560,7 @@
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">015</param>
+            <param name="id">016</param>
             <param name="control">button</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <label>$LOCALIZE[126]</label>
@@ -562,7 +574,7 @@
             <param name="dialog">false</param>
             <param name="window">skinsettings</param>
             <param name="baseid">$PARAM[baseid]</param>
-            <param name="id">016</param>
+            <param name="id">017</param>
             <visible>!Skin.HasSetting(Info.DisableAllRatings)</visible>
             <param name="control">button</param>
             <label>$LOCALIZE[31192]</label>
