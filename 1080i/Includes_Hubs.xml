@@ -911,34 +911,38 @@
     </include>
 
     <include name="Hub_Info_Panel_Combined">
-        <control type="group">
+        <param name="details">True</param>
+        <definition>
             <control type="group">
-                <animation effect="slide" start="0,-260" end="0" time="400" tween="cubic" easing="out" reversible="false" condition="![$PARAM[slide]]">Conditional</animation>
-                <animation effect="slide" end="0,-260" start="0" delay="100" time="400" tween="cubic" easing="out" reversible="false" condition="[$PARAM[slide]]">Conditional</animation>
-                <include>Info_Panel_Dimensions</include>
                 <control type="group">
-                    <top>260</top>
+                    <animation effect="slide" start="0,-260" end="0" time="400" tween="cubic" easing="out" reversible="false" condition="![$PARAM[slide]]">Conditional</animation>
+                    <animation effect="slide" end="0,-260" start="0" delay="100" time="400" tween="cubic" easing="out" reversible="false" condition="[$PARAM[slide]]">Conditional</animation>
+                    <include>Info_Panel_Dimensions</include>
+                    <control type="group">
+                        <top>260</top>
+                        <include content="Info_Panel">
+                            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
+                            <param name="title">true</param>
+                            <param name="details">false</param>
+                            <param name="container">Container($PARAM[id]).</param>
+                        </include>
+                    </control>
+                </control>
+                <include content="Object_Control" condition="$PARAM[details]">
+                    <param name="control">group</param>
+                    <animation effect="fade" start="0" end="100" time="400" delay="200" tween="cubic" easing="in">Visible</animation>
+                    <visible>[$PARAM[slide]]</visible>
+                    <include>Info_Panel_Dimensions</include>
                     <include content="Info_Panel">
                         <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
-                        <param name="title">true</param>
-                        <param name="details">false</param>
+                        <param name="title">false</param>
+                        <param name="title_spacer">true</param>
+                        <param name="details">true</param>
                         <param name="container">Container($PARAM[id]).</param>
                     </include>
-                </control>
-            </control>
-            <control type="group">
-                <animation effect="fade" start="0" end="100" time="400" delay="200" tween="cubic" easing="in">Visible</animation>
-                <visible>[$PARAM[slide]]</visible>
-                <include>Info_Panel_Dimensions</include>
-                <include content="Info_Panel">
-                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
-                    <param name="title">false</param>
-                    <param name="title_spacer">true</param>
-                    <param name="details">true</param>
-                    <param name="container">Container($PARAM[id]).</param>
                 </include>
             </control>
-        </control>
+        </definition>
     </include>
 
     <include name="Hub_Widgets_Combined_Selector">
@@ -1028,7 +1032,10 @@
         <definition>
             <control type="group">
                 <height>1080</height>
-                <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+                <include content="Object_Visible" condition="![$PARAM[dimension_override]]">
+                    <param name="visible">$PARAM[visible]</param>
+                    <param name="allowhiddenfocus">$PARAM[allowhiddenfocus]</param>
+                </include>
                 <include content="$PARAM[include]" condition="$EXP[Exp_View_WallVert]">
                     <param name="id">$PARAM[id]</param>
                     <param name="control">panel</param>
@@ -1146,7 +1153,7 @@
                     <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</param>
                     <param name="include">$PARAM[include]</param>
                     <include content="Object_Top" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
-                        <param name="top">-106</param>
+                        <param name="top">-110</param>
                     </include>
                     <top>246</top>
                     <left>view_side</left>
@@ -1156,7 +1163,7 @@
                     <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</param>
                     <param name="include">$PARAM[include]</param>
                     <include content="Object_Top" condition="![$PARAM[dimension_override]] + !Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu)">
-                        <param name="top">236</param>
+                        <param name="top">240</param>
                     </include>
                     <top>596</top>
                     <left>view_side</left>
