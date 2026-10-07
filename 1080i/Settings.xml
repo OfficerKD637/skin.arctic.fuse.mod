@@ -23,6 +23,10 @@
                                     <label>$LOCALIZE[31538]</label>
                                     <onclick>ActivateWindow(skinsettings)</onclick>
                                 </item>
+                                <item id="4">
+                                    <label>$LOCALIZE[31062]</label>
+                                    <onclick>ActivateWindow(videos)</onclick>
+                                </item>
                                 <item id="2">
                                     <label>$LOCALIZE[14116]</label>
                                     <onclick>ActivateWindow(systeminfo)</onclick>
@@ -38,7 +42,7 @@
                         <control type="group">
                             <visible>Container(3).HasFocus(1)</visible>
                             <include content="List_DialogSelect">
-                                <param name="id">8000</param>
+                                <param name="id">8100</param>
                                 <param name="detailed">True</param>
                                 <param name="variation">True</param>
                                 <param name="item_height">120</param>
@@ -259,7 +263,7 @@
                         <control type="group">
                             <visible>Container(3).HasFocus(3)</visible>
                             <include content="List_DialogSelect">
-                                <param name="id">8001</param>
+                                <param name="id">8300</param>
                                 <param name="detailed">True</param>
                                 <param name="variation">True</param>
                                 <param name="item_height">120</param>
@@ -379,6 +383,68 @@
                                     </item>
                                 </content>
                             </include>
+
+                        </control>
+
+                        <control type="group">
+                            <visible>Container(3).HasFocus(4)</visible>
+
+                            <control type="scrollbar" id="65">
+                                <centerright>0</centerright>
+                                <width>scrollbar_w</width>
+                                <orientation>vertical</orientation>
+                                <texturesliderbackground />
+                                <texturesliderbar colordiffuse="main_logo" border="4">scrollbar/scrollv_line.png</texturesliderbar>
+                                <include>Texture_Scrollbar_V</include>
+                                <onleft>3</onleft>
+                                <onback>3</onback>
+                                <top>20</top>
+                                <bottom>20</bottom>
+                                <showonepage>true</showonepage>
+                            </control>
+
+                            <control type="list" id="8501">
+                                <include>Object_Hidden_List_Definition</include>
+                                <content>videodb://movies/titles</content>
+                            </control>
+                            <control type="list" id="8502">
+                                <include>Object_Hidden_List_Definition</include>
+                                <content>videodb://tvshows/titles</content>
+                            </control>
+                            <control type="list" id="8503">
+                                <include>Object_Hidden_List_Definition</include>
+                                <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=movie&amp;nextpage=false&amp;length=3</content>
+                            </control>
+                            <control type="list" id="8504">
+                                <include>Object_Hidden_List_Definition</include>
+                                <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=episode&amp;nextpage=false&amp;length=3</content>
+                            </control>
+                            <control type="list" id="8505">
+                                <include>Object_Hidden_List_Definition</include>
+                                <content>plugin://script.skinvariables/?info=get_filter_dir&amp;library=video&amp;sort_by=lastplayed&amp;sort_how=desc&amp;&amp;videodb://movies/titles/?xsp=%7B%22type%22%3A%22movies%22%2C%22order%22%3A%7B%22method%22%3A%22lastplayed%22%2C%22direction%22%3A%22descending%22%7D%7D&amp;&amp;videodb://tvshows/titles/?xsp=%7B%22type%22%3A%22tvshows%22%2C%22order%22%3A%7B%22method%22%3A%22lastplayed%22%2C%22direction%22%3A%22descending%22%7D%7D</content>
+                            </control>
+                            <control type="list" id="8506">
+                                <include>Object_Hidden_List_Definition</include>
+                                <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=both&amp;nextpage=false&amp;length=3</content>
+                            </control>
+
+                            <control type="grouplist">
+                                <pagecontrol>65</pagecontrol>
+                                <orientation>vertical</orientation>
+                                <itemgap>0</itemgap>
+                                <include content="Settings_Statistics">
+                                    <param name="source">TMDbHelper $LOCALIZE[31058]</param>
+                                    <param name="id1">8503</param>
+                                    <param name="id2">8504</param>
+                                    <param name="id3">8506</param>
+                                </include>
+                                <include content="Settings_Statistics">
+                                    <param name="source">Kodi $LOCALIZE[14022]</param>
+                                    <param name="id1">8501</param>
+                                    <param name="id2">8502</param>
+                                    <param name="id3">8505</param>
+                                </include>
+                            </control>
 
                         </control>
 
