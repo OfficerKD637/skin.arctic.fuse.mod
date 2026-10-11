@@ -4663,48 +4663,112 @@
         </definition>
     </include>
 
-    <include name="Label_Plot_Episode_Type_Number">
-        <include content="Object_Control" condition="Skin.HasSetting(Indicator.EpisodeTypeBanner)">
-            <param name="control">label</param>
-            <label>$LOCALIZE[31210]: $PARAM[label]</label>
+    <include name="Label_Plot_Episode_Type">
+        <control type="label">
+            <label>$LOCALIZE[31210]: </label>
             <visible>String.IsEqual($PARAM[container]ListItem.Property(episode_type),series_premiere)</visible>
             <nested />
-        </include>
-        <include content="Object_Control" condition="Skin.HasSetting(Indicator.EpisodeTypeBanner)">
-            <param name="control">label</param>
-            <label>$LOCALIZE[31211]: $PARAM[label]</label>
+        </control>
+        <control type="label">
+            <label>$LOCALIZE[31211]: </label>
             <visible>String.IsEqual($PARAM[container]ListItem.Property(episode_type),season_premiere)</visible>
             <nested />
-        </include>
-        <include content="Object_Control" condition="Skin.HasSetting(Indicator.EpisodeTypeBanner)">
-            <param name="control">label</param>
-            <label>$LOCALIZE[31212]: $PARAM[label]</label>
+        </control>
+        <control type="label">
+            <label>$LOCALIZE[31212]: </label>
             <visible>String.IsEqual($PARAM[container]ListItem.Property(episode_type),mid_season_premiere)</visible>
             <nested />
-        </include>
-        <include content="Object_Control" condition="Skin.HasSetting(Indicator.EpisodeTypeBanner)">
-            <param name="control">label</param>
-            <label>$LOCALIZE[31214]: $PARAM[label]</label>
+        </control>
+        <control type="label">
+            <label>$LOCALIZE[31214]: </label>
             <visible>String.IsEqual($PARAM[container]ListItem.Property(episode_type),series_finale)</visible>
             <nested />
-        </include>
-        <include content="Object_Control" condition="Skin.HasSetting(Indicator.EpisodeTypeBanner)">
-            <param name="control">label</param>
-            <label>$LOCALIZE[31215]: $PARAM[label]</label>
+        </control>
+        <control type="label">
+            <label>$LOCALIZE[31215]: </label>
             <visible>String.IsEqual($PARAM[container]ListItem.Property(episode_type),season_finale)</visible>
             <nested />
-        </include>
-        <include content="Object_Control" condition="Skin.HasSetting(Indicator.EpisodeTypeBanner)">
-            <param name="control">label</param>
-            <label>$LOCALIZE[31218]: $PARAM[label]</label>
+        </control>
+        <control type="label">
+            <label>$LOCALIZE[31218]: </label>
             <visible>String.IsEqual($PARAM[container]ListItem.Property(episode_type),mid_season_finale)</visible>
             <nested />
-        </include>
-        <control type="label">
-            <label>$PARAM[label]</label>
-            <visible>!Skin.HasSetting(Indicator.EpisodeTypeBanner) | String.IsEmpty($PARAM[container]ListItem.Property(episode_type)) | String.IsEqual($PARAM[container]ListItem.Property(episode_type),standard)</visible>
-            <nested />
         </control>
+    </include>
+
+    <include name="Label_Plot_Season_Number">
+        <include content="Object_Control" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Property(group_season),,x]</label>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Property(group_season))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Season,,x]</label>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Season)</visible>
+            <visible>String.IsEmpty($PARAM[container]ListItem.Property(group_season))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Property(group_season),S,]</label>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Property(group_season))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Season,S,]</label>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Season)</visible>
+            <visible>String.IsEmpty($PARAM[container]ListItem.Property(group_season))</visible>
+            <nested />
+        </include>
+    </include>
+
+    <include name="Label_Plot_Episode_Number">
+        <include content="Object_Control" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Property(group_episode),,. ]</label>
+            <visible>!Integer.IsLess($PARAM[container]ListItem.Property(group_episode),10)</visible>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Property(group_episode))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Property(group_episode),0,. ]</label>
+            <visible>Integer.IsLess($PARAM[container]ListItem.Property(group_episode),10)</visible>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Property(group_episode))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Episode,,. ]</label>
+            <visible>!Integer.IsLess($PARAM[container]ListItem.Episode,10)</visible>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Episode)</visible>
+            <visible>String.IsEmpty($PARAM[container]ListItem.Property(group_episode))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Episode,0,. ]</label>
+            <visible>Integer.IsLess($PARAM[container]ListItem.Episode,10)</visible>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Episode)</visible>
+            <visible>String.IsEmpty($PARAM[container]ListItem.Property(group_episode))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Property(group_episode),E,. ]</label>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Property(group_episode))</visible>
+            <nested />
+        </include>
+        <include content="Object_Control" condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+            <param name="control">label</param>
+            <label>$INFO[$PARAM[container]ListItem.Episode,E,. ]</label>
+            <visible>!String.IsEmpty($PARAM[container]ListItem.Episode)</visible>
+            <visible>String.IsEmpty($PARAM[container]ListItem.Property(group_episode))</visible>
+            <nested />
+        </include>
     </include>
 
     <include name="Info_Panel_Episode_Plot">
@@ -4728,56 +4792,70 @@
                     <param name="control">group</param>
                     <control type="group">
                         <visible>[!String.IsEmpty($PARAM[container]ListItem.Season) | !String.IsEmpty($PARAM[container]ListItem.Episode) | !String.IsEmpty($PARAM[container]ListItem.Title)]</visible>
-                        <include content="Label_Plot_Episode_Type_Number" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
-                            <param name="label">$INFO[$PARAM[container]ListItem.Season,,x]$INFO[$PARAM[container]ListItem.Episode,,. ]$INFO[$PARAM[container]ListItem.Title,,]</param>
-                            <param name="container">$PARAM[container]</param>
-                            <textcolor>$PARAM[colordiffuse]_90</textcolor>
-                            <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
-                                <param name="top">-40</param>
-                            </include>
-                            <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
-                                <param name="scroll">true</param>
-                            </include>
-                            <height>40</height>
-                            <font>font_main_bold</font>
+                        <control type="grouplist">
+                            <orientation>horizontal</orientation>
                             <width>$PARAM[plotwidth]</width>
-                            <visible>$PARAM[details]</visible>
-                            <visible>$PARAM[visible]</visible>
-                            <visible>!Integer.IsLess($PARAM[container]ListItem.Episode,10)</visible>
-                        </include>
-                        <include content="Label_Plot_Episode_Type_Number" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
-                            <param name="label">$INFO[$PARAM[container]ListItem.Season,,x]$INFO[$PARAM[container]ListItem.Episode,0,. ]$INFO[$PARAM[container]ListItem.Title,,]</param>
-                            <param name="container">$PARAM[container]</param>
-                            <textcolor>$PARAM[colordiffuse]_90</textcolor>
-                            <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
-                                <param name="top">-40</param>
+                            <include content="Label_Plot_Episode_Type" condition="Skin.HasSetting(Indicator.EpisodeTypeBanner)">
+                                <param name="container">$PARAM[container]</param>
+                                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                                    <param name="top">-40</param>
+                                </include>
+                                <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                                    <param name="scroll">true</param>
+                                </include>
+                                <height>40</height>
+                                <font>font_main_bold</font>
+                                <width>auto</width>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[visible]</visible>
                             </include>
-                            <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
-                                <param name="scroll">true</param>
+                            <include content="Label_Plot_Season_Number">
+                                <param name="container">$PARAM[container]</param>
+                                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                                    <param name="top">-40</param>
+                                </include>
+                                <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                                    <param name="scroll">true</param>
+                                </include>
+                                <height>40</height>
+                                <font>font_main_bold</font>
+                                <width>auto</width>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[visible]</visible>
                             </include>
-                            <height>40</height>
-                            <font>font_main_bold</font>
-                            <width>$PARAM[plotwidth]</width>
-                            <visible>$PARAM[details]</visible>
-                            <visible>$PARAM[visible]</visible>
-                            <visible>Integer.IsLess($PARAM[container]ListItem.Episode,10)</visible>
-                        </include>
-                        <include content="Label_Plot_Episode_Type_Number" condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">
-                            <param name="label">$INFO[$PARAM[container]ListItem.Season,S,]$INFO[$PARAM[container]ListItem.Episode,E,. ]$INFO[$PARAM[container]ListItem.Title,,]</param>
-                            <param name="container">$PARAM[container]</param>
-                            <textcolor>$PARAM[colordiffuse]_90</textcolor>
-                            <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
-                                <param name="top">-40</param>
+                            <include content="Label_Plot_Episode_Number">
+                                <param name="container">$PARAM[container]</param>
+                                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                                    <param name="top">-40</param>
+                                </include>
+                                <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                                    <param name="scroll">true</param>
+                                </include>
+                                <height>40</height>
+                                <font>font_main_bold</font>
+                                <width>auto</width>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[visible]</visible>
                             </include>
-                            <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
-                                <param name="scroll">true</param>
-                            </include>
-                            <height>40</height>
-                            <font>font_main_bold</font>
-                            <width>$PARAM[plotwidth]</width>
-                            <visible>$PARAM[details]</visible>
-                            <visible>$PARAM[visible]</visible>
-                        </include>
+                            <control type="label">
+                                <textcolor>$PARAM[colordiffuse]_90</textcolor>
+                                <label>$INFO[$PARAM[container]ListItem.Title]</label>
+                                <include content="Object_Top" condition="Skin.HasSetting(Info.DisableDetailsLine)">
+                                    <param name="top">-40</param>
+                                </include>
+                                <include content="Object_Scroll" condition="!Skin.HasSetting(Textboxes.DisableAutoscroll)">
+                                    <param name="scroll">true</param>
+                                </include>
+                                <height>40</height>
+                                <font>font_main_bold</font>
+                                <width>auto</width>
+                                <visible>$PARAM[details]</visible>
+                                <visible>$PARAM[visible]</visible>
+                            </control>
+                        </control>
                         <include content="Info_Panel_Textbox_Item">
                             <param name="top">40</param>
                             <param name="bottom">0</param>
