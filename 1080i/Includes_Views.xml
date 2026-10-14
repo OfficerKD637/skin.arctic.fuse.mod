@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="View_MediaWindows_ID">
-        <views>50,51,52,53,502,512,522,524,542,552,572,582,550,551,554,556,557,558,55,500,56,517,519,520,530,531,532,533,540,545,585,575,555,565,570,580,508,518,528,538,5008,5308,5318,5328,5338</views>
+        <views>50,51,52,53,502,512,522,524,542,552,572,582,550,551,554,556,559,557,558,55,500,56,517,519,520,530,531,532,533,540,545,585,575,535,555,565,570,580,508,518,528,538,5008,5308,5318,5328,5338</views>
     </include>
 
     <include name="View_Row_Header">
@@ -29,11 +29,11 @@
                             <param name="time">400</param>
                         </include>
                         <control type="group">
-                            <visible>[[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]]</visible>
+                            <visible>[[!$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]] | [[$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]] | [$EXP[Exp_View_Combined_WallMode] + $EXP[Exp_View_WallVert]]]</visible>
                             <include condition="Skin.HasSetting(Furniture.EnableLeftHeader)">Furniture_DateLabel_TopRight</include>
                         </control>
                         <control type="group">
-                            <visible>![[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</visible>
+                            <visible>![[[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)] | [$EXP[Exp_View_Combined_WallMode] + $EXP[Exp_View_WallVert]]]</visible>
                             <include condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">Furniture_DateLabel_TopRight</include>
                         </control>
                     </control>
@@ -96,6 +96,13 @@
             <onfocus condition="Control.IsVisible(542) + !Integer.IsEqual(Container(543).NumPages,1)">SetFocus(60)</onfocus>
             <onfocus condition="Control.IsVisible(552) + !Integer.IsEqual(Container(553).NumPages,1)">SetFocus(60)</onfocus>
             <onfocus condition="Control.IsVisible(572) + !Integer.IsEqual(Container(573).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(550) + !Integer.IsEqual(Container(560).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(551) + !Integer.IsEqual(Container(561).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(554) + !Integer.IsEqual(Container(564).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(556) + !Integer.IsEqual(Container(566).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(557) + !Integer.IsEqual(Container(567).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(558) + !Integer.IsEqual(Container(568).NumPages,1)">SetFocus(60)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + !Integer.IsEqual(Container(569).NumPages,1)">SetFocus(60)</onfocus>
             
             <!-- Explore -->
             <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
@@ -106,27 +113,33 @@
             <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(554) + Integer.IsEqual(Container(564).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</ondown>
             
             <!-- Filter -->
             <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Filter) + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
             <onfocus condition="!$EXP[Exp_View_CombinedMode] + Integer.IsEqual(Container.NumPages,1) + Skin.String(Navigation.Global.OnDown,Filter) + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
-            
-            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
-            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
-            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
-            <onfocus condition="Control.IsVisible(582) + Integer.IsEqual(Container(583).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
-            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
-            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
-            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
-            
-            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
-            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
-            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
-            <onfocus condition="Control.IsVisible(582) + Integer.IsEqual(Container(583).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
-            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
-            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
-            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)] + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
+
+            <onfocus condition="Control.IsVisible(502) + Integer.IsEqual(Container(503).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(512) + Integer.IsEqual(Container(513).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(522) + Integer.IsEqual(Container(523).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(582) + Integer.IsEqual(Container(583).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(554) + Integer.IsEqual(Container(564).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
             
             <ondown condition="[Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(19)</ondown>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Filter)">SetFocus(19)</ondown>
@@ -140,6 +153,13 @@
             <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(554) + Integer.IsEqual(Container(564).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</ondown>
             
             <!-- Bump -->
@@ -151,6 +171,13 @@
             <onfocus condition="Control.IsVisible(542) + Integer.IsEqual(Container(543).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
             <onfocus condition="Control.IsVisible(552) + Integer.IsEqual(Container(553).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
             <onfocus condition="Control.IsVisible(572) + Integer.IsEqual(Container(573).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(554) + Integer.IsEqual(Container(564).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</onfocus>
             <ondown condition="Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
             
             <!-- Wall -->
@@ -205,6 +232,7 @@
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + Control.IsVisible(556) + !Integer.IsEqual(Container(566).NumPages,1)">SetFocus(66)</onfocus>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + Control.IsVisible(557) + !Integer.IsEqual(Container(567).NumPages,1)">SetFocus(66)</onfocus>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + Control.IsVisible(558) + !Integer.IsEqual(Container(568).NumPages,1)">SetFocus(66)</onfocus>
+            <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + Control.IsVisible(559) + !Integer.IsEqual(Container(569).NumPages,1)">SetFocus(66)</onfocus>
 
             <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
@@ -212,6 +240,7 @@
             <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onfocus>
             
             <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
             <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
@@ -219,6 +248,7 @@
             <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
             <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
             <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onfocus>
 
             <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
@@ -226,6 +256,7 @@
             <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
             <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + Skin.String(Navigation.Global.OnDown,Explore)">SetFocus(67)</onfocus>
 
             <onfocus condition="Control.IsVisible(550) + Integer.IsEqual(Container(560).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
             <onfocus condition="Control.IsVisible(551) + Integer.IsEqual(Container(561).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
@@ -233,6 +264,7 @@
             <onfocus condition="Control.IsVisible(556) + Integer.IsEqual(Container(566).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
             <onfocus condition="Control.IsVisible(557) + Integer.IsEqual(Container(567).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
             <onfocus condition="Control.IsVisible(558) + Integer.IsEqual(Container(568).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
+            <onfocus condition="Control.IsVisible(559) + Integer.IsEqual(Container(569).NumPages,1) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(332)</onfocus>
 
             <onright condition="Skin.String(Navigation.Global.OnDown,Options)">ActivateWindow(1171)</onright>
             <onright condition="Control.IsVisible(524) + [Skin.String(Navigation.Global.OnDown,Filter) | Skin.String(Navigation.Global.OnDown,Wall)]">SetFocus(8000)</onright>
@@ -712,7 +744,7 @@
                     <top>view_pad</top>
                     <width>info_panel_w</width>
                     <left>view_side</left>
-                    <visible>[[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + [!$EXP[Exp_View_WallVert] | [$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)]]]</visible>
+                    <visible>[[!$EXP[Exp_View_WallVert] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]] | [[$EXP[Exp_View_WallVert] + !Skin.HasSetting(View.SwitchVerticalWallSize)] + [$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]] | [$EXP[Exp_View_Combined_WallMode] + $EXP[Exp_View_WallVert]]]</visible>
                 </include>
                 <include>View_Combined_Info_Panel</include>
                 <include>View_Combined_Wall_Info_Panel</include>
@@ -723,7 +755,7 @@
     <include name="View_Row_Items_ViewLine">
         <control type="group">
             <visible>!$EXP[Exp_View_CombinedMode]</visible>
-            <visible>![[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)]</visible>
+            <visible>![[[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]] + $EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize)] | [$EXP[Exp_View_Combined_WallMode] + $EXP[Exp_View_WallVert]]]</visible>
             <animation type="Conditional" reversible="false" condition="[$EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall]]">
                 <effect type="slide" end="0,-260" start="0" />
             </animation>
@@ -760,6 +792,7 @@
         <include condition="$EXP[Exp_View_551_Include]">View_551_Landscape_Combined_Wall</include>
         <include condition="$EXP[Exp_View_554_Include]">View_554_Poster_Combined_Wall</include>
         <include condition="$EXP[Exp_View_556_Include]">View_556_Flyer_Combined_Wall</include>
+        <include condition="$EXP[Exp_View_559_Include]">View_559_Folio_Combined_Wall</include>
         <include condition="$EXP[Exp_View_557_Include]">View_557_Circle_Combined_Wall</include>
         <include condition="$EXP[Exp_View_558_Include]">View_558_Board_Combined_Wall</include>
     </include>
@@ -783,6 +816,7 @@
         <include condition="$EXP[Exp_View_545_Include]">View_545_Landscape_Wall</include>
         <include condition="$EXP[Exp_View_585_Include]">View_585_Poster_Wall</include>
         <include condition="$EXP[Exp_View_575_Include]">View_575_Flyer_Wall</include>
+        <include condition="$EXP[Exp_View_535_Include]">View_535_Folio_Wall</include>
         <include condition="$EXP[Exp_View_555_Include]">View_555_Circle_Wall</include>
         <include condition="$EXP[Exp_View_565_Include]">View_565_Overview_Wall</include>
         <include condition="$EXP[Exp_View_570_Include]">View_570_Board_Wall</include>
@@ -1266,17 +1300,6 @@
             </control>
         </definition>
     </include>
-
-    <variable name="Label_RightFooter_ScrollbarOnFocus">
-        <value condition="Control.IsVisible(502)">$LOCALIZE[31135]$INFO[Container(503).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(503).NumPages]</value>
-        <value condition="Control.IsVisible(512)">$LOCALIZE[31135]$INFO[Container(513).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(513).NumPages]</value>
-        <value condition="Control.IsVisible(522)">$LOCALIZE[31135]$INFO[Container(523).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(523).NumPages]</value>
-        <value condition="Control.IsVisible(542)">$LOCALIZE[31135]$INFO[Container(543).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(543).NumPages]</value>
-        <value condition="Control.IsVisible(552)">$LOCALIZE[31135]$INFO[Container(553).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(553).NumPages]</value>
-        <value condition="Control.IsVisible(572)">$LOCALIZE[31135]$INFO[Container(573).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(573).NumPages]</value>
-        <value condition="Control.IsVisible(524)">$LOCALIZE[31135]$INFO[Container(526).CurrentPage, , $LOCALIZE[20163] ]$INFO[Container(526).NumPages]</value>
-        <value>$LOCALIZE[31135]$INFO[Container.CurrentPage, , $LOCALIZE[20163] ]$INFO[Container.NumPages]</value>
-    </variable>
 
     <include name="View_Bumper">
         <param name="groupid">320</param>

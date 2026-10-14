@@ -853,6 +853,7 @@
     <include name="Action_View_Movement_OnDown">
         <param name="condition">true</param>
         <param name="container">Container.</param>
+        <param name="filter_edit">!String.IsEmpty(Control.GetLabel(19).index(1))</param>
         <definition>
             <!-- Explore -->
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
@@ -879,8 +880,8 @@
             <!-- Wall -->
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual($PARAM[container]NumPages,1) + !$EXP[Exp_IsAlphabetStrip]">SetFocus(610)</ondown>
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual($PARAM[container]NumPages,1) + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</ondown>
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual($PARAM[container]NumPages,1) + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual($PARAM[container]NumPages,1) + !$PARAM[filter_edit]">SetFocus(8000)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Wall) + Integer.IsEqual($PARAM[container]NumPages,1) + $PARAM[filter_edit]">SetFocus(19)</ondown>
         </definition>
     </include>
 
@@ -1182,9 +1183,10 @@
 
     <variable name="Action_Shortcut_SetWidgetStyle">
         <value condition="String.IsEmpty(Container(22001).ListItem.Property(url))" />
+        <value condition="$EXP[Shortcuts_Dialog_Exp_WidgetWall]">RunPlugin($INFO[Container(22001).ListItem.Property(url)]&amp;func=do_edit&amp;&amp;widget_style&amp;&amp;$LOCALIZE[20021]=Poster&amp;$LOCALIZE[31170]=Flyer&amp;$LOCALIZE[31622]=Folio&amp;$LOCALIZE[31045]=Landscape&amp;$LOCALIZE[31320]=Square$VAR[Action_Shortcut_SetWidgetStyle_LargeSize]$VAR[Action_Shortcut_SetWidgetStyle_SmallSize]&amp;&amp;Style&amp;&amp;True)</value>
         <value>RunPlugin($INFO[Container(22001).ListItem.Property(url)]&amp;func=do_edit&amp;&amp;widget_style&amp;&amp;$LOCALIZE[20021]=Poster&amp;$LOCALIZE[31170]=Flyer&amp;$LOCALIZE[31045]=Landscape&amp;$LOCALIZE[31320]=Square$VAR[Action_Shortcut_SetWidgetStyle_LargeSize]$VAR[Action_Shortcut_SetWidgetStyle_SmallSize]&amp;&amp;Style&amp;&amp;True)</value>
     </variable>
-    
+
     <variable name="Action_RatingsMonitor">
         <value condition="Skin.String(CustomRating.Movies.Item01,TMDb)">Skin.Reset(TMDbHelper.DisableRatings)</value>
         <value condition="Skin.String(CustomRating.Movies.Item01,Trakt)">Skin.Reset(TMDbHelper.DisableRatings)</value>

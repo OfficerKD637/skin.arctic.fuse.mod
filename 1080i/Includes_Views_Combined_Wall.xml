@@ -41,6 +41,10 @@
         <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(558).ListItem.FolderPath) + Container(558).ListItem.IsFolder">$INFO[Container(558).ListItem.FolderPath]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
+    <variable name="View_569_Content">
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(559).ListItem.FolderPath) + Container(559).ListItem.IsFolder">$INFO[Container(559).ListItem.FolderPath]</value>
+        <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
+    </variable>
 
     <include name="View_Combined_Wall_Info_Panel">
         <include content="View_Combined_Wall_Info">
@@ -65,6 +69,10 @@
         </include>
         <include content="View_Combined_Wall_Info">
             <param name="id">8</param>
+            <param name="details">false</param>
+        </include>
+        <include content="View_Combined_Wall_Info">
+            <param name="id">9</param>
             <param name="details">false</param>
         </include>
     </include>
@@ -100,11 +108,6 @@
                         <onright condition="$EXP[Exp_IsAlphabetStrip] + !Integer.IsEqual(Container(56$PARAM[id]).NumPages,1)">SetFocus(616,$VAR[Action_Letter_Position],absolute)</onright>
                         <onright condition="![$EXP[Exp_IsAlphabetStrip] + !Integer.IsEqual(Container(56$PARAM[id]).NumPages,1)]">611</onright>
 
-                        <include content="Action_View_Movement_OnBack">
-                            <param name="id">$PARAM[id]</param>
-                            <param name="onback">[Integer.IsEqual(Container(56$PARAM[id]).CurrentItem,1)]</param>
-                        </include>
-
                         <pagecontrol>66</pagecontrol>
                         <visible>$PARAM[visible]</visible>
 
@@ -112,6 +115,8 @@
                         <onup>55$PARAM[id]</onup>
                         <ondown>SetFocus(56$PARAM[id],0,absolute)</ondown>
                         <ondown>55$PARAM[id]</ondown>
+                        <onback>SetFocus(56$PARAM[id],0,absolute)</onback>
+                        <onback>55$PARAM[id]</onback>
 
                         <animation type="Conditional" reversible="false" condition="Container(56$PARAM[id]).IsUpdating">
                             <effect type="fade" start="100" end="0" time="200" delay="600" />
@@ -139,13 +144,9 @@
                             <param name="right">$PARAM[right_padding]</param>
                         </include>
 
-                        <include content="Action_View_Movement_OnBack">
-                            <param name="id">$PARAM[id]</param>
-                            <param name="onback">[Integer.IsEqual(Container(56$PARAM[id]).CurrentItem,1)]</param>
-                        </include>
-
                         <include content="Action_View_Movement_OnDown">
-                            <param name="id">$PARAM[id]</param>
+                            <param name="container">Container(56$PARAM[id]).</param>
+                            <param name="filter_edit">false</param>
                         </include>
 
                         <pagecontrol>60</pagecontrol>
@@ -153,6 +154,8 @@
 
                         <onup>SetFocus(56$PARAM[id],0,absolute)</onup>
                         <onup>55$PARAM[id]</onup>
+                        <onback>SetFocus(56$PARAM[id],0,absolute)</onback>
+                        <onback>55$PARAM[id]</onback>
 
                         <animation type="Conditional" reversible="false" condition="Container(56$PARAM[id]).IsUpdating">
                             <effect type="fade" start="100" end="0" time="200" delay="600" />
@@ -179,8 +182,10 @@
                         <param name="label">$INFO[Container(55$PARAM[id]).ListItem.Label]</param>
                         <param name="visible">Container(56$PARAM[id]).IsUpdating</param>
                         <param name="include">$PARAM[include]</param>
+                        <param name="first_row_special">false</param>
                         <top>596</top>
                         <left>view_side</left>
+                        <animation effect="slide" end="0,-16" condition="Skin.String(Home.SideMenuCollapse,Never)">Conditional</animation>
                     </include>
                 </control>
                 <control type="group">
@@ -321,6 +326,15 @@
         </include>
     </include>
 
+    <!-- Combined Wall Folio -->
+    <include name="View_559_Folio_Combined_Wall">
+        <include content="View_Combined_Wall">
+            <param name="id">9</param>
+            <param name="include">List_Folio_Row</param>
+            <param name="icon">$VAR[Image_Poster_Combined_C569]</param>
+        </include>
+    </include>
+
     <!-- Combined Wall Circle -->
     <include name="View_557_Circle_Combined_Wall">
         <include content="View_Combined_Wall">
@@ -374,6 +388,12 @@
                 <param name="viewtype_label">$LOCALIZE[31619]</param>
                 <param name="visible">$EXP[Exp_View_558]</param>
             </include>
+            <include content="View_Combined_Wall_List_Horz" condition="$EXP[Exp_View_559_Include]">
+                <param name="id">9</param>
+                <param name="viewtype_label">$LOCALIZE[31621]</param>
+                <param name="visible">$EXP[Exp_View_559]</param>
+            </include>
         </control>
     </include>
+
 </includes>
