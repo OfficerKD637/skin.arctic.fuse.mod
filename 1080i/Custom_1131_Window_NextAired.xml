@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="window" id="1131">
-    <defaultcontrol always="true">5000</defaultcontrol>
+    <include content="Object_DefaultControl" condition="!String.IsEmpty(Skin.String(Hub.1131.WidgetMode))">
+        <param name="defaultcontrol">419</param>
+        <param name="always">true</param>
+    </include>
+    <include content="Object_DefaultControl" condition="String.IsEmpty(Skin.String(Hub.1131.WidgetMode))">
+        <param name="defaultcontrol">5000</param>
+        <param name="always">true</param>
+    </include>
     <menucontrol>303</menucontrol>
-    <onload>SetFocus($VAR[Action_Recommendations_SetFocusID])</onload>
     <onload condition="String.IsEmpty(Window(1131).TMDbHelper.WidgetContainer)">SetProperty(TMDbHelper.WidgetContainer,5001,1131)</onload>
+    <onload condition="String.IsEmpty(Skin.String(Hub.1131.WidgetMode))">AlarmClock(refocus,SetFocus($VAR[Action_Recommendations_SetFocusID]),00:00,silent)</onload>
+    <onload condition="!String.IsEmpty(Skin.String(Hub.1131.WidgetMode))">AlarmClock(refocus,SetFocus(419),00:00,silent)</onload>
     <onload condition="!$EXP[Exp_HomeMenu_IsStatic]">ClearProperty(SideMenu.HasFocus,Home)</onload>
     <onload condition="$EXP[Exp_HomeMenu_IsStatic]">SetProperty(SideMenu.HasFocus,True,Home)</onload>
     <controls>

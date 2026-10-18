@@ -1052,15 +1052,15 @@
         <param name="allowhiddenfocus">false</param>
         <param name="autoscroll">false</param>
         <param name="shortstack_enabled">false</param>
-        <param name="wall_textlabels_offset">false</param>
         <param name="custom_content">false</param>
         <param name="dimension_override">false</param>
+        <param name="conditional_fade">false</param>
         <definition>
             <control type="group">
                 <height>1080</height>
-                <include content="Object_Visible" condition="![$PARAM[dimension_override]]">
-                    <param name="visible">$PARAM[visible]</param>
-                    <param name="allowhiddenfocus">$PARAM[allowhiddenfocus]</param>
+                <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+                <include content="Animation_ConditionalFade">
+                    <param name="condition">$PARAM[conditional_fade]</param>
                 </include>
                 <include content="$PARAM[include]" condition="$EXP[Exp_View_WallVert]">
                     <param name="id">$PARAM[id]</param>
@@ -1084,6 +1084,7 @@
                     <top>306</top>
                     <bottom>-40</bottom>
                     <onup>$PARAM[menuid]</onup>
+                    <onback condition="$PARAM[dimension_override]">SetFocus($PARAM[id],0,absolute)</onback>
                     <onback condition="$PARAM[dimension_override]">$PARAM[backid]</onback>
                     <include content="Action_View_Movement_OnLeft">
                         <param name="id">$PARAM[id]</param>
@@ -1114,6 +1115,10 @@
                     <include condition="$PARAM[custom_content]">Weather_Details_HighLow_Items</include>
 
                     <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+
+                    <include content="Animation_ConditionalFade">
+                        <param name="condition">$PARAM[conditional_fade]</param>
+                    </include>
 
                     <include content="Defs_AutoScroll" condition="$PARAM[autoscroll]">
                         <param name="condition">[!Control.HasFocus($PARAM[id]) | System.IdleTime(3)]</param>
@@ -1139,6 +1144,7 @@
                     <top>306</top>
                     <bottom>-40</bottom>
                     <onup>$PARAM[menuid]</onup>
+                    <onback condition="$PARAM[dimension_override]">SetFocus($PARAM[id],0,absolute)</onback>
                     <onback condition="$PARAM[dimension_override]">$PARAM[backid]</onback>
                     <include content="Action_View_Movement_OnLeft">
                         <param name="id">$PARAM[id]</param>
@@ -1169,6 +1175,10 @@
                     <include condition="$PARAM[custom_content]">Weather_Details_HighLow_Items</include>
 
                     <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
+
+                    <include content="Animation_ConditionalFade">
+                        <param name="condition">$PARAM[conditional_fade]</param>
+                    </include>
 
                     <include content="Defs_AutoScroll" condition="$PARAM[autoscroll]">
                         <param name="condition">[!Control.HasFocus($PARAM[id]) | System.IdleTime(3)]</param>

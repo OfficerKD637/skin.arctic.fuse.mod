@@ -88,6 +88,7 @@
                 <include content="NetAired_Widget_EndRow_Selector">
                     <param name="window_id">1132</param>
                     <param name="busy_visible">[[Control.IsVisible(5001) + Container(5001).IsUpdating] | [Control.IsVisible(5002) + Container(5002).IsUpdating] | [Control.IsVisible(5003) + Container(5003).IsUpdating] | [Control.IsVisible(5004) + Container(5004).IsUpdating] | [Control.IsVisible(5005) + Container(5005).IsUpdating]]</param>
+                    <param name="busy_offset">true</param>
                     <include>Addons_Widget_EndRow_Selector_Items</include>
                 </include>
                 <top>hub_spotlight_t</top>
@@ -97,77 +98,19 @@
                 <include content="NextAired_GroupList">
                     <param name="visible">true</param>
                     <param name="window_id">1132</param>
-                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableVideo)">
-                        <param name="id">01</param>
-                        <param name="label">$LOCALIZE[1037]</param>
-                        <param name="visible">true</param>
-                        <param name="include">List_Square_Row</param>
+                    <include content="Addon_Widgets" condition="String.IsEmpty(Skin.String(Hub.1132.WidgetMode))">
                         <param name="window_id">1132</param>
-                        <param name="endrow_category">videos</param>
-                        <param name="sortby">lastused</param>
-                        <param name="sortorder">descending</param>
-                        <param name="target">videos</param>
-                        <param name="limit" />
-                        <param name="browse" />
-                        <param name="content">addons://sources/video/</param>
-                    </include>
-                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableMusic)">
-                        <param name="id">02</param>
-                        <param name="label">$LOCALIZE[1038]</param>
-                        <param name="visible">true</param>
-                        <param name="include">List_Square_Row</param>
-                        <param name="window_id">1132</param>
-                        <param name="endrow_category">music</param>
-                        <param name="sortby">lastused</param>
-                        <param name="sortorder">descending</param>
-                        <param name="target">music</param>
-                        <param name="limit" />
-                        <param name="browse" />
-                        <param name="content">addons://sources/audio/</param>
-                    </include>
-                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableProgram)">
-                        <param name="id">03</param>
-                        <param name="label">$LOCALIZE[1043]</param>
-                        <param name="visible">true</param>
-                        <param name="include">List_Square_Row</param>
-                        <param name="window_id">1132</param>
-                        <param name="endrow_category">programs</param>
-                        <param name="sortby">lastused</param>
-                        <param name="sortorder">descending</param>
-                        <param name="target">programs</param>
-                        <param name="limit" />
-                        <param name="browse" />
-                        <param name="content">addons://sources/executable/</param>
-                    </include>
-                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisablePicture)">
-                        <param name="id">04</param>
-                        <param name="label">$LOCALIZE[1]</param>
-                        <param name="visible">true</param>
-                        <param name="include">List_Square_Row</param>
-                        <param name="window_id">1132</param>
-                        <param name="endrow_category">pictures</param>
-                        <param name="sortby">lastused</param>
-                        <param name="sortorder">descending</param>
-                        <param name="target">pictures</param>
-                        <param name="limit" />
-                        <param name="browse" />
-                        <param name="content">addons://sources/image/</param>
-                    </include>
-                    <include content="NextAired_Widget" condition="!Skin.HasSetting(Hub.Addons.DisableGame)">
-                        <param name="id">05</param>
-                        <param name="label">$LOCALIZE[10821]</param>
-                        <param name="visible">true</param>
-                        <param name="include">List_Square_Row</param>
-                        <param name="window_id">1132</param>
-                        <param name="endrow_category">games</param>
-                        <param name="sortby">lastused</param>
-                        <param name="sortorder">descending</param>
-                        <param name="target">programs</param>
-                        <param name="limit" />
-                        <param name="browse" />
-                        <param name="content">addons://sources/game/</param>
                     </include>
                 </include>
+
+                <control type="group">
+                    <include content="Object_Top" condition="Skin.String(Hub.1132.WidgetMode,Combined)">
+                        <param name="top">hub_recommendations_widgets_grouplist_t</param>
+                    </include>
+                    <include content="Addon_Widgets" condition="!String.IsEmpty(Skin.String(Hub.$PARAM[window_id].WidgetMode))">
+                        <param name="window_id">1132</param>
+                    </include>
+                </control>
             </control>
         </include>
 
