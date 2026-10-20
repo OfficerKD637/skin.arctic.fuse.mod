@@ -2,19 +2,29 @@
 <includes>
 
     <include name="View_Combined_Info">
-        <include content="Info_Panel" condition="$EXP[Exp_View_$PARAM[id]2_Include]">
-            <param name="container">Container($PARAM[id]3).</param>
-            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</param>
-            <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
-                <param name="top">view_top</param>    
+        <param name="details">true</param>
+        <definition>
+            <include content="Info_Panel" condition="$EXP[Exp_View_$PARAM[id]2_Include]">
+                <param name="container">Container($PARAM[id]3).</param>
+                <param name="details">$PARAM[details]</param>
+                <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id]3)</param>
+                <include content="Object_Top" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">view_top</param>    
+                </include>
+                <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
+                    <param name="top">view_pad</param>    
+                </include>
+                <width>info_panel_w</width>
+                <left>view_side</left>
             </include>
-            <include content="Object_Top" condition="!Skin.HasSetting(Furniture.EnableLeftHeader)">
-                <param name="top">view_pad</param>    
-            </include>
-            <width>info_panel_w</width>
-            <left>view_side</left>
-        </include>
+        </definition>
     </include>
+
+    <variable name="View_Combined_SortBy">
+        <value condition="!String.IsEmpty(Container.PluginName)">none</value>
+        <value condition="Container.Content(seasons)">episode</value>
+        <value>title</value>
+    </variable>
 
     <variable name="View_503_Content">
         <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(502).ListItem.FolderPath) + Container(502).ListItem.IsFolder">$INFO[Container(502).ListItem.FolderPath]</value>
@@ -34,6 +44,10 @@
     </variable>
     <variable name="View_553_Content">
         <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(552).ListItem.FolderPath) + Container(552).ListItem.IsFolder">$INFO[Container(552).ListItem.FolderPath]</value>
+        <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
+    </variable>
+    <variable name="View_563_Content">
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(562).ListItem.FolderPath) + Container(562).ListItem.IsFolder">$INFO[Container(562).ListItem.FolderPath]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
     <variable name="View_573_Content">
@@ -60,6 +74,10 @@
         </include>
         <include content="View_Combined_Info">
             <param name="id">55</param>
+        </include>
+        <include content="View_Combined_Info">
+            <param name="id">56</param>
+            <param name="details">!Skin.HasSetting(Disable.ComboListDetailedView)</param>
         </include>
         <include content="View_Combined_Info">
             <param name="id">57</param>
@@ -113,7 +131,7 @@
                         <onclick condition="Container($PARAM[id]3).ListItem.IsFolder">Container.Update($INFO[Container($PARAM[id]3).ListItem.FolderPath])</onclick>
                         <onclick condition="Container($PARAM[id]3).ListItem.IsFolder">SetFocus(50)</onclick>
                         <onclick condition="!Container($PARAM[id]3).ListItem.IsFolder">PlayMedia($ESCINFO[Container($PARAM[id]3).ListItem.FileNameAndPath])</onclick>
-                        <content target="$VAR[Path_CollectionNode_Target]">$VAR[View_$PARAM[id]3_Content]</content>
+                        <content sortby="$VAR[View_Combined_SortBy]" target="$VAR[Path_CollectionNode_Target]">$VAR[View_$PARAM[id]3_Content]</content>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id]3)</onfocus>
                         <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
                         <include>Action_View_SlideOver_OnFocus</include>
@@ -223,6 +241,204 @@
                 </include>
             </control>
         </definition>
+    </include>
+
+    <include name="View_ComboList_Loading_Item">
+        <control type="group">
+            <top>40</top>
+            <left>40</left>
+            <height>233.33</height>
+            <control type="group">
+                <width>414.81</width>
+                <include content="Object_ItemBack">
+                    <param name="shadow_colordiffuse">shadow_soft</param>
+                    <param name="colordiffuse">main_fg_12</param>
+                </include>
+            </control>
+
+            <control type="group">
+                <left>414.81</left>
+                <top>-5</top>
+                <height>80</height>
+                <control type="group">
+                    <left>40</left>
+                    <top>20</top>
+                    <height>24</height>
+                    <include content="Object_Width" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="width">24%</param>
+                    </include>
+                    <width>40%</width>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <include content="Dimension_Padding">
+                            <param name="pad">-20</param>
+                        </include>
+                        <bordersize>20</bordersize>
+                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
+                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
+                    </include>
+                </control>
+
+                <control type="group">
+                    <left>40</left>
+                    <top>70</top>
+                    <height>135</height>
+                    <include content="Object_Width" condition="Skin.String(Home.SideMenuCollapse,Never)">
+                        <param name="width">64%</param>
+                    </include>
+                    <width>80%</width>
+                    <include content="Object_Control">
+                        <param name="control">image</param>
+                        <include content="Dimension_Padding">
+                            <param name="pad">-20</param>
+                        </include>
+                        <bordersize>20</bordersize>
+                        <bordertexture colordiffuse="shadow_soft" border="32">common/widget_text_shadow_20.png</bordertexture>
+                        <texture colordiffuse="main_fg_12" border="12">common/widget_text.png</texture>
+                    </include>
+                </control>
+            </control>
+        </control>
+    </include>
+
+    <include name="View_ComboList_Include">
+        <param name="width">620</param>
+        <definition>
+
+            <control type="group">
+                <visible>Control.IsVisible($PARAM[id]2)</visible>
+                <include>Dimension_Info</include>
+
+                <nested />
+
+                <control type="group">
+                
+                    <visible>!$EXP[Exp_InfoDialogs]</visible>
+
+                    <include content="Animation_Zoom_In">
+                        <param name="type">Visible</param>
+                        <param name="delay">200</param>
+                    </include>
+                    <include content="Animation_Zoom_Out">
+                        <param name="type">Hidden</param>
+                        <param name="delay">200</param>
+                    </include>
+                    
+                    <control type="group">                
+                        <width>$PARAM[width]</width>
+                        <bottom>20</bottom>
+                        <include content="Object_Top" condition="!Skin.HasSetting(Disable.ComboListDetailedView)">
+                            <param name="top">402</param>
+                        </include>
+                        <include content="Object_Top" condition="Skin.HasSetting(Disable.ComboListDetailedView)">
+                            <param name="top">180</param>
+                        </include>
+
+                        <include content="List_DialogSelect">
+                            <param name="id">$PARAM[id]2</param>
+                            <param name="textcolor">main_fg</param>
+                            <param name="control">list</param>
+                            <param name="itemlayout_include">Layout_MediaList</param>
+                            <param name="variation">true</param>
+
+                            <left>-20</left>
+                            <right>-80</right>
+
+                            <onleft>SetProperty(List.ViewContainer,50)</onleft>
+                            <onleft>SetFocus(303,1,absolute)</onleft>
+                            
+                            <onright>$PARAM[id]3</onright>
+
+                            <include content="Action_View_Movement_OnBack">
+                                <param name="id">$PARAM[id]2</param>
+                                <param name="onback">True</param>
+                            </include>
+
+                            <visible>$PARAM[visible]</visible>
+                            <viewtype label="$PARAM[viewtype_label]">list</viewtype>
+                            <top>15</top>
+                            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+                            <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                            <include>Action_View_SlideOver_OnFocus</include>
+                        </include>
+                    </control>
+
+                    <control type="group">
+                        <left>$PARAM[width]</left>
+                        <control type="group">
+                        
+                            <top>-90</top>
+                            <bottom>-30</bottom>
+                            <left>40</left>
+                            <right>-100</right>
+
+                            <include content="List_DialogSelect">
+                                <param name="id">$PARAM[id]3</param>
+                                <param name="textcolor">main_fg</param>
+                                <param name="control">fixedlist</param>
+                                <param name="itemlayout_include">Layout_ComboList_Detailed</param>
+                                <param name="variation">7</param>
+
+                                <param name="item_height">293.33</param>
+                                <param name="misc">414.81</param>                           
+
+                                <include content="Action_View_Movement_OnBack">
+                                    <param name="id">$PARAM[id]3</param>
+                                    <param name="onback">[Integer.IsEqual(Container($PARAM[id]3).CurrentItem,1)]</param>
+                                    <param name="backid">63</param>
+                                    <param name="always">true</param>
+                                </include>                            
+
+                                <animation type="Conditional" reversible="false" condition="Container($PARAM[id]3).IsUpdating">
+                                    <effect type="fade" start="100" end="0" time="200" delay="600" />
+                                </animation>
+
+                                <content sortby="$VAR[View_Combined_SortBy]" target="$VAR[Path_CollectionNode_Target]">$VAR[View_$PARAM[id]3_Content]</content>
+                                
+                                <onleft>$PARAM[id]2</onleft>
+                                <onright>66</onright>                            
+
+                                <focusposition>1</focusposition>
+                                <movement>1</movement>
+                                <pagecontrol>66</pagecontrol>
+
+                                <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id]3)</onfocus>
+                                <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                                <include>Action_View_SlideOver_OnFocus</include>
+                            </include>
+
+                            <control type="grouplist">
+                                <top>-10</top>
+                                <left>20</left>
+                                <orientation>vertical</orientation>
+
+                                <animation type="Conditional" reversible="false" condition="Container($PARAM[id]3).IsUpdating">
+                                    <effect type="fade" start="0" end="100" time="200" delay="600" />
+                                </animation>
+                                <animation type="Conditional" reversible="false" condition="!Container($PARAM[id]3).IsUpdating">
+                                    <effect type="fade" start="100" end="0" time="0" delay="0" />
+                                </animation>
+
+                                <itemgap>20</itemgap>
+
+                                <include>View_ComboList_Loading_Item</include>
+                                <include>View_ComboList_Loading_Item</include>
+                                <include>View_ComboList_Loading_Item</include>
+                            </control>
+                        </control>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <!-- Combo List -->
+    <include name="View_562_ComboList">
+        <include content="View_ComboList_Include">
+            <param name="id">56</param>
+            <param name="viewtype_label">$LOCALIZE[31588]</param>
+            <param name="visible">$EXP[Exp_View_562]</param>
+        </include>
     </include>
 
     <!-- Combined Square -->
