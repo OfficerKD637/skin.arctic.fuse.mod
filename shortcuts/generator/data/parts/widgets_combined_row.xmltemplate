@@ -1,0 +1,53 @@
+<include content="Widget_Row_Offset" condition="{widget_include_condition}">
+    <param name="id">{widget_id}</param>
+    <param name="groupid">{widget_group_id}</param>
+    <param name="label">{widget_label}</param>
+    <param name="labelinclude">Widget_Categories_Selector</param>
+    <param name="categoryid">8{widget_id}</param>
+    <param name="categorycontent">{widget_path}</param>
+    <param name="categorytarget">{widget_target}</param>
+    <param name="categoryonfocus">SetProperty(TMDbHelper.WidgetContainer,{widget_id})</param>
+    <param name="categoryonback">303</param>
+    <param name="labelvisible">[False]</param>
+    <param name="usewidgetlabel">{widget_usewidgetlabel}</param>
+    <param name="include">{widget_include}</param>
+    <param name="grouplistid">{grouplist_id}</param>
+    <param name="refocus">SetFocus(8{widget_id})</param>
+    <param name="include_onback">true</param>
+    <param name="detailed">{widget_detailed}</param>
+    <param name="visible">[{widget_category_visible}] + [{widget_visible}]</param>
+    <param name="altvisible">[{widget_altvisible}] | Container(8{widget_id}).IsUpdating | Integer.IsGreater(Container(8{widget_id}).NumItems,0)</param>
+    <param name="busy_isupdating">{widget_busy_isupdating}</param>
+    <param name="busy_visible">[Container(8{widget_id}).IsUpdating | Container({widget_id}).IsUpdating]</param>
+    <param name="shortstack_enabled">{widget_shortstack}</param>
+    <param name="shortstack_id">{widget_shortstack_id}</param>
+    <param name="shortstack_visible">{widget_shortstack_visible}</param>
+    <param name="widgetfade_include">{widget_widgetfade_include}</param>
+	<param name="widget_showoverlay">[[{grouplist_widgets_only}] + ![{grouplist_endrow_selector}] + Skin.HasSetting(Hub.{window_id}.EnableBasicWidgets)]</param>
+    <param name="widget_hideartwork">[[{grouplist_widgets_only}] + ![{grouplist_endrow_selector}] + !Skin.HasSetting(Widgets.DontHideArtworkOnClassic) + Skin.HasSetting(Hub.{window_id}.EnableBasicWidgets)]</param>
+
+    <description>{description}</description>
+
+	<include content="Widget_NoResults">
+         <param name="id">{widget_id}</param>
+    </include> 
+
+    <content sortby="{widget_sortby}" sortorder="{widget_sortorder}" target="{widget_target}" limit="{widget_limit}" browse="$VAR[Defs_BrowseLimitedLists]">$INFO[Container(8{widget_id}).ListItem.FolderPath]</content>
+
+    <include content="Defs_AutoScroll" condition="{widget_isautoscroll}">
+        <param name="condition">[!Control.HasFocus({widget_id}) | System.IdleTime(3)]</param>
+    </include>
+
+    <onup>8{widget_id}</onup>
+    <include content="Action_View_Movement_OnLeft">
+        <param name="id">{widget_id}</param>
+    </include>
+    <include content="Action_View_Movement_OnRight">
+        <param name="id">{widget_id}</param>
+    </include>
+
+    {widget_custom_onclick}
+    {widget_custom_onfocus}
+    {widget_custom_content}
+
+</include>

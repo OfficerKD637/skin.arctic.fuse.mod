@@ -51,6 +51,202 @@
         </definition>
     </include>
 
+    <include name="Widget_Categories_Selector">
+        <param name="categorytarget" />
+        <param name="labeltop">widget_label_t</param>
+        <param name="labelheight">widget_label_h</param>
+        <param name="widgettop">widget_items_t</param>
+        <param name="widgetheight">widget_items_h</param>
+        <param name="categoryonback">303</param>
+        <param name="categoryonfocus">noop</param>
+        <param name="categorycontentinclude">Widget_Categories_Content</param>
+        <param name="categorynavigationinclude">Widget_Categories_Navigation</param>
+        <param name="busy_top_padding">5</param>
+        <definition>
+            <include content="Widget_Label">
+                <param name="groupid">$PARAM[groupid]</param>
+                <param name="label">$PARAM[label]</param>
+                <param name="id">$PARAM[id]</param>
+                <param name="visible">$PARAM[visible]</param>
+                <param name="busy_visible">$PARAM[busy_visible]</param>
+                <param name="labelvisible">false</param>
+                <param name="labeltop">$PARAM[labeltop]</param>
+                <param name="labelheight">$PARAM[labelheight]</param>
+                <param name="include">$PARAM[include]</param>
+                <param name="busy_top_padding">$PARAM[busy_top_padding]</param>
+                <nested />
+                
+                <include content="Info_Viewline" condition="![$PARAM[usewidgetlabel]]">
+                    <param name="label">$PARAM[label]</param>
+                    <param name="item_condition">true</param>
+                    <param name="item_count">$INFO[Container($PARAM[categoryid]).NumItems]</param>
+                    <param name="item_updating">[Container($PARAM[categoryid]).IsUpdating | $PARAM[busy_visible]]</param>
+                    <param name="label_fallback">31282</param>
+                    <param name="run_spinner">Container($PARAM[categoryid]).IsUpdating</param>
+                    <top>22.5</top>
+                    <left>0</left>
+                    <visible>!Integer.IsGreater(Container($PARAM[categoryid]).NumItems,0)</visible>
+                </include>
+
+                <include content="Info_Viewline" condition="[$PARAM[usewidgetlabel]]">
+                    <param name="label">$INFO[Container($PARAM[categoryid]).ListItem.Property(widget)]</param>
+                    <param name="item_condition">true</param>
+                    <param name="item_count">$INFO[Container($PARAM[categoryid]).NumItems]</param>
+                    <param name="item_updating">[Container($PARAM[categoryid]).IsUpdating | $PARAM[busy_visible]]</param>
+                    <param name="label_fallback">$PARAM[label]</param>
+                    <param name="run_spinner">Container($PARAM[categoryid]).IsUpdating</param>
+                    <top>22.5</top>
+                    <left>0</left>
+                    <visible>!Integer.IsGreater(Container($PARAM[categoryid]).NumItems,0)</visible>
+                </include>
+                
+                <control type="group">
+                    <top>20</top>
+                    <height>40</height>
+                    <left>-20</left>
+                    <include content="Categories_Selector_FakeList" condition="!Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                        <param name="id">$PARAM[categoryid]</param>
+                        <param name="color_fo">main_fg_100</param>
+                        <param name="color_nf">main_fg_30</param>
+                        <param name="include_image">Skin.HasSetting(Views.UseAltCombined)</param>
+                        <param name="fake_underline_textcolor">$PARAM[fake_underline_textcolor]</param>
+                        <param name="extended">true</param>
+                        <param name="expanded">false</param>
+                        <param name="override">Skin.HasSetting(Views.UseAltCombined)</param>
+                        <param name="include_busy">true</param>
+                        <param name="busy_visible">Container($PARAM[id]).IsUpdating</param>
+                        <param name="busy_offset">Integer.IsGreater(Container($PARAM[id]).NumItems,0)</param>
+                        <param name="item_count">$INFO[Container($PARAM[id]).NumItems, (,)]</param>
+                        <param name="item_condition">true</param>
+                        <param name="library_condition">false</param>
+                        <visible>Integer.IsGreater(Container($PARAM[categoryid]).NumItems,0)</visible>
+                    </include>
+                </control>
+            </include>
+
+            <include content="Object_Control" condition="!Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                <param name="control">fixedlist</param>
+                <param name="id">$PARAM[categoryid]</param>
+                <orientation>horizontal</orientation>
+                <itemlayout width="200" height="80" />
+                <focusedlayout width="200" height="80" />
+                <preloaditems>0</preloaditems>
+                <scrolltime tween="quadratic">0</scrolltime>
+                <hitrect x="0" y="0" w="0" h="0" />
+                <height>$PARAM[widgetheight]</height>
+                <top>$PARAM[widgettop]</top>
+                <visible>$PARAM[visible]</visible>
+                <nested />
+                <include>Action_View_SlideOver_OnFocus</include>
+                <include content="Animation_ConditionalFade">
+                    <param name="condition">true</param>
+                </include>
+                <focusposition>0</focusposition>
+                <movement>4</movement>
+                <width>1000</width>
+                <include content="$PARAM[categorynavigationinclude]">
+                    <param name="id">$PARAM[id]</param>
+                </include>
+
+                <include content="$PARAM[categorycontentinclude]">
+                    <param name="categorycontent">$PARAM[categorycontent]</param>
+                    <param name="categorytarget">$PARAM[categorytarget]</param>
+                </include>
+
+                <onfocus>$PARAM[categoryonfocus]</onfocus>
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + $PARAM[widget_hideartwork]">SetProperty(Background.HideArtwork,True)</onfocus>
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + ![$PARAM[widget_hideartwork]]">ClearProperty(Background.HideArtwork)</onfocus>
+                
+                <onfocus condition="$EXP[Exp_InfoDialogs] + $PARAM[widget_hideartwork]">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
+                <onfocus condition="$EXP[Exp_InfoDialogs] + ![$PARAM[widget_hideartwork]]">ClearProperty(Background.DialogInfo.HideArtwork)</onfocus>
+
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + ![$PARAM[widget_showoverlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + $PARAM[widget_showoverlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
+                <include>Action_View_SlideOver_OnFocus</include>
+
+                <onback>$PARAM[categoryonback]</onback>
+
+                <onleft condition="$EXP[Exp_HomeMenu_IsStatic]">303</onleft>
+                <onleft condition="!$EXP[Exp_HomeMenu_IsStatic]">$PARAM[categoryid]</onleft>
+                <onright>$PARAM[categoryid]</onright>
+                <nested />
+            </include>
+
+
+            <include content="Categories_Iconic_Selector" condition="Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                <param name="id">$PARAM[categoryid]</param>
+                <param name="window_id">$PARAM[window_id]</param>
+                <param name="offset_x">view_button_offset_x</param>
+                <param name="offset_y">-8</param>
+                <param name="control">fixedlist</param>
+                <param name="slide">true</param>
+                <param name="slide_id">$PARAM[id]</param>
+                <param name="backing">true</param>
+                <param name="font">font_mini_bold</param>
+                <param name="color_fo">main_fg_30</param>
+                <param name="color_nf">main_fg_30</param>
+                <param name="hidden_button_enabled">false</param>
+                <param name="hitrect_x">0</param>
+                <param name="hitrect_y">0</param>
+                <param name="hitrect_w">0</param>
+                <param name="hitrect_h">0</param>
+
+                <visible>$PARAM[visible]</visible>
+                <include>Action_View_SlideOver_OnFocus</include>
+
+                <include content="$PARAM[categorynavigationinclude]">
+                    <param name="id">$PARAM[id]</param>
+                </include>
+
+                <include content="$PARAM[categorycontentinclude]">
+                    <param name="categorycontent">$PARAM[categorycontent]</param>
+                    <param name="categorytarget">$PARAM[categorytarget]</param>
+                </include>
+
+                <onfocus>$PARAM[categoryonfocus]</onfocus>
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + $PARAM[widget_hideartwork]">SetProperty(Background.HideArtwork,True)</onfocus>
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + ![$PARAM[widget_hideartwork]]">ClearProperty(Background.HideArtwork)</onfocus>
+                
+                <onfocus condition="$EXP[Exp_InfoDialogs] + $PARAM[widget_hideartwork]">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
+                <onfocus condition="$EXP[Exp_InfoDialogs] + ![$PARAM[widget_hideartwork]]">ClearProperty(Background.DialogInfo.HideArtwork)</onfocus>
+
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + ![$PARAM[widget_showoverlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
+                <onfocus condition="!$EXP[Exp_InfoDialogs] + $PARAM[widget_showoverlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+                <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
+                <include>Action_View_SlideOver_OnFocus</include>
+
+                <onback>$PARAM[categoryonback]</onback>
+
+                <onleft condition="$EXP[Exp_HomeMenu_IsStatic]">303</onleft>
+                <onleft condition="!$EXP[Exp_HomeMenu_IsStatic]">$PARAM[categoryid]</onleft>
+                <onright>$PARAM[categoryid]</onright>
+
+                <left>20</left>
+                <height>$PARAM[widgetheight]</height>
+                <top>$PARAM[widgettop]</top>
+                <nested />
+            </include>
+            
+            <control type="group" id="59$PARAM[categoryid]">
+                <top>-$PARAM[widgettop]</top>
+                <height>-$PARAM[widgetheight]</height>
+                <visible>$PARAM[visible]</visible>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Widget_Categories_Content">
+        <param name="categorytarget" />
+        <definition>
+            <content target="$PARAM[categorytarget]">$PARAM[categorycontent]</content>
+        </definition>
+    </include>
+
+    <include name="Widget_Categories_Navigation">
+        <ondown>$PARAM[id]</ondown>
+    </include>
+
     <include name="Widget_Content">
         <param name="visible">true</param>
         <param name="altvisible">false</param>
@@ -65,9 +261,12 @@
         <param name="conditional_fade">false</param>
         <param name="widgetfade_include">false</param>
         <param name="widget_hideartwork">false</param>
-        <param name="widget_showoverlay">false</param>        
+        <param name="widget_showoverlay">false</param>
+        <param name="labelinclude">Widget_Label</param>
+        <param name="categorytarget" />
+        <param name="categoryid">0</param>
         <definition>
-            <include content="Widget_Label">
+            <include content="$PARAM[labelinclude]">
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
                 <param name="id">$PARAM[id]</param>
@@ -79,12 +278,23 @@
                 <param name="labelheight">$PARAM[labelheight]</param>
                 <param name="busy_top_padding">$PARAM[busy_top_padding]</param>
                 <param name="include">$PARAM[include]</param>
+                <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
+                <param name="widgettop">$PARAM[widgettop]</param>
+                <param name="widgetheight">$PARAM[widgetheight]</param>
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
 
                 <include content="Animation_ConditionalFade">
                     <param name="condition">$PARAM[conditional_fade]</param>
                 </include>
                 <include content="Animation_Widget_FadeOut" condition="$PARAM[widgetfade_include]">
-                    <param name="condition">!Control.HasFocus($PARAM[id]) + !Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
+                    <param name="condition">!Control.HasFocus($PARAM[id]) + !Control.HasFocus($PARAM[categoryid]) + !Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
                 </include>
             </include>
             <include content="$PARAM[include]">
@@ -995,11 +1205,14 @@
         <param name="widgettop">widget_items_t</param>
         <param name="widgetheight">widget_items_h</param>
         <param name="labelvisible">true</param>
+        <param name="categorytarget" />
+        <param name="categorynavigationinclude">Widget_Categories_Navigation</param>
         <definition>
             <include content="Widget_Content">
                 <param name="id">$PARAM[id]</param>
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="labelinclude">$PARAM[labelinclude]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
                 <param name="include">$PARAM[include]</param>
@@ -1020,7 +1233,14 @@
                 <param name="conditional_fade">$PARAM[conditional_fade]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
-                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>                
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
                 <nested />
             </include>
         </definition>
@@ -1096,11 +1316,13 @@
 
     <include name="Widget_Row">
         <param name="grouplistid">5000</param>
+        <param name="categorytarget" />
         <definition>
             <include content="_Widget_Row">
                 <param name="id">$PARAM[id]</param>
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="labelinclude">$PARAM[labelinclude]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="include">$PARAM[include]</param>
@@ -1114,7 +1336,14 @@
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
-                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>                
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
 
                 <include content="Action_Widget_OnBack">
                     <param name="id">$PARAM[id]</param>
@@ -1132,11 +1361,13 @@
     <include name="Widget_Row_Offset">
         <param name="grouplistid">5000</param>
         <param name="include_onback">true</param>
+        <param name="categorytarget" />
         <definition>
-            <include content="_Widget_Row" condition="![Skin.String(Home.SideMenuCollapse,Library) | Skin.String(Home.SideMenuCollapse,Hubs)]">
+            <include content="_Widget_Row" condition="!$EXP[Exp_HomeMenu_IsStatic]">
                 <param name="id">$PARAM[id]</param>
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="labelinclude">$PARAM[labelinclude]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="include">$PARAM[include]</param>
@@ -1145,13 +1376,20 @@
                 <param name="altvisible">$PARAM[altvisible]</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="busy_isupdating">$PARAM[busy_isupdating]</param>
-                <param name="busy_visible">[Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Label,$LOCALIZE[31046]) + Container($PARAM[id]).IsUpdating]]</param>
+                <param name="busy_visible">$PARAM[busy_visible]</param>
                 <param name="shortstack_id">$PARAM[shortstack_id]</param>
                 <param name="shortstack_visible">$PARAM[shortstack_visible]</param>
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
-                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>                
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
 
                 <include content="Action_Widget_OnBack" condition="$PARAM[include_onback]">
                     <param name="id">$PARAM[id]</param>
@@ -1166,10 +1404,11 @@
 
                 <nested />
             </include>
-            <include content="_Widget_Row" condition="[Skin.String(Home.SideMenuCollapse,Library) | Skin.String(Home.SideMenuCollapse,Hubs)]">
+            <include content="_Widget_Row" condition="$EXP[Exp_HomeMenu_IsStatic]">
                 <param name="id">$PARAM[id]</param>
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="labelinclude">$PARAM[labelinclude]</param>
                 <param name="labelvisible">$PARAM[labelvisible]</param>
                 <param name="usewidgetlabel">$PARAM[usewidgetlabel]</param>
                 <param name="include">$PARAM[include]</param>
@@ -1184,7 +1423,14 @@
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
-                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>                
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
 
                 <include content="Action_Widget_OnBack" condition="$PARAM[include_onback]">
                     <param name="id">$PARAM[id]</param>
@@ -1209,11 +1455,14 @@
         <param name="backid">5000</param>
         <param name="include_movement">true</param>
         <param name="include_noresults">false</param>
+        <param name="categorytarget" />
+        <param name="categorynavigationinclude">Widget_Categories_Navigation</param>
         <definition>
             <include content="_Widget_Row">
                 <param name="id">$PARAM[baseid]$PARAM[id]</param>
                 <param name="groupid">$PARAM[basegroupid]$PARAM[id]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="labelinclude">$PARAM[labelinclude]</param>
                 <param name="include">$PARAM[include]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
                 <param name="visible">$PARAM[visible]</param>
@@ -1231,7 +1480,14 @@
                 <param name="conditional_fade">$PARAM[conditional_fade]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
-                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>                
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
 
                 <include content="Action_View_Movement_OnLeftRight" condition="$PARAM[include_movement]">
                     <param name="id">$PARAM[baseid]$PARAM[id]</param>
@@ -1240,7 +1496,7 @@
                     <param name="onback">[Integer.IsEqual(Container($PARAM[baseid]$PARAM[id]).CurrentItem,1)]</param>
                 </include>
                 <onfocus condition="$PARAM[set_widgetcontainer]">SetProperty(TMDbHelper.WidgetContainer,$PARAM[baseid]$PARAM[id])</onfocus>
-                
+
                 <include content="Widget_NoResults">
                     <param name="id">$PARAM[baseid]$PARAM[id]</param>
                     <param name="include_condition">$PARAM[include_noresults]</param>
@@ -1258,11 +1514,14 @@
         <param name="backid">5000</param>
         <param name="include_movement">true</param>
         <param name="include_noresults">false</param>
+        <param name="categorytarget" />
+        <param name="categorynavigationinclude">Widget_Categories_Navigation</param>
         <definition>
             <include content="_Widget_Row" condition="![$EXP[Exp_HomeMenu_IsStatic]]">
                 <param name="id">$PARAM[baseid]$PARAM[id]</param>
                 <param name="groupid">$PARAM[basegroupid]$PARAM[id]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="labelinclude">$PARAM[labelinclude]</param>
                 <param name="include">$PARAM[include]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
                 <param name="visible">$PARAM[visible]</param>
@@ -1279,7 +1538,14 @@
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
-                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>                
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
 
                 <include content="Action_View_Movement_OnLeftRight" condition="$PARAM[include_movement]">
                     <param name="id">$PARAM[baseid]$PARAM[id]</param>
@@ -1300,6 +1566,7 @@
                 <param name="id">$PARAM[baseid]$PARAM[id]</param>
                 <param name="groupid">$PARAM[basegroupid]$PARAM[id]</param>
                 <param name="label">$PARAM[label]</param>
+                <param name="labelinclude">$PARAM[labelinclude]</param>
                 <param name="include">$PARAM[include]</param>
                 <param name="offset_x">40</param>
                 <param name="visible">$PARAM[visible]</param>
@@ -1316,7 +1583,14 @@
                 <param name="shortstack_enabled">$PARAM[shortstack_enabled]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
-                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>                
+                <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
+                <param name="categoryid">$PARAM[categoryid]</param>
+                <param name="categorytarget">$PARAM[categorytarget]</param>
+                <param name="categorycontent">$PARAM[categorycontent]</param>
+                <param name="categorycontentinclude">$PARAM[categorycontentinclude]</param>
+                <param name="categoryonback">$PARAM[categoryonback]</param>
+                <param name="categoryonfocus">$PARAM[categoryonfocus]</param>
+                <param name="categorynavigationinclude">$PARAM[categorynavigationinclude]</param>
 
                 <include content="Action_View_Movement_OnLeftRight" condition="$PARAM[include_movement]">
                     <param name="id">$PARAM[baseid]$PARAM[id]</param>
@@ -1482,9 +1756,6 @@
     </include>
 
     <include name="Widget_EndRow_Selector_Def">
-        <!-- Refocus position hack -->
-        <onfocus condition="!Skin.HasSetting(Hub.$PARAM[window_id].DisableSubmenu) + Skin.String(Hub.$PARAM[window_id].WidgetMode,Combined) + !String.IsEmpty(Window.Property(AdaptiveWidgets.HasFocus))">RunScript(script.skinvariables,run_executebuiltin=Action(Down)||sleep=0.1||SetFocus($PARAM[id]))</onfocus>
-
         <onfocus condition="Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
         <onfocus condition="!Skin.String(Hub.$PARAM[window_id].WidgetMode,Wall)">ClearProperty(Background.ShowOverlay,Home)</onfocus>
         <onfocus>SetProperty(EndRow.HasFocus,$PARAM[id])</onfocus>
