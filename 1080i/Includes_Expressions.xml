@@ -380,7 +380,7 @@
          Countries spanning the equator use their predominantly southern location.
          Other or unknown regions use northern seasons. -->
     <expression name="Exp_StartUp_SouthernHemisphere">
-        String.IsEqual(System.Locale(iso),AU) | String.IsEqual(System.Locale(iso),AUS) |
+        [String.IsEqual(System.Locale(iso),AU) | String.IsEqual(System.Locale(iso),AUS) |
         String.IsEqual(System.Locale(iso),NZ) | String.IsEqual(System.Locale(iso),NZL) |
         String.IsEqual(System.Locale(iso),ZA) | String.IsEqual(System.Locale(iso),ZAF) |
         String.IsEqual(System.Locale(iso),AR) | String.IsEqual(System.Locale(iso),ARG) |
@@ -441,17 +441,34 @@
         String.IsEqual(System.Locale(iso),WF) | String.IsEqual(System.Locale(iso),WLF) |
         String.IsEqual(System.Locale(iso),PN) | String.IsEqual(System.Locale(iso),PCN) |
         String.IsEqual(System.Locale(iso),TF) | String.IsEqual(System.Locale(iso),ATF) |
-        String.IsEqual(System.Locale(iso),KE) | String.IsEqual(System.Locale(iso),KEN)
+        String.IsEqual(System.Locale(iso),KE) | String.IsEqual(System.Locale(iso),KEN)]
     </expression>
-    
-    <!-- Registered 1920x1080 image layers. All scene lighting is authored in the WebP/PNG/JPG files. -->
+
+    <!-- Local 24-hour ranges shared by the startup layer selectors. -->
+    <expression name="Exp_StartUp_Time_BeforeDawn">System.Time(00:00,05:00)</expression>
+    <expression name="Exp_StartUp_Time_DawnToDusk">System.Time(06:00,18:00)</expression>
+    <expression name="Exp_StartUp_Time_Daytime">System.Time(08:00,17:00)</expression>
+    <expression name="Exp_StartUp_Time_0500_0600">System.Time(05:00,06:00)</expression>
+    <expression name="Exp_StartUp_Time_0600_0700">System.Time(06:00,07:00)</expression>
+    <expression name="Exp_StartUp_Time_0700_0800">System.Time(07:00,08:00)</expression>
+    <expression name="Exp_StartUp_Time_1700_1800">System.Time(17:00,18:00)</expression>
+    <expression name="Exp_StartUp_Time_1800_1900">System.Time(18:00,19:00)</expression>
+    <expression name="Exp_StartUp_Time_1900_2000">System.Time(19:00,20:00)</expression>
+    <!-- Registered 1920x1080 image layers with separate animated weather overlays. -->
     <!-- Kodi weather codes: https://kodi.wiki/view/Weather_addons#Weather_Codes -->
-    <expression name="Exp_StartUp_CustomImage">!String.IsEmpty(Skin.String(Startup.ImageFolder)) + !Skin.String(Startup.ImageFolder,special://skin/extras/backgrounds/launch/)</expression>
-    <expression name="Exp_StartUp_Weather_Thunderstorm">String.IsEqual(Weather.FanartCode,0) | String.IsEqual(Weather.FanartCode,00) | String.IsEqual(Weather.FanartCode,1) | String.IsEqual(Weather.FanartCode,01) | String.IsEqual(Weather.FanartCode,2) | String.IsEqual(Weather.FanartCode,02) | String.IsEqual(Weather.FanartCode,3) | String.IsEqual(Weather.FanartCode,03) | String.IsEqual(Weather.FanartCode,4) | String.IsEqual(Weather.FanartCode,04) | String.IsEqual(Weather.FanartCode,37) | String.IsEqual(Weather.FanartCode,38) | String.IsEqual(Weather.FanartCode,39) | String.IsEqual(Weather.FanartCode,45) | String.IsEqual(Weather.FanartCode,47)</expression>
-    <expression name="Exp_StartUp_Weather_Hazy">String.IsEqual(Weather.FanartCode,19) | String.IsEqual(Weather.FanartCode,20) | String.IsEqual(Weather.FanartCode,21) | String.IsEqual(Weather.FanartCode,22)</expression>
-    <expression name="Exp_StartUp_Weather_Rain">String.IsEqual(Weather.FanartCode,5) | String.IsEqual(Weather.FanartCode,05) | String.IsEqual(Weather.FanartCode,6) | String.IsEqual(Weather.FanartCode,06) | String.IsEqual(Weather.FanartCode,7) | String.IsEqual(Weather.FanartCode,07) | String.IsEqual(Weather.FanartCode,8) | String.IsEqual(Weather.FanartCode,08) | String.IsEqual(Weather.FanartCode,9) | String.IsEqual(Weather.FanartCode,09) | String.IsEqual(Weather.FanartCode,10) | String.IsEqual(Weather.FanartCode,11) | String.IsEqual(Weather.FanartCode,12) | String.IsEqual(Weather.FanartCode,17) | String.IsEqual(Weather.FanartCode,18) | String.IsEqual(Weather.FanartCode,35) | String.IsEqual(Weather.FanartCode,40)</expression>
-    <expression name="Exp_StartUp_Weather_Cloud">String.IsEqual(Weather.FanartCode,13) | String.IsEqual(Weather.FanartCode,14) | String.IsEqual(Weather.FanartCode,15) | String.IsEqual(Weather.FanartCode,16) | String.IsEqual(Weather.FanartCode,23) | String.IsEqual(Weather.FanartCode,26) | String.IsEqual(Weather.FanartCode,27) | String.IsEqual(Weather.FanartCode,28) | String.IsEqual(Weather.FanartCode,29) | String.IsEqual(Weather.FanartCode,30) | String.IsEqual(Weather.FanartCode,41) | String.IsEqual(Weather.FanartCode,42) | String.IsEqual(Weather.FanartCode,43) | String.IsEqual(Weather.FanartCode,44) | String.IsEqual(Weather.FanartCode,46)</expression>
+    <expression name="Exp_StartUp_CustomImage">[!String.IsEmpty(Skin.String(Startup.ImageFolder)) + !Skin.String(Startup.ImageFolder,special://skin/extras/backgrounds/launch/)]</expression>
+    <!-- Severe thunderstorms share lightning with storms and precipitation with heavy rain. -->
+    <expression name="Exp_StartUp_Weather_SevereThunderstorm">[String.IsEqual(Weather.FanartCode,3) | String.IsEqual(Weather.FanartCode,03)]</expression>
+    <expression name="Exp_StartUp_Weather_Thunderstorm">[String.IsEqual(Weather.FanartCode,0) | String.IsEqual(Weather.FanartCode,00) | String.IsEqual(Weather.FanartCode,1) | String.IsEqual(Weather.FanartCode,01) | String.IsEqual(Weather.FanartCode,2) | String.IsEqual(Weather.FanartCode,02) | String.IsEqual(Weather.FanartCode,3) | String.IsEqual(Weather.FanartCode,03) | String.IsEqual(Weather.FanartCode,4) | String.IsEqual(Weather.FanartCode,04) | String.IsEqual(Weather.FanartCode,37) | String.IsEqual(Weather.FanartCode,38) | String.IsEqual(Weather.FanartCode,39) | String.IsEqual(Weather.FanartCode,45) | String.IsEqual(Weather.FanartCode,47)]</expression>
+    <expression name="Exp_StartUp_Weather_Hazy">[String.IsEqual(Weather.FanartCode,19) | String.IsEqual(Weather.FanartCode,20) | String.IsEqual(Weather.FanartCode,21) | String.IsEqual(Weather.FanartCode,22)]</expression>
+    <!-- Strong showers and severe storms use heavy rain; storm visibility also gates foliage. -->
+    <expression name="Exp_StartUp_Weather_HeavyRain">[String.IsEqual(Weather.FanartCode,12) | $EXP[Exp_StartUp_Weather_SevereThunderstorm]]</expression>
+    <expression name="Exp_StartUp_Weather_Rain">[String.IsEqual(Weather.FanartCode,6) | String.IsEqual(Weather.FanartCode,06) | String.IsEqual(Weather.FanartCode,8) | String.IsEqual(Weather.FanartCode,08) | String.IsEqual(Weather.FanartCode,9) | String.IsEqual(Weather.FanartCode,09) | String.IsEqual(Weather.FanartCode,10) | String.IsEqual(Weather.FanartCode,11) | String.IsEqual(Weather.FanartCode,12) | String.IsEqual(Weather.FanartCode,17) | String.IsEqual(Weather.FanartCode,18) | String.IsEqual(Weather.FanartCode,35) | String.IsEqual(Weather.FanartCode,40)]</expression>
+    <expression name="Exp_StartUp_Weather_Windy">[String.IsEqual(Weather.FanartCode,23) | String.IsEqual(Weather.FanartCode,24)]</expression>
+    <expression name="Exp_StartUp_Weather_Cloud">[String.IsEqual(Weather.FanartCode,26) | String.IsEqual(Weather.FanartCode,27) | String.IsEqual(Weather.FanartCode,28)]</expression>
+    <expression name="Exp_StartUp_Weather_PartlyCloudy">[String.IsEqual(Weather.FanartCode,29) | String.IsEqual(Weather.FanartCode,30) | String.IsEqual(Weather.FanartCode,44)]</expression>
+    <expression name="Exp_StartUp_Weather_Snow">[String.IsEqual(Weather.FanartCode,5) | String.IsEqual(Weather.FanartCode,05) | String.IsEqual(Weather.FanartCode,7) | String.IsEqual(Weather.FanartCode,07) | String.IsEqual(Weather.FanartCode,13) | String.IsEqual(Weather.FanartCode,14) | String.IsEqual(Weather.FanartCode,15) | String.IsEqual(Weather.FanartCode,16) | String.IsEqual(Weather.FanartCode,41) | String.IsEqual(Weather.FanartCode,42) | String.IsEqual(Weather.FanartCode,43) | String.IsEqual(Weather.FanartCode,46)]</expression>
     <!-- Exact string matches keep missing, na and malformed codes out of numeric code 0 (tornado). -->
-    <expression name="Exp_StartUp_Weather_Clear">![$EXP[Exp_StartUp_Weather_Thunderstorm] | $EXP[Exp_StartUp_Weather_Hazy] | $EXP[Exp_StartUp_Weather_Rain] | $EXP[Exp_StartUp_Weather_Cloud]]</expression>
+    <expression name="Exp_StartUp_Weather_Clear">[![$EXP[Exp_StartUp_Weather_Thunderstorm] | $EXP[Exp_StartUp_Weather_Hazy] | $EXP[Exp_StartUp_Weather_Rain] | $EXP[Exp_StartUp_Weather_Snow] | $EXP[Exp_StartUp_Weather_Cloud] | $EXP[Exp_StartUp_Weather_PartlyCloudy] | $EXP[Exp_StartUp_Weather_Windy]]]</expression>
 
 </includes>

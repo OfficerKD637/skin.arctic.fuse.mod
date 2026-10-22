@@ -474,58 +474,83 @@
     </variable>
 
     <variable name="Image_StartUp_Weather">
+        <value condition="$EXP[Exp_StartUp_Weather_SevereThunderstorm]">severethunderstorm</value>
+        <value condition="$EXP[Exp_StartUp_Weather_Windy]">windy</value>
         <value condition="$EXP[Exp_StartUp_Weather_Thunderstorm]">thunderstorm</value>
         <value condition="$EXP[Exp_StartUp_Weather_Hazy]">hazy</value>
+        <value condition="$EXP[Exp_StartUp_Weather_HeavyRain]">heavyrain</value>
         <value condition="$EXP[Exp_StartUp_Weather_Rain]">rain</value>
+        <value condition="$EXP[Exp_StartUp_Weather_Snow]">snow</value>
         <value condition="$EXP[Exp_StartUp_Weather_Cloud]">cloud</value>
+        <value condition="$EXP[Exp_StartUp_Weather_PartlyCloudy]">partlycloudy</value>
         <value>clear</value>
     </variable>
-    <!-- Hour aliases reuse identical plates. Conditions are copied from the existing local-hour selector. -->
+    <!-- Wind reuses cloud plates; snow reuses overcast rain plates; storm bolts appear only during flashes. -->
+    <variable name="Image_StartUp_Layer_BaseWeather">
+        <value condition="$EXP[Exp_StartUp_Weather_Windy]">cloud</value>
+        <value condition="$EXP[Exp_StartUp_Weather_Thunderstorm] | $EXP[Exp_StartUp_Weather_Snow] | $EXP[Exp_StartUp_Weather_HeavyRain]">rain</value>
+        <value condition="$EXP[Exp_StartUp_Weather_PartlyCloudy]">clear</value>
+        <value>$VAR[Image_StartUp_Weather]</value>
+    </variable>
+    <!-- Scale the original cloud plates; hazy retains its baked-in 40% opacity. -->
+    <variable name="Color_StartUp_Clouds">
+        <value condition="$EXP[Exp_StartUp_Weather_Clear]">1affffff</value>
+        <value condition="$EXP[Exp_StartUp_Weather_PartlyCloudy]">99ffffff</value>
+        <value condition="$EXP[Exp_StartUp_Weather_Cloud] | $EXP[Exp_StartUp_Weather_Windy]">e6ffffff</value>
+        <value>ffffffff</value>
+    </variable>
+    <variable name="Color_StartUp_CloudReflection">
+        <value condition="$EXP[Exp_StartUp_Weather_Clear]">04ffffff</value>
+        <value condition="$EXP[Exp_StartUp_Weather_PartlyCloudy]">17ffffff</value>
+        <value condition="$EXP[Exp_StartUp_Weather_Cloud] | $EXP[Exp_StartUp_Weather_Windy]">22ffffff</value>
+        <value>26ffffff</value>
+    </variable>
+    <!-- Hour aliases reuse identical plates through the shared local-time ranges. -->
     <variable name="Image_StartUp_Layer_Sky">
-        <value condition="[System.Time(05:00,06:00)] | [System.Time(19:00,20:00)]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0500.jpg</value>
-        <value condition="[System.Time(06:00,07:00)] | [System.Time(18:00,19:00)]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0600.jpg</value>
-        <value condition="[System.Time(07:00,08:00)] | [System.Time(17:00,18:00)]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0700.jpg</value>
-        <value condition="[System.Time(08:00,09:00)] | [System.Time(09:00,10:00)] | [System.Time(10:00,11:00)] | [System.Time(11:00,12:00)] | [System.Time(12:00,13:00)] | [System.Time(13:00,14:00)] | [System.Time(14:00,15:00)] | [System.Time(15:00,16:00)] | [System.Time(16:00,17:00)]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0800.jpg</value>
+        <value condition="$EXP[Exp_StartUp_Time_0500_0600] | $EXP[Exp_StartUp_Time_1900_2000]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0500.jpg</value>
+        <value condition="$EXP[Exp_StartUp_Time_0600_0700] | $EXP[Exp_StartUp_Time_1800_1900]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0600.jpg</value>
+        <value condition="$EXP[Exp_StartUp_Time_0700_0800] | $EXP[Exp_StartUp_Time_1700_1800]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0700.jpg</value>
+        <value condition="$EXP[Exp_StartUp_Time_Daytime]">special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0800.jpg</value>
         <value>special://home/addons/resource.images.arctic.splash/resources/layers/01-sky/0000.jpg</value>
     </variable>
     <variable name="Image_StartUp_Layer_CloudHour">
-        <value condition="[System.Time(05:00,06:00)]">0500</value>
-        <value condition="[System.Time(06:00,07:00)]">0600</value>
-        <value condition="[System.Time(07:00,08:00)]">0700</value>
-        <value condition="[System.Time(08:00,09:00)] | [System.Time(09:00,10:00)] | [System.Time(10:00,11:00)] | [System.Time(11:00,12:00)] | [System.Time(12:00,13:00)] | [System.Time(13:00,14:00)] | [System.Time(14:00,15:00)] | [System.Time(15:00,16:00)] | [System.Time(16:00,17:00)]">0800</value>
-        <value condition="[System.Time(17:00,18:00)]">1700</value>
-        <value condition="[System.Time(18:00,19:00)]">1800</value>
-        <value condition="[System.Time(19:00,20:00)]">1900</value>
+        <value condition="$EXP[Exp_StartUp_Time_0500_0600]">0500</value>
+        <value condition="$EXP[Exp_StartUp_Time_0600_0700]">0600</value>
+        <value condition="$EXP[Exp_StartUp_Time_0700_0800]">0700</value>
+        <value condition="$EXP[Exp_StartUp_Time_Daytime]">0800</value>
+        <value condition="$EXP[Exp_StartUp_Time_1700_1800]">1700</value>
+        <value condition="$EXP[Exp_StartUp_Time_1800_1900]">1800</value>
+        <value condition="$EXP[Exp_StartUp_Time_1900_2000]">1900</value>
         <value>0000</value>
     </variable>
     <variable name="Image_StartUp_Layer_GlowHour">
-        <value condition="[System.Time(05:00,06:00)] | [System.Time(07:00,08:00)]">0500</value>
-        <value condition="[System.Time(06:00,07:00)]">0600</value>
-        <value condition="[System.Time(17:00,18:00)] | [System.Time(19:00,20:00)]">1700</value>
-        <value condition="[System.Time(18:00,19:00)]">1800</value>
+        <value condition="$EXP[Exp_StartUp_Time_0500_0600] | $EXP[Exp_StartUp_Time_0700_0800]">0500</value>
+        <value condition="$EXP[Exp_StartUp_Time_0600_0700]">0600</value>
+        <value condition="$EXP[Exp_StartUp_Time_1700_1800] | $EXP[Exp_StartUp_Time_1900_2000]">1700</value>
+        <value condition="$EXP[Exp_StartUp_Time_1800_1900]">1800</value>
         <value>0000</value>
     </variable>
     <variable name="Image_StartUp_Layer_ConditionsHour">
-        <value condition="$EXP[Exp_StartUp_Weather_Clear]">0000</value>
-        <value condition="[System.Time(05:00,06:00)] | [System.Time(19:00,20:00)]">0500</value>
-        <value condition="[System.Time(06:00,07:00)] | [System.Time(18:00,19:00)]">0600</value>
-        <value condition="[System.Time(07:00,08:00)] | [System.Time(17:00,18:00)]">0700</value>
-        <value condition="[System.Time(08:00,09:00)] | [System.Time(09:00,10:00)] | [System.Time(10:00,11:00)] | [System.Time(11:00,12:00)] | [System.Time(12:00,13:00)] | [System.Time(13:00,14:00)] | [System.Time(14:00,15:00)] | [System.Time(15:00,16:00)] | [System.Time(16:00,17:00)]">0800</value>
+        <value condition="$EXP[Exp_StartUp_Weather_Clear] | $EXP[Exp_StartUp_Weather_PartlyCloudy]">0000</value>
+        <value condition="$EXP[Exp_StartUp_Time_0500_0600] | $EXP[Exp_StartUp_Time_1900_2000]">0500</value>
+        <value condition="$EXP[Exp_StartUp_Time_0600_0700] | $EXP[Exp_StartUp_Time_1800_1900]">0600</value>
+        <value condition="$EXP[Exp_StartUp_Time_0700_0800] | $EXP[Exp_StartUp_Time_1700_1800]">0700</value>
+        <value condition="$EXP[Exp_StartUp_Time_Daytime]">0800</value>
         <value>0000</value>
     </variable>
     <variable name="Image_StartUp_Layer_TimeHour">
-        <value condition="[System.Time(00:00,01:00)] | [System.Time(01:00,02:00)] | [System.Time(02:00,03:00)] | [System.Time(03:00,04:00)] | [System.Time(04:00,05:00)]">0000</value>
-        <value condition="[System.Time(05:00,06:00)]">0500</value>
-        <value condition="[System.Time(06:00,07:00)]">0600</value>
-        <value condition="[System.Time(07:00,08:00)]">0700</value>
-        <value condition="[System.Time(08:00,09:00)] | [System.Time(09:00,10:00)] | [System.Time(10:00,11:00)] | [System.Time(11:00,12:00)] | [System.Time(12:00,13:00)] | [System.Time(13:00,14:00)] | [System.Time(14:00,15:00)] | [System.Time(15:00,16:00)] | [System.Time(16:00,17:00)]">0800</value>
-        <value condition="[System.Time(17:00,18:00)]">1700</value>
-        <value condition="[System.Time(18:00,19:00)]">1800</value>
-        <value condition="[System.Time(19:00,20:00)]">1900</value>
+        <value condition="$EXP[Exp_StartUp_Time_BeforeDawn]">0000</value>
+        <value condition="$EXP[Exp_StartUp_Time_0500_0600]">0500</value>
+        <value condition="$EXP[Exp_StartUp_Time_0600_0700]">0600</value>
+        <value condition="$EXP[Exp_StartUp_Time_0700_0800]">0700</value>
+        <value condition="$EXP[Exp_StartUp_Time_Daytime]">0800</value>
+        <value condition="$EXP[Exp_StartUp_Time_1700_1800]">1700</value>
+        <value condition="$EXP[Exp_StartUp_Time_1800_1900]">1800</value>
+        <value condition="$EXP[Exp_StartUp_Time_1900_2000]">1900</value>
         <value>2000</value>
     </variable>
     <variable name="Image_StartUp_Layer_Time">
-        <value condition="[System.Time(08:00,09:00)] | [System.Time(09:00,10:00)] | [System.Time(10:00,11:00)] | [System.Time(11:00,12:00)] | [System.Time(12:00,13:00)] | [System.Time(13:00,14:00)] | [System.Time(14:00,15:00)] | [System.Time(15:00,16:00)] | [System.Time(16:00,17:00)]">special://home/addons/resource.images.arctic.splash/resources/layers/09-time/autumn/0800.webp</value>
+        <value condition="$EXP[Exp_StartUp_Time_Daytime]">special://home/addons/resource.images.arctic.splash/resources/layers/09-time/autumn/0800.webp</value>
         <value>special://home/addons/resource.images.arctic.splash/resources/layers/09-time/$VAR[Image_StartUp_Season]/$VAR[Image_StartUp_Layer_TimeHour].webp</value>
     </variable>
 
