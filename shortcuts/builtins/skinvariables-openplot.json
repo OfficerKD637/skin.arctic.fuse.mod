@@ -1,0 +1,31 @@
+{
+    "infolabels": {
+        "path": "Window(Home).Property(TMDbHelper.ListItem.base_filenameandpath)"
+    },
+    "operations": [
+        {
+            "regex": {
+                "addon_id": {
+                    "regex": "^plugin://([^/?]+).*$",
+                    "value": "\\1",
+                    "input": "{path}"
+                }
+            }
+        },
+        {
+            "infolabels": {
+                "addon_name": "System.AddonTitle({addon_id})"
+            }
+        }
+    ],
+    "actions": [
+        [
+            {
+                "rules": ["{path}<<plugin://"],
+                "value": ["SetProperty(ListItem.SourceName,{addon_name},Home)"]
+            },
+            "ClearProperty(ListItem.SourceName,Home)"
+        ],
+        "ActivateWindow(1113)"
+    ]
+}
