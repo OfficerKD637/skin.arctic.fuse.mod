@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <previouswindow>Home</previouswindow>
+    <onload condition="String.IsEmpty(Window(Home).Property(Startup.Scene))">SetProperty(Startup.Scene,$VAR[Value_StartUp_InitialScene],Home)</onload>
+    <onload>Skin.SetString(Startup.LastScene,$INFO[Window(Home).Property(Startup.Scene)])</onload>
     <onload condition="Skin.HasSetting(SkinUserLogin.StartupLoginScreen) + !Skin.HasSetting(SkinUserLogin.Disabled) + String.IsEmpty(Window(Home).Property(StartupReplaceWindow))">SetProperty(StartupReplaceWindow,1195,Home)</onload>
     <onload>SetProperty(SplashIsVisible,True,1198)</onload>
     <onload>AlarmClock(SplashTimeOut,noop,00:59,silent)</onload>
     <onload>SetProperty(InitStatus,$LOCALIZE[31023],1198)</onload>
 
     <include>Action_ButtonMenu_Onload</include>
-    
+
     <onload>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/skinvariables-startup.json,use_rules=True,var_image_simplebackground=$VAR[Image_SimpleBackground])</onload>
- 
+
     <onunload>ClearProperty(StartupReplaceWindow,Home)</onunload>
 </window>
