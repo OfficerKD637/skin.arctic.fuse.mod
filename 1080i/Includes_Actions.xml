@@ -997,6 +997,27 @@
         <onclick condition="!String.IsEmpty(Skin.String(OSD_Timeout)) + [Window.IsVisible(videoosd) | Window.IsVisible(musicosd)]">AlarmClock(osd_timeout,RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-closeosd.json,use_rules=True),$INFO[Skin.String(OSD_Timeout),00:,],silent)</onclick>
     </include>
 
+    <variable name="Action_OSD_PlayerProcessInfo_Provider_TinyPPI">
+        <value condition="!System.HasAddon(repository.jamal2362)">RunScript(script.skinvariables,run_dialog=ok,"heading=$LOCALIZE[24076]","message=[B][COLOR=red][UPPERCASE]$LOCALIZE[14117][/UPPERCASE][/B][/COLOR] - $LOCALIZE[31629][CR][CR]$LOCALIZE[31630] [B]https://github.com/CE-Repo/repository.jamal2362[/B] $LOCALIZE[31631]")</value>
+        <value condition="!System.HasAddon(script.tinyppi)">InstallAddon(script.tinyppi)</value>
+        <value condition="!System.AddonIsEnabled(script.tinyppi)">RunScript(script.skinvariables,run_executebuiltin=Skin.SetString(PlayerProcessInfo.Provider,tiny)||sleep=0.2||EnableAddon(script.tinyppi))</value>
+        <value>Skin.SetString(PlayerProcessInfo.Provider,tiny)</value>
+    </variable>
+
+    <variable name="Action_OSD_PlayerProcessInfo_Provider_signdePPI">
+        <value condition="!System.HasAddon(repository.signde)">RunScript(script.skinvariables,run_dialog=ok,"heading=$LOCALIZE[24076]","message=[B][COLOR=red][UPPERCASE]$LOCALIZE[14117][/UPPERCASE][/B][/COLOR] - $LOCALIZE[31629][CR][CR]$LOCALIZE[31630] [B]https://github.com/signde/repository.signde/[/B] $LOCALIZE[31631]")</value>
+        <value condition="!System.HasAddon(script.signde.tinyppi)">InstallAddon(script.signde.tinyppi)</value>
+        <value condition="!System.AddonIsEnabled(script.signde.tinyppi)">RunScript(script.skinvariables,run_executebuiltin=Skin.SetString(PlayerProcessInfo.Provider,signde)||sleep=0.2||EnableAddon(script.signde.tinyppi))</value>
+        <value>Skin.SetString(PlayerProcessInfo.Provider,signde)</value>
+    </variable>
+
+    <include name="Action_OSD_PlayerProcessInfo">
+        <onclick condition="System.AddonIsEnabled(script.tinyppi) + Skin.String(PlayerProcessInfo.Provider,tiny)">RunScript(script.tinyppi,dialog)</onclick>
+        <onclick condition="System.AddonIsEnabled(script.signde.tinyppi) + Skin.String(PlayerProcessInfo.Provider,signde)">RunScript(script.signde.tinyppi,dialog)</onclick>
+        <onclick condition="![System.AddonIsEnabled(script.tinyppi) | System.AddonIsEnabled(script.signde.tinyppi)] | String.IsEmpty(Skin.String(PlayerProcessInfo.Provider))">RunPlugin(plugin://script.skinvariables/?info=get_file_size&amp;window_prop=FileSize&amp;window_id=PlayerProcessInfo&amp;&amp;$INFO[Player.FileNameAndPath])</onclick>
+        <onclick condition="![System.AddonIsEnabled(script.tinyppi) | System.AddonIsEnabled(script.signde.tinyppi)] | String.IsEmpty(Skin.String(PlayerProcessInfo.Provider))">Action(PlayerProcessInfo)</onclick>
+    </include>
+
     <include name="_Action_Blur_Onload">
         <param name="sourceimage">Art(fanart)</param>
         <definition>
