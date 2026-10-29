@@ -3479,6 +3479,7 @@
         <param name="include_top">false</param>
         <param name="include_closebutton">true</param>
         <param name="include_ratings">false</param>
+        <param name="button_id">5</param>
         <definition>
             <control type="group">
                 <include>Size_Group_Head</include>
@@ -3510,12 +3511,22 @@
                         <pagecontrol>61</pagecontrol>
                         <orientation>vertical</orientation>
                         <include>Size_Group_PlotText</include>
+                        <!-- Reset focus -->
+                        <control type="button" id="$PARAM[button_id]">
+                            <texturenofocus />
+                            <texturefocus />
+                            <height>0</height>
+                            <top>-60</top>
+                            <onfocus>PreviousMenu</onfocus>
+                        </control>
                         <include>DialogPlot_Plotbox_TMDbHelper</include>
                     </control>
                     <include content="Dialog_Scrollbar_Max">
                         <param name="id">61</param>
                         <param name="inset">false</param>
-                        <include>$PARAM[include_movement]</include>
+                        <include content="$PARAM[include_movement]">
+                            <param name="button_id">$PARAM[button_id]</param>
+                        </include>
                         <visible>$PARAM[textbox_visible]</visible>
                     </include>
                 </control>
@@ -3789,8 +3800,9 @@
     </include>
 
     <include name="DialogPlot_OnMove">
-        <onright>PreviousMenu</onright>
-        <onleft>PreviousMenu</onleft>
+        <onright>$PARAM[button_id]</onright>
+        <onleft>$PARAM[button_id]</onleft>
+        <onback>$PARAM[button_id]</onback>
         <showonepage>true</showonepage>
     </include>
 
