@@ -528,11 +528,10 @@
                 <itemgap>40</itemgap>
                 <control type="group">
                     <width>295</width>
-                    <include content="Object_TitleStatistics_Panel">
+                    <include content="Object_Statistics_Panel">
                         <param name="containers">$PARAM[id3]</param>
-                        <param name="label">$LOCALIZE[31058]</param>
-                        <param name="infolabel">Title</param>
-                        <param name="infolabel2">DBType</param>
+                        <param name="label">$LOCALIZE[344]</param>
+                        <param name="infolabel">Property(Cast.1.Name)</param>
                         <param name="limit">10</param>
                         <param name="affix">&amp;reload=$INFO[Container($PARAM[id3]).NumItems]</param>
                     </include>
@@ -610,6 +609,36 @@
                     </control>
                 </control>
             </control>
+        </control>
+    </include>
+
+    <include name="Settings_Statistics_WatchedOn">
+        <control type="group">
+            <height>280</height>
+            <control type="group">
+                <top>-80</top>
+                <left>-20</left>
+                <height>20</height>
+                <include content="Dialog_ItemLine">
+                    <param name="visible">true</param>
+                    <param name="label">$PARAM[label]</param>
+                </include>
+            </control>
+            <include content="List_Core">
+                <param name="id">$PARAM[id]</param>
+                <param name="itemlayout_include">Layout_StatisticsPoster</param>
+                <param name="detailed">false</param>
+                <param name="indicator">true</param>
+                <param name="item_w">108</param>
+                <param name="item_h">160</param>
+                <param name="itemlayout_w">128</param>
+                <param name="itemlayout_h">200</param>
+                <content limit="10">plugin://plugin.video.themoviedb.helper?info=sync_watchedon&amp;type=both&amp;month=$PARAM[month]&amp;year=$PARAM[year]</content>
+                <top>-10</top>
+                <left>-60</left>
+                <right>-60</right>
+                <onfocus>SetFocus($PARAM[onfocus])</onfocus>
+            </include>
         </control>
     </include>
 
@@ -844,7 +873,7 @@
             <height>210</height>
             <orientation>horizontal</orientation>
 
-            <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history_stats&amp;tmdb_type=both&amp;days=287&amp;sort_how=asc</content>
+            <content>plugin://plugin.video.themoviedb.helper/?info=sync_history_stats&amp;tmdb_type=both&amp;days=287&amp;sort_how=asc</content>
 
             <itemlayout width="30" height="30">
                 <include content="Layout_StatisticDots">

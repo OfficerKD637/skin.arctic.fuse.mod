@@ -42,8 +42,10 @@
                                 <param name="id">34</param>
                                 <param name="property">Settings.Main.Category</param>
                                 <param name="category">Statistics</param>
-                                <param name="label">$LOCALIZE[31062]</param>
+                                <param name="label">$LOCALIZE[16102] $LOCALIZE[31062]</param>
                                 <param name="onclick">ActivateWindow(videos)</param>
+                                <onfocus>PageUp(65)</onfocus>
+                                <onfocus>PageUp(65)</onfocus>
                             </include>
                         </control>
                     </include>
@@ -416,33 +418,25 @@
                                 <showonepage>true</showonepage>
                             </control>
 
-                            <control type="list" id="8501">
-                                <include>Object_Hidden_List_Definition</include>
-                                <content>videodb://movies/titles</content>
-                            </control>
-                            <control type="list" id="8502">
-                                <include>Object_Hidden_List_Definition</include>
-                                <content>videodb://tvshows/titles</content>
-                            </control>
-                            <control type="list" id="8503">
-                                <include>Object_Hidden_List_Definition</include>
-                                <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=movie&amp;nextpage=false&amp;length=3</content>
-                            </control>
                             <control type="list" id="8504">
                                 <include>Object_Hidden_List_Definition</include>
-                                <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=episode&amp;nextpage=false&amp;length=3</content>
-                            </control>
-                            <control type="list" id="8505">
-                                <include>Object_Hidden_List_Definition</include>
-                                <content>plugin://script.skinvariables/?info=get_filter_dir&amp;library=video&amp;sort_by=lastplayed&amp;sort_how=desc&amp;&amp;videodb://movies/titles/?xsp=%7B%22type%22%3A%22movies%22%2C%22order%22%3A%7B%22method%22%3A%22lastplayed%22%2C%22direction%22%3A%22descending%22%7D%7D&amp;&amp;videodb://tvshows/titles/?xsp=%7B%22type%22%3A%22tvshows%22%2C%22order%22%3A%7B%22method%22%3A%22lastplayed%22%2C%22direction%22%3A%22descending%22%7D%7D</content>
+                                <content>plugin://plugin.video.themoviedb.helper/?info=sync_history_stats&amp;tmdb_type=both&amp;period=month&amp;months=8&amp;sort_how=asc</content>
+                                <onfocus>SetFocus(34)</onfocus>
                             </control>
                             <control type="list" id="8506">
                                 <include>Object_Hidden_List_Definition</include>
-                                <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history&amp;tmdb_type=both&amp;nextpage=false&amp;length=3</content>
+                                <content>plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=movie&amp;nextpage=false&amp;length=3</content>
+                                <onfocus>SetFocus(34)</onfocus>
                             </control>
                             <control type="list" id="8507">
                                 <include>Object_Hidden_List_Definition</include>
-                                <content>plugin://plugin.video.themoviedb.helper/?info=trakt_history_stats&amp;tmdb_type=both&amp;period=month&amp;months=8&amp;sort_how=asc</content>
+                                <content>plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=episode&amp;nextpage=false&amp;length=3</content>
+                                <onfocus>SetFocus(34)</onfocus>
+                            </control>
+                            <control type="list" id="8508">
+                                <include>Object_Hidden_List_Definition</include>
+                                <content>plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=both&amp;nextpage=false&amp;length=3&amp;detailed=true</content>
+                                <onfocus>SetFocus(34)</onfocus>
                             </control>
 
                             <control type="grouplist">
@@ -452,48 +446,60 @@
                                 
                                 <control type="group">
                                     <height>760</height>
-                                    <visible>!Integer.IsEqual(Container(8507).NumItems,0)</visible>
-                                    <control type="label">
+                                    <control type="grouplist">
                                         <left>40</left>
                                         <right>40</right>
-                                        <align>right</align>
-                                        <height>40</height>
-                                        <bottom>0</bottom>
-                                        <label>TMDbHelper $LOCALIZE[31058]</label>
-                                        <font>font_hint_bold</font>
-                                        <textcolor>main_fg_30</textcolor>
+                                        <top>40</top>
+                                        <itemgap>-60</itemgap>
+                                        <orientation>vertical</orientation>
+                                        <include content="Settings_Statistics_WatchedOn">
+                                            <param name="id">8501</param>
+                                            <param name="label">$INFO[Container(8501).ListItemAbsolute(0).Property(month)]</param>
+                                            <param name="year">$INFO[System.Date(yyyy)]</param>
+                                            <param name="month">0</param>
+                                            <param name="onfocus">34</param>
+                                        </include>
+                                        <include content="Settings_Statistics_WatchedOn">
+                                            <param name="id">8502</param>
+                                            <param name="label">$INFO[Container(8502).ListItemAbsolute(0).Property(month)]</param>
+                                            <param name="year">$INFO[System.Date(yyyy)]</param>
+                                            <param name="month">-1</param>
+                                            <param name="onfocus">34</param>
+                                        </include>
+                                        <include content="Settings_Statistics_WatchedOn">
+                                            <param name="id">8503</param>
+                                            <param name="label">$INFO[Container(8503).ListItemAbsolute(0).Property(month)]</param>
+                                            <param name="year">$INFO[System.Date(yyyy)]</param>
+                                            <param name="month">-2</param>
+                                            <param name="onfocus">34</param>
+                                        </include>
                                     </control>
+                                </control>
+                                <control type="group">
+                                    <height>760</height>
+                                    <visible>!Integer.IsEqual(Container(8504).NumItems,0)</visible>
                                     <control type="group">
                                         <top>40</top>
                                         <bottom>40</bottom>
                                         <left>40</left>
                                         <right>40</right>
                                         <control type="group">
-                                            <control type="image">
-                                                <texture colordiffuse="main_fg_06" border="20">common/dialog.png</texture>
-                                            </control>
-                                            <control type="label">
-                                                <height>60</height>
-                                                <font>font_mini_bold</font>
-                                                <textcolor>main_fg_90</textcolor>
-                                                <label>$LOCALIZE[31251]</label>
-                                                <align>center</align>
-                                            </control>
                                             <control type="group">
                                                 <left>-20</left>
                                                 <right>-20</right>
-                                                <height>60</height>
-                                                <include>Dialog_Line</include>
+                                                <top>-80</top>
+                                                <include content="Dialog_ItemLine">
+                                                    <param name="visible">true</param>
+                                                    <param name="label">$LOCALIZE[31251]</param>
+                                                </include>
                                             </control>
+                                            <height>380</height>
                                             <control type="group">
-                                                <height>380</height>
-                                                <control type="group">
-                                                    <top>70</top>
-                                                    <left>10</left>
-                                                    <include content="Settings_Statistics_Daily">
-                                                        <param name="id">8508</param>
-                                                    </include>
-                                                </control>
+                                                <top>70</top>
+                                                <left>10</left>
+                                                <include content="Settings_Statistics_Daily">
+                                                    <param name="id">8505</param>
+                                                </include>
                                             </control>
                                         </control>
                                         <control type="group">
@@ -514,7 +520,7 @@
                                                         <right>-100</right>
                                                         <orientation>horizontal</orientation>
 
-                                                        <content>plugin://script.skinvariables/?info=get_stacked_bar_stats&amp;containers=8507&amp;infolabel=Property(month_short)&amp;infovalue=Property(count)&amp;sort_by=label&amp;limit=8&amp;other=false&amp;reload=$INFO[Container(8507).NumItems]</content>
+                                                        <content>plugin://script.skinvariables/?info=get_stacked_bar_stats&amp;containers=8504&amp;infolabel=Property(month_short)&amp;infovalue=Property(count)&amp;sort_by=label&amp;limit=8&amp;other=false&amp;reload=$INFO[Container(8504).NumItems]</content>
 
                                                         <itemlayout width="12">
                                                             <include>Layout_StatisticBars</include>
@@ -535,7 +541,7 @@
                                                         <right>-100</right>
                                                         <orientation>horizontal</orientation>
 
-                                                        <content>plugin://script.skinvariables/?info=get_stacked_bar_stats&amp;containers=8507&amp;infolabel=Property(day)&amp;infovalue=Property(count)&amp;sort_by=Property(day_ordinal)&amp;limit=8&amp;other=false&amp;reload=$INFO[Container(8507).NumItems]</content>
+                                                        <content>plugin://script.skinvariables/?info=get_stacked_bar_stats&amp;containers=8504&amp;infolabel=Property(day)&amp;infovalue=Property(count)&amp;sort_by=Property(day_ordinal)&amp;limit=8&amp;other=false&amp;reload=$INFO[Container(8504).NumItems]</content>
 
                                                         <itemlayout width="12">
                                                             <include>Layout_StatisticBars</include>
@@ -549,18 +555,10 @@
                                         </control>
                                     </control>
                                 </control>
-
                                 <include content="Settings_Statistics">
-                                    <param name="source">TMDbHelper $LOCALIZE[31058]</param>
-                                    <param name="id1">8503</param>
-                                    <param name="id2">8504</param>
-                                    <param name="id3">8506</param>
-                                </include>
-                                <include content="Settings_Statistics">
-                                    <param name="source">Kodi $LOCALIZE[14022]</param>
-                                    <param name="id1">8501</param>
-                                    <param name="id2">8502</param>
-                                    <param name="id3">8505</param>
+                                    <param name="id1">8506</param>
+                                    <param name="id2">8507</param>
+                                    <param name="id3">8508</param>
                                 </include>
                             </control>
 

@@ -1469,6 +1469,41 @@
             </control>
         </definition>
     </include>
+    
+    <include name="Object_StatisticsIndicator">
+        <param name="listitem">ListItem</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <centerbottom>0</centerbottom>
+                <right>10</right>
+                <width>48</width>
+                <height>48</height>
+
+                <!-- Black Circle Backing -->
+                <include content="Object_Control">
+                    <param name="control">image</param>
+                    <texture colordiffuse="ff333333">indicator/circle-colordiffuse.png</texture>
+                </include>
+
+                <!-- Movie -->
+                <include content="Object_Control">
+                    <param name="control">image</param>
+                    <bordersize>10</bordersize>
+                    <texture>special://skin/extras/icons/film.png</texture>
+                    <visible>String.IsEqual($PARAM[listitem].DBType,movie)</visible>
+                </include>
+                
+                <!-- TV Show -->
+                <include content="Object_Control">
+                    <param name="control">image</param>
+                    <bordersize>10</bordersize>
+                    <texture>special://skin/extras/icons/tv.png</texture>
+                    <visible>!String.IsEqual($PARAM[listitem].DBType,movie)</visible>
+                </include>
+            </control>
+        </definition>
+    </include>
 
     <include name="Object_Indicator_List">
         <param name="affix" />
@@ -2553,27 +2588,14 @@
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>
-                <control type="image">
-                    <texture colordiffuse="main_fg_06" border="20">common/dialog.png</texture>
-                </control>
-                <control type="label">
-                    <height>60</height>
-                    <font>font_mini_bold</font>
-                    <textcolor>main_fg_90</textcolor>
-                    <label>$PARAM[label]</label>
-                    <align>center</align>
-                </control>
                 <control type="group">
                     <left>-20</left>
                     <right>-20</right>
-                    <height>60</height>
-                    <control type="image">
-                        <height>1</height>
-                        <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                        <centerbottom>0</centerbottom>
-                        <left>40</left>
-                        <right>40</right>
-                    </control>
+                    <top>-80</top>
+                    <include content="Dialog_ItemLine">
+                        <param name="visible">true</param>
+                        <param name="label">$PARAM[label]</param>
+                    </include>
                 </control>
                 <control type="list">
                     <top>60</top>
@@ -2591,27 +2613,14 @@
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>
-                <control type="image">
-                    <texture colordiffuse="main_fg_06" border="20">common/dialog.png</texture>
-                </control>
-                <control type="label">
-                    <height>60</height>
-                    <font>font_mini_bold</font>
-                    <textcolor>main_fg_90</textcolor>
-                    <label>$PARAM[label]</label>
-                    <align>center</align>
-                </control>
                 <control type="group">
                     <left>-20</left>
                     <right>-20</right>
-                    <height>60</height>
-                    <control type="image">
-                        <height>1</height>
-                        <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
-                        <centerbottom>0</centerbottom>
-                        <left>40</left>
-                        <right>40</right>
-                    </control>
+                    <top>-80</top>
+                    <include content="Dialog_ItemLine">
+                        <param name="visible">true</param>
+                        <param name="label">$PARAM[label]</param>
+                    </include>
                 </control>
                 <control type="list">
                     <top>60</top>
