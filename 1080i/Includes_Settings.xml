@@ -76,6 +76,7 @@
             <include content="Settings_Button">
                 <param name="id">$PARAM[id]</param>
                 <param name="control">togglebutton</param>
+                <!-- Mimic Kodi's hardcoded 50% alpha on the selected SettingsCategory button -->
                 <include>Texture_MainMenu_Highlight_ToggleButton_FakeFocus</include>
                 <label>$PARAM[label]</label>
                 <altlabel>[COLOR=$VAR[ColorSelected]]$PARAM[label][/COLOR]</altlabel>
@@ -162,7 +163,7 @@
     <include name="Settings_Dialog">
         <definition>
             <control type="group">
-                <include>Animation_View_WindowChange</include>
+                <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <nested />
                 <control type="group">
                     <include>Dimension_Bottombar</include>
@@ -613,33 +614,104 @@
     </include>
 
     <include name="Settings_Statistics_WatchedOn">
-        <control type="group">
-            <height>280</height>
+        <param name="ondown_special">false</param>
+        <definition>
             <control type="group">
-                <top>-80</top>
-                <left>-20</left>
-                <height>20</height>
-                <include content="Dialog_ItemLine">
-                    <param name="visible">true</param>
-                    <param name="label">$PARAM[label]</param>
+                <height>280</height>
+                <control type="group">
+                    <top>-80</top>
+                    <left>-20</left>
+                    <height>20</height>
+                    <include content="Dialog_ItemLine">
+                        <param name="visible">true</param>
+                        <param name="label">$PARAM[label]</param>
+                    </include>
+                </control>
+                <include content="List_Core">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="itemlayout_include">Layout_StatisticsPoster</param>
+                    <param name="detailed">false</param>
+                    <param name="indicator">true</param>
+                    <param name="item_w">108</param>
+                    <param name="item_h">160</param>
+                    <param name="itemlayout_w">128</param>
+                    <param name="itemlayout_h">200</param>
+                    <content limit="10" browse="never">plugin://plugin.video.themoviedb.helper?info=sync_watchedon&amp;type=both&amp;month=$PARAM[month]&amp;year=$PARAM[year]&amp;nextpage=false</content>
+                    <onclick>Action(Info)</onclick>
+                    <top>-10</top>
+                    <left>-60</left>
+                    <right>-60</right>
+                    <onleft>34</onleft>
+                    <onright condition="Control.IsVisible(65)">65</onright>
+                    <onright condition="!Control.IsVisible(65)">34</onright>
+                    <onback>34</onback>
+                    <onup condition="Integer.IsEqual(Container($PARAM[onup]).NumItems,0)">34</onup>
+                    <onup condition="!Integer.IsEqual(Container($PARAM[onup]).NumItems,0)">SetFocus($PARAM[onup],$INFO[Container($PARAM[id]).Position])</onup>
+                    <ondown condition="![$PARAM[ondown_special]] + !Integer.IsEqual(Container($PARAM[ondown]).NumItems,0)">SetFocus($PARAM[ondown],$INFO[Container($PARAM[id]).Position])</ondown>
+                    <ondown condition="[$PARAM[ondown_special]] + !Integer.IsEqual(Container($PARAM[ondown2]).NumItems,0)">$PARAM[ondown2]</ondown>
                 </include>
+
+                <!-- Widget Busy -->
+                <control type="grouplist">
+                    <orientation>horizontal</orientation>
+                    <visible>Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
+                    <left>20</left>
+                    <top>70</top>
+                    <itemgap>20</itemgap>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                    <control type="image">
+                        <width>108</width>
+                        <height>160</height>
+                        <texture colordiffuse="dialog_fg_12">diffuse/poster_w108_h160.png</texture>
+                    </control>
+                </control>
+                <visible>Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0)</visible>
             </control>
-            <include content="List_Core">
-                <param name="id">$PARAM[id]</param>
-                <param name="itemlayout_include">Layout_StatisticsPoster</param>
-                <param name="detailed">false</param>
-                <param name="indicator">true</param>
-                <param name="item_w">108</param>
-                <param name="item_h">160</param>
-                <param name="itemlayout_w">128</param>
-                <param name="itemlayout_h">200</param>
-                <content limit="10">plugin://plugin.video.themoviedb.helper?info=sync_watchedon&amp;type=both&amp;month=$PARAM[month]&amp;year=$PARAM[year]</content>
-                <top>-10</top>
-                <left>-60</left>
-                <right>-60</right>
-                <onfocus>SetFocus($PARAM[onfocus])</onfocus>
-            </include>
-        </control>
+        </definition>
     </include>
 
     <include name="Settings_Statistics_Daily">
@@ -872,8 +944,22 @@
             <top>40</top>
             <height>210</height>
             <orientation>horizontal</orientation>
+            <onleft>34</onleft>
+            <onback>34</onback>
+            <onup condition="Integer.IsEqual(Container(8501).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0)">65</onup>
+            <onup condition="!Integer.IsEqual(Container(8503).NumItems,0)">SetFocus(8503,0,absolute)</onup>
+            <onup condition="Integer.IsEqual(Container(8503).NumItems,0) + !Integer.IsEqual(Container(8502).NumItems,0)">SetFocus(8502,0,absolute)</onup>
+            <onup condition="Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + !Integer.IsEqual(Container(8501).NumItems,0)">SetFocus(8501,0,absolute)</onup>
+            <onright>65</onright>
+            <ondown>SetFocus(65)</ondown>
+            <ondown>PageDown(65)</ondown>
 
             <content>plugin://plugin.video.themoviedb.helper/?info=sync_history_stats&amp;tmdb_type=both&amp;days=287&amp;sort_how=asc</content>
+
+            <onclick>SetProperty(header,$ESCINFO[Container($PARAM[id]).ListItem.Property(long)],1135)</onclick>
+            <onclick>SetProperty(path,plugin://plugin.video.themoviedb.helper/?info=sync_watchedon&amp;type=both&amp;day=$INFO[Container($PARAM[id]).ListItem.Property(day_number)]&amp;month=$INFO[Container($PARAM[id]).ListItem.Property(month_number)]&amp;year=$INFO[Container($PARAM[id]).ListItem.Property(year)]&amp;episodes=true&amp;nextpage=true,1135)</onclick>
+            <onclick>ActivateWindow(1135)</onclick>
+            <oninfo>Action(Select)</oninfo>
 
             <itemlayout width="30" height="30">
                 <include content="Layout_StatisticDots">
@@ -884,6 +970,7 @@
             <focusedlayout width="30" height="30">
                 <include content="Layout_StatisticDots">
                     <param name="selected">true</param>
+                    <param name="containerid">$PARAM[id]</param>
                 </include>
             </focusedlayout>
         </control>

@@ -175,7 +175,7 @@
         </control>
     </include>
     
-     <include name="Dialog_Overlay_Mode_Glass">
+    <include name="Dialog_Overlay_Mode_Glass">
         <definition>
             <control type="image">
                 <include content="Object_Top" condition="$PARAM[flipped]">
@@ -1429,7 +1429,7 @@
                 <param name="label">$INFO[Container($PARAM[id]).NumItems,, $PARAM[items_label]]$INFO[Container($PARAM[id]).CurrentPage,  •  $LOCALIZE[31135] ,]$INFO[Container($PARAM[id]).NumPages, $LOCALIZE[20163] ,]</param>
             </include>
         </definition>
-     </include>
+    </include>
 
     <include name="Dialog_Line">
         <control type="image">
@@ -1756,11 +1756,12 @@
 
     <include name="DialogCustom_Favourites_List">
         <param name="scrollbarid">61</param>
+        <param name="itemlayout_include">List_Layout_Dialog_DetailedCheckmark</param>
         <definition>
             <include content="List_Dialog">
                 <param name="id">$PARAM[id]</param>
                 <param name="item_height">128</param>
-                <param name="itemlayout_include">Layout_Dialog_DetailedCheckmark</param>
+                <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
                 <pagecontrol>$PARAM[scrollbarid]</pagecontrol>
                 <onright>$PARAM[scrollbarid]</onright>
                 <include>Size_Grouplist_Pad</include>
@@ -1779,6 +1780,12 @@
                 <include>Size_Grouplist_Pad</include>
             </control>
         </definition>
+    </include>
+
+    <include name="DialogCustom_WatchedOn_Content">
+        <onclick condition="!String.IsEqual(Container(450).ListItem.Property(specialsort),bottom)">Action(Info)</onclick>
+        <onclick condition="String.IsEqual(Container(450).ListItem.Property(specialsort),bottom)">SetProperty(path,$INFO[Container(450).ListItem.FolderPath])</onclick>
+        <content>$INFO[Window.Property(path)]</content>
     </include>
 
     <include name="DialogCustom_Resizer_Slide">
@@ -1812,6 +1819,7 @@
         <param name="groupid" />
         <param name="include_content">DialogCustom_Favourites_Content</param>
         <param name="include_list">DialogCustom_Favourites_List</param>
+        <param name="itemlayout_include">List_Layout_Dialog_DetailedCheckmark</param>
         <param name="dialog_size">Dimension_DialogWideMenu</param>
         <param name="resize">false</param>
         <param name="include_onback">false</param>
@@ -1853,6 +1861,7 @@
                         <include content="$PARAM[include_list]">
                             <param name="id">$PARAM[id]</param>
                             <param name="include_content">$PARAM[include_content]</param>
+                            <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
                         </include>
                     </control>
                     <include content="Dialog_Scrollbar">

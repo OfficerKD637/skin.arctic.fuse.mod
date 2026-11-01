@@ -79,6 +79,11 @@
         <param name="selected">false</param>
         <param name="progress">ListItem.Property(percentile)</param>
         <definition>
+            <include content="Object_Control" condition="$PARAM[selected]">
+                <param name="control">image</param>
+                <include>Texture_Circle_Highlight_H</include>
+                <visible>Control.HasFocus($PARAM[containerid])</visible>
+            </include>
             <control type="group">
                 <left>5</left>
                 <right>5</right>
@@ -2721,8 +2726,14 @@
                     </include>
                 </control>
                 <control type="group">
-                    <include content="Object_StatisticsIndicator" condition="$PARAM[indicator]">
+                    <include content="Object_StatisticsIndicator" condition="!$PARAM[selected] + $PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
+                    </include>
+                    <include content="Object_StatisticsSelectBox" condition="$PARAM[selected]">
+                        <param name="affix">$PARAM[affix]</param>
+                        <param name="listitem">$PARAM[listitem]</param>
+                        <param name="indicator">$PARAM[indicator]</param>
+                        <param name="focusbounce">true</param>
                     </include>
                 </control>
             </control>
@@ -4448,6 +4459,7 @@
         <param name="label">$INFO[ListItem.Label]</param>
         <param name="label2">$INFO[ListItem.Label2]</param>
         <param name="label2_visible">!String.IsEmpty(ListItem.Label2)</param>
+        <param name="align">left</param>
         <definition>
             <control type="group">
                 <left>$PARAM[item_h]</left>
@@ -4461,6 +4473,7 @@
                     <disabledcolor>dialog_fg_30</disabledcolor>
                     <label>$PARAM[label]</label>
                     <visible>![$PARAM[label2_visible]]</visible>
+                    <align>$PARAM[align]</align>
                 </control>
                 <control type="label">
                     <left>-10</left>
@@ -4473,6 +4486,7 @@
                     <visible>$PARAM[label2_visible]</visible>
                     <height>30</height>
                     <top>0</top>
+                    <align>$PARAM[align]</align>
                 </control>
                 <control type="label">
                     <left>-10</left>
@@ -4485,6 +4499,7 @@
                     <visible>$PARAM[label2_visible]</visible>
                     <height>30</height>
                     <bottom>0</bottom>
+                    <align>$PARAM[align]</align>
                 </control>
             </control>
         </definition>
@@ -4512,17 +4527,43 @@
                     </include>
                     <include content="Dialog_List_Icon" condition="![$PARAM[selected]]">
                         <param name="item_h">$PARAM[item_h]</param>
+                        <param name="icon">$PARAM[icon]</param>
+                        <param name="fallback">$PARAM[fallback]</param>
+                        <param name="is_defaulticon">$PARAM[is_defaulticon]</param>
                     </include>
                     <include content="Dialog_List_Icon" condition="$PARAM[selected]">
                         <param name="item_h">$PARAM[item_h]</param>
                         <param name="colordiffuse">$VAR[ColorSelected]</param>
+                        <param name="icon">$PARAM[icon]</param>
+                        <param name="fallback">$PARAM[fallback]</param>
+                        <param name="is_defaulticon">$PARAM[is_defaulticon]</param>
                     </include>
                     <include content="Layout_Dialog_Labels">
                         <param name="item_h">$PARAM[item_h]</param>
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="label">$PARAM[label]</param>
+                        <param name="label2">$PARAM[label2]</param>
+                        <param name="label2_visible">$PARAM[label2_visible]</param>
                     </include>
                 </control>
             </control>
+        </definition>
+    </include>
+
+    <include name="Layout_Dialog_WatchedOn">
+        <param name="selected">false</param>
+        <param name="detailed">false</param>
+        <definition>
+            <include content="Layout_Dialog_DetailedCheckmark">
+                <param name="detailed">$PARAM[detailed]</param>
+                <param name="selected">$PARAM[selected]</param>
+                <param name="misc">$PARAM[misc]</param>
+                <param name="item_h">$PARAM[item_h]</param>
+                <param name="icon">$INFO[ListItem.Icon]</param>
+                <param name="label">$INFO[ListItem.Label]</param>
+                <param name="label2">$VAR[Label_WatchedOn_Sub]</param>
+                <param name="label2_visible">true</param>
+            </include>
         </definition>
     </include>
 

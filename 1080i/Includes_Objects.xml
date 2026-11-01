@@ -1480,6 +1480,12 @@
                 <width>48</width>
                 <height>48</height>
 
+                <!-- Focused Item -->
+                <include content="Object_Indicator_Selected" condition="$PARAM[selected]">
+                    <param name="shadow">$PARAM[shadow]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                </include>
+
                 <!-- Black Circle Backing -->
                 <include content="Object_Control">
                     <param name="control">image</param>
@@ -2307,6 +2313,35 @@
                     </control>
                 </include>
                 <include content="Object_Indicator" condition="$PARAM[indicator]">
+                    <param name="selected">true</param>
+                    <param name="affix">$PARAM[affix]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <include content="Object_Left" condition="$PARAM[indicator_reposition]">
+                        <param name="left">$PARAM[indicator_left]</param>
+                    </include>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_StatisticsSelectBox">
+        <param name="indicator">false</param>
+        <param name="focusbounce">false</param>
+        <param name="shadow">true</param>
+        <param name="indicator_reposition">false</param>
+        <definition>
+            <control type="group">
+                <nested />
+                <include condition="$PARAM[focusbounce]">Animation_FocusBounce</include>
+                <include content="Object_Control">
+                    <param name="control">group</param>
+                    <include content="Dimension_Padding"><param name="pad">-3</param></include>
+                    <include condition="$PARAM[shadow]">Object_Shadow_40</include>
+                    <control type="image">
+                        <include>Texture_SelectBox_Thin</include>
+                    </control>
+                </include>
+                <include content="Object_StatisticsIndicator" condition="$PARAM[indicator]">
                     <param name="selected">true</param>
                     <param name="affix">$PARAM[affix]</param>
                     <param name="listitem">$PARAM[listitem]</param>
