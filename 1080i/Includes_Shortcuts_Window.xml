@@ -39,6 +39,16 @@
     <expression name="Shortcuts_Dialog_Exp_IsEnabled">[!String.IsEqual(Container(22001).ListItem.Property(disabled),True) + $EXP[Shortcuts_Dialog_Exp_IsNotBlank]]</expression>
     <expression name="Shortcuts_Dialog_Exp_IsNotBlank">[!String.IsEqual(Container(22001).ListItem.Property(blank),True)]</expression>
 
+    <!-- Previews -->
+    <expression name="Exp_HubsWindow_Item_HasLayout">!String.IsEqual(Container(30000).ListItem.Property(is_specialhub),power) + !Control.HasFocus(3003)</expression>
+    <expression name="Exp_HubsWindow_Item_HasNavigation">!String.IsEqual(Container(30000).ListItem.Property(is_specialhub),power) + Control.HasFocus(3003)</expression>
+    <expression name="Exp_HubsWindow_Item_PowerPreview">String.IsEqual(Container(30000).ListItem.Property(is_specialhub),power)</expression>
+    <expression name="Exp_HubsWindow_Preview_Combined">[$EXP[Shortcuts_Window_Exp_WidgetCombined] | [String.IsEqual(Container(30000).ListItem.Property(is_specialhub),nextaired) + [[Skin.String(Hub.1130.WidgetMode,Combined) + Control.HasFocus(3037)] | [Skin.String(Hub.1131.WidgetMode,Combined) + Control.HasFocus(3039)] | [Skin.String(Hub.1130.WidgetMode,Combined) + ![Control.HasFocus(3037) | Control.HasFocus(3039)]]]]]</expression>
+    <expression name="Exp_HubsWindow_Preview_Wall">[$EXP[Shortcuts_Window_Exp_WidgetWall] | [String.IsEqual(Container(30000).ListItem.Property(is_specialhub),nextaired) + [[Skin.String(Hub.1130.WidgetMode,Wall) + Control.HasFocus(3037)] | [Skin.String(Hub.1131.WidgetMode,Wall) + Control.HasFocus(3039)] | [Skin.String(Hub.1130.WidgetMode,Wall) + ![Control.HasFocus(3037) | Control.HasFocus(3039)]]]]]</expression>
+    <expression name="Exp_HubsWindow_Preview_Nav_Basic">$EXP[Shortcuts_Window_Exp_BasicWidgets]</expression>
+    <expression name="Exp_HubsWindow_Preview_Nav_Classic">!$EXP[Shortcuts_Window_Exp_BasicWidgets] + $EXP[Shortcuts_Window_Exp_WidgetsOnly]</expression>
+    <expression name="Exp_HubsWindow_Preview_Nav_Complex">!$EXP[Shortcuts_Window_Exp_WidgetsOnly]</expression>
+
     <variable name="Shortcuts_Window_Var_Label_NavigationOnDown">
         <value condition="String.IsEqual(Container(30000).ListItem.Property(value),Hub.Home) + !String.IsEmpty(Skin.String(Navigation.Hub.Home.OnDown))">$INFO[Skin.String(Navigation.Hub.Home.OnDown)]</value>
         <value condition="String.IsEqual(Container(30000).ListItem.Property(value),Hub.1101) + !String.IsEmpty(Skin.String(Navigation.Hub.1101.OnDown))">$INFO[Skin.String(Navigation.Hub.1101.OnDown)]</value>
@@ -284,6 +294,21 @@
         <value>special://skin/extras/icons/circle-cancel.png</value>
     </variable>
 
+    <variable name="Shortcuts_Dialog_Widget_Limit_Label">
+        <value condition="String.IsEmpty(Container(22001).ListItem.Property(widget_limit)) + String.IsEqual(Container(22001).ListItem.Property(widget_style),Ranked)">$NUMBER[9]</value>
+        <value condition="Integer.IsGreater(Container(22001).ListItem.Property(widget_limit),19) + String.IsEqual(Container(22001).ListItem.Property(widget_style),Ranked)">$NUMBER[19] ($LOCALIZE[338])</value>
+        <value>$INFO[Container(22001).ListItem.Property(widget_limit)]</value>
+    </variable>
+
+    <variable name="Shortcuts_Label_SideMenu_Position">
+        <value condition="Skin.String(Home.SideMenuCollapse,Topbar)">[LOWERCASE]$LOCALIZE[31206][/LOWERCASE]</value>
+        <value>[LOWERCASE]$LOCALIZE[39162][/LOWERCASE]</value>
+    </variable>
+
+    <variable name="Shortcuts_Label_CategoryCounter">
+        <value condition="!String.IsEmpty(Container(30000).ListItem.Property(categories_menu))">$INFO[Container(30000).ListItem.Property(categories_menu)]</value>
+    </variable>
+
     <include name="Shortcuts_Window_Items_Addons">
         <param name="visible">String.IsEqual(Container(30000).ListItem.Property(is_specialhub),addons)</param>
         <definition>
@@ -450,6 +475,7 @@
                 <param name="id">3027</param>
                 <param name="control">button</param>
                 <label>$LOCALIZE[31328]</label>
+                <label2>$INFO[Container(30925).NumItems,, $LOCALIZE[31022]]</label2>
 
                 <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
                 <onclick>SetProperty(Shortcuts.EditMenu,menu=searchmenu,Home)</onclick>
@@ -485,7 +511,7 @@
                 <onclick condition="Skin.String(OptionsTiles.Layout,$NUMBER[2])">Skin.SetString(OptionsTiles.Layout,$NUMBER[3])</onclick>
                 <onclick condition="Skin.String(OptionsTiles.Layout,$NUMBER[3])">Skin.SetString(OptionsTiles.Layout,$NUMBER[4])</onclick>
                 <onclick condition="Skin.String(OptionsTiles.Layout,$NUMBER[4])">Skin.SetString(OptionsTiles.Layout,$NUMBER[2])</onclick>
-                <onfocus>SetProperty(HelpText,$LOCALIZE[31278],1115)</onfocus>
+                <onfocus>SetProperty(HelpText,$LOCALIZE[31278][CR][CR]$LOCALIZE[31632],1115)</onfocus>
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[33060],1115)</onfocus>
             </include>
 
@@ -536,9 +562,10 @@
                 <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
                 <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
                 <onclick>ActivateWindow(1116)</onclick>
-                <onfocus>SetProperty(HelpText,$LOCALIZE[31278],1115)</onfocus>
+                <onfocus>SetProperty(HelpText,$LOCALIZE[31278][CR][CR]$LOCALIZE[31634],1115)</onfocus>
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[33060],1115)</onfocus>
                 <label>$LOCALIZE[33061]</label>
+                <label2>$INFO[Container(30926).NumItems,, $LOCALIZE[31022]]</label2>
             </include>
 
             <include content="Settings_Button">
@@ -550,9 +577,10 @@
                 <onclick>ClearProperty(Shortcuts.EditMode,Home)</onclick>
                 <onclick>ClearProperty(Shortcuts.EditGUID,Home)</onclick>
                 <onclick>ActivateWindow(1116)</onclick>
-                <onfocus>SetProperty(HelpText,$LOCALIZE[31278],1115)</onfocus>
+                <onfocus>SetProperty(HelpText,$LOCALIZE[31278][CR][CR]$LOCALIZE[31635],1115)</onfocus>
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[33060],1115)</onfocus>
                 <label>$LOCALIZE[31372]</label>
+                <label2>$INFO[Container(30927).NumItems,, $LOCALIZE[31022]]</label2>
             </include>
         </definition>
     </include>
@@ -575,13 +603,14 @@
                 <label>$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE]</label>
                 <label2>$VAR[Shortcuts_Window_Var_HomeItem_Property_Current_Home_Hub]</label2>
 
-                <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Shortcuts_Window_Var_HomeItem_Property_Current_Home_Hub],heading=$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE],separator=||,list=$LOCALIZE[31143] $LOCALIZE[10000]||$NUMBER[1101]$VAR[Label_Header_Main_1101, (,)]||$NUMBER[1102]$VAR[Label_Header_Main_1102, (,)]||$NUMBER[1103]$VAR[Label_Header_Main_1103, (,)]||$NUMBER[1104]$VAR[Label_Header_Main_1104, (,)]||$NUMBER[1106]$VAR[Label_Header_Main_1106, (,)]||$NUMBER[1107]$VAR[Label_Header_Main_1107, (,)]||$NUMBER[1108]$VAR[Label_Header_Main_1108, (,)]||$NUMBER[1109]$VAR[Label_Header_Main_1109, (,)]||$NUMBER[1110]$VAR[Label_Header_Main_1110, (,)]||$NUMBER[1112]$VAR[Label_Header_Main_1112, (,)]||$NUMBER[1114]$VAR[Label_Header_Main_1114, (,)]||$NUMBER[1125]$VAR[Label_Header_Main_1125, (,)]||$NUMBER[1126]$VAR[Label_Header_Main_1126, (,)]||$NUMBER[1127]$VAR[Label_Header_Main_1127, (,)],"executebuiltin_0=Skin.Reset(Hub.Home.ReplaceWindow)||Skin.Reset(Navigation.Global.Hub.Switcher)","executebuiltin_1=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1101])||Skin.SetBool(Hub.1101.DisableSubmenu)||Skin.Reset(Hub.1101.EnableBasicWidgets)","executebuiltin_2=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1102])||Skin.SetBool(Hub.1102.DisableSubmenu)||Skin.Reset(Hub.1102.EnableBasicWidgets)","executebuiltin_3=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1103])||Skin.SetBool(Hub.1103.DisableSubmenu)||Skin.Reset(Hub.1103.EnableBasicWidgets)","executebuiltin_4=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1104])||Skin.SetBool(Hub.1104.DisableSubmenu)||Skin.Reset(Hub.1104.EnableBasicWidgets)","executebuiltin_5=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1106])||Skin.SetBool(Hub.1106.DisableSubmenu)||Skin.Reset(Hub.1106.EnableBasicWidgets)","executebuiltin_6=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1107])||Skin.SetBool(Hub.1107.DisableSubmenu)||Skin.Reset(Hub.1107.EnableBasicWidgets)","executebuiltin_7=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1108])||Skin.SetBool(Hub.1108.DisableSubmenu)||Skin.Reset(Hub.1108.EnableBasicWidgets)","executebuiltin_8=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1109])||Skin.SetBool(Hub.1109.DisableSubmenu)||Skin.Reset(Hub.1109.EnableBasicWidgets)","executebuiltin_9=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1110])||Skin.SetBool(Hub.1110.DisableSubmenu)||Skin.Reset(Hub.1110.EnableBasicWidgets)","executebuiltin_10=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1112])||Skin.SetBool(Hub.1112.DisableSubmenu)||Skin.Reset(Hub.1112.EnableBasicWidgets)","executebuiltin_11=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1114])||Skin.SetBool(Hub.1114.DisableSubmenu)||Skin.Reset(Hub.1114.EnableBasicWidgets)","executebuiltin_12=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1125])||Skin.SetBool(Hub.1125.DisableSubmenu)||Skin.Reset(Hub.1125.EnableBasicWidgets)","executebuiltin_13=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1126])||Skin.SetBool(Hub.1126.DisableSubmenu)||Skin.Reset(Hub.1126.EnableBasicWidgets)","executebuiltin_14=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1127])||Skin.SetBool(Hub.1127.DisableSubmenu)||Skin.Reset(Hub.1127.EnableBasicWidgets)")</onclick>
+                <onclick>RunScript(script.skinvariables,run_dialog=yesno,"heading=$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE]","message=[B][COLOR=red]$LOCALIZE[14117][/COLOR][/B] — $LOCALIZE[31520][CR][CR]$LOCALIZE[31522]",yeslabel=$LOCALIZE[424],nolabel=$LOCALIZE[222],"executebuiltin=SetFocus(13002)")</onclick>
 
                 <visible>!String.IsEmpty(Container(30000).ListItem.Property(is_homemenu))</visible>
                 <visible>$PARAM[visible]</visible>
 
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE],1115)</onfocus>
-                <onfocus>SetProperty(HelpText,$LOCALIZE[31315][CR][CR][B][COLOR=red]$LOCALIZE[14117][/COLOR][/B] — $LOCALIZE[31520][CR][CR]$LOCALIZE[31522][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31318],1115)</onfocus>
+                <onfocus condition="String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))">SetProperty(HelpText,$LOCALIZE[31315],1115)</onfocus>
+                <onfocus condition="!String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))">SetProperty(HelpText,$LOCALIZE[31315][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31318],1115)</onfocus>
                 <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
                 <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
 
@@ -619,7 +648,6 @@
                 <onfocus condition="!$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpImage,special://skin/extras/screenshots/widgets/Compound.jpg,1115)</onfocus>
                 
 
-                <onunfocus>ClearProperty(HelpImage,1115)</onunfocus>
                 <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
                 <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
             </include>
@@ -650,7 +678,6 @@
                 <onfocus condition="$EXP[Shortcuts_Window_Exp_WidgetWall]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Wall.jpg,1115)</onfocus>
                 <onfocus condition="![$EXP[Shortcuts_Window_Exp_WidgetCombined] | $EXP[Shortcuts_Window_Exp_WidgetWall]]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Standard.jpg,1115)</onfocus>
 
-                <onunfocus>ClearProperty(HelpImage,1115)</onunfocus>
                 <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
                 <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
             </include>
@@ -709,10 +736,11 @@
                 <label>$LOCALIZE[31004] ($LOCALIZE[31068])</label>
                 <selected>Skin.HasSetting(Navigation.Global.Hub.Switcher)</selected>
 
-                <onclick>Skin.ToggleSetting(Navigation.Global.Hub.Switcher)</onclick>
+                <onclick condition="!Skin.HasSetting(Navigation.Global.Hub.Switcher)">RunScript(script.skinvariables,run_dialog=yesno,"heading=$LOCALIZE[31004]","message=[COLOR=red]$LOCALIZE[14117][/COLOR][/B] — $LOCALIZE[31444][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31017]",yeslabel=$LOCALIZE[24022],nolabel=$LOCALIZE[222],"executebuiltin=Skin.ToggleSetting(Navigation.Global.Hub.Switcher)")</onclick>
+                <onclick condition="Skin.HasSetting(Navigation.Global.Hub.Switcher)">Skin.Reset(Navigation.Global.Hub.Switcher)</onclick>
 
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[31004],1115)</onfocus>
-                <onfocus>SetProperty(HelpText,$LOCALIZE[31011][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31017][CR][CR][B][COLOR=red]$LOCALIZE[14117][/COLOR][/B] — $LOCALIZE[31444],1115)</onfocus>
+                <onfocus>SetProperty(HelpText,$LOCALIZE[31011],1115)</onfocus>
 
                 <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
                 <onunfocus>ClearProperty(HelpHead,1115)</onunfocus>
@@ -731,6 +759,7 @@
                 <param name="id">3009</param>
                 <param name="control">button</param>
                 <label>$VAR[Label_Shortcut_Sidemenu]</label>
+                <label2>$INFO[Container(30920).NumItems,, $LOCALIZE[31022]]</label2>
 
                 <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
                 <onclick>SetProperty(Shortcuts.EditMenu,menu=sidemenu,Home)</onclick>
@@ -741,7 +770,7 @@
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[31416],1115)</onfocus>
                 
                 <onfocus condition="String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu) + $EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31464][CR][CR]$LOCALIZE[31474],1115)</onfocus>
-                <onfocus condition="String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu) + !$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31464][CR][CR]$LOCALIZE[31474][CR][CR]$LOCALIZE[31466],1115)</onfocus>
+                <onfocus condition="String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu) + !$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31464][CR][CR]$LOCALIZE[31466],1115)</onfocus>
                 <onfocus condition="!String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(HelpText,$LOCALIZE[31464],1115)</onfocus>
 
                 <onunfocus>ClearProperty(HelpText,1115)</onunfocus>
@@ -766,6 +795,7 @@
                 <param name="id">3011</param>
                 <param name="control">button</param>
                 <label>$LOCALIZE[31328]</label>
+                <label2>$INFO[Container(30921).NumItems,, $LOCALIZE[31022]]</label2>
 
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[31103],1115)</onfocus>
                 <onfocus>SetProperty(HelpText,$LOCALIZE[31106],1115)</onfocus>
@@ -788,6 +818,7 @@
                 <param name="id">3012</param>
                 <param name="control">button</param>
                 <label>$LOCALIZE[31379] [LOWERCASE]$LOCALIZE[1439] $LOCALIZE[31103][/LOWERCASE]</label>
+                <label2>$INFO[Container(30922).NumItems,, $LOCALIZE[31022]]</label2>
 
                 <onclick>ClearProperty(Shortcuts.Position,Home)</onclick>
                 <onclick>SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu)],Home)</onclick>
@@ -811,6 +842,7 @@
                 <param name="id">3013</param>
                 <param name="control">button</param>
                 <label>$LOCALIZE[31521]</label>
+                <label2>$INFO[Container(30923).NumItems,, $LOCALIZE[31022]]</label2>
 
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[31514],1115)</onfocus>
                 <onfocus>SetProperty(HelpText,$LOCALIZE[31101],1115)</onfocus>
@@ -891,6 +923,7 @@
                 <param name="id">3018</param>
                 <param name="control">button</param>
                 <label>$LOCALIZE[31436]</label>
+                <label2>$INFO[Container(30924).NumItems,, $LOCALIZE[31022]]</label2>
 
                 <onfocus>SetProperty(HelpHead,$LOCALIZE[31392],1115)</onfocus>
                 <onfocus condition="!Skin.String(Navigation.Global.OnDown,Explore)">SetProperty(HelpText,$LOCALIZE[31524],1115)</onfocus>
@@ -909,6 +942,1169 @@
                 <visible>$EXP[Shortcuts_Window_Exp_WidgetsOnly]</visible>
                 <visible>$PARAM[visible]</visible>
             </include>
+        </definition>
+    </include>
+
+    <!-- Previews -->
+    <include name="Shortcuts_HubsWindow_Preview">
+        <control type="group">
+            <top>20</top>
+            <height>360</height>
+            <visible>!String.IsEmpty(Window(1115).Property(HelpText))</visible>
+            <include content="Dialog_Outline_InnerBox">
+                <include content="Object_Height" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="height">60</param>
+                </include>
+                <include content="Object_Width" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="width">60</param>
+                </include>
+                <control type="group">
+                    <include condition="Skin.String(Home.SideMenuCollapse,Topbar)">Shortcuts_HubsWindow_Preview_Topbar</include>
+                    <include condition="!Skin.String(Home.SideMenuCollapse,Topbar)">Shortcuts_HubsWindow_Preview_SideMenu</include>
+                </control>
+            </include>
+            <include content="Dialog_Outline_InnerBox">
+                <include content="Object_Top" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">80</param>
+                </include>
+                <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="left">80</param>
+                </include>
+                <control type="group">
+                    <visible>$EXP[Exp_HubsWindow_Item_HasLayout]</visible>
+                    <include>Shortcuts_HubsWindow_Preview_Layout</include>
+                </control>
+                <control type="group">
+                    <visible>$EXP[Exp_HubsWindow_Item_HasNavigation]</visible>
+                    <include>Shortcuts_HubsWindow_Preview_Navigation</include>
+                </control>
+                <control type="group">
+                    <include content="Object_Left" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                        <param name="left">407</param>
+                    </include>
+                    <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                        <param name="left">327</param>
+                    </include>
+                    <visible>$EXP[Exp_HubsWindow_Item_PowerPreview]</visible>
+                    <include>Shortcuts_HubsWindow_Preview_Power</include>
+                </control>
+            </include>
+        </control>
+        <control type="textbox">
+            <top>20</top>
+            <height>720</height>
+            <visible>String.IsEmpty(Window(1115).Property(HelpImage))</visible>
+            <font>font_mini_plot</font>
+            <textcolor>main_fg_70</textcolor>
+            <label>$VAR[Label_Shortcut_HelpText]</label>
+            <autoscroll delay="6000" time="3000" repeat="10000">True</autoscroll>
+        </control>
+        <control type="textbox">
+            <top>20</top>
+            <height>260</height>
+            <visible>!String.IsEmpty(Window(1115).Property(HelpImage))</visible>
+            <font>font_mini_plot</font>
+            <textcolor>main_fg_70</textcolor>
+            <label>$VAR[Label_Shortcut_HelpText]</label>
+            <autoscroll delay="6000" time="3000" repeat="10000">True</autoscroll>
+        </control>
+    </include>
+
+    <include name="Shortcuts_HubsWindow_Preview_Navigation">
+        <control type="group">
+            <left>25</left>
+            <right>24</right>
+            
+            <!-- Basic -->
+            <control type="group">
+                <visible>$EXP[Exp_HubsWindow_Preview_Nav_Basic]</visible>
+                <include content="Shortcuts_HubsWindow_Preview_Row">
+                    <param name="top">23</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row">
+                    <param name="top">134</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">245</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">245</param>
+                    <param name="item_h">16</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+            </control>
+            
+            <!-- Info Panel (Classic and Complex)-->
+            <control type="group">
+                <visible>$EXP[Exp_HubsWindow_Preview_Nav_Classic] | $EXP[Exp_HubsWindow_Preview_Nav_Complex]</visible>
+                <control type="group">
+                    <top>31</top>
+                    <height>25</height>
+                    <include>Shortcuts_HubsWindow_Preview_Bar</include>
+                </control>
+                <control type="image">
+                    <top>71</top>
+                    <width>227</width>
+                    <height>7</height>
+                    <texture border="8" colordiffuse="main_fg_50">common/underline.png</texture>
+                </control>
+                <control type="image">
+                    <top>87</top>
+                    <width>255</width>
+                    <height>6</height>
+                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                </control>
+                <control type="image">
+                    <top>100</top>
+                    <width>244</width>
+                    <height>6</height>
+                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                </control>
+                <control type="image">
+                    <top>111</top>
+                    <width>166</width>
+                    <height>6</height>
+                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                </control>
+                <control type="group">
+                    <top>128</top>
+                    <height>9</height>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">4.5</param>
+                        <param name="edge_left_2">26.5</param>
+                        <param name="body_left">4.5</param>
+                        <param name="body_width">22</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">40</param>
+                        <param name="edge_width">4.5</param>
+                        <param name="edge_left_2">66.5</param>
+                        <param name="body_left">44.5</param>
+                        <param name="body_width">22</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">78</param>
+                        <param name="edge_width">4.5</param>
+                        <param name="edge_left_2">114.5</param>
+                        <param name="body_left">82.5</param>
+                        <param name="body_width">32</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                </control>
+
+                <!-- Spotlight -->
+                <control type="group">
+                    <visible>$EXP[Exp_HubsWindow_Preview_Nav_Complex]</visible>
+                    <control type="grouplist">
+                        <top>161</top>
+                        <orientation>horizontal</orientation>
+                        <itemgap>10</itemgap>
+                        <control type="image">
+                            <width>70</width>
+                            <height>20</height>
+                            <texture colordiffuse="main_fg_50">common/menu.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>20</width>
+                            <height>20</height>
+                            <texture colordiffuse="main_fg_30">diffuse/circle/circle_50.png</texture>
+                        </control>
+                        <control type="image">
+                            <width>20</width>
+                            <height>20</height>
+                            <texture colordiffuse="main_fg_30">diffuse/circle/circle_50.png</texture>
+                        </control>
+                    </control>
+                    <control type="grouplist">
+                        <top>190</top>
+                        <orientation>horizontal</orientation>
+                        <itemgap>5</itemgap>
+                        <control type="group">
+                            <height>10</height>
+                            <width>34</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">27</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">20</param>
+                                <param name="colordiffuse">main_fg_30</param>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <height>10</height>
+                            <width>40</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">33</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">26</param>
+                                <param name="colordiffuse">main_fg_12</param>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <height>10</height>
+                            <width>24</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">17</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">10</param>
+                                <param name="colordiffuse">main_fg_12</param>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <height>10</height>
+                            <width>56</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">51</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">44</param>
+                                <param name="colordiffuse">main_fg_12</param>
+                            </include>
+                        </control>
+                    </control>
+                    <control type="grouplist">
+                        <top>205</top>
+                        <orientation>horizontal</orientation>
+                        <itemgap>5</itemgap>
+                        <control type="group">
+                            <height>10</height>
+                            <width>20</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">13</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">6</param>
+                                <param name="colordiffuse">main_fg_30</param>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <height>10</height>
+                            <width>20</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">13</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">6</param>
+                                <param name="colordiffuse">main_fg_12</param>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <height>10</height>
+                            <width>20</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">13</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">6</param>
+                                <param name="colordiffuse">main_fg_12</param>
+                            </include>
+                        </control>
+                        <control type="group">
+                            <height>10</height>
+                            <width>20</width>
+                            <include content="Shortcuts_HubsWindow_Preview_Bar">
+                                <param name="edge_left">0</param>
+                                <param name="edge_width">7</param>
+                                <param name="edge_left_2">13</param>
+                                <param name="body_left">7</param>
+                                <param name="body_width">6</param>
+                                <param name="colordiffuse">main_fg_12</param>
+                            </include>
+                        </control>
+                    </control>
+                </control>
+            </control>
+            
+            <!-- Classic (same as Standard) -->
+            <control type="group">
+                <visible>$EXP[Exp_HubsWindow_Preview_Nav_Classic]</visible>
+                <control type="group">
+                    <top>161</top>
+                    <height>11</height>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">7</param>
+                        <param name="edge_left_2">66</param>
+                        <param name="body_left">7</param>
+                        <param name="body_width">59</param>
+                        <param name="colordiffuse">main_fg_30</param>
+                    </include>
+                </control>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">184</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">184</param>
+                    <param name="item_h">28</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">212</param>
+                    <param name="item_h">49</param>
+                    <param name="diffuse">white</param>
+                </include>
+                <control type="group">
+                    <top>293</top>
+                    <height>11</height>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">7</param>
+                        <param name="edge_left_2">66</param>
+                        <param name="body_left">7</param>
+                        <param name="body_width">59</param>
+                        <param name="colordiffuse">main_fg_30</param>
+                    </include>
+                </control>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">315</param>
+                    <param name="item_h">28</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+            </control>
+
+            <!-- Complex -->
+            <control type="group">
+                <visible>$EXP[Exp_HubsWindow_Preview_Nav_Complex]</visible>
+                <control type="group">
+                    <top>222</top>
+                    <height>11</height>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">7</param>
+                        <param name="edge_left_2">13</param>
+                        <param name="body_left">7</param>
+                        <param name="body_width">6</param>
+                        <param name="colordiffuse">main_fg_30</param>
+                    </include>
+                </control>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">245</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">245</param>
+                    <param name="item_h">16</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <include name="Shortcuts_HubsWindow_Preview_Layout">
+        <control type="group">
+            <left>25</left>
+            <right>24</right>
+
+            <!-- Info Panel (Standard and Combined) -->
+            <control type="group">
+                <visible>!$EXP[Exp_HubsWindow_Preview_Wall]</visible>
+                <control type="group">
+                    <top>31</top>
+                    <height>25</height>
+                    <include>Shortcuts_HubsWindow_Preview_Bar</include>
+                </control>
+                <control type="image">
+                    <top>71</top>
+                    <width>227</width>
+                    <height>7</height>
+                    <texture border="8" colordiffuse="main_fg_50">common/underline.png</texture>
+                </control>
+                <control type="image">
+                    <top>87</top>
+                    <width>255</width>
+                    <height>6</height>
+                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                </control>
+                <control type="image">
+                    <top>100</top>
+                    <width>244</width>
+                    <height>6</height>
+                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                </control>
+                <control type="image">
+                    <top>111</top>
+                    <width>166</width>
+                    <height>6</height>
+                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                </control>
+                <control type="group">
+                    <top>128</top>
+                    <height>9</height>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">4.5</param>
+                        <param name="edge_left_2">26.5</param>
+                        <param name="body_left">4.5</param>
+                        <param name="body_width">22</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">40</param>
+                        <param name="edge_width">4.5</param>
+                        <param name="edge_left_2">66.5</param>
+                        <param name="body_left">44.5</param>
+                        <param name="body_width">22</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">78</param>
+                        <param name="edge_width">4.5</param>
+                        <param name="edge_left_2">114.5</param>
+                        <param name="body_left">82.5</param>
+                        <param name="body_width">32</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                </control>
+            </control>
+
+            <!-- Standard -->
+            <control type="group">
+                <visible>!$EXP[Exp_HubsWindow_Preview_Combined] + !$EXP[Exp_HubsWindow_Preview_Wall]</visible>
+                <control type="group">
+                    <top>161</top>
+                    <height>11</height>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">7</param>
+                        <param name="edge_left_2">66</param>
+                        <param name="body_left">7</param>
+                        <param name="body_width">59</param>
+                        <param name="colordiffuse">main_fg_30</param>
+                    </include>
+                </control>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">184</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">184</param>
+                    <param name="item_h">28</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">212</param>
+                    <param name="item_h">49</param>
+                    <param name="diffuse">white</param>
+                </include>
+                <control type="group">
+                    <top>293</top>
+                    <height>11</height>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">7</param>
+                        <param name="edge_left_2">66</param>
+                        <param name="body_left">7</param>
+                        <param name="body_width">59</param>
+                        <param name="colordiffuse">main_fg_30</param>
+                    </include>
+                </control>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">315</param>
+                    <param name="item_h">28</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+            </control>
+
+            <!-- Combined -->
+            <control type="group">
+                <visible>$EXP[Exp_HubsWindow_Preview_Combined]</visible>
+                <control type="grouplist">
+                    <top>161</top>
+                    <height>11</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>13</itemgap>
+                    <control type="group">
+                        <width>62</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">55</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">48</param>
+                            <param name="colordiffuse">main_fg_90</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <width>75</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">68</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">61</param>
+                            <param name="colordiffuse">main_fg_12</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <width>56</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">49</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">42</param>
+                            <param name="colordiffuse">main_fg_12</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <width>66</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">59</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">52</param>
+                            <param name="colordiffuse">main_fg_12</param>
+                        </include>
+                    </control>
+                </control>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">184</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">184</param>
+                    <param name="item_h">28</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">212</param>
+                    <param name="item_h">49</param>
+                    <param name="diffuse">white</param>
+                </include>
+            </control>
+
+            <!-- Wall -->
+            <control type="group">
+                <visible>$EXP[Exp_HubsWindow_Preview_Wall]</visible>
+                <control type="group">
+                    <top>31</top>
+                    <height>25</height>
+                    <include>Shortcuts_HubsWindow_Preview_Bar</include>
+                </control>
+                <control type="grouplist">
+                    <top>78</top>
+                    <height>11</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>13</itemgap>
+                    <control type="group">
+                        <width>62</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">55</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">48</param>
+                            <param name="colordiffuse">main_fg_90</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <width>75</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">68</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">61</param>
+                            <param name="colordiffuse">main_fg_12</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <width>56</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">49</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">42</param>
+                            <param name="colordiffuse">main_fg_12</param>
+                        </include>
+                    </control>
+                    <control type="group">
+                        <width>66</width>
+                        <include content="Shortcuts_HubsWindow_Preview_Bar">
+                            <param name="edge_left">0</param>
+                            <param name="edge_width">7</param>
+                            <param name="edge_left_2">59</param>
+                            <param name="body_left">7</param>
+                            <param name="body_width">52</param>
+                            <param name="colordiffuse">main_fg_12</param>
+                        </include>
+                    </control>
+                </control>
+                <include content="Shortcuts_HubsWindow_Preview_Row">
+                    <param name="top">105</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">216</param>
+                    <param name="item_h">98</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">216</param>
+                    <param name="item_h">28</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">244</param>
+                    <param name="item_h">17</param>
+                    <param name="diffuse">white</param>
+                    <param name="border">0</param>
+                </include>
+                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
+                    <param name="top">327</param>
+                    <param name="item_h">16</param>
+                    <param name="diffuse">dialog_overlay_v</param>
+                    <param name="border">0</param>
+                    <param name="flipy">true</param>
+                </include>
+            </control>
+        </control>
+    </include>
+
+    <!-- Poster Row -->
+    <include name="Shortcuts_HubsWindow_Preview_Row">
+        <param name="diffuse">dialog</param>
+        <param name="border">20</param>
+        <param name="flipy">false</param>
+        <definition>
+            <control type="grouplist">
+                <top>$PARAM[top]</top>
+                <height>$PARAM[item_h]</height>
+                <orientation>horizontal</orientation>
+                <itemgap>13</itemgap>
+                <control type="image">
+                    <width>69</width>
+                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
+                </control>
+                <control type="image">
+                    <width>69</width>
+                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
+                </control>
+                <control type="image">
+                    <width>69</width>
+                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
+                </control>
+                <control type="image">
+                    <width>69</width>
+                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
+                </control>
+                <control type="image">
+                    <width>69</width>
+                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
+                </control>
+                <control type="image">
+                    <width>69</width>
+                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
+                </control>
+                <control type="image">
+                    <width>69</width>
+                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
+                </control>
+            </control>
+        </definition>
+    </include>
+    
+    <!-- Power -->
+    <include name="Shortcuts_HubsWindow_Preview_Power">
+        <control type="group">
+            <control type="image">
+                <bordersize>1</bordersize>
+                <texture border="20" colordiffuse="main_fg_12">common/dialog.png</texture>
+            </control>
+            <control type="group">
+                <left>13</left>
+                <right>13</right>
+                <control type="image">
+                    <top>29</top>
+                    <height>7</height>
+                    <width>95</width>
+                    <texture border="8" colordiffuse="main_fg_70">common/underline.png</texture>
+                </control>
+                <control type="image">
+                    <top>51</top>
+                    <height>1</height>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                </control>
+
+                <!-- Tiles -->
+                <control type="group">
+                    <top>57</top>
+                    <height>41</height>
+                    <visible>!Skin.String(OptionsTiles.Layout,$NUMBER[4])</visible>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">20.5</param>
+                        <param name="edge_left_2">157.5</param>
+                        <param name="body_left">20.5</param>
+                        <param name="body_width">137</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <width>10</width>
+                        <height>10</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>57</top>
+                    <height>41</height>
+                    <visible>Skin.String(OptionsTiles.Layout,$NUMBER[4])</visible>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">20.5</param>
+                        <param name="edge_left_2">66</param>
+                        <param name="body_left">20.5</param>
+                        <param name="body_width">45.5</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">91.5</param>
+                        <param name="edge_width">20.5</param>
+                        <param name="edge_left_2">157.5</param>
+                        <param name="body_left">112</param>
+                        <param name="body_width">45.5</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <width>10</width>
+                        <height>10</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>102</left>
+                        <top>10</top>
+                        <width>10</width>
+                        <height>10</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>105</top>
+                    <height>41</height>
+                    <visible>Skin.String(OptionsTiles.Layout,$NUMBER[2])</visible>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">20.5</param>
+                        <param name="edge_left_2">157.5</param>
+                        <param name="body_left">20.5</param>
+                        <param name="body_width">137</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <width>10</width>
+                        <height>10</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>105</top>
+                    <height>41</height>
+                    <visible>!Skin.String(OptionsTiles.Layout,$NUMBER[2])</visible>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">0</param>
+                        <param name="edge_width">20.5</param>
+                        <param name="edge_left_2">66</param>
+                        <param name="body_left">20.5</param>
+                        <param name="body_width">45.5</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <include content="Shortcuts_HubsWindow_Preview_Bar">
+                        <param name="edge_left">91.5</param>
+                        <param name="edge_width">20.5</param>
+                        <param name="edge_left_2">157.5</param>
+                        <param name="body_left">112</param>
+                        <param name="body_width">45.5</param>
+                        <param name="colordiffuse">main_fg_12</param>
+                    </include>
+                    <control type="image">
+                        <left>10</left>
+                        <top>10</top>
+                        <width>10</width>
+                        <height>10</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>102</left>
+                        <top>10</top>
+                        <width>10</width>
+                        <height>10</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                </control>
+                <control type="image">
+                    <top>152</top>
+                    <height>1</height>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                </control>
+                
+                <!-- Shortcuts -->
+                <control type="group">
+                    <top>159</top>
+                    <height>25</height>
+                    <visible>Integer.IsGreater(Container(30926).NumItems,0)</visible>
+                    <control type="image">
+                        <left>6</left>
+                        <top>6</top>
+                        <width>13</width>
+                        <height>13</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>27</left>
+                        <top>10</top>
+                        <width>90</width>
+                        <height>6</height>
+                        <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>184</top>
+                    <height>25</height>
+                    <visible>Integer.IsGreater(Container(30926).NumItems,1)</visible>
+                    <control type="image">
+                        <left>6</left>
+                        <top>6</top>
+                        <width>13</width>
+                        <height>13</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>27</left>
+                        <top>10</top>
+                        <width>70</width>
+                        <height>6</height>
+                        <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>210</top>
+                    <height>25</height>
+                    <visible>Integer.IsGreater(Container(30926).NumItems,2)</visible>
+                    <control type="image">
+                        <left>6</left>
+                        <top>6</top>
+                        <width>13</width>
+                        <height>13</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>27</left>
+                        <top>10</top>
+                        <width>100</width>
+                        <height>6</height>
+                        <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>235</top>
+                    <height>25</height>
+                    <visible>Integer.IsGreater(Container(30926).NumItems,3) + !Skin.String(Home.SideMenuCollapse,Topbar)</visible>
+                    <control type="image">
+                        <left>6</left>
+                        <top>6</top>
+                        <width>13</width>
+                        <height>13</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>27</left>
+                        <top>10</top>
+                        <width>80</width>
+                        <height>6</height>
+                        <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                    </control>
+                </control>
+                <control type="group">
+                    <top>261</top>
+                    <height>25</height>
+                    <visible>Integer.IsGreater(Container(30926).NumItems,4) + !Skin.String(Home.SideMenuCollapse,Topbar)</visible>
+                    <control type="image">
+                        <left>6</left>
+                        <top>6</top>
+                        <width>13</width>
+                        <height>13</height>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <left>27</left>
+                        <top>10</top>
+                        <width>60</width>
+                        <height>6</height>
+                        <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
+                    </control>
+                </control>
+                <control type="image">
+                    <include content="Object_Top" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                        <param name="top">242</param>
+                    </include>
+                    <top>292</top>
+                    <height>1</height>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                </control>
+
+                <!-- Options tray -->
+                <control type="grouplist">
+                    <include content="Object_Top" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
+                        <param name="top">252</param>
+                    </include>
+                    <top>302</top>
+                    <height>13</height>
+                    <orientation>horizontal</orientation>
+                    <itemgap>12</itemgap>
+                    <left>6</left>
+                    <align>center</align>
+                    <control type="image">
+                        <visible>Integer.IsGreater(Container(30927).NumItems,0)</visible>
+                        <width>13</width>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <visible>Integer.IsGreater(Container(30927).NumItems,1)</visible>
+                        <width>13</width>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <visible>Integer.IsGreater(Container(30927).NumItems,2)</visible>
+                        <width>13</width>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <visible>Integer.IsGreater(Container(30927).NumItems,3)</visible>
+                        <width>13</width>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <visible>Integer.IsGreater(Container(30927).NumItems,4)</visible>
+                        <width>13</width>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <visible>Integer.IsGreater(Container(30927).NumItems,5)</visible>
+                        <width>13</width>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                    <control type="image">
+                        <visible>Integer.IsGreater(Container(30927).NumItems,6)</visible>
+                        <width>13</width>
+                        <texture colordiffuse="main_fg_30">common/dialog.png</texture>
+                    </control>
+                </control>
+            </control>
+        </control>
+    </include>
+
+    <variable name="Shortcuts_Icon_SideMenu_Special">
+        <value condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),nextaired)">calendar-day.png</value>
+        <value condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),addons)">addon.png</value>
+        <value>bars.png</value>
+    </variable>
+
+    <variable name="Shortcuts_ColorSelected_SideMenu_Search">
+        <value condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),search) | String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=searchmenu) | String.IsEqual(Window(1121).Property(CustomDialogPreviewWindowID),Hub.1185)">main_fg_90</value>
+        <value>main_fg_50</value>
+    </variable>
+
+    <variable name="Shortcuts_ColorSelected_SideMenu_SpecialIcon">
+        <value condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),nextaired) | String.IsEqual(Window(1121).Property(CustomDialogPreviewWindowID),Hub.1130) | String.IsEqual(Window(1121).Property(CustomDialogPreviewWindowID),Hub.1131)">main_fg_90</value>
+        <value condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),addons) | String.IsEqual(Window(1121).Property(CustomDialogPreviewWindowID),Hub.1132)">main_fg_90</value>
+        <value condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),power) | String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=powermainmenu) | String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=options-tray)">main_fg_90</value>
+        <value>main_fg_50</value>
+    </variable>
+
+    <variable name="Shortcuts_ColorSelected_SideMenu_Icons">
+        <value condition="[Control.HasFocus(3009) | String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=sidemenu)]">main_fg_90</value>
+        <value>main_fg_50</value>
+    </variable>
+
+    <!-- Sidemenu -->
+    <include name="Shortcuts_HubsWindow_Preview_SideMenu">
+        <control type="group">
+            <control type="grouplist">
+                <top>20</top>
+                <centerleft>30</centerleft>
+                <width>60</width>
+                <height>360</height>
+                <orientation>vertical</orientation>
+                <itemgap>10</itemgap>
+                <control type="image">
+                    <height>45</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Search]">special://skin/extras/icons/search.png</texture>
+                </control>
+                <control type="image">
+                    <height>45</height>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(0).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(0).Icon]</texture>
+                </control>
+                <control type="image">
+                    <height>45</height>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(1).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(1).Icon]</texture>
+                </control>
+                <control type="image">
+                    <height>45</height>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(2).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(2).Icon]</texture>
+                </control>
+                <control type="image">
+                    <height>45</height>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(3).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(3).Icon]</texture>
+                </control>
+            </control>
+            <control type="image">
+                <bottom>20</bottom>
+                <height>45</height>
+                <aspectratio>keep</aspectratio>
+                <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_SpecialIcon]">special://skin/extras/icons/$VAR[Shortcuts_Icon_SideMenu_Special]</texture>
+            </control>
+        </control>
+    </include>
+    
+    <!-- Topbar -->
+    <include name="Shortcuts_HubsWindow_Preview_Topbar">
+        <control type="group">
+            <control type="grouplist">
+                <left>20</left>
+                <height>60</height>
+                <orientation>horizontal</orientation>
+                <align>left</align>
+                <itemgap>13</itemgap>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Search]">special://skin/extras/icons/search.png</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(0).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(0).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(1).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(1).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(2).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(2).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(3).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(3).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(4).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(4).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(5).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(5).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(6).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(6).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(7).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(7).Icon]</texture>
+                </control>
+                <control type="image">
+                    <width>60</width>
+                    <aspectratio>keep</aspectratio>
+                    <visible>!String.IsEmpty(Container(30920).ListItemAbsolute(8).Label)</visible>
+                    <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_Icons]">$INFO[Container(30920).ListItemAbsolute(8).Icon]</texture>
+                </control>
+            </control>
+            <control type="image">
+                <right>20</right>
+                <width>60</width>
+                <aspectratio>keep</aspectratio>
+                <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_SpecialIcon]">special://skin/extras/icons/$VAR[Shortcuts_Icon_SideMenu_Special]</texture>
+            </control>
+        </control>
+    </include>
+
+    <include name="Shortcuts_HubsWindow_Preview_Bar">
+        <param name="edge_left">0</param>
+        <param name="edge_left_2">163.5</param>
+        <param name="edge_width">12.5</param>
+        <param name="body_left">12.5</param>
+        <param name="body_width">151</param>
+        <param name="colordiffuse">main_fg_70</param>
+        <definition>
+            <control type="image">
+                <left>$PARAM[edge_left]</left>
+                <width>$PARAM[edge_width]</width>
+                <texture flipx="true" colordiffuse="$PARAM[colordiffuse]">common/dialog_overlay.png</texture>
+            </control>
+            <control type="image">
+                <left>$PARAM[body_left]</left>
+                <width>$PARAM[body_width]</width>
+                <texture colordiffuse="$PARAM[colordiffuse]">common/white.png</texture>
+            </control>
+            <control type="image">
+                <left>$PARAM[edge_left_2]</left>
+                <width>$PARAM[edge_width]</width>
+                <texture colordiffuse="$PARAM[colordiffuse]">common/dialog_overlay.png</texture>
+            </control>
         </definition>
     </include>
 </includes>

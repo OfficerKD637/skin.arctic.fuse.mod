@@ -16,7 +16,7 @@
     <onload condition="Integer.IsLess(Skin.String(Skin.SettingsLevel),2)">Skin.Reset(Navigation.Global.Hub.Switcher)</onload>
     <onload>SetProperty(TMDbHelper.WidgetContainer,50)</onload>
     <include>Action_Blur_Onload</include>
-    <onload>SetFocus(30000,0,absolute)</onload>
+    <onload>SetFocus(30000,1,absolute)</onload>
     <onunload>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onunload>
     <include>Action_BuildShortcuts_OnUnLoad</include>
     <controls>
@@ -58,8 +58,8 @@
                             <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
 
                             <onfocus>SetProperty(HelpHead,$LOCALIZE[31099],1115)</onfocus>
-                            <onfocus condition="![Integer.IsLess(Skin.String(Skin.SettingsLevel),2) + String.IsEmpty(Window.Property(show_all_hubs))] + String.IsEmpty(Window.Property(show_all_custom_hubs))">SetProperty(HelpText,$LOCALIZE[31100][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31084],1115)</onfocus>
-                            <onfocus condition="![![Integer.IsLess(Skin.String(Skin.SettingsLevel),2) + String.IsEmpty(Window.Property(show_all_hubs))] + String.IsEmpty(Window.Property(show_all_custom_hubs))]">SetProperty(HelpText,$LOCALIZE[31100],1115)</onfocus>
+                            <onfocus condition="String.IsEmpty(Window.Property(show_all_custom_hubs))">SetProperty(HelpText,$LOCALIZE[31100][CR][CR][COLOR=main_fg_90][B]$LOCALIZE[31012][/B][/COLOR] — $LOCALIZE[31084],1115)</onfocus>
+                            <onfocus condition="!String.IsEmpty(Window.Property(show_all_custom_hubs))">SetProperty(HelpText,$LOCALIZE[31100],1115)</onfocus>
 
                             <content>
                                 <item id="0">
@@ -325,7 +325,57 @@
                 </include>
                 <include content="Settings_Right_Group">
                     <control type="group">
-                        <width>60%</width>
+                        <width>50%</width>
+                        <!-- "Use as home" hidden button -->
+                        <include content="Object_Hidden_Button">
+                            <param name="id">13002</param>
+                            <onfocus>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Shortcuts_Window_Var_HomeItem_Property_Current_Home_Hub],heading=$LOCALIZE[21480] $LOCALIZE[20347] [LOWERCASE]$LOCALIZE[10000][/LOWERCASE],separator=||,list=$LOCALIZE[31143] $LOCALIZE[10000]||$NUMBER[1101]$VAR[Label_Header_Main_1101, (,)]||$NUMBER[1102]$VAR[Label_Header_Main_1102, (,)]||$NUMBER[1103]$VAR[Label_Header_Main_1103, (,)]||$NUMBER[1104]$VAR[Label_Header_Main_1104, (,)]||$NUMBER[1106]$VAR[Label_Header_Main_1106, (,)]||$NUMBER[1107]$VAR[Label_Header_Main_1107, (,)]||$NUMBER[1108]$VAR[Label_Header_Main_1108, (,)]||$NUMBER[1109]$VAR[Label_Header_Main_1109, (,)]||$NUMBER[1110]$VAR[Label_Header_Main_1110, (,)]||$NUMBER[1112]$VAR[Label_Header_Main_1112, (,)]||$NUMBER[1114]$VAR[Label_Header_Main_1114, (,)]||$NUMBER[1125]$VAR[Label_Header_Main_1125, (,)]||$NUMBER[1126]$VAR[Label_Header_Main_1126, (,)]||$NUMBER[1127]$VAR[Label_Header_Main_1127, (,)],"executebuiltin_0=Skin.Reset(Hub.Home.ReplaceWindow)||Skin.Reset(Navigation.Global.Hub.Switcher)||SetFocus(3002)","executebuiltin_1=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1101])||Skin.SetBool(Hub.1101.DisableSubmenu)||Skin.Reset(Hub.1101.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_2=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1102])||Skin.SetBool(Hub.1102.DisableSubmenu)||Skin.Reset(Hub.1102.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_3=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1103])||Skin.SetBool(Hub.1103.DisableSubmenu)||Skin.Reset(Hub.1103.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_4=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1104])||Skin.SetBool(Hub.1104.DisableSubmenu)||Skin.Reset(Hub.1104.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_5=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1106])||Skin.SetBool(Hub.1106.DisableSubmenu)||Skin.Reset(Hub.1106.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_6=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1107])||Skin.SetBool(Hub.1107.DisableSubmenu)||Skin.Reset(Hub.1107.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_7=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1108])||Skin.SetBool(Hub.1108.DisableSubmenu)||Skin.Reset(Hub.1108.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_8=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1109])||Skin.SetBool(Hub.1109.DisableSubmenu)||Skin.Reset(Hub.1109.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_9=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1110])||Skin.SetBool(Hub.1110.DisableSubmenu)||Skin.Reset(Hub.1110.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_10=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1112])||Skin.SetBool(Hub.1112.DisableSubmenu)||Skin.Reset(Hub.1112.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_11=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1114])||Skin.SetBool(Hub.1114.DisableSubmenu)||Skin.Reset(Hub.1114.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_12=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1125])||Skin.SetBool(Hub.1125.DisableSubmenu)||Skin.Reset(Hub.1125.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_13=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1126])||Skin.SetBool(Hub.1126.DisableSubmenu)||Skin.Reset(Hub.1126.EnableBasicWidgets)||SetFocus(3002)","executebuiltin_14=Skin.SetString(Hub.Home.ReplaceWindow,$NUMBER[1127])||Skin.SetBool(Hub.1127.DisableSubmenu)||Skin.Reset(Hub.1127.EnableBasicWidgets)||SetFocus(3002)")</onfocus>
+                            <onunfocus>SetFocus(3002)</onunfocus>
+                            <onup>SetFocus(3002)</onup>
+                            <ondown>SetFocus(3002)</ondown>
+                            <onleft>SetFocus(3002)</onleft>
+                            <onright>SetFocus(3002)</onright>
+                        </include>
+                        <!-- Hidden list for sidemenu items counter -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30920</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;menu=sidemenu$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
+                        <!-- Hidden list for widgets counter (Classic) -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30921</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;$VAR[Shortcuts_Label_CategoryCounter,,-widgetsonly]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
+                        <!-- Hidden list for categories counter (Complex) -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30922</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;$VAR[Shortcuts_Label_CategoryCounter,,]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
+                        <!-- Hidden list for global widgets counter (Complex) -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30923</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;$VAR[Shortcuts_Label_CategoryCounter,,-globalwidgets]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
+                        <!-- Hidden list for global widgets counter (Complex) -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30924</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;$VAR[Shortcuts_Label_CategoryCounter,,-extendedwidgets]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
+                        <!-- Hidden list for search widgets -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30925</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;menu=searchmenu$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
+                        <!-- Hidden list for shortcuts (Power) -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30926</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;menu=powermainmenu$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
+                        <!-- Hidden list for options tray (Power) -->
+                        <include content="Object_Hidden_List">
+                            <param name="id">30927</param>
+                            <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;skin=$VAR[Path_SkinVariables_SkinFolder]&amp;menu=options-tray$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]</content>
+                        </include>
                         <control type="group" id="340">
                             <include content="Dimension_Padding">
                                 <param name="pad">20</param>
@@ -338,18 +388,18 @@
                                 <ondown>305</ondown>
                                 <pagecontrol>61</pagecontrol>
 
-                                <include>Shortcuts_Window_Items_Hubs</include>
                                 <include>Shortcuts_Window_Items_Search</include>
-                                <include>Shortcuts_Window_Items_Power</include>
+                                <include>Shortcuts_Window_Items_Hubs</include>
                                 <include>Shortcuts_Window_Items_Addons</include>
                                 <include>Shortcuts_Window_Items_NextAired</include>
+                                <include>Shortcuts_Window_Items_Power</include>
 
                             </control>
                         </control>
                     </control>
 
                     <control type="group">
-                        <left>60%</left>
+                        <left>50%</left>
                         <control type="group">
                             <centerleft>0</centerleft>
                             <bottom>20</bottom>
@@ -385,36 +435,7 @@
                                 <textcolor>main_fg_90</textcolor>
                                 <label>$VAR[Label_Shortcut_HelpHead]</label>
                             </control>
-                            <control type="group">
-                                <top>20</top>
-                                <height>280</height>
-                                <visible>!String.IsEmpty(Window(1115).Property(HelpImage))</visible>
-                                <include content="Dialog_Outline_InnerBox">
-                                    <control type="image">
-                                        <aspectratio scalediffuse="false">scale</aspectratio>
-                                        <bordersize>20</bordersize>
-                                        <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$INFO[Window(1115).Property(HelpImage)]</texture>
-                                    </control>
-                                </include>
-                            </control>
-                            <control type="textbox">
-                                <top>20</top>
-                                <height>640</height>
-                                <visible>String.IsEmpty(Window(1115).Property(HelpImage))</visible>
-                                <font>font_mini_plot</font>
-                                <textcolor>main_fg_70</textcolor>
-                                <label>$VAR[Label_Shortcut_HelpText]</label>
-                                <autoscroll delay="6000" time="3000" repeat="10000">True</autoscroll>
-                            </control>
-                            <control type="textbox">
-                                <top>20</top>
-                                <height>340</height>
-                                <visible>!String.IsEmpty(Window(1115).Property(HelpImage))</visible>
-                                <font>font_mini_plot</font>
-                                <textcolor>main_fg_70</textcolor>
-                                <label>$VAR[Label_Shortcut_HelpText]</label>
-                                <autoscroll delay="6000" time="3000" repeat="10000">True</autoscroll>
-                            </control>
+                            <include>Shortcuts_HubsWindow_Preview</include>
                         </control>
                     </control>
 
@@ -431,10 +452,10 @@
                         <onup>3000</onup>
                         <ondown condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">3002</ondown>
                         <ondown condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + !String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">3003</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),power)">3024</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),search)">3027</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),addons)">3035</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),nextaired)">3039</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),power)">3020</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),search)">3026</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),addons)">3029</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),nextaired)">3037</ondown>
                         <include content="DialogInfo_Button">
                             <param name="vertical">false</param>
                             <param name="width">300</param>
