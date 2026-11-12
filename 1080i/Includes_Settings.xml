@@ -571,20 +571,10 @@
 
     <include name="Settings_Statistics">
         <control type="group">
-            <height>760</height>
+            <height>680</height>
             <visible>!Integer.IsEqual(Container($PARAM[id1]).NumItems,0) | !Integer.IsEqual(Container($PARAM[id2]).NumItems,0) | !Integer.IsEqual(Container($PARAM[id3]).NumItems,0)</visible>
-            <control type="label">
-                <left>40</left>
-                <right>40</right>
-                <align>right</align>
-                <height>40</height>
-                <bottom>0</bottom>
-                <label>$PARAM[source]</label>
-                <font>font_hint_bold</font>
-                <textcolor>main_fg_30</textcolor>
-            </control>
             <control type="grouplist">
-                <top>80</top>
+                <top>0</top>
                 <bottom>30</bottom>
                 <left>40</left>
                 <right>40</right>
@@ -703,6 +693,9 @@
                     <content limit="10" browse="never">plugin://plugin.video.themoviedb.helper?info=sync_watchedon&amp;type=both&amp;month=$PARAM[month]&amp;year=$PARAM[year]&amp;nextpage=false</content>
                     <onclick>Action(Info)</onclick>
                     <top>-10</top>
+                    <include content="Object_Left" condition="Skin.HasSetting(Views.DisableItemPeek)">
+                        <param name="left">-20</param>
+                    </include>
                     <left>-60</left>
                     <right>-60</right>
                     <onleft>34</onleft>
@@ -1018,7 +1011,7 @@
             <ondown>SetFocus(65)</ondown>
             <ondown>PageDown(65)</ondown>
 
-            <content>plugin://plugin.video.themoviedb.helper/?info=sync_history_stats&amp;tmdb_type=both&amp;days=287&amp;sort_how=asc</content>
+            <content>plugin://plugin.video.themoviedb.helper/?info=sync_history_stats&amp;tmdb_type=both&amp;days=287</content>
 
             <onclick>SetProperty(header,$ESCINFO[Container($PARAM[id]).ListItem.Property(long)],1135)</onclick>
             <onclick>SetProperty(path,plugin://plugin.video.themoviedb.helper/?info=sync_watchedon&amp;type=both&amp;day=$INFO[Container($PARAM[id]).ListItem.Property(day_number)]&amp;month=$INFO[Container($PARAM[id]).ListItem.Property(month_number)]&amp;year=$INFO[Container($PARAM[id]).ListItem.Property(year)]&amp;episodes=true&amp;nextpage=true,1135)</onclick>
