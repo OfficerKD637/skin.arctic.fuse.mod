@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Template for SkinVariables run_skinsettings. The script fills grouplists 3 and 5 from shortcuts/skinvariables-skinsettings.json
+     using the template controls below, configures the search box in place, sets the description in textbox 6, and removes the
+     template controls from the generated window. -->
+<window>
+    <include content="Action_SettingsCategories_Onload">
+        <param name="defaultcontrol">3</param>
+    </include>
+
+    <onload condition="!String.IsEmpty(Window(Home).Property(Settings.Skin.CategoryId))">SetFocus($INFO[Window(Home).Property(Settings.Skin.CategoryId)])</onload>
+
+    <!-- Set Some Profile Settings -->
+    <onunload>runscript($VAR[Action_Var_BuildTextures])</onunload>
+    <onload condition="String.IsEmpty(Skin.String(Skin.SettingsLevel))">Skin.SetString(Skin.SettingsLevel,$NUMBER[1])</onload>
+    
+    <onunload>$VAR[Action_RatingsMonitor]</onunload>
+
+    <controls>
+
+        <include>Background</include>
+
+        <include content="Settings_Dialog">
+            <include content="Settings_Main_Group">
+                <param name="label">$LOCALIZE[166] $LOCALIZE[5]</param>
+                <include content="Settings_Left_Group">
+                    <include content="Settings_Left_Content">
+                        <control type="grouplist" id="3">
+                            <orientation>vertical</orientation>
+                            <onup>3</onup>
+                            <ondown>3</ondown>
+                            <onright condition="![String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))]">5</onright>
+                            <onright condition="String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))">12</onright>
+                            <right>40</right>
+                        </control>
+                        <control type="group">
+                            <top>560</top>
+                            <height>80</height>
+                            <width>80</width>
+                            <right>50</right>
+                            <control type="image">
+                                <texture colordiffuse="main_fg_70">$VAR[Image_SkinSettings_Level]</texture>
+                                <bordersize>10</bordersize>
+                                <visible>!String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                            </control>
+                            <control type="image">
+                                <texture colordiffuse="$VAR[ColorSelected]">$VAR[Image_SkinSettings_Level]</texture>
+                                <bordersize>10</bordersize>
+                                <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                            </control>
+                        </control>
+                    </include>
+                </include>
+                <include content="Settings_Right_Group">
+                    <param name="header">$VAR[Label_SkinSettings_Category]</param>
+                    <param name="visible_line">![String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))]</param>
+
+                    <control type="group">
+                        <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))</visible>
+                        <include content="Dialog_ItemLine">
+                            <param name="label">$LOCALIZE[31345]</param>
+                            <param name="colordiffuse">main_fg</param>
+                        </include>
+                    </control>
+
+                    <include content="Settings_Right_Scrollbar">
+                        <onleft>5</onleft>
+                    </include>
+
+                    <!-- The first and last settings move to the search box -->
+                    <include content="Settings_Right_Grouplist">
+                        <param name="id">5</param>
+                        <onleft>3</onleft>
+                        <onup>12</onup>
+                        <ondown>12</ondown>
+                        <include content="Settings_Label" description="Changelog">
+                            <param name="id">16</param>
+                            <label>$LOCALIZE[24036]</label>
+                            <visible>[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199926))</visible>
+                        </include>
+                        <control type="label" id="17">
+                            <height>80</height>
+                            <font>font_head_bold</font>
+                            <textcolor>main_fg_70</textcolor>                                                                                
+                            <label>$INFO[System.AddonVersion(skin.arctic.fuse.mod),v]</label>
+                            <visible>!Integer.IsLess(Skin.String(Skin.SettingsLevel),2)</visible>
+                            <visible>[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199926))</visible>
+                            <left>40</left>
+                            <right>40</right>
+                        </control>
+                        <control type="textbox" id="18">
+                            <font>font_mini_plot</font>
+                            <textcolor>main_fg_50</textcolor>                           
+                            <height>auto</height>
+                            <autoscroll>false</autoscroll>
+                            <label>$VAR[Label_Changelog]</label>
+                            <visible>!Integer.IsLess(Skin.String(Skin.SettingsLevel),2)</visible>
+                            <visible>[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199926))</visible>
+                            <left>40</left>
+                            <right>40</right>
+                        </control>
+                        <control type="textbox" id="19">
+                            <font>font_mini_plot</font>
+                            <textcolor>main_fg_70</textcolor>
+                            <top>10</top>
+                            <height>auto</height>
+                            <autoscroll>false</autoscroll>
+                            <label>$LOCALIZE[31537][CR] - $LOCALIZE[10037]: $LOCALIZE[31610][CR] - $LOCALIZE[10038]: $LOCALIZE[31611][CR] - $LOCALIZE[10039]: $LOCALIZE[31610]</label>
+                            <left>40</left>
+                            <right>40</right>
+                            <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                            <visible>String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))</visible>
+                        </control>
+                        <include content="Settings_Label" description="Thanks">
+                            <param name="id">20</param>
+                            <label>$LOCALIZE[31350]</label>
+                            <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                            <visible>String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))</visible>
+                        </include>
+                        <control type="textbox" id="21">
+                            <font>font_mini_plot</font>
+                            <textcolor>main_fg_70</textcolor>
+                            <top>10</top>
+                            <height>auto</height>
+                            <autoscroll>false</autoscroll>
+                            <label>Supporters: Blurayx | Cholo68 | BriceysCousin [CR][CR]Translations: RvdS-cmd (NL) | Havokdan (PT) | wabisabi926 (ZH) [CR][CR]Thank you very much for all the support! It truly means a lot to me!</label>
+                            <left>40</left>
+                            <right>40</right>
+                            <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                            <visible>String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))</visible>
+                        </control>
+                    </include>
+
+                    <!-- Global search box. The script keeps it in place and sets the first and last settings in view as window properties -->
+                    <control type="group">
+                        <right>20</right>
+                        <width>560</width>
+                        <height>80</height>
+                        <centertop>60</centertop>
+                        <include content="Settings_Button">
+                            <param name="id">12</param>
+                            <param name="control">edit</param>
+                            <description>Search Edit</description>
+                            <textoffsetx>80</textoffsetx>
+                            <include>Texture_Button_Outline</include>
+                            <onleft condition="!String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)">3</onleft>
+                            <onleft condition="String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)">-193</onleft>
+                            <onup condition="[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))]">-193</onup>
+                            <ondown condition="[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))]">-193</ondown>
+                            <onup condition="![String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] + !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.BottomControlID))">SetFocus($INFO[Window.Property(SkinVariables.SkinSettings.BottomControlID)])</onup>
+                            <ondown condition="![String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] + !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.TopControlID))">SetFocus($INFO[Window.Property(SkinVariables.SkinSettings.TopControlID)])</ondown>
+                        </include>
+                        <include content="Button_Image">
+                            <param name="buttonid">12</param>
+                            <param name="icon">special://skin/extras/icons/search.png</param>
+                            <param name="getlabel">false</param>
+                            <param name="top">0</param>
+                        </include>
+                    </control>
+                </include>
+                <include content="Settings_InfoText">
+                    <param name="id">6</param>
+                </include>
+            </include>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="id">10</param>
+            <param name="control">togglebutton</param>
+            <!-- The script sets usealttexture on the selected category. Mimic Kodi's hardcoded 50% alpha on the selected SettingsCategory button -->
+            <include>Texture_MainMenu_Highlight_ToggleButton_FakeFocus</include>
+            <!-- The script replaces $SUBSTITUTE[label] with each category's own label -->
+            <altlabel>[COLOR=$VAR[ColorSelected]]$SUBSTITUTE[label][/COLOR]</altlabel>
+            <width>settings_category_w</width>
+            <onfocus>SetProperty(Settings.Skin.CategoryId,$INFO[System.CurrentControlId],Home)</onfocus>
+            <description>Category Button</description>
+            <!-- The last category changes Skin Settings Level -->
+            <onclick condition="String.IsEqual(System.CurrentControlId,-193)">Skin.SetString(Skin.SettingsLevel,$VAR[Value_SkinSettings_NextLevel])</onclick>
+        </include>
+
+        <include content="Settings_Label">
+            <param name="id">14</param>
+            <description>Group Label</description>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="id">7</param>
+            <param name="control">button</param>
+            <description>Setting Button</description>
+            <textwidth>680</textwidth>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="id">8</param>
+            <param name="control">radiobutton</param>
+            <description>Setting Radiobutton</description>
+        </include>
+
+    </controls>
+
+</window>

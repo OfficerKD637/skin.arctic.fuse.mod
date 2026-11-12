@@ -198,7 +198,6 @@
 
     <include name="Action_SettingsCategories_Onload">
         <defaultcontrol always="true">$PARAM[defaultcontrol]</defaultcontrol>
-        <onload>SetFocus($PARAM[defaultcontrol])</onload>
         <onload>ClearProperty(Background.ShowOverlay,Home)</onload>
         <include>Action_BlurImage_SimpleBackground_Onload</include>
         <menucontrol>30000</menucontrol>
@@ -227,9 +226,9 @@
             <onload condition="!$EXP[Exp_HomeMenu_IsStatic]">ClearProperty(SideMenu.HasFocus,Home)</onload>
             <onload condition="$EXP[Exp_HomeMenu_IsStatic]">SetProperty(SideMenu.HasFocus,True,Home)</onload>
 
-            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt)">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_type_trakt_stats.json)</onload>            
-            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt)">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_movie_trakt_stats.json)</onload>            
-            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt)">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_episode_trakt_stats.json)</onload>                
+            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_type_sync_stats.json)</onload>            
+            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_movie_sync_stats.json)</onload>            
+            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_episode_sync_stats.json)</onload>                
 
             <include>Generator_BuildTextures_Onload</include>
 

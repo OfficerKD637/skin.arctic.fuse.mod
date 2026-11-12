@@ -575,6 +575,7 @@
         <param name="top">-100</param>
         <param name="left">20</param>
         <param name="visible">true</param>
+        <param name="getlabel">true</param>
         <definition>
             <control type="group" id="$PARAM[id]">
                 <top>$PARAM[top]</top>
@@ -597,8 +598,18 @@
                         <visible>Control.HasFocus($PARAM[buttonid])</visible>
                     </control>
                 </control>
-                <include content="Button_Label_Controls">
+                <include content="Button_Label_Controls" condition="$PARAM[getlabel]">
                     <param name="label">$INFO[Control.GetLabel($PARAM[buttonid])]</param>
+                    <param name="buttonid">$PARAM[buttonid]</param>
+                    <param name="font">$PARAM[font]</param>
+                    <param name="top">$PARAM[top]</param>
+                    <param name="left">$PARAM[left]</param>
+                    <param name="has_label2">$PARAM[has_label2]</param>
+                    <param name="label2">$PARAM[label2]</param>
+                    <param name="visible">$PARAM[visible]</param>
+                </include>
+                <include content="Button_Label_Controls" condition="![$PARAM[getlabel]]">
+                    <param name="label">$PARAM[label]</param>
                     <param name="buttonid">$PARAM[buttonid]</param>
                     <param name="font">$PARAM[font]</param>
                     <param name="top">$PARAM[top]</param>
@@ -1371,6 +1382,7 @@
         <param name="haspath">false</param>
         <param name="align">left</param>
         <param name="flipped">false</param>
+        <param name="colordiffuse">dialog_fg</param>
         <definition>
             <control type="grouplist">
                 <height>20</height>
@@ -1388,7 +1400,7 @@
                     <aligny>center</aligny>
                     <align>left</align>
                     <font>font_hint_bold</font>
-                    <textcolor>dialog_fg_30</textcolor>
+                    <textcolor>$PARAM[colordiffuse]_30</textcolor>
                     <label>$PARAM[label]</label>
                     <haspath>$PARAM[haspath]</haspath>
                 </include>
@@ -1409,7 +1421,7 @@
                     <aligny>center</aligny>
                     <align>right</align>
                     <font>font_hint_bold</font>
-                    <textcolor>dialog_fg_30</textcolor>
+                    <textcolor>$PARAM[colordiffuse]_30</textcolor>
                     <label>$PARAM[label]</label>
                     <haspath>$PARAM[haspath]</haspath>
                 </include>

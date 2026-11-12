@@ -897,7 +897,7 @@
         </include>
 
         <!-- Comments -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableComments)">
+        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableComments) + System.HasAddon(script.module.tmdbhelper.sync.trakt)">
             <param name="id">15</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -955,7 +955,7 @@
         </include>
         
         <!-- Related (Trakt) -->
-        <include content="Widget_DialogInfo_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableRelated)">
+        <include content="Widget_DialogInfo_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableRelated) + System.HasAddon(script.module.tmdbhelper.sync.trakt)">
             <param name="id">17</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -2031,7 +2031,7 @@
             <icon>special://skin/extras/icons/trakt.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>$VAR[Action_Trakt_Sync]</onclick>
-            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth)) + !String.IsEqual(ListItem.DBType,musicvideo) + ![String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEmpty(ListItem.Property(tvshow.tmdb_id)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tvshow.tmdb_id))]</visible>
+            <visible>String.IsEqual(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched),trakt) + !String.IsEqual(ListItem.DBType,musicvideo) + ![String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEmpty(ListItem.Property(tvshow.tmdb_id)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.tvshow.tmdb_id))]</visible>
         </item>
     </include>
 
