@@ -81,7 +81,7 @@
             <visible>![Control.HasFocus(513) | Control.HasFocus(555) | Control.HasFocus(556) | Control.HasFocus(557) | Control.HasFocus(558) | Control.HasFocus(514) | Control.HasFocus(515) | Control.HasFocus(516)]</visible>
             <control type="group">
                 <left>-20</left>
-                <top>-5</top>
+                <top>-6.5</top>
                 <visible allowhiddenfocus="true">String.IsEqual(Window.Property(DetailsView),Cast) + [ControlGroup(4000).HasFocus | Control.HasFocus(5503)]</visible>
                 <include content="Categories_Selector">
                     <param name="id">5503</param>
@@ -99,20 +99,22 @@
                         <item>
                             <label>$LOCALIZE[31050]</label>
                             <property name="DialogInfo.Details">Crew</property>
+                            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                         </item>
                         <item>
                             <label>$LOCALIZE[33029]</label>
                             <property name="DialogInfo.Details">Details</property>
+                            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                         </item>
                     </content>
                     <onup>4000</onup>
                     <onup>SetFocus(5503,0,absolute)</onup>
                     <onback>4000</onback>
                     <onback>SetFocus(5503,0,absolute)</onback>
-                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal] + ![Integer.IsEqual(Container(5003).NumItems,0) | String.IsEmpty(Window.Property(Cast_TMDb_ID))]">SetFocus(5003,0,absolute)</ondown>
-                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast) + $EXP[Exp_InfoDialogs_Cast_IsLocal] + ![Integer.IsEqual(Container(50).NumItems,0) | Container(50).IsUpdating]">SetFocus(50,0,absolute)</ondown>
-                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Crew) + !Integer.IsEqual(Container(5504).NumItems,0)">SetFocus(5504,0,absolute)</ondown>
-                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details) + !Integer.IsEqual(Container(5005).NumItems,0)">SetFocus(5005,0,absolute)</ondown>
+                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal] + $EXP[Exp_TMDbHelper_IsData] + ![Integer.IsEqual(Container(5003).NumItems,0) | String.IsEmpty(Window.Property(Cast_TMDb_ID))]">SetFocus(5003,0,absolute)</ondown>
+                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast) + [$EXP[Exp_InfoDialogs_Cast_IsLocal] | !$EXP[Exp_TMDbHelper_IsData]] + ![Integer.IsEqual(Container(50).NumItems,0) | Container(50).IsUpdating]">SetFocus(50,0,absolute)</ondown>
+                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Crew) + $EXP[Exp_TMDbHelper_IsData] + !Integer.IsEqual(Container(5504).NumItems,0)">SetFocus(5504,0,absolute)</ondown>
+                    <ondown condition="String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details) + $EXP[Exp_TMDbHelper_IsData] + !Integer.IsEqual(Container(5005).NumItems,0)">SetFocus(5005,0,absolute)</ondown>
                     <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
                 </include>
             </control>
@@ -750,12 +752,12 @@
     
     <include name="DialogInfo_Cast">
 
-        <include content="DialogInfo_Cast_Local" condition="$EXP[Exp_InfoDialogs_Cast_IsLocal]">
+        <include content="DialogInfo_Cast_Local" condition="$EXP[Exp_InfoDialogs_Cast_IsLocal] | !$EXP[Exp_TMDbHelper_IsData]">
             <param name="visible">$PARAM[visible] + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast)</param>
         </include>
 
         <!-- CAST -->
-        <include content="Object_Control" condition="!$EXP[Exp_InfoDialogs_Cast_IsLocal]">
+        <include content="Object_Control" condition="!$EXP[Exp_InfoDialogs_Cast_IsLocal] + $EXP[Exp_TMDbHelper_IsData]">
             <param name="control">group</param>
             <visible>$PARAM[visible]</visible>
             <include condition="!$EXP[Exp_AspectRatio_Reduced]">DialogInfo_Cast_PersonBiography</include>
@@ -807,7 +809,7 @@
                             <param name="left">60</param>
                         </include>
                         <left>180</left>
-                        <top>-265</top>
+                        <top>-266.5</top>
                         <include content="Categories_Selector">
                             <param name="id">557</param>
                             <param name="font">font_mini_bold</param>
@@ -933,6 +935,7 @@
         <!-- CREW -->
         <control type="group">
             <visible>$PARAM[visible]</visible>
+            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
             <visible>String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Crew)</visible>
 
             <include condition="!$EXP[Exp_AspectRatio_Reduced]">DialogInfo_Crew_PersonBiography</include>
@@ -983,7 +986,7 @@
                             <param name="left">60</param>
                         </include>
                         <left>180</left>
-                        <top>-265</top>
+                        <top>-266.5</top>
                         <include content="Categories_Selector">
                             <param name="id">558</param>
                             <param name="font">font_mini_bold</param>
@@ -1146,6 +1149,7 @@
         <!-- DETAILS -->
         <control type="group">
             <visible>$PARAM[visible]</visible>
+            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
             <visible>String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Details)</visible>
             
             <!-- Widgets -->
@@ -1398,7 +1402,7 @@
         </include>
 
         <!-- Videos -->
-        <include content="List_Landscape_Row">
+        <include content="List_Landscape_Row" condition="$EXP[Exp_TMDbHelper_IsData]">
             <param name="id">5002</param>
             <param name="itemlayout_include">Layout_Landscape</param>
             <param name="aspectratio">scale</param>
@@ -1655,8 +1659,8 @@
                     <visible>!String.IsEmpty(ListItem.Art(artist.landscape))</visible>
                 </item>
             </content>
-            <include condition="Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(ListItem.Property(tmdb_type),person) + !Skin.HasSetting(InfoDialog.DisableOnlineGallery)">DialogInfo_VideoFanartContent</include>
-            <include condition="Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(ListItem.Property(tmdb_type),person) + !Skin.HasSetting(InfoDialog.DisableOnlineGallery)">DialogInfo_PersonImageContent</include>
+            <include condition="Window.IsVisible(DialogVideoInfo.xml) + !String.IsEqual(ListItem.Property(tmdb_type),person) + !Skin.HasSetting(InfoDialog.DisableOnlineGallery) + $EXP[Exp_TMDbHelper_IsData]">DialogInfo_VideoFanartContent</include>
+            <include condition="Window.IsVisible(DialogVideoInfo.xml) + String.IsEqual(ListItem.Property(tmdb_type),person) + !Skin.HasSetting(InfoDialog.DisableOnlineGallery) + $EXP[Exp_TMDbHelper_IsData]">DialogInfo_PersonImageContent</include>
 
             <visible>String.IsEqual(Window.Property(DetailsView),Artwork) + !Control.HasFocus(7003)</visible>
         </include>
@@ -1665,7 +1669,7 @@
             <param name="visible">String.IsEqual(Window.Property(DetailsView),Cast)</param>
         </include>
         
-        <include content="List_Reviews_Row" condition="System.HasAddon(script.module.tmdbhelper.sync.trakt)">
+        <include content="List_Reviews_Row" condition="System.HasAddon(script.module.tmdbhelper.sync.trakt) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">5004</param>
             <height>divider_bottom</height>
 
@@ -1695,7 +1699,7 @@
             <onfocus>SetProperty(ReviewsActive,1)</onfocus>
         </include>
 
-        <include content="Widget_Busy">
+        <include content="Widget_Busy" condition="$EXP[Exp_TMDbHelper_IsData]">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Trailer) + Container(5002).IsUpdating]</param>
             <param name="include">List_Landscape_Row</param>
@@ -1704,12 +1708,12 @@
         </include>
         <include content="Widget_Busy">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
-            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast) + !Control.HasFocus(5003) + !Control.HasFocus(514) + !Control.HasFocus(557) + Container(5303).IsUpdating] | [String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Crew) + !Control.HasFocus(5504) + !Control.HasFocus(515) + !Control.HasFocus(558) + [Container(5504).IsUpdating | Container(5506).IsUpdating]] | [$EXP[Exp_InfoDialogs_Cast_IsLocal] + Container(50).IsUpdating]]]</param>
+            <param name="visible">[String.IsEqual(Window.Property(DetailsView),Cast) + [[$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Cast) + !Control.HasFocus(5003) + !Control.HasFocus(514) + !Control.HasFocus(557) + Container(5303).IsUpdating] | [$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(5503).ListItem.Property(DialogInfo.Details),Crew) + !Control.HasFocus(5504) + !Control.HasFocus(515) + !Control.HasFocus(558) + [Container(5504).IsUpdating | Container(5506).IsUpdating]] | [[$EXP[Exp_InfoDialogs_Cast_IsLocal] | !$EXP[Exp_TMDbHelper_IsData]] + Container(50).IsUpdating]]]</param>
             <param name="include">List_Poster_Row</param>
             <top>-5</top>
             <left>200</left>
         </include>
-        <include content="Widget_Busy" condition="System.HasAddon(script.module.tmdbhelper.sync.trakt)">
+        <include content="Widget_Busy" condition="System.HasAddon(script.module.tmdbhelper.sync.trakt) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="label">$INFO[Window.Property(DetailsView)]</param>
             <param name="visible">[String.IsEqual(Window.Property(DetailsView),Reviews) + Container(5004).IsUpdating]</param>
             <param name="include">List_Reviews_Row</param>
@@ -1756,7 +1760,7 @@
                         <include>Animation_Transition_InfoPanel_Open</include>
                     </include>
                 </control>
-                <include content="DialogInfo_Recommendations_InfoPanel">
+                <include content="DialogInfo_Recommendations_InfoPanel" condition="$EXP[Exp_TMDbHelper_IsData]">
                     <param name="include_slideup">true</param>
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.ListItem.Current.CropImage)]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Current.CropImage))</param>
@@ -1768,7 +1772,7 @@
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" start="0" end="100" condition="[!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" end="0" start="100" condition="![!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                 </include>
-                <include content="DialogInfo_Recommendations_InfoPanel">
+                <include content="DialogInfo_Recommendations_InfoPanel" condition="$EXP[Exp_TMDbHelper_IsData]">
                     <param name="include_slideup">true</param>
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.ListItem.Current.CropImage)]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Current.CropImage))</param>
@@ -1780,7 +1784,7 @@
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" start="0" end="100" condition="[!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                     <animation effect="fade" tween="quadratic" reversible="false" time="400" end="0" start="100" condition="![!Control.HasFocus(5098) + [ControlGroup(5000).HasFocus() | ControlGroup(303).HasFocus() | Control.HasFocus(330)]]">Conditional</animation>
                 </include>
-                <include content="DialogInfo_Recommendations_InfoPanel">
+                <include content="DialogInfo_Recommendations_InfoPanel" condition="$EXP[Exp_TMDbHelper_IsData]">
                     <param name="include_slideup">true</param>
                     <param name="mainlogo_texture">$INFO[Window(Home).Property(TMDbHelper.ListItem.Current.CropImage)]</param>
                     <param name="mainlogo_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Current.CropImage))</param>
@@ -1827,11 +1831,11 @@
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,5203)</onfocus>
                         <ondown>SetFocus(5000)</ondown>
-                        <onleft>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onleft>
-                        <onright>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onright>
-                        <onup>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
+                        <onleft condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onleft>
+                        <onright condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onright>
+                        <onup condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
                     </include>
-                    <include content="DialogInfo_Recommendations_Widgets_Grouplist">
+                    <include content="DialogInfo_Recommendations_Widgets_Grouplist" condition="$EXP[Exp_TMDbHelper_IsData]">
                         <param name="onup">5098</param>
                         <param name="ondown">330</param>
                         <onleft>303</onleft>
@@ -1881,7 +1885,7 @@
                 </control>
             </include>
             
-            <include>DialogInfo_ButtonGroup_Recommendations</include>
+            <include condition="$EXP[Exp_TMDbHelper_IsData]">DialogInfo_ButtonGroup_Recommendations</include>
             <include content="View_Bumper">
                 <param name="groupid">5000</param>
             </include>
@@ -2043,10 +2047,10 @@
                     <param name="itemgap">$PARAM[itemgap]</param>
                 </include>
 
-                <onleft>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onleft>
+                <onleft condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onleft>
                 <onright>5000</onright>
-                <onup>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
-                <ondown>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</ondown>
+                <onup condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
+                <ondown condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</ondown>
                 <visible>$PARAM[visible]</visible>
             </control>
         </definition>
@@ -2064,19 +2068,20 @@
 
     <include name="DialogInfo_ButtonGroup_OnDown">
         <!-- Cast -->
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal]">SetProperty(Cast_TMDb_ID,$VAR[Path_VideoInfo_OnlineCast])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_type,$VAR[Path_InfoParams_TMDbType])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_season,$VAR[Path_InfoParams_Season])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_episode,$VAR[Path_InfoParams_Episode])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Title,$VAR[Label_Title])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Query,$VAR[Path_Param_Query])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Type,$VAR[Path_Param_Type])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Year,$INFO[ListItem.Year])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.Name), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.Name), / ,])</ondown>
-        <ondown condition="String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.TMDb_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.TMDb_ID), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.TMDb_ID), / ,])</ondown>
-        <ondown condition="[String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(5303).NumItems,0) | [!Integer.IsEqual(Container(50).NumItems,0) + $EXP[Exp_InfoDialogs_Cast_IsLocal]]]">SetFocus(5503,0,absolute)</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast) + !$EXP[Exp_InfoDialogs_Cast_IsLocal] + $EXP[Exp_TMDbHelper_IsData]">SetProperty(Cast_TMDb_ID,$VAR[Path_VideoInfo_OnlineCast])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_id,$VAR[Path_InfoParams_TMDbID])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_dbid,$VAR[Path_InfoParams_DBID])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_type,$VAR[Path_InfoParams_TMDbType])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_season,$VAR[Path_InfoParams_Season])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(origin_tmdb_episode,$VAR[Path_InfoParams_Episode])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Title,$VAR[Label_Title])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Query,$VAR[Path_Param_Query])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Type,$VAR[Path_Param_Type])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Item_Year,$INFO[ListItem.Year])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.Name), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.Name), / ,])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast)">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.1.TMDb_ID),&amp;with_separator=AND&amp;with_id=True&amp;with_genres=,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.2.TMDb_ID), / ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre.3.TMDb_ID), / ,])</ondown>
+        <ondown condition="$EXP[Exp_TMDbHelper_IsData] + [String.IsEqual(Window.Property(DetailsView),Cast) + [!Integer.IsEqual(Container(5303).NumItems,0) | [!Integer.IsEqual(Container(50).NumItems,0) + $EXP[Exp_InfoDialogs_Cast_IsLocal]]]]">SetFocus(5503,0,absolute)</ondown>
+        <ondown condition="!$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Window.Property(DetailsView),Cast) + !Integer.IsEqual(Container(50).NumItems,0)">SetFocus(50,0,absolute)</ondown>
 
         <!-- Songs -->
         <ondown condition="[String.IsEqual(Window.Property(DetailsView),Songs) + !Integer.IsEqual(Container(5050).NumItems,0)]">SetFocus(5050,0,absolute)</ondown>
@@ -2517,7 +2522,7 @@
                     <orientation>horizontal</orientation>
                     <top>-120</top>
                     <height>160</height>
-                    <onup>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
+                    <onup condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
                     <onback>Dialog.Close(movieinformation)</onback>
                     <onfocus condition="Skin.String(InfoDialog.Layout,Blur) + String.IsEmpty(Window(Home).Property(Background.DialogInfo.HideArtwork))">SetProperty(Background.DialogInfo.HideArtwork,True,Home)</onfocus>
 
@@ -2537,9 +2542,10 @@
                         <onfocus>ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
                         
-                        <include content="Action_VideoInfo_Main_OnDown">
+                        <include content="Action_VideoInfo_Main_OnDown" condition="$EXP[Exp_TMDbHelper_IsData]">
                             <param name="condition">[True]</param>
                         </include>
+                        <ondown condition="!$EXP[Exp_TMDbHelper_IsData]">7001</ondown>
                     </include>
 
                     <!-- Button 0 -->
@@ -2552,10 +2558,11 @@
                         <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(0).Label)</param>
                         <onclick>SetFocus(4900,0,absolute)</onclick>
                         <onclick>Action(select)</onclick>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(0).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(0).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(0).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(0).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(0).Label,Wikipedia)">SetProperty(DetailsView,Cast)</onfocus>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(0).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(0).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(0).Label,$LOCALIZE[39123])">SetProperty(DetailsView,Artwork)</onfocus>
+                        <onfocus condition="!$EXP[Exp_TMDbHelper_IsData] + [String.IsEqual(Container(4900).ListItemAbsolute(0).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(0).Label,YouTube) | String.IsEqual(Container(4900).ListItemAbsolute(0).Label,Trakt)]">ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
 
                         <include>DialogInfo_ButtonGroup_OnDown</include>
@@ -2571,10 +2578,11 @@
                         <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(1).Label)</param>
                         <onclick>SetFocus(4900,1,absolute)</onclick>
                         <onclick>Action(select)</onclick>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(1).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(1).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(1).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(1).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(1).Label,Wikipedia)">SetProperty(DetailsView,Cast)</onfocus>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(1).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(1).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(1).Label,$LOCALIZE[39123])">SetProperty(DetailsView,Artwork)</onfocus>
+                        <onfocus condition="!$EXP[Exp_TMDbHelper_IsData] + [String.IsEqual(Container(4900).ListItemAbsolute(1).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(1).Label,YouTube) | String.IsEqual(Container(4900).ListItemAbsolute(1).Label,Trakt)]">ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
 
                         <include>DialogInfo_ButtonGroup_OnDown</include>
@@ -2590,10 +2598,11 @@
                         <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(2).Label)</param>
                         <onclick>SetFocus(4900,2,absolute)</onclick>
                         <onclick>Action(select)</onclick>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(2).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(2).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(2).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(2).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(2).Label,Wikipedia)">SetProperty(DetailsView,Cast)</onfocus>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(2).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(2).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(2).Label,$LOCALIZE[39123])">SetProperty(DetailsView,Artwork)</onfocus>
+                        <onfocus condition="!$EXP[Exp_TMDbHelper_IsData] + [String.IsEqual(Container(4900).ListItemAbsolute(2).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(2).Label,YouTube) | String.IsEqual(Container(4900).ListItemAbsolute(2).Label,Trakt)]">ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
 
                         <include>DialogInfo_ButtonGroup_OnDown</include>
@@ -2609,10 +2618,11 @@
                         <param name="visible">!String.IsEmpty(Container(4900).ListItemAbsolute(3).Label)</param>
                         <onclick>SetFocus(4900,3,absolute)</onclick>
                         <onclick>Action(select)</onclick>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(3).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(3).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(3).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(3).Label,YouTube)">SetProperty(DetailsView,Trailer)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(3).Label,Wikipedia)">SetProperty(DetailsView,Cast)</onfocus>
-                        <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(3).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
+                        <onfocus condition="$EXP[Exp_TMDbHelper_IsData] + String.IsEqual(Container(4900).ListItemAbsolute(3).Label,Trakt)">SetProperty(DetailsView,Reviews)</onfocus>
                         <onfocus condition="String.IsEqual(Container(4900).ListItemAbsolute(3).Label,$LOCALIZE[39123])">SetProperty(DetailsView,Artwork)</onfocus>
+                        <onfocus condition="!$EXP[Exp_TMDbHelper_IsData] + [String.IsEqual(Container(4900).ListItemAbsolute(3).Label,$LOCALIZE[20410]) | String.IsEqual(Container(4900).ListItemAbsolute(3).Label,YouTube) | String.IsEqual(Container(4900).ListItemAbsolute(3).Label,Trakt)]">ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
 
                         <include>DialogInfo_ButtonGroup_OnDown</include>
@@ -2630,9 +2640,10 @@
                         <onfocus>ClearProperty(DetailsView)</onfocus>
                         <onfocus>ClearProperty(ReviewsActive)</onfocus>
 
-                        <include content="Action_VideoInfo_Main_OnDown">
+                        <include content="Action_VideoInfo_Main_OnDown" condition="$EXP[Exp_TMDbHelper_IsData]">
                             <param name="condition">[True]</param>
                         </include>
+                        <ondown condition="!$EXP[Exp_TMDbHelper_IsData]">7001</ondown>
                     </include>
                 </control>
             </control>
@@ -2642,6 +2653,7 @@
                     <top>-590</top>
                     <right>0</right>
                     <visible>$PARAM[visible]</visible>
+                    <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                     <visible>![ControlGroup(4000).HasFocus | Window.IsVisible(1113)]</visible>
                     <control type="group">
 
@@ -2657,7 +2669,7 @@
                                 <top>hub_recommendations_widgets_grouplist_t</top>
                                 <bottom>hub_recommendations_widgets_grouplist_b</bottom>
                                 
-                                <include content="Widget_DialogInfo_Row">
+                                <include content="Widget_DialogInfo_Row" condition="$EXP[Exp_TMDbHelper_IsData]">
                                     <param name="baseid">51</param>
                                     <param name="basegroupid">52</param>
                                     <param name="id">3</param>
@@ -2682,7 +2694,7 @@
                                         <param name="ondown_condition">![String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339]) | String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]</param>
                                     </include>
                                 </include>
-                                <include content="Widget_Info_Row">
+                                <include content="Widget_Info_Row" condition="$EXP[Exp_TMDbHelper_IsData]">
                                     <param name="baseid">51</param>
                                     <param name="basegroupid">52</param>
                                     <param name="id">3</param>
@@ -2713,11 +2725,11 @@
                                         <param name="left">60</param>
                                     </include>
                                     <left>180</left>
-                                    <top>-265</top>
+                                    <top>-266.5</top>
                                     <!-- Movies / TV Shows -->
                                     <control type="group">
                                         <visible>[String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20339]) | String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20417])]</visible>
-                                        <include content="Categories_Selector">
+                                        <include content="Categories_Selector" condition="$EXP[Exp_TMDbHelper_IsData]">
                                             <param name="id">556</param>
                                             <param name="hitrect_x">0</param>
                                             <param name="hitrect_y">0</param>
@@ -2756,7 +2768,7 @@
                                     <!-- Seasons -->
                                     <control type="group">
                                         <visible>[String.IsEqual(Window.Property(Item_Type),type=tv) + [String.IsEqual(Container(7000).ListItem.Label,$LOCALIZE[20360])]]</visible>
-                                        <include content="Categories_Selector" condition="!Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                                        <include content="Categories_Selector" condition="$EXP[Exp_TMDbHelper_IsData] + !Skin.HasSetting(Views.UseAltCombined.Detailed)">
                                             <param name="id">555</param>
                                             <param name="font">font_mini_bold</param>
                                             <param name="hitrect_x">0</param>
@@ -2779,7 +2791,7 @@
                                             <onleft>7000</onleft>
                                             <onleft>ClearProperty(TMDbHelper.WidgetContainer)</onleft>
                                         </include>
-                                        <include content="Categories_Iconic_Selector" condition="Skin.HasSetting(Views.UseAltCombined.Detailed)">
+                                        <include content="Categories_Iconic_Selector" condition="$EXP[Exp_TMDbHelper_IsData] + Skin.HasSetting(Views.UseAltCombined.Detailed)">
                                             <param name="id">555</param>
                                             <param name="font">font_mini_bold</param>
                                             <param name="hitrect_x">0</param>
@@ -2810,7 +2822,7 @@
                         </control>
 
                         <!-- Person Info -->
-                        <include condition="!$EXP[Exp_AspectRatio_Reduced]">DialogInfo_Details_PersonBiography</include>
+                        <include condition="!$EXP[Exp_AspectRatio_Reduced] + $EXP[Exp_TMDbHelper_IsData]">DialogInfo_Details_PersonBiography</include>
                     </control>
 
                     <control type="group">
@@ -2822,7 +2834,7 @@
                             <include content="Object_Left" condition="!Skin.String(Home.SideMenuCollapse,Never) + !Skin.HasSetting(Views.DisableItemPeek)">
                                 <param name="left">120</param>
                             </include>
-                            <include content="List_Button_Row">
+                            <include content="List_Button_Row" condition="$EXP[Exp_TMDbHelper_IsData]">
                                 <param name="id">7000</param>
                                 <param name="control">list</param>
                                 <param name="orientation">vertical</param>
@@ -2879,6 +2891,7 @@
                                         <property name="personlabel">$INFO[Window.Property(Writer_Label_Widget)]</property>
                                         <onclick>SetProperty(type,Writer,1129)</onclick>
                                         <onclick>ActivateWindow(1129)</onclick>
+                                        <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                                         <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer)) + String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))] | !String.IsEmpty(Window.Property(Writer_Label))</visible>
                                     </item>
                                     <item>
@@ -2900,6 +2913,7 @@
                                         </include>
                                         <onclick condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.2.Name))">SetProperty(type,Creator,1129)</onclick>
                                         <onclick condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator.2.Name))">ActivateWindow(1129)</onclick>
+                                        <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                                         <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Creator)) + String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))] | !String.IsEmpty(Window.Property(Creator_Label))</visible>
                                     </item>
                                     <item>
@@ -2910,6 +2924,7 @@
                                         <property name="widgetlabel">$LOCALIZE[572] $INFO[Window.Property(Studio_Label),(,)]</property>
                                         <property name="widgetpath">$INFO[Window.Property(Studio_Query),plugin://plugin.video.themoviedb.helper/?info=discover,]$VAR[Path_Param_Widget]$VAR[Path_Param_Local_Discover]</property>
                                         <onclick>runscript(script.wikipedia,wikipedia=$INFO[Window.Property(Studio_Label)])</onclick>
+                                        <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                                         <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio)) + String.IsEmpty(Window.Property(TMDbHelper.WidgetContainer))] | !String.IsEmpty(Window.Property(Studio_Label))</visible>
                                     </item>
                                     <item>
@@ -2920,6 +2935,7 @@
                                         <property name="widgetlabel">$LOCALIZE[31236] $INFO[Window.Property(Set_Label),(,)]</property>
                                         <property name="widgetpath">$VAR[Path_VideoInfo_OnlineCollection]</property>
                                         <onclick>runscript(script.wikipedia,wikipedia=$INFO[Window.Property(Set_Label)])</onclick>
+                                        <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Set.TMDb_ID)) + !Skin.HasSetting(InfoDialog.EnableLocalCollection)</visible>
                                         <visible>!String.IsEmpty(Window.Property(Set_Label))</visible>
                                     </item>
@@ -2933,7 +2949,7 @@
                                         <property name="widgetsortby">year</property>
                                         <property name="widgetsortorder">ascending</property>
                                         <onclick>runscript(script.wikipedia,wikipedia=$INFO[Window.Property(Set_Label)])</onclick>
-                                        <visible>!String.IsEmpty(ListItem.SetID) + Skin.HasSetting(InfoDialog.EnableLocalCollection)</visible>
+                                        <visible>!String.IsEmpty(ListItem.SetID) + [Skin.HasSetting(InfoDialog.EnableLocalCollection) | $EXP[Exp_TMDbHelper_IsData]]</visible>
                                         <visible>!String.IsEmpty(Window.Property(Set_Label))</visible>
                                     </item>
                                     <item>
@@ -2943,6 +2959,7 @@
                                         <property name="icon">special://skin/extras/icons/photo-film.png</property>
                                         <property name="widgetlabel">$LOCALIZE[15225] $INFO[Window.Property(Providers_1_Label),(,)]</property>
                                         <property name="widgetpath">$INFO[Window.Property(Providers_Query)]$VAR[Path_Param_Local_Discover]</property>
+                                        <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                                         <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),movie) | String.IsEqual(ListItem.DBType,movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(ListItem.DBType,episode)</visible>
                                         <visible>!String.IsEmpty(Window.Property(Providers_Label))</visible>
                                     </item>
@@ -2951,6 +2968,7 @@
                                         <label>$LOCALIZE[20360]</label>
                                         <icon>$INFO[Window.Property(Seasons_Image)]</icon>
                                         <property name="icon">special://skin/extras/icons/tv.png</property>
+                                        <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                                         <visible>String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),tvshow) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),season) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.base_dbtype),episode) | String.IsEqual(ListItem.DBType,episode)</visible>
                                         <visible>!String.IsEmpty(Window.Property(Episodes_Label))</visible>
                                     </item>
@@ -2974,11 +2992,29 @@
                         <itemgap>0</itemgap>
                         <height>350</height>
                         <width>460</width>
-                        <visible>ControlGroup(4000).HasFocus | Window.IsVisible(1113)</visible>
+                        <visible>[$EXP[Exp_TMDbHelper_IsData] + ControlGroup(4000).HasFocus] | !$EXP[Exp_TMDbHelper_IsData] | Window.IsVisible(1113)</visible>
+                        <onup>4000</onup>
+                        <ondown>4000</ondown>
+                        <onleft>4000</onleft>
+                        <onright>4000</onright>
+                        <onback>4000</onback>
+                        <include content="Object_InfoCircle_Button" condition="!$EXP[Exp_TMDbHelper_IsData]">
+                            <param name="baseid">70</param>
+                            <param name="id">1</param>
+                            <param name="name">$VAR[Label_FromDirector]</param>
+                            <param name="role">$LOCALIZE[20339]</param>
+                            <param name="icon">special://skin/extras/icons/video-addons.png</param>
+                            <param name="shot">$VAR[Image_DirectorIcon]</param>
+                            <onclick>SendClick(13)</onclick>
+                            <top>25</top>
+                            <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director)) | !String.IsEmpty(ListItem.Director)</visible>
+                        </include>
                         <control type="group">
                             <top>25</top>
+                            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
                         </control>
-                        <include content="Object_InfoCircle">
+
+                        <include content="Object_InfoCircle" condition="$EXP[Exp_TMDbHelper_IsData]">
                             <param name="role">$LOCALIZE[20339]</param>
                             <param name="name">$VAR[Label_FromDirector]</param>
                             <param name="icon_background">true</param>                    
@@ -3203,7 +3239,7 @@
                 <top>-120</top>
                 <height>160</height>
                 <include>DialogInfo_ButtonGroup_OnDown</include>
-                <onup>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
+                <onup condition="$EXP[Exp_TMDbHelper_IsData]">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onup>
                 <onback>Dialog.Close(movieinformation)</onback>
                 
                 <include content="DialogInfo_Button_Expansion">
@@ -3243,7 +3279,7 @@
             <!-- Left Details -->
             <control type="grouplist">
                 <left>-40</left>
-                <top>-40</top>
+                <top>-35</top>
                 <orientation>vertical</orientation>
                 <itemgap>0</itemgap>
                 <height>350</height>
@@ -3307,7 +3343,7 @@
                 <control type="grouplist">
                     <left>300</left>
                     <right>880</right>
-                    <top>-40</top>
+                    <top>-35</top>
                     <orientation>vertical</orientation>
                     <itemgap>0</itemgap>
                     <height>350</height>
@@ -3810,7 +3846,7 @@
     <include name="Dialog_Plot">
         <param name="include_movement">DialogPlot_OnMove</param>
         <param name="flip">Skin.HasSetting(ContextMenu.FlipMenu)</param>
-        <param name="include_ratings">[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)] + Skin.HasSetting(Info.EnableAllPlotRatings)</param>
+        <param name="include_ratings">[String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)] + $EXP[Exp_TMDbHelper_IsData] + Skin.HasSetting(Info.EnableAllPlotRatings)</param>
         <definition>
             <include>Dialog_Dim_Overlay</include>
 
@@ -3842,7 +3878,7 @@
                         <include condition="$PARAM[flip]">Dialog_Panel</include>
                         <include content="DialogPlot_Plotbox">
                             <param name="head_id">9999</param>
-                            <param name="header">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_label)]</param>
+                            <param name="header">$VAR[Label_Overlay_Title]</param>
                             <param name="include_movement">$PARAM[include_movement]</param>
                             <param name="include_ratings">$PARAM[include_ratings]</param>
                         </include>

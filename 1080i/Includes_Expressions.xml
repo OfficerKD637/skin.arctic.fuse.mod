@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <!-- ========== -->
+    <!-- TMDBHelper -->
+    <!-- ========== -->
+    <expression name="Exp_TMDbHelper_IsData">[Skin.HasSetting(TMDbHelper.EnableData)]</expression>
+    <expression name="Exp_TMDbHelper_IsBlur">[Skin.HasSetting(TMDbHelper.EnableBlur)]</expression>
+    <expression name="Exp_TMDbHelper_IsCrop">[Skin.HasSetting(TMDbHelper.EnableCrop)]</expression>
+    
+    
     <!-- ============== -->
     <!-- Colour Schemes -->
     <!-- ============== -->
     <expression name="Exp_DialogTheme_IsLight">[String.IsEqual(Skin.CurrentColourTheme,Skin default - Light dialogs) | String.IsEqual(Skin.CurrentColourTheme,Dark Grey - Light dialogs)]</expression>
-    <expression name="Exp_DialogTheme_IsAdaptive">[Skin.String(Background.DialogImage,Adaptive) + !$EXP[Exp_DialogTheme_IsLight]]</expression>
+    <expression name="Exp_DialogTheme_IsAdaptive">[$EXP[Exp_TMDbHelper_IsBlur] + Skin.String(Background.DialogImage,Adaptive) + !$EXP[Exp_DialogTheme_IsLight]]</expression>
 
     <variable name="Exp_Var_DialogTheme_IsLight">
         <value condition="$EXP[Exp_DialogTheme_IsLight]">True</value>
@@ -144,7 +152,7 @@
 
     <expression name="Exp_HomeMenu_IsExpanded">[$EXP[Exp_HomeMenu_IsExpanded_Movement] | [Skin.String(Home.SideMenuCollapse,Never)]]</expression>    
     
-    <expression name="Exp_HomeMenu_IsExpanded_Movement">[[Skin.String(Home.SideMenuCollapse,Library) + [Window.IsVisible(Home) | Window.IsVisible(1182)] + !Skin.String(Hub.Home.WidgetMode,Wall)] | [Skin.String(Home.SideMenuCollapse,Hubs) + [$EXP[Exp_Window_IsHub] | Window.IsVisible(1182)] + !$EXP[Exp_Window_IsWallMode]]]</expression>    
+    <expression name="Exp_HomeMenu_IsExpanded_Movement">[[Skin.String(Home.SideMenuCollapse,Library) + [Window.IsVisible(Home) | Window.IsVisible(MyVideoNav.xml) | Window.IsVisible(MyMusicNav.xml) | Window.IsVisible(1182)] + !Skin.String(Hub.Home.WidgetMode,Wall)] | [Skin.String(Home.SideMenuCollapse,Hubs) + [$EXP[Exp_Window_IsHub] | Window.IsVisible(MyVideoNav.xml) | Window.IsVisible(MyMusicNav.xml) | Window.IsVisible(1182)] + !$EXP[Exp_Window_IsWallMode]]]</expression>    
     
     <expression name="Exp_HomeMenu_IsStatic">[$EXP[Exp_HomeMenu_IsExpanded] + !$EXP[Exp_InfoDialogs]]</expression>
     
@@ -159,8 +167,6 @@
     <expression name="Exp_Window_IsWallMode">[[Window.IsVisible(Home) + Skin.String(Hub.Home.WidgetMode,Wall)] | [Window.IsVisible(1101) + Skin.String(Hub.1101.WidgetMode,Wall)] | [Window.IsVisible(1102) + Skin.String(Hub.1102.WidgetMode,Wall)] | [Window.IsVisible(1103) + Skin.String(Hub.1103.WidgetMode,Wall)] | [Window.IsVisible(1104) + Skin.String(Hub.1104.WidgetMode,Wall)] | [Window.IsVisible(1106) + Skin.String(Hub.1106.WidgetMode,Wall)] | [Window.IsVisible(1107) + Skin.String(Hub.1107.WidgetMode,Wall)] | [Window.IsVisible(1108) + Skin.String(Hub.1108.WidgetMode,Wall)] | [Window.IsVisible(1109) + Skin.String(Hub.1109.WidgetMode,Wall)] | [Window.IsVisible(1110) + Skin.String(Hub.1110.WidgetMode,Wall)] | [Window.IsVisible(1112) + Skin.String(Hub.1112.WidgetMode,Wall)] | [Window.IsVisible(1114) + Skin.String(Hub.1114.WidgetMode,Wall)] | [Window.IsVisible(1125) + Skin.String(Hub.1125.WidgetMode,Wall)] | [Window.IsVisible(1126) + Skin.String(Hub.1126.WidgetMode,Wall)] | [Window.IsVisible(1127) + Skin.String(Hub.1127.WidgetMode,Wall)] | [Window.IsVisible(1130) + Skin.String(Hub.1130.WidgetMode,Wall)] | [Window.IsVisible(1131) + Skin.String(Hub.1131.WidgetMode,Wall)] | [Window.IsVisible(1132) + Skin.String(Hub.1132.WidgetMode,Wall)]]</expression>
 
     <expression name="Exp_Window_IsWallMode_Prev">[[Window.Previous(Home) + Skin.String(Hub.Home.WidgetMode,Wall)] | [Window.Previous(1101) + Skin.String(Hub.1101.WidgetMode,Wall)] | [Window.Previous(1102) + Skin.String(Hub.1102.WidgetMode,Wall)] | [Window.Previous(1103) + Skin.String(Hub.1103.WidgetMode,Wall)] | [Window.Previous(1104) + Skin.String(Hub.1104.WidgetMode,Wall)] | [Window.Previous(1106) + Skin.String(Hub.1106.WidgetMode,Wall)] | [Window.Previous(1107) + Skin.String(Hub.1107.WidgetMode,Wall)] | [Window.Previous(1108) + Skin.String(Hub.1108.WidgetMode,Wall)] | [Window.Previous(1109) + Skin.String(Hub.1109.WidgetMode,Wall)] | [Window.Previous(1110) + Skin.String(Hub.1110.WidgetMode,Wall)] | [Window.Previous(1112) + Skin.String(Hub.1112.WidgetMode,Wall)] | [Window.Previous(1114) + Skin.String(Hub.1114.WidgetMode,Wall)] | [Window.Previous(1125) + Skin.String(Hub.1125.WidgetMode,Wall)] | [Window.Previous(1126) + Skin.String(Hub.1126.WidgetMode,Wall)] | [Window.Previous(1127) + Skin.String(Hub.1127.WidgetMode,Wall)] | [Window.Previous(1130) + Skin.String(Hub.1130.WidgetMode,Wall)] | [Window.Previous(1131) + Skin.String(Hub.1131.WidgetMode,Wall)] | [Window.Previous(1132) + Skin.String(Hub.1132.WidgetMode,Wall)]]</expression>
-
-    <expression name="Exp_ReverseTransition">[False]</expression>
 
     <!-- ==== -->
     <!-- Hubs -->
@@ -314,7 +320,7 @@
     <!-- ==== -->
     <!-- Misc -->
     <!-- ==== -->
-    <expression name="Exp_PVR_HiddenButton_Enabled">[Skin.String(TMDbHelper.EnablePVR,Detailed) + Window.IsVisible(MyPVRRecordings.xml)]</expression>
+    <expression name="Exp_PVR_HiddenButton_Enabled">[$EXP[Exp_TMDbHelper_IsData] + Skin.String(TMDbHelper.EnablePVR,Detailed) + Window.IsVisible(MyPVRRecordings.xml)]</expression>
 
     <expression name="Exp_FileBrowser_Conditional_Buttons">[True]</expression>
     
@@ -322,7 +328,7 @@
 
     <expression name="Exp_Video_IsNotPlaying">[![Player.HasVideo | [Player.HasAudio + !Skin.HasSetting(Background.Visualisation.Disabled) + Visualisation.Enabled]] | Player.Paused | Skin.HasSetting(Background.DisableVideo) | Window.IsVisible(1123)]</expression>
 
-    <expression name="Exp_Furniture_PVR">[[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml)] + !Skin.String(TMDbHelper.EnablePVR,Detailed) + !Window.IsVisible(DialogPVRInfo.xml)]</expression>
+    <expression name="Exp_Furniture_PVR">[[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml)] + ![Skin.String(TMDbHelper.EnablePVR,Detailed) + $EXP[Exp_TMDbHelper_IsData]] + !Window.IsVisible(DialogPVRInfo.xml)]</expression>
 
     <expression name="Exp_Christmas_Theme">[System.Date(12-01,01-07) + Skin.HasSetting(EnableHolidayTheme) + [[!Window.IsVisible(visualisation) + !VideoPlayer.IsFullscreen] | Window.IsActive(fullscreeninfo)]]</expression>
 
@@ -330,11 +336,15 @@
     
     <expression name="Exp_Context_Expanded">[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_title)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))]</expression>
 
-    <expression name="Exp_InfoDialogs_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
+    <expression name="Exp_InfoDialogs_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [$EXP[Exp_TMDbHelper_IsData] + Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
 
-    <expression name="Exp_Spotlight_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,Container(301).ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
+    <expression name="Exp_Spotlight_ResumeMedia">[[[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] + String.IsEqual(Player.FileNameAndPath,Container(301).ListItem.FileNameAndPath)] | [[String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [$EXP[Exp_TMDbHelper_IsData] + Skin.String(TMDbHelper.EnablePVR,Detailed) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_Type),movie) + String.IsEqual(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID))] | [String.IsEqual(Window(Home).Property(TMDbHelper.Player.tmdb_type),tv) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.TMDb_ID),Window(Home).Property(TMDbHelper.ListItem.TMDb_ID)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Season),Window(Home).Property(TMDbHelper.ListItem.Season)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Episode),Window(Home).Property(TMDbHelper.ListItem.Episode))]]]</expression>
 
     <expression name="Exp_Dialog_TinyPPI_IsVisible">[Window.IsVisible(script-tinyppi-dialog-bar.xml) | Window.IsVisible(script-tinyppi-dialog-single.xml) | Window.IsVisible(script-tinyppi-dialog.xml) | Window.IsVisible(script-tinyppi-dv-metadata.xml) | Window.IsVisible(script-tinyppi-main.xml)]</expression>
+    <!-- A menu was saved since the shortcuts editor (1116) opened -->
+    <expression name="Exp_Shortcuts_EditedSinceOpen">!String.IsEqual(Window(Home).Property(SkinVariables.ShortcutsNode.Reload),Window(Home).Property(Shortcuts.ReloadOnOpen))</expression>
+    <!-- A menu was saved since the window with Action_BuildShortcuts_OnUnLoad opened (separate from 1116, which opens on top of it) -->
+    <expression name="Exp_Shortcuts_WindowEditedSinceOpen">!String.IsEqual(Window(Home).Property(SkinVariables.ShortcutsNode.Reload),Window(Home).Property(Shortcuts.WindowReloadOnOpen))</expression>
 
     <!-- Plot Dialog Additional Ratings -->
     <expression name="Exp_Ratings_Empty_0.5">!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.IMDb_Rating)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Top250)) + !Integer.IsGreater(Window(Home).Property(TMDbHelper.ListItem.Top250),99)</expression>

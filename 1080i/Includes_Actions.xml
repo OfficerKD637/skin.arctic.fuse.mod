@@ -104,6 +104,19 @@
         <value>0</value>
     </variable>
 
+    <include name="Action_TMDbHelper_Toggle_Onclick">
+        <onclick>Skin.ToggleSetting(TMDbHelper.EnableData)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_tvshowtitle,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_plot,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_poster,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_clearlogo,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_icon,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_title,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_folderpath,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_dbtype,Home)</onclick>
+        <onclick>ClearProperty(TMDbHelper.ListItem.base_label,Home)</onclick>
+    </include>
+
     <variable name="Action_Spotlight_PlayMedia">
         <value condition="!$EXP[Exp_Hubs_Spotlight_HasItems] + Weather.IsFetched">ActivateWindow(weather)</value>
         <value condition="!$EXP[Exp_Hubs_Spotlight_HasItems]">SlideShow($VAR[Path_Spotlight_SlideShow_Content],beginslide=$ESCINFO[Container(99971).ListItem.PicturePath])</value>
@@ -226,9 +239,9 @@
             <onload condition="!$EXP[Exp_HomeMenu_IsStatic]">ClearProperty(SideMenu.HasFocus,Home)</onload>
             <onload condition="$EXP[Exp_HomeMenu_IsStatic]">SetProperty(SideMenu.HasFocus,True,Home)</onload>
 
-            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_type_sync_stats.json)</onload>            
-            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_movie_sync_stats.json)</onload>            
-            <onload condition="Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_episode_sync_stats.json)</onload>                
+            <onload condition="$EXP[Exp_TMDbHelper_IsData] + Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_type_sync_stats.json)</onload>            
+            <onload condition="$EXP[Exp_TMDbHelper_IsData] + Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_movie_sync_stats.json)</onload>            
+            <onload condition="$EXP[Exp_TMDbHelper_IsData] + Skin.String(Enable.PlotDetails.Fallback,Trakt) + !String.IsEmpty(Addon.SettingStr(plugin.video.themoviedb.helper,sync_provider_watched))">RunPlugin(plugin://script.skinvariables/?info=get_params_file&amp;&amp;special://skin/extras/filters/recent_episode_sync_stats.json)</onload>                
 
             <include>Generator_BuildTextures_Onload</include>
 
@@ -643,7 +656,9 @@
     </include>
     <include name="Action_BuildShortcuts_OnUnLoad">
         <onload>CancelAlarm(rebuild_shortcuts,true)</onload>
-        <onunload>AlarmClock(rebuild_shortcuts,runscript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/skinvariables-build-templates.json",use_rules),00:01,silent)</onunload>
+        <onload>SetProperty(Shortcuts.WindowReloadOnOpen,$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload)],Home)</onload>
+        <onunload condition="$EXP[Exp_Shortcuts_WindowEditedSinceOpen]">Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onunload>
+        <onunload condition="$EXP[Exp_Shortcuts_WindowEditedSinceOpen]">AlarmClock(rebuild_shortcuts,runscript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/skinvariables-build-templates.json",use_rules),00:01,silent)</onunload>
     </include>
 
     <include name="Action_513_OnWidget">
@@ -979,7 +994,7 @@
     </include>
     
     <variable name="Action_OSD_WikiInfo">
-        <value condition="[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) + ![Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))]] | VideoPlayer.Content(livetv)">runscript(script.wikipedia,wikipedia=$INFO[VideoPlayer.Title])</value>
+        <value condition="[String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) + ![Skin.String(TMDbHelper.EnablePVR,Detailed) + !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID)) + $EXP[Exp_TMDbHelper_IsData]]] | VideoPlayer.Content(livetv)">runscript(script.wikipedia,wikipedia=$INFO[VideoPlayer.Title])</value>
         <value>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-closeosd.json,use_rules=True,"command=ActivateWindow(1193)")</value>
     </variable>
 
@@ -1029,12 +1044,15 @@
         </definition>
     </include>
     <include name="Action_Blur_Onload">
-        <include content="_Action_Blur_Onload" condition="!Skin.HasSetting(Background.ExtraFanart)">
+        <include content="_Action_Blur_Onload" condition="!Skin.HasSetting(Background.ExtraFanart) + $EXP[Exp_TMDbHelper_IsBlur]">
             <param name="sourceimage">Art(season.fanart)|Art(tvshow.fanart)|Art(fanart)|Property(fanart)||EPGEventIcon||PicturePath</param>
         </include>
-        <include content="_Action_Blur_Onload" condition="Skin.HasSetting(Background.ExtraFanart)">
+        <include content="_Action_Blur_Onload" condition="Skin.HasSetting(Background.ExtraFanart) + $EXP[Exp_TMDbHelper_IsBlur]">
             <param name="sourceimage">Art(season.fanart{x})|Art(tvshow.fanart{x})|Art(fanart{x})|Property(fanart)||EPGEventIcon||PicturePath</param>
         </include>
+
+        <onload condition="$EXP[Exp_TMDbHelper_IsData]">Skin.SetBool(TMDbHelper.Service)</onload>
+        <onload condition="!$EXP[Exp_TMDbHelper_IsData]">Skin.Reset(TMDbHelper.Service)</onload>
     </include>
 
     <variable name="Action_Var_BuildTextures">
@@ -1047,7 +1065,22 @@
             <onclick>runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id])</onclick>
         </definition>
     </include>
-    
+
+    <include name="Action_Reload_1118">
+        <param name="condition_service">false</param>
+        <param name="condition">true</param>
+        <param name="window_id">1118</param>
+        <definition>
+            <!-- Alarms are set before the reload: list items queue their actions, and the reload discards anything still queued behind it -->
+            <onclick condition="$PARAM[condition]">AlarmClock(refocusblura,SetFocus(10000,1),00:00,silent)</onclick>
+            <onclick condition="$PARAM[condition]">AlarmClock(refocusblurb,SetFocus(1009),00:01,silent)</onclick>
+            <onclick condition="$PARAM[condition] + Window.IsVisible(1180)">AlarmClock(refocusblurbwizard,ActivateWindow(1180),00:00,silent)</onclick>
+            <onclick condition="$PARAM[condition]">AlarmClock(refocusblurc,ActivateWindow($PARAM[window_id]),00:01,silent)</onclick>
+            <onclick condition="$PARAM[condition] + $PARAM[condition_service]">AlarmClock(refocusblurd,RunScript(plugin.video.themoviedb.helper,restart_service),00:01,silent)</onclick>
+            <onclick condition="$PARAM[condition]">ReloadSkin()</onclick>
+        </definition>
+    </include>
+
     <variable name="Action_Update_Color">
         <value condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight)">Skin.SetString(focuscolor.name,$VAR[Color_PC_to_Hex])</value>
         <value condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Gradient)">Skin.SetString(gradientcolor.name,$INFO[ListItem.Label])</value>
@@ -1114,8 +1147,8 @@
         <onclick>Skin.SetString(gradientcolor.name,ffffffff)</onclick>
         <onclick>Skin.SetBool(EnableMonochromeHighlight)</onclick>
         <onclick>Skin.SetBool(InvertSelectedText)</onclick>
-        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.Reset(Background.DialogImage)</onclick>
-        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick condition="!$EXP[Exp_TMDbHelper_IsBlur]">Skin.Reset(Background.DialogImage)</onclick>
+        <onclick condition="$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/purple_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
@@ -1126,8 +1159,8 @@
         <onclick>Skin.Reset(gradientcolor.name)</onclick>
         <onclick>Skin.Reset(EnableMonochromeHighlight)</onclick>
         <onclick>Skin.Reset(InvertSelectedText)</onclick>
-        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.Reset(Background.DialogImage)</onclick>
-        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick condition="!$EXP[Exp_TMDbHelper_IsBlur]">Skin.Reset(Background.DialogImage)</onclick>
+        <onclick condition="$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/purple_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
@@ -1138,8 +1171,8 @@
         <onclick>Skin.SetString(gradientcolor.name,ff00bfa5)</onclick>
         <onclick>Skin.Reset(EnableMonochromeHighlight)</onclick>
         <onclick>Skin.Reset(InvertSelectedText)</onclick>
-        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Green)</onclick>
-        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick condition="!$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Green)</onclick>
+        <onclick condition="$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/green_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
@@ -1150,8 +1183,8 @@
         <onclick>Skin.SetString(gradientcolor.name,ffe91e63)</onclick>
         <onclick>Skin.Reset(EnableMonochromeHighlight)</onclick>
         <onclick>Skin.Reset(InvertSelectedText)</onclick>
-        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Blush)</onclick>
-        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick condition="!$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Blush)</onclick>
+        <onclick condition="$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/pink_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
@@ -1162,8 +1195,8 @@
         <onclick>Skin.SetString(gradientcolor.name,ff0091ea)</onclick>
         <onclick>Skin.SetBool(EnableMonochromeHighlight)</onclick>
         <onclick>Skin.Reset(InvertSelectedText)</onclick>
-        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Slate)</onclick>
-        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick condition="!$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Slate)</onclick>
+        <onclick condition="$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/slate_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
@@ -1174,8 +1207,8 @@
         <onclick>Skin.SetString(gradientcolor.name,ff5528a8)</onclick>
         <onclick>Skin.SetBool(EnableMonochromeHighlight)</onclick>
         <onclick>Skin.Reset(InvertSelectedText)</onclick>
-        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Coal)</onclick>
-        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick condition="!$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Coal)</onclick>
+        <onclick condition="$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/coal_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
@@ -1186,8 +1219,8 @@
         <onclick>Skin.SetString(gradientcolor.name,ffe5e4e2)</onclick>
         <onclick>Skin.Reset(EnableMonochromeHighlight)</onclick>
         <onclick>Skin.SetBool(InvertSelectedText)</onclick>
-        <onclick condition="!Skin.HasSetting(TMDbHelper.EnableBlur) | !String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Obsidian)</onclick>
-        <onclick condition="Skin.HasSetting(TMDbHelper.EnableBlur) + String.IsEmpty(Skin.String(Background.ArtworkStyle))">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
+        <onclick condition="!$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Obsidian)</onclick>
+        <onclick condition="$EXP[Exp_TMDbHelper_IsBlur]">Skin.SetString(Background.DialogImage,Adaptive)</onclick>
         <onclick>Skin.SetString(Background.Image,special://skin/extras/backgrounds/blur/obsidian_blur.jpg)</onclick>
         <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground])</onclick>
         <onclick>AlarmClock(buildtexture,runscript($VAR[Action_Var_BuildTextures],reload=$PARAM[window_id]),00:00,silent)</onclick>
