@@ -2439,6 +2439,7 @@
         <param name="item_h">160</param>
         <param name="icon">$INFO[ListItem.Icon]</param>
         <param name="icon_check">[String.StartsWith(ListItem.Icon,Default) | String.StartsWith(ListItem.Icon,special://skin/extras/icons/)]</param>
+        <param name="icon_default_check">String.StartsWith(ListItem.Icon,Default)</param>
         <definition>
             <control type="group">
                 <left>0</left>
@@ -2453,10 +2454,23 @@
                         <texture background="true" fallback="$PARAM[fallback]" colordiffuse="white" diffuse="diffuse/square_w120_h120.png">$PARAM[icon]</texture>
                         <visible>![$PARAM[icon_check]]</visible>
                     </control>
-                    <control type="image">
-                        <aspectratio align="left">keep</aspectratio>
-                        <texture background="true" fallback="$PARAM[fallback]" colordiffuse="$PARAM[color]" diffuse="diffuse/square_w120_h120.png">$PARAM[icon]</texture>
+                    <control type="group">
                         <visible>$PARAM[icon_check]</visible>
+                        <height>80</height>
+                        <width>80</width>
+                        <centertop>50%</centertop>
+                        <centerleft>50%</centerleft>
+                        <control type="image">
+                            <aspectratio align="left">keep</aspectratio>
+                            <texture background="true" fallback="$PARAM[fallback]" colordiffuse="$PARAM[color]">$PARAM[icon]</texture>
+                            <visible>!$PARAM[icon_default_check]</visible>
+                        </control>
+                        <control type="image">
+                            <aspectratio align="left">keep</aspectratio>
+                            <bordersize>icon_default_bordersize</bordersize>
+                            <texture background="true" fallback="$PARAM[fallback]" colordiffuse="$PARAM[color]">$PARAM[icon]</texture>
+                            <visible>$PARAM[icon_default_check]</visible>
+                        </control>
                     </control>
                 </control>
             </control>
