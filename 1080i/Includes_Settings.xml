@@ -135,9 +135,28 @@
     </include>
     
     <include name="Settings_Right_Group">
+        <param name="header">$VAR[Label_Settings_Category]</param>
+        <param name="header_include">Settings_Right_Header</param>
+        <param name="subheader">$VAR[Label_Settings_SubCategory]</param>
+        <param name="visible_line">true</param>
+        <param name="visible_header">true</param>
         <definition>
             <control type="group">
                 <include>Settings_Box</include>
+                <control type="group">
+                    <visible>$PARAM[visible_header]</visible>
+                    <include content="$PARAM[header_include]">
+                        <param name="header">$PARAM[header]</param>
+                    </include>
+                    <control type="group">
+                        <visible>$PARAM[visible_line]</visible>
+                        <include content="Dialog_ItemLine">
+                            <param name="label">$PARAM[subheader]</param>
+                            <param name="colordiffuse">main_fg</param>
+                        </include>
+                    </control>
+                </control>
+
                 <nested />
                 <left>460</left>
                 <right>80</right>
@@ -147,18 +166,161 @@
         </definition>
     </include>
 
+    <include name="Settings_Right_Header">
+        <definition>
+            <control type="label">
+                <label>$PARAM[header]</label>
+                <font>font_midi_bold</font>
+                <textcolor>main_fg_90</textcolor>
+                <height>40</height>
+                <centertop>60</centertop>
+                <left>40</left>
+                <right>40</right>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Settings_Right_Scrollbar">
+        <control type="scrollbar" id="60">
+            <nested />
+            <centerright>0</centerright>
+            <top>140</top>
+            <bottom>20</bottom>
+            <width>scrollbar_w</width>
+            <orientation>vertical</orientation>
+            <texturesliderbackground />
+            <texturesliderbar colordiffuse="main_logo" border="4">scrollbar/scrollv_line.png</texturesliderbar>
+            <include>Texture_Scrollbar_V</include>
+            <showonepage>false</showonepage>
+        </control>
+    </include>
+
     <include name="Settings_Right_Grouplist">
         <control type="grouplist" id="$PARAM[id]">
             <nested />
             <onright>60</onright>
             <pagecontrol>60</pagecontrol>
-            <top>20</top>
+            <top>140</top>
             <left>20</left>
             <right>20</right>
-            <bottom>20</bottom>
+            <bottom>40</bottom>
         </control>
     </include>
-    
+
+    <include name="SkinSettings_Right_Grouplist">
+        <include content="Settings_Right_Grouplist">
+            <param name="id">$PARAM[id]</param>
+            <nested />
+            <control type="label" id="24">
+                <height>80</height>
+                <font>font_head_bold</font>
+                <textcolor>main_fg_70</textcolor>                                                                                
+                <label>$INFO[System.AddonVersion(skin.arctic.fuse.mod),v]</label>
+                <visible>!Integer.IsLess(Skin.String(Skin.SettingsLevel),2)</visible>
+                <visible>[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199867))</visible>
+                <left>40</left>
+                <right>40</right>
+            </control>
+            <control type="textbox" id="25">
+                <font>font_mini_plot</font>
+                <textcolor>main_fg_50</textcolor>                           
+                <height>auto</height>
+                <autoscroll>false</autoscroll>
+                <label>$VAR[Label_Changelog]</label>
+                <visible>!Integer.IsLess(Skin.String(Skin.SettingsLevel),2)</visible>
+                <visible>[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199867))</visible>
+                <left>40</left>
+                <right>40</right>
+            </control>
+            <include content="Settings_Button" description="View changelog">
+                <param name="dialog">true</param>
+                <param name="slevel">2</param>
+                <param name="id">23</param>
+                <param name="control">button</param>
+                <label>$LOCALIZE[31368]</label>
+                <visible>[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199867))</visible>
+                <onclick>RunScript(script.skinvariables,run_dialog=textviewer,heading=$LOCALIZE[24036],text=special://skin/afmodchangelog.txt,load_file)</onclick> 
+            </include>
+            <control type="grouplist" id="26">
+                <orientation>vertical</orientation>
+                <top>30</top>
+                <height max="320">auto</height>
+                <left>40</left>
+                <right>40</right>
+                <itemgap>30</itemgap>
+                <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                <visible>String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))</visible>
+                <control type="grouplist">
+                    <orientation>horizontal</orientation>
+                    <height>30</height>
+                    <control type="label">
+                        <width>auto</width>
+                        <font>font_mini_bold</font>
+                        <textcolor>main_fg_70</textcolor>
+                        <label>$LOCALIZE[10037]: </label>
+                    </control>
+                    <control type="label">
+                        <width>auto</width>
+                        <font>font_mini_plot</font>
+                        <textcolor>main_fg_70</textcolor>
+                        <label>$LOCALIZE[31610]</label>
+                    </control>
+                </control>
+                <control type="grouplist">
+                    <orientation>horizontal</orientation>
+                    <height>30</height>
+                    <control type="label">
+                        <width>auto</width>
+                        <font>font_mini_bold</font>
+                        <textcolor>main_fg_70</textcolor>
+                        <label>$LOCALIZE[10038]: </label>
+                    </control>
+                    <control type="label">
+                        <width>auto</width>
+                        <font>font_mini_plot</font>
+                        <textcolor>main_fg_70</textcolor>
+                        <label>$LOCALIZE[31611]</label>
+                    </control>
+                </control>
+                <control type="grouplist">
+                    <orientation>horizontal</orientation>
+                    <height>30</height>
+                    <control type="label">
+                        <width>auto</width>
+                        <font>font_mini_bold</font>
+                        <textcolor>main_fg_70</textcolor>
+                        <label>$LOCALIZE[10039]: </label>
+                    </control>
+                    <control type="label">
+                        <width>auto</width>
+                        <font>font_mini_plot</font>
+                        <textcolor>main_fg_70</textcolor>
+                        <label>$LOCALIZE[31612]</label>
+                    </control>
+                </control>
+            </control>
+            <include content="Settings_Label" description="Thanks">
+                <param name="id">27</param>
+                <top>30</top>
+                <label>$LOCALIZE[31350]</label>
+                <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                <visible>String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))</visible>
+            </include>
+            <control type="textbox" id="28">
+                <font>font_mini_plot</font>
+                <textcolor>main_fg_70</textcolor>
+                <top>20</top>
+                <height>auto</height>
+                <autoscroll>false</autoscroll>
+                <label>Supporters: Blurayx | Cholo68 | BriceysCousin [CR][CR]Translations: RvdS-cmd (NL) | Havokdan (PT) | wabisabi926 (ZH) [CR][CR]Thank you very much for all the support! It truly means a lot to me!</label>
+                <left>40</left>
+                <right>40</right>
+                <visible>String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)</visible>
+                <visible>String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))</visible>
+            </control>
+        </include>
+    </include>
+
     <include name="Settings_Dialog">
         <definition>
             <control type="group">
@@ -196,6 +358,14 @@
         <description>None</description>
     </include>
 
+    <!-- Stores the focused setting's help text for Settings_Right_InfoText -->
+    <include name="Settings_Button_Help">
+        <param name="help" />
+        <definition>
+            <onfocus>SetProperty(InfoText.Message,"$PARAM[help]")</onfocus>
+        </definition>
+    </include>
+    
     <include name="Settings_Visible_Level">
         <param name="slevel">0</param>
         <param name="altvisible">false</param>
@@ -210,6 +380,7 @@
         <param name="window" />
         <param name="reload">false</param>
         <param name="slevel">0</param>
+        <param name="help" />
         <definition>
             <control type="$PARAM[control]" id="$PARAM[baseid]$PARAM[id]">
                 <nested />
@@ -225,11 +396,58 @@
                     <param name="baseid">$PARAM[baseid]</param>
                     <param name="reload">$PARAM[reload]</param>
                     <param name="slevel">$PARAM[slevel]</param>
+                    <param name="help">$PARAM[help]</param>
                 </include>
             </control>
         </definition>
     </include>
-    
+
+    <!-- Box with an icon placed above the SkinVariables skinsettings list. Nest a Settings_SearchBox_Button with the same id -->
+    <include name="Settings_SearchBox">
+        <param name="right">20</param>
+        <param name="width">560</param>
+        <definition>
+            <control type="group">
+                <right>$PARAM[right]</right>
+                <width>$PARAM[width]</width>
+                <height>80</height>
+                <centertop>60</centertop>
+                <nested />
+                <include content="Button_Image">
+                    <param name="buttonid">$PARAM[buttonid]</param>
+                    <param name="icon">$PARAM[icon]</param>
+                    <param name="getlabel">false</param>
+                    <param name="top">0</param>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <!-- Button of a Settings_SearchBox. The script configures it in place through its nested content.
+         Up and down move to the last and first settings in view, which the script sets as window properties -->
+    <include name="Settings_SearchBox_Button">
+        <param name="control">button</param>
+        <definition>
+            <include content="Settings_Button">
+                <param name="id">$PARAM[id]</param>
+                <param name="control">$PARAM[control]</param>
+                <nested />
+                <textoffsetx>80</textoffsetx>
+                <include>Texture_Button_Outline</include>
+                <!-- Changelog -->
+                <onup condition="[[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199867))]">23</onup>
+
+                <!-- Thanks -->
+                <onup condition="[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))]">-192</onup>
+                <ondown condition="[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))]">-192</ondown>
+
+                <onup condition="![[[String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),tools) | String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks)] + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] | !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199867))] + !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.BottomControlID))">SetFocus($INFO[Window.Property(SkinVariables.SkinSettings.BottomControlID)])</onup>
+                <ondown condition="![String.IsEqual(Window.Property(SkinVariables.SkinSettings.Category),thanks) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query))] + !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.TopControlID))">SetFocus($INFO[Window.Property(SkinVariables.SkinSettings.TopControlID)])</ondown>
+                <ondown condition="!String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.Query)) + !String.IsEmpty(Window.Property(SkinVariables.SkinSettings.Search.-199867)) + String.IsEmpty(Window.Property(SkinVariables.SkinSettings.TopControlID))">23</ondown>
+            </include>
+        </definition>
+    </include>
+
     <include name="Settings_EditButton">
         <param name="hasbutton">true</param>
         <definition>
@@ -286,8 +504,8 @@
                 <nested />
                 <align>left</align>
                 <font>font_hint_bold</font>
-                <top>40</top>
-                <height>40</height>
+                <top>20</top>
+                <height>60</height>
                 <textoffsetx>40</textoffsetx>
                 <textcolor>main_fg_30</textcolor>
                 <include content="Settings_Button_$PARAM[window]">
@@ -477,51 +695,107 @@
             <include content="Dialog_InfoText">
                 <param name="label">$VAR[Label_Setting_InfoText]</param>
                 <param name="fallback">$INFO[System.BuildVersion,Kodi ,]$INFO[System.AddonVersion(skin.arctic.fuse.mod), • AFMod v,]</param>
-                <param name="colordiffuse">main_fg_30</param>
+                <param name="colordiffuse">main_fg_50</param>
                 <param name="centerbottom">100</param>
                 <param name="left">440</param>
+                <param name="right">40</param>
                 <param name="id">$PARAM[id]</param>
-                <param name="include_hintlabel">false</param>
             </include>
         </definition>
     </include>
 
     <include name="Settings_Landing_Label">
-        <control type="label">
-            <top>20</top>
-            <textcolor>main_fg_70</textcolor>
-            <textoffsetx>40</textoffsetx>
+        <control type="grouplist">
+            <orientation>horizontal</orientation>
             <height>40</height>
-            <label>$PARAM[label]</label>
-            <visible>$PARAM[visible]</visible>
-            <font>font_main_bold</font>
+            <itemgap>10</itemgap>
+            <control type="label">
+                <textcolor>main_fg_70</textcolor>
+                <textoffsetx>40</textoffsetx>
+                <height>40</height>
+                <label>$PARAM[label]: </label>
+                <font>font_main_bold</font>
+                <visible>$PARAM[visible]</visible>
+                <width max="1000">auto</width>
+            </control>
+            <control type="label">
+                <textcolor>main_fg_70</textcolor>
+                <textoffsetx>40</textoffsetx>
+                <height>40</height>
+                <label>$PARAM[label2]</label>
+                <visible>$PARAM[visible]</visible>
+                <width max="1000">auto</width>
+            </control>
         </control>
-        <control type="label">
-            <textcolor>main_fg_70</textcolor>
-            <textoffsetx>40</textoffsetx>
-            <height>40</height>
-            <label>$PARAM[label2]</label>
-            <visible>$PARAM[visible]</visible>
-        </control>
+    </include>
+
+    <include name="Navigation_Statistics_Panel_Cast">
+        <onleft>34</onleft>
+        <onup condition="!Integer.IsEqual(Container(8505).NumItems,0)">SetFocus(8505)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + !Integer.IsEqual(Container(8503).NumItems,0)">SetFocus(8503,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + !Integer.IsEqual(Container(8502).NumItems,0)">SetFocus(8502,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + !Integer.IsEqual(Container(8501).NumItems,0)">SetFocus(8501,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + Integer.IsEqual(Container(8501).NumItems,0)">34</onup>
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id]).NumItems,0) + Integer.IsLess(Container($PARAM[id]).Position,5)">SetFocus($PARAM[right_id],$INFO[Container($PARAM[id]).Position])</onright>
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id2]).NumItems,0) + [Integer.IsEqual(Container($PARAM[id]).Position,5) | Integer.IsEqual(Container($PARAM[id]).Position,6)]">SetFocus($PARAM[right_id2],0)</onright>
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id2]).NumItems,0) + Integer.IsEqual(Container($PARAM[id]).Position,7)">SetFocus($PARAM[right_id2],1)</onright>
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id2]).NumItems,0) + Integer.IsEqual(Container($PARAM[id]).Position,8)">SetFocus($PARAM[right_id2],2)</onright>
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id2]).NumItems,0) + Integer.IsEqual(Container($PARAM[id]).Position,9)">SetFocus($PARAM[right_id2],3)</onright>
+        <onright condition="Integer.IsEqual(Container($PARAM[right_id]).NumItems,0) + Integer.IsEqual(Container($PARAM[right_id2]).NumItems,0)">65</onright>
+    </include>
+
+    <include name="Navigation_Statistics_Panel_Standard_Top">
+        <onup condition="!Integer.IsEqual(Container(8505).NumItems,0)">SetFocus(8505)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + !Integer.IsEqual(Container(8503).NumItems,0)">SetFocus(8503,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + !Integer.IsEqual(Container(8502).NumItems,0)">SetFocus(8502,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + !Integer.IsEqual(Container(8501).NumItems,0)">SetFocus(8501,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + Integer.IsEqual(Container(8501).NumItems,0)">34</onup>
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id]).NumItems,0)">SetFocus($PARAM[right_id],$INFO[Container($PARAM[id]).Position])</onright>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0)">SetFocus($PARAM[left_id],$INFO[Container($PARAM[id]).Position])</onleft>
+        <ondown condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],0)</ondown>
+    </include>
+    
+    <include name="Navigation_Statistics_Panel_Standard_Bottom">
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id]).NumItems,0)">SetFocus($PARAM[right_id],$INFO[Container($PARAM[id]).Position])</onright>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0)">SetFocus($PARAM[left_id],$INFO[Container($PARAM[id]).Position])</onleft>
+        <onup condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],9999)</onup>
+        <ondown condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],0)</ondown>
+    </include>
+
+    <include name="Navigation_Statistics_Panel_Network">
+        <onright condition="!Integer.IsEqual(Container($PARAM[right_id]).NumItems,0)">SetFocus($PARAM[right_id],$INFO[Container($PARAM[id]).Position])</onright>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0) + Integer.IsEqual(Container($PARAM[id]).Position,0)">SetFocus($PARAM[left_id],6)</onleft>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0) + Integer.IsEqual(Container($PARAM[id]).Position,1)">SetFocus($PARAM[left_id],7)</onleft>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0) + Integer.IsEqual(Container($PARAM[id]).Position,2)">SetFocus($PARAM[left_id],8)</onleft>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0) + Integer.IsEqual(Container($PARAM[id]).Position,3)">SetFocus($PARAM[left_id],9)</onleft>
+        <onup condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],9999)</onup>
+        <ondown condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],0)</ondown>
+    </include>
+
+    <include name="Navigation_Statistics_Panel_End_Top">
+        <onup condition="!Integer.IsEqual(Container(8505).NumItems,0)">SetFocus(8505)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + !Integer.IsEqual(Container(8503).NumItems,0)">SetFocus(8503,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + !Integer.IsEqual(Container(8502).NumItems,0)">SetFocus(8502,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + !Integer.IsEqual(Container(8501).NumItems,0)">SetFocus(8501,0,absolute)</onup>
+        <onup condition="Integer.IsEqual(Container(8505).NumItems,0) + Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + Integer.IsEqual(Container(8501).NumItems,0)">34</onup>
+        <onright>65</onright>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0)">SetFocus($PARAM[left_id],$INFO[Container($PARAM[id]).Position])</onleft>
+        <ondown condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],0)</ondown>
+    </include>
+    <include name="Navigation_Statistics_Panel_End_Bottom">
+        <onright>65</onright>
+        <onleft condition="!Integer.IsEqual(Container($PARAM[left_id]).NumItems,0)">SetFocus($PARAM[left_id],$INFO[Container($PARAM[id]).Position])</onleft>
+        <onup condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],9999)</onup>
+        <ondown condition="!Integer.IsEqual(Container($PARAM[down_id]).NumItems,0)">SetFocus($PARAM[down_id],0)</ondown>
     </include>
 
     <include name="Settings_Statistics">
         <control type="group">
-            <height>760</height>
+            <height>680</height>
             <visible>!Integer.IsEqual(Container($PARAM[id1]).NumItems,0) | !Integer.IsEqual(Container($PARAM[id2]).NumItems,0) | !Integer.IsEqual(Container($PARAM[id3]).NumItems,0)</visible>
-            <control type="label">
-                <left>40</left>
-                <right>40</right>
-                <align>right</align>
-                <height>40</height>
-                <bottom>0</bottom>
-                <label>$PARAM[source]</label>
-                <font>font_hint_bold</font>
-                <textcolor>main_fg_30</textcolor>
-            </control>
-            <control type="grouplist">
-                <top>40</top>
-                <bottom>40</bottom>
+            <control type="grouplist" id="$PARAM[id]">
+                <top>0</top>
+                <bottom>30</bottom>
                 <left>40</left>
                 <right>40</right>
                 <orientation>horizontal</orientation>
@@ -529,82 +803,128 @@
                 <control type="group">
                     <width>295</width>
                     <include content="Object_Statistics_Panel">
+                        <param name="id">$PARAM[id]5</param>
+                        <param name="right_id">$PARAM[id]6</param>
+                        <param name="right_id2">$PARAM[id]7</param>
                         <param name="containers">$PARAM[id3]</param>
                         <param name="label">$LOCALIZE[344]</param>
                         <param name="infolabel">Property(Cast.1.Name)</param>
+                        <param name="filterkey">cast.1.name</param>
                         <param name="limit">10</param>
                         <param name="affix">&amp;reload=$INFO[Container($PARAM[id3]).NumItems]</param>
+                        <param name="filterpath">plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=both&amp;length=3&amp;detailed=true</param>
+                        <param name="include_navigation">Navigation_Statistics_Panel_Cast</param>
                     </include>
                 </control>
                 <control type="group">
                     <width>295</width>
                     <control type="group">
-                        <height>320</height>
+                        <height>296</height>
                         <include content="Object_Statistics_Panel">
+                            <param name="id">$PARAM[id]6</param>
+                            <param name="left_id">$PARAM[id]5</param>
+                            <param name="right_id">$PARAM[id]8</param>
+                            <param name="down_id">$PARAM[id]7</param>
                             <param name="containers">$PARAM[id1]</param>
                             <param name="label">$LOCALIZE[20388]</param>
                             <param name="infolabel">Studio</param>
+                            <param name="filterkey">studio</param>
                             <param name="limit">4</param>
                             <param name="affix">&amp;reload=$INFO[Container($PARAM[id1]).NumItems]</param>
+                            <param name="filterpath">plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=movie&amp;length=3</param>
+                            <param name="include_navigation">Navigation_Statistics_Panel_Standard_Top</param>
                         </include>
                     </control>
                     <control type="group">
                         <bottom>0</bottom>
-                        <height>320</height>
+                        <height>296</height>
                         <include content="Object_Statistics_Panel">
+                            <param name="id">$PARAM[id]7</param>
+                            <param name="left_id">$PARAM[id]5</param>
+                            <param name="right_id">$PARAM[id]9</param>
+                            <param name="down_id">$PARAM[id]6</param>
                             <param name="containers">$PARAM[id2]</param>
                             <param name="label">$LOCALIZE[31059]</param>
                             <param name="infolabel">Studio</param>
+                            <param name="filterkey">studio</param>
                             <param name="limit">4</param>
                             <param name="affix">&amp;reload=$INFO[Container($PARAM[id2]).NumItems]</param>
+                            <param name="filterpath">plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=episode&amp;length=3</param>
+                            <param name="include_navigation">Navigation_Statistics_Panel_Network</param>
                         </include>
                     </control>
                 </control>
                 <control type="group">
                     <width>295</width>
                     <control type="group">
-                        <height>320</height>
+                        <height>296</height>
                         <include content="Object_Statistics_Panel">
+                            <param name="id">$PARAM[id]8</param>
+                            <param name="left_id">$PARAM[id]6</param>
+                            <param name="right_id">$PARAM[id]10</param>
+                            <param name="down_id">$PARAM[id]9</param>
                             <param name="containers">$PARAM[id3]</param>
                             <param name="label">$LOCALIZE[135]</param>
                             <param name="infolabel">Genre</param>
+                            <param name="filterkey">genre</param>
                             <param name="limit">4</param>
                             <param name="affix">&amp;reload=$INFO[Container($PARAM[id3]).NumItems]</param>
+                            <param name="filterpath">plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=both&amp;length=3&amp;detailed=true</param>
+                            <param name="include_navigation">Navigation_Statistics_Panel_Standard_Top</param>
                         </include>
                     </control>
                     <control type="group">
                         <bottom>0</bottom>
-                        <height>320</height>
+                        <height>296</height>
                         <include content="Object_Statistics_Panel">
+                            <param name="id">$PARAM[id]9</param>
+                            <param name="left_id">$PARAM[id]7</param>
+                            <param name="right_id">$PARAM[id]11</param>
+                            <param name="down_id">$PARAM[id]8</param>
                             <param name="containers">$PARAM[id1]</param>
                             <param name="label">$LOCALIZE[20348]</param>
                             <param name="infolabel">Director</param>
+                            <param name="filterkey">director</param>
                             <param name="limit">4</param>
                             <param name="affix">&amp;reload=$INFO[Container($PARAM[id1]).NumItems]</param>
+                            <param name="filterpath">plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=movie&amp;length=3</param>
+                            <param name="include_navigation">Navigation_Statistics_Panel_Standard_Bottom</param>
                         </include>
                     </control>
                 </control>
                 <control type="group">
                     <width>295</width>
                     <control type="group">
-                        <height>320</height>
+                        <height>296</height>
                         <include content="Object_Statistics_Panel">
+                            <param name="id">$PARAM[id]10</param>
+                            <param name="left_id">$PARAM[id]8</param>
+                            <param name="down_id">$PARAM[id]11</param>
                             <param name="containers">$PARAM[id3]</param>
                             <param name="label">$LOCALIZE[20451]</param>
                             <param name="infolabel">Country</param>
+                            <param name="filterkey">country</param>
                             <param name="limit">4</param>
                             <param name="affix">&amp;reload=$INFO[Container($PARAM[id3]).NumItems]</param>
+                            <param name="filterpath">plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=both&amp;length=3&amp;detailed=true</param>
+                            <param name="include_navigation">Navigation_Statistics_Panel_End_Top</param>
                         </include>
                     </control>
                     <control type="group">
                         <bottom>0</bottom>
-                        <height>320</height>
+                        <height>296</height>
                         <include content="Object_Statistics_Panel">
+                            <param name="id">$PARAM[id]11</param>
+                            <param name="left_id">$PARAM[id]9</param>
+                            <param name="down_id">$PARAM[id]10</param>
                             <param name="containers">$PARAM[id3]</param>
                             <param name="label">$LOCALIZE[31155]</param>
                             <param name="infolabel">Year</param>
+                            <param name="filterkey">year</param>
                             <param name="limit">4</param>
                             <param name="affix">&amp;divisor=10&amp;reload=$INFO[Container($PARAM[id3]).NumItems]</param>
+                            <param name="filterpath">plugin://plugin.video.themoviedb.helper/?info=sync_history&amp;tmdb_type=both&amp;length=3&amp;detailed=true</param>
+                            <param name="include_navigation">Navigation_Statistics_Panel_End_Bottom</param>
                         </include>
                     </control>
                 </control>
@@ -616,10 +936,11 @@
         <param name="ondown_special">false</param>
         <definition>
             <control type="group">
-                <height>280</height>
+                <height>270</height>
                 <control type="group">
                     <top>-80</top>
-                    <left>-20</left>
+                    <left>-40</left>
+                    <right>-40</right>
                     <height>20</height>
                     <include content="Dialog_ItemLine">
                         <param name="visible">true</param>
@@ -638,6 +959,9 @@
                     <content limit="10" browse="never">plugin://plugin.video.themoviedb.helper?info=sync_watchedon&amp;type=both&amp;month=$PARAM[month]&amp;year=$PARAM[year]&amp;nextpage=false</content>
                     <onclick>Action(Info)</onclick>
                     <top>-10</top>
+                    <include content="Object_Left" condition="Skin.HasSetting(Views.DisableItemPeek)">
+                        <param name="left">-20</param>
+                    </include>
                     <left>-60</left>
                     <right>-60</right>
                     <onleft>34</onleft>
@@ -950,10 +1274,11 @@
             <onup condition="Integer.IsEqual(Container(8503).NumItems,0) + !Integer.IsEqual(Container(8502).NumItems,0)">SetFocus(8502,0,absolute)</onup>
             <onup condition="Integer.IsEqual(Container(8503).NumItems,0) + Integer.IsEqual(Container(8502).NumItems,0) + !Integer.IsEqual(Container(8501).NumItems,0)">SetFocus(8501,0,absolute)</onup>
             <onright>65</onright>
-            <ondown>SetFocus(65)</ondown>
-            <ondown>PageDown(65)</ondown>
+            <ondown condition="!Integer.IsEqual(Container(8509).NumItems,0)">SetFocus(8509,0.absolute)</ondown>
+            <ondown condition="Integer.IsEqual(Container(8509).NumItems,0)">SetFocus(65)</ondown>
+            <ondown condition="Integer.IsEqual(Container(8509).NumItems,0)">PageDown(65)</ondown>
 
-            <content>plugin://plugin.video.themoviedb.helper/?info=sync_history_stats&amp;tmdb_type=both&amp;days=287&amp;sort_how=asc</content>
+            <content>plugin://plugin.video.themoviedb.helper/?info=sync_history_stats&amp;tmdb_type=both&amp;days=287</content>
 
             <onclick>SetProperty(header,$ESCINFO[Container($PARAM[id]).ListItem.Property(long)],1135)</onclick>
             <onclick>SetProperty(path,plugin://plugin.video.themoviedb.helper/?info=sync_watchedon&amp;type=both&amp;day=$INFO[Container($PARAM[id]).ListItem.Property(day_number)]&amp;month=$INFO[Container($PARAM[id]).ListItem.Property(month_number)]&amp;year=$INFO[Container($PARAM[id]).ListItem.Property(year)]&amp;episodes=true&amp;nextpage=true,1135)</onclick>

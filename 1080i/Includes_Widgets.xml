@@ -510,6 +510,33 @@
         </control>
     </include>
 
+    <include name="Widget_Busy_BlankItem_Ranked_Expanded_Numerals">
+        <control type="group">
+            <left>-45</left>
+            <width>auto</width>
+            <control type="group">
+                <left>$PARAM[numerals_left]</left>
+                <control type="image">
+                    <width>86</width>
+                    <bottom>0</bottom>
+                    <right>0</right>
+                    <height>210</height>
+                    <aspectratio align="left" aligny="bottom">scale</aspectratio>
+                    <texture colordiffuse="$PARAM[colordiffuse]">numerals/outline/1.png</texture>
+                </control>
+                <control type="image">
+                    <left>110</left>
+                    <width>38</width>
+                    <bottom>0</bottom>
+                    <right>0</right>
+                    <height>210</height>
+                    <aspectratio align="left" aligny="bottom">scale</aspectratio>
+                    <texture colordiffuse="$PARAM[colordiffuse]">numerals/outline/$PARAM[numerals_numbers].png</texture>
+                </control>
+            </control>
+        </control>
+    </include>
+
     <include name="Widget_Busy_BlankItem_Stack_Numerals">
         <control type="image">
             <left>view_stack_busy_left</left>
@@ -748,15 +775,18 @@
     </include>
 
     <include name="Widget_Busy_BlankItem_Ranked_Expanded">
-        <include content="Widget_Busy_BlankItem_PosterWide">
-            <param name="itemlayout_w">view_ranked_itemlayout_w</param>
-            <param name="left">view_ranked_item_w_busy_expanded</param>
-            <param name="colordiffuse">$PARAM[colordiffuse]</param>
-            <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Numerals</param>
-            <param name="numerals_numbers">$PARAM[numerals_numbers]</param>
-            <param name="numerals_width">$PARAM[numerals_width]</param>
-            <param name="numerals_left">-view_ranked_item_w_poster_left</param>
-        </include>
+        <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Numerals</param>
+        <definition>
+            <include content="Widget_Busy_BlankItem_PosterWide">
+                <param name="itemlayout_w">view_ranked_itemlayout_w</param>
+                <param name="left">view_ranked_item_w_busy_expanded</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="include_numerals">$PARAM[include_numerals]</param>
+                <param name="numerals_numbers">$PARAM[numerals_numbers]</param>
+                <param name="numerals_width">$PARAM[numerals_width]</param>
+                <param name="numerals_left">-view_ranked_item_w_poster_left</param>
+            </include>
+        </definition>
     </include>
 
     <include name="Widget_Busy_BlankItem_Ring">
@@ -1021,7 +1051,7 @@
             <include>Widget_Busy_BlankItem_List_Gallery_Row</include>
         </control>
     </include>
-    <include name="Widget_Busy_BlankItem_List_Weather_Row">
+    <include name="Widget_Busy_BlankItem_List_Quad_Row">
         <include content="Widget_Busy_BlankItem">
             <param name="item_w">view_quad_item_w</param>
             <param name="item_h">view_poster_item_h</param>
@@ -1031,12 +1061,15 @@
             <param name="first_row">false</param>
         </include>
     </include>
+    <include name="Widget_Busy_BlankItems__List_Quad_Row">
+        <include>Widget_Busy_BlankItem_List_Quad_Row</include>
+        <include>Widget_Busy_BlankItem_List_Quad_Row</include>
+        <include>Widget_Busy_BlankItem_List_Quad_Row</include>
+        <include>Widget_Busy_BlankItem_List_Quad_Row</include>
+        <include>Widget_Busy_BlankItem_List_Quad_Row</include>
+    </include>
     <include name="Widget_Busy_BlankItems__List_Weather_Row">
-        <include>Widget_Busy_BlankItem_List_Weather_Row</include>
-        <include>Widget_Busy_BlankItem_List_Weather_Row</include>
-        <include>Widget_Busy_BlankItem_List_Weather_Row</include>
-        <include>Widget_Busy_BlankItem_List_Weather_Row</include>
-        <include>Widget_Busy_BlankItem_List_Weather_Row</include>
+        <include>Widget_Busy_BlankItems__List_Quad_Row</include>
     </include>
     <include name="Widget_Busy_BlankItems__List_Button_Row">
         <control type="grouplist">
@@ -1334,27 +1367,33 @@
                 <param name="numerals_width">view_ranked_item_w_poster_left</param>
             </include>
             <include content="Widget_Busy_BlankItem_Ranked_Expanded" condition="!$PARAM[first_row_special] + !$PARAM[third_row_special]">
-                <param name="numerals_numbers">10</param>
+                <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Expanded_Numerals</param>
+                <param name="numerals_numbers">0</param>
                 <param name="numerals_width">view_ranked_item_w_poster_left</param>
             </include>
             <include content="Widget_Busy_BlankItem_Ranked_Expanded" condition="$PARAM[third_row_special]">
-                <param name="numerals_numbers">11</param>
+                 <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Expanded_Numerals</param>
+                <param name="numerals_numbers">1</param>
                 <param name="numerals_width">view_ranked_item_w_poster_left</param>
             </include>
             <include content="Widget_Busy_BlankItem_Ranked_Expanded" condition="$PARAM[third_row_special]">
-                <param name="numerals_numbers">12</param>
+                 <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Expanded_Numerals</param>
+                <param name="numerals_numbers">2</param>
                 <param name="numerals_width">view_ranked_item_w_poster_left</param>
             </include>
             <include content="Widget_Busy_BlankItem_Ranked_Expanded" condition="$PARAM[third_row_special]">
-                <param name="numerals_numbers">13</param>
+                 <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Expanded_Numerals</param>
+                <param name="numerals_numbers">3</param>
                 <param name="numerals_width">view_ranked_item_w_poster_left</param>
             </include>
             <include content="Widget_Busy_BlankItem_Ranked_Expanded" condition="$PARAM[third_row_special]">
-                <param name="numerals_numbers">14</param>
+                 <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Expanded_Numerals</param>
+                <param name="numerals_numbers">4</param>
                 <param name="numerals_width">view_ranked_item_w_poster_left</param>
             </include>
             <include content="Widget_Busy_BlankItem_Ranked_Expanded" condition="$PARAM[third_row_special]">
-                <param name="numerals_numbers">15</param>
+                 <param name="include_numerals">Widget_Busy_BlankItem_Ranked_Expanded_Numerals</param>
+                <param name="numerals_numbers">5</param>
                 <param name="numerals_width">view_ranked_item_w_poster_left</param>
             </include>
         </definition>
@@ -1697,7 +1736,7 @@
         <param name="include_onback">true</param>
         <param name="categorytarget" />
         <definition>
-            <include content="_Widget_Row" condition="![Skin.String(Home.SideMenuCollapse,Library) | Skin.String(Home.SideMenuCollapse,Hubs)]">
+            <include content="_Widget_Row" condition="![$EXP[Exp_HomeMenu_IsExpanded]]">
                 <param name="id">$PARAM[id]</param>
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
@@ -1738,7 +1777,7 @@
 
                 <nested />
             </include>
-            <include content="_Widget_Row" condition="[Skin.String(Home.SideMenuCollapse,Library) | Skin.String(Home.SideMenuCollapse,Hubs)]">
+            <include content="_Widget_Row" condition="[$EXP[Exp_HomeMenu_IsExpanded]]">
                 <param name="id">$PARAM[id]</param>
                 <param name="groupid">$PARAM[groupid]</param>
                 <param name="label">$PARAM[label]</param>
@@ -1851,7 +1890,7 @@
         <param name="categorytarget" />
         <param name="categorynavigationinclude">Widget_Categories_Navigation</param>
         <definition>
-            <include content="_Widget_Row" condition="![Skin.String(Home.SideMenuCollapse,Library) | Skin.String(Home.SideMenuCollapse,Hubs)]">
+            <include content="_Widget_Row" condition="![$EXP[Exp_HomeMenu_IsExpanded]]">
                 <param name="id">$PARAM[baseid]$PARAM[id]</param>
                 <param name="groupid">$PARAM[basegroupid]$PARAM[id]</param>
                 <param name="label">$PARAM[label]</param>
@@ -1898,7 +1937,7 @@
                 <nested />
             </include>
             
-            <include content="_Widget_Row" condition="[Skin.String(Home.SideMenuCollapse,Library) | Skin.String(Home.SideMenuCollapse,Hubs)]">
+            <include content="_Widget_Row" condition="[$EXP[Exp_HomeMenu_IsExpanded]]">
                 <param name="id">$PARAM[baseid]$PARAM[id]</param>
                 <param name="groupid">$PARAM[basegroupid]$PARAM[id]</param>
                 <param name="label">$PARAM[label]</param>

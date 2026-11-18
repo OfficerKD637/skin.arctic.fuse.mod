@@ -36,7 +36,20 @@
                 <control type="group">
                     <control type="group">                    
                         <control type="group">
-                            <include>skinvariables-searchmenu-info</include>
+                            <include content="Object_Control" condition="!Skin.String(Hub.1185.WidgetMode,Wall) + Skin.HasSetting(Furniture.EnableLeftHeader)">
+                                <param name="control">group</param>
+                                <visible>$EXP[Exp_Search_Slide_Info]</visible>
+                                <animation effect="fade" start="0" end="100" time="400" delay="200" tween="cubic" easing="in">Visible</animation>
+                                <include>Furniture_Top</include>
+                            </include>
+                            <control type="group">
+                                <include content="Object_Top" condition="Skin.String(Hub.1185.WidgetMode,Wall) + Skin.HasSetting(Furniture.EnableLeftHeader)">
+                                    <param name="top">-60</param>
+                                </include>
+                                <include>skinvariables-searchmenu-info</include>
+                                <animation effect="slide" start="0" end="0,-40" time="400" tween="cubic" easing="out" reversible="false" condition="!Skin.String(Hub.1185.WidgetMode,Wall) + Skin.HasSetting(Furniture.EnableLeftHeader) + ![$EXP[Exp_Search_Slide_Info]]">Conditional</animation>
+                                <animation effect="slide" end="0" start="0,-40" delay="100" time="400" tween="cubic" easing="out" reversible="false" condition="!Skin.String(Hub.1185.WidgetMode,Wall) + Skin.HasSetting(Furniture.EnableLeftHeader) + [$EXP[Exp_Search_Slide_Info]]">Conditional</animation>
+                            </control>
                             <include>Animation_Transition_InfoPanel_Hide</include>
                         </control>
 
@@ -212,10 +225,18 @@
                     <param name="include_slideover">false</param>    
                     <control type="group">
                         <control type="group">
+                            <include content="Object_Control" condition="Skin.HasSetting(Furniture.EnableLeftHeader)">
+                                <param name="control">group</param>
+                                <visible>$EXP[Exp_Search_Slide_Info]</visible>
+                                <animation effect="fade" start="0" end="100" time="400" delay="200" tween="cubic" easing="in">Visible</animation>
+                                <include>Furniture_Top</include>
+                            </include>
                             <include content="Hub_Info_Panel_Combined">
                                 <param name="id">5001</param>
                                 <param name="slide">$EXP[Exp_Search_Slide_Info]</param>
                             </include>
+                            <animation effect="slide" start="0" end="0,-40" time="400" tween="cubic" easing="out" reversible="false" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + ![$EXP[Exp_Search_Slide_Info]]">Conditional</animation>
+                            <animation effect="slide" end="0" start="0,-40" delay="100" time="400" tween="cubic" easing="out" reversible="false" condition="Skin.HasSetting(Furniture.EnableLeftHeader) + [$EXP[Exp_Search_Slide_Info]]">Conditional</animation>
                             <include>Animation_Transition_InfoPanel_Hide</include>
                         </control>
                         <include content="DialogInfo_Recommendations_Widgets_Grouplist">
