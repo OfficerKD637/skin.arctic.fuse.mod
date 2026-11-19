@@ -2683,6 +2683,8 @@
     <include name="Object_Statistics_Panel">
         <param name="limit">10</param>
         <param name="width">295</param>
+        <param name="onclick_encode">false</param>
+        <param name="onclick_range">false</param>
         <definition>
             <control type="group">
                 <width>$PARAM[width]</width>
@@ -2705,7 +2707,14 @@
                         <param name="left_id">$PARAM[left_id]</param>
                         <param name="down_id">$PARAM[down_id]</param>
                     </include>
-                    <onclick>ActivateWindow(videos,$PARAM[filterpath]&amp;filter_key=$PARAM[filterkey]&amp;filter_value=$INFO[ListItem.Label],return)</onclick>
+                    <onclick condition="![$PARAM[onclick_encode] | $PARAM[onclick_range]]">ActivateWindow(videos,$PARAM[filterpath]&amp;filter_key=$PARAM[filterkey]&amp;filter_value=$INFO[ListItem.Label],return)</onclick>
+
+                    <!-- Encoded labels for Studios and Networks -->
+                    <onclick condition="$PARAM[onclick_encode]">RunPlugin("plugin://script.skinvariables/?info=get_encoded_string&amp;unencoded_paths=true&amp;run_script=special://skin/extras/filters/get_encoded_label_stats.json&amp;filterpath=$PARAM[filterpath]&amp;filterlength=$PARAM[filterlength]&amp;filter_tmdb_type=$PARAM[filter_tmdb_type]&amp;filterkey=$PARAM[filterkey]&amp;&amp;$INFO[ListItem.Label]")</onclick>
+
+                    <!-- Decades -->
+                    <onclick condition="$PARAM[onclick_range]">ActivateWindow(videos,plugin://script.skinvariables/?info=get_filter_dir&amp;library=video&amp;filter_key__one=$PARAM[filterkey]&amp;filter_value__one=$INFO[ListItem.Label]&amp;filter_operator__one=ge&amp;exclude_key__two=$PARAM[filterkey]&amp;exclude_value__two=$INFO[Container($PARAM[id]).ListItem.Property(range_end)]&amp;exclude_operator__two=gt&amp;&amp;$PARAM[filterpath],return)</onclick>
+
                     <content sortby="year" sortorder="descending">plugin://script.skinvariables/?info=get_quick_stats&amp;containers=$PARAM[containers]&amp;infolabel=$PARAM[infolabel]&amp;limit=$PARAM[limit]$PARAM[affix]</content>
                     <itemlayout width="$PARAM[width]" height="59"><include>Layout_StatisticMeta</include></itemlayout>
                     <focusedlayout width="$PARAM[width]" height="59"><include content="Layout_StatisticMeta"><param name="selected">Control.HasFocus($PARAM[id])</param></include></focusedlayout>
