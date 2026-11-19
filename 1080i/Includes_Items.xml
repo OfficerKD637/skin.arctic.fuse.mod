@@ -542,7 +542,7 @@
             <visible>Skin.String(InfoDialog.NavigationStyle,Wall)</visible>
         </include>
     </include>
-    
+
     <include name="Items_Settings_RightFooter">
         <include content="Settings_Button" description="Information">
             <param name="dialog">true</param>
@@ -550,7 +550,7 @@
             <param name="control">button</param>
             <label>$LOCALIZE[14116]</label>  
             <label2>$VAR[Label_Setting_RightFooter]</label2>    
-            <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Setting_RightFooter_Preselect],heading=$LOCALIZE[31107],separator=||,list=$LOCALIZE[31042]||$LOCALIZE[572]||$LOCALIZE[231],"executebuiltin_0=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock.TopLeft)||Skin.SetBool(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(10000,2)||sleep=0.5||SetFocus(2015)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_1=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(10000,2)||sleep=0.4||SetFocus(2015)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)","executebuiltin_2=Skin.SetBool(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||ReloadSkin()||sleep=0.4||SetFocus(10000,2)||sleep=0.4||SetFocus(2015)||sleep=0.4||SetProperty(CustomDialogSettingsItems,Items_Settings_RightFooter,Home)||SetProperty(CustomDialogSettingsTitle,$LOCALIZE[31107],Home)||ActivateWindow(1118)||SetFocus(8001)")</onclick>
+            <onclick>RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Setting_RightFooter_Preselect],heading=$LOCALIZE[31107],separator=||,list=$LOCALIZE[31042]||$LOCALIZE[572]||$LOCALIZE[231],"executebuiltin_0=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock.TopLeft)||Skin.SetBool(Furniture.EnableClock)||Dialog.Close(1118,true)||AlarmClock(openwindow,ActivateWindow(1118),00:02,silent)||ReloadSkin()","executebuiltin_1=Skin.Reset(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||Dialog.Close(1118,true)||AlarmClock(openwindow,ActivateWindow(1118),00:02,silent)||ReloadSkin()","executebuiltin_2=Skin.SetBool(Furniture.BottomRight.Disable)||Skin.Reset(Furniture.EnableClock)||Dialog.Close(1118,true)||AlarmClock(openwindow,ActivateWindow(1118),00:02,silent)||ReloadSkin()")</onclick>
         </include>
         <include content="Settings_Button" description="Footer: Right: MPAA Classification Country">
             <param name="dialog">true</param>
@@ -3897,6 +3897,7 @@
             <onclick>Skin.SetBool(TMDbHelper.EnableCrop)</onclick>
             <include content="Action_Reload_1118">
                 <param name="condition_service">true</param>
+                <param name="id">8002</param>
             </include>
         </include>
 
@@ -3916,6 +3917,7 @@
             <onclick>Skin.SetBool(TMDbHelper.EnableCrop)</onclick>
             <include content="Action_Reload_1118">
                 <param name="condition_service">true</param>
+                <param name="id">8003</param>
             </include>
         </include>
 
@@ -3935,6 +3937,7 @@
             <onclick>Skin.SetBool(TMDbHelper.EnableCrop)</onclick>
             <include content="Action_Reload_1118">
                 <param name="condition_service">true</param>
+                <param name="id">8004</param>
             </include>
         </include>
 
@@ -3952,6 +3955,7 @@
             <onclick>Skin.Reset(TMDbHelper.EnableCrop)</onclick>
             <include content="Action_Reload_1118">
                 <param name="condition_service">true</param>
+                <param name="id">8005</param>
             </include>
         </include>
 
@@ -3971,7 +3975,9 @@
             <param name="label2">1280x720</param>
             <param name="has_label2">true</param>
             <onclick>Skin.Reset(Skin.FlixArt.Size)</onclick>
-            <include>Action_Reload_1118</include>
+            <include content="Action_Reload_1118">
+                <param name="id">8008</param>
+            </include>
         </include>
 
         <include content="Button_Dialog_Setting">
@@ -3985,7 +3991,9 @@
             <param name="label2">1440x810</param>
             <param name="has_label2">true</param>
             <onclick>Skin.SetString(Skin.FlixArt.Size,Large)</onclick>
-            <include>Action_Reload_1118</include>
+            <include content="Action_Reload_1118">
+                <param name="id">8009</param>
+            </include>
         </include>
 
         <include content="Button_Dialog_Setting">
@@ -3999,7 +4007,9 @@
             <param name="label2">1600x900</param>
             <param name="has_label2">true</param>
             <onclick>Skin.SetString(Skin.FlixArt.Size,ExtraLarge)</onclick>
-            <include>Action_Reload_1118</include>
+            <include content="Action_Reload_1118">
+                <param name="id">8010</param>
+            </include>
         </include>
     </include>
 
@@ -4011,13 +4021,10 @@
             <label>$LOCALIZE[31143]</label>
             <selected>String.IsEmpty(Skin.String(Background.DialogImage))</selected>
             <onclick>Skin.Reset(Background.DialogImage)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8001),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8001</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4026,13 +4033,10 @@
             <label>$LOCALIZE[762]</label>
             <selected>Skin.String(Background.DialogImage,Blue)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Blue)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8002),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8002</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4041,13 +4045,10 @@
             <label>$LOCALIZE[31220]</label>
             <selected>Skin.String(Background.DialogImage,Purple)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Purple)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8003),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8003</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4056,13 +4057,10 @@
             <label>$LOCALIZE[31224]</label>
             <selected>Skin.String(Background.DialogImage,Pink)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Pink)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8004),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8004</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4071,13 +4069,10 @@
             <label>$LOCALIZE[13341]</label>
             <selected>Skin.String(Background.DialogImage,Green)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Green)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8005),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8005</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4086,13 +4081,10 @@
             <label>$LOCALIZE[31221]</label>
             <selected>Skin.String(Background.DialogImage,Slate)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Slate)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8006),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8006</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4101,13 +4093,10 @@
             <label>$LOCALIZE[31222]</label>
             <selected>Skin.String(Background.DialogImage,Coal)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Coal)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8007),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8007</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4116,13 +4105,10 @@
             <label>$LOCALIZE[31225]</label>
             <selected>Skin.String(Background.DialogImage,Chalk)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Chalk)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8008),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8008</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4131,13 +4117,10 @@
             <label>$LOCALIZE[31226]</label>
             <selected>Skin.String(Background.DialogImage,Blush)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Blush)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8009),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8009</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4146,13 +4129,10 @@
             <label>$LOCALIZE[31277]</label>
             <selected>Skin.String(Background.DialogImage,Obsidian)</selected>
             <onclick>Skin.SetString(Background.DialogImage,Obsidian)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">ReloadSkin()</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick condition="Skin.String(Background.DialogImage,Adaptive)">AlarmClock(refocus6,SetFocus(8010),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="condition">Skin.String(Background.DialogImage,Adaptive)</param>
+                <param name="id">8010</param>
+            </include>
         </include>
         <include content="Settings_Button">
             <param name="dialog">true</param>
@@ -4161,13 +4141,9 @@
             <label>$LOCALIZE[31432]</label>
             <selected>$EXP[Exp_DialogTheme_IsAdaptive]</selected>
             <onclick>Skin.SetString(Background.DialogImage,Adaptive)</onclick>
-            <onclick>ReloadSkin()</onclick>
-            <onclick>AlarmClock(refocus1,SetFocus(10000,1),00:00,silent)</onclick>
-            <onclick>AlarmClock(refocus2,SetFocus(1006),00:01,silent)</onclick>
-            <onclick>AlarmClock(refocus3,SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31486][/CAPITALIZE],Home),00:01,silent)</onclick>
-            <onclick>AlarmClock(refocus4,SetProperty(CustomDialogSettingsItems,Items_Settings_BackgroundDialogImage,Home),00:01,silent)</onclick>
-            <onclick>AlarmClock(refocus5,ActivateWindow(1118),00:02,silent)</onclick>
-            <onclick>AlarmClock(refocus6,SetFocus(8011),00:02,silent)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="id">8011</param>
+            </include>
         </include>
     </include>
 
@@ -4836,9 +4812,9 @@
                 <onclick>RunScript(script.skinvariables,get_jsonrpc=Settings.SetSettingValue,setting=lookandfeel.skincolors,value=SKINDEFAULT)</onclick>
                 <onclick>Skin.SetString(Background.DialogImage,Adaptive)</onclick>
                 <onclick>SetProperty(WizardStepPrevious,True,Home)</onclick>
-                <onclick>ReloadSkin()</onclick>
                 <onclick>AlarmClock(reset,SetProperty(WizardStep,Layout,Home),00:00,silent)</onclick>
                 <onclick>AlarmClock(refocus,SetFocus(50,0,absolute),00:01,silent)</onclick>
+                <onclick>ReloadSkin()</onclick>
                 <visible>String.IsEqual(Window(Home).Property(WizardStep),Dialog)</visible>
                 <property name="textbox">Adapative uses a blurred image for the dialog background.[CR]Based upon the fanart for the current item.</property>
             </item>
@@ -4851,9 +4827,9 @@
                 <onclick condition="$EXP[Exp_ColourHighlight_IsTropical]">Skin.SetString(Background.DialogImage,Blush)</onclick>
                 <onclick>RunScript(script.skinvariables,get_jsonrpc=Settings.SetSettingValue,setting=lookandfeel.skincolors,value=SKINDEFAULT)</onclick>
                 <onclick>SetProperty(WizardStepPrevious,True,Home)</onclick>
-                <onclick>ReloadSkin()</onclick>
                 <onclick>AlarmClock(reset,SetProperty(WizardStep,Layout,Home),00:00,silent)</onclick>
                 <onclick>AlarmClock(refocus,SetFocus(50,0,absolute),00:01,silent)</onclick>
+                <onclick>ReloadSkin()</onclick>
                 <visible>String.IsEqual(Window(Home).Property(WizardStep),Dialog)</visible>
                 <property name="textbox">Standard uses a subtle gradient for the dialog background.[CR]Based upon the current colour theme.</property>
             </item>
@@ -4863,9 +4839,9 @@
                 <property name="selected">$VAR[Exp_Var_DialogTheme_IsLight]</property>
                 <onclick>RunScript(script.skinvariables,get_jsonrpc=Settings.SetSettingValue,setting=lookandfeel.skincolors,value=Skin default - Light dialogs)</onclick>
                 <onclick>SetProperty(WizardStepPrevious,True,Home)</onclick>
-                <onclick>ReloadSkin()</onclick>
                 <onclick>AlarmClock(reset,SetProperty(WizardStep,Layout,Home),00:00,silent)</onclick>
                 <onclick>AlarmClock(refocus,SetFocus(50,0,absolute),00:01,silent)</onclick>
+                <onclick>ReloadSkin()</onclick>
                 <visible>String.IsEqual(Window(Home).Property(WizardStep),Dialog)</visible>
                 <property name="textbox">Light uses an inverted palette for the dialog background.[CR]Suited for day-time usage.</property>
             </item>
@@ -4876,9 +4852,9 @@
                 <onclick>Skin.SetString(Background.DialogImage,Slate)</onclick>
                 <onclick>RunScript(script.skinvariables,get_jsonrpc=Settings.SetSettingValue,setting=lookandfeel.skincolors,value=SKINDEFAULT)</onclick>
                 <onclick>SetProperty(WizardStepPrevious,True,Home)</onclick>
-                <onclick>ReloadSkin()</onclick>
                 <onclick>AlarmClock(reset,SetProperty(WizardStep,Layout,Home),00:00,silent)</onclick>
                 <onclick>AlarmClock(refocus,SetFocus(50,0,absolute),00:01,silent)</onclick>
+                <onclick>ReloadSkin()</onclick>
                 <visible>String.IsEqual(Window(Home).Property(WizardStep),Dialog)</visible>
                 <property name="textbox">Slate uses a flat light grey palette for the dialog background.[CR]Suited for general usage.</property>
             </item>
@@ -4888,9 +4864,9 @@
                 <property name="selected">$VAR[Exp_Var_DialogTheme_IsCoal]</property>
                 <onclick>Skin.SetString(Background.DialogImage,Coal)</onclick>
                 <onclick>RunScript(script.skinvariables,get_jsonrpc=Settings.SetSettingValue,setting=lookandfeel.skincolors,value=SKINDEFAULT)</onclick>
-                <onclick>ReloadSkin()</onclick>
                 <onclick>AlarmClock(reset,SetProperty(WizardStep,Layout,Home),00:00,silent)</onclick>
                 <onclick>AlarmClock(refocus,SetFocus(50,0,absolute),00:01,silent)</onclick>
+                <onclick>ReloadSkin()</onclick>
                 <visible>String.IsEqual(Window(Home).Property(WizardStep),Dialog)</visible>
                 <property name="textbox">Coal uses a flat dark grey palette for the dialog background.[CR]Suited for night-time usage.</property>
             </item>
@@ -4900,9 +4876,9 @@
                 <property name="selected">$VAR[Exp_Var_DialogTheme_IsObsidian]</property>
                 <onclick>Skin.SetString(Background.DialogImage,Obsidian)</onclick>
                 <onclick>RunScript(script.skinvariables,get_jsonrpc=Settings.SetSettingValue,setting=lookandfeel.skincolors,value=SKINDEFAULT)</onclick>
-                <onclick>ReloadSkin()</onclick>
                 <onclick>AlarmClock(reset,SetProperty(WizardStep,Layout,Home),00:00,silent)</onclick>
                 <onclick>AlarmClock(refocus,SetFocus(50,0,absolute),00:01,silent)</onclick>
+                <onclick>ReloadSkin()</onclick>
                 <visible>String.IsEqual(Window(Home).Property(WizardStep),Dialog)</visible>
                 <property name="textbox">Obsidian uses a pure black palette for the dialog background.[CR]Suited for OLED displays and night-time usage.</property>
             </item>
