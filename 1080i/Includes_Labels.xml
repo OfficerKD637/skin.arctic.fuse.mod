@@ -142,15 +142,15 @@
 
     <variable name="Label_OnDown_Footer_HintText">
         <value condition="Skin.String(Navigation.Global.OnDown,Wall) + !Integer.IsEqual(Container.NumPages,1) + !$EXP[Exp_View_WallMode] + !$EXP[Exp_View_FurnitureWall] + !$EXP[Exp_View_CombinedMode]">$LOCALIZE[31333]</value>
-        <value condition="[Skin.String(Navigation.Global.OnDown,Wall) + [Integer.IsEqual(Container.NumPages,1) | $EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | $EXP[Exp_View_CombinedMode]]] | Skin.String(Navigation.Global.OnDown,Filter)">$LOCALIZE[31284]</value>
+        <value condition="[Skin.String(Navigation.Global.OnDown,Wall) + [Integer.IsEqual(Container.NumPages,1) | $EXP[Exp_View_WallMode] | $EXP[Exp_View_FurnitureWall] | $EXP[Exp_View_CombinedMode]]] | Skin.String(Navigation.Global.OnDown,Filter) | [Skin.String(Navigation.Global.OnDown,Explore) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))]">$LOCALIZE[31284]</value>
         <value condition="Skin.String(Navigation.Global.OnDown,Options)">$LOCALIZE[31372]</value>
-        <value condition="Skin.String(Navigation.Global.OnDown,Explore)">$LOCALIZE[31276]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Explore) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">$LOCALIZE[31276]</value>
     </variable>
 
     <variable name="Label_OnRight_Footer_HintText">
-        <value condition="Skin.String(Navigation.Global.OnDown,Wall) | Skin.String(Navigation.Global.OnDown,Filter)">$LOCALIZE[31284]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Wall) | Skin.String(Navigation.Global.OnDown,Filter) | [Skin.String(Navigation.Global.OnDown,Explore) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))]">$LOCALIZE[31284]</value>
         <value condition="Skin.String(Navigation.Global.OnDown,Options)">$LOCALIZE[31372]</value>
-        <value condition="Skin.String(Navigation.Global.OnDown,Explore)">$LOCALIZE[31276]</value>
+        <value condition="Skin.String(Navigation.Global.OnDown,Explore) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">$LOCALIZE[31276]</value>
     </variable>
 
     <variable name="Label_NextWidget">
@@ -219,11 +219,6 @@
         <value condition="Skin.String(Home.SideMenuCollapse,Library)">$LOCALIZE[31120] ($LOCALIZE[10000])</value>
         <value condition="Skin.String(Home.SideMenuCollapse,Hubs)">$LOCALIZE[31120] ($LOCALIZE[31351])</value>
         <value condition="Skin.String(Home.SideMenuCollapse,Never)">$LOCALIZE[31120] ($LOCALIZE[34122])</value>
-    </variable>
-
-    <variable name="Label_Discover_Style">
-        <value condition="Skin.HasSetting(Discover.Landscape)">$LOCALIZE[31045]</value>
-        <value>$LOCALIZE[20021]</value>
     </variable>
 
     <variable name="Label_InfoDialog_NavigationStyle">
@@ -367,6 +362,7 @@
         <value condition="Window.IsVisible(Settings.xml) + String.IsEqual(Window(Home).Property(Settings.Main.Category),Statistics)">$LOCALIZE[16102] $LOCALIZE[31062]</value>
         <value condition="Window.IsVisible(FileManager.xml)">$INFO[Container(3).ListItem.Label]</value>
         <value condition="Window.IsVisible(AddonBrowser.xml)">$INFO[Container.FolderName]</value>
+        <value condition="Window.IsVisible(Custom_1115_Dialog_Shortcuts_Window.xml) + String.IsEqual(Container(30000).ListItem.Property(static),power)">$LOCALIZE[33060]</value>
         <value condition="Window.IsVisible(Custom_1115_Dialog_Shortcuts_Window.xml)">$INFO[Container(30000).ListItem.Label]</value>
         <value condition="Window.IsVisible(SettingsSystemInfo.xml)">$INFO[Control.GetLabel(40)]</value>
         <value condition="Window.IsVisible(SettingsCategory.xml) + ControlGroup(3).HasFocus(-200) + !String.IsEmpty(Window.Property(Settings.Category.-200))">$INFO[Window.Property(Settings.Category.-200)]</value>

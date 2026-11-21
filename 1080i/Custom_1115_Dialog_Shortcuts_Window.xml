@@ -43,19 +43,6 @@
                             <animation effect="slide" start="0" end="0,-80" reversible="false" condition="Integer.IsLess(Container(30000).NumItems,7)">Conditional</animation>
                             <animation effect="slide" start="0" end="0,-80" reversible="false" condition="Integer.IsLess(Container(30000).NumItems,6)">Conditional</animation>
 
-                            <onclick condition="!String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs))">SetProperty(show_all_custom_hubs,True)</onclick>
-                            <onclick condition="!String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))">AlarmClock(refocus,SetFocus(30000,9),00:00,silent)</onclick>
-                            <onclick condition="!String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + !String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))">AlarmClock(refocus,SetFocus(30000,8),00:00,silent)</onclick>
-                            <onclick condition="!String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">SetProperty(show_all_hubs,True)</onclick>
-                            <onclick condition="!String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">AlarmClock(refocus,SetFocus(30000,0),00:00,silent)</onclick>
-                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">ClearProperty(Shortcuts.Position,Home)</onclick>
-                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs)) + String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(Shortcuts.EditMenu,menu=sidemenu,Home)</onclick>
-                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs)) + !$EXP[Shortcuts_Window_Exp_WidgetsOnly] + !String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu),],Home)</onclick>
-                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs)) + $EXP[Shortcuts_Window_Exp_WidgetsOnly] + !String.IsEqual(Container(30000).ListItem.Property(categories_menu),menu=homemenu)">SetProperty(Shortcuts.EditMenu,$INFO[Container(30000).ListItem.Property(categories_menu),,-widgetsonly],Home)</onclick>
-                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">ClearProperty(Shortcuts.EditMode,Home)</onclick>
-                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">ClearProperty(Shortcuts.EditGUID,Home)</onclick>
-                            <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEmpty(Container(30000).ListItem.Property(is_showcustomhubs)) + String.IsEmpty(Container(30000).ListItem.Property(is_showhubs))">AlarmClock(openwindow,ActivateWindow(1116),00:00,silent)</onclick>
-
                             <onfocus>SetProperty(HelpHead,$LOCALIZE[31099],1115)</onfocus>
                             <onfocus>SetProperty(HelpText,$LOCALIZE[31100],1115)</onfocus>
 
@@ -63,7 +50,7 @@
                                 <item id="0">
                                     <label>$LOCALIZE[137]</label>
                                     <icon>special://skin/extras/icons/search.png</icon>
-                                    <property name="is_specialhub">search</property>
+                                    <property name="static">search</property>
                                     <include content="Settings_Visible_Level">
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
@@ -81,6 +68,7 @@
                                     <property name="categories_menu">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Menu]</property>
                                     <property name="hub_prefix">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Hub_Prefix]</property>
                                     <property name="is_homemenu">true</property>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="2">
                                     <label>$LOCALIZE[31495]...</label>
@@ -92,6 +80,8 @@
                                     <property name="is_showhubs">true</property>
                                     <visible>Integer.IsLess(Skin.String(Skin.SettingsLevel),2)</visible>
                                     <visible>String.IsEmpty(Window.Property(show_all_hubs))</visible>
+                                    <onclick>SetProperty(show_all_hubs,True)</onclick>
+                                    <onclick>AlarmClock(refocus,SetFocus(30000,0),00:00,silent)</onclick>
                                 </item>
                                 <item id="3">
                                     <label>$VAR[Label_Header_Main_1101]</label>
@@ -104,6 +94,7 @@
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="4">
                                     <label>$VAR[Label_Header_Main_1102]</label>
@@ -116,6 +107,7 @@
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="5">
                                     <label>$VAR[Label_Header_Main_1103]</label>
@@ -128,6 +120,7 @@
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="6">
                                     <label>$VAR[Label_Header_Main_1104]</label>
@@ -140,11 +133,12 @@
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="7">
                                     <label>$LOCALIZE[24001]</label>
                                     <icon>special://skin/extras/icons/addon.png</icon>
-                                    <property name="is_specialhub">addons</property>
+                                    <property name="static">addons</property>
                                     <include content="Settings_Visible_Level">
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
@@ -153,7 +147,7 @@
                                 <item id="8">
                                     <label>$LOCALIZE[31552]</label>
                                     <icon>special://skin/extras/icons/calendar-day.png</icon>
-                                    <property name="is_specialhub">nextaired</property>
+                                    <property name="static">nextaired</property>
                                     <include content="Settings_Visible_Level">
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
@@ -162,7 +156,7 @@
                                 <item id="9">
                                     <label>$LOCALIZE[33060]</label>
                                     <icon>special://skin/extras/icons/power.png</icon>
-                                    <property name="is_specialhub">power</property>
+                                    <property name="static">power</property>
                                     <include content="Settings_Visible_Level">
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
@@ -176,16 +170,16 @@
                                 <item id="10">
                                     <label>$LOCALIZE[15019] $LOCALIZE[31351]</label>
                                     <icon>special://skin/extras/icons/plus.png</icon>
-                                    <property name="value">$VAR[Shortcuts_Window_Var_HomeItem_Property_Value]</property>
-                                    <property name="categories_menu">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Menu]</property>
-                                    <property name="hub_prefix">$VAR[Shortcuts_Window_Var_HomeItem_Property_Categories_Hub_Prefix]</property>
-                                    <property name="is_homemenu">true</property>
+                                    <property name="static">power</property>
                                     <property name="is_showcustomhubs">true</property>
                                     <include content="Settings_Visible_Level">
                                         <param name="slevel">2</param>
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <onclick>SetProperty(show_all_custom_hubs,True)</onclick>
+                                    <onclick condition="String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))">AlarmClock(refocus,SetFocus(30000,9),00:00,silent)</onclick>
+                                    <onclick condition="!String.IsEmpty(Skin.String(Hub.Home.ReplaceWindow))">AlarmClock(refocus,SetFocus(30000,8),00:00,silent)</onclick>
                                 </item>
                                 <item id="11">
                                     <label>$VAR[Label_Header_Main_1106]</label>
@@ -199,6 +193,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="12">
                                     <label>$VAR[Label_Header_Main_1107]</label>
@@ -212,6 +207,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="13">
                                     <label>$VAR[Label_Header_Main_1108]</label>
@@ -225,6 +221,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="14">
                                     <label>$VAR[Label_Header_Main_1109]</label>
@@ -238,6 +235,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="15">
                                     <label>$VAR[Label_Header_Main_1110]</label>
@@ -251,6 +249,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="16">
                                     <label>$VAR[Label_Header_Main_1112]</label>
@@ -264,6 +263,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="17">
                                     <label>$VAR[Label_Header_Main_1114]</label>
@@ -277,6 +277,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="18">
                                     <label>$VAR[Label_Header_Main_1125]</label>
@@ -290,6 +291,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="19">
                                     <label>$VAR[Label_Header_Main_1126]</label>
@@ -303,6 +305,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                                 <item id="20">
                                     <label>$VAR[Label_Header_Main_1127]</label>
@@ -316,6 +319,7 @@
                                         <param name="altvisible">!String.IsEmpty(Window.Property(show_all_hubs))</param>
                                     </include>
                                     <visible>!String.IsEmpty(Window.Property(show_all_custom_hubs))</visible>
+                                    <include>Action_Window_Hubs_Categories_Onclick</include>
                                 </item>
                             </content>
                         </include>
@@ -466,12 +470,12 @@
                         <onleft>30000</onleft>
 
                         <onup>3000</onup>
-                        <ondown condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">3002</ondown>
-                        <ondown condition="String.IsEmpty(Container(30000).ListItem.Property(is_specialhub)) + !String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">3003</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),power)">3020</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),search)">3026</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),addons)">3029</ondown>
-                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(is_specialhub),nextaired)">3037</ondown>
+                        <ondown condition="String.IsEmpty(Container(30000).ListItem.Property(static)) + String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">3002</ondown>
+                        <ondown condition="String.IsEmpty(Container(30000).ListItem.Property(static)) + !String.IsEqual(Container(30000).ListItem.Property(is_homemenu),true)">3003</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(static),power)">3020</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(static),search)">3026</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(static),addons)">3029</ondown>
+                        <ondown condition="String.IsEqual(Container(30000).ListItem.Property(static),nextaired)">3037</ondown>
                         <include content="DialogInfo_Button">
                             <param name="vertical">false</param>
                             <param name="width">300</param>

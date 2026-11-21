@@ -411,13 +411,13 @@
             <ondown condition="$PARAM[condition] + String.IsEmpty(Skin.String(Navigation.Hub.$PARAM[window_id].OnDown)) + Skin.String(Navigation.Global.OnDown,Bump)">SetFocus(330)</ondown>
 
             <!-- Explore -->
-            <include content="Action_View_Explore_OnDown" condition="!$EXP[Exp_Window_IsClassicHub]">
+            <include content="Action_View_Explore_OnDown" condition="!$EXP[Exp_Window_IsClassicHub] | [$EXP[Exp_Window_IsClassicHub] + Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)]">
                 <param name="condition">$PARAM[condition] + [[String.IsEmpty(Skin.String(Navigation.Hub.$PARAM[window_id].OnDown)) + Skin.String(Navigation.Global.OnDown,Explore)] | Skin.String(Navigation.Hub.$PARAM[window_id].OnDown,Explore)]</param>
                 <param name="window_id">1181</param>
             </include>
 
             <!-- Extended -->
-            <include content="Action_View_Extend_OnDown" condition="$EXP[Exp_Window_IsClassicHub]">
+            <include content="Action_View_Extend_OnDown" condition="$EXP[Exp_Window_IsClassicHub] + !Skin.HasSetting(Hub.Home.DisableMoveBetweenGroups)">
                 <param name="condition">$PARAM[condition] + [[String.IsEmpty(Skin.String(Navigation.Hub.$PARAM[window_id].OnDown)) + Skin.String(Navigation.Global.OnDown,Explore)] | Skin.String(Navigation.Hub.$PARAM[window_id].OnDown,Explore)]</param>
                 <param name="window_id">1182</param>
             </include>
@@ -845,6 +845,7 @@
             <onfocus condition="$PARAM[condition] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">SetProperty(Item_Year,$INFO[ListItem.Year],$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">SetProperty(Genre_Title,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre)],$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">SetProperty(Genre_Query,$INFO[Window(Home).Property(TMDbHelper.ListItem.Genre),&amp;with_separator=AND&amp;with_genres=,],$PARAM[window_id])</onfocus>
+            <onfocus condition="$PARAM[condition] + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">ActivateWindow($PARAM[window_id])</onfocus>
 
             <onfocus condition="$PARAM[condition] + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">ClearProperty(Item_Title,$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">ClearProperty(Item_Query,$PARAM[window_id])</onfocus>
@@ -852,10 +853,52 @@
             <onfocus condition="$PARAM[condition] + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">ClearProperty(Item_Year,$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">ClearProperty(Genre_Title,$PARAM[window_id])</onfocus>
             <onfocus condition="$PARAM[condition] + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">ClearProperty(Genre_Query,$PARAM[window_id])</onfocus>
-
-            <onfocus condition="$PARAM[condition]">ActivateWindow($PARAM[window_id])</onfocus>
+            <onfocus condition="$PARAM[condition] + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</onfocus>
+            <onfocus condition="$PARAM[condition] + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</onfocus>
         </definition>
     </include>
+
+    <variable name="Action_View_Explore_WidgetStyle">
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Poster_Row)">Poster</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Landscape_Row)">Landscape</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Flyer_Row)">Flyer</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Square_Row)">Quad</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Quad_Row)">Quad</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Banner_Row)">Banner</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Card_Row)">Card</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Overview_Row)">Overview</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Signpost_Row)">Signpost</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Board_Row)">Board</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Circle_Row)">Circle</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Ranked_Row)">Ranked</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Stack_Row)">Stack</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Disc_Row)">Disc</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Shelf_Row)">Shelf</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Timeline_Row)">Timeline</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Placard_Row)">Placard</value>
+        <value condition="String.IsEqual(Window(Home).Property(Widgets.IncludeStyle),List_Corflute_Row)">Corflute</value>
+        <value>Poster</value>
+    </variable>
+
+    <variable name="Action_View_Explore_Viewtype">
+        <!-- Square sets Quad -->
+        <value condition="$EXP[Exp_View_50] | $EXP[Exp_View_540] | $EXP[Exp_View_502] | $EXP[Exp_View_550]">Quad</value>
+        <value condition="$EXP[Exp_View_51] | $EXP[Exp_View_545] | $EXP[Exp_View_512] | $EXP[Exp_View_551]">Landscape</value>
+        <value condition="$EXP[Exp_View_52] | $EXP[Exp_View_585] | $EXP[Exp_View_522] | $EXP[Exp_View_554]">Poster</value>
+        <value condition="$EXP[Exp_View_53] | $EXP[Exp_View_575] | $EXP[Exp_View_582] | $EXP[Exp_View_556]">Flyer</value>
+        <value condition="$EXP[Exp_View_54] | $EXP[Exp_View_595] | $EXP[Exp_View_592] | $EXP[Exp_View_555]">Quad</value>
+        <value condition="$EXP[Exp_View_500] | $EXP[Exp_View_590] | $EXP[Exp_View_542] | $EXP[Exp_View_557]">Circle</value>
+        <value condition="$EXP[Exp_View_530] | $EXP[Exp_View_580]">Banner</value>
+        <value condition="[$EXP[Exp_View_531] | $EXP[Exp_View_570] | $EXP[Exp_View_572] | $EXP[Exp_View_558]] + Skin.HasSetting(View.UseTextBasedBoard)">Placard</value>
+        <value condition="$EXP[Exp_View_531] | $EXP[Exp_View_570] | $EXP[Exp_View_572] | $EXP[Exp_View_558]">Board</value>
+        <value condition="[$EXP[Exp_View_524] | $EXP[Exp_View_552]] + Skin.HasSetting(View.UseTextBasedCard)">Corflute</value>
+        <value condition="$EXP[Exp_View_524] | $EXP[Exp_View_552]">Card</value>
+        <value condition="$EXP[Exp_View_525] | $EXP[Exp_View_565]">Overview</value>
+        <!-- Folio sets Poster -->
+        <value condition="$EXP[Exp_View_535] | $EXP[Exp_View_559]">Poster</value>
+        <!-- List views clear the property -->
+        <value condition="$EXP[Exp_View_56] | $EXP[Exp_View_517] | $EXP[Exp_View_519] | $EXP[Exp_View_520] | $EXP[Exp_View_562] | $EXP[Exp_View_532]" />
+    </variable>
 
     <variable name="Action_Var_Search_ToMediaFilter_ReturnID">
         <value>8000</value>
@@ -873,7 +916,10 @@
             <!-- Explore -->
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !Integer.IsEqual($PARAM[container]NumPages,1) + !$EXP[Exp_IsAlphabetStrip]">SetFocus(610)</ondown>
-            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + Integer.IsEqual($PARAM[container]NumPages,1)">SetFocus(67)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + Integer.IsEqual($PARAM[container]NumPages,1) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">SetFocus(67)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + Integer.IsEqual($PARAM[container]NumPages,1) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(8000)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + Integer.IsEqual($PARAM[container]NumPages,1) + String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + !String.IsEmpty(Control.GetLabel(19).index(1))">SetFocus(19)</ondown>
+            <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Explore) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">SetProperty(Item_Widget_Style,$VAR[Action_View_Explore_Viewtype],1181)</ondown>
 
             <!-- Filter -->
             <ondown condition="$PARAM[condition] + Skin.String(Navigation.Global.OnDown,Filter) + !Integer.IsEqual($PARAM[container]NumPages,1) + $EXP[Exp_IsAlphabetStrip]">SetFocus(613,$VAR[Action_Letter_Position],absolute)</ondown>
