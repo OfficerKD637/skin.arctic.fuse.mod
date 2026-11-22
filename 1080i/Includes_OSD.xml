@@ -781,8 +781,12 @@
                     <param name="plotheight">info_plot_h</param>
                     <param name="visible">!String.IsEmpty(VideoPlayer.Plot)</param>
                     <param name="colordiffuse">panel_fg</param>
-                    <param name="is_player">true</param>
                     <param name="listitem">VideoPlayer</param>
+                    <param name="service">Player</param>
+                    <param name="include_main">!VideoPlayer.Content(episodes)</param>
+                    <param name="include_episode">VideoPlayer.Content(episodes)</param>
+                    <param name="include_other">false</param>
+                    <param name="override">true</param>
                 </include>
                 <include content="Info_Panel_Textbox" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $PARAM[plot_visible]">
                     <param name="plotwidth">1080</param>
@@ -790,10 +794,13 @@
                     <param name="plotheight">info_plot_h</param>
                     <param name="visible">!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Plot))</param>
                     <param name="colordiffuse">panel_fg</param>
-                    <param name="is_player">true</param>
                     <param name="listitem">VideoPlayer</param>
                     <param name="service">Player</param>
-                    <param name="visible_override">String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
+                    <param name="include_main">!VideoPlayer.Content(episodes) | ![!String.IsEmpty(VideoPlayer.Season) + !String.IsEmpty(VideoPlayer.Episode)]</param>
+                    <param name="include_episode">VideoPlayer.Content(episodes) | [!String.IsEmpty(VideoPlayer.Season) + !String.IsEmpty(VideoPlayer.Episode)]</param>
+                    <param name="include_other">false</param>
+                    <param name="override">true</param>
+                    <param name="override_pvr">String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
                 </include>
                 <include content="Info_Panel_Textbox" condition="Skin.String(TMDbHelper.EnablePVR,Detailed) + $PARAM[plot_visible]">
                     <param name="plotwidth">1080</param>
@@ -801,14 +808,18 @@
                     <param name="plotheight">info_plot_h</param>
                     <param name="visible">!String.IsEmpty(VideoPlayer.Plot) | !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Plot)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Plot))</param>
                     <param name="colordiffuse">panel_fg</param>
-                    <param name="is_player">true</param>
                     <param name="service">ListItem</param>
-                    <param name="visible_override">!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
+                    <param name="override_pvr">!String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))</param>
                 </include>
 
                 <include content="Info_Ratings" condition="!Skin.HasSetting(Info.DisableAllRatings) + ![Skin.HasSetting(InfoLine.EnableEndsAtTime) + !$PARAM[plot_visible]]">
-                    <param name="is_player">true</param>
+                    <param name="container" />
+                    <param name="override_movie">VideoPlayer.Content(movies)</param>
+                    <param name="override_tvshow">VideoPlayer.Content(episodes) | [Skin.String(TMDbHelper.EnablePVR,Detailed) + $EXP[Exp_TMDbHelper_IsData] + !VideoPlayer.Content(movies) + !VideoPlayer.Content(episodes) + [!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.TMDb_ID)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.PVR.Player.TMDb_ID))]]</param>
+                    <param name="listitem">VideoPlayer</param>
+                    <param name="service">Player</param>
                     <param name="is_special">false</param>
+                    <param name="status">Window(Home).Property(TMDbHelper.Player.Status)</param>
                     <top>2</top>
                     <left>0</left>
                 </include>

@@ -241,14 +241,6 @@
                 "$LOCALIZE[19033]"
             ]
         },
-        "details_status": {
-            "label": "$LOCALIZE[126]",
-            "category": "details",
-            "visible": "!Skin.HasSetting(Info.DisableAllRatings)",
-            "tags": [
-                "$LOCALIZE[19033]"
-            ]
-        },
         "details_information": {
             "label": "$LOCALIZE[14116]",
             "category": "details",
@@ -1807,10 +1799,10 @@
                     "action": "SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31202]: $LOCALIZE[342][/CAPITALIZE],Home)"
                 },
                 {
-                    "action": "SetProperty(CustomDialogSettingsItems,Items_Settings_RatingsMovies,Home)"
+                    "action": "SetProperty(Shortcuts.EditMenu,menu=ratingsmovies,Home)"
                 },
                 {
-                    "action": "ActivateWindow(1118)"
+                    "action": "ActivateWindow(1137)"
                 }
             ],
             "tags": [
@@ -1829,10 +1821,10 @@
                     "action": "SetProperty(CustomDialogSettingsTitle,[CAPITALIZE]$LOCALIZE[31202]: $LOCALIZE[20343][/CAPITALIZE],Home)"
                 },
                 {
-                    "action": "SetProperty(CustomDialogSettingsItems,Items_Settings_RatingsTVShows,Home)"
+                    "action": "SetProperty(Shortcuts.EditMenu,menu=ratingstvshows,Home)"
                 },
                 {
-                    "action": "ActivateWindow(1118)"
+                    "action": "ActivateWindow(1137)"
                 }
             ],
             "tags": [
@@ -1871,95 +1863,6 @@
             "onclick": [
                 {
                     "action": "Skin.ToggleSetting(Info.EnableAllPlotRatings)"
-                }
-            ]
-        },
-        "details_movie_status": {
-            "label": "$LOCALIZE[342]",
-            "control": "button",
-            "group": "details_status",
-            "description": "$LOCALIZE[31719]",
-            "label2": "$VAR[Label_Setting_Movie_PremiereStatus]",
-            "visible": "!Skin.HasSetting(Info.DisableAllRatings) + $EXP[Exp_TMDbHelper_IsData]",
-            "onclick": [
-                {
-                    "action": "Skin.SetBool(CustomRating.Movies.EnablePremiereStatus)",
-                    "condition": "!Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus)"
-                },
-                {
-                    "action": "Skin.SetBool(CustomRating.EnablePremiereStatusDates)",
-                    "condition": "Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus) + !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)"
-                },
-                {
-                    "action": "Skin.Reset(CustomRating.Movies.EnablePremiereStatus)",
-                    "condition": "Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)"
-                },
-                {
-                    "action": "Skin.Reset(CustomRating.EnablePremiereStatusDates)",
-                    "condition": "Skin.HasSetting(CustomRating.Movies.EnablePremiereStatus) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)"
-                }
-            ],
-            "tags": [
-                "$LOCALIZE[31203]"
-            ]
-        },
-        "details_tv_status": {
-            "label": "[CAPITALIZE]$LOCALIZE[20343][/CAPITALIZE]",
-            "control": "button",
-            "group": "details_status",
-            "description": "$LOCALIZE[31720]",
-            "label2": "$VAR[Label_Setting_TVShow_PremiereStatus]",
-            "visible": "!Skin.HasSetting(Info.DisableAllRatings) + $EXP[Exp_TMDbHelper_IsData]",
-            "onclick": [
-                {
-                    "action": "Skin.Reset(CustomRating.TVShows.DisablePremiereStatus)",
-                    "condition": "Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)"
-                },
-                {
-                    "action": "Skin.SetBool(CustomRating.EnablePremiereStatusDates)",
-                    "condition": "!Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus) + !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)"
-                },
-                {
-                    "action": "Skin.SetBool(CustomRating.TVShows.DisablePremiereStatus)",
-                    "condition": "!Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)"
-                },
-                {
-                    "action": "Skin.Reset(CustomRating.EnablePremiereStatusDates)",
-                    "condition": "!Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates)"
-                }
-            ],
-            "tags": [
-                "$LOCALIZE[31203]"
-            ]
-        },
-        "details_status_date": {
-            "label": "$LOCALIZE[552]",
-            "control": "button",
-            "group": "details_status",
-            "description": "$LOCALIZE[31721]",
-            "label2": "$VAR[Label_Status_DateStyle]",
-            "visible": "!Skin.HasSetting(Info.DisableAllRatings) + Skin.HasSetting(CustomRating.EnablePremiereStatusDates) + $EXP[Exp_TMDbHelper_IsData]",
-            "onclick": [
-                {
-                    "action": "Skin.SetString(CustomStatus.DateStyle,Long)",
-                    "condition": "!Skin.String(CustomStatus.DateStyle,Long)"
-                },
-                {
-                    "action": "Skin.SetString(CustomStatus.DateStyle,Short)",
-                    "condition": "Skin.String(CustomStatus.DateStyle,Long)"
-                }
-            ]
-        },
-        "details_ends_at_time": {
-            "label": "$LOCALIZE[31192]",
-            "control": "button",
-            "group": "details_status",
-            "description": "$LOCALIZE[31722]",
-            "label2": "$VAR[Label_Setting_RatingsEndsAtTime]",
-            "visible": "!Skin.HasSetting(Info.DisableAllRatings)",
-            "onclick": [
-                {
-                    "action": "RunScript(script.skinvariables,run_dialog=select,preselect=$VAR[Label_Setting_RatingsEndsAtTime_Preselect],heading=$LOCALIZE[31192],separator=||,list=$LOCALIZE[21475]||$LOCALIZE[20342]||[CAPITALIZE]$LOCALIZE[20343][/CAPITALIZE]||$LOCALIZE[24023],\"executebuiltin_0=Skin.Reset(CustomRating.Movies.DisableEndsAtTime)||Skin.Reset(CustomRating.TVShows.DisableEndsAtTime)||Skin.Reset(InfoLine.EnableEndsAtTime)\",\"executebuiltin_1=Skin.Reset(CustomRating.Movies.DisableEndsAtTime)||Skin.SetBool(CustomRating.TVShows.DisableEndsAtTime)||Skin.Reset(InfoLine.EnableEndsAtTime)\",\"executebuiltin_2=Skin.Reset(CustomRating.TVShows.DisableEndsAtTime)||Skin.SetBool(CustomRating.Movies.DisableEndsAtTime)||Skin.Reset(InfoLine.EnableEndsAtTime)\",\"executebuiltin_3=Skin.SetBool(CustomRating.Movies.DisableEndsAtTime)||Skin.SetBool(CustomRating.TVShows.DisableEndsAtTime)\")"
                 }
             ]
         },
