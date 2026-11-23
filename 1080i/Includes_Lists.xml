@@ -449,7 +449,7 @@
             </include>
         </definition>
     </include>
-    
+
     <include name="List_Corflute_Row">
         <definition>
             <include content="_List_Card_Row">
@@ -494,8 +494,8 @@
                 <include>List_Banner_Row_Movement</include>
             </include>
         </definition>
-    </include>  
-    
+    </include>
+
     <include name="List_MiniBanner_Row">
         <param name="orientation">horizontal</param>
         <param name="control">fixedlist</param>
@@ -524,7 +524,7 @@
             </include>
         </definition>
     </include>
-    
+
     <include name="List_Gallery_Row">
         <definition>
             <include content="List_Core">
@@ -600,7 +600,7 @@
             </include>
         </definition>
     </include>
-    
+
     <include name="List_RealText_Row">
         <param name="item_w">view_poster_item_w</param>
         <param name="item_h">150</param>
@@ -628,7 +628,7 @@
             </include>
         </definition>
     </include>
-    
+
     <include name="List_Signpost_Row">
         <param name="focusedlayout_special">false</param>
         <param name="control">fixedlist</param>
@@ -697,6 +697,7 @@
         <param name="item_h">view_poster_item_h</param>
         <param name="itemlayout_w">view_poster_itemlayout_w</param>
         <param name="itemlayout_h">view_poster_itemlayout_h</param>
+        <param name="itemlayout_include">Layout_Poster</param>
         <definition>
             <include content="List_Core">
                 <param name="orientation">$PARAM[orientation]</param>
@@ -706,7 +707,7 @@
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
-                <param name="itemlayout_include">Layout_Poster</param>
+                <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
                 <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
@@ -752,32 +753,27 @@
     </include>
 
     <include name="List_Flyer_Row">
-        <param name="focusedlayout_special">false</param>
         <param name="control">fixedlist</param>
         <param name="orientation">horizontal</param>
         <param name="item_w">view_poster_item_w</param>
-        <param name="item_h">280</param>
+        <param name="item_h">view_poster_item_h</param>
         <param name="itemlayout_w">view_poster_itemlayout_w</param>
-        <param name="itemlayout_h">380</param>
+        <param name="itemlayout_h">view_poster_itemlayout_h</param>
         <definition>
-            <include content="List_Core">
+            <include content="List_Poster_Row">
                 <param name="orientation">$PARAM[orientation]</param>
                 <param name="control">$PARAM[control]</param>
                 <param name="id">$PARAM[id]</param>
-                <param name="item_w">$PARAM[item_w]</param>
-                <param name="item_h">$PARAM[item_h]</param>
-                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
-                <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Flyer</param>
                 <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
+                <param name="icon">$PARAM[icon]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
-                <param name="icon">$PARAM[icon]</param>
-                <param name="detailed">$PARAM[detailed]</param>
+                <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                 <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
                 <param name="hidden_button">$PARAM[hidden_button]</param>
+                <param name="use_label2">$PARAM[use_label2]</param>
                 <nested />
-                <include>List_Poster_Row_Movement</include>
             </include>
         </definition>
     </include>
@@ -813,7 +809,7 @@
             </include>
         </definition>
     </include>
-    
+
     <include name="List_Text_Row">
         <param name="focusedlayout_special">false</param>
         <definition>
@@ -827,7 +823,7 @@
                 <param name="itemlayout_w">view_landscape_itemlayout_w</param>
                 <param name="itemlayout_h">view_landscape_itemlayout_h</param>
                 <param name="itemlayout_include">Layout_Detailed</param>
-                <param name="padding_switch">-25</param>                
+                <param name="padding_switch">-25</param>
                 <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
@@ -1332,19 +1328,19 @@
             <include>List_ButtonMenu_Row_HiddenButton_ERow_OnFocus</include>
         </control>
     </include>
-    
+
     <include name="List_ButtonMenu_Row_HiddenButton_Search_Row_OnFocus">
         <param name="condition">true</param>
         <param name="prefix" />
         <definition>
-            <onfocus condition="$PARAM[condition]">SetProperty(TMDbHelper.WidgetContainer,$INFO[$PARAM[container]ListItem.Property(widget_id)])</onfocus>            
+            <onfocus condition="$PARAM[condition]">SetProperty(TMDbHelper.WidgetContainer,$INFO[$PARAM[container]ListItem.Property(widget_id)])</onfocus>
             <onfocus condition="$PARAM[condition] + !String.IsEmpty($PARAM[container]ListItem.Property(hide_artwork)) + !Skin.HasSetting(Widgets.DontHideArtworkOnClassic)">SetProperty(Background.HideArtwork,True)</onfocus>
             <onfocus condition="$PARAM[condition] + !String.IsEmpty($PARAM[container]ListItem.Property(unhide_artwork))">ClearProperty(Background.HideArtwork)</onfocus>
         </definition>
     </include>
     <include name="List_ButtonMenu_Row_HiddenButton_Search_Row">
         <control type="button">
-            <visible allowhiddenfocus="true">false</visible>            
+            <visible allowhiddenfocus="true">false</visible>
             <include>List_ButtonMenu_Row_HiddenButton_Search_Row_OnFocus</include>
         </control>
     </include>
@@ -1652,7 +1648,7 @@
         <param name="item_w" />
         <param name="item_h" />
         <param name="itemlayout_include" />
-        <param name="padding_switch" />      
+        <param name="padding_switch" />
         <param name="focusedlayout_special">false</param>
         <param name="focusedlayout_custom">false</param>
         <param name="altfocus">false</param>

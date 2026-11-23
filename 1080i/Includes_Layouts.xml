@@ -170,7 +170,7 @@
 
                 <control type="group">
 
-                    <animation effect="fadediffuse" start="ffffffff" end="panel_fg_30" condition="True">Conditional</animation>
+                    <animation effect="fadediffuse" start="ffffffff" end="main_fg_30" condition="True">Conditional</animation>
 
                     <control type="image">
                         <left>3</left>
@@ -1445,6 +1445,46 @@
         </definition>
     </include>
 
+    <include name="Layout_MediaList_Text">
+        <param name="selected">false</param>
+        <param name="right">0</param>
+        <param name="visible">true</param>
+        <param name="include_detailed_labels">!Skin.HasSetting(View.DisableDetailedListLabels)</param>
+        <definition>
+            <control type="group">
+                <right>$PARAM[right]</right>
+                <visible>$PARAM[visible]</visible>
+                <control type="group">
+                    <visible>[$PARAM[include_detailed_labels]] + $EXP[Exp_ListItem_HasMediaListDetails]</visible>
+                    <include content="Object_InfoCircle_Text_Top">
+                        <left>80</left>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <textcolor>main_fg_90</textcolor>
+                        <label>$VAR[Label_MediaList_Title]</label>
+                    </include>
+                    <include content="Object_InfoCircle_Text_Sub">
+                        <left>80</left>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <textcolor>main_fg_70</textcolor>
+                        <include content="Object_Label" condition="$PARAM[selected]">
+                            <param name="label">$VAR[Label_VideoInfo_DetailsItem_Prefix_Selected,, ]$VAR[Label_VideoInfo_DetailsItem]</param>
+                        </include>
+                        <label>$VAR[Label_VideoInfo_DetailsItem_Prefix,, ]$VAR[Label_VideoInfo_DetailsItem]</label>
+                    </include>
+                </control>
+                <control type="label">
+                    <font>font_mini</font>
+                    <label>$INFO[ListItem.Label]</label>
+                    <align>left</align>
+                    <left>80</left>
+                    <include condition="$PARAM[selected]">Color_SelectedText</include>
+                    <textcolor>main_fg_70</textcolor>
+                    <visible>![[$PARAM[include_detailed_labels]] + $EXP[Exp_ListItem_HasMediaListDetails]]</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Layout_MediaList">
         <param name="detailed">false</param>
         <param name="selected">false</param>
@@ -1507,30 +1547,23 @@
                             </control>
                         </control>
 
-                        <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels]">
-                            <left>80</left>
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>main_fg_90</textcolor>
-                            <label>$VAR[Label_MediaList_Title]</label>
+                       <include content="Layout_MediaList_Text" condition="![$PARAM[variation]] + ![$PARAM[detailed]]">
+                            <param name="selected">$PARAM[selected]</param>
+                            <param name="right">200</param>
+                            <param name="visible">$EXP[Exp_ListItem_HasMediaListColumns]</param>
+                            <param name="include_detailed_labels">$PARAM[include_detailed_labels]</param>
                         </include>
-                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
-                            <left>80</left>
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>main_fg_70</textcolor>
-                            <include content="Object_Label" condition="$PARAM[selected]">
-                                <param name="label">$VAR[Label_VideoInfo_DetailsItem_Prefix_Selected,, ]$VAR[Label_VideoInfo_DetailsItem]</param>
-                            </include>
-                            <label>$VAR[Label_VideoInfo_DetailsItem_Prefix,, ]$VAR[Label_VideoInfo_DetailsItem]</label>
+                        <include content="Layout_MediaList_Text" condition="![$PARAM[variation]] + $PARAM[detailed]">
+                            <param name="selected">$PARAM[selected]</param>
+                            <param name="right">120</param>
+                            <param name="visible">$EXP[Exp_ListItem_HasMediaListColumns]</param>
+                            <param name="include_detailed_labels">$PARAM[include_detailed_labels]</param>
                         </include>
-                        <control type="label">
-                            <font>font_mini</font>
-                            <label>$INFO[ListItem.Label]</label>
-                            <align>left</align>
-                            <left>80</left>
-                            <include condition="$PARAM[selected]">Color_SelectedText</include>
-                            <textcolor>main_fg_70</textcolor>
-                            <visible>![$PARAM[include_detailed_labels]]</visible>
-                        </control>
+                        <include content="Layout_MediaList_Text">
+                            <param name="selected">$PARAM[selected]</param>
+                            <param name="visible">$PARAM[variation] | ![$EXP[Exp_ListItem_HasMediaListColumns]]</param>
+                            <param name="include_detailed_labels">$PARAM[include_detailed_labels]</param>
+                        </include>
                         <control type="label">
                             <right>120</right>
                             <font>font_mini</font>
@@ -1542,7 +1575,7 @@
                             <align>right</align>
                             <visible>![$PARAM[detailed]]</visible>
                             <visible>![$PARAM[variation]]</visible>
-                            <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)</visible>
+                            <visible>$EXP[Exp_ListItem_HasMediaListColumns]</visible>
                         </control>
                         <control type="label">
                             <left>80</left>
@@ -1552,7 +1585,7 @@
                             <visible>![$PARAM[variation]]</visible>
                             <label>$VAR[Label_MediaList_Rating,            ,]</label>
                             <align>right</align>
-                            <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)</visible>
+                            <visible>$EXP[Exp_ListItem_HasMediaListColumns]</visible>
                         </control>
                     </control>
                     <include condition="$PARAM[indicator]" content="Object_Indicator_List">
@@ -1561,14 +1594,14 @@
                         <centertop>50%</centertop>
                         <centerright>80</centerright>
                         <visible>![$PARAM[variation]]</visible>
-                        <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)</visible>
+                        <visible>$EXP[Exp_ListItem_HasMediaListColumns]</visible>
                     </include>
                     <include condition="$PARAM[indicator]" content="Object_Indicator_List">
                         <param name="affix">$PARAM[affix]</param>
                         <param name="selected">$PARAM[selected]</param>
                         <centertop>50%</centertop>
                         <centerright>15</centerright>
-                        <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)] | $PARAM[variation]</visible>
+                        <visible>![$EXP[Exp_ListItem_HasMediaListColumns]] | $PARAM[variation]</visible>
                     </include>
                 </control>
             </control>
@@ -2432,7 +2465,7 @@
                         <param name="item_h">$PARAM[item_h]</param>
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">Container.ListItem</param>
-                        <param name="textcolor">panel_fg</param>
+                        <param name="textcolor">main_fg</param>
                         <param name="fade">true</param>
                         <param name="use_label">true</param>
                         <param name="use_label2">$PARAM[use_label2]</param>
@@ -2569,6 +2602,7 @@
 
     <include name="Layout_Poster">
         <param name="detailed">false</param>
+        <param name="include_detailed_labels">true</param>
         <param name="selected">false</param>
         <param name="indicator">true</param>
         <param name="diffuse">diffuse/poster_w217_h310.png</param>
@@ -2590,52 +2624,34 @@
                     <param name="control">image</param>
                     <include>Texture_Box_Highlight_V</include>
                 </include>
-                <control type="group">
-                    <visible>![String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,video) | $PARAM[detailed]]</visible>
-                    <include content="Object_Layout_Image_Icon" condition="!$PARAM[downsize_condition]">
-                        <param name="diffuse">$PARAM[diffuse]</param>
-                        <param name="icon">$PARAM[icon]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                        <param name="aspectratio">scale</param>
-                        <param name="selected">$PARAM[selected]</param>
-                        <param name="main_artwork">$PARAM[main_artwork]</param>
-                    </include>
-                    <include content="Object_Layout_Image_Icon" condition="$PARAM[downsize_condition]">
-                        <param name="diffuse">$PARAM[diffuse_downsize]</param>
-                        <param name="icon">$PARAM[icon]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                        <param name="aspectratio">scale</param>
-                        <param name="selected">$PARAM[selected]</param>
-                        <param name="main_artwork">$PARAM[main_artwork]</param>
-                    </include>
-                </control>
-                <control type="group">
-                    <visible>[String.IsEqual(ListItem.DBType,actor) | String.IsEqual(ListItem.DBType,video) | $PARAM[detailed]]</visible>
-                    <control type="image">
-                        <bordersize>40</bordersize>
-                        <bottom>60</bottom>
-                        <texture background="true" fallback="DefaultActor.png">$INFO[ListItem.Icon]</texture>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <visible>[String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
-                    </control>
-                    <control type="image">
-                        <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <visible>![String.StartsWith(ListItem.Icon,Default) | String.IsEmpty(ListItem.Icon)]</visible>
-                    </control>
-                    <include content="Layout_Labels">
-                        <param name="top">-85</param>
-                        <param name="left">20</param>
-                        <param name="right">20</param>
-                        <param name="item_h">$PARAM[item_h]</param>
-                        <param name="affix">$PARAM[affix]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                        <param name="textcolor">panel_fg</param>
-                        <param name="fade">true</param>
-                        <param name="include_detailed_labels">true</param>
-                        <param name="use_label2">$PARAM[use_label2]</param>
-                    </include>
-                </control>
+                <include content="Object_Layout_Image_Icon" condition="!$PARAM[downsize_condition]">
+                    <param name="diffuse">$PARAM[diffuse]</param>
+                    <param name="icon">$PARAM[icon]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="aspectratio">scale</param>
+                    <param name="selected">$PARAM[selected]</param>
+                    <param name="main_artwork">$PARAM[main_artwork]</param>
+                </include>
+                <include content="Object_Layout_Image_Icon" condition="$PARAM[downsize_condition]">
+                    <param name="diffuse">$PARAM[diffuse_downsize]</param>
+                    <param name="icon">$PARAM[icon]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="aspectratio">scale</param>
+                    <param name="selected">$PARAM[selected]</param>
+                    <param name="main_artwork">$PARAM[main_artwork]</param>
+                </include>
+                <include content="Layout_Labels" condition="$PARAM[detailed]">
+                    <param name="top">-85</param>
+                    <param name="left">20</param>
+                    <param name="right">20</param>
+                    <param name="item_h">$PARAM[item_h]</param>
+                    <param name="affix">$PARAM[affix]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="textcolor">main_fg</param>
+                    <param name="fade">true</param>
+                    <param name="include_detailed_labels">$PARAM[include_detailed_labels]</param>
+                    <param name="use_label2">$PARAM[use_label2]</param>
+                </include>
                 <control type="group">
                     <include content="Object_ContentBanner" condition="$PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
@@ -3390,7 +3406,7 @@
                         <param name="item_h">$PARAM[item_h]</param>
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">$PARAM[listitem]</param>
-                        <param name="textcolor">panel_fg</param>
+                        <param name="textcolor">main_fg</param>
                         <param name="fade">true</param>
                         <param name="include_detailed_labels">true</param>
                         <param name="use_label2">$PARAM[use_label2]</param>
@@ -3423,86 +3439,21 @@
     </include>
 
     <include name="Layout_Flyer">
-        <param name="detailed">false</param>
         <param name="selected">false</param>
-        <param name="indicator">true</param>
-        <param name="diffuse">diffuse/poster_w217_h310.png</param>
-        <param name="diffuse_downsize">diffuse/downsize/poster_w200_h294.png</param>
-        <param name="downsize_condition">Skin.String(Home.SideMenuCollapse,Never)</param>
-        <param name="icon">$VAR[Image_Poster]</param>
-        <param name="listitem">ListItem</param>
         <definition>
-            <control type="group">
-                <width>$PARAM[item_w]</width>
-                <height>$PARAM[item_h]</height>
-
-                <control type="group">
-                    <include content="Object_ItemBack">
-                        <param name="selected">$PARAM[selected]</param>
-                        <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
-                    </include>
-                    <control type="textbox">
-                        <textcolor>main_fg_70</textcolor>
-                        <label>$INFO[$PARAM[listitem].$PARAM[listitem_label]]</label>
-                        <include content="Dimension_Padding">
-                            <param name="pad">20</param>
-                        </include>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                        <font>font_mini_bold</font>
-                        <visible>String.IsEmpty(ListItem.Icon)</visible>
-                        <visible>String.IsEmpty(ListItem.Art(poster))</visible>
-                        <visible>String.IsEmpty(ListItem.Art(tvshow.poster))</visible>
-                    </control>
-                    <include content="Object_Layout_Image_Icon" condition="!$PARAM[downsize_condition]">
-                        <param name="diffuse">$PARAM[diffuse]</param>
-                        <param name="icon">$PARAM[icon]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                        <param name="aspectratio">scale</param>
-                        <param name="selected">$PARAM[selected]</param>
-                    </include>
-                    <include content="Object_Layout_Image_Icon" condition="$PARAM[downsize_condition]">
-                        <param name="diffuse">$PARAM[diffuse_downsize]</param>
-                        <param name="icon">$PARAM[icon]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                        <param name="aspectratio">scale</param>
-                        <param name="selected">$PARAM[selected]</param>
-                    </include>
-                </control>
-                <control type="group">
-                    <include content="Layout_Labels">
-                        <param name="top">5</param>
-                        <param name="left">5</param>
-                        <param name="right">5</param>
-                        <param name="item_h">$PARAM[item_h]</param>
-                        <param name="affix">$PARAM[affix]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                        <param name="textcolor">main_fg</param>
-                        <param name="align">center</param>
-                        <param name="use_label2">$PARAM[use_label2]</param>
-                    </include>
-                    <include content="Object_ContentBanner" condition="$PARAM[indicator]">
-                        <param name="listitem">$PARAM[listitem]</param>
-                    </include>
-                    <include content="Object_RatingCircle" condition="$PARAM[indicator] + [Skin.HasSetting(Indicator.RatingsCircle) | Skin.HasSetting(Indicator.TraktWatchlist) | Skin.HasSetting(Indicator.TraktFavourites)]">
-                        <param name="listitem">$PARAM[listitem]</param>
-                    </include>
-                    <include content="Object_ProgressPercent" condition="$PARAM[indicator] + Skin.HasSetting(Indicator.ProgressPercent)">
-                        <param name="affix">$PARAM[affix]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                    </include>
-                    <include content="Object_Indicator" condition="!$PARAM[selected] + $PARAM[indicator]">
-                        <param name="affix">$PARAM[affix]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                    </include>
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
-                        <param name="affix">$PARAM[affix]</param>
-                        <param name="listitem">$PARAM[listitem]</param>
-                        <param name="indicator">$PARAM[indicator]</param>
-                        <param name="focusbounce">true</param>
-                    </include>
-                </control>
-            </control>
+            <include content="Layout_Poster">
+                <param name="selected">$PARAM[selected]</param>
+                <param name="item_w">$PARAM[item_w]</param>
+                <param name="item_h">$PARAM[item_h]</param>
+                <param name="detailed">true</param>
+                <param name="include_detailed_labels">!Skin.HasSetting(View.DisableDetailedListLabels)</param>
+                <param name="indicator">$PARAM[indicator]</param>
+                <param name="diffuse">$PARAM[diffuse]</param>
+                <param name="icon">$PARAM[icon]</param>
+                <param name="affix">$PARAM[affix]</param>
+                <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
+                <param name="use_label2">$PARAM[use_label2]</param>
+            </include>
         </definition>
     </include>
 
@@ -3828,7 +3779,7 @@
                         <param name="item_h">$PARAM[item_h]</param>
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">$PARAM[listitem]</param>
-                        <param name="textcolor">panel_fg</param>
+                        <param name="textcolor">main_fg</param>
                         <param name="fade">true</param>
                         <param name="include_detailed_labels">true</param>
                     </include>
@@ -3889,12 +3840,7 @@
                         <textcolor>$PARAM[textcolor]_90</textcolor>
                         <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
                         <align>$PARAM[align]</align>
-                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) | !$EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">![String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
-                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">![[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
+                        <visible>![String.IsEqual($PARAM[listitem].DBType,episode) | [[!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $EXP[Exp_TMDbHelper_IsData] + !String.IsEmpty($PARAM[listitem].ChannelName)]] + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</visible>
                     </include>
                     <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels] + Skin.HasSetting(Info.UseS1E1StyleNumbers)">
                         <label fallback="$INFO[$PARAM[listitem].Label]">$INFO[$PARAM[listitem].Season,S,]$INFO[$PARAM[listitem].Episode,E,. ]$INFO[$PARAM[listitem].Title]</label>
@@ -3902,12 +3848,7 @@
                         <textcolor>$PARAM[textcolor]_90</textcolor>
                         <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
                         <align>$PARAM[align]</align>
-                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) | !$EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
-                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">[[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
+                        <visible>[String.IsEqual($PARAM[listitem].DBType,episode) | [[!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $EXP[Exp_TMDbHelper_IsData] + !String.IsEmpty($PARAM[listitem].ChannelName)]] + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</visible>
                     </include>
 
                     <control type="group">
@@ -4522,70 +4463,63 @@
                     <right>$PARAM[right]</right>
                     <height>80</height>
 
-                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label]]">
+                    <include content="Object_Control" condition="![$PARAM[use_label]]">
                         <param name="control">textbox</param>
                         <top>$PARAM[textbox_offset_y]</top>
                         <bottom>$PARAM[textbox_offset_y]</bottom>
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
                         <include content="Object_Label" condition="$PARAM[use_label2]">
-                            <param name="label">$INFO[$PARAM[listitem].Label]$INFO[$PARAM[listitem].Label2, - ,]</param>
+                            <param name="label">$INFO[$PARAM[listitem].Label]$INFO[ListItem.Label2, - ,]</param>
                         </include>
                         <label>$INFO[$PARAM[listitem].Label]</label>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
+                        <visible>![[$PARAM[include_detailed_labels]] + $EXP[Exp_ListItem_HasLowerDetails]]</visible>
                     </include>
-                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + $PARAM[use_label]">
+                    <include content="Object_Control" condition="$PARAM[use_label]">
                         <param name="control">label</param>
                         <top>$PARAM[textbox_offset_y]</top>
                         <bottom>$PARAM[textbox_offset_y]</bottom>
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
                         <include content="Object_Label" condition="$PARAM[use_label2]">
-                            <param name="label">$INFO[$PARAM[listitem].Label]$INFO[$PARAM[listitem].Label2, - ,]</param>
+                            <param name="label">$INFO[$PARAM[listitem].Label]$INFO[ListItem.Label2, - ,]</param>
                         </include>
                         <label>$INFO[$PARAM[listitem].Label]</label>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
+                        <visible>![[$PARAM[include_detailed_labels]] + $EXP[Exp_ListItem_HasLowerDetails]]</visible>
                     </include>
-                    <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels] + !Skin.HasSetting(Info.UseS1E1StyleNumbers)">
-                        <label>$INFO[$PARAM[listitem].Label]</label>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <textcolor>$PARAM[textcolor]_90</textcolor>
-                        <align>$PARAM[align]</align>
-                        <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
-                    </include>
-                    <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels] + Skin.HasSetting(Info.UseS1E1StyleNumbers)">
-                        <label fallback="$INFO[$PARAM[listitem].Label]">$INFO[$PARAM[listitem].Title]</label>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <textcolor>$PARAM[textcolor]_90</textcolor>
-                        <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
-                        <align>$PARAM[align]</align>
-                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) | !$EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">![String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
-                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + !$EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">![[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
-                    </include>
-                    <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels] + Skin.HasSetting(Info.UseS1E1StyleNumbers)">
-                        <label fallback="$INFO[$PARAM[listitem].Label]">$INFO[$PARAM[listitem].Season,S,]$INFO[$PARAM[listitem].Episode,E,. ]$INFO[$PARAM[listitem].Title]</label>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <textcolor>$PARAM[textcolor]_90</textcolor>
-                        <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
-                        <align>$PARAM[align]</align>
-                        <include content="Object_Visible" condition="String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) | !$EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
-                        <include content="Object_Visible" condition="!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + !$EXP[Exp_TMDbHelper_IsData]">
-                            <param name="visible">[[String.IsEqual($PARAM[listitem].DBType,episode) | [!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]] | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + String.IsEmpty($PARAM[listitem].DBType) + String.IsEmpty($PARAM[listitem].ChannelNumberLabel) + !String.IsEmpty($PARAM[listitem].ChannelName) + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</param>
-                        </include>
-                    </include>
-
                     <control type="group">
-                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
+                        <visible>[$PARAM[include_detailed_labels]] + $EXP[Exp_ListItem_HasLowerDetails]</visible>
+
+                        <include content="Object_InfoCircle_Text_Top" condition="!Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+                            <label>$INFO[$PARAM[listitem].Label]</label>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>$PARAM[textcolor]_90</textcolor>
+                            <align>$PARAM[align]</align>
+                            <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Top" condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+                            <label fallback="$INFO[$PARAM[listitem].Label]">$INFO[$PARAM[listitem].Title]</label>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>$PARAM[textcolor]_90</textcolor>
+                            <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
+                            <align>$PARAM[align]</align>
+                            <visible>![String.IsEqual($PARAM[listitem].DBType,episode) | [[!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $EXP[Exp_TMDbHelper_IsData] + !String.IsEmpty($PARAM[listitem].ChannelName)]] + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</visible>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Top" condition="Skin.HasSetting(Info.UseS1E1StyleNumbers)">
+                            <label fallback="$INFO[$PARAM[listitem].Label]">$INFO[$PARAM[listitem].Season,S,]$INFO[$PARAM[listitem].Episode,E,. ]$INFO[$PARAM[listitem].Title]</label>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>$PARAM[textcolor]_90</textcolor>
+                            <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
+                            <align>$PARAM[align]</align>
+                            <visible>[String.IsEqual($PARAM[listitem].DBType,episode) | [[!String.IsEmpty($PARAM[listitem].ChannelNumberLabel) | [!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $EXP[Exp_TMDbHelper_IsData] + !String.IsEmpty($PARAM[listitem].ChannelName)]] + [!String.IsEmpty($PARAM[listitem].Season) | !String.IsEmpty($PARAM[listitem].Episode)]]]</visible>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Sub">
                             <label>$VAR[Label_Landscape_Lower$PARAM[affix]]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
@@ -4593,7 +4527,7 @@
                             <align>$PARAM[align]</align>
                             <visible>String.IsEmpty($PARAM[listitem].ChannelNumberLabel)</visible>
                         </include>
-                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
+                        <include content="Object_InfoCircle_Text_Sub">
                             <label>$VAR[Label_Landscape_Lower$PARAM[affix]]$INFO[$PARAM[listitem].StartTime, • ,]$INFO[$PARAM[listitem].EndTime, - ,]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
@@ -4602,7 +4536,7 @@
                             <visible>!String.IsEmpty($PARAM[listitem].ChannelNumberLabel)</visible>
                             <visible>ListItem.InProgress</visible>
                         </include>
-                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
+                        <include content="Object_InfoCircle_Text_Sub">
                             <label>$VAR[Label_Landscape_Lower$PARAM[affix]]$INFO[$PARAM[listitem].Date, • ,]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
@@ -4833,7 +4767,7 @@
                     <param name="item_h">$PARAM[item_h]</param>
                     <param name="affix">$PARAM[affix]</param>
                     <param name="listitem">$PARAM[listitem]</param>
-                    <param name="textcolor">panel_fg</param>
+                    <param name="textcolor">main_fg</param>
                     <param name="fade">true</param>
                     <param name="use_label">true</param>
                     <param name="use_label2">$PARAM[use_label2]</param>
