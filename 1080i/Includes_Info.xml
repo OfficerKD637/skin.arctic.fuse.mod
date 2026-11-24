@@ -523,6 +523,64 @@
         </definition>
     </include>
 
+    <include name="Info_Line_Ratings_Plot_Counts">
+        <definition>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]1</param>
+                <visible>Control.IsVisible($PARAM[previous]1) | [$PARAM[available]]</visible>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]2</param>
+                <visible>Control.IsVisible($PARAM[previous]2) | [Control.IsVisible($PARAM[previous]1) + [$PARAM[available]]]</visible>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]3</param>
+                <visible>Control.IsVisible($PARAM[previous]3) | [Control.IsVisible($PARAM[previous]2) + [$PARAM[available]]]</visible>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]4</param>
+                <visible>Control.IsVisible($PARAM[previous]4) | [Control.IsVisible($PARAM[previous]3) + [$PARAM[available]]]</visible>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]5</param>
+                <visible>Control.IsVisible($PARAM[previous]5) | [Control.IsVisible($PARAM[previous]4) + [$PARAM[available]]]</visible>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]6</param>
+                <visible>Control.IsVisible($PARAM[previous]6) | [Control.IsVisible($PARAM[previous]5) + [$PARAM[available]]]</visible>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]7</param>
+                <visible>Control.IsVisible($PARAM[previous]7) | [Control.IsVisible($PARAM[previous]6) + [$PARAM[available]]]</visible>
+            </include>
+            <include content="Object_Hidden_Button">
+                <param name="control">label</param>
+                <param name="id">$PARAM[next]8</param>
+                <visible>Control.IsVisible($PARAM[previous]8) | [Control.IsVisible($PARAM[previous]7) + [$PARAM[available]]]</visible>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Info_Line_Ratings_Plot_Item">
+        <definition>
+            <include content="Info_Line_Ratings_$PARAM[path]">
+                <param name="visible">$PARAM[visible]</param>
+                <param name="info">$PARAM[info]</param>
+                <param name="service">$PARAM[service]</param>
+                <param name="source">$PARAM[source]</param>
+                <param name="source_prefix">$PARAM[source_prefix]</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="Info_Line_Ratings_Object">
         <param name="font">font_main_bold</param>
         <param name="colordiffuse">main_fg</param>
@@ -560,10 +618,17 @@
 
     <include name="Info_Line_Ratings_MetaCritic_Rating">
         <include content="Info_Line_Ratings_Object">
-            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/$VAR[Image_$PARAM[service]_MetaCritic]</param>
+            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/metacritic.png</param>
             <param name="label">$INFO[$PARAM[source]($PARAM[source_prefix]MetaCritic_Rating),,%]</param>
-            <param name="visible">$PARAM[visible]</param>
+            <param name="visible">$PARAM[visible] + String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].MetaCritic_Image))</param>
             <param name="colordiffuse">$PARAM[colordiffuse]</param>
+        </include>
+        <include content="Info_Line_Ratings_Object">
+            <param name="icon">flags/$VAR[Info_Line_Rating_Style]/ratings/mustsee.png</param>
+            <param name="label">$INFO[$PARAM[source]($PARAM[source_prefix]MetaCritic_Rating),,%]</param>
+            <param name="visible">$PARAM[visible] + !String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].MetaCritic_Image))</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="bordersize">-2</param>
         </include>
     </include>
     <include name="Info_Line_Ratings_MetaCriticUser_Rating">
