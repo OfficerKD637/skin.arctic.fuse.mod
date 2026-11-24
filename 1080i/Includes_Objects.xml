@@ -491,7 +491,7 @@
 
     <include name="Object_BigPoster">
         <param name="icon">$VAR[Image_Poster]</param>
-        <param name="fadetime">300</param>
+        <param name="fadetime">background_fadetime</param>
         <param name="aspectratio">scale</param>
         <param name="posterback_colordiffuse">main_fg_12</param>
         <param name="icon_visible">true</param>
@@ -526,8 +526,10 @@
     <include name="Object_Layout_Image">
         <param name="aspectratio">keep</param>
         <param name="selected">false</param>
+        <param name="fadetime">0</param>
         <definition>
             <control type="image">
+                <fadetime>$PARAM[fadetime]</fadetime>
                 <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                 <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
                 <visible>![String.IsEqual($PARAM[listitem].Art(thumb),$PARAM[listitem].Icon) | String.IsEmpty($PARAM[listitem].Art(thumb))] | !String.IsEmpty($PARAM[listitem].Art(fanart)) | !String.IsEmpty($PARAM[listitem].Art(poster)) | !String.StartsWith($PARAM[listitem].Icon,Default)</visible>
@@ -537,6 +539,7 @@
                     <param name="colordiffuse">$VAR[ColorSelected]</param>
                 </include>
                 <colordiffuse>main_fg_100</colordiffuse>
+                <fadetime>$PARAM[fadetime]</fadetime>
                 <texture background="true" diffuse="$PARAM[diffuse]">$PARAM[icon]</texture>
                 <aspectratio scalediffuse="false">$PARAM[aspectratio]</aspectratio>
                 <visible>String.StartsWith($PARAM[listitem].Icon,Default) + [String.IsEqual($PARAM[listitem].Art(thumb),$PARAM[listitem].Icon) | String.IsEmpty($PARAM[listitem].Art(thumb))] + String.IsEmpty($PARAM[listitem].Art(fanart)) + String.IsEmpty($PARAM[listitem].Art(poster))</visible>
@@ -632,6 +635,7 @@
         <param name="overlay_diffuse" />
         <param name="main_artwork">Art(poster)</param>
         <param name="include_generic">true</param>
+        <param name="fadetime">0</param>
         <definition>
             <control type="group">
                 <include content="Object_Visible" condition="$PARAM[include_generic]">
@@ -649,6 +653,7 @@
                 </include>
 
                 <include content="Object_Layout_Image" condition="![$PARAM[include_discart]]">
+                    <param name="fadetime">$PARAM[fadetime]</param>
                     <param name="diffuse">$PARAM[diffuse]</param>
                     <param name="icon">$PARAM[icon]</param>
                     <param name="listitem">$PARAM[listitem]</param>

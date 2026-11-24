@@ -3,7 +3,7 @@
 
     <!-- Media List -->
     <include name="View_056_MediaList">        
-        <include content="View_MediaList_Include" condition="Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)">
+        <include content="View_MediaList_Include" condition="Window.IsVisible(videos) + !Skin.HasSetting(Disable.ListFlixPoster)">
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
@@ -11,9 +11,11 @@
             <param name="right_downsize">870</param>
             <param name="scrollbar_id">70</param>
             <param name="alphabet_id">614</param>
-            <include>View_MediaList_PosterLandscape</include>
+            <include content="View_MediaList_Landscape">
+                <param name="has_poster">true</param>
+            </include>
         </include>
-        <include content="View_MediaList_Include" condition="Window.IsVisible(MyVideoNav.xml) + Skin.HasSetting(Disable.ListFlixPoster)">
+        <include content="View_MediaList_Include" condition="Window.IsVisible(videos) + Skin.HasSetting(Disable.ListFlixPoster)">
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
@@ -23,7 +25,7 @@
             <param name="alphabet_id">614</param>
             <include>View_MediaList_Landscape</include>
         </include>
-        <include content="View_MediaList_Include" condition="!Window.IsVisible(MyVideoNav.xml) + !Skin.HasSetting(Disable.ListFlixPoster)">
+        <include content="View_MediaList_Include" condition="!Window.IsVisible(videos) + !Skin.HasSetting(Disable.ListFlixPoster)">
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
@@ -31,9 +33,11 @@
             <param name="right_downsize">960</param>
             <param name="scrollbar_id">70</param>
             <param name="alphabet_id">614</param>
-            <include>View_MediaList_SquareLandscape</include>
+            <include content="View_MediaList_Landscape">
+                <param name="has_square">true</param>
+            </include>
         </include>
-        <include content="View_MediaList_Include" condition="!Window.IsVisible(MyVideoNav.xml) + Skin.HasSetting(Disable.ListFlixPoster)">
+        <include content="View_MediaList_Include" condition="!Window.IsVisible(videos) + Skin.HasSetting(Disable.ListFlixPoster)">
             <param name="id">56</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_56]</param>
@@ -55,7 +59,8 @@
             <param name="overlay">true</param>
             <param name="scrollbar_id">65</param>
             <param name="alphabet_id">615</param>
-            <include>View_MediaList_BigPoster</include>
+            <include condition="Window.IsVisible(videos)">View_Media_Poster</include>
+            <include condition="!Window.IsVisible(videos)">View_Media_Square</include>
         </include>
         <include content="View_MediaList_Include" condition="Skin.HasSetting(Disable.ListBigPosterDetailedView)">
             <param name="id">517</param>
@@ -67,7 +72,8 @@
             <param name="right_downsize">670</param>
             <param name="overlay">true</param>
             <param name="movement">5</param>
-            <include>View_MediaList_BigPoster</include>
+            <include condition="Window.IsVisible(videos)">View_Media_Poster</include>
+            <include condition="!Window.IsVisible(videos)">View_Media_Square</include>
         </include>
     </include>
     
@@ -83,13 +89,13 @@
             <param name="right_downsize">1030</param>
             <param name="overlay">true</param>
             <param name="movement">5</param>
-            <include>View_MediaList_BigLandscape</include>
+            <include>View_Media_Landscape</include>
         </include>
     </include>
     
     <!-- Expanded List-->
     <include name="View_520_Expanded_MediaList">
-        <include content="View_MediaList_Include">
+        <include content="View_MediaList_Include" condition="Window.IsVisible(videos)">
             <param name="id">520</param>
             <param name="viewtype_label">$LOCALIZE[31427]</param>
             <param name="visible">$EXP[Exp_View_520]</param>
@@ -104,163 +110,185 @@
             <param name="item_height">193.33</param>
             <param name="misc">237.037</param>
             <param name="diffuse">diffuse/landscape_w200_h112.png</param>
-
-            <control type="group">
-                <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
-                    <param name="right">120</param>
-                </include>
-                <control type="group">
-                    <bottom>40</bottom>
-                    <right>0</right>
-                    <height>600</height>
-                    <width>400</width>
-                    <visible>!$EXP[Exp_InfoDialogs]</visible>
-                    <include content="Widget_Standard_Animation">
-                        <param name="visible_delay">120</param>
-                        <param name="hidden_delay">240</param>
-                        <param name="slide_x">320</param>
-                    </include>
-                    <include content="Layout_Poster">
-                        <param name="icon">$VAR[Image_Poster]</param>
-                        <param name="diffuse">diffuse/poster_w460_h680.png</param>
-                        <param name="downsize_condition">false</param>
-                        <param name="indicator">false</param>
-                        <param name="item_w">400</param>
-                        <param name="item_h">600</param>
-                    </include>
-                </control>
-            </control>
+            <include content="View_Media_Poster">
+                <param name="include_small">true</param>
+                <param name="width">400</param>
+                <param name="height">600</param>
+                <param name="diffuse">diffuse/poster_w460_h680.png</param>
+            </include>
+        </include>
+        <include content="View_MediaList_Include" condition="!Window.IsVisible(videos)">
+            <param name="id">520</param>
+            <param name="viewtype_label">$LOCALIZE[31427]</param>
+            <param name="visible">$EXP[Exp_View_520]</param>
+            <param name="left">-60</param>
+            <param name="right">550</param>
+            <param name="right_downsize">590</param>
+            <param name="top">170</param>
+            <param name="bottom">0</param>
+            <param name="movement">1</param>
+            <param name="overlay">true</param>
+            <param name="itemlayout_include">Layout_MediaList_Detailed</param>
+            <param name="item_height">193.33</param>
+            <param name="misc">237.037</param>
+            <param name="diffuse">diffuse/landscape_w200_h112.png</param>
+            <include>View_Media_Square</include>
         </include>
     </include>
-    
-    <include name="View_MediaList_Landscape">
-        <control type="group">
-            <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
-                <param name="right">80</param>
-            </include>
-            <right>-40</right>
-            <bottom>0</bottom>
-            <height>view_poster_itemlayout_h</height>
+
+    <include name="View_Media_Frame">
+        <param name="include_detailed">false</param>
+        <param name="include_offset">Skin.String(Home.SideMenuCollapse,Never)</param>
+        <param name="right_detailed">120</param>
+        <definition>
             <control type="group">
+                <height>$PARAM[height]</height>
+                <width>$PARAM[width]</width>
+                <include content="Object_Bottom" condition="$PARAM[include_detailed]">
+                    <param name="bottom">$PARAM[bottom_detailed]</param>
+                </include>
+                <include content="Object_Right" condition="$PARAM[include_offset]">
+                    <param name="right">$PARAM[right_detailed]</param>
+                </include>
+                <bottom>0</bottom>
                 <right>0</right>
-                <height>view_poster_itemlayout_h</height>
-                <width>view_board_itemlayout_w</width>
-                <visible>!$EXP[Exp_InfoDialogs]</visible>
+                <control type="image">
+                    <include>Texture_Shadow_40</include>
+                    <texture colordiffuse="main_fg_12" border="20">common/box.png</texture>
+                </control>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
+    <include name="View_Media_Artwork">
+        <param name="visible">!$EXP[Exp_InfoDialogs]</param>
+        <param name="aspectratio">scale</param>
+        <param name="main_artwork">Art(poster)</param>
+        <param name="filmstrip_axis">Horizontal</param>
+        <param name="height">680</param>
+        <param name="slide_x">240</param>
+        <definition>
+            <include content="View_Media_Frame">
+                <param name="height">$PARAM[height]</param>
+                <param name="width">$PARAM[width]</param>
+                <param name="include_detailed">$PARAM[include_detailed]</param>
+                <param name="bottom_detailed">$PARAM[bottom_detailed]</param>
+                <include content="Object_Layout_Image_Icon">
+                    <param name="diffuse">$PARAM[diffuse]</param>
+                    <param name="icon">$PARAM[icon]</param>
+                    <param name="aspectratio">$PARAM[aspectratio]</param>
+                    <param name="main_artwork">$PARAM[main_artwork]</param>
+                    <param name="fadetime">background_fadetime</param>
+                    <param name="generic_size">large</param>
+                    <param name="filmstrip_axis">$PARAM[filmstrip_axis]</param>
+                </include>
+                <visible>$PARAM[visible]</visible>
                 <include content="Widget_Standard_Animation">
                     <param name="visible_delay">120</param>
                     <param name="hidden_delay">240</param>
-                    <param name="slide_x">320</param>
+                    <param name="slide_x">$PARAM[slide_x]</param>
                 </include>
-                <include content="Layout_Poster">
-                    <param name="icon">$VAR[Image_Landscape]</param>
-                    <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
-                    <param name="downsize_condition">false</param>
-                    <param name="indicator">true</param>
-                    <param name="item_w">view_board_item_w</param>
-                    <param name="item_h">view_poster_item_h</param>
-                </include>
-            </control>
-        </control>
+            </include>
+        </definition>
     </include>
 
-    <include name="View_MediaList_BigPoster">
-        <control type="group">
-            <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
-                <param name="right">80</param>
+    <include name="View_Media_Square">
+        <include content="View_Media_Artwork">
+            <param name="width">560</param>
+            <param name="height">560</param>
+            <param name="diffuse">diffuse/square_w560_h560.png</param>
+            <param name="icon">$VAR[Image_Square]</param>
+        </include>
+    </include>
+
+    <include name="View_Media_Poster">
+        <param name="width">infodialog_bigposter_w</param>
+        <param name="height">infodialog_bigposter_h</param>
+        <param name="diffuse">diffuse/poster_w480_h720.png</param>
+        <param name="width_large">560</param>
+        <param name="height_large">800</param>
+        <param name="diffuse_large">diffuse/poster_w560_h820.png</param>
+        <param name="include_small">[!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
+        <definition>
+            <include content="View_Media_Artwork" condition="[$PARAM[include_small]]">
+                <param name="width">$PARAM[width]</param>
+                <param name="height">$PARAM[height]</param>
+                <param name="diffuse">$PARAM[diffuse]</param>
+                <param name="icon">$VAR[Image_Poster]</param>
+                <param name="filmstrip_axis">Vertical</param>
             </include>
-            <right>-40</right>
-            <control type="group">
+            <include content="View_Media_Artwork" condition="![$PARAM[include_small]]">
+                <param name="width">$PARAM[width_large]</param>
+                <param name="height">$PARAM[height_large]</param>
+                <param name="diffuse">$PARAM[diffuse_large]</param>
+                <param name="icon">$VAR[Image_Poster]</param>
+                <param name="filmstrip_axis">Vertical</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="View_Media_Poster_Static">
+        <param name="width">infodialog_bigposter_w</param>
+        <param name="height">infodialog_bigposter_h</param>
+        <param name="diffuse">diffuse/poster_w480_h720.png</param>
+        <param name="width_large">560</param>
+        <param name="height_large">800</param>
+        <param name="diffuse_large">diffuse/poster_w560_h820.png</param>
+        <param name="include_small">[!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
+        <definition>
+            <include content="View_Media_Frame" condition="[$PARAM[include_small]]">
+                <param name="width">$PARAM[width]</param>
+                <param name="height">$PARAM[height]</param>
+                <param name="diffuse">$PARAM[diffuse]</param>
+                <control type="image">
+                    <texture diffuse="$PARAM[diffuse]" background="true">$PARAM[image]</texture>
+                    <fadetime>background_fadetime</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                </control>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include content="Widget_Standard_Animation">
                     <param name="visible_delay">120</param>
                     <param name="hidden_delay">240</param>
                     <param name="slide_x">240</param>
                 </include>
-                <control type="group">
-                    <include content="Object_Bottom" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                        <param name="bottom">20</param>
-                    </include>
-                    <bottom>0</bottom>
-                    <right>40</right>
-                    <include content="Object_Height" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                        <param name="height">820</param>
-                    </include>
-                    <include content="Object_Width" condition="![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]">
-                        <param name="width">560</param>
-                    </include>
-                    <width>infodialog_bigposter_w</width>
-                    <height>infodialog_bigposter_h</height>
-                    <visible>![String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))]</visible>
-                    <include content="Object_BigPoster">
-                        <param name="icon">$VAR[Image_Poster]</param>
-                        <param name="diffuse">diffuse/poster_w460_h680.png</param>
-                        <param name="diffuse_special">diffuse/poster_w560_h820.png</param>
-                        <param name="include_diffuse_special">![!Skin.HasSetting(Furniture.EnableLeftHeader) + !Skin.HasSetting(Furniture.EnableClock) + !String.IsEmpty(Skin.String(Furniture.EnableClock.TopLeft))]</param>
-                    </include>
-                </control>
-                <control type="group">
-                    <right>0</right>
-                    <height>768</height>
-                    <width>520</width>
-                    <bottom>0</bottom>
-                    <visible>String.IsEmpty(ListItem.Art(poster)) + String.IsEmpty(ListItem.Art(tvshow.poster)) + String.IsEmpty(ListItem.Art(season.poster))</visible>
-                    <control type="image">
-                        <width>520</width>
-                        <height>520</height>
-                        <centerbottom>520</centerbottom>
-                        <texture background="true">$VAR[Image_DiscArt]</texture>
-                        <bordersize>20</bordersize>
-                        <animation effect="rotate" condition="Player.Playing" start="0" end="-360" loop="true" time="30000" center="auto" reversible="false">Conditional</animation>
-                        <visible>![String.IsEmpty(ListItem.Art(discart)) + String.IsEmpty(ListItem.Art(album.discart))]</visible>
-                    </control>
-                    <include content="Object_BigPoster">
-                        <param name="icon">$VAR[Image_Poster]</param>
-                        <param name="diffuse">diffuse/square_w600_h600.png</param>
-                        <width>520</width>
-                        <height>520</height>
-                        <right>40</right>
-                        <bottom>0</bottom>
-                    </include>
-                </control>
-            </control>
-        </control>
-    </include>
-    
-    <include name="View_MediaList_BigLandscape">
-        <control type="group">
-            <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
-                <param name="right">80</param>
             </include>
-            <right>-40</right>
-            <bottom>20</bottom>
-            <height>540</height>
-            <control type="group">
-                <right>40</right>
-                <height>540</height>
-                <width>920</width>
-                <include content="Object_Bottom" condition="!Skin.HasSetting(Disable.ListBigLandscapeDetailedView)">
-                    <param name="bottom">231</param>
-                </include>
+            <include content="View_Media_Frame" condition="![$PARAM[include_small]]">
+                <param name="width">$PARAM[width_large]</param>
+                <param name="height">$PARAM[height_large]</param>
+                <control type="image">
+                    <texture diffuse="$PARAM[diffuse_large]" background="true">$PARAM[image]</texture>
+                    <fadetime>background_fadetime</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                </control>
                 <visible>!$EXP[Exp_InfoDialogs]</visible>
                 <include content="Widget_Standard_Animation">
                     <param name="visible_delay">120</param>
                     <param name="hidden_delay">240</param>
-                    <param name="slide_x">320</param>
+                    <param name="slide_x">240</param>
                 </include>
-                <include content="Layout_Poster">
-                    <param name="icon">$VAR[Image_Landscape]</param>
-                    <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
-                    <param name="downsize_condition">false</param>
-                    <param name="indicator">true</param>
-                    <param name="item_w">920</param>
-                    <param name="item_h">540</param>
-                </include>
-            </control>
-        </control>
+            </include>
+        </definition>
     </include>
 
-    <include name="View_MediaList_PosterLandscape">
+    <include name="View_Media_Landscape">
+        <include content="View_Media_Artwork">
+            <param name="height">517.5</param>
+            <param name="width">920</param>
+            <param name="include_detailed">!Skin.HasSetting(Disable.ListBigLandscapeDetailedView)</param>
+            <param name="bottom_detailed">240</param>
+            <param name="slide_x">320</param>
+            <param name="diffuse">diffuse/landscape_w1040_h585.png</param>
+            <param name="icon">$VAR[Image_Landscape]</param>
+            <param name="aspectratio">keep</param>
+            <param name="main_artwork">Art(fanart)</param>
+        </include>
+    </include>
+
+    <include name="View_MediaList_Landscape">
         <param name="visible">!$EXP[Exp_InfoDialogs]</param>
+        <param name="has_poster">false</param>
+        <param name="has_square">false</param>
         <definition>
             <control type="group">
                 <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
@@ -269,28 +297,10 @@
                 <right>-40</right>
                 <bottom>0</bottom>
                 <height>view_poster_itemlayout_h</height>
-                <control type="group">
-                    <visible>$PARAM[visible]</visible>
-                    <right>0</right>
-                    <height>view_poster_itemlayout_h</height>
-                    <width>view_board_itemlayout_w</width>
-                    <include content="Widget_Standard_Animation">
-                        <param name="visible_delay">120</param>
-                        <param name="hidden_delay">240</param>
-                        <param name="slide_x">320</param>
-                    </include>
-                    <include content="Layout_Poster">
-                        <param name="icon">$VAR[Image_Landscape]</param>
-                        <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
-                        <param name="downsize_condition">false</param>
-                        <param name="indicator">true</param>
-                        <param name="item_w">view_board_item_w</param>
-                        <param name="item_h">view_poster_item_h</param>
-                    </include>
-                </control>
 
                 <control type="group">
                     <visible>$PARAM[visible]</visible>
+                    <visible>$PARAM[has_poster]</visible>
                     <right>view_board_itemlayout_w</right>
                     <height>view_poster_itemlayout_h</height>
                     <width>view_poster_itemlayout_w</width>
@@ -303,44 +313,13 @@
                         <param name="indicator">false</param>
                         <param name="item_w">view_poster_item_w</param>
                         <param name="item_h">view_poster_item_h</param>
-                    </include>
-                </control>
-            </control>
-        </definition>
-    </include>
-
-    <include name="View_MediaList_SquareLandscape">
-        <param name="visible">!$EXP[Exp_InfoDialogs]</param>
-        <definition>
-            <control type="group">
-                <include content="Object_Right" condition="Skin.String(Home.SideMenuCollapse,Never)">
-                    <param name="right">80</param>
-                </include>
-                <right>-40</right>
-                <bottom>0</bottom>
-                <height>view_poster_itemlayout_h</height>
-                <control type="group">
-                    <visible>$PARAM[visible]</visible>
-                    <right>0</right>
-                    <height>view_poster_itemlayout_h</height>
-                    <width>view_board_itemlayout_w</width>
-                    <include content="Widget_Standard_Animation">
-                        <param name="visible_delay">120</param>
-                        <param name="hidden_delay">240</param>
-                        <param name="slide_x">320</param>
-                    </include>
-                    <include content="Layout_Poster">
-                        <param name="icon">$VAR[Image_Landscape]</param>
-                        <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
-                        <param name="downsize_condition">false</param>
-                        <param name="indicator">true</param>
-                        <param name="item_w">view_board_item_w</param>
-                        <param name="item_h">view_poster_item_h</param>
+                        <param name="generic_size">medium</param>
                     </include>
                 </control>
 
                 <control type="group">
                     <visible>$PARAM[visible]</visible>
+                    <visible>$PARAM[has_square]</visible>
                     <right>view_board_itemlayout_w</right>
                     <height>view_poster_itemlayout_h</height>
                     <width>view_poster_itemlayout_h</width>
@@ -354,6 +333,29 @@
                         <param name="diffuse">diffuse/square_w294_h294.png</param>
                         <param name="downsize_condition">false</param>
                         <param name="item_w">view_poster_item_h</param>
+                        <param name="item_h">view_poster_item_h</param>
+                        <param name="generic_size">medium</param>
+                    </include>
+                </control>
+
+                <control type="group">
+                    <visible>$PARAM[visible]</visible>
+                    <right>0</right>
+                    <height>view_poster_itemlayout_h</height>
+                    <width>view_board_itemlayout_w</width>
+                    <include content="Widget_Standard_Animation">
+                        <param name="visible_delay">120</param>
+                        <param name="hidden_delay">240</param>
+                        <param name="slide_x">320</param>
+                    </include>
+                    <include content="Layout_Poster">
+                        <param name="icon">$VAR[Image_Landscape]</param>
+                        <param name="diffuse">diffuse/downsize/landscape_w520_h294.png</param>
+                        <param name="downsize_condition">false</param>
+                        <param name="generic_size">medium</param>
+                        <param name="filmstrip_axis">Horizontal</param>
+                        <param name="indicator">true</param>
+                        <param name="item_w">view_board_item_w</param>
                         <param name="item_h">view_poster_item_h</param>
                     </include>
                 </control>
