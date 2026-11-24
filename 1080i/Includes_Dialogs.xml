@@ -1999,7 +1999,8 @@
                                         <param name="detail_icon">$PARAM[detail_icon]</param>
                                     </include>
                                 </content>
-                                <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=true&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]</content>
+                                <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=true&amp;noblank=true&amp;exclude_key=disabled&amp;exclude_value=True&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]</content>
+                                <content>plugin://script.skinvariables/?info=get_shortcuts_node&amp;edit=true&amp;noblank=true&amp;filter_key=disabled&amp;filter_value=True&amp;skin=$VAR[Path_SkinVariables_SkinFolder]$INFO[Window(Home).Property(SkinVariables.ShortcutsNode.Reload),&amp;reload=,]$INFO[Window(Home).Property(Shortcuts.EditMenu),&amp;,]</content>
                                 <onfocus>SetFocus(22900)</onfocus>
                                 <onright>61</onright>
                                 <onclick>noop</onclick>
@@ -2358,13 +2359,36 @@
         </definition>
     </include>
 
+    <!-- Cutoff is the 1-based position of the last listed rating (fixed items + rating slots).
+         Movies: one fixed Ends At item + 4/6 rating slots = cutoff 5/7.
+         TV: Status disabled = status + Ends At + 6 slots = cutoff 8; Basic = status + Ends At + 5 slots = cutoff 7; Detailed = status + date + Ends At + 4 slots = cutoff 7.
+         The TV Ends At row is always present, so its toggle does not affect the cutoff.
+         Item_ expressions read the item being laid out; the others read the focused item (22001). -->
+    <expression name="DialogRatings_IsStrict_Expression">[Skin.HasSetting(Info.DisableRatingFallback)]</expression>
+    <expression name="DialogRatings_IsMovies_Expression">[String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=ratingsmovies)]</expression>
+    <expression name="DialogRatings_IsTVShows_Expression">[String.IsEqual(Window(Home).Property(Shortcuts.EditMenu),menu=ratingstvshows)]</expression>
+    <expression name="DialogRatings_Cutoff5_Expression">[$EXP[DialogRatings_IsMovies_Expression] + !Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime)]</expression>
+    <expression name="DialogRatings_Cutoff7_Expression">[[$EXP[DialogRatings_IsMovies_Expression] + Skin.HasSetting(CustomRating.Movies.DisableEndsAtTime)] | [$EXP[DialogRatings_IsTVShows_Expression] + !Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)]]</expression>
+    <expression name="DialogRatings_Cutoff8_Expression">[$EXP[DialogRatings_IsTVShows_Expression] + Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)]</expression>
+    <expression name="DialogRatings_Item_IsUnlisted_Expression">[String.IsEmpty(ListItem.Property(static)) + [[$EXP[DialogRatings_Cutoff5_Expression] + Integer.IsGreater(ListItem.CurrentItem,5)] | [$EXP[DialogRatings_Cutoff7_Expression] + Integer.IsGreater(ListItem.CurrentItem,7)] | [$EXP[DialogRatings_Cutoff8_Expression] + Integer.IsGreater(ListItem.CurrentItem,8)]]]</expression>
+    <expression name="DialogRatings_Item_IsDisabled_Expression">[String.IsEqual(ListItem.Property(disabled),True) | [$EXP[DialogRatings_IsStrict_Expression] + $EXP[DialogRatings_Item_IsUnlisted_Expression]]]</expression>
+    <expression name="DialogRatings_IsPromotable_Expression">[$EXP[DialogRatings_IsStrict_Expression] + String.IsEmpty(Container(22001).ListItem.Property(static)) + [[$EXP[DialogRatings_Cutoff5_Expression] + Integer.IsGreater(Container(22001).CurrentItem,5)] | [$EXP[DialogRatings_Cutoff7_Expression] + Integer.IsGreater(Container(22001).CurrentItem,7)] | [$EXP[DialogRatings_Cutoff8_Expression] + Integer.IsGreater(Container(22001).CurrentItem,8)]]]</expression>
+    <expression name="DialogRatings_NextIsUnlisted_Expression">[$EXP[DialogRatings_IsStrict_Expression] + !String.IsEmpty(Container(22001).ListItemNoWrap(1).Label) + [[$EXP[DialogRatings_Cutoff5_Expression] + Integer.IsGreater(Container(22001).CurrentItem,4)] | [$EXP[DialogRatings_Cutoff7_Expression] + Integer.IsGreater(Container(22001).CurrentItem,6)] | [$EXP[DialogRatings_Cutoff8_Expression] + Integer.IsGreater(Container(22001).CurrentItem,7)]]]</expression>
+    <expression name="DialogRatings_IsDisabled_Expression">[String.IsEqual(Container(22001).ListItem.Property(disabled),True) | $EXP[DialogRatings_IsPromotable_Expression]]</expression>
+
+    <variable name="DialogRatings_DisableEnable_Icon">
+        <value condition="!$EXP[DialogRatings_IsDisabled_Expression]">special://skin/extras/icons/circle-check.png</value>
+        <value>special://skin/extras/icons/circle-cancel.png</value>
+    </variable>
+
     <include name="DialogRatings_Layout">
         <definition>
             <include condition="$PARAM[selected]">Dialog_List_Highlight</include>
             <control type="group">
                 <left>40</left>
                 <right>40</right>
-                <animation effect="fadediffuse" start="ffffffff" end="FFBF0000" condition="String.IsEqual(ListItem.Property(disabled),True)">Conditional</animation>
+                <animation effect="fadediffuse" start="ffffffff" end="FFBF0000" condition="$EXP[DialogRatings_Item_IsDisabled_Expression]">Conditional</animation>
+                <animation effect="fadediffuse" start="ffffffff" end="FF7FC4FF" condition="!$EXP[DialogRatings_IsStrict_Expression] + !String.IsEqual(ListItem.Property(disabled),True) + $EXP[DialogRatings_Item_IsUnlisted_Expression]">Conditional</animation>
                 <control type="group">
                     <width>$PARAM[item_h]</width>
                     <control type="group">
@@ -2372,13 +2396,13 @@
                         <control type="image">
                             <aspectratio>keep</aspectratio>
                             <texture background="true">$INFO[ListItem.Icon]</texture>
-                            <visible>!String.IsEqual(ListItem.Property(disabled),True)</visible>
+                            <visible>![$EXP[DialogRatings_Item_IsDisabled_Expression] | !$EXP[DialogRatings_IsStrict_Expression] + !String.IsEqual(ListItem.Property(disabled),True) + $EXP[DialogRatings_Item_IsUnlisted_Expression]]</visible>
                             <include condition="$PARAM[selected]">Color_SelectedImage</include>
                         </control>
                         <control type="image">
                             <aspectratio>keep</aspectratio>
                             <texture background="true">$INFO[ListItem.Icon]</texture>
-                            <visible>String.IsEqual(ListItem.Property(disabled),True)</visible>
+                            <visible>$EXP[DialogRatings_Item_IsDisabled_Expression] | !$EXP[DialogRatings_IsStrict_Expression] + !String.IsEqual(ListItem.Property(disabled),True) + $EXP[DialogRatings_Item_IsUnlisted_Expression]</visible>
                         </control>
                     </control>
                 </control>
@@ -2398,7 +2422,7 @@
             <centertop>50%</centertop>
             <include content="Shortcuts_ShortcutList_FakeButton">
                 <param name="id">22901</param>
-                <visible>String.IsEmpty(ListItem.Property(static))</visible>
+                <visible>String.IsEmpty(ListItem.Property(static)) + !$EXP[DialogRatings_Item_IsDisabled_Expression]</visible>
                 <param name="icon">special://skin/extras/icons/circle-arrow-up.png</param>
                 <width>72</width>
                 <height>72</height>
@@ -2406,7 +2430,7 @@
             </include>
             <include content="Shortcuts_ShortcutList_FakeButton">
                 <param name="id">22902</param>
-                <visible>String.IsEmpty(ListItem.Property(static))</visible>
+                <visible>String.IsEmpty(ListItem.Property(static)) + !$EXP[DialogRatings_Item_IsDisabled_Expression]</visible>
                 <param name="icon">special://skin/extras/icons/circle-arrow-down.png</param>
                 <width>72</width>
                 <height>72</height>
@@ -2414,7 +2438,7 @@
             </include>
             <include content="Shortcuts_ShortcutList_FakeButton">
                 <param name="id">22905</param>
-                <param name="icon">$VAR[Shortcuts_Dialog_Items_DisableEnable_Icon]</param>
+                <param name="icon">$VAR[DialogRatings_DisableEnable_Icon]</param>
                 <width>72</width>
                 <height>72</height>
                 <right>0</right>
@@ -2437,10 +2461,10 @@
             <control type="grouplist" id="22900">
                 <orientation>horizontal</orientation>
                 <itemgap>-20</itemgap>
-                <onup condition="!String.IsEmpty(Container(22001).ListItemNoWrap(-1).Property(static))">SetFocus(22905)</onup>
-                <ondown condition="!String.IsEmpty(Container(22001).ListItemNoWrap(1).Property(static))">SetFocus(22905)</ondown>
                 <onup>Control.Move(22001,-1)</onup>
                 <ondown>Control.Move(22001,1)</ondown>
+                <onup condition="!String.IsEmpty(Container(22001).ListItemNoWrap(-1).Property(static))">SetFocus(22905)</onup>
+                <ondown condition="[String.IsEqual(Container(22001).ListItemNoWrap(1).Property(disabled),True) | $EXP[DialogRatings_NextIsUnlisted_Expression]]">SetFocus(22905)</ondown>
                 <onright>61</onright>
                 <height>72</height>
                 <centertop>40</centertop>
@@ -2453,7 +2477,7 @@
                     <onback>noop</onback>
                     <width>72</width>
                     <height>72</height>
-                    <visible>String.IsEmpty(Container(22001).ListItem.Property(static))</visible>
+                    <visible>String.IsEmpty(Container(22001).ListItem.Property(static)) + !$EXP[DialogRatings_IsDisabled_Expression]</visible>
                 </control>
                 <control type="button" id="22902">
                     <texturenofocus />
@@ -2462,13 +2486,16 @@
                     <onback>noop</onback>
                     <width>72</width>
                     <height>72</height>
-                    <visible>String.IsEmpty(Container(22001).ListItem.Property(static))</visible>
+                    <visible>String.IsEmpty(Container(22001).ListItem.Property(static)) + !$EXP[DialogRatings_IsDisabled_Expression]</visible>
                 </control>
                 <control type="button" id="22905">
                     <texturenofocus />
                     <texturefocus />
-                    <onclick condition="String.IsEmpty(Container(22001).ListItem.Property(static))">RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_toggle])</onclick>
+                    <onclick condition="![!String.IsEmpty(Container(22001).ListItem.Property(static)) | $EXP[DialogRatings_IsPromotable_Expression]]">RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_toggle])</onclick>
                     <onclick condition="String.IsEqual(Container(22001).ListItem.Property(static),setting)">Skin.ToggleSetting($INFO[Container(22001).ListItem.Property(setting)])</onclick>
+                    <onclick condition="$EXP[DialogRatings_IsPromotable_Expression] + !String.IsEqual(Container(22001).ListItem.Property(disabled),True)">RunPlugin($INFO[Container(22001).ListItem.Property(url),,&amp;func=do_move&amp;&amp;move::0&amp;&amp;window_prop::url]&amp;&amp;offset::0)</onclick>
+                    <onclick condition="$EXP[DialogRatings_IsPromotable_Expression] + String.IsEqual(Container(22001).ListItem.Property(disabled),True)">RunScript(script.skinvariables,run_executebuiltin=RunPlugin($INFO[Container(22001).ListItem.Property(url)]&amp;func=do_toggle)||sleep=0.5||RunPlugin($INFO[Container(22001).ListItem.Property(url)]&amp;func=do_move&amp;&amp;move::0&amp;&amp;window_prop::url&amp;&amp;offset::0))</onclick>
+
                     <!-- Status -->
                     <onclick condition="String.IsEqual(Container(22001).ListItem.Property(static),status) + Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus)">Skin.Reset(CustomRating.TVShows.DisablePremiereStatus)</onclick>
                     <onclick condition="String.IsEqual(Container(22001).ListItem.Property(static),status) + !Skin.HasSetting(CustomRating.TVShows.DisablePremiereStatus) + !Skin.HasSetting(CustomRating.EnablePremiereStatusDates)">Skin.SetBool(CustomRating.EnablePremiereStatusDates)</onclick>
