@@ -3,15 +3,21 @@
 
     <defaultcontrol always="true">7000</defaultcontrol>
     <onload>SetProperty(TMDbHelper.ServicePause,True)</onload>
-    <onunload>ClearProperty(type)</onunload>
+    <onunload>ClearProperty(type,1129)</onunload>
+    <onunload>ClearProperty(crew_poster,1129)</onunload>
     <controls>
 
-        <include content="Dialog_ViewInfo">
+        <include content="Dialog_PictureInfo">
+            <param name="dialog_size">Dimension_DialogFlipMenu</param>
+            <param name="dialog_right">560</param>
+            <param name="include_items">Items_Dialog_PictureInfo_Crew</param>
+            <param name="icon">$INFO[Container(7000).ListItem.Icon]</param>
+            <param name="fallback">$INFO[Window.Property(crew_poster)]</param>
             <param name="header">$VAR[Label_Header_DialogViewCrew]</param>
-            <param name="include_listitems">Items_DialogViewCrew</param>
-            <param name="include_definition">DialogViewCrew_Definition</param>
-            <param name="itemlayout_include">Layout_MediaList</param>
-            <param name="scrollbar">true</param>
+            <param name="include_itemline">true</param>
+            <param name="itemline">$INFO[Container(7000).NumItems,, $LOCALIZE[31022]]$INFO[Container(7000).CurrentPage,  •  $LOCALIZE[31135] ,]$INFO[Container(7000).NumPages, $LOCALIZE[20163] ,]</param>
+            <param name="itemline_haspath">false</param>
+            <param name="include_codecs">false</param>
         </include>
 
     </controls>

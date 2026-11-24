@@ -1927,6 +1927,45 @@
         </include>
     </include>
 
+    <include name="Items_Dialog_PictureInfo_Crew">
+        <param name="include_listitems">Items_DialogViewCrew</param>
+        <param name="include_definition">DialogViewCrew_Definition</param>
+        <param name="itemlayout_include">Layout_MediaList</param>
+        <param name="scrollbar">true</param>
+        <definition>
+            <control type="group">
+                <include>Size_Group_Body</include>
+                <control type="group">
+                    <include>Size_Grouplist_Pad</include>
+                    <include content="List_DialogSelect">
+                        <param name="id">7000</param>
+                        <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
+                        <param name="variation">true</param>
+                        <param name="textcolor">dialog_fg</param>
+                        <param name="include_detailed_labels">true</param>
+                        <include content="Object_PageControl" condition="$PARAM[scrollbar]">
+                            <param name="pagecontrol">61</param>
+                        </include>
+                        <include>$PARAM[include_definition]</include>
+                        <orientation>vertical</orientation>
+                        <onleft>$PARAM[onback]</onleft>
+                        <onright condition="![$PARAM[scrollbar]]">$PARAM[onback]</onright>
+                        <onright condition="$PARAM[scrollbar]">61</onright>
+                        <onback>$PARAM[onback]</onback>
+                        <content>
+                            <include>$PARAM[include_listitems]</include>
+                        </content>
+                    </include>
+                </control>
+            </control>
+            <include content="Dialog_Scrollbar" condition="$PARAM[scrollbar]">
+                <param name="id">61</param>
+                <onleft>7000</onleft>
+                <onright>$PARAM[onback]</onright>
+            </include>
+        </definition>
+    </include>
+
     <include name="Items_Dialog_PictureInfo_Layout">
         <param name="include_scrollbar_left">true</param>
         <param name="include_scrollbar_right">true</param>
