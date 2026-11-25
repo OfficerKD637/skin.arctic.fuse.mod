@@ -295,15 +295,18 @@
     </include>
 
     <include name="Info_Line_Divider">
-        <include content="Object_Control" condition="!Skin.HasSetting(Info.EnablePillboxStyle)">
-            <param name="control">image</param>
-            <include>Texture_Circle_Highlight_V</include>
-            <aspectratio aligny="center">keep</aspectratio>
-            <width>6</width>
-            <height>6</height>
-            <centertop>52%</centertop>
-            <nested />
-        </include>
+        <param name="divider_centertop">52%</param>
+        <param name="visible">true</param>
+        <definition>
+            <control type="image">
+                <include>Texture_Circle_Highlight_V</include>
+                <aspectratio>keep</aspectratio>
+                <width>8</width>
+                <height>8</height>
+                <centertop>$PARAM[divider_centertop]</centertop>
+                <visible>$PARAM[visible]</visible>
+            </control>
+        </definition>
     </include>
 
     <include name="Info_Line_Pillbox">
@@ -351,7 +354,7 @@
         <param name="font">font_infotag_bold</param>
         <param name="shadowcolor">00000000</param>
         <definition>
-            <include content="Info_Line_Divider">
+            <include content="Info_Line_Divider" condition="!Skin.HasSetting(Info.EnablePillboxStyle)">
                 <visible>$PARAM[visible]</visible>
                 <nested />
             </include>
@@ -384,7 +387,7 @@
         <param name="items_05">false</param>
         <param name="items_06">false</param>
         <definition>
-            <include content="Info_Line_Divider" condition="$PARAM[items_01] | $PARAM[items_02] | $PARAM[items_03] | $PARAM[items_04] | $PARAM[items_05] | $PARAM[items_06]">
+            <include content="Info_Line_Divider" condition="!Skin.HasSetting(Info.EnablePillboxStyle) + [$PARAM[items_01] | $PARAM[items_02] | $PARAM[items_03] | $PARAM[items_04] | $PARAM[items_05] | $PARAM[items_06]]">
                 <nested />
                 <visible>$PARAM[visible_01] | $PARAM[visible_02] | $PARAM[visible_03] | $PARAM[visible_04] | $PARAM[visible_05] | $PARAM[visible_06]</visible>
             </include>
@@ -1185,19 +1188,19 @@
                 <height>$PARAM[size]</height>
                 <width>$PARAM[size]</width>
                 <control type="image">
-                    <colordiffuse>$PARAM[textcolor]</colordiffuse>
+                    <colordiffuse>$PARAM[colordiffuse]</colordiffuse>
                     <aspectratio>keep</aspectratio>
                     <texture>flags/star10.png</texture>
                     <animation effect="fade" end="33" condition="true">Conditional</animation>
                 </control>
                 <control type="image">
-                    <colordiffuse>$PARAM[textcolor]</colordiffuse>
+                    <colordiffuse>$PARAM[colordiffuse]</colordiffuse>
                     <aspectratio>keep</aspectratio>
                     <texture>flags/star5.png</texture>
                     <visible>Integer.IsGreater($PARAM[rating],$PARAM[half]) + !Integer.IsGreater($PARAM[rating],$PARAM[full])</visible>
                 </control>
                 <control type="image">
-                    <colordiffuse>$PARAM[textcolor]</colordiffuse>
+                    <colordiffuse>$PARAM[colordiffuse]</colordiffuse>
                     <aspectratio>keep</aspectratio>
                     <texture>flags/star10.png</texture>
                     <visible>Integer.IsGreater($PARAM[rating],$PARAM[full])</visible>
@@ -1211,35 +1214,35 @@
             <nested />
             <orientation>horizontal</orientation>
             <include content="Info_Line_StarRating_Star">
-                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="rating">$PARAM[rating]</param>
                 <param name="size">$PARAM[size]</param>
                 <param name="half">0</param>
                 <param name="full">1</param>
             </include>
             <include content="Info_Line_StarRating_Star">
-                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="rating">$PARAM[rating]</param>
                 <param name="size">$PARAM[size]</param>
                 <param name="half">2</param>
                 <param name="full">3</param>
             </include>
             <include content="Info_Line_StarRating_Star">
-                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="rating">$PARAM[rating]</param>
                 <param name="size">$PARAM[size]</param>
                 <param name="half">4</param>
                 <param name="full">5</param>
             </include>
             <include content="Info_Line_StarRating_Star">
-                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="rating">$PARAM[rating]</param>
                 <param name="size">$PARAM[size]</param>
                 <param name="half">6</param>
                 <param name="full">7</param>
             </include>
             <include content="Info_Line_StarRating_Star">
-                <param name="textcolor">$PARAM[textcolor]</param>
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="rating">$PARAM[rating]</param>
                 <param name="size">$PARAM[size]</param>
                 <param name="half">8</param>
@@ -1250,17 +1253,13 @@
 
     <include name="Info_Line_StarRating">
         <param name="divider_centertop">52%</param>
+        <param name="tags">Skin.HasSetting(Info.EnablePillboxStyle)</param>
         <definition>
-            <control type="image">
-                <include>Texture_Circle_Highlight_V</include>
-                <aspectratio aligny="center">keep</aspectratio>
-                <width>6</width>
-                <height>6</height>
-                <centertop>$PARAM[divider_centertop]</centertop>
-                <visible>$PARAM[visible]</visible>
-            </control>
-            <include content="Info_StarRating">
-                <param name="textcolor">$PARAM[textcolor]</param>
+            <include content="Info_Line_Divider" condition="!$PARAM[tags]">
+                <param name="visible">$PARAM[visible]</param>
+            </include>
+            <include content="Info_StarRating" condition="!$PARAM[tags]">
+                <param name="colordiffuse">$PARAM[colordiffuse]_90</param>
                 <param name="rating">$PARAM[rating]</param>
                 <left>-10</left>
                 <height>44</height>
@@ -1269,15 +1268,21 @@
                 <itemgap>-16</itemgap>
                 <visible>$PARAM[visible]</visible>
             </include>
-            <control type="image">
-                <include>Texture_Circle_Highlight_V</include>
-                <aspectratio aligny="center">keep</aspectratio>
-                <width>6</width>
-                <height>6</height>
-                <centertop>$PARAM[divider_centertop]</centertop>
+            <include content="Info_Line_Pill_Box" condition="$PARAM[tags]">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <width>140</width>
                 <visible>$PARAM[visible]</visible>
-                <visible>Skin.HasSetting(Info.EnablePillboxStyle)</visible>
-            </control>
+                <include content="Info_StarRating">
+                    <param name="colordiffuse">ff1a1a1a</param>
+                    <param name="rating">$PARAM[rating]</param>
+                    <param name="size">40</param>
+                    <height>40</height>
+                    <width>136</width>
+                    <centerleft>50%</centerleft>
+                    <centertop>50%</centertop>
+                    <itemgap>-16</itemgap>
+                </include>
+            </include>
         </definition>
     </include>
 
@@ -1304,17 +1309,26 @@
         </definition>
     </include>
 
+    <include name="Info_Line_Pill_Box">
+        <definition>
+            <control type="group">
+                <include>Dimension_Info_Line_Pillbox</include>
+                <control type="image">
+                    <texture colordiffuse="$PARAM[colordiffuse]_90" border="4">flags/blank.png</texture>
+                </control>
+                <nested />
+            </control>
+        </definition>
+    </include>
+
     <include name="Info_Line_VideoQuality_Icon">
         <param name="width">60</param>
         <param name="icon">flags/sets-inverted.png</param>
         <definition>
-            <control type="group">
+            <include content="Info_Line_Pill_Box">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <visible>$PARAM[visible]</visible>
-                <include>Dimension_Info_Line_Pillbox</include>
                 <width>$PARAM[width]</width>
-                <control type="image">
-                    <texture colordiffuse="$PARAM[colordiffuse]" border="4">flags/blank.png</texture>
-                </control>
                 <control type="group">
                     <width>37</width>
                     <height>24</height>
@@ -1331,7 +1345,7 @@
                         <texture colordiffuse="ff1a1a1a">$PARAM[icon]</texture>
                     </control>
                 </control>
-            </control>
+            </include>
         </definition>
     </include>
 
@@ -1802,6 +1816,7 @@
         <param name="is_season">false</param>
         <param name="is_tv">false</param>
         <param name="is_pvr">false</param>
+        <param name="is_3D">false</param>
         <param name="visible">true</param>
         <definition>
             <include content="Info_Line_VideoQuality_Resolution" condition="!Skin.HasSetting(Infoline.DisableSource) | !Skin.HasSetting(Info.EnablePillboxStyle)">
@@ -1827,6 +1842,11 @@
                 <param name="is_hdr10plus">[String.IsEqual($PARAM[listitem_hdrtype],hdr10plus)]</param>
                 <param name="is_hdr">[String.IsEqual($PARAM[listitem_hdrtype],hdr10)]</param>
                 <param name="is_hlg">[String.IsEqual($PARAM[listitem_hdrtype],hlg)]</param>
+            </include>
+            <include content="Info_Line_VideoQuality_Object" condition="">
+                <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                <param name="label">3D</param>
+                <param name="visible">$PARAM[is_3D]</param>
             </include>
             <include content="Info_Line_AudioChannels" condition="!Skin.HasSetting(Infoline.DisableAudioChannels)">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
@@ -2271,6 +2291,7 @@
                     <param name="is_season">[String.IsEqual($PARAM[container]ListItem.DBType,season) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
                     <param name="is_tv">[String.IsEqual($PARAM[container]ListItem.DBType,tvshow) + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)]</param>
                     <param name="is_pvr">[!String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel) | !String.IsEmpty($PARAM[container]ListItem.ChannelName)] + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)</param>
+                    <param name="is_3D">[$PARAM[container]ListItem.IsStereoscopic + !String.IsEqual($PARAM[container]ListItem.StereoscopicMode,mono)] + !String.IsEqual($PARAM[container]ListItem.Property(tmdb_type),person)</param>
                     <param name="listitem_videoresolution">$PARAM[container]ListItem.VideoResolution</param>
                     <param name="listitem_dbtype">$PARAM[container]ListItem.DBType</param>
                     <param name="listitem_hdrtype">$PARAM[container]ListItem.HdrType</param>
@@ -2281,19 +2302,19 @@
 
                 <!-- Star Rating -->
                 <include content="Info_Line_StarRating" condition="$PARAM[starrating]">
-                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]_90</param>
                     <param name="rating">$PARAM[container]ListItem.Rating</param>
                     <param name="visible">!String.IsEmpty($PARAM[container]ListItem.Rating) + String.IsEmpty($PARAM[container]ListItem.UserRating)</param>
                 </include>
 
                 <include content="Info_Line_StarRating" condition="$PARAM[starrating]">
-                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]_90</param>
                     <param name="rating">$PARAM[container]ListItem.UserRating</param>
                     <param name="visible">!String.IsEmpty($PARAM[container]ListItem.UserRating)</param>
                 </include>
 
                 <include content="Info_Line_StarRating" condition="[!String.IsEmpty(Skin.String(TMDbHelper.EnablePVR)) + $EXP[Exp_TMDbHelper_IsData]] + $PARAM[starrating]">
-                    <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                    <param name="colordiffuse">$PARAM[colordiffuse]_90</param>
                     <param name="rating">Window(Home).Property(TMDbHelper.ListItem.Rating)</param>
                     <param name="visible">String.IsEmpty($PARAM[container]ListItem.Rating) + String.IsEmpty($PARAM[container]ListItem.UserRating) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Rating)) + !String.IsEmpty($PARAM[container]ListItem.ChannelName) + [String.IsEmpty($PARAM[container]ListItem.DBType) + String.IsEmpty($PARAM[container]ListItem.ChannelNumberLabel)]</param>
                 </include>
