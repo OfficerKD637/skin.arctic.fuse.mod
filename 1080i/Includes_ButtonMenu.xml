@@ -10,14 +10,14 @@
         <ondown condition="[Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml)]">9001</ondown>
         <ondown condition="!Window.IsVisible(1170) + ![Window.IsVisible(MyPVRGuide.xml) | Window.IsVisible(MyPVRChannels.xml)]">9019</ondown>
         <onback condition="!Window.IsVisible(1170)">68</onback>
-        <oninfo>Close</oninfo>
+        <oninfo>Action(Back)</oninfo>
     </include>
     
     <include name="ButtonMenu_ContextControls">
         <item>
             <label>$LOCALIZE[207]</label>
             <icon>special://skin/extras/icons/quote.png</icon>
-            <onclick>Close</onclick>
+            <onclick>Action(Back)</onclick>
             <onclick>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openplot.json,use_rules=True)</onclick>
             <visible>[!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_plot))]</visible>
             <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
@@ -85,9 +85,9 @@
         <item>
             <label>$LOCALIZE[559]</label>
             <icon>special://skin/extras/icons/playlist.png</icon>
-            <onclick>Close</onclick>
-            <onclick condition="Integer.IsGreater(Playlist.Length(video),0) + [Player.HasVideo | Integer.IsEqual(Playlist.Length(music),0)]">ActivateWindow(videoplaylist)</onclick>
-            <onclick condition="Integer.IsGreater(Playlist.Length(music),0) + !Player.HasVideo">ActivateWindow(musicplaylist)</onclick>
+            <onclick>Action(Back)</onclick>
+            <onclick condition="$EXP[Exp_ButtonMenu_QueuedVideo] | [Player.HasMedia + Integer.IsGreater(Playlist.Length(video),0) + [Player.HasVideo | Integer.IsEqual(Playlist.Length(music),0)]]">ActivateWindow(videoplaylist)</onclick>
+            <onclick condition="$EXP[Exp_ButtonMenu_QueuedMusic] | [Player.HasMedia + Integer.IsGreater(Playlist.Length(music),0) + !Player.HasVideo]">ActivateWindow(musicplaylist)</onclick>
         </item>
 
         <item>
@@ -100,9 +100,9 @@
             <label>$VAR[Label_OSD_PausePlay]</label>
             <icon>$VAR[Image_OSD_PausePlay]</icon>
             <onclick condition="Player.HasMedia">PlayerControl(Play)</onclick>
-            <onclick condition="!Player.HasMedia">Close</onclick>
-            <onclick condition="!Player.HasMedia + Integer.IsGreater(Playlist.Length(music),0)">PlayMedia(playlistmusic://,isdir,playlist_type_hint=0)</onclick>
-            <onclick condition="!Player.HasMedia + !Integer.IsGreater(Playlist.Length(music),0)">PlayMedia(playlistvideo://,isdir,playlist_type_hint=1)</onclick>
+            <onclick condition="$EXP[Exp_ButtonMenu_QueuedMusic] | $EXP[Exp_ButtonMenu_QueuedVideo]">Action(Back)</onclick>
+            <onclick condition="$EXP[Exp_ButtonMenu_QueuedMusic]">Playlist.PlayOffset(music,0)</onclick>
+            <onclick condition="$EXP[Exp_ButtonMenu_QueuedVideo]">Playlist.PlayOffset(video,0)</onclick>
         </item>
 
         <item>
@@ -121,7 +121,7 @@
     
     <include name="ButtonMenu_SideTray">
         <param name="include">ButtonMenu_MediaControls</param>
-        <param name="onleft">Close</param>
+        <param name="onleft">Action(Back)</param>
         <param name="onright">7000</param>
         <param name="onback" />
         <definition>
