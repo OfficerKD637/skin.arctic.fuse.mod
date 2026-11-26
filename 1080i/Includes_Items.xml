@@ -50,6 +50,7 @@
     <include name="Items_Settings_CustomDialogSelect">
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSelectItems),Items_Dialog_VideoInfo_Buttons)">Items_Dialog_VideoInfo_Buttons</include>
         <include condition="String.IsEqual(Window(Home).Property(CustomDialogSelectItems),Items_Dialog_FlixArtSize)">Items_Dialog_FlixArtSize</include>
+        <include condition="String.IsEqual(Window(Home).Property(CustomDialogSelectItems),Items_Dialog_FlixArtVisibility)">Items_Dialog_FlixArtVisibility</include>
     </include>
 
     <include name="Items_Dialog_FlixArtSize">
@@ -118,6 +119,54 @@
             <onclick>Dialog.Close(1119,true)</onclick>
             <include content="Action_Reload_1118">
                 <param name="id">8008</param>
+            </include>
+        </include>
+    </include>
+
+    <include name="Items_Dialog_FlixArtVisibility">
+        <include content="Button_Dialog_Setting">
+            <param name="dialog">true</param>
+            <param name="id">8001</param>
+            <param name="groupid">8101</param>
+            <param name="control">radiobutton</param>
+            <param name="istext">true</param>
+            <selected>$EXP[Exp_FlixArt_IsAlways]</selected>
+            <param name="label">$LOCALIZE[20422]</param>
+            <param name="has_label2">false</param>
+            <onclick>Skin.SetString(Skin.FlixArt.Visibility,Always)</onclick>
+            <onclick>Dialog.Close(1119,true)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="id">8009</param>
+            </include>
+        </include>
+        <include content="Button_Dialog_Setting">
+            <param name="dialog">true</param>
+            <param name="id">8002</param>
+            <param name="groupid">8102</param>
+            <param name="control">radiobutton</param>
+            <param name="istext">true</param>
+            <selected>String.IsEmpty(Skin.String(Skin.FlixArt.Visibility))</selected>
+            <param name="label">$LOCALIZE[571]</param>
+            <param name="has_label2">false</param>
+            <onclick>Skin.Reset(Skin.FlixArt.Visibility)</onclick>
+            <onclick>Dialog.Close(1119,true)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="id">8009</param>
+            </include>
+        </include>
+        <include content="Button_Dialog_Setting">
+            <param name="dialog">true</param>
+            <param name="id">8003</param>
+            <param name="groupid">8103</param>
+            <param name="control">radiobutton</param>
+            <param name="istext">true</param>
+            <selected>$EXP[Exp_FlixArt_IsOff]</selected>
+            <param name="label">$LOCALIZE[351]</param>
+            <param name="has_label2">false</param>
+            <onclick>Skin.SetString(Skin.FlixArt.Visibility,Off)</onclick>
+            <onclick>Dialog.Close(1119,true)</onclick>
+            <include content="Action_Reload_1118">
+                <param name="id">8009</param>
             </include>
         </include>
     </include>
@@ -3785,9 +3834,19 @@
             <onclick>ActivateWindow(1119)</onclick>
         </include>
 
-        <include content="Settings_Button" condition="$EXP[Exp_TMDbHelper_IsBlur]">
+        <include content="Settings_Button">
             <param name="dialog">true</param>
             <param name="id">8009</param>
+            <label>$LOCALIZE[31795]</label>
+            <label2>$VAR[Label_Setting_FlixArt_Visibility]</label2>
+            <onclick>SetProperty(CustomDialogSelectItems,Items_Dialog_FlixArtVisibility,Home)</onclick>
+            <onclick>SetProperty(CustomDialogSelectTitle,$LOCALIZE[31795],Home)</onclick>
+            <onclick>ActivateWindow(1119)</onclick>
+        </include>
+
+        <include content="Settings_Button" condition="$EXP[Exp_TMDbHelper_IsBlur]">
+            <param name="dialog">true</param>
+            <param name="id">8010</param>
             <param name="control">radiobutton</param>
             <label>$LOCALIZE[31297]</label>
             <selected>Skin.HasSetting(Background.ExtraFanart)</selected>
