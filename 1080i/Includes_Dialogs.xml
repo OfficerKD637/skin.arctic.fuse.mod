@@ -848,9 +848,13 @@
     </include>
 
     <include name="Dialog_Wizard_WrapList">
-        <param name="items_include">Items_Wizard</param>
+        <param name="include_content">Items_Wizard</param>
         <param name="id">50</param>
         <param name="onback">8001</param>
+        <param name="current">!String.IsEmpty(Container(3).ListItem.Property(selected))</param>
+        <param name="itemlayout_include">Layout_ViewType_Wireframe</param>
+        <param name="itemlayout_preview">Wireframe_Wizard_Preview</param>
+        <param name="focus_in_list">true</param>
         <param name="checklist">false</param>
         <definition>
             <control type="group">
@@ -862,43 +866,43 @@
                     <control type="wraplist" id="$PARAM[id]">
                         <ondown>9000</ondown>
                         <onback>$PARAM[onback]</onback>
-                        <animation effect="fade" start="100" end="50" condition="true">Conditional</animation>
+                        <animation effect="fade" start="100" end="50" condition="![$PARAM[focus_in_list]]">Conditional</animation>
+                        <animation effect="fade" start="100" end="0" condition="![$PARAM[focus_in_list]] + !Integer.IsGreater(Container($PARAM[id]).NumItems,1)">Conditional</animation>
+                        <!-- Kodi says which way the filters moved to another category -->
+                        <animation type="Conditional" condition="String.IsEqual(Window.Property(categorymove),next)" reversible="false">
+                            <effect type="slide" start="240,0" end="0,0" time="200" tween="cubic" easing="out" />
+                            <effect type="fade" start="0" end="100" time="200" />
+                        </animation>
+                        <animation type="Conditional" condition="String.IsEqual(Window.Property(categorymove),previous)" reversible="false">
+                            <effect type="slide" start="-240,0" end="0,0" time="200" tween="cubic" easing="out" />
+                            <effect type="fade" start="0" end="100" time="200" />
+                        </animation>
                         <orientation>horizontal</orientation>
                         <focusposition>1</focusposition>
                         <preloaditems>2</preloaditems>
-
                         <itemlayout width="1000" height="580">
-                            <include content="Layout_ViewType">
+                            <include content="$PARAM[itemlayout_include]">
                                 <param name="selected">false</param>
+                                <param name="preview">$PARAM[itemlayout_preview]</param>
                             </include>
                         </itemlayout>
 
                         <focusedlayout width="1000" height="580">
-                            <include content="Layout_ViewType">
-                                <param name="selected">false</param>
+                            <include content="$PARAM[itemlayout_include]">
+                                <param name="selected">$PARAM[focus_in_list]</param>
+                                <param name="current">$PARAM[current]</param>
+                                <param name="preview">$PARAM[itemlayout_preview]</param>
                             </include>
                         </focusedlayout>
 
-                        <include>$PARAM[items_include]</include>
+                        <include>$PARAM[include_content]</include>
                     </control>
 
-                    <control type="grouplist">
-                        <orientation>horizontal</orientation>
-                        <itemgap>0</itemgap>
-                        <control type="group">
-                            <width>1000</width>
-                        </control>
-                        <control type="group">
-                            <width>1000</width>
-                            <height>580</height>
-                            <include content="Layout_ViewType">
-                                <param name="selected">true</param>
-                                <param name="selectfocus">true</param>
-                                <param name="id">$PARAM[id]</param>
-                                <param name="current">!String.IsEmpty(Container($PARAM[id]).ListItem.Property(selected))</param>
-                            </include>
-                        </control>
-                    </control>
+                    <include content="DialogSelect_Viewtype_Focus" condition="![$PARAM[focus_in_list]]">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
+                        <param name="current">$PARAM[current]</param>
+                    </include>
                 </control>
 
                 <control type="group">
@@ -985,29 +989,29 @@
                         <content>
                             <item>
                                 <label>$LOCALIZE[10036] [LOWERCASE]$LOCALIZE[31158][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/layout/Combined.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Basic) | String.IsEqual(Container(50).ListItem.Property(mode),Standard) | String.IsEqual(Container(50).ListItem.Property(mode),Combined)</visible>
                                 <description>Advanced layout options / Categories</description>
                             </item>
                             <item>
                                 <label>$LOCALIZE[10038] [LOWERCASE]$LOCALIZE[31158][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Categories.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Complex)</visible>
                                 <description>Advanced layout options / Categories</description>
                             </item>
                             <item>
                                 <label>$LOCALIZE[31432] [LOWERCASE]$LOCALIZE[1034][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Categories.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Complex)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[19145] [LOWERCASE]$LOCALIZE[31103][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/layout/Combined.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Basic) | String.IsEqual(Container(50).ListItem.Property(mode),Standard) | String.IsEqual(Container(50).ListItem.Property(mode),Combined)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[147] [LOWERCASE]$LOCALIZE[21483][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/layout/Combined.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Combined)</visible>
                             </item>
                             <item>
                                 <label>$LOCALIZE[31105]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Categories.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Complex)</visible>
                             </item>
 
                         </content>
@@ -1031,22 +1035,22 @@
                         <content>
                             <item>
                                 <label>$LOCALIZE[106] [LOWERCASE]$LOCALIZE[31105][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/layout/Combined.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Basic) | String.IsEqual(Container(50).ListItem.Property(mode),Standard) | String.IsEqual(Container(50).ListItem.Property(mode),Combined)</visible>
                                 <description>Advanced layout options / Categories</description>
                             </item>
                             <item>
                                 <label>$LOCALIZE[106] [LOWERCASE]$LOCALIZE[31432] $LOCALIZE[1034][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Classic.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/layout/Combined.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Basic) | String.IsEqual(Container(50).ListItem.Property(mode),Standard) | String.IsEqual(Container(50).ListItem.Property(mode),Combined)</visible>
                                 <description>Advanced layout options / Categories</description>
                             </item>
                             <item>
                                 <label>$LOCALIZE[19022] [LOWERCASE]$LOCALIZE[31416][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Compound.jpg) | String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/layout/Combined.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Complex) | String.IsEqual(Container(50).ListItem.Property(mode),Combined)</visible>
                                 <description>Advanced layout options / Categories</description>
                             </item>
                             <item>
                                 <label>$LOCALIZE[106] [LOWERCASE]$LOCALIZE[19033] $LOCALIZE[31317][/LOWERCASE]</label>
-                                <visible>String.IsEqual(Container(50).ListItem.Icon,special://skin/extras/screenshots/widgets/Basic.jpg)</visible>
+                                <visible>String.IsEqual(Container(50).ListItem.Property(mode),Basic)</visible>
                             </item>
                         </content>
                     </include>
@@ -1090,7 +1094,7 @@
             <control type="group">
                 <include condition="$EXP[Exp_DialogTheme_IsLight]">Dialog_Box</include>
                 <include content="Dialog_Box" condition="!$EXP[Exp_DialogTheme_IsLight]">
-                    <param name="colordiffuse">panel_bg_12</param>
+                    <param name="colordiffuse">main_bg_12</param>
                 </include>
                 <nested />
                 <control type="image">

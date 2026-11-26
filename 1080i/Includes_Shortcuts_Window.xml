@@ -714,10 +714,6 @@
                 <onfocus condition="$EXP[Shortcuts_Window_Exp_BasicWidgets]">SetProperty(HelpText,$LOCALIZE[31095][CR][CR]$LOCALIZE[31096],1115)</onfocus>
                 <onfocus condition="!$EXP[Shortcuts_Window_Exp_BasicWidgets] + $EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31095][CR][CR]$LOCALIZE[31097],1115)</onfocus>
                 <onfocus condition="!$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpText,$LOCALIZE[31095][CR][CR]$LOCALIZE[31098],1115)</onfocus>
-                
-                <onfocus condition="$EXP[Shortcuts_Window_Exp_BasicWidgets]">SetProperty(HelpImage,special://skin/extras/screenshots/widgets/Basic.jpg,1115)</onfocus>
-                <onfocus condition="!$EXP[Shortcuts_Window_Exp_BasicWidgets] + $EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Standard.jpg,1115)</onfocus>
-                <onfocus condition="!$EXP[Shortcuts_Window_Exp_WidgetsOnly]">SetProperty(HelpImage,special://skin/extras/screenshots/widgets/Compound.jpg,1115)</onfocus>
 
             </include>
 
@@ -742,10 +738,6 @@
                 <onfocus condition="$EXP[Shortcuts_Window_Exp_WidgetCombined]">SetProperty(HelpText,$LOCALIZE[31459][CR][CR]$LOCALIZE[31462],1115)</onfocus>
                 <onfocus condition="$EXP[Shortcuts_Window_Exp_WidgetWall]">SetProperty(HelpText,$LOCALIZE[31459][CR][CR]$LOCALIZE[31548],1115)</onfocus>
                 <onfocus condition="![$EXP[Shortcuts_Window_Exp_WidgetCombined] | $EXP[Shortcuts_Window_Exp_WidgetWall]]">SetProperty(HelpText,$LOCALIZE[31459][CR][CR]$LOCALIZE[31463],1115)</onfocus>
-
-                <onfocus condition="$EXP[Shortcuts_Window_Exp_WidgetCombined]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Combined.jpg,1115)</onfocus>
-                <onfocus condition="$EXP[Shortcuts_Window_Exp_WidgetWall]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Wall.jpg,1115)</onfocus>
-                <onfocus condition="![$EXP[Shortcuts_Window_Exp_WidgetCombined] | $EXP[Shortcuts_Window_Exp_WidgetWall]]">SetProperty(HelpImage,special://skin/extras/screenshots/layout/Standard.jpg,1115)</onfocus>
             </include>
             
             <!-- Hub Label -->
@@ -1014,11 +1006,25 @@
                 </include>
                 <control type="group">
                     <visible>$EXP[Exp_HubsWindow_Item_HasLayout]</visible>
-                    <include>Shortcuts_HubsWindow_Preview_Layout</include>
+                    <include content="Wireframe_Hub_Screen">
+                        <param name="first">main_fg_90</param>
+                        <param name="gradient">false</param>
+                        <param name="include_topbar">Skin.String(Home.SideMenuCollapse,Topbar)</param>
+                        <param name="standard">!$EXP[Exp_HubsWindow_Preview_Combined] + !$EXP[Exp_HubsWindow_Preview_Wall]</param>
+                        <param name="combined">$EXP[Exp_HubsWindow_Preview_Combined]</param>
+                        <param name="wall">$EXP[Exp_HubsWindow_Preview_Wall]</param>
+                    </include>
                 </control>
                 <control type="group">
                     <visible>$EXP[Exp_HubsWindow_Item_HasNavigation]</visible>
-                    <include>Shortcuts_HubsWindow_Preview_Navigation</include>
+                    <include content="Wireframe_Hub_Screen">
+                        <param name="first">main_fg_90</param>
+                        <param name="gradient">false</param>
+                        <param name="include_topbar">Skin.String(Home.SideMenuCollapse,Topbar)</param>
+                        <param name="basic">$EXP[Exp_HubsWindow_Preview_Nav_Basic]</param>
+                        <param name="standard">$EXP[Exp_HubsWindow_Preview_Nav_Classic]</param>
+                        <param name="complex">$EXP[Exp_HubsWindow_Preview_Nav_Complex]</param>
+                    </include>
                 </control>
                 <control type="group">
                     <width>205</width>
@@ -1046,581 +1052,6 @@
             <label>$VAR[Label_Shortcut_HelpText]</label>
             <autoscroll delay="6000" time="3000" repeat="10000">True</autoscroll>
         </control>
-    </include>
-
-    <include name="Shortcuts_HubsWindow_Preview_Navigation">
-        <control type="group">
-            <control type="image">
-                <top>161</top>
-                <left>3.5</left>
-                <width>20</width>
-                <height>20</height>
-                <texture colordiffuse="main_fg_30">special://skin/extras/icons/angle-left.png</texture>
-                <visible>$EXP[Exp_HubsWindow_Preview_Nav_Complex]</visible>
-            </control>
-            <control type="group">
-                <left>25</left>
-                <right>24</right>
-                
-                <!-- Basic -->
-                <control type="group">
-                    <visible>$EXP[Exp_HubsWindow_Preview_Nav_Basic]</visible>
-                    <include content="Shortcuts_HubsWindow_Preview_Row">
-                        <param name="top">23</param>
-                        <param name="itemlayout_h">98</param>
-                        <param name="item_h">98</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Row">
-                        <param name="top">134</param>
-                        <param name="itemlayout_h">98</param>
-                        <param name="item_h">98</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
-                        <param name="top">245</param>
-                        <param name="itemlayout_h">98</param>
-                        <param name="item_h">98</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
-                        <param name="top">245</param>
-                        <param name="itemlayout_h">32</param>
-                        <param name="item_h">32</param>
-                        <param name="diffuse">dialog_overlay_v</param>
-                        <param name="border">0</param>
-                        <param name="flipy">true</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
-                        <param name="top">277</param>
-                        <param name="itemlayout_h">5</param>
-                        <param name="item_h">5</param>
-                        <param name="diffuse">white</param>
-                        <param name="border">0</param>
-                        <param name="flipy">true</param>
-                    </include>
-                </control>
-                
-                <!-- Info Panel (Classic and Complex)-->
-                <include content="Shortcuts_HubsWindow_Preview_InfoPanel">
-                    <param name="visible">$EXP[Exp_HubsWindow_Preview_Nav_Classic] | $EXP[Exp_HubsWindow_Preview_Nav_Complex]</param>
-                    <param name="spotlight_visible">$EXP[Exp_HubsWindow_Preview_Nav_Complex]</param>
-                </include>
-                
-                <!-- Classic -->
-                <include content="Shortcuts_HubsWindow_Preview_Standard">
-                    <param name="visible">$EXP[Exp_HubsWindow_Preview_Nav_Classic]</param>
-                </include>
-
-                <!-- Complex -->
-                <control type="group">
-                    <visible>$EXP[Exp_HubsWindow_Preview_Nav_Complex]</visible>
-                    <control type="group">
-                        <top>222</top>
-                        <height>11</height>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">13</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">6</param>
-                            <param name="colordiffuse">main_fg_30</param>
-                        </include>
-                    </control>
-                    <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
-                        <param name="top">245</param>
-                        <param name="itemlayout_h">98</param>
-                        <param name="item_h">98</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
-                        <param name="top">245</param>
-                        <param name="itemlayout_h">32</param>
-                        <param name="item_h">32</param>
-                        <param name="diffuse">dialog_overlay_v</param>
-                        <param name="border">0</param>
-                        <param name="flipy">true</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
-                        <param name="top">277</param>
-                        <param name="itemlayout_h">5</param>
-                        <param name="item_h">5</param>
-                        <param name="diffuse">white</param>
-                        <param name="border">0</param>
-                        <param name="flipy">true</param>
-                    </include>
-                </control>
-            </control>
-        </control>
-    </include>
-
-    <include name="Shortcuts_HubsWindow_Preview_Layout">
-        <control type="group">
-            <left>25</left>
-            <right>24</right>
-
-            <!-- Info Panel (Standard and Combined) -->
-            <include content="Shortcuts_HubsWindow_Preview_InfoPanel">
-                <param name="visible">!$EXP[Exp_HubsWindow_Preview_Wall]</param>
-            </include>
-
-            <!-- Standard -->
-            <include content="Shortcuts_HubsWindow_Preview_Standard">
-                <param name="visible">!$EXP[Exp_HubsWindow_Preview_Combined] + !$EXP[Exp_HubsWindow_Preview_Wall]</param>
-            </include>
-
-            <!-- Combined -->
-            <control type="group">
-                <visible>$EXP[Exp_HubsWindow_Preview_Combined]</visible>
-                <control type="grouplist">
-                    <top>161</top>
-                    <height>11</height>
-                    <orientation>horizontal</orientation>
-                    <itemgap>13</itemgap>
-                    <control type="group">
-                        <width>62</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">55</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">48</param>
-                            <param name="colordiffuse">main_fg_90</param>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <width>75</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">68</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">61</param>
-                            <param name="colordiffuse">main_fg_12</param>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <width>56</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">49</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">42</param>
-                            <param name="colordiffuse">main_fg_12</param>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <width>66</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">59</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">52</param>
-                            <param name="colordiffuse">main_fg_12</param>
-                        </include>
-                    </control>
-                </control>
-                <include content="Shortcuts_HubsWindow_Preview_Row">
-                    <param name="top">184</param>
-                    <param name="itemlayout_h">98</param>
-                    <param name="item_h">98</param>
-                </include>
-            </control>
-
-            <!-- Wall -->
-            <control type="group">
-                <visible>$EXP[Exp_HubsWindow_Preview_Wall]</visible>
-                <control type="group">
-                    <top>31</top>
-                    <height>25</height>
-                    <include>Shortcuts_HubsWindow_Preview_Bar</include>
-                </control>
-                <control type="grouplist">
-                    <top>78</top>
-                    <height>11</height>
-                    <orientation>horizontal</orientation>
-                    <itemgap>13</itemgap>
-                    <control type="group">
-                        <width>62</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">55</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">48</param>
-                            <param name="colordiffuse">main_fg_90</param>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <width>75</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">68</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">61</param>
-                            <param name="colordiffuse">main_fg_12</param>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <width>56</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">49</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">42</param>
-                            <param name="colordiffuse">main_fg_12</param>
-                        </include>
-                    </control>
-                    <control type="group">
-                        <width>66</width>
-                        <include content="Shortcuts_HubsWindow_Preview_Bar">
-                            <param name="edge_left">0</param>
-                            <param name="edge_width">7</param>
-                            <param name="edge_left_2">59</param>
-                            <param name="body_left">7</param>
-                            <param name="body_width">52</param>
-                            <param name="colordiffuse">main_fg_12</param>
-                        </include>
-                    </control>
-                </control>
-                <include content="Shortcuts_HubsWindow_Preview_Row">
-                    <param name="top">105</param>
-                    <param name="itemlayout_h">98</param>
-                    <param name="item_h">98</param>
-                </include>
-                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
-                    <param name="top">216</param>
-                    <param name="itemlayout_h">98</param>
-                    <param name="item_h">98</param>
-                </include>
-                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
-                    <param name="top">327</param>
-                    <param name="itemlayout_h">16</param>
-                    <param name="item_h">32</param>
-                    <param name="diffuse">dialog_overlay_v</param>
-                    <param name="border">0</param>
-                    <param name="flipy">true</param>
-                </include>
-                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
-                    <param name="top">216</param>
-                    <param name="itemlayout_h">32</param>
-                    <param name="item_h">32</param>
-                    <param name="diffuse">dialog_overlay_v</param>
-                    <param name="border">0</param>
-                    <param name="flipy">true</param>
-                </include>
-                <include content="Shortcuts_HubsWindow_Preview_Row" condition="Skin.String(Home.SideMenuCollapse,Topbar)">
-                    <param name="top">248</param>
-                    <param name="itemlayout_h">34</param>
-                    <param name="item_h">34</param>
-                    <param name="diffuse">white</param>
-                    <param name="border">0</param>
-                </include>
-            </control>
-        </control>
-    </include>
-
-
-    <!-- Info Panel -->
-    <include name="Shortcuts_HubsWindow_Preview_InfoPanel">
-        <param name="visible">true</param>
-        <param name="spotlight_visible">false</param>
-        <definition>
-            <control type="group">
-                <visible>$PARAM[visible]</visible>
-                <control type="group">
-                    <top>31</top>
-                    <height>25</height>
-                    <include>Shortcuts_HubsWindow_Preview_Bar</include>
-                </control>
-                <control type="image">
-                    <top>71</top>
-                    <width>227</width>
-                    <height>7</height>
-                    <texture border="8" colordiffuse="main_fg_50">common/underline.png</texture>
-                </control>
-                <control type="image">
-                    <top>87</top>
-                    <width>255</width>
-                    <height>6</height>
-                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
-                </control>
-                <control type="image">
-                    <top>100</top>
-                    <width>244</width>
-                    <height>6</height>
-                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
-                </control>
-                <control type="image">
-                    <top>111</top>
-                    <width>166</width>
-                    <height>6</height>
-                    <texture border="8" colordiffuse="main_fg_30">common/underline.png</texture>
-                </control>
-                <control type="group">
-                    <top>128</top>
-                    <height>9</height>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">0</param>
-                        <param name="edge_width">4.5</param>
-                        <param name="edge_left_2">26.5</param>
-                        <param name="body_left">4.5</param>
-                        <param name="body_width">22</param>
-                        <param name="colordiffuse">main_fg_12</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">40</param>
-                        <param name="edge_width">4.5</param>
-                        <param name="edge_left_2">66.5</param>
-                        <param name="body_left">44.5</param>
-                        <param name="body_width">22</param>
-                        <param name="colordiffuse">main_fg_12</param>
-                    </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">78</param>
-                        <param name="edge_width">4.5</param>
-                        <param name="edge_left_2">114.5</param>
-                        <param name="body_left">82.5</param>
-                        <param name="body_width">32</param>
-                        <param name="colordiffuse">main_fg_12</param>
-                    </include>
-                </control>
-                
-                <!-- Spotlight -->
-                <control type="group">
-                    <visible>$PARAM[spotlight_visible]</visible>
-                    <control type="grouplist">
-                        <top>161</top>
-                        <orientation>horizontal</orientation>
-                        <itemgap>10</itemgap>
-                        <control type="image">
-                            <width>70</width>
-                            <height>20</height>
-                            <texture colordiffuse="main_fg_50">common/menu.png</texture>
-                        </control>
-                        <control type="image">
-                            <width>20</width>
-                            <height>20</height>
-                            <texture colordiffuse="main_fg_30">diffuse/circle/circle_50.png</texture>
-                        </control>
-                        <control type="image">
-                            <width>20</width>
-                            <height>20</height>
-                            <texture colordiffuse="main_fg_30">diffuse/circle/circle_50.png</texture>
-                        </control>
-                        <control type="image">
-                            <left>-10</left>
-                            <width>20</width>
-                            <height>20</height>
-                            <texture colordiffuse="main_fg_30">special://skin/extras/icons/angle-right.png</texture>
-                        </control>
-                    </control>
-                    <control type="grouplist">
-                        <top>190</top>
-                        <orientation>horizontal</orientation>
-                        <itemgap>5</itemgap>
-                        <control type="group">
-                            <height>10</height>
-                            <width>34</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">27</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">20</param>
-                                <param name="colordiffuse">main_fg_30</param>
-                            </include>
-                        </control>
-                        <control type="group">
-                            <height>10</height>
-                            <width>40</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">33</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">26</param>
-                                <param name="colordiffuse">main_fg_12</param>
-                            </include>
-                        </control>
-                        <control type="group">
-                            <height>10</height>
-                            <width>24</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">17</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">10</param>
-                                <param name="colordiffuse">main_fg_12</param>
-                            </include>
-                        </control>
-                        <control type="group">
-                            <height>10</height>
-                            <width>56</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">51</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">44</param>
-                                <param name="colordiffuse">main_fg_12</param>
-                            </include>
-                        </control>
-                    </control>
-                    <control type="grouplist">
-                        <top>205</top>
-                        <orientation>horizontal</orientation>
-                        <itemgap>5</itemgap>
-                        <control type="group">
-                            <height>10</height>
-                            <width>20</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">13</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">6</param>
-                                <param name="colordiffuse">main_fg_30</param>
-                            </include>
-                        </control>
-                        <control type="group">
-                            <height>10</height>
-                            <width>20</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">13</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">6</param>
-                                <param name="colordiffuse">main_fg_12</param>
-                            </include>
-                        </control>
-                        <control type="group">
-                            <height>10</height>
-                            <width>20</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">13</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">6</param>
-                                <param name="colordiffuse">main_fg_12</param>
-                            </include>
-                        </control>
-                        <control type="group">
-                            <height>10</height>
-                            <width>20</width>
-                            <include content="Shortcuts_HubsWindow_Preview_Bar">
-                                <param name="edge_left">0</param>
-                                <param name="edge_width">7</param>
-                                <param name="edge_left_2">13</param>
-                                <param name="body_left">7</param>
-                                <param name="body_width">6</param>
-                                <param name="colordiffuse">main_fg_12</param>
-                            </include>
-                        </control>
-                    </control>
-                </control>
-            </control>
-        </definition>
-    </include>
-
-    <!-- Standard / Classic -->
-    <include name="Shortcuts_HubsWindow_Preview_Standard">
-        <param name="visible">true</param>
-        <definition>
-            <control type="group">
-                <visible>$PARAM[visible]</visible>
-                <control type="group">
-                    <top>161</top>
-                    <height>11</height>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">0</param>
-                        <param name="edge_width">7</param>
-                        <param name="edge_left_2">66</param>
-                        <param name="body_left">7</param>
-                        <param name="body_width">59</param>
-                        <param name="colordiffuse">main_fg_30</param>
-                    </include>
-                </control>
-                <include content="Shortcuts_HubsWindow_Preview_Row">
-                    <param name="top">184</param>
-                    <param name="itemlayout_h">98</param>
-                    <param name="item_h">98</param>
-                </include>
-                <control type="group">
-                    <top>293</top>
-                    <height>11</height>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
-                        <param name="edge_left">0</param>
-                        <param name="edge_width">7</param>
-                        <param name="edge_left_2">66</param>
-                        <param name="body_left">7</param>
-                        <param name="body_width">59</param>
-                        <param name="colordiffuse">main_fg_30</param>
-                    </include>
-                </control>
-                <include content="Shortcuts_HubsWindow_Preview_Row" condition="!Skin.String(Home.SideMenuCollapse,Topbar)">
-                    <param name="top">315</param>
-                    <param name="itemlayout_h">28</param>
-                    <param name="item_h">32</param>
-                    <param name="diffuse">dialog_overlay_v</param>
-                    <param name="border">0</param>
-                    <param name="flipy">true</param>
-                </include>
-            </control>
-        </definition>
-    </include>
-
-    <!-- Poster Row -->
-    <include name="Shortcuts_HubsWindow_Preview_Row">
-        <param name="diffuse">dialog</param>
-        <param name="border">20</param>
-        <param name="flipy">false</param>
-        <definition>
-            <control type="grouplist">
-                <top>$PARAM[top]</top>
-                <height>$PARAM[itemlayout_h]</height>
-                <orientation>horizontal</orientation>
-                <itemgap>13</itemgap>
-                <control type="image">
-                    <width>69</width>
-                    <height>$PARAM[item_h]</height>
-                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
-                </control>
-                <control type="image">
-                    <width>69</width>
-                    <height>$PARAM[item_h]</height>
-                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
-                </control>
-                <control type="image">
-                    <width>69</width>
-                    <height>$PARAM[item_h]</height>
-                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
-                </control>
-                <control type="image">
-                    <width>69</width>
-                    <height>$PARAM[item_h]</height>
-                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
-                </control>
-                <control type="image">
-                    <width>69</width>
-                    <height>$PARAM[item_h]</height>
-                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
-                </control>
-                <control type="image">
-                    <width>69</width>
-                    <height>$PARAM[item_h]</height>
-                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
-                </control>
-                <control type="image">
-                    <width>69</width>
-                    <height>$PARAM[item_h]</height>
-                    <texture border="$PARAM[border]" flipy="$PARAM[flipy]" colordiffuse="main_fg_30">common/$PARAM[diffuse].png</texture>
-                </control>
-            </control>
-        </definition>
     </include>
     
     <!-- Power -->
@@ -1650,13 +1081,12 @@
                     <top>57</top>
                     <height>41</height>
                     <visible>!Skin.String(OptionsTiles.Layout,$NUMBER[4])</visible>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">0</param>
-                        <param name="edge_width">20.5</param>
-                        <param name="edge_left_2">157.5</param>
-                        <param name="body_left">20.5</param>
-                        <param name="body_width">137</param>
-                        <param name="colordiffuse">main_fg_12</param>
+                    <include content="Wireframe_Hub_Block">
+                        <param name="fill">main_fg_12</param>
+                        <param name="left">0</param>
+                        <param name="top">0</param>
+                        <param name="width">178</param>
+                        <param name="height">100%</param>
                     </include>
                     <control type="image">
                         <left>10</left>
@@ -1670,21 +1100,19 @@
                     <top>57</top>
                     <height>41</height>
                     <visible>Skin.String(OptionsTiles.Layout,$NUMBER[4])</visible>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">0</param>
-                        <param name="edge_width">20.5</param>
-                        <param name="edge_left_2">66</param>
-                        <param name="body_left">20.5</param>
-                        <param name="body_width">45.5</param>
-                        <param name="colordiffuse">main_fg_12</param>
+                    <include content="Wireframe_Hub_Block">
+                        <param name="fill">main_fg_12</param>
+                        <param name="left">0</param>
+                        <param name="top">0</param>
+                        <param name="width">86.5</param>
+                        <param name="height">100%</param>
                     </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">91.5</param>
-                        <param name="edge_width">20.5</param>
-                        <param name="edge_left_2">157.5</param>
-                        <param name="body_left">112</param>
-                        <param name="body_width">45.5</param>
-                        <param name="colordiffuse">main_fg_12</param>
+                    <include content="Wireframe_Hub_Block">
+                        <param name="fill">main_fg_12</param>
+                        <param name="left">91.5</param>
+                        <param name="top">0</param>
+                        <param name="width">86.5</param>
+                        <param name="height">100%</param>
                     </include>
                     <control type="image">
                         <left>10</left>
@@ -1705,13 +1133,12 @@
                     <top>105</top>
                     <height>41</height>
                     <visible>Skin.String(OptionsTiles.Layout,$NUMBER[2])</visible>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">0</param>
-                        <param name="edge_width">20.5</param>
-                        <param name="edge_left_2">157.5</param>
-                        <param name="body_left">20.5</param>
-                        <param name="body_width">137</param>
-                        <param name="colordiffuse">main_fg_12</param>
+                    <include content="Wireframe_Hub_Block">
+                        <param name="fill">main_fg_12</param>
+                        <param name="left">0</param>
+                        <param name="top">0</param>
+                        <param name="width">100%</param>
+                        <param name="height">100%</param>
                     </include>
                     <control type="image">
                         <left>10</left>
@@ -1725,21 +1152,19 @@
                     <top>105</top>
                     <height>41</height>
                     <visible>!Skin.String(OptionsTiles.Layout,$NUMBER[2])</visible>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">0</param>
-                        <param name="edge_width">20.5</param>
-                        <param name="edge_left_2">66</param>
-                        <param name="body_left">20.5</param>
-                        <param name="body_width">45.5</param>
-                        <param name="colordiffuse">main_fg_12</param>
+                    <include content="Wireframe_Hub_Block">
+                        <param name="fill">main_fg_12</param>
+                        <param name="left">0</param>
+                        <param name="top">0</param>
+                        <param name="width">86.5</param>
+                        <param name="height">100%</param>
                     </include>
-                    <include content="Shortcuts_HubsWindow_Preview_Bar">
-                        <param name="edge_left">91.5</param>
-                        <param name="edge_width">20.5</param>
-                        <param name="edge_left_2">157.5</param>
-                        <param name="body_left">112</param>
-                        <param name="body_width">45.5</param>
-                        <param name="colordiffuse">main_fg_12</param>
+                    <include content="Wireframe_Hub_Block">
+                        <param name="fill">main_fg_12</param>
+                        <param name="left">91.5</param>
+                        <param name="top">0</param>
+                        <param name="width">86.5</param>
+                        <param name="height">100%</param>
                     </include>
                     <control type="image">
                         <left>10</left>
@@ -2082,32 +1507,6 @@
                 <texture colordiffuse="$VAR[Shortcuts_ColorSelected_SideMenu_SpecialIcon]">special://skin/extras/icons/$VAR[Shortcuts_Icon_SideMenu_Special]</texture>
             </control>
         </control>
-    </include>
-
-    <include name="Shortcuts_HubsWindow_Preview_Bar">
-        <param name="edge_left">0</param>
-        <param name="edge_left_2">163.5</param>
-        <param name="edge_width">12.5</param>
-        <param name="body_left">12.5</param>
-        <param name="body_width">151</param>
-        <param name="colordiffuse">main_fg_70</param>
-        <definition>
-            <control type="image">
-                <left>$PARAM[edge_left]</left>
-                <width>$PARAM[edge_width]</width>
-                <texture flipx="true" colordiffuse="$PARAM[colordiffuse]">common/dialog_overlay.png</texture>
-            </control>
-            <control type="image">
-                <left>$PARAM[body_left]</left>
-                <width>$PARAM[body_width]</width>
-                <texture colordiffuse="$PARAM[colordiffuse]">common/white.png</texture>
-            </control>
-            <control type="image">
-                <left>$PARAM[edge_left_2]</left>
-                <width>$PARAM[edge_width]</width>
-                <texture colordiffuse="$PARAM[colordiffuse]">common/dialog_overlay.png</texture>
-            </control>
-        </definition>
     </include>
 
     <variable name="Shortcuts_HubsWindow_Header_Icon">

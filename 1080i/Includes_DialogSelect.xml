@@ -46,7 +46,14 @@
                                         <visible>String.IsEqual(Control.GetLabel(1),$LOCALIZE[736])</visible>
                                         <control type="image">
                                             <aspectratio scalediffuse="false">scale</aspectratio>
-                                            <texture diffuse="diffuse/square_w600_h600.png">$VAR[DialogSelect_Widgets_Preview]</texture>
+                                            <texture diffuse="diffuse/square_w600_h600.png">$VAR[Image_SimpleBackground]</texture>
+                                        </control>
+                                        <control type="grouplist">
+                                            <orientation>horizontal</orientation>
+                                            <control type="group">
+                                                <width>680</width>
+                                                <include>Wireframe_Widget_Preview</include>
+                                            </control>
                                         </control>
                                     </include>
                                 </control>
@@ -161,9 +168,31 @@
         </include>
     </include>
 
+    <include name="DialogSelect_Viewtypes_Focus">
+        <control type="grouplist">
+            <orientation>horizontal</orientation>
+            <itemgap>0</itemgap>
+            <control type="group">
+                <width>1000</width>
+            </control>
+            <control type="group">
+                <width>1000</width>
+                <height>580</height>
+                <include content="$PARAM[itemlayout_include]">
+                    <param name="selected">true</param>
+                    <param name="icon">$INFO[Container($PARAM[id]).ListItem.Icon]</param>
+                    <param name="current">$PARAM[current]</param>
+                </include>
+            </control>
+        </control>
+    </include>
+
     <include name="DialogSelect_Viewtypes">
-        <param name="icon">$VAR[DialogSelect_Viewtypes_Preview]</param>
+        <param name="id">3</param>
         <param name="current">Container(3).ListItem.IsSelected</param>
+        <param name="itemlayout_include">Layout_ViewType</param>
+        <param name="itemlayout_preview">Wireframe_Preview</param>
+        <param name="focus_in_list">false</param>
         <param name="resize">false</param>
         <definition>
             <include>Dialog_Dim_Overlay</include>
@@ -192,7 +221,7 @@
                                 <param name="label">$PARAM[header]</param>
                             </include>
                             <include content="Dialog_ItemPage">
-                                <param name="id">3</param>
+                                <param name="id">$PARAM[id]</param>
                             </include>
                             <include>Dialog_Head_CloseButton</include>
                         </control>
@@ -203,45 +232,44 @@
                                 <right>0</right>
                                 <top>20</top>
                                 <bottom>20</bottom>
-                                <control type="wraplist" id="3">
-                                    <animation effect="fade" start="100" end="50" condition="true">Conditional</animation>
+                                <control type="wraplist" id="$PARAM[id]">
+                                    <animation effect="fade" start="100" end="50" condition="![$PARAM[focus_in_list]]">Conditional</animation>
+                                    <animation effect="fade" start="100" end="0" condition="![$PARAM[focus_in_list]] + !Integer.IsGreater(Container($PARAM[id]).NumItems,1)">Conditional</animation>
+                                    <!-- Kodi says which way the filters moved to another category -->
+                                    <animation type="Conditional" condition="String.IsEqual(Window.Property(categorymove),next)" reversible="false">
+                                        <effect type="slide" start="240,0" end="0,0" time="200" tween="cubic" easing="out" />
+                                        <effect type="fade" start="0" end="100" time="200" />
+                                    </animation>
+                                    <animation type="Conditional" condition="String.IsEqual(Window.Property(categorymove),previous)" reversible="false">
+                                        <effect type="slide" start="-240,0" end="0,0" time="200" tween="cubic" easing="out" />
+                                        <effect type="fade" start="0" end="100" time="200" />
+                                    </animation>
                                     <orientation>horizontal</orientation>
                                     <focusposition>1</focusposition>
                                     <preloaditems>2</preloaditems>
-
                                     <itemlayout width="1000" height="580">
-                                        <include content="Layout_ViewType">
+                                        <include content="$PARAM[itemlayout_include]">
                                             <param name="selected">false</param>
-                                            <param name="icon">$PARAM[icon]</param>
+                                            <param name="preview">$PARAM[itemlayout_preview]</param>
                                         </include>
                                     </itemlayout>
 
                                     <focusedlayout width="1000" height="580">
-                                        <include content="Layout_ViewType">
-                                            <param name="selected">false</param>
-                                            <param name="icon">$PARAM[icon]</param>
+                                        <include content="$PARAM[itemlayout_include]">
+                                            <param name="selected">$PARAM[focus_in_list]</param>
+                                            <param name="current">$PARAM[current]</param>
+                                            <param name="preview">$PARAM[itemlayout_preview]</param>
                                         </include>
                                     </focusedlayout>
 
                                     <include>$PARAM[include_content]</include>
                                 </control>
 
-                                <control type="grouplist">
-                                    <orientation>horizontal</orientation>
-                                    <itemgap>0</itemgap>
-                                    <control type="group">
-                                        <width>1000</width>
-                                    </control>
-                                    <control type="group">
-                                        <width>1000</width>
-                                        <height>580</height>
-                                        <include content="Layout_ViewType">
-                                            <param name="selected">true</param>
-                                            <param name="icon">$PARAM[icon]</param>
-                                            <param name="current">$PARAM[current]</param>
-                                        </include>
-                                    </control>
-                                </control>
+                                <include content="DialogSelect_Viewtype_Focus" condition="![$PARAM[focus_in_list]]">
+                                    <param name="id">$PARAM[id]</param>
+                                    <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
+                                    <param name="current">$PARAM[current]</param>
+                                </include>
                             </control>
 
                             <control type="group">
@@ -257,14 +285,14 @@
                                     <texturenofocus />
                                     <texturefocus />
                                     <width>400</width>
-                                    <onclick>Control.Move(3,-1)</onclick>
+                                    <onclick>Control.Move($PARAM[id],-1)</onclick>
                                 </control>
                                 <control type="label">
                                     <left>40</left>
                                     <textcolor>dialog_fg_70</textcolor>
                                     <align>left</align>
                                     <font>font_mini</font>
-                                    <label>$INFO[Container(3).ListItem(-1).Label]</label>
+                                    <label>$INFO[Container($PARAM[id]).ListItem(-1).Label]</label>
                                 </control>
                                 <control type="image">
                                     <centerleft>0</centerleft>
@@ -281,7 +309,7 @@
                                     <textcolor>dialog_fg_90</textcolor>
                                     <align>center</align>
                                     <font>font_main_bold</font>
-                                    <label>$INFO[Container(3).ListItem.Label]</label>
+                                    <label>$INFO[Container($PARAM[id]).ListItem.Label]</label>
                                 </control>
 
                                 <control type="button">
@@ -289,14 +317,14 @@
                                     <texturefocus />
                                     <right>0</right>
                                     <width>400</width>
-                                    <onclick>Control.Move(3,1)</onclick>
+                                    <onclick>Control.Move($PARAM[id],1)</onclick>
                                 </control>
                                 <control type="label">
                                     <right>40</right>
                                     <textcolor>dialog_fg_70</textcolor>
                                     <align>right</align>
                                     <font>font_mini</font>
-                                    <label>$INFO[Container(3).ListItem(1).Label]</label>
+                                    <label>$INFO[Container($PARAM[id]).ListItem(1).Label]</label>
                                 </control>
                                 <control type="image">
                                     <centerright>0</centerright>
@@ -317,7 +345,7 @@
                                 <align>center</align>
                                 <aligny>bottom</aligny>
                                 <textcolor>dialog_fg_70</textcolor>
-                                <label>$INFO[Container(3).ListItem.Property(textbox)]</label>
+                                <label>$INFO[Container($PARAM[id]).ListItem.Property(textbox)]</label>
                             </include>
                         </control>
                     </control>
@@ -325,41 +353,6 @@
             </control>
         </definition>
     </include>
-
-    <variable name="DialogSelect_Viewtypes_Preview">
-        <!-- Row -->
-        <value condition="Skin.HasSetting(View.UseTextBasedBoard) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31424])">special://skin/extras/viewtypes/board_t.jpg</value>
-        <value condition="Skin.HasSetting(View.UseTextBasedCard) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31423])">special://skin/extras/viewtypes/card_t.jpg</value>
-
-        <!-- List -->
-        <value condition="Skin.HasSetting(Disable.ListFlixPoster) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31479])">special://skin/extras/viewtypes/list-flixlandscape.jpg</value>
-        <value condition="!Skin.HasSetting(Disable.ListBigPosterDetailedView) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31581])">special://skin/extras/viewtypes/list-info-bigposter.jpg</value>
-        <value condition="!Skin.HasSetting(Disable.ListBigLandscapeDetailedView) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31452])">special://skin/extras/viewtypes/list-info-biglandscape.jpg</value>
-
-        <!-- Wall -->
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31591])">special://skin/extras/viewtypes/wall-poster-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31550])">special://skin/extras/viewtypes/wall-flyer-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31306])">special://skin/extras/viewtypes/wall-quad-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31620])">special://skin/extras/viewtypes/wall-folio-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31590])">special://skin/extras/viewtypes/wall-landscape-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31589])">special://skin/extras/viewtypes/wall-square-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31592])">special://skin/extras/viewtypes/wall-circle-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31594])">special://skin/extras/viewtypes/wall-overview-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31596])">special://skin/extras/viewtypes/wall-banner-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31595]) + Skin.HasSetting(View.UseTextBasedBoard)">special://skin/extras/viewtypes/wall-placard-full.jpg</value>
-        <value condition="$EXP[Exp_View_WallVert] + Skin.HasSetting(View.SwitchVerticalWallSize) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31595])">special://skin/extras/viewtypes/wall-board-full.jpg</value>
-        <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31595]) + Skin.HasSetting(View.UseTextBasedBoard)">special://skin/extras/viewtypes/wall-placard.jpg</value>
-
-        <!-- Combined -->
-        <value condition="Skin.HasSetting(View.UseTextBasedBoard) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31587])">special://skin/extras/viewtypes/combined-placard.jpg</value>
-        <value condition="Skin.HasSetting(View.UseTextBasedCard) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31586])">special://skin/extras/viewtypes/combined-corflute.jpg</value>
-        <value condition="!Skin.HasSetting(Disable.ComboListDetailedView) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31588])">special://skin/extras/viewtypes/combined-info-list.jpg</value>
-
-        <!-- Combined Wall -->
-        <value condition="Skin.HasSetting(View.UseTextBasedBoard) + String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[31619])">special://skin/extras/viewtypes/combined-wall-placard.jpg</value>
-
-        <value>$INFO[Container(3).ListItem.Icon]</value>
-    </variable>
 
     <variable name="DialogSelect_Widgets_Preview">
         <value condition="String.IsEqual(Container(3).ListItem.Label,$LOCALIZE[20021])">special://skin/extras/widgets/poster.jpg</value>
