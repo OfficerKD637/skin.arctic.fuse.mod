@@ -903,14 +903,35 @@
         </definition>
     </include>
 
+    <include name="Hub_Weather_Info">
+        <param name="left">-80</param>
+        <param name="top">-80</param>
+        <param name="header_offset">Skin.HasSetting(Furniture.EnableLeftHeader)</param>
+        <definition>
+            <control type="group">
+                <include content="Object_Top" condition="$PARAM[header_offset]">
+                    <param name="top">-160</param>
+                </include>
+                <top>$PARAM[top]</top>
+                <left>$PARAM[left]</left>
+                <visible>!$EXP[Exp_InfoDialogs] + Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id]) + !String.IsEmpty(Container($PARAM[id]).ListItem.Property(is_weather))</visible>
+                <include>Weather_Trend_Header</include>
+                <include>Weather_Trend_Today</include>
+            </control>
+        </definition>
+    </include>
+
     <include name="Hub_Info_Panel_Standard">
         <param name="details">True</param>
         <definition>
             <control type="group">
                 <include content="Info_Panel">
-                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
+                    <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id]) + String.IsEmpty(Container($PARAM[id]).ListItem.Property(is_weather))</param>
                     <param name="container">Container($PARAM[id]).</param>
                     <param name="details">$PARAM[details]</param>
+                </include>
+                <include content="Hub_Weather_Info">
+                    <param name="id">$PARAM[id]</param>
                 </include>
             </control>
         </definition>
@@ -927,7 +948,7 @@
                     <control type="group">
                         <top>260</top>
                         <include content="Info_Panel">
-                            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
+                            <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id]) + String.IsEmpty(Container($PARAM[id]).ListItem.Property(is_weather))</param>
                             <param name="title">true</param>
                             <param name="details">false</param>
                             <param name="container">Container($PARAM[id]).</param>
@@ -940,12 +961,15 @@
                     <visible>[$PARAM[slide]]</visible>
                     <include>Info_Panel_Dimensions</include>
                     <include content="Info_Panel">
-                        <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id])</param>
+                        <param name="visible">Integer.IsEqual(Window.Property(TMDbHelper.WidgetContainer),$PARAM[id]) + String.IsEmpty(Container($PARAM[id]).ListItem.Property(is_weather))</param>
                         <param name="title">false</param>
                         <param name="title_spacer">true</param>
                         <param name="details">true</param>
                         <param name="container">Container($PARAM[id]).</param>
                     </include>
+                </include>
+                <include content="Hub_Weather_Info">
+                    <param name="id">$PARAM[id]</param>
                 </include>
             </control>
         </definition>
@@ -1035,9 +1059,9 @@
         <param name="allowhiddenfocus">false</param>
         <param name="autoscroll">false</param>
         <param name="shortstack_enabled">false</param>
-        <param name="custom_content">false</param>
         <param name="dimension_override">false</param>
         <param name="conditional_fade">false</param>
+        <param name="include_content">Object_Null</param>
         <definition>
             <control type="group">
                 <height>1080</height>
@@ -1090,16 +1114,8 @@
                     <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
                     <include>Action_View_SlideOver_OnFocus</include>
                     <nested />
-                    <include content="Object_ContentDynamic" condition="![$PARAM[custom_content]]">
-                        <param name="sortby">$PARAM[sortby]</param>
-                        <param name="sortorder">$PARAM[sortorder]</param>
-                        <param name="target">$PARAM[target]</param>
-                        <param name="limit">$PARAM[limit]</param>
-                        <param name="browse">$PARAM[browse]</param>
-                        <param name="content">$PARAM[content]</param>
-                    </include>
-                    <include condition="$PARAM[custom_content]">Weather_Details_HighLow_Items</include>
-
+                    <include>$PARAM[include_content]</include>
+                    <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]" limit="$PARAM[limit]" browse="$VAR[Defs_BrowseLimitedLists]">$PARAM[content]</content>
                     <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
 
                     <include content="Animation_ConditionalFade">
@@ -1150,15 +1166,8 @@
                     <onfocus>SetProperty(Slide.WidgetContainer,$PARAM[id])</onfocus>
                     <include>Action_View_SlideOver_OnFocus</include>
                     <nested />
-                    <include content="Object_ContentDynamic" condition="![$PARAM[custom_content]]">
-                        <param name="sortby">$PARAM[sortby]</param>
-                        <param name="sortorder">$PARAM[sortorder]</param>
-                        <param name="target">$PARAM[target]</param>
-                        <param name="limit">$PARAM[limit]</param>
-                        <param name="browse">$PARAM[browse]</param>
-                        <param name="content">$PARAM[content]</param>
-                    </include>
-                    <include condition="$PARAM[custom_content]">Weather_Details_HighLow_Items</include>
+                    <include>$PARAM[include_content]</include>
+                    <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]" limit="$PARAM[limit]" browse="$VAR[Defs_BrowseLimitedLists]">$PARAM[content]</content>
 
                     <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
 
