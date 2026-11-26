@@ -857,6 +857,20 @@
         </control>
     </include>
 
+     <include name="OSD_Progress_Markers">
+        <param name="texture">progress/marker-dot.png</param>
+        <param name="colordiffuse">ffffffff</param>
+        <definition>
+            <control type="ranges">
+                <width>100%</width>
+                <height>12</height>
+                <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
+                <righttexture colordiffuse="$PARAM[colordiffuse]">$PARAM[texture]</righttexture>
+                <info>$PARAM[info]</info>
+            </control>
+        </definition>
+    </include>
+
     <include name="OSD_Progress_BarControls">
 
         <!-- Cache Line -->
@@ -925,41 +939,27 @@
         </control>
 
         <!-- CutList and Chapters Range -->
-        <control type="ranges">
-            <width>100%</width>
-            <height>12</height>
-            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
-            <righttexture colordiffuse="main_fg_50">progress/marker.png</righttexture>
-            <info>Player.EditList</info>
+        <include content="OSD_Progress_Markers">
+            <param name="info">Player.Chapters</param>
+            <param name="texture">progress/marker.png</param>
+            <param name="colordiffuse">main_fg_50</param>
+        </include>
+
+        <control type="group">
+            <visible>Player.HasVideo + !Pvr.IsPlayingTv</visible>
+            <include content="OSD_Progress_Markers">
+                <param name="info">Player.Cuts</param>
+            </include>
+            <include content="OSD_Progress_Markers">
+                <param name="info">Player.SceneMarkers</param>
+            </include>
         </control>
-        <control type="ranges">
-            <width>100%</width>
-            <height>12</height>
-            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
-            <righttexture colordiffuse="main_fg_50">progress/marker.png</righttexture>
-            <info>Player.Cuts</info>
-        </control>
-        <control type="ranges">
-            <width>100%</width>
-            <height>12</height>
-            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
-            <righttexture colordiffuse="main_fg_50">progress/marker.png</righttexture>
-            <info>Player.Chapters</info>
-        </control>
-        <control type="ranges">
-            <width>100%</width>
-            <height>12</height>
-            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
-            <righttexture colordiffuse="main_fg_50">progress/marker.png</righttexture>
-            <info>Player.SceneMarkers</info>
-        </control>
-        <control type="ranges">
-            <width>100%</width>
-            <height>12</height>
-            <texturebg colordiffuse="00ffffff">progress/marker-bg.png</texturebg>
-            <righttexture colordiffuse="main_fg_50">progress/marker.png</righttexture>
-            <info>Player.Bookmarks</info>
-        </control>
+        <include content="OSD_Progress_Markers">
+            <param name="info">Player.EditList</param>
+        </include>
+        <include content="OSD_Progress_Markers">
+            <param name="info">Player.Bookmarks</param>
+        </include>
 
         <!-- Seek Nib -->
         <control type="progress" id="401">
